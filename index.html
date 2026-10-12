@@ -425,7 +425,7 @@ const ICONS={
  fornecedores:'<path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/>',
  config:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/>'
 };
-const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','lotes','Embarques'],['','devolucoes','Devoluções'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','insumos','Embalagens'],['','compras','Compras'],['','produtos','Catálogo'],['Clientes','clientes','Clientes e cupons'],['','analises','Análises'],['Cadastros','fornecedores','Fornecedores'],['','config','Ajustes e integração']];
+const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','lotes','Embarques'],['','devolucoes','Devoluções'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','insumos','Embalagens'],['','compras','Compras'],['','produtos','Catálogo'],['Clientes','clientes','Clientes e cupons'],['','analises','Análises'],['Cadastros','fornecedores','Parceiros'],['','config','Ajustes e integração']];
 
 /* ================= utilidades ================= */
 const $=s=>document.querySelector(s);
@@ -445,7 +445,7 @@ const daysSince=d=>d?Math.floor((Date.parse(today())-Date.parse(d))/864e5):0;
 const svg=k=>'<svg viewBox="0 0 24 24" aria-hidden="true">'+ICONS[k]+'</svg>';
 function toast(t){const el=document.createElement('div');el.className='toast';el.textContent=t;document.body.appendChild(el);setTimeout(()=>el.remove(),2400)}
 const match=row=>!S.q||JSON.stringify(row).toLowerCase().includes(S.q.toLowerCase());
-const PILL={'Entregue':'p-ok','Recebida':'p-ok','Em estoque':'p-ok','Resolvida':'p-ok','Pago':'p-ok','Ativo':'p-ok','Concluído':'p-ok','Cancelada':'p-mute','Inativo':'p-mute','Cotação':'p-warn','Previsto':'p-warn','Aberta':'p-warn','Indefinido':'p-bad','Arte pronta':'p-info','Em cotação':'p-warn'};
+const PILL={'Entregue':'p-ok','Recebida':'p-ok','Em estoque':'p-ok','Resolvida':'p-ok','Pago':'p-ok','Zerado':'p-ok','Crédito da OMG':'p-info','OMG deve':'p-bad','Ativo':'p-ok','Concluído':'p-ok','Cancelada':'p-mute','Inativo':'p-mute','Cotação':'p-warn','Previsto':'p-warn','Aberta':'p-warn','Indefinido':'p-bad','Arte pronta':'p-info','Em cotação':'p-warn'};
 const stPill=s=>'<span class="pill '+(PILL[s]||'p-info')+'">'+esc(s||'—')+'</span>';
 function nextSeq(col,prefix,pad){let max=0;S.data[col].forEach(r=>{const m=String(r.numero||'').match(/(\d+)$/);if(m)max=Math.max(max,+m[1])});return prefix+String(max+1).padStart(pad,'0')}
 const nextVenda=()=>{let max=100000000;S.data.vendas.forEach(v=>{if(has(v.numero))max=Math.max(max,v.numero)});return max+1};
@@ -479,7 +479,6 @@ const ymNow=()=>today().slice(0,7);
 let CUR='USD';try{CUR=localStorage.getItem('omg-moeda')==='BRL'?'BRL':'USD'}catch(_){}
 const dm=v=>!has(v)?'—':CUR==='USD'?usd(v/(n(S.cfg.usd)||1)):brl(v);
 const toKRW=(v,m)=>m==='KRW'?n(v):toBRL(v,m)/(n(S.cfg.krw)||1);
-const pagoPelaJanice=l=>String(l.pagoPor||'Saldo La Belle (Janice)').startsWith('Saldo La Belle');
 function loteRes(l){
  const vs=(l.vendas||[]).map(id=>S.data.vendas.find(v=>v.id===id)).filter(v=>v&&!isCancel(v));
  const k=n(S.cfg.krw);let rec=0,liq=0,imp=0,mile=0,emb=0,itensK=0,extraK=0,outros=0;
@@ -489,23 +488,54 @@ function loteRes(l){
  const custo=(mercK+logK)*k+mile+emb+outros;
  return {vs,rec,liq,imp,mercK,logK,coreiaK:mercK+logK,mile,emb,outros,custo,res:liq-custo,mg:liq?(liq-custo)/liq:null};
 }
-function janice(){
- const mov=[];
- S.data.lancamentos.filter(l=>l.status==='Pago'&&REM_CATS.includes(l.categoria)).forEach(l=>mov.push({data:l.data,desc:l.descricao||'Remessa',ref:(l.conta||'')+' · '+money(l.valor,l.moeda)+(has(l.valorDestino)?'':' · ₩ pelo câmbio'),k:has(l.valorDestino)?l.valorDestino:toKRW(l.valor,l.moeda),tipo:'Remessa',edit:['lancamentos',l.id]}));
- S.data.lancamentos.filter(l=>l.status==='Pago'&&l.conta===CONTA_LB&&!REM_CATS.includes(l.categoria)).forEach(l=>{const k=toKRW(l.valor,l.moeda);mov.push({data:l.data,desc:l.descricao||l.categoria,ref:l.categoria,k:l.tipo==='Entrada'?k:-k,tipo:'Despesa',edit:['lancamentos',l.id]})});
- S.data.lotes.filter(pagoPelaJanice).forEach(l=>{const r=loteRes(l);if(!r.coreiaK)return;const e=l.etapas||{};
-  mov.push({data:e.embarcado||e.consolidado||e.awb||String(l.criado_em||'').slice(0,10),desc:'Embarque '+l.numero,ref:'mercadoria '+krw(r.mercK)+' · logística '+krw(r.logK),k:-r.coreiaK,tipo:'Embarque',edit:['lotes',l.id]})});
- mov.sort((a,b)=>String(a.data).localeCompare(String(b.data)));
+const parcById=id=>id?S.data.fornecedores.find(f=>f.id===id):null;
+const parcLabel=p=>p?((p.codigo?p.codigo+' · ':'')+p.nome):'';
+const conv=(v,from,to)=>{if((from||'BRL')===(to||'BRL'))return n(v);const b=toBRL(v,from);return to==='KRW'?b/(n(S.cfg.krw)||1):to==='USD'?b/(n(S.cfg.usd)||1):b};
+const fmtM=(v,m)=>m==='KRW'?krw(v):m==='USD'?usd(v):brl(v);
+function lbId(){const p=S.data.fornecedores.find(f=>/la\s*belle/i.test(f.nome||''))||S.data.fornecedores.find(f=>/janice/i.test(f.contato||''));return p?p.id:null}
+function pagadorOf(l){if(!l)return null;if(l.parceiroPagador)return l.parceiroPagador;const t=String(l.pagoPor||'Saldo La Belle (Janice)');return t.startsWith('Saldo La Belle')?lbId():null}
+function parcOfLanc(l){if(l.parceiro)return l.parceiro;if(REM_CATS.includes(l.categoria)||l.conta===CONTA_LB)return lbId();return null}
+const COMPRA_DIVIDA=['Aprovada','Paga','Em produção / trânsito','Recebida'];
+// saldo > 0 = crédito da OMG com o parceiro; saldo < 0 = OMG deve ao parceiro
+function ledger(p,moeda){
+ const M=moeda||p.moeda||'BRL',mov=[],nm=String(p.nome||'').trim().toLowerCase();
+ S.data.lancamentos.filter(l=>l.status==='Pago'&&parcOfLanc(l)===p.id).forEach(l=>{
+  const v=(M==='KRW'&&has(l.valorDestino))?l.valorDestino:conv(l.valor,l.moeda,M);
+  const gastoDoParceiro=l.conta===CONTA_LB&&!REM_CATS.includes(l.categoria);
+  const sg=gastoDoParceiro?(l.tipo==='Entrada'?1:-1):(l.tipo==='Entrada'?-1:1);
+  mov.push({data:l.data,desc:l.descricao||l.categoria,ref:(l.categoria||'')+' · '+money(l.valor,l.moeda),k:sg*v,tipo:REM_CATS.includes(l.categoria)?'Remessa':gastoDoParceiro?'Despesa paga pelo parceiro':(sg>0?'Pagamento da OMG':'Recebido do parceiro'),edit:['lancamentos',l.id]});
+ });
+ S.data.lotes.filter(l=>pagadorOf(l)===p.id).forEach(l=>{const r=loteRes(l);if(!r.coreiaK)return;const e=l.etapas||{};
+  mov.push({data:e.embarcado||e.consolidado||e.awb||String(l.criado_em||'').slice(0,10),desc:'Embarque '+l.numero,ref:'mercadoria '+krw(r.mercK)+' · logística '+krw(r.logK),k:-conv(r.coreiaK,'KRW',M),tipo:'Embarque',edit:['lotes',l.id]})});
+ S.data.compras.filter(c=>c.parceiro===p.id&&COMPRA_DIVIDA.includes(c.status)&&has(c.valor)).forEach(c=>mov.push({data:c.data,desc:'Compra '+c.numero,ref:(c.itens||'').slice(0,60),k:-conv(c.valor,c.moeda,M),tipo:'Compra',edit:['compras',c.id]}));
+ S.data.vendas.filter(v=>!isCancel(v)&&v.etapas&&v.etapas.pago).forEach(v=>{
+  if(n(v.custoMile)&&String(v.cargaBrasil||'').trim().toLowerCase()===nm)mov.push({data:v.etapas.desembaraco||v.etapas.pago,desc:'Venda '+vnum(v.numero),ref:'frete e last mile',k:-conv(v.custoMile,'BRL',M),tipo:'Serviço',edit:['vendas',v.id]});
+  if(n(v.custo3PL)&&String(v.cargaCoreia||'').trim().toLowerCase()===nm&&pagadorOf(loteOf(v))!==p.id)mov.push({data:v.etapas.embalado||v.etapas.pago,desc:'Venda '+vnum(v.numero),ref:'3PL extra',k:-conv(v.custo3PL,'KRW',M),tipo:'Serviço',edit:['vendas',v.id]});
+ });
+ mov.sort((a,b)=>String(a.data||'').localeCompare(String(b.data||'')));
  let sal=0;mov.forEach(m=>{sal+=m.k;m.saldo=sal});
- const sum=t=>mov.filter(m=>m.tipo===t).reduce((a,m)=>a+m.k,0);
- return {mov,saldo:sal,rem:sum('Remessa')||0,gastoEmb:(-sum('Embarque'))||0,gastoOut:(-sum('Despesa'))||0};
+ return {p,M,mov,saldo:sal||0};
 }
-function extratoJanice(J){
- return '<div class="card"><div class="card-h"><h2>Extrato com a Janice (La Belle)</h2><span class="muted" style="font-size:12px">Em ₩ · remessas entram, embarques e despesas da Janice saem</span></div>'+
- (J.mov.length?'<div class="tblwrap"><table style="min-width:600px"><thead><tr><th>Data</th><th>Movimento</th><th class="r">Valor</th><th class="r">Saldo</th></tr></thead><tbody>'+
-  J.mov.map(m=>'<tr data-edit="'+m.edit[0]+'" data-id="'+esc(m.edit[1])+'"><td class="num">'+fdate(m.data)+'</td><td><b>'+esc(m.desc)+'</b><small>'+esc(m.tipo+' · '+m.ref)+'</small></td><td class="r num"><b style="color:var(--'+(m.k>=0?'ok':'ink')+')">'+(m.k>=0?'+ ':'− ')+krw(Math.abs(m.k))+'</b><small>'+dm(Math.abs(m.k)*n(S.cfg.krw))+'</small></td><td class="r num"><b style="color:var(--'+(m.saldo<0?'bad':'ink')+')">'+krw(m.saldo)+'</b></td></tr>').join('')+'</tbody></table></div>'
- :'<p class="muted" style="margin:0;font-size:13px">Sem movimentos. Lance as remessas com a categoria <b>Remessa para La Belle / Janice</b> e marque nos embarques quem pagou os custos na Coreia.</p>')+'</div>';
+function janice(){
+ const p=parcById(lbId());if(!p)return {mov:[],saldo:0,rem:0,gastoEmb:0,gastoOut:0};
+ const L=ledger(p,'KRW'),sm=f=>L.mov.filter(f).reduce((a,m)=>a+m.k,0);
+ return {p,mov:L.mov,saldo:L.saldo,rem:sm(m=>m.k>0)||0,gastoEmb:(-sm(m=>m.tipo==='Embarque'))||0,gastoOut:(-sm(m=>m.k<0&&m.tipo!=='Embarque'))||0};
 }
+function extratoHTML(L,clic){
+ const M=L.M;
+ return L.mov.length?'<div class="tblwrap"><table style="min-width:600px"><thead><tr><th>Data</th><th>Movimento</th><th class="r">Valor</th><th class="r">Saldo</th></tr></thead><tbody>'+
+  L.mov.map(m=>'<tr'+(clic?' data-edit="'+m.edit[0]+'" data-id="'+esc(m.edit[1])+'"':'')+'><td class="num">'+fdate(m.data)+'</td><td><b>'+esc(m.desc)+'</b><small>'+esc(m.tipo+' · '+m.ref)+'</small></td><td class="r num"><b style="color:var(--'+(m.k>=0?'ok':'ink')+')">'+(m.k>=0?'+ ':'− ')+fmtM(Math.abs(m.k),M)+'</b><small>'+dm(toBRL(Math.abs(m.k),M))+'</small></td><td class="r num"><b style="color:var(--'+(m.saldo<0?'bad':'ink')+')">'+fmtM(m.saldo,M)+'</b></td></tr>').join('')+'</tbody></table></div>'
+ :'<p class="muted" style="margin:0;font-size:13px">Sem movimentos ainda. Escolha este parceiro nos lançamentos, compras e embarques.</p>';
+}
+const saldoTxt=v=>Math.abs(v)<0.005?'Zerado':v<0?'OMG deve':'Crédito da OMG';
+function tblParceiros(){
+ const rows=S.data.fornecedores.map(p=>ledger(p)).filter(L=>L.mov.length);
+ return '<div class="card"><div class="card-h"><h2>Saldo com parceiros</h2><span class="muted" style="font-size:12px">Crédito = a OMG adiantou · OMG deve = falta pagar</span></div>'+
+ (rows.length?'<div class="tblwrap"><table style="min-width:520px"><thead><tr><th>Parceiro</th><th class="r">Movimentos</th><th class="r">Saldo</th><th>Situação</th></tr></thead><tbody>'+
+  rows.map(L=>'<tr data-edit="fornecedores" data-id="'+esc(L.p.id)+'"><td><b>'+esc(parcLabel(L.p))+'</b><small>'+esc(L.p.tipo||'')+'</small></td><td class="r num">'+L.mov.length+'</td><td class="r num"><b style="color:var(--'+(L.saldo<0?'bad':'ink')+')">'+fmtM(L.saldo,L.M)+'</b><small>'+dm(toBRL(L.saldo,L.M))+'</small></td><td>'+stPill(saldoTxt(L.saldo))+'</td></tr>').join('')+'</tbody></table></div>'
+ :'<p class="muted" style="margin:0;font-size:13px">Nenhum parceiro com movimento. Escolha o parceiro nos lançamentos, compras e embarques.</p>')+'</div>';
+}
+const nextCode=()=>{let m=0;S.data.fornecedores.forEach(f=>{const x=String(f.codigo||'').match(/(\d+)$/);if(x)m=Math.max(m,+x[1])});return 'P-'+String(m+1).padStart(3,'0')};
 const lowStock=()=>S.data.insumos.filter(i=>n(i.minimo)>0&&n(i.estoque)<n(i.minimo));
 function suggest(p){
  if(has(p.precoConc)&&p.precoConc>0)return{v:p.precoConc*(1-n(S.cfg.desc)/100),how:'KS/Jini −'+n(S.cfg.desc)+'%'};
@@ -643,9 +673,9 @@ VIEWFN.financeiro=()=>{
  '</div>'+
  '<div class="two"><div class="card"><div class="card-h"><h2>Mile Express</h2>'+stPill(mileSaldo>0.5?'A pagar':'Em dia')+'</div><div class="note" style="background:none;border:0;padding:0"><div class="grid"><span>Devido (frete + last mile das vendas)</span><b class="num">'+dm(A.mileDev)+'</b><span>Pago (lançamentos)</span><b class="num">'+dm(A.milePago)+'</b><span>Saldo</span><b class="num">'+dm(mileSaldo)+'</b></div></div></div>'+
  '<div class="card"><div class="card-h"><h2>Janice / La Belle</h2></div><div class="note" style="background:none;border:0;padding:0"><div class="grid"><span>Lucro da Janice no período</span><b class="num">'+krw(F.janK)+'</b><span>Em '+(CUR==='USD'?'dólar':'reais')+'</span><b class="num">'+dm(F.janK*n(S.cfg.krw))+'</b><span>Cálculo</span><b>preço La Belle − custo fábrica</b></div></div></div></div>'+
- extratoJanice(J)+tblConta+
+ '<div class="card"><div class="card-h"><h2>Extrato com a Janice'+(J.p&&J.p.codigo?' · '+esc(J.p.codigo):'')+'</h2><span class="muted" style="font-size:12px">Em ₩ · remessas entram, embarques e despesas da Janice saem</span></div>'+extratoHTML({M:'KRW',mov:J.mov},true)+'</div>'+tblParceiros()+tblConta+
  '<div class="card"><div class="card-h"><h2>Lançamentos</h2><span class="muted" style="font-size:12px">Valores em outra moeda convertidos pelo câmbio de referência</span></div>'+(L.length?'<div class="tblwrap"><table><thead><tr><th>Data</th><th>Descrição</th><th>Categoria</th><th>Conta</th><th class="r">Valor</th><th>Situação</th></tr></thead><tbody>'+
-  L.map(l=>'<tr data-edit="lancamentos" data-id="'+esc(l.id)+'"><td class="num">'+fdate(l.data)+'</td><td><b>'+esc(l.descricao||'—')+'</b><small>'+esc(l.ref||'')+'</small></td><td><span class="tag">'+esc(l.categoria)+'</span></td><td>'+esc(l.conta||'')+'</td><td class="r num"><b style="color:var(--'+(l.tipo==='Entrada'?'ok':'ink')+')">'+(l.tipo==='Saída'?'− ':'')+money(l.valor,l.moeda)+'</b>'+(has(l.valorDestino)?'<small>recebido '+krw(l.valorDestino)+'</small>':'')+'</td><td>'+stPill(l.status)+'</td></tr>').join('')+'</tbody></table></div>'
+  L.map(l=>'<tr data-edit="lancamentos" data-id="'+esc(l.id)+'"><td class="num">'+fdate(l.data)+'</td><td><b>'+esc(l.descricao||'—')+'</b><small>'+esc([parcLabel(parcById(parcOfLanc(l))),l.ref].filter(Boolean).join(' · '))+'</small></td><td><span class="tag">'+esc(l.categoria)+'</span></td><td>'+esc(l.conta||'')+'</td><td class="r num"><b style="color:var(--'+(l.tipo==='Entrada'?'ok':'ink')+')">'+(l.tipo==='Saída'?'− ':'')+money(l.valor,l.moeda)+'</b>'+(has(l.valorDestino)?'<small>recebido '+krw(l.valorDestino)+'</small>':'')+'</td><td>'+stPill(l.status)+'</td></tr>').join('')+'</tbody></table></div>'
   :empty('Nenhum lançamento no período','Registre pagamentos à Mile, marketing, gráfica, remessas do Bank of America para a Coreia e entradas na conta da MPOEMA.'))+'</div></div></div>';
 };
 
@@ -687,8 +717,8 @@ VIEWFN.insumos=()=>{
 VIEWFN.compras=()=>{
  const rows=S.data.compras.filter(match);
  return '<div class="page wide"><div class="col">'+head('Compras','Gráfica, embalagens, serviços e, no futuro, mercadoria para o galpão na Coreia.',newBtn('compras','Nova compra'))+
- '<div class="card">'+(loading('compras')?'<p class="muted">Carregando…</p>':rows.length?'<div class="tblwrap"><table><thead><tr><th>Compra</th><th>Fornecedor</th><th>Itens</th><th class="r">Valor</th><th>Situação</th><th>Previsão</th></tr></thead><tbody>'+
- rows.map(c=>'<tr data-edit="compras" data-id="'+esc(c.id)+'"><td><b class="num">'+esc(c.numero)+'</b><small>'+fdate(c.data)+' · '+esc(c.tipo||'')+'</small></td><td>'+esc(c.fornecedor||'A definir')+'</td><td style="max-width:340px">'+esc(c.itens||'—')+'</td><td class="r num"><b>'+money(c.valor,c.moeda)+'</b></td><td>'+stPill(c.status)+'</td><td class="num">'+fdate(c.previsao)+'</td></tr>').join('')+'</tbody></table></div>'
+ '<div class="card">'+(loading('compras')?'<p class="muted">Carregando…</p>':rows.length?'<div class="tblwrap"><table><thead><tr><th>Compra</th><th>Parceiro</th><th>Itens</th><th class="r">Valor</th><th>Situação</th><th>Previsão</th></tr></thead><tbody>'+
+ rows.map(c=>'<tr data-edit="compras" data-id="'+esc(c.id)+'"><td><b class="num">'+esc(c.numero)+'</b><small>'+fdate(c.data)+' · '+esc(c.tipo||'')+'</small></td><td>'+esc(parcLabel(parcById(c.parceiro))||c.fornecedor||'A definir')+'</td><td style="max-width:340px">'+esc(c.itens||'—')+'</td><td class="r num"><b>'+money(c.valor,c.moeda)+'</b></td><td>'+stPill(c.status)+'</td><td class="num">'+fdate(c.previsao)+'</td></tr>').join('')+'</tbody></table></div>'
  :empty('Nenhuma compra','Registre cotações e pedidos a fornecedores.'))+'</div></div></div>';
 };
 
@@ -745,11 +775,12 @@ VIEWFN.analises=()=>{
 
 /* ---------- Fornecedores ---------- */
 VIEWFN.fornecedores=()=>{
- const rows=S.data.fornecedores.filter(match);
- return '<div class="page wide"><div class="col">'+head('Fornecedores','Produto, logística, gráfica, marketing e serviços.',newBtn('fornecedores','Novo fornecedor'))+
- '<div class="card">'+(rows.length?'<div class="tblwrap"><table><thead><tr><th>Nome</th><th>Tipo</th><th>País</th><th>Contato</th><th>Observações</th></tr></thead><tbody>'+
- rows.map(f=>'<tr data-edit="fornecedores" data-id="'+esc(f.id)+'"><td><b>'+esc(f.nome)+'</b></td><td><span class="tag">'+esc(f.tipo||'—')+'</span></td><td>'+esc(f.pais||'—')+'</td><td>'+esc(f.contato||'—')+'<small>'+esc(f.canal||'')+'</small></td><td class="muted" style="max-width:360px">'+esc(f.obs||'')+'</td></tr>').join('')+'</tbody></table></div>':empty('Nenhum fornecedor','Cadastre distribuidores, gráfica e parceiros de logística.'))+'</div></div></div>';
+ const rows=S.data.fornecedores.filter(match).slice().sort((a,b)=>String(a.codigo||'zzz').localeCompare(String(b.codigo||'zzz')));
+ return '<div class="page wide"><div class="col">'+head('Parceiros','Empresas e pessoas com código único. Escolha o parceiro nos lançamentos, compras e embarques e o extrato de cada um se monta sozinho.',newBtn('fornecedores','Novo parceiro'))+
+ '<div class="card">'+(rows.length?'<div class="tblwrap"><table><thead><tr><th>Código</th><th>Parceiro</th><th>Tipo</th><th>Contato</th><th class="r">Saldo</th></tr></thead><tbody>'+
+ rows.map(f=>{const L=ledger(f);return '<tr data-edit="fornecedores" data-id="'+esc(f.id)+'"><td><b class="num">'+esc(f.codigo||'—')+'</b></td><td><b>'+esc(f.nome)+'</b><small>'+esc([f.pais,f.moeda].filter(Boolean).join(' · '))+docCount(f)+'</small></td><td><span class="tag">'+esc(f.tipo||'—')+'</span></td><td>'+esc(f.contato||'—')+'<small>'+esc(f.canal||'')+'</small></td><td class="r num">'+(L.mov.length?'<b style="color:var(--'+(L.saldo<0?'bad':'ink')+')">'+fmtM(L.saldo,L.M)+'</b><small>'+saldoTxt(L.saldo)+'</small>':'<span class="muted">—</span>')+'</td></tr>'}).join('')+'</tbody></table></div>':empty('Nenhum parceiro','Cadastre a La Belle, a Skyroad, a Mile, a gráfica e os influencers.'))+'</div></div></div>';
 };
+
 
 /* ---------- Ajustes e integração ---------- */
 const SCHEMA={tabela_vendas:{data_compra:'2026-10-20',canal:'Site',cliente:'Nome completo',cpf:'000.000.000-00',contato:'e-mail ou WhatsApp',cidade:'São Paulo',uf:'SP',cupom:'FIEL10',itens:[{produto:'SKU · nome',qtd:1,preco:89.9,custo_lb:15000,custo_fab:11000}],desconto:0,frete:19.9,ii:0,icms:0,etiqueta_mile:'',invoice:'',etapas:{pago:'2026-10-20'},origem:'site'},tabela_metricas:{semana:'2026-10-19',visitas:0,carrinhos:0,checkouts:0,pedidos:0,fonte:'site'}};
@@ -791,6 +822,7 @@ const FORMS={
  lancamentos:{title:['Novo lançamento','Lançamento'],col:'lancamentos',secs:[['Lançamento',[
   {k:'data',l:'Data',t:'date',req:1},{k:'tipo',l:'Tipo',t:'select',o:['Saída','Entrada','Transferência']},
   {k:'descricao',l:'Descrição',req:1,full:1},{k:'categoria',l:'Categoria',t:'select',o:LANC_CAT},{k:'conta',l:'Conta',t:'combo',o:()=>contasList(),hint:'Conta nova? Escolha Outra… e escreva o nome. Ela entra na lista.'},
+  {k:'parceiro',l:'Parceiro',t:'parc',none:'— nenhum —',hint:'Para quem foi o dinheiro (ou de quem veio). Entra no extrato do parceiro.'},
   {k:'valor',l:'Valor',t:'number',req:1},{k:'moeda',l:'Moeda',t:'select',o:MOEDAS},
   {k:'valorDestino',l:'Valor recebido na Coreia (₩)',t:'number',hint:'Só para remessa EUA → Coreia'},{k:'status',l:'Situação',t:'select',o:['Pago','Previsto']},
   {k:'ref',l:'Referência (venda, embarque, fatura)',full:1}]]],
@@ -804,7 +836,7 @@ const FORMS={
   {k:'fornecedor',l:'Gráfica / fornecedor',t:'select',o:opt(fornNames)},{k:'arquivo',l:'Arquivo de arte'}]]],
   def:()=>({tipo:'Caixa',status:'Arte pronta',estoque:0,minimo:0})},
  compras:{title:['Nova compra','Compra'],col:'compras',secs:[['Compra',[
-  {k:'numero',l:'Nº',req:1},{k:'data',l:'Data',t:'date'},{k:'fornecedor',l:'Fornecedor',t:'select',o:opt(fornNames)},{k:'tipo',l:'Tipo',t:'select',o:['Embalagem','Mercadoria','Frete','Serviço']},
+  {k:'numero',l:'Nº',req:1},{k:'data',l:'Data',t:'date'},{k:'parceiro',l:'Parceiro',t:'parc',none:'— a definir —',hint:'Aprovada, paga ou recebida = valor devido ao parceiro'},{k:'tipo',l:'Tipo',t:'select',o:['Embalagem','Mercadoria','Frete','Serviço']},
   {k:'itens',l:'Itens',t:'textarea',full:1},{k:'valor',l:'Valor',t:'number'},{k:'moeda',l:'Moeda',t:'select',o:MOEDAS},
   {k:'status',l:'Situação',t:'select',o:['Cotação','Aprovada','Paga','Em produção / trânsito','Recebida','Cancelada']},{k:'previsao',l:'Previsão',t:'date'},
   {k:'insumo',l:'Embalagem recebida',t:'select',o:opt(()=>S.data.insumos.map(i=>i.codigo)),hint:'Ao marcar Recebida, soma ao estoque'},{k:'qtd',l:'Quantidade',t:'number'}]]],
@@ -822,10 +854,12 @@ const FORMS={
   {k:'publico',l:'Para quem',t:'select',o:['Clientes fiéis','Todos','Influencer','Primeira compra','Campanha']},{k:'validade',l:'Válido até',t:'date'},
   {k:'limite',l:'Limite de usos',t:'number'},{k:'ativo',l:'Ativo',t:'bool'},{k:'obs',l:'Observações',full:1}]]],
   def:()=>({tipo:'%',publico:'Clientes fiéis',ativo:true})},
- fornecedores:{title:['Novo fornecedor','Fornecedor'],col:'fornecedores',secs:[['Fornecedor',[
-  {k:'nome',l:'Nome',req:1},{k:'tipo',l:'Tipo',t:'select',o:['Produto','Logística','Gráfica / embalagem','Marketing','Serviço']},
+ fornecedores:{title:['Novo parceiro','Parceiro'],col:'fornecedores',secs:[['Parceiro',[
+  {k:'codigo',l:'Código',req:1,hint:'Gerado em sequência. Pode trocar, mas não repetir.'},{k:'nome',l:'Nome',req:1},
+  {k:'tipo',l:'Tipo',t:'select',o:['Fornecedor de produto','Logística','Gráfica / embalagem','Marketing / influencer','Sócio / pessoa','Serviço']},
+  {k:'moeda',l:'Moeda do extrato',t:'select',o:['BRL','USD','KRW'],hint:'Em que moeda acompanhar o saldo'},
   {k:'pais',l:'País',t:'select',o:['Coreia','Brasil','EUA','China','Outro']},{k:'contato',l:'Contato'},{k:'canal',l:'WhatsApp / e-mail',full:1},{k:'obs',l:'Observações',t:'textarea',full:1}]]],
-  def:()=>({tipo:'Produto',pais:'Coreia'})},
+  def:()=>({codigo:nextCode(),tipo:'Fornecedor de produto',pais:'Coreia',moeda:'KRW'})},
  metricas:{title:['Semana do site','Semana do site'],col:'metricas',secs:[['Funil da semana',[
   {k:'semana',l:'Início da semana',t:'date',req:1},{k:'visitas',l:'Visitas',t:'number'},{k:'carrinhos',l:'Adicionaram ao carrinho',t:'number'},
   {k:'checkouts',l:'Iniciaram checkout',t:'number'},{k:'pedidos',l:'Pedidos pagos',t:'number'},{k:'fonte',l:'Fonte dos números'}]]],
@@ -837,6 +871,10 @@ function fieldHTML(f,v,ro){
  if(f.t==='bool')return '<label class="chk'+(f.full?' full':'')+'" style="padding-top:22px"><input type="checkbox" id="'+id+'" name="'+f.k+'"'+(v?' checked':'')+(ro?' disabled':'')+'> '+esc(f.l)+'</label>';
  let inp;
  if(f.t==='select'){const list=v==null||v===''||opts.includes(v)?opts:[...opts,v];inp='<select id="'+id+'" name="'+f.k+'"'+(ro?' disabled':'')+'>'+list.map(o=>'<option value="'+esc(o)+'"'+(o===v?' selected':'')+'>'+esc(o||'—')+'</option>').join('')+'</select>'}
+ else if(f.t==='parc'){
+  const ps=S.data.fornecedores.slice().sort((a,b)=>String(a.codigo||'zzz').localeCompare(String(b.codigo||'zzz')));
+  inp='<select id="'+id+'" name="'+f.k+'"'+(ro?' disabled':'')+'><option value="">'+esc(f.none||'—')+'</option>'+ps.map(p=>'<option value="'+esc(p.id)+'"'+(p.id===v?' selected':'')+'>'+esc(parcLabel(p))+'</option>').join('')+'</select>';
+ }
  else if(f.t==='combo'){
   const val=v==null?'':String(v), known=val===''||opts.includes(val), sel=known?val:'__outra';
   inp='<select id="'+id+'" name="'+f.k+'" data-combo'+(ro?' disabled':'')+'>'+['',...opts].map(o=>'<option value="'+esc(o)+'"'+(o===sel?' selected':'')+'>'+esc(o||'—')+'</option>').join('')+
@@ -852,6 +890,7 @@ function readFields(form,fs){
  for(const f of fs){const el=form.elements[f.k];if(!el)continue;
   if(f.t==='bool')vals[f.k]=el.checked;
   else if(f.t==='number'){const x=el.value.trim();vals[f.k]=x===''?null:parseFloat(x.replace(',','.'))}
+  else if(f.t==='parc'){vals[f.k]=el.value||null}
   else if(f.t==='combo'){vals[f.k]=el.value==='__outra'?((form.elements[f.k+'__outra']||{}).value||'').trim():el.value.trim()}
   else vals[f.k]=el.value.trim();
   if(f.req&&(vals[f.k]===''||vals[f.k]==null))throw {field:f};
@@ -879,7 +918,8 @@ function openForm(key,id){
  const F=FORMS[key];if(F.custom)return key==='vendas'?openVenda(id):openLote(id);
  const rec=id?S.data[F.col].find(r=>r.id===id):null, init=rec?{...rec}:F.def(), ro=!can();
  const fs=F.secs.flatMap(s=>s[1]);
- shell(rec?F.title[1]:F.title[0],F.secs.map(([t,f])=>'<div class="sec">'+f.map(x=>fieldHTML(x,init[x.k],ro)).join('')+'</div>').join('')+anexosHTML(F.col,ro),rec,ro);
+ const pre=(key==='fornecedores'&&rec)?(()=>{const L=ledger(rec);return '<div class="sec"><span class="label">Extrato · saldo '+esc(fmtM(L.saldo,L.M))+' · '+esc(saldoTxt(L.saldo))+'</span><div style="grid-column:1/-1;min-width:0">'+extratoHTML(L,false)+'</div></div>'})():'';
+ shell(rec?F.title[1]+(rec.codigo?' '+rec.codigo:''):F.title[0],pre+F.secs.map(([t,f])=>'<div class="sec">'+f.map(x=>fieldHTML(x,init[x.k],ro)).join('')+'</div>').join('')+anexosHTML(F.col,ro),rec,ro);
  wireDelete(F.col,rec);
  wireAnexos(F.col,rec);
  wireSubmit(async form=>{const vals=readFields(form,fs);const id=await save(F.col,rec,vals);await finishAnexos(F.col,id);toast(rec?'Alterações salvas':'Cadastrado')});
@@ -899,7 +939,7 @@ function openVenda(id){
  const B=[{k:'desconto',l:'Desconto (R$)',t:'number'},{k:'frete',l:'Frete cobrado (R$)',t:'number'},{k:'ii',l:'Imposto de importação · RF (R$)',t:'number'},{k:'icms',l:'ICMS (R$)',t:'number'}];
  const C=[{k:'custoMile',l:'Custo Mile · desembaraço e last mile (R$)',t:'number'},{k:'custo3PL',l:'3PL extra desta venda (₩)',t:'number',hint:'Além do rateio do embarque'},
   {k:'caixa',l:'Caixa usada',t:'select',o:['',...S.data.insumos.filter(i=>i.tipo==='Caixa').map(i=>i.codigo)],hint:'Baixa caixa e selo ao marcar Embalado'},{k:'outrosCustos',l:'Outros custos (R$)',t:'number'}];
- const D=[{k:'etiquetaMile',l:'Nº etiqueta Mile'},{k:'invoice',l:'Nº invoice'},{k:'cargaCoreia',l:'Carga na Coreia',t:'select',o:['Skyroad','La Belle','Outro']},{k:'cargaBrasil',l:'Carga no Brasil',t:'select',o:['Mile Express','Outro']},
+ const D=[{k:'etiquetaMile',l:'Nº etiqueta Mile'},{k:'invoice',l:'Nº invoice'},{k:'cargaCoreia',l:'Carga na Coreia',t:'select',o:()=>['',...new Set([...S.data.fornecedores.map(f=>f.nome),'Skyroad','La Belle'])]},{k:'cargaBrasil',l:'Carga no Brasil',t:'select',o:()=>['',...new Set([...S.data.fornecedores.map(f=>f.nome),'Mile Express'])],hint:'O custo Mile entra no extrato deste parceiro'},
   {k:'rastreio',l:'Rastreio last mile'},{k:'obs',l:'Observações',t:'textarea',full:1}];
  const L=loteOf(v);
  const body=
@@ -942,9 +982,10 @@ function openVenda(id){
 function openLote(id){
  const rec=id?S.data.lotes.find(r=>r.id===id):null, ro=!can();
  const l=rec?JSON.parse(JSON.stringify(rec)):{numero:nextSeq('lotes','EMB-',3),vendas:[],etapas:{},cia:''};
+ l.parceiroPagador=pagadorOf(l)||'';
  const e=l.etapas||{}, inL=new Set(l.vendas||[]);
  const A=[{k:'numero',l:'Nº do embarque',req:1},{k:'awb',l:'AWB'},{k:'cia',l:'Companhia aérea',t:'combo',o:CIAS},{k:'caixa',l:'Caixa master (descrição)'},{k:'pesoKg',l:'Peso (kg)',t:'number'},{k:'volumes',l:'Volumes',t:'number'}];
- const C=[{k:'pagoPor',l:'Quem pagou os custos na Coreia',t:'select',o:['Saldo La Belle (Janice)','Pago direto pela OMG']},{k:'custoMercadoria',l:'Mercadoria comprada para este embarque (₩)',t:'number',hint:'Preencha quando a compra não está nas vendas (teste, amostras, estoque). Em branco = soma do custo La Belle das vendas.'},{k:'custo3PL',l:'3PL Skyroad (₩)',t:'number'},{k:'freteAereo',l:'Frete aéreo (₩)',t:'number'},{k:'despacho',l:'Despacho de exportação (₩)',t:'number'},{k:'obs',l:'Observações',t:'textarea',full:1}];
+ const C=[{k:'parceiroPagador',l:'Quem pagou os custos na Coreia',t:'parc',none:'OMG (pago direto)',hint:'Se foi a Janice, escolha a La Belle: o custo sai do saldo dela'},{k:'custoMercadoria',l:'Mercadoria comprada para este embarque (₩)',t:'number',hint:'Preencha quando a compra não está nas vendas (teste, amostras, estoque). Em branco = soma do custo La Belle das vendas.'},{k:'custo3PL',l:'3PL Skyroad (₩)',t:'number'},{k:'freteAereo',l:'Frete aéreo (₩)',t:'number'},{k:'despacho',l:'Despacho de exportação (₩)',t:'number'},{k:'obs',l:'Observações',t:'textarea',full:1}];
  const cand=S.data.vendas.filter(v=>!isCancel(v)&&(inL.has(v.id)||(!v.lote&&curStep(v)<8)));
  const body='<div class="sec"><span class="label">Embarque</span>'+A.map(f=>fieldHTML(f,l[f.k],ro)).join('')+'</div>'+
   '<div class="sec"><span class="label">Vendas na caixa master</span>'+(cand.length?'<div class="vlist">'+cand.map(v=>'<label><input type="checkbox" data-v="'+esc(v.id)+'"'+(inL.has(v.id)?' checked':'')+(ro?' disabled':'')+'><b class="num">'+vnum(v.numero)+'</b><span>'+esc(v.cliente)+'</span><span class="muted">'+(curStep(v)>=0?esc(STEPS[curStep(v)][1]):'—')+'</span></label>').join('')+'</div>':'<p class="muted full" style="margin:0">Nenhuma venda disponível. Vendas aparecem aqui até embarcarem.</p>')+'</div>'+
@@ -983,18 +1024,18 @@ function errMsg(e){
 /* ================= Supabase: mapeamento ERP ↔ banco ================= */
 const SB_URL='https://nzsiuniabovvptuqmkmi.supabase.co';
 const SB_KEY='sb_publishable_9Nl_ZRXEmLMhDMBP8oKP_w_FuDXaYMq';
-const MAP={dataCompra:'data_compra',custoMile:'custo_mile',custo3PL:'custo_3pl',outrosCustos:'outros_custos',etiquetaMile:'etiqueta_mile',cargaCoreia:'carga_coreia',cargaBrasil:'carga_brasil',baixaEmbalagem:'baixa_embalagem',custoLB:'custo_lb',custoFab:'custo_fab',precoKR:'preco_kr',precoConc:'preco_conc',pesoG:'peso_g',custoUnit:'custo_unit',valorDestino:'valor_destino',custoRetorno:'custo_retorno',custoMercadoria:'custo_mercadoria',pagoPor:'pago_por',freteAereo:'frete_aereo',pesoKg:'peso_kg',entradaEstoque:'entrada_estoque'};
+const MAP={dataCompra:'data_compra',custoMile:'custo_mile',custo3PL:'custo_3pl',outrosCustos:'outros_custos',etiquetaMile:'etiqueta_mile',cargaCoreia:'carga_coreia',cargaBrasil:'carga_brasil',baixaEmbalagem:'baixa_embalagem',custoLB:'custo_lb',custoFab:'custo_fab',precoKR:'preco_kr',precoConc:'preco_conc',pesoG:'peso_g',custoUnit:'custo_unit',valorDestino:'valor_destino',custoRetorno:'custo_retorno',custoMercadoria:'custo_mercadoria',pagoPor:'pago_por',parceiroPagador:'parceiro_pagador',freteAereo:'frete_aereo',pesoKg:'peso_kg',entradaEstoque:'entrada_estoque'};
 const RMAP=Object.fromEntries(Object.entries(MAP).map(([a,b])=>[b,a]));
 const COLS={
  vendas:['numero','data_compra','canal','cliente','cpf','contato','cidade','uf','cupom','itens','desconto','frete','ii','icms','custo_mile','custo_3pl','caixa','outros_custos','etiqueta_mile','invoice','carga_coreia','carga_brasil','rastreio','obs','etapas','cancelada','lote','awb','baixa_embalagem'],
- lotes:['numero','awb','cia','caixa','peso_kg','volumes','custo_3pl','frete_aereo','despacho','custo_mercadoria','pago_por','obs','vendas','etapas'],
- lancamentos:['data','tipo','descricao','categoria','conta','valor','moeda','valor_destino','status','ref'],
+ lotes:['numero','awb','cia','caixa','peso_kg','volumes','custo_3pl','frete_aereo','despacho','custo_mercadoria','pago_por','parceiro_pagador','obs','vendas','etapas'],
+ lancamentos:['data','tipo','descricao','categoria','conta','valor','moeda','valor_destino','status','ref','parceiro'],
  devolucoes:['numero','data','venda','status','itens','motivo','local','destino','reembolso','custo_retorno','obs'],
  insumos:['codigo','tipo','nome','dimensoes','especificacao','designs','status','estoque','minimo','local','custo_unit','fornecedor','arquivo'],
- compras:['numero','data','fornecedor','tipo','itens','valor','moeda','status','previsao','insumo','qtd','entrada_estoque'],
+ compras:['numero','data','fornecedor','parceiro','tipo','itens','valor','moeda','status','previsao','insumo','qtd','entrada_estoque'],
  produtos:['sku','marca','nome','categoria','fornecedor','custo_fab','custo_lb','preco_kr','preco_conc','preco','peso_g','estoque','dg','ativo'],
  cupons:['codigo','tipo','valor','publico','validade','limite','ativo','obs'],
- fornecedores:['nome','tipo','pais','contato','canal','obs'],
+ fornecedores:['codigo','nome','tipo','moeda','pais','contato','canal','obs'],
  metricas:['semana','visitas','carrinhos','checkouts','pedidos','fonte']
 };
 const DATES=new Set(['data_compra','data','previsao','validade','semana']);
@@ -1006,7 +1047,7 @@ function toDb(col,o){
   const c=MAP[k]||k; if(!COLS[col].includes(c))continue;
   let x=v;
   if(DATES.has(c)&&!x)x=null;
-  if(c==='lote'&&!x)x=null;
+  if((c==='lote'||c==='parceiro'||c==='parceiro_pagador')&&!x)x=null;
   if(col==='vendas'&&c==='itens')x=itemsTo(v);
   if(col==='insumos'&&(c==='estoque'||c==='minimo')&&x==null)x=0;
   if(typeof x==='string'&&x===''&&['valor','qtd','venda'].includes(c))x=null;
@@ -1203,7 +1244,10 @@ async function finishAnexos(col,id){
 
 /* ================= gravação ================= */
 async function save(col,rec,vals){
- const body=toDb(col,{...(rec||{}),...vals});
+ const all={...(rec||{}),...vals};
+ if(col==='compras'){const pp=parcById(all.parceiro);if(pp)all.fornecedor=pp.nome}
+ if(col==='lotes'&&('parceiroPagador' in vals)){all.pagoPor=vals.parceiroPagador?'Parceiro':'Pago direto pela OMG'}
+ const body=toDb(col,all);
  if(rec){
   const {error}=await sb.from(col).update(body).eq('id',rec.id);
   if(error)throw error; return rec.id;
@@ -1277,7 +1321,7 @@ function doBackup(){
 
 /* ================= conexão e login ================= */
 const sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,storageKey:'omg-erp-auth'}});
-const ORD={insumos:'codigo',fornecedores:'nome',cupons:'codigo'};
+const ORD={insumos:'codigo',fornecedores:'codigo',cupons:'codigo'};
 let loadingNow=false;
 async function loadAll(){
  if(loadingNow||!S.db)return;loadingNow=true;
