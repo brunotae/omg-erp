@@ -208,6 +208,19 @@ pre.code{background:var(--surface2);border:1px solid var(--line);border-radius:v
 .f input[readonly]{background:var(--surface2)}
 .f textarea{min-height:70px;resize:vertical}
 .f .hint{font-size:11px;color:var(--muted)}
+.anx{grid-column:1/-1;display:flex;flex-direction:column;gap:10px}
+.anx-list{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:var(--r-sm);padding:4px 12px;background:var(--bg)}
+.anx-it{display:grid;grid-template-columns:auto minmax(0,1fr) auto 32px;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px}
+.anx-it:last-child{border-bottom:0}
+.anx-it a,.anx-it>span:nth-child(2){overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.anx-it a{color:var(--accent);font-weight:600}
+.anx-it small{color:var(--muted);font-size:11px;white-space:nowrap}
+.anx-it.pend{opacity:.75}
+.anx-add{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.anx-add select{border:1px solid var(--line);background:var(--bg);border-radius:var(--r-sm);padding:8px 10px;min-height:40px;min-width:0;flex:1 1 180px}
+.anx-add label.btn{cursor:pointer;min-height:40px}
+.vh{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;clip:rect(0 0 0 0)}
+@media (max-width:780px){.vlist label{grid-template-columns:20px minmax(0,1fr)}.vlist label>span{grid-column:2}.anx-it{grid-template-columns:minmax(0,1fr) auto 32px}.anx-it .tag{grid-column:1/-1;justify-self:start}}
 .chk{display:flex;align-items:center;gap:8px;font-size:13px}
 .items{grid-column:1/-1;display:flex;flex-direction:column;gap:8px}
 .items .row{display:grid;grid-template-columns:minmax(0,2.2fr) 64px minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) 32px;gap:6px;align-items:center}
@@ -517,7 +530,7 @@ function tblVendas(rows){
  return '<div class="tblwrap"><table><thead><tr><th>Venda</th><th>Cliente</th><th>Etapa</th><th class="r">Total</th><th class="r">Avançar</th></tr></thead><tbody>'+
  rows.map(v=>{const c=calc(v),cs=curStep(v);const nx=cs<12&&!isCancel(v)?STEPS[cs+1]:null;
   return '<tr data-edit="vendas" data-id="'+esc(v.id)+'"><td><b class="num">'+vnum(v.numero)+'</b><small>'+fdate(v.dataCompra)+' · '+esc(v.canal||'')+(v.lote?' · '+esc((loteOf(v)||{}).numero||''):'')+'</small></td>'+
-  '<td><b>'+esc(v.cliente)+'</b><small>'+esc([v.cidade,v.uf].filter(Boolean).join(' / '))+' · '+c.qtd+' itens</small></td><td>'+prog(v)+'</td>'+
+  '<td><b>'+esc(v.cliente)+'</b><small>'+esc([v.cidade,v.uf].filter(Boolean).join(' / '))+' · '+c.qtd+' itens'+docCount(v)+'</small></td><td>'+prog(v)+'</td>'+
   '<td class="r num"><b>'+brl(c.total)+'</b><small>impostos '+brl(c.impostos)+'</small></td>'+
   '<td class="r">'+(nx&&can()?'<button class="iconbtn" type="button" data-adv="'+esc(v.id)+'" title="Marcar: '+esc(nx[1])+'" aria-label="Marcar: '+esc(nx[1])+'"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>':'')+'</td></tr>'}).join('')+'</tbody></table></div>';
 }
@@ -535,7 +548,7 @@ VIEWFN.lotes=()=>{
  return '<div class="page"><div class="col">'+head('Embarques','Cada embarque é uma caixa master consolidada pela Skyroad, com um AWB. As datas do embarque são aplicadas a todas as vendas dentro dele.',newBtn('lotes','Novo embarque'))+
  '<div class="card">'+(loading('lotes')?'<p class="muted">Carregando…</p>':rows.length?'<div class="tblwrap"><table><thead><tr><th>Embarque</th><th>AWB</th><th class="r">Vendas</th><th>Situação</th><th class="r">Custos Coreia</th></tr></thead><tbody>'+
  rows.map(l=>{const e=l.etapas||{};let c=-1;LOTE_STEPS.forEach((k,i)=>{if(e[k])c=i});const tot=n(l.custo3PL)+n(l.freteAereo)+n(l.despacho);
-  return '<tr data-edit="lotes" data-id="'+esc(l.id)+'"><td><b>'+esc(l.numero)+'</b><small>'+esc(l.caixa||'')+(has(l.pesoKg)?' · '+l.pesoKg+' kg':'')+'</small></td><td class="num">'+esc(l.awb||'—')+'<small>'+esc(l.cia||'')+'</small></td>'+
+  return '<tr data-edit="lotes" data-id="'+esc(l.id)+'"><td><b>'+esc(l.numero)+'</b><small>'+esc(l.caixa||'')+(has(l.pesoKg)?' · '+l.pesoKg+' kg':'')+docCount(l)+'</small></td><td class="num">'+esc(l.awb||'—')+'<small>'+esc(l.cia||'')+'</small></td>'+
   '<td class="r num">'+(l.vendas||[]).length+'</td><td>'+(c<0?stPill('Montando'):stPill(STEPS[SK.indexOf(LOTE_STEPS[c])][1]))+'</td><td class="r num"><b>'+krw(tot)+'</b><small>'+((l.vendas||[]).length?krw(tot/(l.vendas.length))+' por venda':'')+'</small></td></tr>'}).join('')+'</tbody></table></div>'
  :empty('Nenhum embarque','Quando a Skyroad consolidar os pacotes, crie o embarque, marque as vendas que estão na caixa master e registre o AWB.'))+'</div></div>'+
  '<aside class="rail"><div class="note"><span class="label">Ordem do embarque</span>'+LOTE_STEPS.map((k,i)=>'<p>'+(i+1)+'. '+esc(STEPS[SK.indexOf(k)][1])+' <span class="muted">· '+esc(STEPS[SK.indexOf(k)][2])+'</span></p>').join('')+'<p class="muted">Custos do embarque (3PL, frete aéreo, despacho) são rateados igualmente entre as vendas na lucratividade.</p></div></aside></div>';
@@ -777,7 +790,7 @@ function shell(title,body,rec,ro,extraFoot){
 function wireDelete(col,rec){
  const del=$('#m-del');if(!del)return;
  del.addEventListener('click',async()=>{if(!del.classList.contains('armed')){del.classList.add('armed');del.textContent='Confirmar exclusão';return}
-  del.disabled=true;try{await dbDelete(col,rec.id);close();toast('Excluído');loadAll()}catch(e){$('#m-err').textContent=errMsg(e);del.disabled=false}});
+  del.disabled=true;try{await dbDelete(col,rec.id);const ps=(rec.anexos||[]).map(a=>a.path).filter(Boolean);if(ps.length){try{await sb.storage.from('docs').remove(ps)}catch(_){}}close();toast('Excluído');loadAll()}catch(e){$('#m-err').textContent=errMsg(e);del.disabled=false}});
 }
 function wireSubmit(handler){
  const form=$('#mform');
@@ -790,9 +803,10 @@ function openForm(key,id){
  const F=FORMS[key];if(F.custom)return key==='vendas'?openVenda(id):openLote(id);
  const rec=id?S.data[F.col].find(r=>r.id===id):null, init=rec?{...rec}:F.def(), ro=!can();
  const fs=F.secs.flatMap(s=>s[1]);
- shell(rec?F.title[1]:F.title[0],F.secs.map(([t,f])=>'<div class="sec">'+f.map(x=>fieldHTML(x,init[x.k],ro)).join('')+'</div>').join(''),rec,ro);
+ shell(rec?F.title[1]:F.title[0],F.secs.map(([t,f])=>'<div class="sec">'+f.map(x=>fieldHTML(x,init[x.k],ro)).join('')+'</div>').join('')+anexosHTML(F.col,ro),rec,ro);
  wireDelete(F.col,rec);
- wireSubmit(async form=>{const vals=readFields(form,fs);await save(F.col,rec,vals);toast(rec?'Alterações salvas':'Cadastrado')});
+ wireAnexos(F.col,rec);
+ wireSubmit(async form=>{const vals=readFields(form,fs);const id=await save(F.col,rec,vals);await finishAnexos(F.col,id);toast(rec?'Alterações salvas':'Cadastrado')});
 }
 
 /* ---------- formulário de venda ---------- */
@@ -820,9 +834,10 @@ function openVenda(id){
   '<div class="sec"><span class="label">Custos</span>'+C.map(f=>fieldHTML(f,v[f.k],ro)).join('')+(L?'<div class="f full"><span class="hint">Embarque '+esc(L.numero)+' · AWB '+esc(L.awb||'—')+' · rateio '+krw((n(L.custo3PL)+n(L.freteAereo)+n(L.despacho))/Math.max(1,(L.vendas||[]).length))+'</span></div>':'')+'</div>'+
   '<div class="sec"><span class="label">Logística e documentos</span>'+D.map(f=>fieldHTML(f,v[f.k],ro)).join('')+'</div>'+
   '<div class="sec"><span class="label">Etapas · data de cada uma</span><div class="stepgrid">'+STEPS.map(([k,l,w],i)=>'<label class="stepg'+(e[k]?' on':'')+'"><span class="n">'+(i+1)+'</span><span>'+esc(l)+'<span class="who">'+esc(w)+(LOTE_STEPS.includes(k)?' · vem do embarque':'')+'</span></span><input type="date" data-step="'+k+'" value="'+esc(e[k]||'')+'"'+(ro?' readonly':'')+'></label>').join('')+'</div>'+
-  '<label class="chk full"><input type="checkbox" name="cancelada" id="f-cancelada"'+(v.cancelada?' checked':'')+(ro?' disabled':'')+'> Venda cancelada</label></div>';
+  '<label class="chk full"><input type="checkbox" name="cancelada" id="f-cancelada"'+(v.cancelada?' checked':'')+(ro?' disabled':'')+'> Venda cancelada</label></div>'+anexosHTML('vendas',ro);
  shell(rec?'Venda '+vnum(v.numero):'Nova venda',body,rec,ro);
  wireDelete('vendas',rec);
+ wireAnexos('vendas',rec);
  const form=$('#mform');
  const readItems=()=>[...form.querySelectorAll('.it')].map(r=>{const o={};r.querySelectorAll('input').forEach(i=>{const k=i.dataset.k;o[k]=k==='produto'?i.value.trim():(i.value===''?null:parseFloat(i.value))});return o}).filter(o=>o.produto||has(o.preco));
  const upd=()=>{const tmp={...v,...readFields(form,[...B,...C].map(f=>({...f,req:0}))),itens:readItems()};const c=calc(tmp);
@@ -843,7 +858,7 @@ function openVenda(id){
   vals.itens=readItems();vals.cancelada=f.elements.cancelada.checked;
   const et={};f.querySelectorAll('[data-step]').forEach(i=>{if(i.value)et[i.dataset.step]=i.value});vals.etapas=et;
   if(rec)vals.numero=v.numero;
-  await save('vendas',rec,vals);toast(rec?'Venda salva':'Venda lançada');
+  const vid=await save('vendas',rec,vals);await finishAnexos('vendas',vid);toast(rec?'Venda salva':'Venda lançada');
  });
 }
 
@@ -858,9 +873,10 @@ function openLote(id){
  const body='<div class="sec"><span class="label">Embarque</span>'+A.map(f=>fieldHTML(f,l[f.k],ro)).join('')+'</div>'+
   '<div class="sec"><span class="label">Vendas na caixa master</span>'+(cand.length?'<div class="vlist">'+cand.map(v=>'<label><input type="checkbox" data-v="'+esc(v.id)+'"'+(inL.has(v.id)?' checked':'')+(ro?' disabled':'')+'><b class="num">'+vnum(v.numero)+'</b><span>'+esc(v.cliente)+'</span><span class="muted">'+(curStep(v)>=0?esc(STEPS[curStep(v)][1]):'—')+'</span></label>').join('')+'</div>':'<p class="muted full" style="margin:0">Nenhuma venda disponível. Vendas aparecem aqui até embarcarem.</p>')+'</div>'+
   '<div class="sec"><span class="label">Custos do embarque · rateados entre as vendas</span>'+C.map(f=>fieldHTML(f,l[f.k],ro)).join('')+'</div>'+
-  '<div class="sec"><span class="label">Etapas · aplicadas a todas as vendas marcadas</span><div class="stepgrid">'+LOTE_STEPS.map((k,i)=>{const s=STEPS[SK.indexOf(k)];return '<label class="stepg'+(e[k]?' on':'')+'"><span class="n">'+(SK.indexOf(k)+1)+'</span><span>'+esc(s[1])+'<span class="who">'+esc(s[2])+'</span></span><input type="date" data-step="'+k+'" value="'+esc(e[k]||'')+'"'+(ro?' readonly':'')+'></label>'}).join('')+'</div></div>';
+  '<div class="sec"><span class="label">Etapas · aplicadas a todas as vendas marcadas</span><div class="stepgrid">'+LOTE_STEPS.map((k,i)=>{const s=STEPS[SK.indexOf(k)];return '<label class="stepg'+(e[k]?' on':'')+'"><span class="n">'+(SK.indexOf(k)+1)+'</span><span>'+esc(s[1])+'<span class="who">'+esc(s[2])+'</span></span><input type="date" data-step="'+k+'" value="'+esc(e[k]||'')+'"'+(ro?' readonly':'')+'></label>'}).join('')+'</div></div>'+anexosHTML('lotes',ro);
  shell(rec?'Embarque '+l.numero:'Novo embarque',body,rec,ro);
  wireDelete('lotes',rec);
+ wireAnexos('lotes',rec);
  const form=$('#mform');
  form.addEventListener('input',ev=>{if(ev.target.dataset.step!==undefined)ev.target.closest('.stepg').classList.toggle('on',!!ev.target.value)});
  wireSubmit(async f=>{
@@ -868,6 +884,7 @@ function openLote(id){
   vals.vendas=[...f.querySelectorAll('[data-v]')].filter(c=>c.checked).map(c=>c.dataset.v);
   const et={};f.querySelectorAll('[data-step]').forEach(i=>{if(i.value)et[i.dataset.step]=i.value});vals.etapas=et;
   const lid=await save('lotes',rec,vals);
+  await finishAnexos('lotes',lid);
   const removed=(l.vendas||[]).filter(x=>!vals.vendas.includes(x));
   for(const vid of vals.vendas){const v=S.data.vendas.find(x=>x.id===vid);if(!v)continue;const ne={...(v.etapas||{})};LOTE_STEPS.forEach(k=>{if(et[k]&&!ne[k])ne[k]=et[k]});if(!ne.consolidado&&vals.vendas.length)ne.consolidado=et.consolidado||today();
    await save('vendas',v,{lote:lid,awb:vals.awb||'',etapas:ne})}
@@ -930,6 +947,78 @@ function fromDb(col,r){
  return o;
 }
 
+/* ================= documentos anexados ================= */
+const ANX={
+ lotes:['Invoice','AWB','Packing list','Declaração de exportação','Manifesto','Liberação RF Coreia','DUIMP / desembaraço','Foto da caixa master','Outro'],
+ vendas:['Etiqueta Mile','Invoice','Comprovante de pagamento','Foto do pacote','Comprovante de entrega','Outro'],
+ compras:['Cotação','Pedido / PO','Invoice / nota','Comprovante de pagamento','Arte / prova de cor','Outro'],
+ lancamentos:['Comprovante','Fatura / boleto','Recibo','Contrato','Outro'],
+ devolucoes:['Foto do produto','Comprovante de reembolso','Conversa com cliente','Outro'],
+ insumos:['Arte final','Prova de cor','Faca / gabarito','Foto','Outro'],
+ fornecedores:['Contrato','Tabela de preços','Cadastro / documentos','Outro']
+};
+const MAX_MB=20;
+let AX=null;
+const fmtSize=b=>!has(b)?'':b<1024*1024?Math.max(1,Math.round(b/1024))+' KB':(b/1048576).toLocaleString('pt-BR',{maximumFractionDigits:1})+' MB';
+const safeName=s=>String(s||'arquivo').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^\w.\-]+/g,'_').slice(-80);
+const docCount=r=>{const k=(r&&Array.isArray(r.anexos))?r.anexos.length:0;return k?' · '+k+(k>1?' docs':' doc'):''};
+function anexosHTML(col,ro){
+ if(!ANX[col])return '';
+ return '<div class="sec"><span class="label">Documentos</span><div class="anx"><div class="anx-list" id="anx-list"></div>'+
+  (ro?'':'<div class="anx-add"><select id="anx-tipo" aria-label="Tipo de documento">'+ANX[col].map(t=>'<option>'+esc(t)+'</option>').join('')+'</select>'+
+  '<label class="btn sm" for="anx-file">+ Anexar arquivos</label><input class="vh" id="anx-file" type="file" multiple accept=".pdf,image/*,.xlsx,.xls,.csv,.doc,.docx,.zip"></div>'+
+  '<span class="hint">PDF, foto ou planilha, até '+MAX_MB+' MB cada. Escolha o tipo antes de anexar. Os arquivos sobem quando você tocar em Salvar.</span>')+'</div></div>';
+}
+function renderAnx(){
+ const el=$('#anx-list');if(!el||!AX)return;
+ const ro=!can();
+ const x='<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>';
+ const rows=[...AX.keep.filter(a=>!AX.remove.has(a.path)).map(a=>({...a,st:'ok'})),...AX.pending.map((p,i)=>({nome:p.file.name,tipo:p.tipo,size:p.file.size,st:'pend',i}))];
+ el.innerHTML=rows.length?rows.map(a=>'<div class="anx-it'+(a.st==='pend'?' pend':'')+'"><span class="tag">'+esc(a.tipo)+'</span>'+
+  (a.st==='ok'&&AX.urls[a.path]?'<a href="'+esc(AX.urls[a.path])+'" target="_blank" rel="noopener">'+esc(a.nome)+'</a>':'<span>'+esc(a.nome)+'</span>')+
+  '<small>'+(a.st==='pend'?'a enviar · ':'')+fmtSize(a.size)+'</small>'+
+  (ro?'<span></span>':'<button class="iconbtn" type="button" data-anx-rm="'+(a.st==='ok'?'p:'+esc(a.path):'n:'+a.i)+'" aria-label="Remover '+esc(a.nome)+'">'+x+'</button>')+'</div>').join('')
+  :'<p class="muted" style="margin:6px 0;font-size:12.5px">Nenhum documento anexado.</p>';
+}
+function wireAnexos(col,rec){
+ if(!ANX[col]){AX=null;return}
+ AX={col,keep:Array.isArray(rec&&rec.anexos)?rec.anexos.slice():[],pending:[],remove:new Set(),urls:{}};
+ renderAnx();
+ const paths=AX.keep.map(a=>a.path).filter(Boolean);
+ if(paths.length){
+  const mine=AX;
+  sb.storage.from('docs').createSignedUrls(paths,3600).then(({data})=>{if(AX!==mine)return;(data||[]).forEach(d=>{if(d&&d.signedUrl&&d.path)AX.urls[d.path]=d.signedUrl});renderAnx()}).catch(()=>{});
+ }
+ const inp=$('#anx-file');
+ if(inp)inp.addEventListener('change',()=>{
+  const tipo=$('#anx-tipo').value;let big=0;
+  [...inp.files].forEach(f=>{if(f.size>MAX_MB*1048576){big++;return}AX.pending.push({file:f,tipo})});
+  inp.value='';renderAnx();
+  if(big)toast(big+(big>1?' arquivos passam':' arquivo passa')+' de '+MAX_MB+' MB e não '+(big>1?'foram anexados':'foi anexado')+'.');
+ });
+}
+function anxRemove(key){
+ if(!AX)return;
+ if(key.startsWith('p:'))AX.remove.add(key.slice(2));else AX.pending.splice(Number(key.slice(2)),1);
+ renderAnx();
+}
+async function finishAnexos(col,id){
+ if(!AX||AX.col!==col||!id)return;
+ if(!AX.pending.length&&!AX.remove.size)return;
+ const st=sb.storage.from('docs');const added=[];let falhou=null;
+ for(const [i,p] of AX.pending.entries()){
+  const path=col+'/'+id+'/'+Date.now()+'-'+i+'-'+safeName(p.file.name);
+  const {error}=await st.upload(path,p.file,{contentType:p.file.type||undefined,upsert:false});
+  if(error){falhou=error;break}
+  added.push({path,nome:p.file.name,tipo:p.tipo,size:p.file.size,em:new Date().toISOString()});
+ }
+ if(AX.remove.size){try{await st.remove([...AX.remove])}catch(_){}}
+ const anexos=[...AX.keep.filter(a=>!AX.remove.has(a.path)),...added];
+ await sb.from(col).update({anexos}).eq('id',id);
+ AX=null;
+ if(falhou)toast(/bucket/i.test(falhou.message||'')?'Salvo, mas a pasta de documentos ainda não existe. Rode o SQL de documentos no Supabase.':'Salvo, mas '+(anexos.length?'alguns documentos':'os documentos')+' não subiram. Abra de novo e anexe outra vez.');
+}
+
 /* ================= gravação ================= */
 async function save(col,rec,vals){
  const body=toDb(col,{...(rec||{}),...vals});
@@ -952,6 +1041,7 @@ document.addEventListener('click',e=>{
  if(e.target.id==='ov'){close();return}
  const t=e.target.closest('button,tr[data-edit],[data-edit]');if(!t)return;
  if(t.matches('[data-close]')){close();return}
+ if(t.dataset.anxRm){anxRemove(t.dataset.anxRm);return}
  if(t.dataset.adv){e.stopPropagation();advance(t.dataset.adv);return}
  if(t.dataset.view){S.view=t.dataset.view;S.q='';$('#q').value='';render();window.scrollTo(0,0);return}
  if(t.dataset.fv){S.f.vendas=t.dataset.fv;render();return}
