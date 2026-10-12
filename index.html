@@ -219,6 +219,18 @@ pre.code{background:var(--surface2);border:1px solid var(--line);border-radius:v
 .anx-add{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .anx-add select{border:1px solid var(--line);background:var(--bg);border-radius:var(--r-sm);padding:8px 10px;min-height:40px;min-width:0;flex:1 1 180px}
 .anx-add label.btn{cursor:pointer;min-height:40px}
+.drop{border:1.5px dashed var(--chiclete);border-radius:var(--r-sm);padding:14px;text-align:center;font-size:12.5px;color:var(--muted);background:var(--surface)}
+.anx.over .drop{background:var(--bebe);color:var(--pri);border-style:solid;font-weight:600}
+.anx.over .anx-list{border-color:var(--chiclete)}
+@media (hover:none){.drop{display:none}}
+#anx-sug{display:flex;flex-direction:column;gap:6px}
+#anx-sug:empty{display:none}
+.sug{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;background:var(--menta-bg);border-radius:var(--r-sm);padding:10px 12px;font-size:12.5px}
+.sug small{display:block;color:var(--muted);font-size:11px;margin-top:2px;overflow:hidden;text-overflow:ellipsis}
+.sug>span:first-child{min-width:0;flex:1 1 220px}
+.sug-b{display:flex;gap:6px;flex-wrap:wrap}
+.sug.muted{background:var(--surface2)}
+.sug.ok{background:var(--bebe)}
 .vh{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;clip:rect(0 0 0 0)}
 @media (max-width:780px){.vlist label{grid-template-columns:20px minmax(0,1fr)}.vlist label>span{grid-column:2}.anx-it{grid-template-columns:minmax(0,1fr) auto 32px}.anx-it .tag{grid-column:1/-1;justify-self:start}}
 .chk{display:flex;align-items:center;gap:8px;font-size:13px}
@@ -375,7 +387,13 @@ const UFS=['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA'
 const BRANDS=['Anua','Beauty of Joseon','Celimax','COSRX',"d'Alba",'Dr. Althea','Dr. Jart+','Elizavecca','Laneige','Medicube','Missha','Numbuzin','Purito','Round Lab','Seoul 1988 (K-Secret)','SKIN1004','TIRTIR','Tocobo','Torriden','VT Cosmetics','Outra'];
 const CATS=['Limpeza','Tônico','Sérum / Essência','Hidratante','Protetor solar','Máscara','Olhos e lábios','Maquiagem','Corpo e cabelo','Outro'];
 const LANC_CAT=['Recebimento de clientes','Pagamento Mile (frete e last mile)','Marketing e influencers','Embalagens e gráfica','Mercadoria (La Belle / Coreia)','3PL Skyroad','Frete aéreo','Remessa EUA → Coreia','Tarifas bancárias e câmbio','Equipe e serviços Brasil','Outros'];
-const CONTAS=['Brasil (R$)','Bank of America (US$)','Coreia (₩)'];
+const CONTAS=['Brasil (R$)','Bank of America (US$)','Coreia (₩)','PayPal (US$)'];
+const CIAS=['Korean Air','Qatar Airways','Emirates','Turkish Airlines','Lufthansa','Cargolux','LATAM'];
+function contasList(){
+ const base=Array.isArray(S.cfg.contas)&&S.cfg.contas.length?S.cfg.contas:CONTAS;
+ const extra=S.data.lancamentos.map(l=>l.conta).filter(c=>c&&!base.includes(c));
+ return [...base,...new Set(extra)];
+}
 const MOEDAS=['BRL','USD','KRW'];
 
 const S={db:null,canWrite:true,status:'connecting',view:'painel',q:'',
@@ -571,7 +589,12 @@ VIEWFN.financeiro=()=>{
  const F=finance(periodFn()), A=finance(()=>true);
  const mileSaldo=A.mileDev-A.milePago, aRemK=Math.max(0,A.coreiaDevK-A.remKRW);
  const L=S.data.lancamentos.filter(l=>periodFn()(l.data)).filter(match).sort((a,b)=>String(b.data).localeCompare(String(a.data)));
- return '<div class="page wide"><div class="col">'+head('Financeiro','Três contas: recebimento no Brasil, Bank of America da MPOEMA e pagamentos na Coreia. Os impostos saem automaticamente no checkout.',newBtn('lancamentos','Novo lançamento'))+
+ const porConta=contasList().map(c=>{const ls=S.data.lancamentos.filter(l=>l.conta===c&&l.status==='Pago'&&periodFn()(l.data));
+  const ent=ls.filter(l=>l.tipo==='Entrada').reduce((a,l)=>a+toBRL(l.valor,l.moeda),0), sai=ls.filter(l=>l.tipo!=='Entrada').reduce((a,l)=>a+toBRL(l.valor,l.moeda),0);
+  return {c,ent,sai,n:ls.length}});
+ const tblConta='<div class="card"><div class="card-h"><h2>Movimento por conta</h2><span class="muted" style="font-size:12px">Em R$, pelo câmbio de referência · lançamentos pagos</span></div><div class="tblwrap"><table style="min-width:520px"><thead><tr><th>Conta</th><th class="r">Lançamentos</th><th class="r">Entradas</th><th class="r">Saídas</th><th class="r">Saldo do período</th></tr></thead><tbody>'+
+  porConta.map(r=>'<tr><td><b>'+esc(r.c)+'</b></td><td class="r num">'+r.n+'</td><td class="r num">'+brl(r.ent)+'</td><td class="r num">'+brl(r.sai)+'</td><td class="r num"><b style="color:var(--'+(r.ent-r.sai>=0?'ok':'bad')+')">'+brl(r.ent-r.sai)+'</b></td></tr>').join('')+'</tbody></table></div></div>';
+ return '<div class="page wide"><div class="col">'+head('Financeiro','Recebimento no Brasil, Bank of America e PayPal da MPOEMA e pagamentos na Coreia. Os impostos saem automaticamente no checkout. Contas novas entram em Ajustes.',newBtn('lancamentos','Novo lançamento'))+
  '<div class="chips">'+[['mes','Este mês'],['ano','Este ano'],['tudo','Tudo']].map(([k,l])=>'<button type="button" data-ff="'+k+'" aria-pressed="'+(S.f.fin===k)+'">'+l+'</button>').join('')+'</div>'+
  '<div class="accts">'+
   '<div class="acct"><span class="flag">Brasil · R$</span><span class="selo"><svg viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></svg>Imposto já incluso</span><dl><dt>Cobrado dos clientes</dt><dd class="num">'+brl(F.rec)+'</dd><dt>II + ICMS (automático)</dt><dd class="num">− '+brl(F.imp)+'</dd><dt>Receita líquida</dt><dd class="num">'+brl(F.liq)+'</dd><dt>Despesas pagas no Brasil</dt><dd class="num">− '+brl(F.despBR)+'</dd><dt>Marketing no período</dt><dd class="num">'+brl(F.mkt)+'</dd></dl></div>'+
@@ -580,6 +603,7 @@ VIEWFN.financeiro=()=>{
  '</div>'+
  '<div class="two"><div class="card"><div class="card-h"><h2>Mile Express</h2>'+stPill(mileSaldo>0.5?'A pagar':'Em dia')+'</div><div class="note" style="background:none;border:0;padding:0"><div class="grid"><span>Devido (frete + last mile das vendas)</span><b class="num">'+brl(A.mileDev)+'</b><span>Pago (lançamentos)</span><b class="num">'+brl(A.milePago)+'</b><span>Saldo</span><b class="num">'+brl(mileSaldo)+'</b></div></div></div>'+
  '<div class="card"><div class="card-h"><h2>Janice / La Belle</h2></div><div class="note" style="background:none;border:0;padding:0"><div class="grid"><span>Lucro da Janice no período</span><b class="num">'+krw(F.janK)+'</b><span>Em reais</span><b class="num">'+brl(F.janK*n(S.cfg.krw))+'</b><span>Cálculo</span><b>preço La Belle − custo fábrica</b></div></div></div></div>'+
+ tblConta+
  '<div class="card"><div class="card-h"><h2>Lançamentos</h2><span class="muted" style="font-size:12px">Valores em outra moeda convertidos pelo câmbio de referência</span></div>'+(L.length?'<div class="tblwrap"><table><thead><tr><th>Data</th><th>Descrição</th><th>Categoria</th><th>Conta</th><th class="r">Valor</th><th>Situação</th></tr></thead><tbody>'+
   L.map(l=>'<tr data-edit="lancamentos" data-id="'+esc(l.id)+'"><td class="num">'+fdate(l.data)+'</td><td><b>'+esc(l.descricao||'—')+'</b><small>'+esc(l.ref||'')+'</small></td><td><span class="tag">'+esc(l.categoria)+'</span></td><td>'+esc(l.conta||'')+'</td><td class="r num"><b style="color:var(--'+(l.tipo==='Entrada'?'ok':'ink')+')">'+(l.tipo==='Saída'?'− ':'')+money(l.valor,l.moeda)+'</b>'+(has(l.valorDestino)?'<small>recebido '+krw(l.valorDestino)+'</small>':'')+'</td><td>'+stPill(l.status)+'</td></tr>').join('')+'</tbody></table></div>'
   :empty('Nenhum lançamento no período','Registre pagamentos à Mile, marketing, gráfica, remessas do Bank of America para a Coreia e entradas na conta da MPOEMA.'))+'</div></div></div>';
@@ -694,6 +718,9 @@ VIEWFN.config=()=>{
  '<form class="card" id="cfg" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px">'+
   fi('krw','Câmbio R$ por ₩1',n(S.cfg.krw),'0.0001','Atualize quando o câmbio mudar')+fi('usd','Câmbio R$ por US$1',n(S.cfg.usd),'0.01','Referência para BofA')+
   fi('desc','Desconto vs KS / Jini (%)',n(S.cfg.desc),'0.5','Faixa combinada: 10 a 15%')+fi('markup','Acréscimo sobre site KR (%)',n(S.cfg.markup),'1','Quando não há concorrente')+fi('fielMin','Compras para cliente fiel',n(S.cfg.fielMin),'1','A partir de quantas compras')+
+  '<div class="f" style="grid-column:1/-1"><label for="conta-nova">Contas financeiras</label><div class="chips">'+contasList().map(c=>'<span class="tag" style="display:inline-flex;align-items:center;gap:6px;padding:5px 6px 5px 10px;font-size:12px">'+esc(c)+(can()?'<button type="button" class="link" data-conta-rm="'+esc(c)+'" aria-label="Remover '+esc(c)+'" style="font-size:14px;line-height:1">×</button>':'')+'</span>').join('')+'</div>'+
+  (can()?'<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><input id="conta-nova" type="text" placeholder="Ex.: Itaú (R$), Wise (US$)" style="flex:1 1 200px"><button class="btn sm" type="button" id="conta-add">+ Adicionar conta</button></div>':'')+
+  '<span class="hint">Coloque a moeda entre parênteses no nome. As contas aparecem no lançamento e no saldo por conta.</span></div>'+
   '<div style="grid-column:1/-1"><button class="btn pri" type="submit"'+dis+'>Salvar ajustes</button></div></form>'+
  '<div class="two"><div class="card"><div class="card-h"><h2>Integração com o site</h2></div><div class="note" style="background:none;border:0;padding:0">'+
   '<p>O ERP roda no Supabase do projeto OMG. O número da venda (a partir de 100.000.001) é gerado pelo próprio banco.</p>'+
@@ -721,7 +748,7 @@ const FORMS={
   def:()=>({numero:nextSeq('devolucoes','DV-',3),data:today(),status:'Aberta',destino:'Indefinido',local:'Com o cliente'})},
  lancamentos:{title:['Novo lançamento','Lançamento'],col:'lancamentos',secs:[['Lançamento',[
   {k:'data',l:'Data',t:'date',req:1},{k:'tipo',l:'Tipo',t:'select',o:['Saída','Entrada','Transferência']},
-  {k:'descricao',l:'Descrição',req:1,full:1},{k:'categoria',l:'Categoria',t:'select',o:LANC_CAT},{k:'conta',l:'Conta',t:'select',o:CONTAS},
+  {k:'descricao',l:'Descrição',req:1,full:1},{k:'categoria',l:'Categoria',t:'select',o:LANC_CAT},{k:'conta',l:'Conta',t:'combo',o:()=>contasList(),hint:'Conta nova? Escolha Outra… e escreva o nome. Ela entra na lista.'},
   {k:'valor',l:'Valor',t:'number',req:1},{k:'moeda',l:'Moeda',t:'select',o:MOEDAS},
   {k:'valorDestino',l:'Valor recebido na Coreia (₩)',t:'number',hint:'Só para remessa EUA → Coreia'},{k:'status',l:'Situação',t:'select',o:['Pago','Previsto']},
   {k:'ref',l:'Referência (venda, embarque, fatura)',full:1}]]],
@@ -768,6 +795,12 @@ function fieldHTML(f,v,ro){
  if(f.t==='bool')return '<label class="chk'+(f.full?' full':'')+'" style="padding-top:22px"><input type="checkbox" id="'+id+'" name="'+f.k+'"'+(v?' checked':'')+(ro?' disabled':'')+'> '+esc(f.l)+'</label>';
  let inp;
  if(f.t==='select'){const list=v==null||v===''||opts.includes(v)?opts:[...opts,v];inp='<select id="'+id+'" name="'+f.k+'"'+(ro?' disabled':'')+'>'+list.map(o=>'<option value="'+esc(o)+'"'+(o===v?' selected':'')+'>'+esc(o||'—')+'</option>').join('')+'</select>'}
+ else if(f.t==='combo'){
+  const val=v==null?'':String(v), known=val===''||opts.includes(val), sel=known?val:'__outra';
+  inp='<select id="'+id+'" name="'+f.k+'" data-combo'+(ro?' disabled':'')+'>'+['',...opts].map(o=>'<option value="'+esc(o)+'"'+(o===sel?' selected':'')+'>'+esc(o||'—')+'</option>').join('')+
+   '<option value="__outra"'+(sel==='__outra'?' selected':'')+'>Outra…</option></select>'+
+   '<input id="'+id+'-outra" name="'+f.k+'__outra" type="text" aria-label="'+esc(f.l)+': outra" placeholder="Escreva o nome" value="'+esc(known?'':val)+'"'+(sel==='__outra'?'':' hidden')+(ro?' readonly':'')+' style="margin-top:6px">';
+ }
  else if(f.t==='textarea')inp='<textarea id="'+id+'" name="'+f.k+'"'+(ro?' readonly':'')+'>'+esc(v)+'</textarea>';
  else inp='<input id="'+id+'" name="'+f.k+'" type="'+(f.t==='number'?'number':f.t==='date'?'date':'text')+'"'+(f.t==='number'?' step="any"':'')+' value="'+esc(v??'')+'"'+(ro||f.ro?' readonly':'')+(f.list?' list="'+f.list+'"':'')+'>';
  return '<div class="f'+(f.full?' full':'')+'"><label for="'+id+'">'+esc(f.l)+'</label>'+inp+(f.hint?'<span class="hint">'+esc(f.hint)+'</span>':'')+'</div>';
@@ -777,6 +810,7 @@ function readFields(form,fs){
  for(const f of fs){const el=form.elements[f.k];if(!el)continue;
   if(f.t==='bool')vals[f.k]=el.checked;
   else if(f.t==='number'){const x=el.value.trim();vals[f.k]=x===''?null:parseFloat(x.replace(',','.'))}
+  else if(f.t==='combo'){vals[f.k]=el.value==='__outra'?((form.elements[f.k+'__outra']||{}).value||'').trim():el.value.trim()}
   else vals[f.k]=el.value.trim();
   if(f.req&&(vals[f.k]===''||vals[f.k]==null))throw {field:f};
  }
@@ -867,7 +901,7 @@ function openLote(id){
  const rec=id?S.data.lotes.find(r=>r.id===id):null, ro=!can();
  const l=rec?JSON.parse(JSON.stringify(rec)):{numero:nextSeq('lotes','EMB-',3),vendas:[],etapas:{},cia:''};
  const e=l.etapas||{}, inL=new Set(l.vendas||[]);
- const A=[{k:'numero',l:'Nº do embarque',req:1},{k:'awb',l:'AWB'},{k:'cia',l:'Companhia aérea'},{k:'caixa',l:'Caixa master (descrição)'},{k:'pesoKg',l:'Peso (kg)',t:'number'},{k:'volumes',l:'Volumes',t:'number'}];
+ const A=[{k:'numero',l:'Nº do embarque',req:1},{k:'awb',l:'AWB'},{k:'cia',l:'Companhia aérea',t:'combo',o:CIAS},{k:'caixa',l:'Caixa master (descrição)'},{k:'pesoKg',l:'Peso (kg)',t:'number'},{k:'volumes',l:'Volumes',t:'number'}];
  const C=[{k:'custo3PL',l:'3PL Skyroad (₩)',t:'number'},{k:'freteAereo',l:'Frete aéreo (₩)',t:'number'},{k:'despacho',l:'Despacho de exportação (₩)',t:'number'},{k:'obs',l:'Observações',t:'textarea',full:1}];
  const cand=S.data.vendas.filter(v=>!isCancel(v)&&(inL.has(v.id)||(!v.lote&&curStep(v)<8)));
  const body='<div class="sec"><span class="label">Embarque</span>'+A.map(f=>fieldHTML(f,l[f.k],ro)).join('')+'</div>'+
@@ -964,10 +998,101 @@ const safeName=s=>String(s||'arquivo').normalize('NFD').replace(/[̀-ͯ]/g,'').r
 const docCount=r=>{const k=(r&&Array.isArray(r.anexos))?r.anexos.length:0;return k?' · '+k+(k>1?' docs':' doc'):''};
 function anexosHTML(col,ro){
  if(!ANX[col])return '';
- return '<div class="sec"><span class="label">Documentos</span><div class="anx"><div class="anx-list" id="anx-list"></div>'+
+ return '<div class="sec"><span class="label">Documentos</span><div class="anx" id="anx"><div class="anx-list" id="anx-list"></div><div id="anx-sug"></div>'+
   (ro?'':'<div class="anx-add"><select id="anx-tipo" aria-label="Tipo de documento">'+ANX[col].map(t=>'<option>'+esc(t)+'</option>').join('')+'</select>'+
   '<label class="btn sm" for="anx-file">+ Anexar arquivos</label><input class="vh" id="anx-file" type="file" multiple accept=".pdf,image/*,.xlsx,.xls,.csv,.doc,.docx,.zip"></div>'+
-  '<span class="hint">PDF, foto ou planilha, até '+MAX_MB+' MB cada. Escolha o tipo antes de anexar. Os arquivos sobem quando você tocar em Salvar.</span>')+'</div></div>';
+  '<div class="drop" id="anx-drop">No computador, arraste os arquivos e solte aqui</div>'+
+  '<span class="hint">PDF, foto ou planilha, até '+MAX_MB+' MB cada. Escolha o tipo antes de anexar. Os arquivos sobem quando você tocar em Salvar.'+(VAL_TARGETS[col]?' Em PDF de invoice, fatura ou comprovante, o ERP procura o valor total e sugere lançar.':'')+'</span>')+'</div></div>';
+}
+
+/* ---- leitura do total em PDF (invoice, fatura, comprovante) ---- */
+const VAL_TARGETS={lotes:[['custo3PL','3PL Skyroad'],['freteAereo','Frete aéreo'],['despacho','Despacho']],compras:[['valor','Valor']],lancamentos:[['valor','Valor']]};
+const VAL_TIPOS=/invoice|fatura|comprovante|recibo|cota/i;
+const PDFJS='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+let pdfjsP=null;
+function loadPdfjs(){
+ if(window.pdfjsLib)return Promise.resolve(window.pdfjsLib);
+ if(!pdfjsP)pdfjsP=new Promise((res,rej)=>{const s=document.createElement('script');s.src=PDFJS;
+  s.onload=()=>{try{window.pdfjsLib.GlobalWorkerOptions.workerSrc=PDFJS.replace('pdf.min.js','pdf.worker.min.js')}catch(_){}res(window.pdfjsLib)};
+  s.onerror=()=>{pdfjsP=null;rej(new Error('pdfjs'))};document.head.appendChild(s)});
+ return pdfjsP;
+}
+async function pdfLines(file){
+ const lib=await loadPdfjs();
+ const doc=await lib.getDocument({data:new Uint8Array(await file.arrayBuffer())}).promise;
+ const out=[];
+ for(let p=1;p<=Math.min(doc.numPages,6);p++){
+  const pg=await doc.getPage(p),tc=await pg.getTextContent(),rows=[];
+  tc.items.forEach(it=>{if(!it.str||!it.str.trim())return;const y=it.transform[5];let r=rows.find(r=>Math.abs(r.y-y)<3);if(!r){r={y,its:[]};rows.push(r)}r.its.push(it)});
+  rows.sort((a,b)=>b.y-a.y).forEach(r=>out.push(r.its.sort((a,b)=>a.transform[4]-b.transform[4]).map(i=>i.str).join(' ').replace(/\s+/g,' ').trim()));
+ }
+ return out;
+}
+function parseNum(t){
+ t=t.replace(/[.,]+$/,'');
+ if(/^\d{1,3}(,\d{3})+(\.\d+)?$/.test(t))return +t.replace(/,/g,'');
+ if(/^\d{1,3}(\.\d{3})+(,\d+)?$/.test(t))return +t.replace(/\./g,'').replace(',','.');
+ if(/^\d+,\d{1,2}$/.test(t))return +t.replace(',','.');
+ return +t.replace(/,/g,'');
+}
+function curOf(s){
+ if(/R\$|\bBRL\b|reais/i.test(s))return 'BRL';
+ if(/\bKRW\b|₩|\bWON\b|원/i.test(s))return 'KRW';
+ if(/US\$|\bUSD\b|\$/i.test(s))return 'USD';
+ return null;
+}
+function findTotal(lines){
+ const KW=[[/grand\s*total|total\s*amount\s*due|amount\s*due|total\s*due|balance\s*due|total\s*a\s*pagar|valor\s*total|총\s*청구\s*금액|청구\s*금액|총\s*금액|총\s*액|합\s*계\s*금\s*액/i,3],
+  [/\btotal\b|invoice\s*amount|합\s*계/i,2],[/amount|valor|금\s*액/i,1]];
+ const SKIP=/sub\s*-?\s*total|소\s*계|tax\s*id|vat\s*no|qty|quantity|weight|kg\b|phone|tel\b|fax|zip|account\s*(no|number)|swift|iban|invoice\s*(no|number|#)|page\s*\d/i;
+ const doc=lines.join(' ');let best=null;
+ lines.forEach((ln,i)=>{
+  if(SKIP.test(ln))return;
+  let pr=0;for(const [re,p] of KW)if(re.test(ln)){pr=p;break}
+  if(!pr)return;
+  let src=ln,nums=(ln.match(/\d[\d.,]*\d|\d/g)||[]).map(parseNum).filter(v=>v>0);
+  if(!nums.length&&lines[i+1]){src=ln+' '+lines[i+1];nums=(lines[i+1].match(/\d[\d.,]*\d|\d/g)||[]).map(parseNum).filter(v=>v>0)}
+  if(!nums.length)return;
+  const val=nums[nums.length-1];
+  if(val<1||(val>=1900&&val<=2100&&Number.isInteger(val)&&nums.length===1&&!/[.,]/.test(src.slice(-8))))return;
+  const cand={val,cur:curOf(src),pr,i,line:src};
+  if(!best||cand.pr>best.pr||(cand.pr===best.pr&&(cand.i>best.i||cand.val>best.val)))best=cand;
+ });
+ if(best&&!best.cur){const c={KRW:(doc.match(/KRW|₩|원/gi)||[]).length,USD:(doc.match(/USD|US\$|\$/gi)||[]).length,BRL:(doc.match(/R\$|BRL/gi)||[]).length};
+  const top=Object.entries(c).sort((a,b)=>b[1]-a[1])[0];best.cur=top[1]?top[0]:null}
+ return best;
+}
+async function scanPdf(p){
+ if(!AX||!VAL_TARGETS[AX.col]||!VAL_TIPOS.test(p.tipo))return;
+ if(!/pdf$/i.test(p.file.type)&&!/\.pdf$/i.test(p.file.name))return;
+ const mine=AX;p.scan={st:'lendo'};renderSug();
+ try{const r=findTotal(await pdfLines(p.file));if(AX!==mine)return;p.scan=r?{st:'ok',...r}:{st:'nada'}}
+ catch(_){if(AX!==mine)return;p.scan={st:'erro'}}
+ renderSug();
+}
+function renderSug(){
+ const el=$('#anx-sug');if(!el||!AX)return;
+ const T=VAL_TARGETS[AX.col]||[];
+ const items=AX.pending.map((p,i)=>({p,i})).filter(o=>o.p.scan);
+ el.innerHTML=items.map(({p,i})=>{
+  const s=p.scan,nm='<b>'+esc(p.file.name)+'</b>';
+  if(s.st==='lendo')return '<div class="sug">'+nm+': lendo o PDF…</div>';
+  if(s.st==='nada')return '<div class="sug muted">'+nm+': não achei o valor total. Pode ser PDF escaneado (foto) ou um formato diferente. Digite o valor no campo.</div>';
+  if(s.st==='erro')return '<div class="sug muted">'+nm+': não consegui ler este PDF. Digite o valor no campo.</div>';
+  if(s.st==='usado')return '<div class="sug ok">'+nm+': '+esc(fmtCur(s.val,s.cur))+' lançado em '+esc(s.usado)+'. Confira antes de salvar.</div>';
+  return '<div class="sug"><span>'+nm+': total encontrado <b class="num">'+esc(fmtCur(s.val,s.cur))+'</b><small>“'+esc(s.line.slice(0,90))+'”</small></span><span class="sug-b">'+
+   T.map(([k,l])=>'<button type="button" class="btn sm" data-sug="'+i+'|'+k+'|'+esc(l)+'">Usar em '+esc(l)+'</button>').join('')+'</span></div>';
+ }).join('');
+}
+const fmtCur=(v,c)=>c==='KRW'?krw(v):c==='USD'?usd(v):c==='BRL'?brl(v):v.toLocaleString('pt-BR');
+function useSug(key){
+ const [i,k,l]=key.split('|');const p=AX&&AX.pending[+i];if(!p||!p.scan)return;
+ const el=document.getElementById('f-'+k);if(!el)return;
+ el.value=String(p.scan.val);el.dispatchEvent(new Event('input',{bubbles:true}));
+ const m=document.getElementById('f-moeda');if(m&&p.scan.cur){m.value=p.scan.cur}
+ let aviso='';if(AX.col==='lotes'&&p.scan.cur&&p.scan.cur!=='KRW')aviso=' O campo é em ₩ e a invoice está em '+p.scan.cur+': converta antes de salvar.';
+ p.scan={...p.scan,st:'usado',usado:l};renderSug();
+ el.focus();toast('Valor colocado em '+l+'.'+aviso);
 }
 function renderAnx(){
  const el=$('#anx-list');if(!el||!AX)return;
@@ -989,18 +1114,33 @@ function wireAnexos(col,rec){
   const mine=AX;
   sb.storage.from('docs').createSignedUrls(paths,3600).then(({data})=>{if(AX!==mine)return;(data||[]).forEach(d=>{if(d&&d.signedUrl&&d.path)AX.urls[d.path]=d.signedUrl});renderAnx()}).catch(()=>{});
  }
+ renderSug();
  const inp=$('#anx-file');
- if(inp)inp.addEventListener('change',()=>{
-  const tipo=$('#anx-tipo').value;let big=0;
-  [...inp.files].forEach(f=>{if(f.size>MAX_MB*1048576){big++;return}AX.pending.push({file:f,tipo})});
-  inp.value='';renderAnx();
-  if(big)toast(big+(big>1?' arquivos passam':' arquivo passa')+' de '+MAX_MB+' MB e não '+(big>1?'foram anexados':'foi anexado')+'.');
- });
+ if(inp)inp.addEventListener('change',()=>{addFiles(inp.files);inp.value=''});
+ // arrastar e soltar: em qualquer ponto do formulário
+ const ov=$('#ov'),zone=$('#anx');
+ if(ov&&zone&&can()){
+  let depth=0;
+  const hasFiles=e=>e.dataTransfer&&[...(e.dataTransfer.types||[])].includes('Files');
+  ov.addEventListener('dragenter',e=>{if(!hasFiles(e))return;e.preventDefault();depth++;zone.classList.add('over');zone.scrollIntoView({block:'nearest',behavior:'smooth'})});
+  ov.addEventListener('dragover',e=>{if(!hasFiles(e))return;e.preventDefault();e.dataTransfer.dropEffect='copy'});
+  ov.addEventListener('dragleave',e=>{if(!hasFiles(e))return;depth=Math.max(0,depth-1);if(!depth)zone.classList.remove('over')});
+  ov.addEventListener('drop',e=>{if(!hasFiles(e))return;e.preventDefault();depth=0;zone.classList.remove('over');addFiles(e.dataTransfer.files)});
+ }
+}
+function addFiles(list){
+ if(!AX||!can())return;
+ const sel=$('#anx-tipo'),tipo=sel?sel.value:'Outro';let big=0;const novos=[];
+ [...list].forEach(f=>{if(f.size>MAX_MB*1048576){big++;return}const p={file:f,tipo};AX.pending.push(p);novos.push(p)});
+ renderAnx();
+ if(big)toast(big+(big>1?' arquivos passam':' arquivo passa')+' de '+MAX_MB+' MB e não '+(big>1?'foram anexados':'foi anexado')+'.');
+ else if(novos.length)toast(novos.length+(novos.length>1?' arquivos prontos':' arquivo pronto')+' para subir ao salvar');
+ novos.forEach(scanPdf);
 }
 function anxRemove(key){
  if(!AX)return;
  if(key.startsWith('p:'))AX.remove.add(key.slice(2));else AX.pending.splice(Number(key.slice(2)),1);
- renderAnx();
+ renderAnx();renderSug();
 }
 async function finishAnexos(col,id){
  if(!AX||AX.col!==col||!id)return;
@@ -1042,6 +1182,7 @@ document.addEventListener('click',e=>{
  const t=e.target.closest('button,tr[data-edit],[data-edit]');if(!t)return;
  if(t.matches('[data-close]')){close();return}
  if(t.dataset.anxRm){anxRemove(t.dataset.anxRm);return}
+ if(t.dataset.sug){useSug(t.dataset.sug);return}
  if(t.dataset.adv){e.stopPropagation();advance(t.dataset.adv);return}
  if(t.dataset.view){S.view=t.dataset.view;S.q='';$('#q').value='';render();window.scrollTo(0,0);return}
  if(t.dataset.fv){S.f.vendas=t.dataset.fv;render();return}
@@ -1054,13 +1195,31 @@ document.addEventListener('click',e=>{
   try{navigator.clipboard.writeText(txt).then(()=>toast('Formato copiado'),sel)}catch(_){sel()}}
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+document.addEventListener('change',e=>{
+ const s=e.target;if(!s.matches||!s.matches('select[data-combo]'))return;
+ const o=document.getElementById(s.id+'-outra');if(!o)return;
+ o.hidden=s.value!=='__outra';if(!o.hidden)o.focus();
+});
 let qt;$('#q').addEventListener('input',e=>{clearTimeout(qt);qt=setTimeout(()=>{S.q=e.target.value.trim();render()},150)});
 document.addEventListener('submit',async e=>{
  if(e.target.id!=='cfg')return;e.preventDefault();
  const v=k=>{const x=parseFloat($('#c-'+k).value);return isFinite(x)?x:S.cfg[k]};
- const valor={krw:v('krw'),usd:v('usd'),desc:v('desc'),markup:v('markup'),fielMin:v('fielMin')};
+ const valor={krw:v('krw'),usd:v('usd'),desc:v('desc'),markup:v('markup'),fielMin:v('fielMin'),contas:contasList()};
  const {error}=await sb.from('config').upsert({chave:'geral',valor});
  if(error)toast(errMsg(error));else{toast('Ajustes salvos');await loadAll()}
+});
+async function saveContas(list){
+ const valor={krw:S.cfg.krw,usd:S.cfg.usd,desc:S.cfg.desc,markup:S.cfg.markup,fielMin:S.cfg.fielMin,contas:list};
+ const {error}=await sb.from('config').upsert({chave:'geral',valor});
+ if(error){toast(errMsg(error));return false}
+ S.cfg.contas=list;return true;
+}
+document.addEventListener('click',async e=>{
+ const add=e.target.closest('#conta-add'),rm=e.target.closest('[data-conta-rm]');
+ if(add){const inp=$('#conta-nova'),nome=inp.value.trim();if(!nome)return;const list=contasList();if(list.includes(nome)){toast('Essa conta já existe');return}
+  if(await saveContas([...list,nome])){toast('Conta adicionada');render()}}
+ if(rm){const nome=rm.dataset.contaRm;if(S.data.lancamentos.some(l=>l.conta===nome)){toast('Essa conta tem lançamentos. Ela fica na lista.');return}
+  if(await saveContas(contasList().filter(c=>c!==nome))){toast('Conta removida');render()}}
 });
 
 function doBackup(){
