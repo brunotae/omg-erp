@@ -1,0 +1,14 @@
+name: Manter Supabase ativo
+on:
+  schedule:
+    - cron: '0 12 */3 * *'
+  workflow_dispatch:
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Visitar o banco do OMG
+        run: |
+          curl -sS -o /dev/null -w "OMG respondeu %{http_code}\n" \
+            "https://nzsiuniabovvptuqmkmi.supabase.co/rest/v1/config?select=chave&limit=1" \
+            -H "apikey: sb_publishable_9Nl_ZRXEmLMhDMBP8oKP_w_FuDXaYMq"
