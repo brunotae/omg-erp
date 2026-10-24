@@ -629,7 +629,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v7 · 24/10/2026';
+const VERSAO='v8 · 24/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1690,11 +1690,21 @@ function doBackup(){
 const sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,storageKey:'omg-erp-auth'}});
 const ORD={insumos:'codigo',fornecedores:'codigo',cupons:'codigo'};
 let loadingNow=false;
+// O Supabase devolve no máximo 1.000 linhas por consulta: busca em páginas até acabar.
+async function selectAll(col){
+ const out=[];
+ for(let from=0;;from+=1000){
+  const {data,error}=await sb.from(col).select('*').range(from,from+999);
+  if(error)return {data:null,error};
+  out.push(...(data||[]));
+  if(!data||data.length<1000)return {data:out,error:null};
+ }
+}
 async function loadAll(){
  if(loadingNow||!S.db)return;loadingNow=true;
  try{
   const cols=Object.keys(S.data);
-  const res=await Promise.all([...cols.map(c=>sb.from(c).select('*')),sb.from('config').select('*').eq('chave','geral')]);
+  const res=await Promise.all([...cols.map(c=>selectAll(c)),sb.from('config').select('*').eq('chave','geral')]);
   let failed=false;
   cols.forEach((col,i)=>{const {data,error}=res[i];if(error){if(col==='cortes'){S.missing.cortes=true;S.loaded[col]=true;return}failed=true;return}S.missing[col]=false;
    S.data[col]=(data||[]).map(r=>fromDb(col,r)).sort((a,b)=>ORD[col]?String(a[ORD[col]]||'').localeCompare(String(b[ORD[col]]||'')):col==='vendas'?n(b.numero)-n(a.numero):n(b.createdAt)-n(a.createdAt));
