@@ -1,0 +1,648 @@
+{
+ "arencia": {
+  "marca": "ARENCIA",
+  "site": "arencia.us",
+  "candidatos": [
+   {
+    "titulo": "Deep Water Surge PDRN Serum",
+    "url": "https://cdn.shopify.com/s/files/1/0592/7400/2585/files/19_Deep_Water_Surge_Serum.png?v=1762411286"
+   },
+   {
+    "titulo": "Vita Collagen Radiance Hydrogel Jello Mask, 4ea",
+    "url": "https://cdn.shopify.com/s/files/1/0592/7400/2585/files/ENG_VitaCollagenJelloMask_4ea.png?v=1776997350"
+   },
+   {
+    "titulo": "Vitamin C Booster Shot Mask, 5ea",
+    "url": "https://cdn.shopify.com/s/files/1/0592/7400/2585/files/ENG_Vitamin_C_Booster_Shot_Mask_5ea.png?v=1776997313"
+   },
+   {
+    "titulo": "Red Collagen Jello Overnight Mask, 4ea",
+    "url": "https://cdn.shopify.com/s/files/1/0592/7400/2585/files/23_Red_Collagen_Jello_Mask_4ea.png?v=1762411337"
+   },
+   {
+    "titulo": "Holy Hyssop Sheet Mask, 5ea",
+    "url": "https://cdn.shopify.com/s/files/1/0592/7400/2585/files/336a363f6c67e944a2fa3cf7c5a1f26f.jpg?v=1745564572"
+   },
+   {
+    "titulo": "Vitamin C Glow Booster Gel Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0592/7400/2585/files/ENG_Vitamin_C_Gel_Cream_cca14a4e-1552-4497-8e12-e414021259c8.png?v=1773813235"
+   },
+   {
+    "titulo": "Eraser Soothing Cream for Skin Barrier",
+    "url": "https://cdn.shopify.com/s/files/1/0592/7400/2585/files/ENG_Eraser_Soothing_Cream_re.png?v=1777282898"
+   },
+   {
+    "titulo": "Deep Water Surge Soothing Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0592/7400/2585/files/ENG_DeepWaterSurgeSoothingCream110ml.png?v=1764218909"
+   }
+  ]
+ },
+ "anua": {
+  "marca": "Anua",
+  "site": "anua.global",
+  "candidatos": [
+   {
+    "titulo": "Heartleaf Pore Control Cleansing Oil",
+    "url": "https://cdn.shopify.com/s/files/1/0753/1429/9158/files/anua-us-cleanser-heartleaf-pore-control-cleansing-oil-1239193742.jpg?v=1779181871"
+   },
+   {
+    "titulo": "Azelaic Acid CICA Skin Soothing Moisturizer",
+    "url": "https://cdn.shopify.com/s/files/1/0753/1429/9158/files/anua-us-moisturizer-azelaic-acid-cica-skin-soothing-moisturizer-1239193691.jpg?v=1779174611"
+   },
+   {
+    "titulo": "Zero-cast Moisturizing Finish Sunscreen",
+    "url": "https://cdn.shopify.com/s/files/1/0753/1429/9158/files/anua-us-sunscreen-zero-cast-moisturizing-finish-sunscreen-1255739648.jpg?v=1787655370"
+   },
+   {
+    "titulo": "Rumi Ultra-thin Spot Cover Patch (55ea)",
+    "url": "https://cdn.shopify.com/s/files/1/0753/1429/9158/files/anua-us-spot-patches-rumi-ultra-thin-spot-cover-patch-55ea-1239193690.jpg?v=1779174672"
+   },
+   {
+    "titulo": "Retinol 0.1 Caffeine Revitalizing Eye Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0753/1429/9158/files/anua-us-moisturizer-retinol-0-1-caffeine-revitalizing-eye-cream-1239193729.jpg?v=1779176652"
+   },
+   {
+    "titulo": "PDRN Collagen Glow Facial Serum Spray",
+    "url": "https://cdn.shopify.com/s/files/1/0753/1429/9158/files/anua-us-ampoule-serum-pdrn-collagen-glow-facial-serum-spray-1243123187.jpg?v=1780902009"
+   },
+   {
+    "titulo": "Mineral Weightless Finish Sunscreen",
+    "url": "https://cdn.shopify.com/s/files/1/0753/1429/9158/files/anua-us-sunscreen-mineral-weightless-finish-sunscreen-1241027757.jpg?v=1780290010"
+   },
+   {
+    "titulo": "Heartleaf Centella Red Spot Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0753/1429/9158/files/anua-us-moisturizer-heartleaf-centella-red-spot-cream-1239193703.jpg?v=1779176771"
+   }
+  ]
+ },
+ "biodance": {
+  "marca": "BIODANCE",
+  "site": "biodance.com",
+  "candidatos": [
+   {
+    "titulo": "Hydro Cera-nol Real Deep Mask",
+    "url": "https://cdn.shopify.com/s/files/1/0887/1067/6791/files/2510_4_52e32c03-f684-466d-8a55-bdec91f7e73e.jpg?v=1760339665"
+   },
+   {
+    "titulo": "Collagen Peptide Eye Patches",
+    "url": "https://cdn.shopify.com/s/files/1/0887/1067/6791/files/collageneyepatches_ab8e682c-31a7-4a9f-8e32-486b0bd17d03.png?v=1783592993"
+   },
+   {
+    "titulo": "Pore Perfecting Collagen Peptide Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0887/1067/6791/files/PorePerfectingCollagenPeptideCream_008b9566-3b65-4e97-a4dc-1c93c2872072.jpg?v=1755851189"
+   },
+   {
+    "titulo": "Vita Niacinamide Gel Toner Pads",
+    "url": "https://cdn.shopify.com/s/files/1/0887/1067/6791/files/Vita_Gel_Toner_Pads_Hero_Image.jpg?v=1748489412"
+   },
+   {
+    "titulo": "Caviar PDRN Eye Patches",
+    "url": "https://cdn.shopify.com/s/files/1/0887/1067/6791/files/pdrneyepatches_f7a111b9-ba1a-4c40-a508-ef72ae2cc2ba.png?v=1783677917"
+   },
+   {
+    "titulo": "Vita Niacinamide Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0887/1067/6791/files/305c1087428ac4c824cb26e7f517957d.jpg?v=1761786501"
+   },
+   {
+    "titulo": "Radiant Vita Niacinamide Real Deep Mask",
+    "url": "https://cdn.shopify.com/s/files/1/0887/1067/6791/files/2510_4_0d425bd1-fcf4-4baf-8da3-e88aa52c1258.jpg?v=1760339705"
+   },
+   {
+    "titulo": "Radiant Vita Niacinamide Serum",
+    "url": "https://cdn.shopify.com/s/files/1/0887/1067/6791/files/2510_323a315b-b1f7-4763-8e76-fafac85c2146.jpg?v=1760324070"
+   }
+  ]
+ },
+ "beauty-of-joseon": {
+  "marca": "Beauty of Joseon",
+  "site": "beautyofjoseon.com",
+  "candidatos": [
+   {
+    "titulo": "Dynasty Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0558/4135/7989/files/dynasty-cream-1-front.webp?v=1770618339"
+   },
+   {
+    "titulo": "JELLOSKIN Massage Cream For Face and Body",
+    "url": "https://cdn.shopify.com/s/files/1/0558/4135/7989/files/JELLOSKIN-Massage-Cream-For-Face-and-Body_Beauty-of-Joseon_48732715-52106152837492.jpg?v=1762679712"
+   },
+   {
+    "titulo": "Hanbok Scrunchie",
+    "url": "https://cdn.shopify.com/s/files/1/0558/4135/7989/files/Hanbok-Scrunchie_Beauty-of-Joseon_26523192-52105559540084.jpg?v=1762679712"
+   },
+   {
+    "titulo": "Ginseng Cleansing Oil",
+    "url": "https://cdn.shopify.com/s/files/1/0558/4135/7989/files/cleansing_oil_renewal_with_badge.png?v=1791427332"
+   },
+   {
+    "titulo": "Dynasty Triple Barrier Lock",
+    "url": "https://cdn.shopify.com/s/files/1/0558/4135/7989/files/5_UKOnlyBundle_1.jpg?v=1787289424"
+   },
+   {
+    "titulo": "Bojagi",
+    "url": "https://cdn.shopify.com/s/files/1/0558/4135/7989/files/Bojagi_Beauty-of-Joseon_99432926-52106082124148.jpg?v=1762679838"
+   },
+   {
+    "titulo": "Glow Replenishing Rice Milk",
+    "url": "https://cdn.shopify.com/s/files/1/0558/4135/7989/files/glow-replenshing-rice-milk-1-front.webp?v=1769660112"
+   },
+   {
+    "titulo": "Calming Barrier Mask",
+    "url": "https://cdn.shopify.com/s/files/1/0558/4135/7989/files/01_0806_Calming_Barrier_Mask_EU_UK.jpg?v=1786003393"
+   }
+  ]
+ },
+ "cosrx": {
+  "marca": "COSRX",
+  "site": "www.cosrx.com",
+  "candidatos": [
+   {
+    "titulo": "The Retinol 0.1 Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/RetinolCream_800x1067_7e167f9b-dc45-4d41-babf-65b26b14cf23.jpg?v=1746679017"
+   },
+   {
+    "titulo": "Balancium Comfort Ceramide Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/balancium-comfort-ceramide-cream-cosrx-official-1.jpg?v=1724836862"
+   },
+   {
+    "titulo": "Vitamin E Vitalizing Sunscreen SPF 50+",
+    "url": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/VitaminE_SunScreen_00.jpg?v=1778562098"
+   },
+   {
+    "titulo": "The Niacinamide 15 Serum",
+    "url": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/niacin.png?v=1748420816"
+   },
+   {
+    "titulo": "The Hyaluronic Acid 3 Serum",
+    "url": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/the-hyaluronic-acid-3-serum-cosrx-official-1.jpg?v=1724836664"
+   },
+   {
+    "titulo": "The AHA BHA PHA LHA 35 Peel",
+    "url": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/The_35peel_0.webp?v=1724836979"
+   },
+   {
+    "titulo": "The 6 Peptide Skin Booster Serum",
+    "url": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/THE_6_PEPTIDE_SKIN_BOOSTER_SERUM___800x1067_1.webp?v=1784097536"
+   },
+   {
+    "titulo": "Pure Fit Cica Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0513/3775/6828/files/pure-fit-cica-cream-cosrx-official-1.jpg?v=1724835235"
+   }
+  ]
+ },
+ "cell-fusion-c": {
+  "marca": "Cell Fusion C",
+  "site": "cellfusionc.com",
+  "candidatos": [
+   {
+    "titulo": "Toning C Vita Shot Ampoule",
+    "url": "https://cdn.shopify.com/s/files/1/0729/6355/5603/files/vitashot.jpg?v=1747965275"
+   },
+   {
+    "titulo": "Post Alpha Cooling Peptide Ampoule",
+    "url": "https://cdn.shopify.com/s/files/1/0729/6355/5603/files/COOLING_PEPTIDE_AMPOULE___1.png?v=1775622648"
+   },
+   {
+    "titulo": "Post Alpha Cooling Pad",
+    "url": "https://cdn.shopify.com/s/files/1/0729/6355/5603/files/coolingpad_main.png?v=1752467248"
+   },
+   {
+    "titulo": "PHA Enzyme Pore Cleansing Oil",
+    "url": "https://cdn.shopify.com/s/files/1/0729/6355/5603/files/1_b2959977-3bee-4c64-b70f-4dd98958379f.jpg?v=1754977097"
+   },
+   {
+    "titulo": "PHA Enzyme Pore Cleansing Foam",
+    "url": "https://cdn.shopify.com/s/files/1/0729/6355/5603/files/PHAfoam_1.jpg?v=1757382110"
+   },
+   {
+    "titulo": "TRE.AC Pore Tox Pad",
+    "url": "https://cdn.shopify.com/s/files/1/0729/6355/5603/files/CellFusionC_Pore_Tox_Pad_-_60_pads.png?v=1747831206"
+   },
+   {
+    "titulo": "TRE.AC Moisture Gel Oint",
+    "url": "https://cdn.shopify.com/s/files/1/0729/6355/5603/files/1736d6b659678fcf52e00609d233126e.jpg?v=1739764828"
+   },
+   {
+    "titulo": "TRE.AC Daily Trouble Care Foam Cleanser",
+    "url": "https://cdn.shopify.com/s/files/1/0729/6355/5603/files/1a204119bc62ca8d96fc92c72656c76e.jpg?v=1739764721"
+   }
+  ]
+ },
+ "centellian-24": {
+  "marca": "Centellian 24",
+  "site": "centellian24.com",
+  "candidatos": [
+   {
+    "titulo": "Madeca Cream Time Reverse 50ml",
+    "url": "https://cdn.shopify.com/s/files/1/0617/3160/2513/files/100M_Centellian24_Taehyun.jpg?v=1787207096"
+   },
+   {
+    "titulo": "Madeca Prime",
+    "url": "https://cdn.shopify.com/s/files/1/0617/3160/2513/files/th-89.jpg?v=1784682806"
+   },
+   {
+    "titulo": "Madeca Powder Tea Tree AC 6g",
+    "url": "https://cdn.shopify.com/s/files/1/0617/3160/2513/files/MadecaPowderTeaTreeAC6g_emblem.jpg?v=1784625623"
+   },
+   {
+    "titulo": "Madeca Lab PDRN Skin Tightening Glow Gel Mask 1ea",
+    "url": "https://cdn.shopify.com/s/files/1/0617/3160/2513/files/MadecaLabPDRNSkinTighteningGlowGelMask1ea_emblem_v2.jpg?v=1784685446"
+   },
+   {
+    "titulo": "Madeca Lab Hyal Waterfull Glow Gel Mask 1ea",
+    "url": "https://cdn.shopify.com/s/files/1/0617/3160/2513/files/MadecaLabHyalWaterfullGlowGelMask1ea_emblem_v2.jpg?v=1784685438"
+   },
+   {
+    "titulo": "Madeca Cream Time Reverse Zero 80ml",
+    "url": "https://cdn.shopify.com/s/files/1/0617/3160/2513/files/MadecaCreamTimeReverseZero80ml_emblem.jpg?v=1783919619"
+   },
+   {
+    "titulo": "Madeca Cream Power Boosting Formula 50ml",
+    "url": "https://cdn.shopify.com/s/files/1/0617/3160/2513/files/MadecaCreamPowerBoostingFormula50ml.jpg?v=1784627391"
+   },
+   {
+    "titulo": "Expert Madeca Mela Capture Ampoule Max 30ml",
+    "url": "https://cdn.shopify.com/s/files/1/0617/3160/2513/files/ExpertMadecaMelaCaptureAmpouleMax30ml_TH_v2.jpg?v=1783919408"
+   }
+  ]
+ },
+ "dasique": {
+  "marca": "Dasique",
+  "site": "dasique.com",
+  "candidatos": [
+   {
+    "titulo": "Water Veil Primer",
+    "url": "https://cdn.shopify.com/s/files/1/0824/9262/1080/files/US_ebca127b-ebe6-4d99-81c1-6cc62a4505c6.jpg?v=1758765135"
+   },
+   {
+    "titulo": "V Cut Blending Shading",
+    "url": "https://cdn.shopify.com/s/files/1/0824/9262/1080/files/US____V.jpg?v=1758765277"
+   },
+   {
+    "titulo": "Starlit Jewel Liquid Glitter",
+    "url": "https://cdn.shopify.com/s/files/1/0824/9262/1080/files/US_b468c928-8e5d-43fa-adb0-6455f3afa5be.jpg?v=1758767359"
+   },
+   {
+    "titulo": "Souffle Rolling Pot Cookie Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0824/9262/1080/files/1_de4bf70a-f878-4a67-a108-afe568dbdee5.jpg?v=1783644999"
+   },
+   {
+    "titulo": "Souffle Color Pot 1~15",
+    "url": "https://cdn.shopify.com/s/files/1/0824/9262/1080/files/US_____1_15.jpg?v=1758763360"
+   },
+   {
+    "titulo": "Souffle Color Pot 18~25",
+    "url": "https://cdn.shopify.com/s/files/1/0824/9262/1080/files/US_5ffef24d-3eae-4aa4-8251-6c4924e684ce.jpg?v=1758764560"
+   },
+   {
+    "titulo": "Silky Veil Blush Balletcore Collection",
+    "url": "https://cdn.shopify.com/s/files/1/0824/9262/1080/files/74fc38e2458fe496903330211343bce9.jpg?v=1766729446"
+   },
+   {
+    "titulo": "Shine Glowy Highlighter Palette #01 Twinkle Mermaid",
+    "url": "https://cdn.shopify.com/s/files/1/0824/9262/1080/files/1_a4940679-923d-4fca-a8f8-dd1f4df94b37.jpg?v=1760946550"
+   }
+  ]
+ },
+ "dr-melaxin": {
+  "marca": "Dr.Melaxin",
+  "site": "drmelaxin.us",
+  "candidatos": [
+   {
+    "titulo": "Peel Shot Glow Rice Toner",
+    "url": "https://cdn.shopify.com/s/files/1/0778/4867/4615/files/AMAZON_peelshot_toner_global.png?v=1763603942"
+   },
+   {
+    "titulo": "TX Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0778/4867/4615/files/AMAZON_TX_cream_global.png?v=1747030724"
+   },
+   {
+    "titulo": "TX Serum RX",
+    "url": "https://cdn.shopify.com/s/files/1/0778/4867/4615/files/amazon_TX_ampoule_main.png?v=1765246892"
+   },
+   {
+    "titulo": "TX Peeling Toner",
+    "url": "https://cdn.shopify.com/s/files/1/0778/4867/4615/files/AMAZON_TX_toner_global.png?v=1765246881"
+   },
+   {
+    "titulo": "Calcium Intense Ampoule",
+    "url": "https://cdn.shopify.com/s/files/1/0778/4867/4615/files/amazon_CEMEN_ampoule_main.png?v=1744168285"
+   },
+   {
+    "titulo": "Calcium Intense Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0778/4867/4615/files/a9161892514666ffe9d948ebd74250ba.png?v=1779264928"
+   },
+   {
+    "titulo": "Aqua Ion Plasma Hydrating Gel Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0778/4867/4615/files/amazon_aqua_main.png?v=1765247044"
+   },
+   {
+    "titulo": "Melting Cleanser",
+    "url": "https://cdn.shopify.com/s/files/1/0778/4867/4615/files/amazon_MELTING_main.png?v=1736407703"
+   }
+  ]
+ },
+ "lador": {
+  "marca": "La'dor",
+  "site": "lador.us",
+  "candidatos": [
+   {
+    "titulo": "Perfumed Hair Treatment [Hinoki] 50ml",
+    "url": "https://cdn.shopify.com/s/files/1/0664/3014/0518/files/perfumed-treatment-thum-0-hinoki50.jpg?v=1774321202"
+   },
+   {
+    "titulo": "Perfumed Hair Shampoo [Hinoki] 250ml",
+    "url": "https://cdn.shopify.com/s/files/1/0664/3014/0518/files/perfumed-shampoo250-hinoki-0.jpg?v=1783473650"
+   },
+   {
+    "titulo": "Perfect Hair Fill-Up 150ml",
+    "url": "https://cdn.shopify.com/s/files/1/0664/3014/0518/files/fill-up-thum-0.jpg?v=1775200413"
+   },
+   {
+    "titulo": "Wonder Hair Oil 100ml",
+    "url": "https://cdn.shopify.com/s/files/1/0664/3014/0518/files/wonder_oil_100ml_1b301cd1-2975-4a19-9bb9-176d2912d675.jpg?v=1787193815"
+   },
+   {
+    "titulo": "Tea Tree Calming Scalp Shampoo 330ml",
+    "url": "https://cdn.shopify.com/s/files/1/0664/3014/0518/files/teatree-shampoo-thum-0.jpg?v=1776400362"
+   },
+   {
+    "titulo": "Perfumed Hair Oil [Hinoki] 80ml",
+    "url": "https://cdn.shopify.com/s/files/1/0664/3014/0518/files/0-80ml_1_f4d4a1c6-b388-48eb-aa86-fca9545e45bf.jpg?v=1777857334"
+   },
+   {
+    "titulo": "Keratin LPP Shampoo 530ml",
+    "url": "https://cdn.shopify.com/s/files/1/0664/3014/0518/files/LPP-shampoo-thum-0_85f99071-1833-4c92-8f57-278f5111c495.jpg?v=1775204424"
+   },
+   {
+    "titulo": "Hydro LPP Treatment  530ml",
+    "url": "https://cdn.shopify.com/s/files/1/0664/3014/0518/files/LPP-treatmemt-thum-0.jpg?v=1775203946"
+   }
+  ]
+ },
+ "round-lab": {
+  "marca": "ROUND LAB",
+  "site": "www.roundlab.com",
+  "candidatos": [
+   {
+    "titulo": "1025 Dokdo Cleanser",
+    "url": "https://cdn.shopify.com/s/files/1/0651/7656/8022/files/Dokdo_cleanser_renewed.webp?v=1772852868"
+   },
+   {
+    "titulo": "1025 Dokdo Toner",
+    "url": "https://cdn.shopify.com/s/files/1/0651/7656/8022/files/Dokdo_Toner_2025.png?v=1772851199"
+   },
+   {
+    "titulo": "Pine Calming Cica Body Wash",
+    "url": "https://cdn.shopify.com/s/files/1/0651/7656/8022/files/7_7970bdfb-d259-40bc-b360-3a686e48a8d3.png?v=1772850581"
+   },
+   {
+    "titulo": "1025 Dokdo Lotion",
+    "url": "https://cdn.shopify.com/s/files/1/0651/7656/8022/files/1025-dokdo-lotion-round-lab-1.jpg?v=1772849282"
+   },
+   {
+    "titulo": "Camellia Deep Collagen Firming Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0651/7656/8022/files/CAMELLIACREAM_2.jpg?v=1772850991"
+   },
+   {
+    "titulo": "Soybean Panthenol Toner",
+    "url": "https://cdn.shopify.com/s/files/1/0651/7656/8022/files/Soybean_Panthenol_Toner.png?v=1772852432"
+   },
+   {
+    "titulo": "Pine Calming Cica Toner",
+    "url": "https://cdn.shopify.com/s/files/1/0651/7656/8022/files/pine-calming-cica-toner-round-lab-5.jpg?v=1772849751"
+   },
+   {
+    "titulo": "Pine Calming Cica Shampoo",
+    "url": "https://cdn.shopify.com/s/files/1/0651/7656/8022/files/PINECALMINGCICASHAMPOO5.webp?v=1773943696"
+   }
+  ]
+ },
+ "skin1004": {
+  "marca": "SKIN1004",
+  "site": "skin1004.com",
+  "candidatos": [
+   {
+    "titulo": "Tea-Trica Relief Ampoule",
+    "url": "https://cdn.shopify.com/s/files/1/0590/4538/0253/products/skin1004-ampoule-serum-100ml-tea-trica-relief-ampoule-38642934055158.png?v=1677150503"
+   },
+   {
+    "titulo": "Retinol 0.2 Boosting Shot Ampoule",
+    "url": "https://cdn.shopify.com/s/files/1/0590/4538/0253/files/skin1004-30ml-retinol-0-2-boosting-shot-ampoule-1170007504.png?v=1750078128"
+   },
+   {
+    "titulo": "Hyalu-Cica Blue Serum",
+    "url": "https://cdn.shopify.com/s/files/1/0590/4538/0253/files/skin1004-ampoule-serum-hyalu-cica-blue-serum-40032061096182.png?v=1709704927"
+   },
+   {
+    "titulo": "Centella Teca Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0590/4538/0253/files/skin1004-75ml-centella-teca-cream-1217895425.png?v=1769136430"
+   },
+   {
+    "titulo": "Centella Teca Ampoule",
+    "url": "https://cdn.shopify.com/s/files/1/0590/4538/0253/files/skin1004-50ml-centella-teca-ampoule-1217895426.png?v=1769136489"
+   },
+   {
+    "titulo": "Azelaic Acid 10 Ampoule",
+    "url": "https://cdn.shopify.com/s/files/1/0590/4538/0253/files/skin1004-azelaic-acid-10-ampoule-1259546238.png?v=1790066533"
+   },
+   {
+    "titulo": "Tone Brightening Glow Mask",
+    "url": "https://cdn.shopify.com/s/files/1/0590/4538/0253/files/skin1004-tone-brightening-glow-mask-41978941997302.png?v=1729742876"
+   },
+   {
+    "titulo": "Tone Brightening Dark Spot Ampoule Pad",
+    "url": "https://cdn.shopify.com/s/files/1/0590/4538/0253/files/skin1004-60ea-tone-brightening-dark-spot-ampoule-pad-1191834346.png?v=1757329144"
+   }
+  ]
+ },
+ "tirtir": {
+  "marca": "TIRTIR",
+  "site": "tirtir.us",
+  "candidatos": [
+   {
+    "titulo": "Waterism Glow Melting Balm",
+    "url": "https://cdn.shopify.com/s/files/1/0663/2757/6795/files/thumbnail_waterism-glow-melting-balm_2_2.png?v=1786067938"
+   },
+   {
+    "titulo": "Mask Fit Red Cushion",
+    "url": "https://cdn.shopify.com/s/files/1/0663/2757/6795/files/thumnail_mask-fit-red-cushion_1.png?v=1785922203"
+   },
+   {
+    "titulo": "Mask Fit All Cover Cushion",
+    "url": "https://cdn.shopify.com/s/files/1/0663/2757/6795/files/thumbnail_mask-fit-all-cover-cushion2_2.png?v=1786067938"
+   },
+   {
+    "titulo": "Waterism Lip Plumper",
+    "url": "https://cdn.shopify.com/s/files/1/0663/2757/6795/files/thumbnail_waterism-lip-plumper.png?v=1786067937"
+   },
+   {
+    "titulo": "Waterism Glow Tint",
+    "url": "https://cdn.shopify.com/s/files/1/0663/2757/6795/files/thumbnail_waterism-glow-tint.png?v=1786067937"
+   },
+   {
+    "titulo": "Water Mellow Lip Balm",
+    "url": "https://cdn.shopify.com/s/files/1/0663/2757/6795/files/thumbnail_water-mellow-lip-balm_3.png?v=1786067935"
+   },
+   {
+    "titulo": "Vitachiol Aging Gel Mask",
+    "url": "https://cdn.shopify.com/s/files/1/0663/2757/6795/files/thumbnail_vitachiol-aging-gel-mask_1_2.png?v=1786067938"
+   },
+   {
+    "titulo": "Sun Bouncy Glow Lip Balm SPF30",
+    "url": "https://cdn.shopify.com/s/files/1/0663/2757/6795/files/thumbnail_sun-bouncy-glow-lip-balm-spf302_2.png?v=1786067937"
+   }
+  ]
+ },
+ "torriden": {
+  "marca": "Torriden",
+  "site": "torriden.us",
+  "candidatos": [
+   {
+    "titulo": "CELLMAZING Firming Gel Mask (Face Only)",
+    "url": "https://cdn.shopify.com/s/files/1/0920/1644/3758/files/2_-01.jpg?v=1767591798"
+   },
+   {
+    "titulo": "SOLID IN Lip Essence",
+    "url": "https://cdn.shopify.com/s/files/1/0920/1644/3758/files/01._f1388ec2-1faf-4e49-86c8-3f62133fde5f.jpg?v=1754894980"
+   },
+   {
+    "titulo": "SOLID IN Essence",
+    "url": "https://cdn.shopify.com/s/files/1/0920/1644/3758/files/SOLIDINEssence1_91b048a6-d3dc-4d22-ba23-a32a6ff997e6.jpg?v=1753340032"
+   },
+   {
+    "titulo": "SOLID IN Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0920/1644/3758/files/SOLIDINCream1_d93a1bc3-ea6c-4ba8-95f2-51f5077af764.jpg?v=1753340120"
+   },
+   {
+    "titulo": "Glowin' Softly Hydration Heros",
+    "url": "https://cdn.shopify.com/s/files/1/0920/1644/3758/files/TN.jpg?v=1767591400"
+   },
+   {
+    "titulo": "DIVE IN Toner",
+    "url": "https://cdn.shopify.com/s/files/1/0920/1644/3758/files/01_6f34ac38-4c42-4eaf-bf72-e810b08b3d42.jpg?v=1753418783"
+   },
+   {
+    "titulo": "DIVE IN Soothing Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0920/1644/3758/files/DIVEINSoothingCream-jar-1_64bb3003-ef23-44bd-bb46-0f50fae2eee7.jpg?v=1753346446"
+   },
+   {
+    "titulo": "DIVE IN Skin Booster",
+    "url": "https://cdn.shopify.com/s/files/1/0920/1644/3758/files/DIVEINSkinBooster1.jpg?v=1753346641"
+   }
+  ]
+ },
+ "celimax": {
+  "marca": "celimax",
+  "site": "celimax.us",
+  "candidatos": [
+   {
+    "titulo": "Pore+Dark Spot Brightening Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0400/6930/0374/files/celimax-pore-dark-spot-brightening-cream-1234217394.jpg?v=1777022230"
+   },
+   {
+    "titulo": "Pore+Dark Spot Brightening Serum",
+    "url": "https://cdn.shopify.com/s/files/1/0400/6930/0374/files/celimax-30ml-pore-dark-spot-brightening-serum-36839376978070.jpg?v=1726495736"
+   },
+   {
+    "titulo": "The Real Noni Energy Ampoule",
+    "url": "https://cdn.shopify.com/s/files/1/0400/6930/0374/files/celimax-serum-ampoule-the-real-noni-energy-ampoule-1234217387.jpg?v=1777022769"
+   },
+   {
+    "titulo": "The Real Cica Niacinamide AC Calming Serum",
+    "url": "https://cdn.shopify.com/s/files/1/0400/6930/0374/files/celimax-40ml-celimax-the-real-cica-niacinamide-ac-calming-serum-36500498710678.jpg?v=1721669419"
+   },
+   {
+    "titulo": "Ji Woo Gae Baking Soda Deep Pore Foam Cleansing",
+    "url": "https://cdn.shopify.com/s/files/1/0400/6930/0374/files/celimax-150ml-celimax-ji-woo-gae-baking-soda-deep-pore-foam-cleansing-36500942487702.jpg?v=1721669765"
+   },
+   {
+    "titulo": "Ji Woo Gae Cica BHA Acne Foam Cleansing",
+    "url": "https://cdn.shopify.com/s/files/1/0400/6930/0374/files/celimax-150ml-celimax-ji-woo-gae-cica-bha-acne-foam-cleansing-36500955365526.jpg?v=1721669771"
+   },
+   {
+    "titulo": "Derma Nature Relief Madecica pH Balancing Foam Cleansing",
+    "url": "https://cdn.shopify.com/s/files/1/0400/6930/0374/products/celimax-cleanser-derma-nature-relief-madecica-ph-balancing-foam-cleansing-150ml-20807369261206.jpg?v=1721113392"
+   },
+   {
+    "titulo": "TXA Brightening Eye Patch",
+    "url": "https://cdn.shopify.com/s/files/1/0400/6930/0374/files/celimax-us-60-patches-txa-brightening-eye-patch-1255948681.jpg?v=1787821809"
+   }
+  ]
+ },
+ "medicube": {
+  "marca": "medicube",
+  "site": "medicube.us",
+  "candidatos": [
+   {
+    "titulo": "3H Daily Relief Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0156/3905/2336/files/3H_00.jpg?v=1781597852"
+   },
+   {
+    "titulo": "Azelaic Acid Exosome Shot",
+    "url": "https://cdn.shopify.com/s/files/1/0156/3905/2336/files/2000_00.jpg?v=1779270960"
+   },
+   {
+    "titulo": "Azelaic Acid Niacinamide Clarifying Toner",
+    "url": "https://cdn.shopify.com/s/files/1/0156/3905/2336/files/00_e6f8f83f-4fca-4c7d-8ad4-ea76995ab585.jpg?v=1779270920"
+   },
+   {
+    "titulo": "PDRN Pink Tension Up Mask",
+    "url": "https://cdn.shopify.com/s/files/1/0156/3905/2336/files/PDRN_00_9ee705bd-e892-4a47-83f4-0d581b412b00.jpg?v=1779270889"
+   },
+   {
+    "titulo": "Hypochlorous Acid Peel Mask",
+    "url": "https://cdn.shopify.com/s/files/1/0156/3905/2336/files/00_8d9e2bd3-7b74-4158-8543-4c198743ba68.jpg?v=1779270848"
+   },
+   {
+    "titulo": "Azelaic Acid Capsule Foam Cleanser",
+    "url": "https://cdn.shopify.com/s/files/1/0156/3905/2336/files/00_d9312331-b70c-4d7d-90d6-5632e315ecac.jpg?v=1779324087"
+   },
+   {
+    "titulo": "PDRN Pink Glutathione Capsule Foam Cleanser",
+    "url": "https://cdn.shopify.com/s/files/1/0156/3905/2336/files/PDRN_00_30c4ca10-5767-4df0-92ee-d4b7fae5cae0.jpg?v=1779270741"
+   },
+   {
+    "titulo": "Kojic Acid Turmeric Vita Capsule Foam Cleanser",
+    "url": "https://cdn.shopify.com/s/files/1/0156/3905/2336/files/00_f021cfd5-fd67-4f57-ab4c-e7932f9cb7f8.jpg?v=1778751395"
+   }
+  ]
+ },
+ "mixsoon": {
+  "marca": "mixsoon",
+  "site": "mixsoon.us",
+  "candidatos": [
+   {
+    "titulo": "mixsoon 1 + 1 Bean Cleansing Oil 195ml",
+    "url": "https://cdn.shopify.com/s/files/1/0797/3299/8445/files/195ml_2.png?v=1780641830"
+   },
+   {
+    "titulo": "mixsoon 1 + 1 Centella Cleansing Foam 150ml",
+    "url": "https://cdn.shopify.com/s/files/1/0797/3299/8445/files/150ml_2.png?v=1780641679"
+   },
+   {
+    "titulo": "mixsoon Soondy Centella Asiatica Essence 30ml",
+    "url": "https://cdn.shopify.com/s/files/1/0797/3299/8445/files/30_58e2f70e-ac34-4928-8ecc-02f39475a456.png?v=1783409957"
+   },
+   {
+    "titulo": "mixsoon Glacier Water Hyaluronic Acid Serum 30ml",
+    "url": "https://cdn.shopify.com/s/files/1/0797/3299/8445/files/14___30ml.jpg?v=1733819652"
+   },
+   {
+    "titulo": "mixsoon Soybean Milk Serum 30ml",
+    "url": "https://cdn.shopify.com/s/files/1/0797/3299/8445/files/soybean30.png?v=1782362790"
+   },
+   {
+    "titulo": "mixsoon Melting Collagen Eye Film",
+    "url": "https://cdn.shopify.com/s/files/1/0797/3299/8445/files/0_f5de6671-5584-4067-a183-f3b662dca6f0.jpg?v=1721893246"
+   },
+   {
+    "titulo": "mixsoon Lotus Flower Essence 30ml",
+    "url": "https://cdn.shopify.com/s/files/1/0797/3299/8445/files/30_d6d423bc-1534-4ad9-943e-af8b77d63572.png?v=1783410323"
+   },
+   {
+    "titulo": "mixsoon Galactomyces Ferment Essence 30ml",
+    "url": "https://cdn.shopify.com/s/files/1/0797/3299/8445/files/30_97ce85f1-cd5d-4801-998a-55e1c08542f0.png?v=1782363262"
+   }
+  ]
+ }
+}

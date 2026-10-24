@@ -1,0 +1,21 @@
+name: Baixar fotos de fundo das marcas
+on:
+  push:
+    branches: [main]
+    paths: ['tools/marcas/fundos_candidatos.json', 'tools/marcas/baixar_fundos.py']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  baixar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install pillow
+      - run: python3 tools/marcas/baixar_fundos.py
+      - name: Guardar
+        run: |
+          git config user.name "omg-bot"; git config user.email "bot@ohmygirl.com.br"
+          git add tools/marcas/fundos
+          git commit -m "Fotos oficiais candidatas a fundo dos quadrados de marca" || true
+          git pull --rebase origin main && git push
