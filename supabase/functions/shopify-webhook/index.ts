@@ -6,7 +6,8 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 import { pedidoParaVenda } from "./map.js";
 import { gravarProdutos, marcarExcluido, produtoParaLinhas } from "../_shared/produtos.js";
 
-const SECRET = Deno.env.get("SHOPIFY_WEBHOOK_SECRET") ?? "";
+// Webhooks criados em Configurações → Notificações usam o segredo mostrado lá; os criados pelo app usam o Client Secret do app.
+const SECRET = Deno.env.get("SHOPIFY_WEBHOOK_SECRET") ?? Deno.env.get("SHOPIFY_CLIENT_SECRET") ?? "";
 const sb = createClient(
   Deno.env.get("SUPABASE_URL")!,
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,

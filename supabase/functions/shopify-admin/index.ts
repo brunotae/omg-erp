@@ -3,14 +3,35 @@
 //   { acao: "status", produtoId, ativo: true|false }     → ativa ou pausa (rascunho) no site
 //   { acao: "preco", produtoId, varianteId, preco }      → muda o preço da variante no site
 //   { acao: "fotos", itens: [{ handle, fotos, peso_g }] } → troca as fotos pelas oficiais e corrige o peso
-// Segredos: SHOPIFY_SHOP (ex.: mundo-beleza-9571.myshopify.com), SHOPIFY_ADMIN_TOKEN, SHOPIFY_API_VERSION (opcional)
+// Segredos: SHOPIFY_SHOP (ex.: mundo-beleza-9571.myshopify.com), SHOPIFY_API_VERSION (opcional) e
+//   SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET (app do Dev Dashboard; token pedido a cada 24 h por client credentials)
+//   ou, alternativa, SHOPIFY_ADMIN_TOKEN fixo.
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { gravarProdutos, produtoParaLinhas } from "../_shared/produtos.js";
 
 const URL_SB = Deno.env.get("SUPABASE_URL")!;
 const admin = createClient(URL_SB, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
 const SHOP = Deno.env.get("SHOPIFY_SHOP") ?? "";
-const TOKEN = Deno.env.get("SHOPIFY_ADMIN_TOKEN") ?? "";
+const TOKEN_FIXO = Deno.env.get("SHOPIFY_ADMIN_TOKEN") ?? "";
+const CLIENT_ID = Deno.env.get("SHOPIFY_CLIENT_ID") ?? "";
+const CLIENT_SECRET = Deno.env.get("SHOPIFY_CLIENT_SECRET") ?? "";
+const configurado = () => !!SHOP && (!!TOKEN_FIXO || (!!CLIENT_ID && !!CLIENT_SECRET));
+
+// Token do app (client credentials): vale ~24 h; guardamos em memória e renovamos 5 min antes.
+let cacheToken = { valor: "", expira: 0 };
+async function tokenShopify(): Promise<string> {
+  if (TOKEN_FIXO) return TOKEN_FIXO;
+  if (cacheToken.valor && Date.now() < cacheToken.expira) return cacheToken.valor;
+  const r = await fetch(`https://${SHOP}/admin/oauth/access_token`, {
+    method: "POST",
+    headers: { "content-type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({ grant_type: "client_credentials", client_id: CLIENT_ID, client_secret: CLIENT_SECRET }),
+  });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok || !j.access_token) throw new Error("Shopify recusou o token do app: " + r.status);
+  cacheToken = { valor: j.access_token, expira: Date.now() + ((Number(j.expires_in) || 86399) - 300) * 1000 };
+  return cacheToken.valor;
+}
 const VERSAO = Deno.env.get("SHOPIFY_API_VERSION") ?? "2026-04";
 
 const CORS = {
@@ -24,7 +45,7 @@ const resp = (status: number, corpo: Record<string, unknown>) =>
 async function gql(query: string, variables: Record<string, unknown> = {}) {
   const r = await fetch(`https://${SHOP}/admin/api/${VERSAO}/graphql.json`, {
     method: "POST",
-    headers: { "content-type": "application/json", "x-shopify-access-token": TOKEN },
+    headers: { "content-type": "application/json", "x-shopify-access-token": await tokenShopify() },
     body: JSON.stringify({ query, variables }),
   });
   const j = await r.json();
@@ -83,7 +104,7 @@ async function editor(req: Request) {
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: CORS });
   if (req.method !== "POST") return resp(405, { erro: "use POST" });
-  if (!SHOP || !TOKEN) return resp(503, { erro: "Ligação com o Shopify ainda não configurada" });
+  if (!configurado()) return resp(503, { erro: "Ligação com o Shopify ainda não configurada" });
   if (!(await editor(req))) return resp(403, { erro: "Só editores do ERP podem fazer isso" });
 
   let b: any;
