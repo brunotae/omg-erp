@@ -14,7 +14,7 @@ _Como comprar, alterar e cancelar._
 
 ### Preciso criar conta para comprar?
 
-[A DEFINIR #D21: compra sem cadastro]. Com conta, você acompanha seus pedidos e endereços num só lugar.
+Não precisa: você pode comprar como visitante, informando e-mail e CPF. Com conta, você acompanha pedidos e endereços num só lugar e junta pontos de fidelidade.
 
 ### Recebi o e-mail de confirmação. E agora?
 
@@ -35,21 +35,21 @@ Você recebe um aviso em cada uma das etapas 1, 3, 4 e 5.
 
 ### Posso alterar o endereço de entrega?
 
-[A DEFINIR #D13: até quando dá para alterar endereço]. Fale com a gente pelo WhatsApp com o número do pedido e o endereço correto o quanto antes. Depois que a etiqueta é emitida, a mudança pode não ser possível.
+Fale com a gente pelo WhatsApp com o número do pedido e o endereço correto o quanto antes. Conseguimos alterar até o corte das 18h do dia do pedido; depois que a etiqueta de envio é emitida, a mudança pode não ser possível.
 
 ### Como cancelo meu pedido?
 
-- **Cancelamento sem custo**: [A DEFINIR #D7: até quando cancelar sem custo].
-- **Depois que o produto foi comprado/embarcado**: [A DEFINIR #D8: política após compra/embarque].
-- **Depois de receber**: você tem o **direito de arrependimento** de 7 dias (veja *Trocas, devoluções e reembolsos*).
+- **Até o embarque na Coreia**: cancelamento **sem custo**, com **reembolso total** (produtos, frete e impostos).
+- **Depois do embarque**: o pacote já está a caminho e não dá para interromper. Você pode **recusar a entrega** ou, depois de receber, usar o **direito de arrependimento** de **7 dias** (CDC, art. 49), também com reembolso total.
+- Você recebe a **confirmação do cancelamento** por e-mail.
 
 ### O produto esgotou depois que eu comprei. E agora?
 
-Às vezes um produto esgota no fornecedor coreano depois da compra. Se acontecer, avisamos você e oferecemos opções: [A DEFINIR #D20: opções quando esgota]. Você nunca fica sem resposta nem sem o dinheiro.
+Às vezes um produto esgota no fornecedor coreano depois da compra. Se acontecer, avisamos você em até 2 dias úteis e você escolhe: trocar por um produto similar, aguardar a reposição ou receber o reembolso integral do item.
 
 ### Vocês têm limite de unidades por produto?
 
-Sim. Como as compras são para uso pessoal, existe um limite: [A DEFINIR #D22: limite de unidades por produto].
+Sim. Como as compras são para uso pessoal (Remessa Conforme), o limite é de 6 unidades do mesmo produto por pedido.
 
 ### Os preços mudam?
 
@@ -65,7 +65,7 @@ Não. Cada pedido tem a sua Declaração de Importação e os seus impostos, ent
 
 ### Vocês fazem embrulho para presente?
 
-[A DEFINIR #D23: embalagem para presente]. Você pode enviar para outra pessoa usando nome, endereço e CPF dela no checkout.
+Não fazemos embrulho para presente nem cartão. Mas você pode enviar para outra pessoa usando nome, endereço e CPF dela no checkout.
 
 ### Onde vejo o número do meu pedido?
 
@@ -86,3 +86,11 @@ Não. A OMG atende apenas entregas no Brasil, pelo Programa Remessa Conforme.
 ### Posso reservar um produto?
 
 Não fazemos reservas. Como cada pedido é comprado na Coreia depois da compra, o produto fica garantido para você assim que o pedido é pago.
+
+### Meu endereço está incompleto ou errado. E agora?
+
+Fale com a gente o quanto antes pelo WhatsApp. Até o corte das 18h do dia do pedido conseguimos corrigir. Depois, se a entrega falhar por endereço errado, o pacote volta ao centro de distribuição e a nova entrega é cobrada.
+
+### O que acontece com o cupom ou os pontos se eu cancelar?
+
+Os pontos da compra cancelada são estornados. O cupom volta a valer se ainda estiver dentro da validade e das regras dele; se não, fale com a gente que avaliamos.

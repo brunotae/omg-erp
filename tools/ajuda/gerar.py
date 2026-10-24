@@ -51,7 +51,7 @@ for slug, titulo, desc, qs in C.CATS:
     for j, q in enumerate(qs, 1):
         for m in PEND.finditer(q["r"] + " " + (q["l"] or "")):
             uso.setdefault(m.group(2), set()).add(f"{titulo} › {q['p']}")
-dec = ["# Decisões pendentes da Central de Ajuda\n",
+dec = ["# Decisões pendentes da Central de Ajuda\n", "Atualizado com as respostas do Tae (24/10/2026). Ficam abaixo só os itens ainda abertos.\n",
        "Cada item aparece no texto como [A DEFINIR #Dn] ou [A VERIFICAR #Vn]. Decida, edite `tools/ajuda/conteudo.py` e rode `python3 tools/ajuda/gerar.py`.\n",
        "## A DEFINIR (decisões de negócio)\n"]
 for k, (o_que, sug) in C.DECISOES.items():
@@ -61,6 +61,10 @@ dec.append("## A VERIFICAR (fatos a confirmar)\n")
 for k, (o_que, sug) in C.VERIFICAR.items():
     onde = sorted(uso.get(k, []))
     dec.append(f"**{k}. {o_que}**  \nComo: {sug}  \nAparece em ({len(onde)}): " + ("; ".join(onde) if onde else "—") + "\n")
+dec.append("## Notas legais (base das respostas)\n")
+dec += [f"- {n}" for n in getattr(C, "NOTAS_LEGAIS", [])]
+dec.append("\n## Notas internas para o Tae (não vão para o site)\n")
+dec += [f"- {n}" for n in getattr(C, "NOTAS_INTERNAS", [])]
 open(f"{RAIZ}/docs/ajuda/DECISOES.md", "w", encoding="utf-8").write("\n".join(dec))
 faltando = set(uso) - set(C.DECISOES) - set(C.VERIFICAR)
 assert not faltando, f"pendências sem descrição: {faltando}"

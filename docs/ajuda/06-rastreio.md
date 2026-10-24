@@ -4,7 +4,7 @@ _Como acompanhar o pedido e o que significa cada etapa._
 
 ### Como acompanho meu pedido?
 
-Você é avisado por e-mail [A DEFINIR #D1: e/ou WhatsApp] em **4 momentos**:
+Você é avisado por e-mail em **4 momentos**:
 1. **Compra recebida**;
 2. **Saiu da Coreia**;
 3. **Chegou ao Brasil** (desembaraço);
@@ -35,7 +35,7 @@ Confira com vizinhos, portaria e outros moradores. Se não encontrar, fale com a
 
 ### Meu pedido veio em mais de um pacote?
 
-Normalmente cada pedido vem em um pacote só. Se faltou algum item, fale com a gente em até [A DEFINIR #D9: prazo para avisar] com foto da caixa e dos produtos.
+Normalmente cada pedido vem em um pacote só. Se faltou algum item, fale com a gente em até 30 dias do recebimento, com foto da caixa e dos produtos. Se o pacote chegou violado, o melhor é recusar na entrega e nos avisar na hora.
 
 ### Recebi o código de rastreio, mas ele não funciona.
 
@@ -43,4 +43,4 @@ O código pode levar até 2 dias úteis para aparecer no sistema da transportado
 
 ### Quem é a Mile Express que aparece no rastreio?
 
-É a nossa parceira de logística no Brasil: ela cuida da liberação na alfândega e da entrega na sua casa. [A VERIFICAR #V6: nome exibido no rastreio]
+É a nossa parceira de logística no Brasil (atual): ela cuida da liberação na alfândega e da entrega na sua casa. O parceiro pode mudar conforme a operação; o nome certo aparece no rastreio.

@@ -45,3 +45,7 @@ Sim. Na sua conta, em 'Endereços', você pode salvar vários e escolher um como
 ### Comprei sem conta. Consigo ver o pedido depois?
 
 Sim. Crie a conta com o mesmo e-mail da compra para ver os pedidos ou pergunte ao nosso assistente informando o número do pedido e o e-mail.
+
+### Como peço uma cópia dos meus dados (LGPD)?
+
+Envie um e-mail para atendimento@ohmygirl.com.br com o assunto 'LGPD' dizendo o que você quer: acesso, correção, portabilidade ou exclusão. Respondemos no prazo da lei.

@@ -8,11 +8,11 @@ No checkout, procure o campo 'Código de desconto', digite o cupom e clique em '
 
 ### Meu cupom não funcionou.
 
-Confira se o código está escrito certo, se está dentro da validade e se o pedido atinge o valor mínimo. Regras gerais: [A DEFINIR #D14: regras de cupons]. Se continuar, mande o código pelo WhatsApp.
+Confira se o código está escrito certo e se você cumpre as regras daquele cupom (validade, valor mínimo, produtos válidos). Cada cupom tem as suas regras, informadas na divulgação. Se continuar, mande o código pelo WhatsApp.
 
 ### Posso usar mais de um cupom?
 
-[A DEFINIR #D14: regras de cupons].
+Depende do cupom: cada um tem as suas regras (validade, valor mínimo, se acumula ou não), informadas na divulgação. Na dúvida, o checkout mostra se o desconto foi aplicado.
 
 ### Esqueci de usar o cupom. Dá para aplicar depois?
 
@@ -20,7 +20,7 @@ Infelizmente o cupom precisa ser aplicado no checkout, antes do pagamento. Se o 
 
 ### Vocês têm programa de fidelidade?
 
-Está chegando! [A DEFINIR #D15: programa de fidelidade].
+Sim! A cada R$ 1 gasto você acumula 10 pontos, que viram desconto em compras futuras. Para juntar pontos, compre com a sua conta. Regras de resgate: [A DEFINIR #D30: resgate dos pontos].
 
 ### Como fico sabendo das promoções?
 
@@ -32,8 +32,8 @@ Os preços variam com câmbio e promoções, e vale o preço do momento da compr
 
 ### Tem cupom de primeira compra?
 
-[A DEFINIR #D14: cupom de boas-vindas]. Assine a newsletter no rodapé do site para receber as novidades.
+Lançamos cupons e promoções com frequência, inclusive para quem está chegando. Assine a newsletter no rodapé do site e siga @omg_ohmygirlbr para não perder.
 
 ### Tem cupom de aniversário?
 
-[A DEFINIR #D15: benefício de aniversário no programa de fidelidade].
+Ainda não temos cupom de aniversário, mas lançamos promoções com frequência. Assine a newsletter e siga @omg_ohmygirlbr.

@@ -20,6 +20,8 @@ Por isso o nome **MPOEMA INC** pode aparecer:
 - na fatura do cartão de crédito;
 - na Declaração de Importação da sua encomenda.
 
+**Dados da empresa**: MPOEMA INC · TIN US933093849 · [A DEFINIR #D31: endereço físico da MPOEMA INC] · atendimento@ohmygirl.com.br.
+
 ### A OMG é confiável?
 
 Alguns sinais de que você está comprando no lugar certo:
@@ -46,15 +48,15 @@ Não. A OMG é 100% online e os pedidos saem da Coreia do Sul, então não há r
 
 ### Como falo com a OMG?
 
-- **WhatsApp**: [A DEFINIR #D1: número do WhatsApp] — assistente automático 24h e equipe humana no horário de atendimento.
-- **E-mail**: atendimento@ohmygirl.com.br — resposta em até [A DEFINIR #D3: prazo de resposta do e-mail].
-- **Horário da equipe**: [A DEFINIR #D2: horário de atendimento].
+- **WhatsApp**: **+55 11 94588-4562** — assistente automático 24h e equipe humana no horário de atendimento.
+- **E-mail**: atendimento@ohmygirl.com.br — resposta em até **2 dias úteis**.
+- **Horário da equipe**: de segunda a sexta, das 9h às 18h (horário de Brasília).
 
 Para agilizar, tenha em mãos o **número do pedido** (ex.: #1001) e o **e-mail** usado na compra.
 
 ### Qual é o horário de atendimento?
 
-O assistente responde 24 horas. A equipe humana atende [A DEFINIR #D2: horário de atendimento]. Mensagens fora do horário são respondidas no próximo período de atendimento.
+O assistente responde 24 horas. A equipe humana atende de segunda a sexta, das 9h às 18h (horário de Brasília). Mensagens fora do horário são respondidas no próximo dia útil.
 
 ### Vocês vendem no atacado ou para revenda?
 

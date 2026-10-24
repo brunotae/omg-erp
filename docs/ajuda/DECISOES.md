@@ -1,143 +1,49 @@
 # Decisões pendentes da Central de Ajuda
 
+Atualizado com as respostas do Tae (24/10/2026). Ficam abaixo só os itens ainda abertos.
+
 Cada item aparece no texto como [A DEFINIR #Dn] ou [A VERIFICAR #Vn]. Decida, edite `tools/ajuda/conteudo.py` e rode `python3 tools/ajuda/gerar.py`.
 
 ## A DEFINIR (decisões de negócio)
 
-**D1. Número oficial do WhatsApp de atendimento**  
-Sugestão: Usar o número Business já existente da OMG, com o app + API (coexistência), e divulgar no rodapé do site.  
-Aparece em (3): Fale com a gente › Vocês têm telefone?; Rastreamento › Como acompanho meu pedido?; Sobre a OMG › Como falo com a OMG?
-
-**D2. Horário de atendimento humano**  
-Sugestão: Seg–sex 9h–18h (Brasília); fora disso o chatbot responde e a equipe retoma no próximo dia útil.  
-Aparece em (3): Fale com a gente › Quero falar com uma pessoa.; Sobre a OMG › Como falo com a OMG?; Sobre a OMG › Qual é o horário de atendimento?
-
-**D3. Prazo de resposta do e-mail**  
-Sugestão: Até 1 dia útil.  
-Aparece em (1): Sobre a OMG › Como falo com a OMG?
-
-**D4. Parcelamento no cartão (quantas vezes, com ou sem juros)**  
-Sugestão: Até 3x sem juros; acima disso, com juros do processador. Concorrentes (KS, Jini) costumam oferecer 3x–6x.  
-Aparece em (1): Pagamento › Posso parcelar?
-
-**D5. Pix como forma de pagamento (quando entra)**  
-Sugestão: Ativar assim que houver solução de Pix para vendedor estrangeiro; até lá, dizer 'em breve'.  
-Aparece em (1): Pagamento › Quais formas de pagamento vocês aceitam?
-
-**D6. Tabela de frete / frete grátis acima de qual valor**  
-Sugestão: Frete calculado no checkout por CEP; frete grátis a partir de um valor (ex.: R$ 199) para estimular ticket maior — validar margem antes.  
-Aparece em (1): Frete, prazo e entrega › Quanto custa o frete?
-
-**D7. Até quando a cliente pode cancelar o pedido sem custo**  
-Sugestão: Até o corte das 18h do dia útil do pedido (antes da compra na Coreia).  
-Aparece em (1): Pedidos e compras › Como cancelo meu pedido?
-
-**D8. Política para cancelamento depois que o produto já foi comprado/embarcado**  
-Sugestão: Tratar como devolução (direito de arrependimento) após o recebimento; antes disso, cancelamento só se o produto ainda não saiu da Coreia.  
-Aparece em (1): Pedidos e compras › Como cancelo meu pedido?
-
-**D9. Prazo para a cliente avisar avaria, item errado ou faltando**  
-Sugestão: 7 dias corridos do recebimento, com foto/vídeo da embalagem e do produto.  
-Aparece em (4): Autenticidade e origem › A validade está curta. É normal?; Rastreamento › Meu pedido veio em mais de um pacote?; Trocas, devoluções e reembolsos › Recebi o produto errado.; Trocas, devoluções e reembolsos › Recebi o produto quebrado ou vazando.
-
-**D10. Quem paga o frete de devolução no arrependimento (CDC art. 49) e para onde volta o produto**  
-Sugestão: Pela lei, a loja deve devolver os valores pagos; definir endereço de devolução no Brasil (parceiro) e quem arca com o frete de retorno — o CDC garante devolução integral ao consumidor.  
-Aparece em (2): Trocas, devoluções e reembolsos › Como devolvo o produto?; Trocas, devoluções e reembolsos › Posso devolver se me arrepender?
-
-**D11. Forma e prazo do reembolso (estorno no cartão, crédito na loja, Pix)**  
-Sugestão: Estorno no mesmo cartão em até 10 dias úteis após aprovação; crédito na loja só se a cliente preferir.  
-Aparece em (3): Trocas, devoluções e reembolsos › Como recebo o reembolso e em quanto tempo?; Trocas, devoluções e reembolsos › Posso devolver se me arrepender?; Trocas, devoluções e reembolsos › Posso receber reembolso de só parte do pedido?
-
-**D12. Impostos já recolhidos em caso de cancelamento/devolução — são devolvidos à cliente?**  
-Sugestão: Devolver o valor total pago pela cliente (inclui impostos) e tratar a recuperação junto ao parceiro/Receita internamente.  
-Aparece em (2): Remessa Conforme e impostos › Os impostos são devolvidos se eu cancelar ou devolver?; Trocas, devoluções e reembolsos › O frete e os impostos entram no reembolso?
-
-**D13. Alteração de endereço depois do pedido**  
-Sugestão: Permitida até o corte das 18h; depois que a etiqueta é emitida, não dá para alterar.  
-Aparece em (1): Pedidos e compras › Posso alterar o endereço de entrega?
-
-**D14. Regras de cupons (acumulam? valor mínimo? validade?)**  
-Sugestão: 1 cupom por pedido, não cumulativo, validade informada no cupom, não vale sobre frete.  
-Aparece em (3): Cupons, promoções e fidelidade › Meu cupom não funcionou.; Cupons, promoções e fidelidade › Posso usar mais de um cupom?; Cupons, promoções e fidelidade › Tem cupom de primeira compra?
-
-**D15. Programa de fidelidade (nome, como ganha e usa pontos)**  
-Sugestão: Ex.: 1 ponto por R$ 1; 100 pontos = R$ 5 de desconto; pontos válidos por 12 meses. Lançar depois da inauguração.  
-Aparece em (2): Cupons, promoções e fidelidade › Tem cupom de aniversário?; Cupons, promoções e fidelidade › Vocês têm programa de fidelidade?
-
 **D16. Desconto por avaliação com foto/vídeo**  
-Sugestão: Cupom de 10% na próxima compra para avaliação com foto; 15% para vídeo publicado com @omg_ohmygirlbr.  
+Sugestão: Em discussão com o Tae (benefício para quem é fiel × para quem chega).  
 Aparece em (1): Avaliações e conteúdo › Ganho desconto por avaliar com foto ou vídeo?
 
-**D17. Programa de afiliados (comissão, cookie, pagamento, quem pode)**  
-Sugestão: ≈5% de comissão sobre vendas pagas e não devolvidas, cookie de 30 dias, pagamento mensal; precisa de CPF e chave Pix.  
-Aparece em (2): Afiliados e influenciadores › Como funciona o programa de afiliados?; Afiliados e influenciadores › Quanto ganho de comissão e quando recebo?
+**D28. Endereço do centro da Mile em São Paulo para devoluções**  
+Sugestão: Pedir à Mile o endereço completo e o procedimento (etiqueta reversa paga pela OMG). Só uso interno: a cliente recebe as instruções pelo atendimento.  
+Aparece em (0): —
 
-**D18. Programa de influenciadores (critérios, produtos, contrato)**  
-Sugestão: Seleção pela equipe/IMP; produtos + cupom exclusivo + comissão; contrato simples.  
-Aparece em (1): Afiliados e influenciadores › Sou influenciadora. Como faço parceria?
+**D29. Forma de compensação quando o pedido passa do prazo (D27)**  
+Sugestão: Ex.: cupom de 10% na próxima compra ou pontos de fidelidade extras; além do reembolso, se a cliente preferir cancelar.  
+Aparece em (0): —
 
-**D19. O que acontece se a encomenda for retida ou exigida documentação na alfândega**  
-Sugestão: A OMG resolve com a transportadora sem custo extra para a cliente; se a mercadoria for devolvida ou destruída, reembolso integral.  
-Aparece em (1): Trocas, devoluções e reembolsos › Minha encomenda foi retida ou devolvida pela alfândega.
+**D30. Resgate dos pontos de fidelidade (quanto vale cada ponto, validade, mínimo para resgate)**  
+Sugestão: Como R$ 1 = 10 pontos, 1.000 pontos = R$ 100 gastos. Ex.: 1.000 pontos = R$ 3 de desconto (3% de volta); validade de 12 meses; resgate como cupom a partir de 1.000 pontos. Calibrar pela margem.  
+Aparece em (1): Cupons, promoções e fidelidade › Vocês têm programa de fidelidade?
 
-**D20. Política para produto que esgotou depois da compra**  
-Sugestão: Avisar em até 2 dias úteis e oferecer: troca por similar, aguardar reposição ou reembolso integral.  
-Aparece em (1): Pedidos e compras › O produto esgotou depois que eu comprei. E agora?
-
-**D21. Compra sem cadastro (checkout como visitante) permitida?**  
-Sugestão: Sim, com e-mail e CPF obrigatórios.  
-Aparece em (1): Pedidos e compras › Preciso criar conta para comprar?
-
-**D22. Limite de unidades do mesmo produto por pedido**  
-Sugestão: Até 6 unidades do mesmo item (uso pessoal) — validar com a consultoria do PRC.  
-Aparece em (2): Pedidos e compras › Vocês têm limite de unidades por produto?; Remessa Conforme e impostos › Existe limite de valor por compra?
-
-**D23. Embalagem para presente / cartão**  
-Sugestão: Não oferecer no lançamento.  
-Aparece em (1): Pedidos e compras › Vocês fazem embrulho para presente?
-
-**D24. Nota fiscal / comprovante para a cliente**  
-Sugestão: Enviar invoice/recibo da MPOEMA INC por e-mail; não há NF-e brasileira (vendedor estrangeiro).  
-Aparece em (1): Remessa Conforme e impostos › Vou receber nota fiscal?
-
-**D25. Entrega em regiões fora das capitais (prazo adicional)**  
-Sugestão: Capitais até 15 dias úteis; demais localidades: prazo informado no checkout (ex.: até 20 dias úteis).  
-Aparece em (2): Frete, prazo e entrega › Qual é o prazo de entrega?; Frete, prazo e entrega › Vocês entregam em todo o Brasil?
-
-**D26. Prazo para entregar depois de 'saiu para entrega' e tentativas**  
-Sugestão: Seguir a regra da transportadora (geralmente 3 tentativas); se voltar, reenviar com frete pago pela cliente se o endereço estava errado.  
-Aparece em (1): Frete, prazo e entrega › Ninguém estava em casa. E agora?
-
-**D27. O que fazer se o pedido passar do prazo de 15 dias úteis**  
-Sugestão: Abrir investigação com a Mile no dia seguinte ao prazo; se não for localizado em 10 dias úteis, reenviar ou reembolsar.  
-Aparece em (1): Frete, prazo e entrega › Meu pedido passou do prazo. O que faço?
+**D31. Endereço físico e identificação da MPOEMA INC no site (Decreto 7.962/2013, art. 2º)**  
+Sugestão: Publicar no rodapé e em 'Sobre': MPOEMA INC, TIN US933093849, endereço completo nos EUA e e-mail de contato. É exigência legal para lojas online que vendem ao consumidor brasileiro.  
+Aparece em (1): Sobre a OMG › Quem vende os produtos? Por que aparece MPOEMA INC?
 
 ## A VERIFICAR (fatos a confirmar)
 
-**V1. Regras da Anvisa para cosméticos importados por pessoa física via remessa (uso pessoal, quantidades)**  
-Como: Confirmar com a consultoria (Daolu) o texto exato a usar.  
-Aparece em (1): Autenticidade e origem › Os produtos têm registro na Anvisa?
+**V8. Produto claramente usado/consumido devolvido no prazo de arrependimento**  
+Como: A OMG aceita o arrependimento em 7 dias, inclusive com embalagem aberta (o Procon-MG multou a Shein em set/2026 por restringir o arrependimento de cosméticos com lacre removido). Confirmar com advogado se, em casos de uso evidente (produto consumido), cabe abatimento proporcional — nunca recusar de antemão.  
+Aparece em (0): —
 
-**V2. Mecânica de restituição de II/ICMS quando a remessa é devolvida ou cancelada no PRC**  
-Como: Confirmar com ShipSmart/Mile/Daolu.  
-Aparece em (1): Remessa Conforme e impostos › Os impostos são devolvidos se eu cancelar ou devolver?
+## Notas legais (base das respostas)
 
-**V3. Se e como IBS/CBS (reforma tributária) aparecem na compra internacional em 2026**  
-Como: A Portaria Coana 193/2026 exige informar IBS/CBS na oferta; confirmar valores/alíquotas com a ShipSmart.  
-Aparece em (1): Remessa Conforme e impostos › Quais impostos eu pago?
+- **Direito de arrependimento — CDC, art. 49**: 7 dias a contar do recebimento, sem justificativa; devolução **imediata e integral** dos valores pagos, **inclusive frete** (e, na OMG, impostos). Fonte: [Lei 8.078/1990](https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm); [Idec](https://idec.org.br/dicas-e-direitos/direito-do-consumidor-devolucao).
+- **Decreto 7.962/2013 (comércio eletrônico)**: art. 2º exige nome empresarial, nº de inscrição e **endereço físico e eletrônico** em destaque no site (ver D31); art. 4º, parágrafo único: responder às demandas em **até 5 dias**; art. 5º: informar os meios de arrependimento, aceitar o arrependimento pelo **mesmo canal** da compra, **confirmar imediatamente** o recebimento e **comunicar imediatamente a administradora do cartão** para não lançar ou estornar a cobrança. Fonte: [Planalto](https://www.planalto.gov.br/CCivil_03/_Ato2011-2014/2013/Decreto/D7962.htm).
+- **Produto aberto/cosméticos**: a Shein (In Glow Brasil) foi multada pelo **Procon-MG em 10/09/2026** (R$ 171.666,67) por restringir o arrependimento em categorias como beleza, roupas íntimas e **cosméticos com lacre removido** — a decisão diz que razões de higiene não justificam proibição prévia por categoria. Por isso a OMG **não** copia a regra da Shein de não aceitar devolução de cosméticos. Fonte: [decisão Procon-MG](https://www.mpmg.mp.br/data/files/7D/97/6F/30/CF8C0A10E78A2B0AAAA8F9C2/Decisao%20administrativa_CDC_Verificacao%20de%20restricao%20ao%20exercicio%20do%20direito%20de%20arrependimento%20do%20consumidor_ProconMG_10%20set%202026.pdf).
+- **Vício aparente — CDC, art. 26, I**: 30 dias para reclamar de produto **não durável** (cosméticos), contados da entrega. **Art. 18**: o fornecedor tem até 30 dias para sanar; se não sanar, a cliente escolhe troca, reembolso ou abatimento. Por isso o prazo para avisar avaria/item errado/faltando é **30 dias**, não 7. A orientação de recusar pacote com lacre rompido é recomendação, **nunca condição** para o direito.
+- **Reembolso após análise (D11)**: em defeito/avaria a análise é legítima (art. 18). No **arrependimento**, o Decreto 7.962 manda comunicar a administradora **imediatamente** — por isso o texto diz que o estorno é solicitado assim que a devolução é postada, sem esperar análise longa.
+- **Reentrega por culpa da cliente (D26)**: cobrar a nova entrega é aceitável quando a falha for da cliente (endereço errado/incompleto ou ausência após as tentativas) e a regra estiver informada antes da compra (CDC, art. 6º, III). Se a falha for da transportadora, a OMG reenvia sem custo.
+- **Cancelamento até o embarque (D7)**: compatível com a lei, porque é mais favorável do que o mínimo legal; depois do embarque, a cliente mantém o arrependimento de 7 dias após receber (ou pode recusar a entrega). Ref.: Procon-SP multou a WePink (cosméticos) em R$ 1,57 mi por atrasos, pedidos incompletos, reembolsos lentos, falha no arrependimento e falta de endereço/contato no site ([Diário do Pará](https://diariodopara.com.br/noticias/wepink-de-virginia-fonseca-e-multada-em-mais-de-r-15-milhao/)).
 
-**V4. Câmbio usado no cálculo do checkout (PTAX de qual dia)**  
-Como: Confirmar com a ShipSmart.  
-Aparece em (2): Pagamento › A cobrança é em dólar? Pago IOF?; Remessa Conforme e impostos › Quais impostos eu pago?
+## Notas internas para o Tae (não vão para o site)
 
-**V5. Base de cálculo: frete entra no valor aduaneiro (produto + frete + seguro)**  
-Como: Confirmar com a ShipSmart como o checkout calcula.  
-Aparece em (1): Remessa Conforme e impostos › Quais impostos eu pago?
-
-**V6. Nome exato da transportadora de última milha exibido no rastreio (Mile Express ou Correios em algumas regiões)**  
-Como: Confirmar com a Mile.  
-Aparece em (2): Frete, prazo e entrega › Quem faz a entrega?; Rastreamento › Quem é a Mile Express que aparece no rastreio?
-
-**V7. Se o site guarda cartão de crédito para compras futuras (Shopify Payments / Shop Pay)**  
-Como: Confirmar nas configurações do Shopify.  
-Aparece em (3): Pagamento › Aceitam PayPal, Apple Pay ou Google Pay?; Pagamento › Aceitam cartão de débito?; Pagamento › É seguro colocar meu cartão no site?
+- **Compra como visitante e fraude (D21)**: o Shopify permite checkout sem conta. Com Shopify Payments, **o chargeback é do lojista**: o valor contestado + taxa são descontados do próximo repasse; o Shopify diz não ser responsável por chargebacks ([Shopify — Chargebacks](https://help.shopify.com/en/manual/payments/chargebacks)). A loja tem **análise de fraude** (risco baixo/médio/alto e recomendação de cancelar; recomendações exigem plano Grow ou Shopify Payments — a OMG tem os dois) ([Shopify — Fraud analysis](https://help.shopify.com/en/manual/fulfillment/managing-orders/protecting-orders/fraud-analysis)). **Rotina sugerida**: antes do corte das 18h, revisar pedidos de risco médio/alto e cancelar/reembolsar os suspeitos antes de comprar na Coreia; pedido de alto risco não entra na lista do dia. Exigir conta não reduz fraude de forma relevante; o 3D Secure do banco (quando acionado) ajuda.
+- **Cartão salvo (V7)**: o Shopify Payments processa o cartão; com o **Shop Pay**, a cliente pode optar por salvar e-mail, cartão e endereço, guardados nos **servidores do Shopify com padrão PCI** — a loja só recebe os dados de entrega e cobrança do pedido ([Shopify — Shop Pay](https://help.shopify.com/manual/payments/shop-pay)).
+- **Câmbio (V4)**: decidido PTAX do dia anterior. Não consegui confirmar o que Shein, Amazon e AliExpress dizem nas centrais deles (páginas carregam só por app/JS); vale olhar com a Clarice/ShipSmart se a regra deles é diferente.

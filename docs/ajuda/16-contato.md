@@ -4,7 +4,7 @@ _Canais e como agilizar o atendimento._
 
 ### Quero falar com uma pessoa.
 
-Claro! Escreva 'atendente' no WhatsApp que passamos para a equipe. Horário: [A DEFINIR #D2: horário de atendimento]. Fora do horário, deixe a sua mensagem que respondemos assim que voltarmos.
+Claro! Escreva 'atendente' no WhatsApp (+55 11 94588-4562) que passamos para a equipe, de segunda a sexta, das 9h às 18h (horário de Brasília). Fora do horário, deixe a sua mensagem que respondemos no próximo dia útil.
 
 ### Quero fazer uma reclamação.
 
@@ -16,8 +16,12 @@ O número do pedido (ex.: #1001, está no e-mail de confirmação), o e-mail usa
 
 ### Vocês têm telefone?
 
-O nosso atendimento é por WhatsApp ([A DEFINIR #D1: número do WhatsApp]) e e-mail (atendimento@ohmygirl.com.br). Assim registramos tudo e resolvemos mais rápido.
+O nosso atendimento é por WhatsApp (+55 11 94588-4562, mensagens) e e-mail (atendimento@ohmygirl.com.br). Assim registramos tudo e resolvemos mais rápido.
 
 ### Posso mandar áudio no WhatsApp?
 
 Prefira texto: o atendimento fica mais rápido e registrado. Se precisar mostrar um problema, mande fotos ou vídeo.
+
+### Em quanto tempo vocês respondem?
+
+No WhatsApp, o assistente responde na hora e a equipe humana de segunda a sexta, das 9h às 18h. Por e-mail, respondemos em até 2 dias úteis.

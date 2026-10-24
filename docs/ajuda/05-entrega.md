@@ -5,7 +5,7 @@ _Quanto custa, quanto demora e quem entrega._
 ### Qual é o prazo de entrega?
 
 - **Capitais**: até **15 dias úteis**.
-- **Demais localidades**: [A DEFINIR #D25: prazo fora das capitais].
+- **Demais localidades**: o prazo é informado **no checkout**, pelo CEP.
 
 Muitas entregas chegam bem antes, mas o prazo que garantimos é o oficial. O prazo pode aumentar em feriados, greves ou fiscalização na alfândega.
 
@@ -24,15 +24,15 @@ Cada etapa tem o seu tempo, por isso o prazo oficial é de **até 15 dias úteis
 
 ### Quanto custa o frete?
 
-O frete é calculado no checkout, pelo seu CEP. [A DEFINIR #D6: tabela de frete / frete grátis].
+O frete é calculado no checkout, pelo seu CEP. Não trabalhamos com frete grátis, mas sempre temos cupons e promoções: siga @omg_ohmygirlbr e assine a newsletter.
 
 ### Quem faz a entrega?
 
-A entrega no Brasil é feita pela nossa parceira de última milha, a Mile Express. [A VERIFICAR #V6: nome exibido no rastreio e uso de Correios em algumas regiões]
+A entrega no Brasil é feita pela nossa parceira de logística de última milha (atualmente a Mile Express). O parceiro pode mudar conforme a região ou a operação; o nome certo aparece no seu rastreio.
 
 ### Vocês entregam em todo o Brasil?
 
-Sim, entregamos em todo o Brasil. O checkout confirma o frete e o prazo para o seu CEP. Fora das capitais o prazo pode ser maior: [A DEFINIR #D25: prazo fora das capitais].
+Sim, entregamos em todo o Brasil. O checkout confirma o frete e o prazo para o seu CEP; fora das capitais o prazo pode ser maior que 15 dias úteis.
 
 ### Pedidos feitos no fim de semana saem quando?
 
@@ -40,7 +40,7 @@ Os pedidos entram em listas diárias com corte às 18h, de domingo a quinta. Ped
 
 ### Ninguém estava em casa. E agora?
 
-A transportadora costuma fazer novas tentativas. Acompanhe pelo rastreio e, se precisar, fale com a gente. [A DEFINIR #D26: tentativas e reenvio].
+A transportadora faz novas tentativas. Se não conseguir entregar (ausência ou endereço incompleto/errado), o pacote volta ao centro de distribuição e a nova entrega é cobrada de você. Se a falha for da transportadora, reenviamos sem custo. Fale com a gente pelo WhatsApp.
 
 ### Posso retirar em algum ponto?
 
@@ -48,7 +48,7 @@ No momento a entrega é feita no endereço informado no pedido. Não há ponto d
 
 ### Meu pedido passou do prazo. O que faço?
 
-Sentimos muito pela espera. Confira o rastreio e mande para o WhatsApp o número do pedido: abrimos uma investigação com a transportadora. [A DEFINIR #D27: procedimento após o prazo].
+Sentimos muito pela espera! Mande o número do pedido pelo WhatsApp: abrimos uma investigação com a transportadora e entramos em contato para te compensar. Se preferir, você pode cancelar com reembolso total.
 
 ### Entregam em caixa postal ou endereço comercial?
 
@@ -69,3 +69,7 @@ Sim, a portaria pode receber. Coloque no complemento o bloco e o apartamento par
 ### O checkout não aceita meu CEP.
 
 Confira se o CEP tem 8 dígitos e corresponde ao endereço. Se o erro continuar, mande o CEP para o WhatsApp que verificamos a cobertura.
+
+### Posso recusar a entrega?
+
+Pode. Se o pacote estiver violado, recuse e nos avise na hora. Se você simplesmente desistiu da compra, também pode recusar: o pedido volta e fazemos o reembolso integral, como no direito de arrependimento.

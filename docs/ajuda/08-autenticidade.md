@@ -21,7 +21,7 @@ Procure na embalagem a data de validade (EXP, 사용기한) ou de fabricação (
 
 ### Os produtos têm registro na Anvisa?
 
-Os produtos são importados para uso pessoal pelo regime de remessa internacional, direto da Coreia, onde são regulados pelo órgão coreano (MFDS). [A VERIFICAR #V1: texto sobre Anvisa e uso pessoal]
+Os nossos produtos são fabricados seguindo as normas coreanas e internacionais de cosméticos. Comprar na OMG é como comprar numa visita à Coreia, sem sair de casa: o produto vem da Coreia, original, para o seu uso pessoal.
 
 ### O produto é diferente do que vejo em outra loja.
 
@@ -33,4 +33,24 @@ Sim. Muitas marcas usam selos de autenticidade e etiquetas em coreano para o mer
 
 ### A validade está curta. É normal?
 
-Enviamos produtos com validade adequada para uso. Se o produto chegou com menos de 6 meses de validade, fale com a gente com uma foto da data. [A DEFINIR #D9: prazo para avisar]
+Enviamos produtos com validade adequada para uso. Se o produto chegou com menos de 6 meses de validade, fale com a gente em até 30 dias do recebimento, com uma foto da data.
+
+### Quem são os fornecedores da OMG?
+
+A OMG compra **apenas** de fornecedores **idôneos, tradicionais e conhecidos no mercado coreano**:
+- as **próprias marcas**;
+- **distribuidores** que trabalham diretamente com elas.
+
+**Não compramos** de marketplaces, revendedores informais nem de estoques de origem desconhecida. É assim que garantimos produto **original** e com **validade adequada**.
+
+### Comprar na OMG é igual a comprar na Coreia?
+
+É exatamente essa a ideia: é como se você estivesse numa visita à Coreia, comprando o produto numa loja de lá — só que sem sair de casa. O produto é o mesmo vendido aos coreanos, original, com a embalagem de lá.
+
+### Os produtos seguem normas de qualidade?
+
+Sim. Os produtos são fabricados seguindo as normas coreanas e internacionais de cosméticos — a Coreia do Sul é uma das referências mundiais em cosméticos, com fiscalização rigorosa sobre a fabricação.
+
+### Por que confiar que não é falsificado?
+
+Porque o produto sai da Coreia, comprado das marcas e de distribuidores oficiais, e vem direto para você — sem passar por estoques no Brasil. Se tiver qualquer dúvida sobre um item recebido, mande fotos pelo WhatsApp que conferimos com o fornecedor.

@@ -35,11 +35,11 @@ Sim, no sentido que importa: **o total do checkout é o valor final**.
 - **20%** em AC, AL, BA, CE, PB, PI, RN, RR e SE.
 - O ICMS é calculado "por dentro": ele entra na própria base de cálculo.
 
-A base é o **valor aduaneiro**: produtos + frete (+ seguro, se houver). [A VERIFICAR #V5: confirmar com a ShipSmart que o frete entra na base]
+A base de cálculo é o **valor aduaneiro**: **mercadoria + frete internacional + seguro internacional** (se houver).
 
-O câmbio usado é o informado no checkout. [A VERIFICAR #V4: qual PTAX o checkout usa]
+O câmbio usado é a **PTAX do dia útil anterior** (cotação oficial do Banco Central).
 
-A partir de 2026, a lei exige informar também **IBS/CBS** (reforma tributária) na oferta. [A VERIFICAR #V3: se e quanto aparece na compra]
+A OMG segue a lei: quando novos tributos da reforma tributária (**IBS/CBS**) entrarem em vigor para compras internacionais, eles aparecerão discriminados no checkout.
 
 ### Como o imposto é calculado? Tem exemplo?
 
@@ -87,11 +87,11 @@ Sim, desde que nome, endereço e CPF sejam todos da pessoa que vai receber. A De
 
 ### Existe limite de valor por compra?
 
-Sim. Pelo regime de remessa internacional, cada encomenda pode ter até US$ 3.000. Para uso pessoal, também existe limite de unidades do mesmo produto por pedido: [A DEFINIR #D22: limite de unidades].
+Sim. Pelo regime de remessa internacional, cada encomenda pode ter até US$ 3.000. E, como a compra é para uso pessoal, o limite é de 6 unidades do mesmo produto por pedido.
 
 ### Vou receber nota fiscal?
 
-Como a vendedora é a MPOEMA INC (empresa dos EUA), não há NF-e brasileira. Você recebe o comprovante da compra por e-mail e a encomenda tem a Declaração de Importação registrada na Receita. [A DEFINIR #D24: comprovante enviado à cliente]
+Como a vendedora é a MPOEMA INC (empresa dos EUA), não há NF-e brasileira. Você recebe por e-mail o recibo (invoice) da MPOEMA INC, e a encomenda tem a Declaração de Importação registrada na Receita Federal.
 
 ### O que é a Declaração de Importação (DIR)?
 
@@ -99,7 +99,9 @@ Como a vendedora é a MPOEMA INC (empresa dos EUA), não há NF-e brasileira. Vo
 
 ### Os impostos são devolvidos se eu cancelar ou devolver?
 
-A política de reembolso de impostos em cancelamentos e devoluções está em definição: [A DEFINIR #D12: devolução dos impostos em cancelamento/devolução]. [A VERIFICAR #V2: mecânica de restituição no PRC]
+Sim. Seguindo o Código de Defesa do Consumidor, em **cancelamento** ou **arrependimento** devolvemos **o valor total pago**: produtos, **frete** e **impostos** (Imposto de Importação e ICMS).
+
+A recuperação dos impostos junto à Receita e aos parceiros logísticos é responsabilidade da OMG — você não precisa fazer nada.
 
 ### O que acontece se a regra de impostos mudar?
 

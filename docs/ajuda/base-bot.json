@@ -29,9 +29,9 @@
   ],
   "resposta": "A vendedora oficial da OMG é a MPOEMA INC, empresa dos Estados Unidos certificada pela Receita Federal no Programa Remessa Conforme. Por isso esse nome pode aparecer no seu comprovante ou na fatura do cartão. Não é golpe: é a nossa empresa.",
   "links": [],
-  "status": "ok",
+  "status": "a_definir",
   "escalar_humano": false,
-  "resposta_longa": "A loja **ohmygirl.com.br** pertence à **MPOEMA INC**, empresa sediada nos Estados Unidos e **certificada pela Receita Federal no Programa Remessa Conforme (PRC)** — Ato Declaratório Executivo Coana nº 111, de 14/10/2026 (DOU de 21/10/2026), que inclui expressamente o site ohmygirl.com.br.\n\nPor isso o nome **MPOEMA INC** pode aparecer:\n- no comprovante do pedido;\n- na fatura do cartão de crédito;\n- na Declaração de Importação da sua encomenda."
+  "resposta_longa": "A loja **ohmygirl.com.br** pertence à **MPOEMA INC**, empresa sediada nos Estados Unidos e **certificada pela Receita Federal no Programa Remessa Conforme (PRC)** — Ato Declaratório Executivo Coana nº 111, de 14/10/2026 (DOU de 21/10/2026), que inclui expressamente o site ohmygirl.com.br.\n\nPor isso o nome **MPOEMA INC** pode aparecer:\n- no comprovante do pedido;\n- na fatura do cartão de crédito;\n- na Declaração de Importação da sua encomenda.\n\n**Dados da empresa**: MPOEMA INC · TIN US933093849 · [A DEFINIR #D31: endereço físico da MPOEMA INC] · atendimento@ohmygirl.com.br."
  },
  {
   "id": "sobre-03",
@@ -92,11 +92,11 @@
    "quero falar com atendente",
    "atendimento humano"
   ],
-  "resposta": "Pelo WhatsApp [A DEFINIR #D1: número do WhatsApp] ou pelo e-mail atendimento@ohmygirl.com.br. Nosso assistente responde na hora e, se precisar, passa para uma pessoa da equipe. Horário humano: [A DEFINIR #D2: horário de atendimento].",
+  "resposta": "Pelo WhatsApp +55 11 94588-4562 ou pelo e-mail atendimento@ohmygirl.com.br. Nosso assistente responde na hora e, se precisar, passa para uma pessoa da equipe, de segunda a sexta, das 9h às 18h (horário de Brasília).",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": false,
-  "resposta_longa": "- **WhatsApp**: [A DEFINIR #D1: número do WhatsApp] — assistente automático 24h e equipe humana no horário de atendimento.\n- **E-mail**: atendimento@ohmygirl.com.br — resposta em até [A DEFINIR #D3: prazo de resposta do e-mail].\n- **Horário da equipe**: [A DEFINIR #D2: horário de atendimento].\n\nPara agilizar, tenha em mãos o **número do pedido** (ex.: #1001) e o **e-mail** usado na compra."
+  "resposta_longa": "- **WhatsApp**: **+55 11 94588-4562** — assistente automático 24h e equipe humana no horário de atendimento.\n- **E-mail**: atendimento@ohmygirl.com.br — resposta em até **2 dias úteis**.\n- **Horário da equipe**: de segunda a sexta, das 9h às 18h (horário de Brasília).\n\nPara agilizar, tenha em mãos o **número do pedido** (ex.: #1001) e o **e-mail** usado na compra."
  },
  {
   "id": "sobre-07",
@@ -108,9 +108,9 @@
    "que horas vcs respondem",
    "atende domingo"
   ],
-  "resposta": "O assistente responde 24 horas. A equipe humana atende [A DEFINIR #D2: horário de atendimento]. Mensagens fora do horário são respondidas no próximo período de atendimento.",
+  "resposta": "O assistente responde 24 horas. A equipe humana atende de segunda a sexta, das 9h às 18h (horário de Brasília). Mensagens fora do horário são respondidas no próximo dia útil.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": false
  },
  {
@@ -174,9 +174,9 @@
   ],
   "resposta": "Dois: o Imposto de Importação (federal) e o ICMS (estadual). Até US$ 50 o Imposto de Importação é zero; acima disso, 60% com desconto de US$ 30. O ICMS é 17% na maioria dos estados (20% em alguns). O checkout mostra o valor exato.",
   "links": [],
-  "status": "a_verificar",
+  "status": "ok",
   "escalar_humano": false,
-  "resposta_longa": "**1. Imposto de Importação (II) — federal**\n- Compras de **até US$ 50**: **0%**.\n- Compras **acima de US$ 50**: **60%** sobre o valor, **com desconto de US$ 30** no imposto.\n\n**2. ICMS — estadual**\n- **17%** na maioria dos estados (incluindo SP).\n- **20%** em AC, AL, BA, CE, PB, PI, RN, RR e SE.\n- O ICMS é calculado \"por dentro\": ele entra na própria base de cálculo.\n\nA base é o **valor aduaneiro**: produtos + frete (+ seguro, se houver). [A VERIFICAR #V5: confirmar com a ShipSmart que o frete entra na base]\n\nO câmbio usado é o informado no checkout. [A VERIFICAR #V4: qual PTAX o checkout usa]\n\nA partir de 2026, a lei exige informar também **IBS/CBS** (reforma tributária) na oferta. [A VERIFICAR #V3: se e quanto aparece na compra]"
+  "resposta_longa": "**1. Imposto de Importação (II) — federal**\n- Compras de **até US$ 50**: **0%**.\n- Compras **acima de US$ 50**: **60%** sobre o valor, **com desconto de US$ 30** no imposto.\n\n**2. ICMS — estadual**\n- **17%** na maioria dos estados (incluindo SP).\n- **20%** em AC, AL, BA, CE, PB, PI, RN, RR e SE.\n- O ICMS é calculado \"por dentro\": ele entra na própria base de cálculo.\n\nA base de cálculo é o **valor aduaneiro**: **mercadoria + frete internacional + seguro internacional** (se houver).\n\nO câmbio usado é a **PTAX do dia útil anterior** (cotação oficial do Banco Central).\n\nA OMG segue a lei: quando novos tributos da reforma tributária (**IBS/CBS**) entrarem em vigor para compras internacionais, eles aparecerão discriminados no checkout."
  },
  {
   "id": "remessa-conforme-04",
@@ -262,9 +262,9 @@
    "posso comprar 5 mil reais",
    "limite de 3000 dolares"
   ],
-  "resposta": "Sim. Pelo regime de remessa internacional, cada encomenda pode ter até US$ 3.000. Para uso pessoal, também existe limite de unidades do mesmo produto por pedido: [A DEFINIR #D22: limite de unidades].",
+  "resposta": "Sim. Pelo regime de remessa internacional, cada encomenda pode ter até US$ 3.000. E, como a compra é para uso pessoal, o limite é de 6 unidades do mesmo produto por pedido.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": false
  },
  {
@@ -277,9 +277,9 @@
    "vcs emitem nota",
    "comprovante pra reembolso empresa"
   ],
-  "resposta": "Como a vendedora é a MPOEMA INC (empresa dos EUA), não há NF-e brasileira. Você recebe o comprovante da compra por e-mail e a encomenda tem a Declaração de Importação registrada na Receita. [A DEFINIR #D24: comprovante enviado à cliente]",
+  "resposta": "Como a vendedora é a MPOEMA INC (empresa dos EUA), não há NF-e brasileira. Você recebe por e-mail o recibo (invoice) da MPOEMA INC, e a encomenda tem a Declaração de Importação registrada na Receita Federal.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": false
  },
  {
@@ -305,11 +305,11 @@
    "se cancelar recebo o icms de volta",
    "reembolso inclui imposto"
   ],
-  "resposta": "[A DEFINIR #D12: devolução dos impostos em cancelamento/devolução]. Fale com a gente pelo WhatsApp que explicamos o seu caso.",
+  "resposta": "Sim. Em cancelamento ou devolução, você recebe de volta o valor total que pagou: produtos, frete e impostos. A recuperação dos impostos junto à Receita é por nossa conta.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": true,
-  "resposta_longa": "A política de reembolso de impostos em cancelamentos e devoluções está em definição: [A DEFINIR #D12: devolução dos impostos em cancelamento/devolução]. [A VERIFICAR #V2: mecânica de restituição no PRC]"
+  "resposta_longa": "Sim. Seguindo o Código de Defesa do Consumidor, em **cancelamento** ou **arrependimento** devolvemos **o valor total pago**: produtos, **frete** e **impostos** (Imposto de Importação e ICMS).\n\nA recuperação dos impostos junto à Receita e aos parceiros logísticos é responsabilidade da OMG — você não precisa fazer nada."
  },
  {
   "id": "remessa-conforme-13",
@@ -392,9 +392,9 @@
    "posso comprar sem conta",
    "compra como visitante"
   ],
-  "resposta": "[A DEFINIR #D21: compra sem cadastro]. Com conta, você acompanha seus pedidos e endereços num só lugar.",
+  "resposta": "Não precisa: você pode comprar como visitante, informando e-mail e CPF. Com conta, você acompanha pedidos e endereços num só lugar e junta pontos de fidelidade.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": false
  },
  {
@@ -438,9 +438,9 @@
    "coloquei cep errado",
    "me mudei"
   ],
-  "resposta": "[A DEFINIR #D13: até quando dá para alterar endereço]. Fale com a gente pelo WhatsApp com o número do pedido e o endereço correto o quanto antes. Depois que a etiqueta é emitida, a mudança pode não ser possível.",
+  "resposta": "Fale com a gente pelo WhatsApp com o número do pedido e o endereço correto o quanto antes. Conseguimos alterar até o corte das 18h do dia do pedido; depois que a etiqueta de envio é emitida, a mudança pode não ser possível.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": true
  },
  {
@@ -453,11 +453,11 @@
    "desistir do pedido",
    "como cancela"
   ],
-  "resposta": "Fale com a gente pelo WhatsApp ou e-mail com o número do pedido. Cancelamento sem custo: [A DEFINIR #D7: até quando cancelar sem custo]. Se o produto já tiver sido enviado, você pode usar o direito de arrependimento depois de receber.",
+  "resposta": "Fale com a gente pelo WhatsApp ou e-mail com o número do pedido. Você pode cancelar sem custo até o pedido embarcar na Coreia, com reembolso total. Se já tiver embarcado, você pode recusar a entrega ou usar o direito de arrependimento em até 7 dias depois de receber.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": true,
-  "resposta_longa": "- **Cancelamento sem custo**: [A DEFINIR #D7: até quando cancelar sem custo].\n- **Depois que o produto foi comprado/embarcado**: [A DEFINIR #D8: política após compra/embarque].\n- **Depois de receber**: você tem o **direito de arrependimento** de 7 dias (veja *Trocas, devoluções e reembolsos*)."
+  "resposta_longa": "- **Até o embarque na Coreia**: cancelamento **sem custo**, com **reembolso total** (produtos, frete e impostos).\n- **Depois do embarque**: o pacote já está a caminho e não dá para interromper. Você pode **recusar a entrega** ou, depois de receber, usar o **direito de arrependimento** de **7 dias** (CDC, art. 49), também com reembolso total.\n- Você recebe a **confirmação do cancelamento** por e-mail."
  },
  {
   "id": "pedidos-07",
@@ -468,9 +468,9 @@
    "vcs nao tem mais o produto",
    "ficou sem estoque meu pedido"
   ],
-  "resposta": "Às vezes um produto esgota no fornecedor coreano depois da compra. Se acontecer, avisamos você e oferecemos opções: [A DEFINIR #D20: opções quando esgota]. Você nunca fica sem resposta nem sem o dinheiro.",
+  "resposta": "Às vezes um produto esgota no fornecedor coreano depois da compra. Se acontecer, avisamos você em até 2 dias úteis e você escolhe: trocar por um produto similar, aguardar a reposição ou receber o reembolso integral do item.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": true
  },
  {
@@ -482,9 +482,9 @@
    "limite de quantidade",
    "comprar varias unidades"
   ],
-  "resposta": "Sim. Como as compras são para uso pessoal, existe um limite: [A DEFINIR #D22: limite de unidades por produto].",
+  "resposta": "Sim. Como as compras são para uso pessoal (Remessa Conforme), o limite é de 6 unidades do mesmo produto por pedido.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": false
  },
  {
@@ -540,9 +540,9 @@
    "manda com cartão",
    "da pra mandar de presente sem preço"
   ],
-  "resposta": "[A DEFINIR #D23: embalagem para presente]. Você pode enviar para outra pessoa usando nome, endereço e CPF dela no checkout.",
+  "resposta": "Não fazemos embrulho para presente nem cartão. Mas você pode enviar para outra pessoa usando nome, endereço e CPF dela no checkout.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": false
  },
  {
@@ -616,6 +616,34 @@
   "escalar_humano": false
  },
  {
+  "id": "pedidos-18",
+  "categoria": "Pedidos e compras",
+  "pergunta": "Meu endereço está incompleto ou errado. E agora?",
+  "variacoes": [
+   "endereço incompleto",
+   "faltou numero da casa",
+   "complemento errado"
+  ],
+  "resposta": "Fale com a gente o quanto antes pelo WhatsApp. Até o corte das 18h do dia do pedido conseguimos corrigir. Depois, se a entrega falhar por endereço errado, o pacote volta ao centro de distribuição e a nova entrega é cobrada.",
+  "links": [],
+  "status": "ok",
+  "escalar_humano": true
+ },
+ {
+  "id": "pedidos-19",
+  "categoria": "Pedidos e compras",
+  "pergunta": "O que acontece com o cupom ou os pontos se eu cancelar?",
+  "variacoes": [
+   "cancelei e o cupom",
+   "perdi meus pontos",
+   "cupom volta?"
+  ],
+  "resposta": "Os pontos da compra cancelada são estornados. O cupom volta a valer se ainda estiver dentro da validade e das regras dele; se não, fale com a gente que avaliamos.",
+  "links": [],
+  "status": "ok",
+  "escalar_humano": false
+ },
+ {
   "id": "pagamento-01",
   "categoria": "Pagamento",
   "pergunta": "Quais formas de pagamento vocês aceitam?",
@@ -626,11 +654,11 @@
    "paga como",
    "aceita debito"
   ],
-  "resposta": "No momento, cartão de crédito pelo checkout seguro do Shopify. Pix: [A DEFINIR #D5: quando entra o Pix]. Boleto não está disponível.",
+  "resposta": "No momento, cartão de crédito à vista, pelo checkout seguro do Shopify. Como somos uma loja internacional (Remessa Conforme), ainda não temos Pix nem boleto. Quem sabe no futuro!",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": false,
-  "resposta_longa": "- **Cartão de crédito** (bandeiras exibidas no checkout), processado pelo **Shopify Payments**.\n- **Pix**: [A DEFINIR #D5: quando entra o Pix].\n- **Boleto**: não disponível.\n\nO pagamento é cobrado **em reais**, já com frete e impostos."
+  "resposta_longa": "- **Cartão de crédito**, **à vista** (bandeiras exibidas no checkout), processado pelo **Shopify Payments**.\n- **Pix** e **boleto**: ainda não disponíveis. Como a vendedora é uma empresa internacional, esses meios dependem de parceiros específicos — estamos de olho para oferecer no futuro.\n\nO total já inclui produtos, frete e impostos."
  },
  {
   "id": "pagamento-02",
@@ -642,9 +670,9 @@
    "tem parcelamento sem juros",
    "dá pra dividir"
   ],
-  "resposta": "[A DEFINIR #D4: parcelamento]. As opções aparecem no checkout, na hora do pagamento.",
+  "resposta": "Ainda não. Por ser uma compra internacional pelo Remessa Conforme, o pagamento é à vista no cartão de crédito. Talvez no futuro, com um parceiro de pagamento. Fique de olho nos cupons para economizar!",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": false
  },
  {
@@ -672,9 +700,9 @@
    "vai ter iof no cartao",
    "compra internacional no cartao"
   ],
-  "resposta": "O checkout mostra o total em reais. Como a vendedora é uma empresa dos EUA, o seu banco pode tratar a compra como internacional e cobrar IOF, conforme as regras do seu cartão. [A VERIFICAR #V4: moeda de liquidação e IOF]",
+  "resposta": "O checkout mostra o total em reais. Como a vendedora é uma empresa dos EUA, o seu banco pode tratar a compra como internacional e cobrar IOF, conforme as regras do seu cartão. Os impostos de importação usam a PTAX do dia útil anterior.",
   "links": [],
-  "status": "a_verificar",
+  "status": "ok",
   "escalar_humano": false
  },
  {
@@ -715,9 +743,9 @@
    "vcs guardam meu cartao",
    "dados do cartao seguros"
   ],
-  "resposta": "Sim. O pagamento é processado pelo Shopify Payments, com criptografia e padrão de segurança PCI. A OMG não tem acesso aos dados completos do seu cartão. [A VERIFICAR #V7: se o cartão fica salvo para próximas compras]",
+  "resposta": "Sim. O pagamento é processado pelo Shopify Payments, com padrão de segurança PCI. A OMG não vê os dados completos do seu cartão. Se você quiser, pode salvar os dados no Shop Pay, que guarda tudo nos servidores seguros do Shopify.",
   "links": [],
-  "status": "a_verificar",
+  "status": "ok",
   "escalar_humano": false
  },
  {
@@ -743,7 +771,7 @@
    "mudar cartao depois",
    "paguei errado"
   ],
-  "resposta": "Não é possível trocar a forma de pagamento de um pedido já pago. Se precisar, fale com a gente antes do corte das 18h para cancelar e refazer.",
+  "resposta": "Não é possível trocar a forma de pagamento de um pedido já pago. Se precisar, fale com a gente antes de o pedido embarcar na Coreia: cancelamos com reembolso total e você refaz a compra.",
   "links": [],
   "status": "ok",
   "escalar_humano": false
@@ -757,9 +785,9 @@
    "cartao de debito aceita",
    "posso pagar no debito"
   ],
-  "resposta": "Aceitamos as opções que aparecem no checkout. Cartões de débito com função de compra online internacional podem funcionar, conforme o banco. [A VERIFICAR #V7: meios aceitos pelo Shopify Payments na loja]",
+  "resposta": "Aceitamos os meios que aparecem no checkout. Cartões de débito com função de compra online internacional podem funcionar, conforme o seu banco.",
   "links": [],
-  "status": "a_verificar",
+  "status": "ok",
   "escalar_humano": false
  },
  {
@@ -772,9 +800,9 @@
    "google pay",
    "carteira digital"
   ],
-  "resposta": "As carteiras digitais disponíveis aparecem automaticamente no checkout, conforme o seu aparelho. [A VERIFICAR #V7: carteiras ativas no Shopify Payments]",
+  "resposta": "As carteiras digitais disponíveis (como Shop Pay, Apple Pay ou Google Pay) aparecem automaticamente no checkout, conforme o seu aparelho e o navegador. PayPal não está disponível no momento.",
   "links": [],
-  "status": "a_verificar",
+  "status": "ok",
   "escalar_humano": false
  },
  {
@@ -801,11 +829,11 @@
    "em quantos dias chega",
    "chega quando"
   ],
-  "resposta": "Até 15 dias úteis para capitais, contados a partir do envio do pedido. Muitas entregas chegam antes, mas trabalhamos com o prazo oficial. Outras localidades: [A DEFINIR #D25: prazo fora das capitais].",
+  "resposta": "Até 15 dias úteis para capitais. Para as demais localidades, o prazo aparece no checkout pelo seu CEP. Muitas entregas chegam antes, mas trabalhamos com o prazo oficial.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": false,
-  "resposta_longa": "- **Capitais**: até **15 dias úteis**.\n- **Demais localidades**: [A DEFINIR #D25: prazo fora das capitais].\n\nMuitas entregas chegam bem antes, mas o prazo que garantimos é o oficial. O prazo pode aumentar em feriados, greves ou fiscalização na alfândega."
+  "resposta_longa": "- **Capitais**: até **15 dias úteis**.\n- **Demais localidades**: o prazo é informado **no checkout**, pelo CEP.\n\nMuitas entregas chegam bem antes, mas o prazo que garantimos é o oficial. O prazo pode aumentar em feriados, greves ou fiscalização na alfândega."
  },
  {
   "id": "entrega-02",
@@ -833,9 +861,9 @@
    "quanto é o frete",
    "frete pra sp"
   ],
-  "resposta": "O frete é calculado no checkout, pelo seu CEP. [A DEFINIR #D6: tabela de frete / frete grátis].",
+  "resposta": "O frete é calculado no checkout, pelo seu CEP. Não trabalhamos com frete grátis, mas sempre temos cupons e promoções: siga @omg_ohmygirlbr e assine a newsletter.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": false
  },
  {
@@ -848,9 +876,9 @@
    "quem entrega",
    "mile express é o que"
   ],
-  "resposta": "A entrega no Brasil é feita pela nossa parceira de última milha, a Mile Express. [A VERIFICAR #V6: nome exibido no rastreio e uso de Correios em algumas regiões]",
+  "resposta": "A entrega no Brasil é feita pela nossa parceira de logística de última milha (atualmente a Mile Express). O parceiro pode mudar conforme a região ou a operação; o nome certo aparece no seu rastreio.",
   "links": [],
-  "status": "a_verificar",
+  "status": "ok",
   "escalar_humano": false
  },
  {
@@ -863,9 +891,9 @@
    "entregam em manaus",
    "entrega na minha cidade"
   ],
-  "resposta": "Sim, entregamos em todo o Brasil. O checkout confirma o frete e o prazo para o seu CEP. Fora das capitais o prazo pode ser maior: [A DEFINIR #D25: prazo fora das capitais].",
+  "resposta": "Sim, entregamos em todo o Brasil. O checkout confirma o frete e o prazo para o seu CEP; fora das capitais o prazo pode ser maior que 15 dias úteis.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": false
  },
  {
@@ -892,9 +920,9 @@
    "tentativa de entrega",
    "voltou pro remetente"
   ],
-  "resposta": "A transportadora costuma fazer novas tentativas. Acompanhe pelo rastreio e, se precisar, fale com a gente. [A DEFINIR #D26: tentativas e reenvio].",
+  "resposta": "A transportadora faz novas tentativas. Se não conseguir entregar (ausência ou endereço incompleto/errado), o pacote volta ao centro de distribuição e a nova entrega é cobrada de você. Se a falha for da transportadora, reenviamos sem custo. Fale com a gente pelo WhatsApp.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": true
  },
  {
@@ -921,9 +949,9 @@
    "ja passou 15 dias",
    "nao chegou ainda"
   ],
-  "resposta": "Sentimos muito pela espera. Confira o rastreio e mande para o WhatsApp o número do pedido: abrimos uma investigação com a transportadora. [A DEFINIR #D27: procedimento após o prazo].",
+  "resposta": "Sentimos muito pela espera! Mande o número do pedido pelo WhatsApp: abrimos uma investigação com a transportadora e entramos em contato para te compensar. Se preferir, você pode cancelar com reembolso total.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": true
  },
  {
@@ -997,6 +1025,20 @@
   "escalar_humano": false
  },
  {
+  "id": "entrega-15",
+  "categoria": "Frete, prazo e entrega",
+  "pergunta": "Posso recusar a entrega?",
+  "variacoes": [
+   "recusar pacote",
+   "nao quero receber",
+   "devolver pro entregador"
+  ],
+  "resposta": "Pode. Se o pacote estiver violado, recuse e nos avise na hora. Se você simplesmente desistiu da compra, também pode recusar: o pedido volta e fazemos o reembolso integral, como no direito de arrependimento.",
+  "links": [],
+  "status": "ok",
+  "escalar_humano": true
+ },
+ {
   "id": "rastreio-01",
   "categoria": "Rastreamento",
   "pergunta": "Como acompanho meu pedido?",
@@ -1009,9 +1051,9 @@
   ],
   "resposta": "Você recebe avisos por e-mail em cada etapa: compra recebida, saiu da Coreia, chegou ao Brasil e a caminho. Quando o pacote é enviado, mandamos também o código de rastreio. Pode perguntar aqui no chat com o número do pedido.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": false,
-  "resposta_longa": "Você é avisado por e-mail [A DEFINIR #D1: e/ou WhatsApp] em **4 momentos**:\n1. **Compra recebida**;\n2. **Saiu da Coreia**;\n3. **Chegou ao Brasil** (desembaraço);\n4. **A caminho** (última milha), com o código de rastreio.\n\nTambém dá para perguntar ao nosso assistente informando o **número do pedido** e o **e-mail** da compra."
+  "resposta_longa": "Você é avisado por e-mail em **4 momentos**:\n1. **Compra recebida**;\n2. **Saiu da Coreia**;\n3. **Chegou ao Brasil** (desembaraço);\n4. **A caminho** (última milha), com o código de rastreio.\n\nTambém dá para perguntar ao nosso assistente informando o **número do pedido** e o **e-mail** da compra."
  },
  {
   "id": "rastreio-02",
@@ -1083,9 +1125,9 @@
    "faltou produto",
    "veio separado"
   ],
-  "resposta": "Normalmente cada pedido vem em um pacote só. Se faltou algum item, fale com a gente em até [A DEFINIR #D9: prazo para avisar] com foto da caixa e dos produtos.",
+  "resposta": "Normalmente cada pedido vem em um pacote só. Se faltou algum item, fale com a gente em até 30 dias do recebimento, com foto da caixa e dos produtos. Se o pacote chegou violado, o melhor é recusar na entrega e nos avisar na hora.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": true
  },
  {
@@ -1111,9 +1153,9 @@
    "quem é mile",
    "transportadora mile"
   ],
-  "resposta": "É a nossa parceira de logística no Brasil: ela cuida da liberação na alfândega e da entrega na sua casa. [A VERIFICAR #V6: nome exibido no rastreio]",
+  "resposta": "É a nossa parceira de logística no Brasil (atual): ela cuida da liberação na alfândega e da entrega na sua casa. O parceiro pode mudar conforme a operação; o nome certo aparece no rastreio.",
   "links": [],
-  "status": "a_verificar",
+  "status": "ok",
   "escalar_humano": false
  },
  {
@@ -1128,9 +1170,9 @@
   ],
   "resposta": "Sim. Pelo Código de Defesa do Consumidor (art. 49), compras online podem ser desistidas em até 7 dias do recebimento. Fale com a gente pelo WhatsApp com o número do pedido para combinar a devolução.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": true,
-  "resposta_longa": "Sim. O **Código de Defesa do Consumidor (art. 49)** garante o **direito de arrependimento** em compras feitas fora da loja física, como pela internet: **7 dias** a partir do recebimento.\n\nComo funciona na OMG:\n1. Fale com a gente dentro dos 7 dias, com o número do pedido.\n2. Combinamos a devolução: [A DEFINIR #D10: frete e endereço de devolução].\n3. O reembolso é feito assim: [A DEFINIR #D11: forma e prazo do reembolso].\n\nPedimos que o produto volte **sem uso e na embalagem original**, para que possamos conferir."
+  "resposta_longa": "Sim. O **Código de Defesa do Consumidor (art. 49)** garante o **direito de arrependimento** em compras feitas fora da loja física, como pela internet: **7 dias** a partir do recebimento.\n\nComo funciona na OMG:\n1. Fale com a gente dentro dos 7 dias, com o número do pedido.\n2. Confirmamos o seu pedido na hora e enviamos as instruções: a devolução vai para o centro da nossa parceira logística em **São Paulo**, com **frete pago pela OMG**.\n3. Assim que você posta a devolução, pedimos o **estorno no mesmo cartão** da compra, com **reembolso integral** (produtos, frete e impostos).\n\nPedimos que o produto volte com todos os itens e, se possível, **sem uso e na embalagem original**. Abrir a embalagem para conhecer o produto não tira o seu direito."
  },
  {
   "id": "devolucoes-02",
@@ -1143,9 +1185,9 @@
    "embalagem amassada",
    "veio aberto"
   ],
-  "resposta": "Sentimos muito! Fale com a gente pelo WhatsApp em até [A DEFINIR #D9: prazo para avisar] com fotos ou vídeo da caixa e do produto. Resolvemos com reenvio ou reembolso, sem custo para você.",
+  "resposta": "Sentimos muito! Fale com a gente pelo WhatsApp em até 30 dias do recebimento, com fotos ou vídeo da caixa e do produto. Resolvemos com reenvio ou reembolso, sem custo para você. Dica: se o lacre estiver rompido ou o pacote violado, recuse na entrega e nos avise na hora.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": true
  },
  {
@@ -1158,9 +1200,9 @@
    "mandaram outra cor",
    "trocaram meu produto"
   ],
-  "resposta": "Que chato, desculpa! Mande pelo WhatsApp o número do pedido e fotos do que chegou, em até [A DEFINIR #D9: prazo para avisar]. Enviamos o produto certo ou reembolsamos, sem custo para você.",
+  "resposta": "Que chato, desculpa! Mande pelo WhatsApp o número do pedido e fotos do que chegou, em até 30 dias do recebimento. Enviamos o produto certo ou reembolsamos, sem custo para você.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": true
  },
  {
@@ -1177,7 +1219,7 @@
   "links": [],
   "status": "ok",
   "escalar_humano": true,
-  "resposta_longa": "Se o produto causou irritação:\n1. **Pare de usar** e lave a área com água.\n2. Se a reação for intensa (inchaço, ardor forte, falta de ar), **procure atendimento médico**.\n3. Fale com a gente pelo **WhatsApp** com o número do pedido e uma foto do produto.\n\nProdutos **abertos/usados** não entram no arrependimento, mas analisamos cada caso com carinho. **Dica:** antes de usar qualquer produto novo, faça o **teste de toque** (passe um pouco atrás da orelha ou no antebraço e espere 24h)."
+  "resposta_longa": "Se o produto causou irritação:\n1. **Pare de usar** e lave a área com água.\n2. Se a reação for intensa (inchaço, ardor forte, falta de ar), **procure atendimento médico**.\n3. Fale com a gente pelo **WhatsApp** com o número do pedido e uma foto do produto.\n\nDentro dos **7 dias** do recebimento você pode usar o direito de arrependimento; fora disso, analisamos cada caso com carinho. **Dica:** antes de usar qualquer produto novo, faça o **teste de toque** (passe um pouco atrás da orelha ou no antebraço e espere 24h)."
  },
  {
   "id": "devolucoes-05",
@@ -1204,9 +1246,9 @@
    "estorno quanto tempo",
    "reembolso no pix"
   ],
-  "resposta": "[A DEFINIR #D11: forma e prazo do reembolso]. Avisamos por e-mail quando o reembolso for processado. No cartão, o estorno pode levar até duas faturas para aparecer, conforme o banco.",
+  "resposta": "Primeiro analisamos o caso (ou confirmamos a postagem da devolução). Aprovado, o reembolso é feito no mesmo cartão de crédito da compra (estorno). Avisamos por e-mail; o estorno pode levar até duas faturas para aparecer, conforme o banco.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": true
  },
  {
@@ -1218,9 +1260,9 @@
    "devolve o imposto",
    "reembolso total"
   ],
-  "resposta": "No direito de arrependimento, o CDC garante a devolução dos valores pagos. Sobre impostos já recolhidos: [A DEFINIR #D12: devolução dos impostos].",
+  "resposta": "Sim. No cancelamento e no arrependimento você recebe de volta tudo o que pagou: produtos, frete e impostos.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": true
  },
  {
@@ -1232,7 +1274,7 @@
    "abri o produto",
    "devolver produto usado"
   ],
-  "resposta": "Por higiene, produtos abertos ou usados não podem ser revendidos, então não entram no arrependimento — exceto quando há defeito, produto errado ou avaria. Nesses casos, fale com a gente.",
+  "resposta": "Pelo Código de Defesa do Consumidor, o arrependimento em 7 dias vale mesmo que você tenha aberto a embalagem para conhecer o produto. Pedimos que devolva com todos os itens e, se possível, sem uso. Em caso de defeito, produto errado ou avaria, o prazo para reclamar é de 30 dias.",
   "links": [],
   "status": "ok",
   "escalar_humano": false
@@ -1247,9 +1289,9 @@
    "encomenda devolvida",
    "pediram documento na alfandega"
   ],
-  "resposta": "Fale com a gente pelo WhatsApp com o número do pedido. [A DEFINIR #D19: o que a OMG faz em retenção alfandegária].",
+  "resposta": "Fale com a gente pelo WhatsApp com o número do pedido. A OMG resolve com a transportadora e a Receita, sem custo extra para você. Se a retenção fizer o pedido passar do prazo de entrega, devolvemos o seu dinheiro.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": true
  },
  {
@@ -1261,9 +1303,9 @@
    "processo de devolução",
    "onde mando o produto de volta"
   ],
-  "resposta": "Fale com a gente pelo WhatsApp com o número do pedido. Enviamos as instruções e o endereço de devolução. [A DEFINIR #D10: frete e endereço de devolução]",
+  "resposta": "Fale com a gente pelo WhatsApp ou e-mail com o número do pedido. Enviamos as instruções: a devolução vai para o centro da nossa parceira logística em São Paulo, com frete pago pela OMG.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": true
  },
  {
@@ -1275,10 +1317,97 @@
    "devolver só um item",
    "um produto veio errado só"
   ],
-  "resposta": "Sim. Se apenas um item tiver problema, o reembolso ou reenvio é feito só para ele. [A DEFINIR #D11: forma e prazo do reembolso]",
+  "resposta": "Sim. Se apenas um item tiver problema, o reembolso (estorno no mesmo cartão) ou o reenvio é feito só para ele.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": true
+ },
+ {
+  "id": "devolucoes-12",
+  "categoria": "Trocas, devoluções e reembolsos",
+  "pergunta": "O pacote chegou com o lacre rompido ou violado. O que faço?",
+  "variacoes": [
+   "lacre rompido",
+   "pacote violado",
+   "caixa aberta",
+   "veio sem lacre",
+   "fita violada"
+  ],
+  "resposta": "Se perceber na entrega, o melhor é recusar o pacote e nos avisar na hora pelo WhatsApp, com foto ou vídeo. Se só notar depois, fale com a gente em até 30 dias do recebimento, com fotos da caixa e do produto. Os seus direitos continuam garantidos.",
+  "links": [],
+  "status": "ok",
+  "escalar_humano": true,
+  "resposta_longa": "Os pedidos OMG saem da Coreia **lacrados**.\n\n- **Na hora da entrega**: se a caixa estiver aberta, amassada demais ou com o lacre rompido, **recuse** o pacote e nos avise **na hora** pelo WhatsApp (+55 11 94588-4562), com foto ou vídeo.\n- **Depois de receber**: fale com a gente em **até 30 dias** do recebimento, com fotos da caixa, do lacre e dos produtos.\n\nRecusar na entrega agiliza a solução, mas **não é condição** para os seus direitos: em qualquer caso, enviamos de novo ou reembolsamos."
+ },
+ {
+  "id": "devolucoes-13",
+  "categoria": "Trocas, devoluções e reembolsos",
+  "pergunta": "Recebi um produto que não pedi.",
+  "variacoes": [
+   "veio produto a mais",
+   "recebi coisa que nao comprei",
+   "brinde?"
+  ],
+  "resposta": "Pode ter sido um brinde ou um engano na separação. Mande uma foto pelo WhatsApp com o número do pedido que verificamos e, se for engano, combinamos o que fazer sem custo para você.",
+  "links": [],
+  "status": "ok",
+  "escalar_humano": false
+ },
+ {
+  "id": "devolucoes-14",
+  "categoria": "Trocas, devoluções e reembolsos",
+  "pergunta": "Posso cancelar só um item do pedido?",
+  "variacoes": [
+   "cancelar só um produto",
+   "tirar um item do pedido",
+   "cancelar parte do pedido"
+  ],
+  "resposta": "Sim, até o pedido embarcar na Coreia. Fale com a gente pelo WhatsApp com o número do pedido e o item: reembolsamos o valor dele (com a parte do frete e dos impostos, se mudar).",
+  "links": [],
+  "status": "ok",
+  "escalar_humano": true
+ },
+ {
+  "id": "devolucoes-15",
+  "categoria": "Trocas, devoluções e reembolsos",
+  "pergunta": "Como sei que o meu cancelamento ou arrependimento foi registrado?",
+  "variacoes": [
+   "confirmação do cancelamento",
+   "cancelaram mesmo?",
+   "comprovante de cancelamento"
+  ],
+  "resposta": "Você recebe a confirmação na hora, pelo mesmo canal em que pediu (WhatsApp ou e-mail), e depois um e-mail quando o estorno for solicitado ao cartão.",
+  "links": [],
+  "status": "ok",
+  "escalar_humano": false
+ },
+ {
+  "id": "devolucoes-16",
+  "categoria": "Trocas, devoluções e reembolsos",
+  "pergunta": "O reembolso não apareceu no meu cartão.",
+  "variacoes": [
+   "estorno nao apareceu",
+   "cade meu reembolso",
+   "nao caiu o estorno"
+  ],
+  "resposta": "O estorno pode levar até duas faturas para aparecer, conforme o banco. Se passar disso, mande o número do pedido pelo WhatsApp: enviamos o comprovante do estorno para você apresentar ao banco.",
+  "links": [],
+  "status": "ok",
+  "escalar_humano": true
+ },
+ {
+  "id": "devolucoes-17",
+  "categoria": "Trocas, devoluções e reembolsos",
+  "pergunta": "Posso devolver um produto que ganhei de presente?",
+  "variacoes": [
+   "devolver presente",
+   "ganhei de presente quero trocar",
+   "presente devolução"
+  ],
+  "resposta": "O arrependimento é de quem fez a compra. Peça a quem comprou para falar com a gente com o número do pedido; o reembolso volta para o cartão usado na compra.",
+  "links": [],
+  "status": "ok",
+  "escalar_humano": false
  },
  {
   "id": "autenticidade-01",
@@ -1336,9 +1465,9 @@
    "é aprovado pela anvisa",
    "pode importar cosmetico"
   ],
-  "resposta": "Os produtos são importados para uso pessoal pelo regime de remessa internacional, direto da Coreia, onde são regulados pelo órgão coreano (MFDS). [A VERIFICAR #V1: texto sobre Anvisa e uso pessoal]",
+  "resposta": "Os nossos produtos são fabricados seguindo as normas coreanas e internacionais de cosméticos. Comprar na OMG é como comprar numa visita à Coreia, sem sair de casa: o produto vem da Coreia, original, para o seu uso pessoal.",
   "links": [],
-  "status": "a_verificar",
+  "status": "ok",
   "escalar_humano": false
  },
  {
@@ -1379,9 +1508,68 @@
    "vence logo",
    "produto perto de vencer"
   ],
-  "resposta": "Enviamos produtos com validade adequada para uso. Se o produto chegou com menos de 6 meses de validade, fale com a gente com uma foto da data. [A DEFINIR #D9: prazo para avisar]",
+  "resposta": "Enviamos produtos com validade adequada para uso. Se o produto chegou com menos de 6 meses de validade, fale com a gente em até 30 dias do recebimento, com uma foto da data.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
+  "escalar_humano": true
+ },
+ {
+  "id": "autenticidade-08",
+  "categoria": "Autenticidade e origem",
+  "pergunta": "Quem são os fornecedores da OMG?",
+  "variacoes": [
+   "de quem vcs compram",
+   "quem fornece os produtos",
+   "fornecedor confiavel?",
+   "compram de onde na coreia"
+  ],
+  "resposta": "Trabalhamos só com fornecedores idôneos, tradicionais e conhecidos na Coreia do Sul: as próprias marcas e distribuidores com quem elas trabalham. Nada de marketplace ou revendedor informal.",
+  "links": [],
+  "status": "ok",
+  "escalar_humano": false,
+  "resposta_longa": "A OMG compra **apenas** de fornecedores **idôneos, tradicionais e conhecidos no mercado coreano**:\n- as **próprias marcas**;\n- **distribuidores** que trabalham diretamente com elas.\n\n**Não compramos** de marketplaces, revendedores informais nem de estoques de origem desconhecida. É assim que garantimos produto **original** e com **validade adequada**."
+ },
+ {
+  "id": "autenticidade-09",
+  "categoria": "Autenticidade e origem",
+  "pergunta": "Comprar na OMG é igual a comprar na Coreia?",
+  "variacoes": [
+   "é igual comprar na coreia",
+   "mesmo produto da coreia",
+   "é a versão coreana?"
+  ],
+  "resposta": "É exatamente essa a ideia: é como se você estivesse numa visita à Coreia, comprando o produto numa loja de lá — só que sem sair de casa. O produto é o mesmo vendido aos coreanos, original, com a embalagem de lá.",
+  "links": [],
+  "status": "ok",
+  "escalar_humano": false
+ },
+ {
+  "id": "autenticidade-10",
+  "categoria": "Autenticidade e origem",
+  "pergunta": "Os produtos seguem normas de qualidade?",
+  "variacoes": [
+   "tem controle de qualidade",
+   "é seguro usar",
+   "produto regulamentado",
+   "segue normas"
+  ],
+  "resposta": "Sim. Os produtos são fabricados seguindo as normas coreanas e internacionais de cosméticos — a Coreia do Sul é uma das referências mundiais em cosméticos, com fiscalização rigorosa sobre a fabricação.",
+  "links": [],
+  "status": "ok",
+  "escalar_humano": false
+ },
+ {
+  "id": "autenticidade-11",
+  "categoria": "Autenticidade e origem",
+  "pergunta": "Por que confiar que não é falsificado?",
+  "variacoes": [
+   "como confio que é original",
+   "tem certificado de originalidade",
+   "vcs garantem que é original"
+  ],
+  "resposta": "Porque o produto sai da Coreia, comprado das marcas e de distribuidores oficiais, e vem direto para você — sem passar por estoques no Brasil. Se tiver qualquer dúvida sobre um item recebido, mande fotos pelo WhatsApp que conferimos com o fornecedor.",
+  "links": [],
+  "status": "ok",
   "escalar_humano": true
  },
  {
@@ -1867,6 +2055,20 @@
   "escalar_humano": false
  },
  {
+  "id": "conta-09",
+  "categoria": "Minha conta e privacidade",
+  "pergunta": "Como peço uma cópia dos meus dados (LGPD)?",
+  "variacoes": [
+   "meus dados lgpd",
+   "quero saber que dados vcs tem",
+   "acesso aos meus dados"
+  ],
+  "resposta": "Envie um e-mail para atendimento@ohmygirl.com.br com o assunto 'LGPD' dizendo o que você quer: acesso, correção, portabilidade ou exclusão. Respondemos no prazo da lei.",
+  "links": [],
+  "status": "ok",
+  "escalar_humano": false
+ },
+ {
   "id": "cupons-01",
   "categoria": "Cupons, promoções e fidelidade",
   "pergunta": "Como uso um cupom de desconto?",
@@ -1891,9 +2093,9 @@
    "cupom expirou",
    "cupom deu erro"
   ],
-  "resposta": "Confira se o código está escrito certo, se está dentro da validade e se o pedido atinge o valor mínimo. Regras gerais: [A DEFINIR #D14: regras de cupons]. Se continuar, mande o código pelo WhatsApp.",
+  "resposta": "Confira se o código está escrito certo e se você cumpre as regras daquele cupom (validade, valor mínimo, produtos válidos). Cada cupom tem as suas regras, informadas na divulgação. Se continuar, mande o código pelo WhatsApp.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": false
  },
  {
@@ -1905,9 +2107,9 @@
    "dois cupons no mesmo pedido",
    "cupom acumula"
   ],
-  "resposta": "[A DEFINIR #D14: regras de cupons].",
+  "resposta": "Depende do cupom: cada um tem as suas regras (validade, valor mínimo, se acumula ou não), informadas na divulgação. Na dúvida, o checkout mostra se o desconto foi aplicado.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": false
  },
  {
@@ -1934,7 +2136,7 @@
    "cliente fiel ganha desconto",
    "cashback"
   ],
-  "resposta": "Está chegando! [A DEFINIR #D15: programa de fidelidade].",
+  "resposta": "Sim! A cada R$ 1 gasto você acumula 10 pontos, que viram desconto em compras futuras. Para juntar pontos, compre com a sua conta. Regras de resgate: [A DEFINIR #D30: resgate dos pontos].",
   "links": [],
   "status": "a_definir",
   "escalar_humano": false
@@ -1977,9 +2179,9 @@
    "desconto boas vindas",
    "primeiro pedido desconto"
   ],
-  "resposta": "[A DEFINIR #D14: cupom de boas-vindas]. Assine a newsletter no rodapé do site para receber as novidades.",
+  "resposta": "Lançamos cupons e promoções com frequência, inclusive para quem está chegando. Assine a newsletter no rodapé do site e siga @omg_ohmygirlbr para não perder.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": false
  },
  {
@@ -1990,9 +2192,9 @@
    "cupom aniversario",
    "desconto no meu aniversario"
   ],
-  "resposta": "[A DEFINIR #D15: benefício de aniversário no programa de fidelidade].",
+  "resposta": "Ainda não temos cupom de aniversário, mas lançamos promoções com frequência. Assine a newsletter e siga @omg_ohmygirlbr.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": false
  },
  {
@@ -2063,11 +2265,11 @@
    "link de afiliado",
    "como ser afiliado"
   ],
-  "resposta": "Você recebe um link ou cupom exclusivo e ganha comissão sobre as compras feitas por quem usar. [A DEFINIR #D17: regras do programa de afiliados].",
+  "resposta": "Ainda não temos programa de afiliados. Se você tem interesse, escreva para atendimento@ohmygirl.com.br com o assunto 'Parceria' que avisamos quando abrir.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": false,
-  "resposta_longa": "Com o programa de afiliados você recebe um **link** e/ou **cupom exclusivo**. Quando alguém compra por eles, você ganha **comissão**.\n\nRegras: [A DEFINIR #D17: comissão, prazo do cookie, quando e como é pago, quem pode participar].\n\nPara participar: [A DEFINIR #D17: link de inscrição]."
+  "resposta_longa": "Ainda **não temos** programa de afiliados. Quando abrirmos, as regras (comissão, prazos e pagamento) serão publicadas aqui. Interessados podem escrever para **atendimento@ohmygirl.com.br** com o assunto **Parceria**."
  },
  {
   "id": "afiliados-02",
@@ -2078,9 +2280,9 @@
    "quando paga afiliado",
    "comissão de afiliado"
   ],
-  "resposta": "[A DEFINIR #D17: percentual e calendário de pagamento da comissão].",
+  "resposta": "Ainda não temos programa de afiliados, então não há comissão no momento. Quando abrirmos, as regras serão publicadas aqui.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": false
  },
  {
@@ -2093,9 +2295,9 @@
    "recebidos",
    "publi"
   ],
-  "resposta": "Que bom! Mande para atendimento@ohmygirl.com.br com o assunto 'Influenciadora' o seu @, número de seguidores e uma ideia de conteúdo. [A DEFINIR #D18: critérios do programa de influenciadores].",
+  "resposta": "Que bom! Ainda não temos um programa aberto de influenciadores, mas adoramos conhecer quem ama skincare coreano. Mande para atendimento@ohmygirl.com.br com o assunto 'Influenciadora' o seu @ e uma ideia de conteúdo que a nossa equipe avalia.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": false
  },
  {
@@ -2107,7 +2309,7 @@
    "usar meu cupom de afiliado",
    "autocompra"
   ],
-  "resposta": "Não. Compras feitas com o próprio link ou cupom não geram comissão.",
+  "resposta": "Ainda não temos programa de afiliados. Quando abrirmos, as regras sobre compras com o próprio link serão publicadas aqui.",
   "links": [],
   "status": "ok",
   "escalar_humano": false
@@ -2186,6 +2388,21 @@
   "escalar_humano": true
  },
  {
+  "id": "golpes-06",
+  "categoria": "Golpes e sites falsos",
+  "pergunta": "A OMG pede senha ou código por mensagem?",
+  "variacoes": [
+   "pediram meu codigo",
+   "pediram senha",
+   "codigo do whatsapp",
+   "sms com codigo"
+  ],
+  "resposta": "Nunca. A OMG não pede senha, código de verificação, dados completos do cartão nem pagamento por Pix por mensagem. Se alguém pedir em nosso nome, não passe e nos avise no WhatsApp oficial (+55 11 94588-4562).",
+  "links": [],
+  "status": "ok",
+  "escalar_humano": true
+ },
+ {
   "id": "contato-01",
   "categoria": "Fale com a gente",
   "pergunta": "Quero falar com uma pessoa.",
@@ -2195,9 +2412,9 @@
    "atendimento humano",
    "falar com alguem"
   ],
-  "resposta": "Claro! Escreva 'atendente' no WhatsApp que passamos para a equipe. Horário: [A DEFINIR #D2: horário de atendimento]. Fora do horário, deixe a sua mensagem que respondemos assim que voltarmos.",
+  "resposta": "Claro! Escreva 'atendente' no WhatsApp (+55 11 94588-4562) que passamos para a equipe, de segunda a sexta, das 9h às 18h (horário de Brasília). Fora do horário, deixe a sua mensagem que respondemos no próximo dia útil.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": true
  },
  {
@@ -2237,9 +2454,9 @@
    "posso ligar",
    "numero pra ligar"
   ],
-  "resposta": "O nosso atendimento é por WhatsApp ([A DEFINIR #D1: número do WhatsApp]) e e-mail (atendimento@ohmygirl.com.br). Assim registramos tudo e resolvemos mais rápido.",
+  "resposta": "O nosso atendimento é por WhatsApp (+55 11 94588-4562, mensagens) e e-mail (atendimento@ohmygirl.com.br). Assim registramos tudo e resolvemos mais rápido.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": false
  },
  {
@@ -2252,6 +2469,20 @@
    "aceita audio"
   ],
   "resposta": "Prefira texto: o atendimento fica mais rápido e registrado. Se precisar mostrar um problema, mande fotos ou vídeo.",
+  "links": [],
+  "status": "ok",
+  "escalar_humano": false
+ },
+ {
+  "id": "contato-06",
+  "categoria": "Fale com a gente",
+  "pergunta": "Em quanto tempo vocês respondem?",
+  "variacoes": [
+   "demora pra responder",
+   "quanto tempo pra resposta",
+   "ninguem me respondeu"
+  ],
+  "resposta": "No WhatsApp, o assistente responde na hora e a equipe humana de segunda a sexta, das 9h às 18h. Por e-mail, respondemos em até 2 dias úteis.",
   "links": [],
   "status": "ok",
   "escalar_humano": false

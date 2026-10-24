@@ -28,3 +28,7 @@ Cosméticos coreanos falsificados são comuns em sites desconhecidos e marketpla
 ### Encontrei um perfil falso usando o nome da OMG.
 
 Obrigada por avisar! Mande o @ ou o link pelo WhatsApp ou e-mail. Nosso perfil oficial é @omg_ohmygirlbr.
+
+### A OMG pede senha ou código por mensagem?
+
+Nunca. A OMG não pede senha, código de verificação, dados completos do cartão nem pagamento por Pix por mensagem. Se alguém pedir em nosso nome, não passe e nos avise no WhatsApp oficial (+55 11 94588-4562).
