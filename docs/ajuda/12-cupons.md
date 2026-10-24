@@ -16,7 +16,7 @@ Depende do cupom: cada um tem as suas regras (validade, valor mínimo, se acumul
 
 ### Esqueci de usar o cupom. Dá para aplicar depois?
 
-Infelizmente o cupom precisa ser aplicado no checkout, antes do pagamento. Se o pedido ainda não entrou no corte das 18h, fale com a gente que avaliamos.
+Infelizmente o cupom precisa ser aplicado no checkout, antes do pagamento. Se a compra acabou de ser feita, fale com a gente que avaliamos.
 
 ### Vocês têm programa de fidelidade?
 

@@ -34,7 +34,7 @@ O **único** site oficial é **ohmygirl.com.br**. Veja também *Golpes e sites f
 
 ### De onde vêm os produtos?
 
-Os produtos são comprados **na Coreia do Sul**, de **marcas e distribuidores oficiais**, embalados por um parceiro logístico em Seul e enviados **por avião** ao Brasil.
+Os produtos ficam no **nosso estoque na Coreia do Sul**, abastecido por **marcas e distribuidores oficiais**. Seu pedido é embalado em Seul e enviado **por avião** ao Brasil.
 
 **Não temos estoque no Brasil.** Isso tem duas vantagens para você:
 - **preço menor**, porque não pagamos importação em grande volume nem armazém no Brasil;

@@ -19,8 +19,8 @@ Não precisa: você pode comprar como visitante, informando e-mail e CPF. Com co
 ### Recebi o e-mail de confirmação. E agora?
 
 Depois da confirmação, o seu pedido passa por estas etapas:
-1. **Compra recebida** — o pedido entra na lista do próximo corte (**18h, de domingo a quinta**; pedidos de quinta 18h01 a domingo 18h saem juntos no domingo).
-2. Os produtos são **separados e embalados na Coreia**, um pacote por pedido.
+1. **Compra recebida** — confirmamos o seu pedido.
+2. Os produtos são **separados e embalados no nosso estoque na Coreia**, um pacote por pedido.
 3. **Saiu da Coreia** — embarque aéreo para o Brasil.
 4. **Chegou ao Brasil** — liberação na alfândega (impostos já pagos).
 5. **A caminho** — entrega pela transportadora de última milha.
@@ -29,23 +29,23 @@ Você recebe um aviso em cada uma das etapas 1, 3, 4 e 5.
 
 ### Posso alterar meu pedido depois de pagar?
 
-- **Antes do corte das 18h** do dia do pedido: fale com a gente pelo WhatsApp e tentamos ajustar.
-- **Depois do corte**: os produtos já foram comprados e o pedido não pode mais ser alterado.
+- **Logo depois da compra**: fale com a gente pelo WhatsApp o quanto antes e tentamos ajustar.
+- **Depois que o pedido é separado para envio**: não é mais possível alterar.
 - Para **incluir produtos**, faça um **novo pedido** (lembrando que cada pedido tem o próprio frete e cálculo de impostos).
 
 ### Posso alterar o endereço de entrega?
 
-Fale com a gente pelo WhatsApp com o número do pedido e o endereço correto o quanto antes. Conseguimos alterar até o corte das 18h do dia do pedido; depois que a etiqueta de envio é emitida, a mudança pode não ser possível.
+Fale com a gente pelo WhatsApp com o número do pedido e o endereço correto o quanto antes. Quanto antes você avisar, maior a chance de corrigir: depois que a etiqueta de envio é emitida, a mudança pode não ser possível.
 
 ### Como cancelo meu pedido?
 
-- **Até o embarque na Coreia**: cancelamento **sem custo**, com **reembolso total** (produtos, frete e impostos).
-- **Depois do embarque**: o pacote já está a caminho e não dá para interromper. Você pode **recusar a entrega** ou, depois de receber, usar o **direito de arrependimento** de **7 dias** (CDC, art. 49), também com reembolso total.
+- **Antes de o pedido sair da Coreia**: cancelamento **sem custo**, com **reembolso total** (produtos, frete e impostos).
+- **Depois que o pedido sai da Coreia**: o pacote já está a caminho e não dá para interromper. Você pode **recusar a entrega** ou, depois de receber, usar o **direito de arrependimento** de **7 dias** (CDC, art. 49), também com reembolso total.
 - Você recebe a **confirmação do cancelamento** por e-mail.
 
 ### O produto esgotou depois que eu comprei. E agora?
 
-Às vezes um produto esgota no fornecedor coreano depois da compra. Se acontecer, avisamos você em até 2 dias úteis e você escolhe: trocar por um produto similar, aguardar a reposição ou receber o reembolso integral do item.
+É raro, mas pode acontecer de um item esgotar no nosso estoque no mesmo momento da sua compra (por exemplo, duas pessoas comprando a última unidade). Se acontecer, avisamos você em até 2 dias úteis e você escolhe: trocar por um produto similar, aguardar a reposição do estoque ou receber o reembolso integral do item.
 
 ### Vocês têm limite de unidades por produto?
 
@@ -53,11 +53,11 @@ Sim. Como as compras são para uso pessoal (Remessa Conforme), o limite é de 6 
 
 ### Os preços mudam?
 
-Sim, podem mudar por câmbio, promoções e preço do fornecedor na Coreia. Vale o preço do momento da compra. Os impostos também são calculados com o câmbio do dia, mostrado no checkout.
+Sim, podem mudar por câmbio, promoções e custos na Coreia. Vale o preço do momento da compra. Os impostos também são calculados com o câmbio do dia, mostrado no checkout.
 
 ### Por que um produto aparece como indisponível?
 
-Indisponível quer dizer que o fornecedor coreano está sem o produto no momento, ou que pausamos a venda. Volte em alguns dias ou fale com a gente que avisamos quando voltar.
+Indisponível quer dizer que o produto está sem estoque no momento ou que pausamos a venda. Volte em alguns dias ou fale com a gente que avisamos quando voltar.
 
 ### Fiz dois pedidos. Vocês juntam num pacote só?
 
@@ -85,11 +85,11 @@ Não. A OMG atende apenas entregas no Brasil, pelo Programa Remessa Conforme.
 
 ### Posso reservar um produto?
 
-Não fazemos reservas. Como cada pedido é comprado na Coreia depois da compra, o produto fica garantido para você assim que o pedido é pago.
+Não fazemos reservas. O produto fica garantido para você assim que o pedido é pago.
 
 ### Meu endereço está incompleto ou errado. E agora?
 
-Fale com a gente o quanto antes pelo WhatsApp. Até o corte das 18h do dia do pedido conseguimos corrigir. Depois, se a entrega falhar por endereço errado, o pacote volta ao centro de distribuição e a nova entrega é cobrada.
+Fale com a gente o quanto antes pelo WhatsApp. Quanto antes você avisar, maior a chance de corrigir antes do envio. Depois, se a entrega falhar por endereço errado, o pacote volta ao centro de distribuição e a nova entrega é cobrada.
 
 ### O que acontece com o cupom ou os pontos se eu cancelar?
 

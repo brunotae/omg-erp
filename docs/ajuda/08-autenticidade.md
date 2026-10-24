@@ -5,9 +5,9 @@ _Como garantimos que o produto é original._
 ### Os produtos são originais?
 
 Sim, **100% originais**:
-- compramos **de marcas e distribuidores oficiais** na Coreia do Sul;
+- nosso **estoque na Coreia do Sul** é abastecido por **marcas e distribuidores oficiais**;
 - o produto sai **da Coreia** direto para você, sem passar por intermediários no Brasil;
-- **não compramos** de marketplaces nem de revendedores informais.
+- **não trabalhamos** com marketplaces nem revendedores informais.
 
 Desconfie de preços muito abaixo do mercado em sites desconhecidos: falsificações de cosméticos coreanos são comuns.
 
@@ -37,11 +37,11 @@ Enviamos produtos com validade adequada para uso. Se o produto chegou com menos 
 
 ### Quem são os fornecedores da OMG?
 
-A OMG compra **apenas** de fornecedores **idôneos, tradicionais e conhecidos no mercado coreano**:
+O estoque da OMG é abastecido **apenas** por fornecedores **idôneos, tradicionais e conhecidos no mercado coreano**:
 - as **próprias marcas**;
 - **distribuidores** que trabalham diretamente com elas.
 
-**Não compramos** de marketplaces, revendedores informais nem de estoques de origem desconhecida. É assim que garantimos produto **original** e com **validade adequada**.
+**Não trabalhamos** com marketplaces, revendedores informais nem mercadoria de origem desconhecida. É assim que garantimos produto **original** e com **validade adequada**.
 
 ### Comprar na OMG é igual a comprar na Coreia?
 
@@ -53,4 +53,4 @@ Sim. Os produtos são fabricados seguindo as normas coreanas e internacionais de
 
 ### Por que confiar que não é falsificado?
 
-Porque o produto sai da Coreia, comprado das marcas e de distribuidores oficiais, e vem direto para você — sem passar por estoques no Brasil. Se tiver qualquer dúvida sobre um item recebido, mande fotos pelo WhatsApp que conferimos com o fornecedor.
+Porque o produto sai do nosso estoque na Coreia, abastecido por marcas e distribuidores oficiais, e vem direto para você — sem passar por intermediários no Brasil. Se tiver qualquer dúvida sobre um item recebido, mande fotos pelo WhatsApp que conferimos com o fornecedor.

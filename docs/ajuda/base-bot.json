@@ -60,11 +60,11 @@
    "vcs tem estoque no brasil?",
    "sai de onde meu pedido"
   ],
-  "resposta": "Todos os produtos saem da Coreia do Sul. Compramos de marcas e distribuidores coreanos e enviamos o seu pedido por via aérea direto para o Brasil. Não temos estoque no Brasil — é isso que permite preço menor e variedade enorme.",
+  "resposta": "Todos os produtos saem do nosso estoque na Coreia do Sul, abastecido por marcas e distribuidores oficiais, e seguem por via aérea direto para o Brasil. Não temos estoque no Brasil — é isso que permite preço menor e variedade enorme.",
   "links": [],
   "status": "ok",
   "escalar_humano": false,
-  "resposta_longa": "Os produtos são comprados **na Coreia do Sul**, de **marcas e distribuidores oficiais**, embalados por um parceiro logístico em Seul e enviados **por avião** ao Brasil.\n\n**Não temos estoque no Brasil.** Isso tem duas vantagens para você:\n- **preço menor**, porque não pagamos importação em grande volume nem armazém no Brasil;\n- **variedade enorme**, inclusive lançamentos que ainda não chegaram aqui.\n\nA contrapartida é o prazo: veja *Por que demora até 15 dias úteis*."
+  "resposta_longa": "Os produtos ficam no **nosso estoque na Coreia do Sul**, abastecido por **marcas e distribuidores oficiais**. Seu pedido é embalado em Seul e enviado **por avião** ao Brasil.\n\n**Não temos estoque no Brasil.** Isso tem duas vantagens para você:\n- **preço menor**, porque não pagamos importação em grande volume nem armazém no Brasil;\n- **variedade enorme**, inclusive lançamentos que ainda não chegaram aqui.\n\nA contrapartida é o prazo: veja *Por que demora até 15 dias úteis*."
  },
  {
   "id": "sobre-05",
@@ -404,13 +404,13 @@
   "variacoes": [
    "recebi o email e agora",
    "o que acontece depois que compro",
-   "quando vcs compram meu produto"
+   "quando vcs enviam meu produto"
   ],
-  "resposta": "Seu pedido entra na lista do próximo corte (às 18h, de domingo a quinta). Os produtos são separados e embalados na Coreia e seguem de avião. Você recebe avisos em cada etapa: compra recebida, saiu da Coreia, chegou ao Brasil e a caminho.",
+  "resposta": "Seu pedido é separado e embalado no nosso estoque na Coreia e segue de avião para o Brasil. Você recebe avisos em cada etapa: compra recebida, saiu da Coreia, chegou ao Brasil e a caminho.",
   "links": [],
   "status": "ok",
   "escalar_humano": false,
-  "resposta_longa": "Depois da confirmação, o seu pedido passa por estas etapas:\n1. **Compra recebida** — o pedido entra na lista do próximo corte (**18h, de domingo a quinta**; pedidos de quinta 18h01 a domingo 18h saem juntos no domingo).\n2. Os produtos são **separados e embalados na Coreia**, um pacote por pedido.\n3. **Saiu da Coreia** — embarque aéreo para o Brasil.\n4. **Chegou ao Brasil** — liberação na alfândega (impostos já pagos).\n5. **A caminho** — entrega pela transportadora de última milha.\n\nVocê recebe um aviso em cada uma das etapas 1, 3, 4 e 5."
+  "resposta_longa": "Depois da confirmação, o seu pedido passa por estas etapas:\n1. **Compra recebida** — confirmamos o seu pedido.\n2. Os produtos são **separados e embalados no nosso estoque na Coreia**, um pacote por pedido.\n3. **Saiu da Coreia** — embarque aéreo para o Brasil.\n4. **Chegou ao Brasil** — liberação na alfândega (impostos já pagos).\n5. **A caminho** — entrega pela transportadora de última milha.\n\nVocê recebe um aviso em cada uma das etapas 1, 3, 4 e 5."
  },
  {
   "id": "pedidos-04",
@@ -422,11 +422,11 @@
    "trocar produto do pedido",
    "adicionar item no pedido"
   ],
-  "resposta": "Fale com a gente o quanto antes pelo WhatsApp. Conseguimos ajudar enquanto o pedido não entrou no corte das 18h. Depois disso, os produtos já foram comprados na Coreia. Para incluir itens, o mais rápido é fazer um novo pedido.",
+  "resposta": "Fale com a gente o quanto antes pelo WhatsApp. Conseguimos ajudar enquanto o pedido ainda não foi separado para envio; depois disso, ele não pode mais ser alterado. Para incluir itens, o mais rápido é fazer um novo pedido.",
   "links": [],
   "status": "ok",
   "escalar_humano": true,
-  "resposta_longa": "- **Antes do corte das 18h** do dia do pedido: fale com a gente pelo WhatsApp e tentamos ajustar.\n- **Depois do corte**: os produtos já foram comprados e o pedido não pode mais ser alterado.\n- Para **incluir produtos**, faça um **novo pedido** (lembrando que cada pedido tem o próprio frete e cálculo de impostos)."
+  "resposta_longa": "- **Logo depois da compra**: fale com a gente pelo WhatsApp o quanto antes e tentamos ajustar.\n- **Depois que o pedido é separado para envio**: não é mais possível alterar.\n- Para **incluir produtos**, faça um **novo pedido** (lembrando que cada pedido tem o próprio frete e cálculo de impostos)."
  },
  {
   "id": "pedidos-05",
@@ -438,7 +438,7 @@
    "coloquei cep errado",
    "me mudei"
   ],
-  "resposta": "Fale com a gente pelo WhatsApp com o número do pedido e o endereço correto o quanto antes. Conseguimos alterar até o corte das 18h do dia do pedido; depois que a etiqueta de envio é emitida, a mudança pode não ser possível.",
+  "resposta": "Fale com a gente pelo WhatsApp com o número do pedido e o endereço correto o quanto antes. Quanto antes você avisar, maior a chance de corrigir: depois que a etiqueta de envio é emitida, a mudança pode não ser possível.",
   "links": [],
   "status": "ok",
   "escalar_humano": true
@@ -453,11 +453,11 @@
    "desistir do pedido",
    "como cancela"
   ],
-  "resposta": "Fale com a gente pelo WhatsApp ou e-mail com o número do pedido. Você pode cancelar sem custo até o pedido embarcar na Coreia, com reembolso total. Se já tiver embarcado, você pode recusar a entrega ou usar o direito de arrependimento em até 7 dias depois de receber.",
+  "resposta": "Fale com a gente pelo WhatsApp ou e-mail com o número do pedido. Você pode cancelar sem custo enquanto o pedido não tiver saído da Coreia, com reembolso total. Se já tiver saído, você pode recusar a entrega ou usar o direito de arrependimento em até 7 dias depois de receber.",
   "links": [],
   "status": "ok",
   "escalar_humano": true,
-  "resposta_longa": "- **Até o embarque na Coreia**: cancelamento **sem custo**, com **reembolso total** (produtos, frete e impostos).\n- **Depois do embarque**: o pacote já está a caminho e não dá para interromper. Você pode **recusar a entrega** ou, depois de receber, usar o **direito de arrependimento** de **7 dias** (CDC, art. 49), também com reembolso total.\n- Você recebe a **confirmação do cancelamento** por e-mail."
+  "resposta_longa": "- **Antes de o pedido sair da Coreia**: cancelamento **sem custo**, com **reembolso total** (produtos, frete e impostos).\n- **Depois que o pedido sai da Coreia**: o pacote já está a caminho e não dá para interromper. Você pode **recusar a entrega** ou, depois de receber, usar o **direito de arrependimento** de **7 dias** (CDC, art. 49), também com reembolso total.\n- Você recebe a **confirmação do cancelamento** por e-mail."
  },
  {
   "id": "pedidos-07",
@@ -468,7 +468,7 @@
    "vcs nao tem mais o produto",
    "ficou sem estoque meu pedido"
   ],
-  "resposta": "Às vezes um produto esgota no fornecedor coreano depois da compra. Se acontecer, avisamos você em até 2 dias úteis e você escolhe: trocar por um produto similar, aguardar a reposição ou receber o reembolso integral do item.",
+  "resposta": "É raro, mas pode acontecer de um item esgotar no nosso estoque no mesmo momento da sua compra (por exemplo, duas pessoas comprando a última unidade). Se acontecer, avisamos você em até 2 dias úteis e você escolhe: trocar por um produto similar, aguardar a reposição do estoque ou receber o reembolso integral do item.",
   "links": [],
   "status": "ok",
   "escalar_humano": true
@@ -497,7 +497,7 @@
    "preço muda com o dolar",
    "vcs cobrem preço"
   ],
-  "resposta": "Sim, podem mudar por câmbio, promoções e preço do fornecedor na Coreia. Vale o preço do momento da compra. Os impostos também são calculados com o câmbio do dia, mostrado no checkout.",
+  "resposta": "Sim, podem mudar por câmbio, promoções e custos na Coreia. Vale o preço do momento da compra. Os impostos também são calculados com o câmbio do dia, mostrado no checkout.",
   "links": [],
   "status": "ok",
   "escalar_humano": false
@@ -512,7 +512,7 @@
    "esgotado quando chega",
    "avise-me quando chegar"
   ],
-  "resposta": "Indisponível quer dizer que o fornecedor coreano está sem o produto no momento, ou que pausamos a venda. Volte em alguns dias ou fale com a gente que avisamos quando voltar.",
+  "resposta": "Indisponível quer dizer que o produto está sem estoque no momento ou que pausamos a venda. Volte em alguns dias ou fale com a gente que avisamos quando voltar.",
   "links": [],
   "status": "ok",
   "escalar_humano": false
@@ -610,7 +610,7 @@
    "guardar pra mim",
    "separar produto"
   ],
-  "resposta": "Não fazemos reservas. Como cada pedido é comprado na Coreia depois da compra, o produto fica garantido para você assim que o pedido é pago.",
+  "resposta": "Não fazemos reservas. O produto fica garantido para você assim que o pedido é pago.",
   "links": [],
   "status": "ok",
   "escalar_humano": false
@@ -624,7 +624,7 @@
    "faltou numero da casa",
    "complemento errado"
   ],
-  "resposta": "Fale com a gente o quanto antes pelo WhatsApp. Até o corte das 18h do dia do pedido conseguimos corrigir. Depois, se a entrega falhar por endereço errado, o pacote volta ao centro de distribuição e a nova entrega é cobrada.",
+  "resposta": "Fale com a gente o quanto antes pelo WhatsApp. Quanto antes você avisar, maior a chance de corrigir antes do envio. Depois, se a entrega falhar por endereço errado, o pacote volta ao centro de distribuição e a nova entrega é cobrada.",
   "links": [],
   "status": "ok",
   "escalar_humano": true
@@ -845,11 +845,11 @@
    "15 dias é muito",
    "nao tem entrega rapida"
   ],
-  "resposta": "Porque o seu produto vem da Coreia do Sul especialmente para você: é comprado, embalado em Seul, liberado pela alfândega coreana, voa até o Brasil, é liberado aqui e segue para a sua casa. Em troca, você paga menos e tem acesso a muito mais produtos.",
+  "resposta": "Porque o seu produto vem da Coreia do Sul: é separado e embalado no nosso estoque em Seul, liberado pela alfândega coreana, voa até o Brasil, é liberado aqui e segue para a sua casa. Em troca, você paga menos e tem acesso a muito mais produtos.",
   "links": [],
   "status": "ok",
   "escalar_humano": false,
-  "resposta_longa": "O caminho do seu pedido:\n1. **Corte das 18h** (domingo a quinta) — o pedido entra na lista do dia.\n2. **Compra na Coreia** — os itens são comprados de marcas e distribuidores.\n3. **Separação e embalagem** em Seul, um pacote por pedido.\n4. **Exportação** — liberação na alfândega coreana.\n5. **Voo** para o Brasil.\n6. **Desembaraço** na Receita Federal (rápido, porque os impostos já foram pagos no PRC).\n7. **Última milha** até a sua casa.\n\nCada etapa tem o seu tempo, por isso o prazo oficial é de **até 15 dias úteis**. A vantagem: **preço menor** e **variedade** que não existe nas lojas daqui."
+  "resposta_longa": "O caminho do seu pedido:\n1. **Separação e embalagem** no nosso estoque em Seul, um pacote por pedido.\n2. **Exportação** — liberação na alfândega coreana.\n3. **Voo** para o Brasil.\n4. **Desembaraço** na Receita Federal (rápido, porque os impostos já foram pagos no PRC).\n5. **Última milha** até a sua casa.\n\nCada etapa tem o seu tempo, por isso o prazo oficial é de **até 15 dias úteis**. A vantagem: **preço menor** e **variedade** que não existe nas lojas daqui."
  },
  {
   "id": "entrega-03",
@@ -905,7 +905,7 @@
    "pedido de sexta sai quando",
    "fim de semana demora mais"
   ],
-  "resposta": "Os pedidos entram em listas diárias com corte às 18h, de domingo a quinta. Pedidos de quinta depois das 18h até domingo às 18h saem juntos na lista de domingo.",
+  "resposta": "Pedidos feitos no fim de semana ou em feriados são processados a partir do próximo dia útil. O prazo de entrega é contado em dias úteis.",
   "links": [],
   "status": "ok",
   "escalar_humano": false
@@ -1419,11 +1419,11 @@
    "produto é original mesmo",
    "como sei que nao é fake"
   ],
-  "resposta": "Sim, 100% originais. Compramos direto de marcas e distribuidores oficiais na Coreia do Sul e enviamos da Coreia para você. Não compramos de revendedores informais nem de marketplaces.",
+  "resposta": "Sim, 100% originais. Nosso estoque na Coreia do Sul é abastecido direto por marcas e distribuidores oficiais, e o produto sai de lá para você. Não trabalhamos com revendedores informais nem marketplaces.",
   "links": [],
   "status": "ok",
   "escalar_humano": false,
-  "resposta_longa": "Sim, **100% originais**:\n- compramos **de marcas e distribuidores oficiais** na Coreia do Sul;\n- o produto sai **da Coreia** direto para você, sem passar por intermediários no Brasil;\n- **não compramos** de marketplaces nem de revendedores informais.\n\nDesconfie de preços muito abaixo do mercado em sites desconhecidos: falsificações de cosméticos coreanos são comuns."
+  "resposta_longa": "Sim, **100% originais**:\n- nosso **estoque na Coreia do Sul** é abastecido por **marcas e distribuidores oficiais**;\n- o produto sai **da Coreia** direto para você, sem passar por intermediários no Brasil;\n- **não trabalhamos** com marketplaces nem revendedores informais.\n\nDesconfie de preços muito abaixo do mercado em sites desconhecidos: falsificações de cosméticos coreanos são comuns."
  },
  {
   "id": "autenticidade-02",
@@ -1521,13 +1521,13 @@
    "de quem vcs compram",
    "quem fornece os produtos",
    "fornecedor confiavel?",
-   "compram de onde na coreia"
+   "de onde vem o estoque"
   ],
   "resposta": "Trabalhamos só com fornecedores idôneos, tradicionais e conhecidos na Coreia do Sul: as próprias marcas e distribuidores com quem elas trabalham. Nada de marketplace ou revendedor informal.",
   "links": [],
   "status": "ok",
   "escalar_humano": false,
-  "resposta_longa": "A OMG compra **apenas** de fornecedores **idôneos, tradicionais e conhecidos no mercado coreano**:\n- as **próprias marcas**;\n- **distribuidores** que trabalham diretamente com elas.\n\n**Não compramos** de marketplaces, revendedores informais nem de estoques de origem desconhecida. É assim que garantimos produto **original** e com **validade adequada**."
+  "resposta_longa": "O estoque da OMG é abastecido **apenas** por fornecedores **idôneos, tradicionais e conhecidos no mercado coreano**:\n- as **próprias marcas**;\n- **distribuidores** que trabalham diretamente com elas.\n\n**Não trabalhamos** com marketplaces, revendedores informais nem mercadoria de origem desconhecida. É assim que garantimos produto **original** e com **validade adequada**."
  },
  {
   "id": "autenticidade-09",
@@ -1567,7 +1567,7 @@
    "tem certificado de originalidade",
    "vcs garantem que é original"
   ],
-  "resposta": "Porque o produto sai da Coreia, comprado das marcas e de distribuidores oficiais, e vem direto para você — sem passar por estoques no Brasil. Se tiver qualquer dúvida sobre um item recebido, mande fotos pelo WhatsApp que conferimos com o fornecedor.",
+  "resposta": "Porque o produto sai do nosso estoque na Coreia, abastecido por marcas e distribuidores oficiais, e vem direto para você — sem passar por intermediários no Brasil. Se tiver qualquer dúvida sobre um item recebido, mande fotos pelo WhatsApp que conferimos com o fornecedor.",
   "links": [],
   "status": "ok",
   "escalar_humano": true
@@ -1657,7 +1657,7 @@
    "tem bastante",
    "estoque disponivel"
   ],
-  "resposta": "Não temos estoque no Brasil: cada pedido é comprado na Coreia. Se o produto está à venda, ele está disponível no fornecedor. Raramente ele esgota depois da compra (veja 'O produto esgotou depois que eu comprei').",
+  "resposta": "Não mostramos a quantidade. Nosso estoque fica na Coreia do Sul: se o produto está à venda, ele está disponível. Se esgotar, ele aparece como indisponível.",
   "links": [],
   "status": "ok",
   "escalar_humano": false
@@ -2121,7 +2121,7 @@
    "aplicar cupom depois",
    "comprei sem cupom"
   ],
-  "resposta": "Infelizmente o cupom precisa ser aplicado no checkout, antes do pagamento. Se o pedido ainda não entrou no corte das 18h, fale com a gente que avaliamos.",
+  "resposta": "Infelizmente o cupom precisa ser aplicado no checkout, antes do pagamento. Se a compra acabou de ser feita, fale com a gente que avaliamos.",
   "links": [],
   "status": "ok",
   "escalar_humano": false

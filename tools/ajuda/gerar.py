@@ -195,7 +195,7 @@ corpo = f"""<div class="omg-ajuda">
 <div class="home">
 <div class="destaques">
 <div><b>Imposto já incluso</b>O total do checkout já tem Imposto de Importação e ICMS. Sem taxa surpresa na entrega.</div>
-<div><b>Direto da Coreia</b>Produtos originais, comprados de marcas e distribuidores e enviados de Seul para você.</div>
+<div><b>Direto da Coreia</b>Produtos originais, do nosso estoque em Seul, abastecido por marcas e distribuidores oficiais.</div>
 <div><b>Até 15 dias úteis</b>Prazo oficial para capitais, com rastreio desde a Coreia.</div>
 </div>
 <h2 class="inicio">Perguntas mais comuns</h2>

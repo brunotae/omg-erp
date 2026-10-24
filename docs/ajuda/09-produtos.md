@@ -29,7 +29,7 @@ Durante a gravidez e a amamentação, converse com o seu médico antes de usar q
 
 ### O site mostra quantidade em estoque?
 
-Não temos estoque no Brasil: cada pedido é comprado na Coreia. Se o produto está à venda, ele está disponível no fornecedor. Raramente ele esgota depois da compra (veja 'O produto esgotou depois que eu comprei').
+Não mostramos a quantidade. Nosso estoque fica na Coreia do Sul: se o produto está à venda, ele está disponível. Se esgotar, ele aparece como indisponível.
 
 ### Vocês trazem produtos sob encomenda?
 

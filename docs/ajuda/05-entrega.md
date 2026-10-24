@@ -12,13 +12,11 @@ Muitas entregas chegam bem antes, mas o prazo que garantimos é o oficial. O pra
 ### Por que demora até 15 dias úteis?
 
 O caminho do seu pedido:
-1. **Corte das 18h** (domingo a quinta) — o pedido entra na lista do dia.
-2. **Compra na Coreia** — os itens são comprados de marcas e distribuidores.
-3. **Separação e embalagem** em Seul, um pacote por pedido.
-4. **Exportação** — liberação na alfândega coreana.
-5. **Voo** para o Brasil.
-6. **Desembaraço** na Receita Federal (rápido, porque os impostos já foram pagos no PRC).
-7. **Última milha** até a sua casa.
+1. **Separação e embalagem** no nosso estoque em Seul, um pacote por pedido.
+2. **Exportação** — liberação na alfândega coreana.
+3. **Voo** para o Brasil.
+4. **Desembaraço** na Receita Federal (rápido, porque os impostos já foram pagos no PRC).
+5. **Última milha** até a sua casa.
 
 Cada etapa tem o seu tempo, por isso o prazo oficial é de **até 15 dias úteis**. A vantagem: **preço menor** e **variedade** que não existe nas lojas daqui.
 
@@ -36,7 +34,7 @@ Sim, entregamos em todo o Brasil. O checkout confirma o frete e o prazo para o s
 
 ### Pedidos feitos no fim de semana saem quando?
 
-Os pedidos entram em listas diárias com corte às 18h, de domingo a quinta. Pedidos de quinta depois das 18h até domingo às 18h saem juntos na lista de domingo.
+Pedidos feitos no fim de semana ou em feriados são processados a partir do próximo dia útil. O prazo de entrega é contado em dias úteis.
 
 ### Ninguém estava em casa. E agora?
 
