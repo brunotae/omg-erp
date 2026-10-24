@@ -1,0 +1,25 @@
+name: Recortar fotos oficiais das marcas (fundo transparente)
+on:
+  push:
+    branches: [main]
+    paths: ['tools/marcas/recortar_rembg.py']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  recortar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install "rembg[cpu]==2.0.59" pillow
+      - run: python tools/marcas/recortar_rembg.py
+      - name: Guardar recortes
+        run: |
+          git config user.name "omg-bot"; git config user.email "bot@ohmygirl.com.br"
+          git add tools/marcas/recortes
+          git commit -m "Recortes das fotos oficiais (fundo transparente)" || true
+          git pull --rebase origin main && git push
