@@ -30,6 +30,7 @@ assert.equal(v1.itens[0].produto, "MDC-PAD-01 · Medicube Zero Pore Pad · 70 un
 assert.equal(v1.ext_id, "shopify:5550001");
 assert.equal(v1.pedido_site, "#1001");
 assert.equal(v1.etapas.pago, "2026-10-27");
+assert.equal(v1.pago_em, "2026-10-28T01:30:00.000Z");
 assert.match(v1.contato, /cliente@exemplo.com · \+5511999990000/);
 
 // Tributos como linha de produto sem SKU (forma alternativa de app), CPF no campo empresa, cupom

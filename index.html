@@ -406,13 +406,14 @@ function contasList(){
 const MOEDAS=['BRL','USD','KRW'];
 
 const S={db:null,canWrite:true,status:'connecting',view:'painel',q:'',
- data:{vendas:[],lotes:[],lancamentos:[],devolucoes:[],insumos:[],compras:[],produtos:[],cupons:[],fornecedores:[],metricas:[]},
- loaded:{},cfg:{krw:0.0039,usd:5.40,desc:12,markup:40,fielMin:2},
+ data:{vendas:[],cortes:[],lotes:[],lancamentos:[],devolucoes:[],insumos:[],compras:[],produtos:[],cupons:[],fornecedores:[],metricas:[]},
+ loaded:{},missing:{},cfg:{krw:0.0039,usd:5.40,desc:12,markup:40,fielMin:2},
  f:{vendas:'abertas',fin:'mes'}};
 
 const ICONS={
  painel:'<path d="M4 13h6V4H4zM14 20h6v-9h-6zM4 20h6v-4H4zM14 8h6V4h-6z"/>',
  vendas:'<path d="M6 7h12l-1 13H7z"/><path d="M9 7a3 3 0 0 1 6 0"/>',
+ cortes:'<path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6h.01M4 12h.01M4 18h.01"/>',
  lotes:'<path d="M2 16 22 7l-3 9-6-1-3 5-1-6z"/>',
  financeiro:'<rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 9v.01M18 15v.01"/>',
  lucro:'<path d="M4 19h16"/><path d="M6 15l4-4 3 3 5-6"/><path d="M15 8h3v3"/>',
@@ -425,7 +426,7 @@ const ICONS={
  fornecedores:'<path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/>',
  config:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/>'
 };
-const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','lotes','Embarques'],['','devolucoes','Devoluções'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','insumos','Embalagens'],['','compras','Compras'],['','produtos','Catálogo'],['Clientes','clientes','Clientes e cupons'],['','analises','Análises'],['Cadastros','fornecedores','Parceiros'],['','config','Ajustes e integração']];
+const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Lista do dia'],['','lotes','Embarques'],['','devolucoes','Devoluções'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','insumos','Embalagens'],['','compras','Compras'],['','produtos','Catálogo'],['Clientes','clientes','Clientes e cupons'],['','analises','Análises'],['Cadastros','fornecedores','Parceiros'],['','config','Ajustes e integração']];
 
 /* ================= utilidades ================= */
 const $=s=>document.querySelector(s);
@@ -445,7 +446,7 @@ const daysSince=d=>d?Math.floor((Date.parse(today())-Date.parse(d))/864e5):0;
 const svg=k=>'<svg viewBox="0 0 24 24" aria-hidden="true">'+ICONS[k]+'</svg>';
 function toast(t){const el=document.createElement('div');el.className='toast';el.textContent=t;document.body.appendChild(el);setTimeout(()=>el.remove(),2400)}
 const match=row=>!S.q||JSON.stringify(row).toLowerCase().includes(S.q.toLowerCase());
-const PILL={'Entregue':'p-ok','Recebida':'p-ok','Em estoque':'p-ok','Resolvida':'p-ok','Pago':'p-ok','Zerado':'p-ok','Crédito da OMG':'p-info','OMG deve':'p-bad','Ativo':'p-ok','Concluído':'p-ok','Cancelada':'p-mute','Inativo':'p-mute','Cotação':'p-warn','Previsto':'p-warn','Aberta':'p-warn','Indefinido':'p-bad','Arte pronta':'p-info','Em cotação':'p-warn'};
+const PILL={'Entregue':'p-ok','Recebida':'p-ok','Em estoque':'p-ok','Resolvida':'p-ok','Pago':'p-ok','Zerado':'p-ok','Crédito da OMG':'p-info','OMG deve':'p-bad','Ativo':'p-ok','Concluído':'p-ok','Cancelada':'p-mute','Inativo':'p-mute','Cotação':'p-warn','Previsto':'p-warn','Aberta':'p-warn','Indefinido':'p-bad','Arte pronta':'p-info','Em cotação':'p-warn','Enviada':'p-ok','Pendente':'p-warn'};
 const stPill=s=>'<span class="pill '+(PILL[s]||'p-info')+'">'+esc(s||'—')+'</span>';
 function nextSeq(col,prefix,pad){let max=0;S.data[col].forEach(r=>{const m=String(r.numero||'').match(/(\d+)$/);if(m)max=Math.max(max,+m[1])});return prefix+String(max+1).padStart(pad,'0')}
 const nextVenda=()=>{let max=100000000;S.data.vendas.forEach(v=>{if(has(v.numero))max=Math.max(max,v.numero)});return max+1};
@@ -561,7 +562,7 @@ function finance(filterFn){
 }
 
 /* ================= navegação e render ================= */
-function counts(){return{vendas:S.data.vendas.filter(isOpen).length,lotes:S.data.lotes.filter(l=>!(l.etapas||{}).desembaraco).length,devolucoes:S.data.devolucoes.filter(d=>d.status!=='Resolvida').length,compras:S.data.compras.filter(x=>x.status!=='Recebida'&&x.status!=='Cancelada').length}}
+function counts(){return{vendas:S.data.vendas.filter(isOpen).length,cortes:S.data.vendas.filter(awaitingCut).length,lotes:S.data.lotes.filter(l=>!(l.etapas||{}).desembaraco).length,devolucoes:S.data.devolucoes.filter(d=>d.status!=='Resolvida').length,compras:S.data.compras.filter(x=>x.status!=='Recebida'&&x.status!=='Cancelada').length}}
 function renderNav(){
  const c=counts();
  $('#nav').innerHTML=NAV.map(([g,k,l])=>(g?'<div class="grp">'+g+'</div>':'')+'<button type="button" data-view="'+k+'"'+(S.view===k?' aria-current="page"':'')+'>'+svg(k)+'<span>'+l+'</span>'+(c[k]?'<span class="cnt num">'+c[k]+'</span>':'<span></span>')+'</button>').join('');
@@ -596,6 +597,8 @@ VIEWFN.painel=()=>{
  lowStock().forEach(i=>alerts.push(['bad',i.codigo+' abaixo do mínimo',n(i.estoque)+' em estoque · mínimo '+n(i.minimo),'insumos']));
  S.data.devolucoes.filter(d=>d.destino==='Indefinido'&&d.status!=='Resolvida').forEach(d=>alerts.push(['',d.numero+' sem destino definido','Venda '+vnum(d.venda)+' · revender ou voltar à Coreia','devolucoes']));
  open.forEach(v=>{const c=curStep(v);if(c<0)return;const d=v.etapas[SK[c]];const lim=c<=1?2:c<=7?5:c<=9?3:7;if(daysSince(d)>lim)alerts.push(['bad','Venda '+vnum(v.numero)+' parada',daysSince(d)+' dias em "'+STEPS[c][1]+'"','vendas'])});
+ pendingGroups().filter(g=>g.c.ms<Date.now()).forEach(g=>alerts.push(['bad','Lista de '+cutLabel(g.c)+' não fechada',g.vs.length+' vendas esperando a lista do dia','cortes']));
+ S.data.cortes.filter(c=>!c.enviadoEm).forEach(c=>alerts.push(['',c.numero+' ainda não enviada','Mandar para Janice, Skyroad e Mile','cortes']));
  S.data.lotes.filter(l=>(l.etapas||{}).awb&&!(l.etapas||{}).rfkr).forEach(l=>alerts.push(['',l.numero+' aguardando RF Coreia','AWB '+(l.awb||'—'),'lotes']));
  S.data.lotes.filter(l=>(l.etapas||{}).embarcado&&!(l.etapas||{}).manifesto).forEach(l=>alerts.push(['bad',l.numero+': enviar manifesto à Mile','Embarcou em '+fdate(l.etapas.embarcado),'lotes']));
  S.data.insumos.filter(i=>i.status==='Arte pronta').forEach(i=>alerts.push(['',i.nome+': arte pronta','Falta cotar com a gráfica','compras']));
@@ -641,6 +644,77 @@ VIEWFN.lotes=()=>{
  :empty('Nenhum embarque','Quando a Skyroad consolidar os pacotes, crie o embarque, marque as vendas que estão na caixa master e registre o AWB.'))+'</div></div>'+
  '<aside class="rail"><div class="note"><span class="label">Ordem do embarque</span>'+LOTE_STEPS.map((k,i)=>'<p>'+(i+1)+'. '+esc(STEPS[SK.indexOf(k)][1])+' <span class="muted">· '+esc(STEPS[SK.indexOf(k)][2])+'</span></p>').join('')+'<p class="muted">Resultado = receita líquida das vendas do embarque − mercadoria − 3PL, frete aéreo e despacho − Mile − embalagem. Quando a Janice paga, o custo na Coreia sai do saldo com ela.</p></div></aside></div>';
 };
+
+/* ---------- Lista do dia (corte das 18h) ---------- */
+// Regra: corte às 18:00 (Brasília) de domingo a quinta. Pedidos de quinta 18:01 a domingo 18:00 saem juntos no corte de domingo.
+const DIAS=['dom','seg','ter','qua','qui','sex','sáb'];
+function spDate(ms){const p=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Sao_Paulo',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(ms));return p}
+function cutoffFor(ms){
+ let d=spDate(ms);
+ for(let i=0;i<8;i++){
+  const c=Date.parse(d+'T18:00:00-03:00'), dow=new Date(d+'T12:00:00-03:00').getUTCDay();
+  if(dow!==5&&dow!==6&&ms<=c+59999)return {dia:d,ms:c,dow};
+  d=spDate(Date.parse(d+'T12:00:00-03:00')+864e5);
+ }
+}
+const cutLabel=c=>DIAS[c.dow]+' '+fdate(c.dia)+' · 18h';
+const paidMs=v=>Date.parse(v.pagoEm||'')||Date.parse((v.etapas||{}).pago?v.criado_em||'':'')||v.createdAt||Date.now();
+const awaitingCut=v=>!isCancel(v)&&!!(v.etapas||{}).pago&&!v.corte&&curStep(v)<=1;
+const corteOf=v=>v.corte?(S.data.cortes||[]).find(c=>c.id===v.corte):null;
+function pendingGroups(){
+ const g={};S.data.vendas.filter(awaitingCut).forEach(v=>{const c=cutoffFor(paidMs(v));(g[c.dia]=g[c.dia]||{c,vs:[]}).vs.push(v)});
+ return Object.values(g).sort((a,b)=>a.c.ms-b.c.ms);
+}
+const prodKey=i=>String(i.produto||'').trim()||'(sem nome)';
+function aggItems(vs){
+ const m=new Map();vs.forEach(v=>(v.itens||[]).forEach(i=>{const k=prodKey(i);const a=m.get(k)||{produto:k,qtd:0,vendas:new Set()};a.qtd+=n(i.qtd)||0;a.vendas.add(v.numero);m.set(k,a)}));
+ return [...m.values()].sort((a,b)=>a.produto.localeCompare(b.produto));
+}
+const corteVendas=c=>(c.vendas||[]).map(id=>S.data.vendas.find(v=>v.id===id)).filter(Boolean).sort((a,b)=>n(a.numero)-n(b.numero));
+const itensTxt=v=>(v.itens||[]).map(i=>(n(i.qtd)||1)+'× '+prodKey(i)).join(' + ');
+function csvOf(head,rows){const q=x=>{const s=x==null?'':String(x);return /[;"\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s};return '﻿'+[head,...rows].map(r=>r.map(q).join(';')).join('\r\n')}
+function baixar(nome,txt){const b=new Blob([txt],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=nome;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
+function copiar(txt,ok){try{navigator.clipboard.writeText(txt).then(()=>toast(ok||'Copiado'),()=>toast('Não deu para copiar. Use Baixar planilha.'))}catch(_){toast('Não deu para copiar. Use Baixar planilha.')}}
+// três listas a partir das vendas do corte
+function listaJanice(c,vs){const A=aggItems(vs);return{csv:csvOf(['Produto','Qtd','Vendas'],A.map(a=>[a.produto,a.qtd,[...a.vendas].map(vnum).join(', ')])),
+ txt:'OMG · '+c.numero+' · corte '+cutLabel(cutoffFor(Date.parse(c.corteEm)))+'\nComprar ('+A.reduce((s,a)=>s+a.qtd,0)+' unidades, '+vs.length+' vendas):\n'+A.map(a=>'• '+a.qtd+'× '+a.produto).join('\n')+'\n\nPor favor, me mande o custo de cada item em ₩ e as despesas (embalagem, transporte) separadas.'}}
+function listaSkyroad(c,vs){return{csv:csvOf(['Venda','Pedido site','Cliente','Cidade','UF','Itens','Etiqueta Mile'],vs.map(v=>[vnum(v.numero),v.pedidoSite||'',v.cliente,v.cidade,v.uf,itensTxt(v),v.etiquetaMile||''])),
+ txt:'OMG · '+c.numero+' · '+vs.length+' pacotes (1 por venda)\n'+vs.map(v=>'• '+vnum(v.numero)+' · '+(v.cliente||'')+' · '+[v.cidade,v.uf].filter(Boolean).join('/')+'\n   '+itensTxt(v)+(v.etiquetaMile?'\n   Etiqueta Mile: '+v.etiquetaMile:'')).join('\n')}}
+function listaMile(c,vs){return{csv:csvOf(['Venda','Pedido site','Cliente','CPF','Cidade','UF','Total R$','II R$','ICMS R$','Itens'],vs.map(v=>{const k=calc(v);return[vnum(v.numero),v.pedidoSite||'',v.cliente,v.cpf,v.cidade,v.uf,k.total.toFixed(2).replace('.',','),n(v.ii).toFixed(2).replace('.',','),n(v.icms).toFixed(2).replace('.',','),itensTxt(v)]})),
+ txt:'OMG · '+c.numero+' · '+vs.length+' vendas para etiqueta e DIR\n'+vs.map(v=>'• '+vnum(v.numero)+(v.pedidoSite?' ('+v.pedidoSite+')':'')+' · '+(v.cliente||'')+' · CPF '+(v.cpf||'FALTANDO')+' · '+[v.cidade,v.uf].filter(Boolean).join('/')).join('\n')}}
+
+VIEWFN.cortes=()=>{
+ const G=pendingGroups(), now=Date.now(), nextC=cutoffFor(now);
+ const falta=Math.max(0,nextC.ms-now), hh=Math.floor(falta/36e5), mm=Math.floor(falta%36e5/6e4);
+ const missing=S.missing&&S.missing.cortes;
+ const grpHTML=G.length?G.map(({c,vs})=>{const venc=c.ms<now;
+  return '<div class="card"><div class="card-h"><h2>'+(venc?'Lista de ':'Próxima lista · ')+esc(cutLabel(c))+'</h2>'+(can()&&!missing?'<button class="btn '+(venc?'pri':'')+' sm" type="button" data-cut="'+esc(c.dia)+'">'+(venc?'Fechar lista':'Fechar agora')+'</button>':'')+'</div>'+
+  '<p class="muted" style="margin:0 0 8px;font-size:12.5px">'+vs.length+' venda'+(vs.length>1?'s':'')+' · '+(u=>u+(u===1?' unidade':' unidades'))(aggItems(vs).reduce((s,a)=>s+a.qtd,0))+(venc?' · <b style="color:var(--bad)">horário do corte já passou</b>':'')+'</p>'+
+  tblVendas(vs)+'</div>'}).join(''):'<div class="card">'+empty('Nenhuma venda esperando corte','Vendas pagas entram aqui sozinhas e saem na lista do próximo corte das 18h.')+'</div>';
+ const rows=(S.data.cortes||[]).filter(match);
+ return '<div class="page"><div class="col">'+head('Lista do dia','Corte às 18h (Brasília), domingo a quinta. Pedidos de quinta 18:01 a domingo 18:00 saem juntos no domingo. Cada lista gera o que a Janice compra, o que a Skyroad separa e o que a Mile precisa.')+
+ (missing?'<div class="note"><span class="label">Falta um passo no banco</span><p>Rode o SQL <b>20261024b_lista_do_dia.sql</b> no Supabase (SQL Editor) para salvar as listas.</p></div>':'')+
+ grpHTML+
+ '<div class="card"><div class="card-h"><h2>Listas fechadas</h2></div>'+(rows.length?'<div class="tblwrap"><table><thead><tr><th>Lista</th><th class="r">Vendas</th><th class="r">Unidades</th><th>Enviada</th><th class="r">Compra Janice</th></tr></thead><tbody>'+
+ rows.map(c=>{const vs=corteVendas(c), un=aggItems(vs).reduce((s,a)=>s+a.qtd,0), tot=compraTotal(c);
+  return '<tr data-edit="cortes" data-id="'+esc(c.id)+'"><td><b>'+esc(c.numero)+'</b><small>'+esc(cutLabel(cutoffFor(Date.parse(c.corteEm)||c.createdAt)))+'</small></td><td class="r num">'+vs.length+'</td><td class="r num">'+un+'</td><td>'+(c.enviadoEm?stPill('Enviada'):stPill('Pendente'))+'</td><td class="r num">'+(tot.base?'<b>'+krw(tot.total)+'</b><small>'+dm(tot.total*n(S.cfg.krw))+'</small>':'<span class="muted">aguardando</span>')+'</td></tr>'}).join('')+'</tbody></table></div>'
+ :empty('Nenhuma lista fechada ainda','Feche a lista depois das 18h. Ela fica guardada aqui com as três versões para mandar.'))+'</div></div>'+
+ '<aside class="rail"><div class="note"><span class="label">Próximo corte</span><p><b>'+esc(cutLabel(nextC))+'</b></p><p class="muted">faltam '+hh+'h'+String(mm).padStart(2,'0')+'</p></div>'+
+ '<div class="note"><span class="label">Rotina</span><p>1. Às 18h, feche a lista.</p><p>2. Mande a lista da Janice (compra), da Skyroad (separação) e da Mile (etiquetas e DIR).</p><p>3. Marque como enviada: as vendas passam para "Documentos enviados à Skyroad".</p><p>4. Quando a Janice mandar os custos em ₩, lance na própria lista. O custo entra em cada venda.</p></div></aside></div>';
+};
+function compraTotal(c){const it=Array.isArray(c.compra)?c.compra:[];const base=it.reduce((s,i)=>s+n(i.qtd)*n(i.custo),0);return{base,desp:n(c.despesasKrw),total:base+n(c.despesasKrw)}}
+async function fecharLista(dia){
+ const G=pendingGroups().find(g=>g.c.dia===dia);if(!G)return;
+ const c=G.c, num='LD-'+dia.slice(2).replace(/-/g,'');
+ if(c.ms>Date.now()&&!confirm('Ainda não deu 18h. Fechar a lista mesmo assim? Vendas pagas depois disso vão para a próxima.'))return;
+ try{
+  const ex=(S.data.cortes||[]).find(x=>x.numero===num);
+  const ids=G.vs.map(v=>v.id);
+  const cid=ex?await save('cortes',ex,{vendas:[...new Set([...(ex.vendas||[]),...ids])]}):await save('cortes',null,{numero:num,corteEm:new Date(Math.min(c.ms,Date.now())).toISOString(),vendas:ids});
+  for(const v of G.vs)await save('vendas',v,{corte:cid});
+  toast('Lista '+num+' fechada · '+ids.length+' vendas');await loadAll();openCorte(cid);
+ }catch(e){toast(errMsg(e))}
+}
 
 /* ---------- Devoluções ---------- */
 VIEWFN.devolucoes=()=>{
@@ -812,6 +886,7 @@ const fornNames=()=>S.data.fornecedores.map(f=>f.nome);
 const FORMS={
  vendas:{title:['Nova venda','Venda'],col:'vendas',custom:true},
  lotes:{title:['Novo embarque','Embarque'],col:'lotes',custom:true},
+ cortes:{title:['Lista do dia','Lista do dia'],col:'cortes',custom:true},
  devolucoes:{title:['Nova devolução','Devolução'],col:'devolucoes',secs:[['Devolução',[
   {k:'numero',l:'Nº',req:1},{k:'data',l:'Data',t:'date'},{k:'venda',l:'Nº da venda',t:'number',hint:'Ex.: 100000001'},
   {k:'status',l:'Situação',t:'select',o:['Aberta','Recebida','Resolvida']},{k:'itens',l:'Itens devolvidos',t:'textarea',full:1},{k:'motivo',l:'Motivo',full:1},
@@ -915,7 +990,7 @@ function wireSubmit(handler){
    if(err&&err.field){$('#m-err').textContent='Preencha: '+err.field.l+'.';const el=form.elements[err.field.k];el&&el.focus()}else $('#m-err').textContent=errMsg(err)}});
 }
 function openForm(key,id){
- const F=FORMS[key];if(F.custom)return key==='vendas'?openVenda(id):openLote(id);
+ const F=FORMS[key];if(F.custom)return key==='vendas'?openVenda(id):key==='cortes'?openCorte(id):openLote(id);
  const rec=id?S.data[F.col].find(r=>r.id===id):null, init=rec?{...rec}:F.def(), ro=!can();
  const fs=F.secs.flatMap(s=>s[1]);
  const pre=(key==='fornecedores'&&rec)?(()=>{const L=ledger(rec);return '<div class="sec"><span class="label">Extrato · saldo '+esc(fmtM(L.saldo,L.M))+' · '+esc(saldoTxt(L.saldo))+'</span><div style="grid-column:1/-1;min-width:0">'+extratoHTML(L,false)+'</div></div>'})():'';
@@ -978,6 +1053,18 @@ function openVenda(id){
  });
 }
 
+function manifestoMile(l){
+ const vs=(l.vendas||[]).map(id=>S.data.vendas.find(v=>v.id===id)).filter(Boolean).sort((a,b)=>n(a.numero)-n(b.numero));
+ const e=l.etapas||{};
+ const txt='Olá, equipe Mile! Embarque OMG '+l.numero+'\n'+
+  'AWB: '+(l.awb||'(pendente)')+(l.cia?' · '+l.cia:'')+'\n'+
+  (has(l.volumes)?'Volumes: '+l.volumes+' · ':'')+(has(l.pesoKg)?'Peso: '+l.pesoKg+' kg':'')+'\n'+
+  (e.embarcado?'Embarcou em '+fdate(e.embarcado):e.awb?'AWB emitido em '+fdate(e.awb):'')+'\n\n'+
+  vs.length+' pacotes (1 por venda):\n'+vs.map(v=>'• '+vnum(v.numero)+(v.pedidoSite?' ('+v.pedidoSite+')':'')+' · '+(v.cliente||'')+' · CPF '+(v.cpf||'FALTANDO')+' · '+[v.cidade,v.uf].filter(Boolean).join('/')+(v.etiquetaMile?' · etiqueta '+v.etiquetaMile:'')).join('\n');
+ const csv=csvOf(['Embarque','AWB','Venda','Pedido site','Cliente','CPF','Cidade','UF','Etiqueta Mile','Total R$','II R$','ICMS R$'],vs.map(v=>{const k=calc(v);return[l.numero,l.awb||'',vnum(v.numero),v.pedidoSite||'',v.cliente,v.cpf,v.cidade,v.uf,v.etiquetaMile||'',k.total.toFixed(2).replace('.',','),n(v.ii).toFixed(2).replace('.',','),n(v.icms).toFixed(2).replace('.',',')]}));
+ return {txt:txt.replace(/\n{3,}/g,'\n\n'),csv};
+}
+
 /* ---------- formulário de embarque ---------- */
 function openLote(id){
  const rec=id?S.data.lotes.find(r=>r.id===id):null, ro=!can();
@@ -987,13 +1074,15 @@ function openLote(id){
  const A=[{k:'numero',l:'Nº do embarque',req:1},{k:'awb',l:'AWB'},{k:'cia',l:'Companhia aérea',t:'combo',o:CIAS},{k:'caixa',l:'Caixa master (descrição)'},{k:'pesoKg',l:'Peso (kg)',t:'number'},{k:'volumes',l:'Volumes',t:'number'}];
  const C=[{k:'parceiroPagador',l:'Quem pagou os custos na Coreia',t:'parc',none:'OMG (pago direto)',hint:'Se foi a Janice, escolha a La Belle: o custo sai do saldo dela'},{k:'custoMercadoria',l:'Mercadoria comprada para este embarque (₩)',t:'number',hint:'Preencha quando a compra não está nas vendas (teste, amostras, estoque). Em branco = soma do custo La Belle das vendas.'},{k:'custo3PL',l:'3PL Skyroad (₩)',t:'number'},{k:'freteAereo',l:'Frete aéreo (₩)',t:'number'},{k:'despacho',l:'Despacho de exportação (₩)',t:'number'},{k:'obs',l:'Observações',t:'textarea',full:1}];
  const cand=S.data.vendas.filter(v=>!isCancel(v)&&(inL.has(v.id)||(!v.lote&&curStep(v)<8)));
+ const M=rec&&(rec.vendas||[]).length?manifestoMile(rec):null;
  const body='<div class="sec"><span class="label">Embarque</span>'+A.map(f=>fieldHTML(f,l[f.k],ro)).join('')+'</div>'+
   '<div class="sec"><span class="label">Vendas na caixa master</span>'+(cand.length?'<div class="vlist">'+cand.map(v=>'<label><input type="checkbox" data-v="'+esc(v.id)+'"'+(inL.has(v.id)?' checked':'')+(ro?' disabled':'')+'><b class="num">'+vnum(v.numero)+'</b><span>'+esc(v.cliente)+'</span><span class="muted">'+(curStep(v)>=0?esc(STEPS[curStep(v)][1]):'—')+'</span></label>').join('')+'</div>':'<p class="muted full" style="margin:0">Nenhuma venda disponível. Vendas aparecem aqui até embarcarem.</p>')+'</div>'+
   '<div class="sec"><span class="label">Custos do embarque · rateados entre as vendas</span>'+C.map(f=>fieldHTML(f,l[f.k],ro)).join('')+'</div>'+
-  '<div class="sec"><span class="label">Etapas · aplicadas a todas as vendas marcadas</span><div class="stepgrid">'+LOTE_STEPS.map((k,i)=>{const s=STEPS[SK.indexOf(k)];return '<label class="stepg'+(e[k]?' on':'')+'"><span class="n">'+(SK.indexOf(k)+1)+'</span><span>'+esc(s[1])+'<span class="who">'+esc(s[2])+'</span></span><input type="date" data-step="'+k+'" value="'+esc(e[k]||'')+'"'+(ro?' readonly':'')+'></label>'}).join('')+'</div></div>'+anexosHTML('lotes',ro);
+  '<div class="sec"><span class="label">Etapas · aplicadas a todas as vendas marcadas</span><div class="stepgrid">'+LOTE_STEPS.map((k,i)=>{const s=STEPS[SK.indexOf(k)];return '<label class="stepg'+(e[k]?' on':'')+'"><span class="n">'+(SK.indexOf(k)+1)+'</span><span>'+esc(s[1])+'<span class="who">'+esc(s[2])+'</span></span><input type="date" data-step="'+k+'" value="'+esc(e[k]||'')+'"'+(ro?' readonly':'')+'></label>'}).join('')+'</div></div>'+(M?'<div class="sec"><span class="label">Aviso para a Mile · manifesto</span><p class="muted" style="grid-column:1/-1;margin:0;font-size:12.5px">Mande assim que tiver o AWB. Depois marque a etapa "Manifesto com AWB enviado à Mile" acima.</p><pre class="code" style="grid-column:1/-1;max-height:220px">'+esc(M.txt)+'</pre><div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" type="button" id="mile-copy">Copiar texto</button><button class="btn sm" type="button" id="mile-csv">Baixar manifesto</button></div></div>':'')+anexosHTML('lotes',ro);
  shell(rec?'Embarque '+l.numero:'Novo embarque',body,rec,ro);
  wireDelete('lotes',rec);
  wireAnexos('lotes',rec);
+ if(M){$('#mile-copy').addEventListener('click',()=>copiar(M.txt,'Aviso copiado'));$('#mile-csv').addEventListener('click',()=>baixar('manifesto-'+rec.numero+'.csv',M.csv))}
  const form=$('#mform');
  form.addEventListener('input',ev=>{if(ev.target.dataset.step!==undefined)ev.target.closest('.stepg').classList.toggle('on',!!ev.target.value)});
  wireSubmit(async f=>{
@@ -1007,6 +1096,58 @@ function openLote(id){
    await save('vendas',v,{lote:lid,awb:vals.awb||'',etapas:ne})}
   for(const vid of removed){const v=S.data.vendas.find(x=>x.id===vid);if(v&&v.lote===lid)await save('vendas',v,{lote:'',awb:''})}
   toast('Embarque salvo · '+vals.vendas.length+' vendas atualizadas');
+ });
+}
+
+/* ---------- formulário da lista do dia ---------- */
+function openCorte(id){
+ const rec=(S.data.cortes||[]).find(r=>r.id===id);if(!rec)return;
+ const ro=!can(), vs=corteVendas(rec), A=aggItems(vs);
+ const prev=new Map((Array.isArray(rec.compra)?rec.compra:[]).map(i=>[i.produto,i]));
+ const L={janice:listaJanice(rec,vs),skyroad:listaSkyroad(rec,vs),mile:listaMile(rec,vs)};
+ const bloco=(k,t,sub)=>'<div class="sec"><span class="label">'+t+'</span><p class="muted full" style="grid-column:1/-1;margin:0;font-size:12.5px">'+sub+'</p><pre class="code" style="grid-column:1/-1;max-height:200px">'+esc(L[k].txt)+'</pre><div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" type="button" data-lcopy="'+k+'">Copiar texto</button><button class="btn sm" type="button" data-lcsv="'+k+'">Baixar planilha</button></div></div>';
+ const body='<div class="sec"><span class="label">Resumo</span><p style="grid-column:1/-1;margin:0">'+vs.length+' vendas · '+A.reduce((s,a)=>s+a.qtd,0)+' unidades · corte '+esc(cutLabel(cutoffFor(Date.parse(rec.corteEm)||rec.createdAt)))+'</p>'+
+  '<label class="chk full" style="grid-column:1/-1"><input type="checkbox" id="c-env"'+(rec.enviadoEm?' checked':'')+(ro?' disabled':'')+'> Lista enviada para Janice, Skyroad e Mile'+(rec.enviadoEm?' <span class="muted">· '+esc(new Date(rec.enviadoEm).toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo'}))+'</span>':'')+'</label></div>'+
+  bloco('janice','Para a Janice · o que comprar','Itens somados de todas as vendas da lista.')+
+  bloco('skyroad','Para a Skyroad · como separar','Um pacote por venda, com a etiqueta da Mile.')+
+  bloco('mile','Para a Mile · etiquetas e DIR','Confira se nenhuma venda está com CPF faltando.')+
+  '<div class="sec"><span class="label">Compra da Janice · custo em ₩</span><p class="muted" style="grid-column:1/-1;margin:0;font-size:12.5px">Custo unitário de cada item e as despesas na Coreia (embalagem, transporte local). As despesas são rateadas pelo valor dos itens e o custo final entra no campo "₩ La Belle" de cada venda.</p>'+
+  '<div style="grid-column:1/-1;min-width:0"><div class="tblwrap"><table><thead><tr><th>Produto</th><th class="r">Qtd</th><th class="r">₩ por unidade</th><th class="r">Subtotal</th></tr></thead><tbody>'+
+  A.map((a,i)=>'<tr><td>'+esc(a.produto)+'</td><td class="r num">'+a.qtd+'</td><td class="r"><input type="number" step="any" min="0" data-cprod="'+i+'" value="'+esc((prev.get(a.produto)||{}).custo??'')+'" style="width:120px;text-align:right"'+(ro?' readonly':'')+'></td><td class="r num" data-csub="'+i+'">—</td></tr>').join('')+
+  '</tbody></table></div></div>'+
+  '<div class="f"><label for="c-desp">Despesas na Coreia (₩)</label><input id="c-desp" type="number" step="any" min="0" value="'+esc(rec.despesasKrw??'')+'"'+(ro?' readonly':'')+'><span class="hint">Embalagem, transporte até a Skyroad, taxas</span></div>'+
+  '<div class="f"><label>Total da compra</label><div id="c-tot" class="num" style="padding:9px 0;font-weight:700">—</div></div>'+
+  '<div class="f full" style="grid-column:1/-1"><label for="c-obs">Observações</label><textarea id="c-obs"'+(ro?' readonly':'')+'>'+esc(rec.obs||'')+'</textarea></div></div>';
+ shell('Lista '+rec.numero,body,rec,ro);
+ const f=$('#mform');
+ const tot=()=>{let b=0;A.forEach((a,i)=>{const u=parseFloat(f.querySelector('[data-cprod="'+i+'"]').value);const s=isFinite(u)?u*a.qtd:0;b+=s;f.querySelector('[data-csub="'+i+'"]').textContent=isFinite(u)?krw(s):'—'});const d=parseFloat($('#c-desp').value)||0;$('#c-tot').textContent=b||d?krw(b+d)+' ≈ '+dm((b+d)*n(S.cfg.krw)):'—'};
+ f.addEventListener('input',tot);tot();
+ $('#ov').addEventListener('click',e=>{const b=e.target.closest('[data-lcopy],[data-lcsv]');if(!b)return;
+  if(b.dataset.lcopy)copiar(L[b.dataset.lcopy].txt,'Lista copiada');else baixar(rec.numero+'-'+b.dataset.lcsv+'.csv',L[b.dataset.lcsv].csv)});
+ // excluir lista: devolve as vendas para "esperando corte"
+ const del=$('#m-del');if(del)del.addEventListener('click',async()=>{if(!del.classList.contains('armed')){del.classList.add('armed');del.textContent='Confirmar exclusão';return}
+  del.disabled=true;try{for(const v of vs)if(v.corte===rec.id)await save('vendas',v,{corte:''});await dbDelete('cortes',rec.id);close();toast('Lista excluída · vendas voltaram para o corte');loadAll()}catch(e){$('#m-err').textContent=errMsg(e);del.disabled=false}});
+ wireSubmit(async()=>{
+  const compra=A.map((a,i)=>{const u=parseFloat(f.querySelector('[data-cprod="'+i+'"]').value);return{produto:a.produto,qtd:a.qtd,custo:isFinite(u)?u:null}}).filter(i=>i.custo!=null);
+  const desp=parseFloat($('#c-desp').value);const D=isFinite(desp)?desp:null;
+  const env=$('#c-env').checked;
+  const vals={compra,despesasKrw:D,obs:$('#c-obs').value};
+  if(env&&!rec.enviadoEm)vals.enviadoEm=new Date().toISOString();
+  if(!env&&rec.enviadoEm)vals.enviadoEm=null;
+  if(compra.length&&!rec.compraEm)vals.compraEm=new Date().toISOString();
+  await save('cortes',rec,vals);
+  // custo final por unidade = custo × (1 + despesas / valor dos itens)
+  const base=compra.reduce((s,i)=>s+i.qtd*i.custo,0), un=compra.reduce((s,i)=>s+i.qtd,0);
+  const fat=base>0?1+n(D)/base:1, porUn=base>0?0:(un?n(D)/un:0);
+  const unit=new Map(compra.map(i=>[i.produto,Math.round(i.custo*fat+porUn)]));
+  let mud=0;
+  for(const v of vs){
+   const pat={};
+   if(compra.length){const it=(v.itens||[]).map(i=>unit.has(prodKey(i))?{...i,custoLB:unit.get(prodKey(i))}:i);if(JSON.stringify(it)!==JSON.stringify(v.itens))pat.itens=it}
+   if(env&&!(v.etapas||{}).skyroad)pat.etapas={...(v.etapas||{}),skyroad:today()};
+   if(Object.keys(pat).length){await save('vendas',v,pat);mud++}
+  }
+  toast('Lista salva'+(mud?' · '+mud+' vendas atualizadas':''));
  });
 }
 
@@ -1024,10 +1165,11 @@ function errMsg(e){
 /* ================= Supabase: mapeamento ERP ↔ banco ================= */
 const SB_URL='https://nzsiuniabovvptuqmkmi.supabase.co';
 const SB_KEY='sb_publishable_9Nl_ZRXEmLMhDMBP8oKP_w_FuDXaYMq';
-const MAP={dataCompra:'data_compra',custoMile:'custo_mile',custo3PL:'custo_3pl',outrosCustos:'outros_custos',etiquetaMile:'etiqueta_mile',cargaCoreia:'carga_coreia',cargaBrasil:'carga_brasil',baixaEmbalagem:'baixa_embalagem',custoLB:'custo_lb',custoFab:'custo_fab',precoKR:'preco_kr',precoConc:'preco_conc',pesoG:'peso_g',custoUnit:'custo_unit',valorDestino:'valor_destino',custoRetorno:'custo_retorno',custoMercadoria:'custo_mercadoria',pagoPor:'pago_por',parceiroPagador:'parceiro_pagador',freteAereo:'frete_aereo',pesoKg:'peso_kg',entradaEstoque:'entrada_estoque',pedidoSite:'pedido_site'};
+const MAP={dataCompra:'data_compra',custoMile:'custo_mile',custo3PL:'custo_3pl',outrosCustos:'outros_custos',etiquetaMile:'etiqueta_mile',cargaCoreia:'carga_coreia',cargaBrasil:'carga_brasil',baixaEmbalagem:'baixa_embalagem',custoLB:'custo_lb',custoFab:'custo_fab',precoKR:'preco_kr',precoConc:'preco_conc',pesoG:'peso_g',custoUnit:'custo_unit',valorDestino:'valor_destino',custoRetorno:'custo_retorno',custoMercadoria:'custo_mercadoria',pagoPor:'pago_por',parceiroPagador:'parceiro_pagador',freteAereo:'frete_aereo',pesoKg:'peso_kg',entradaEstoque:'entrada_estoque',pedidoSite:'pedido_site',pagoEm:'pago_em',corteEm:'corte_em',enviadoEm:'enviado_em',despesasKrw:'despesas_krw',compraEm:'compra_em'};
 const RMAP=Object.fromEntries(Object.entries(MAP).map(([a,b])=>[b,a]));
 const COLS={
- vendas:['numero','data_compra','canal','cliente','cpf','contato','cidade','uf','cupom','itens','desconto','frete','ii','icms','custo_mile','custo_3pl','caixa','outros_custos','etiqueta_mile','invoice','carga_coreia','carga_brasil','rastreio','obs','etapas','cancelada','lote','awb','baixa_embalagem'],
+ vendas:['numero','data_compra','canal','cliente','cpf','contato','cidade','uf','cupom','itens','desconto','frete','ii','icms','custo_mile','custo_3pl','caixa','outros_custos','etiqueta_mile','invoice','carga_coreia','carga_brasil','rastreio','obs','etapas','cancelada','lote','awb','baixa_embalagem','corte'],
+ cortes:['numero','corte_em','vendas','enviado_em','compra','despesas_krw','compra_em','obs'],
  lotes:['numero','awb','cia','caixa','peso_kg','volumes','custo_3pl','frete_aereo','despacho','custo_mercadoria','pago_por','parceiro_pagador','obs','vendas','etapas'],
  lancamentos:['data','tipo','descricao','categoria','conta','valor','moeda','valor_destino','status','ref','parceiro'],
  devolucoes:['numero','data','venda','status','itens','motivo','local','destino','reembolso','custo_retorno','obs'],
@@ -1047,7 +1189,7 @@ function toDb(col,o){
   const c=MAP[k]||k; if(!COLS[col].includes(c))continue;
   let x=v;
   if(DATES.has(c)&&!x)x=null;
-  if((c==='lote'||c==='parceiro'||c==='parceiro_pagador')&&!x)x=null;
+  if((c==='lote'||c==='corte'||c==='parceiro'||c==='parceiro_pagador'||c==='enviado_em'||c==='compra_em')&&!x)x=null;
   if(col==='vendas'&&c==='itens')x=itemsTo(v);
   if(col==='insumos'&&(c==='estoque'||c==='minimo')&&x==null)x=0;
   if(typeof x==='string'&&x===''&&['valor','qtd','venda'].includes(c))x=null;
@@ -1271,6 +1413,7 @@ document.addEventListener('click',e=>{
  if(t.dataset.anxRm){anxRemove(t.dataset.anxRm);return}
  if(t.dataset.sug){useSug(t.dataset.sug);return}
  if(t.dataset.adv){e.stopPropagation();advance(t.dataset.adv);return}
+ if(t.dataset.cut){fecharLista(t.dataset.cut);return}
  if(t.dataset.view){S.view=t.dataset.view;S.q='';$('#q').value='';render();window.scrollTo(0,0);return}
  if(t.dataset.fv){S.f.vendas=t.dataset.fv;render();return}
  if(t.dataset.ff){S.f.fin=t.dataset.ff;render();return}
@@ -1329,7 +1472,7 @@ async function loadAll(){
   const cols=Object.keys(S.data);
   const res=await Promise.all([...cols.map(c=>sb.from(c).select('*')),sb.from('config').select('*').eq('chave','geral')]);
   let failed=false;
-  cols.forEach((col,i)=>{const {data,error}=res[i];if(error){failed=true;return}
+  cols.forEach((col,i)=>{const {data,error}=res[i];if(error){if(col==='cortes'){S.missing.cortes=true;S.loaded[col]=true;return}failed=true;return}S.missing[col]=false;
    S.data[col]=(data||[]).map(r=>fromDb(col,r)).sort((a,b)=>ORD[col]?String(a[ORD[col]]||'').localeCompare(String(b[ORD[col]]||'')):col==='vendas'?n(b.numero)-n(a.numero):n(b.createdAt)-n(a.createdAt));
    S.loaded[col]=true});
   const cfg=res[cols.length];if(cfg&&cfg.data&&cfg.data[0])S.cfg={...S.cfg,...cfg.data[0].valor};

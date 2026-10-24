@@ -114,6 +114,7 @@ export function pedidoParaVenda(o) {
     ii: imp.ii,
     icms: imp.icms,
     etapas: { pago: dia },
+    pago_em: new Date(o.processed_at || o.created_at || Date.now()).toISOString(),
     origem: "shopify",
     obs,
     ext_id: "shopify:" + o.id,
