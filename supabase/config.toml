@@ -1,0 +1,4 @@
+project_id = "omg-erp"
+
+[functions.shopify-webhook]
+verify_jwt = false

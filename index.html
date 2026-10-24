@@ -617,7 +617,7 @@ VIEWFN.painel=()=>{
 function tblVendas(rows){
  return '<div class="tblwrap"><table><thead><tr><th>Venda</th><th>Cliente</th><th>Etapa</th><th class="r">Total</th><th class="r">Avançar</th></tr></thead><tbody>'+
  rows.map(v=>{const c=calc(v),cs=curStep(v);const nx=cs<12&&!isCancel(v)?STEPS[cs+1]:null;
-  return '<tr data-edit="vendas" data-id="'+esc(v.id)+'"><td><b class="num">'+vnum(v.numero)+'</b><small>'+fdate(v.dataCompra)+' · '+esc(v.canal||'')+(v.lote?' · '+esc((loteOf(v)||{}).numero||''):'')+'</small></td>'+
+  return '<tr data-edit="vendas" data-id="'+esc(v.id)+'"><td><b class="num">'+vnum(v.numero)+'</b><small>'+fdate(v.dataCompra)+' · '+esc(v.canal||'')+(v.pedidoSite?' '+esc(v.pedidoSite):'')+(v.lote?' · '+esc((loteOf(v)||{}).numero||''):'')+'</small></td>'+
   '<td><b>'+esc(v.cliente)+'</b><small>'+esc([v.cidade,v.uf].filter(Boolean).join(' / '))+' · '+c.qtd+' itens'+docCount(v)+'</small></td><td>'+prog(v)+'</td>'+
   '<td class="r num"><b>'+dm(c.total)+'</b><small>impostos '+dm(c.impostos)+'</small></td>'+
   '<td class="r">'+(nx&&can()?'<button class="iconbtn" type="button" data-adv="'+esc(v.id)+'" title="Marcar: '+esc(nx[1])+'" aria-label="Marcar: '+esc(nx[1])+'"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>':'')+'</td></tr>'}).join('')+'</tbody></table></div>';
@@ -1024,7 +1024,7 @@ function errMsg(e){
 /* ================= Supabase: mapeamento ERP ↔ banco ================= */
 const SB_URL='https://nzsiuniabovvptuqmkmi.supabase.co';
 const SB_KEY='sb_publishable_9Nl_ZRXEmLMhDMBP8oKP_w_FuDXaYMq';
-const MAP={dataCompra:'data_compra',custoMile:'custo_mile',custo3PL:'custo_3pl',outrosCustos:'outros_custos',etiquetaMile:'etiqueta_mile',cargaCoreia:'carga_coreia',cargaBrasil:'carga_brasil',baixaEmbalagem:'baixa_embalagem',custoLB:'custo_lb',custoFab:'custo_fab',precoKR:'preco_kr',precoConc:'preco_conc',pesoG:'peso_g',custoUnit:'custo_unit',valorDestino:'valor_destino',custoRetorno:'custo_retorno',custoMercadoria:'custo_mercadoria',pagoPor:'pago_por',parceiroPagador:'parceiro_pagador',freteAereo:'frete_aereo',pesoKg:'peso_kg',entradaEstoque:'entrada_estoque'};
+const MAP={dataCompra:'data_compra',custoMile:'custo_mile',custo3PL:'custo_3pl',outrosCustos:'outros_custos',etiquetaMile:'etiqueta_mile',cargaCoreia:'carga_coreia',cargaBrasil:'carga_brasil',baixaEmbalagem:'baixa_embalagem',custoLB:'custo_lb',custoFab:'custo_fab',precoKR:'preco_kr',precoConc:'preco_conc',pesoG:'peso_g',custoUnit:'custo_unit',valorDestino:'valor_destino',custoRetorno:'custo_retorno',custoMercadoria:'custo_mercadoria',pagoPor:'pago_por',parceiroPagador:'parceiro_pagador',freteAereo:'frete_aereo',pesoKg:'peso_kg',entradaEstoque:'entrada_estoque',pedidoSite:'pedido_site'};
 const RMAP=Object.fromEntries(Object.entries(MAP).map(([a,b])=>[b,a]));
 const COLS={
  vendas:['numero','data_compra','canal','cliente','cpf','contato','cidade','uf','cupom','itens','desconto','frete','ii','icms','custo_mile','custo_3pl','caixa','outros_custos','etiqueta_mile','invoice','carga_coreia','carga_brasil','rastreio','obs','etapas','cancelada','lote','awb','baixa_embalagem'],
