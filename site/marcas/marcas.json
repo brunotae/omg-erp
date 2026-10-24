@@ -5,7 +5,8 @@
   "tipo": "logo",
   "produtos": 243,
   "lote1": 161,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "Abib",
@@ -13,7 +14,8 @@
   "tipo": "logo",
   "produtos": 211,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "ROUND LAB",
@@ -21,7 +23,8 @@
   "tipo": "logo",
   "produtos": 210,
   "lote1": 105,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "mixsoon",
@@ -29,7 +32,8 @@
   "tipo": "logo",
   "produtos": 199,
   "lote1": 127,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "Anua",
@@ -37,7 +41,8 @@
   "tipo": "logo",
   "produtos": 156,
   "lote1": 93,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "Centellian 24",
@@ -45,7 +50,8 @@
   "tipo": "logo",
   "produtos": 137,
   "lote1": 61,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "Beauty of Joseon",
@@ -53,7 +59,8 @@
   "tipo": "logo",
   "produtos": 135,
   "lote1": 19,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "SKIN1004",
@@ -61,7 +68,8 @@
   "tipo": "logo",
   "produtos": 115,
   "lote1": 88,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "medicube",
@@ -69,7 +77,8 @@
   "tipo": "logo",
   "produtos": 109,
   "lote1": 97,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "MEDIHEAL",
@@ -77,7 +86,8 @@
   "tipo": "logo",
   "produtos": 108,
   "lote1": 0,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "AROMATICA",
@@ -85,7 +95,8 @@
   "tipo": "texto",
   "produtos": 103,
   "lote1": 0,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "TIRTIR",
@@ -93,7 +104,8 @@
   "tipo": "logo",
   "produtos": 100,
   "lote1": 80,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "numbuzin",
@@ -101,7 +113,8 @@
   "tipo": "logo",
   "produtos": 92,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "VT Cosmetics",
@@ -109,7 +122,8 @@
   "tipo": "logo",
   "produtos": 89,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "GONGSKIN",
@@ -117,7 +131,8 @@
   "tipo": "logo",
   "produtos": 82,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "Dr.Melaxin",
@@ -125,7 +140,8 @@
   "tipo": "logo",
   "produtos": 79,
   "lote1": 61,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "Cell Fusion C",
@@ -133,7 +149,8 @@
   "tipo": "logo",
   "produtos": 77,
   "lote1": 44,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "La'dor",
@@ -141,7 +158,8 @@
   "tipo": "logo",
   "produtos": 76,
   "lote1": 23,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "SOME BY MI",
@@ -149,7 +167,8 @@
   "tipo": "logo",
   "produtos": 59,
   "lote1": 0,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "Dasique",
@@ -157,7 +176,8 @@
   "tipo": "logo",
   "produtos": 58,
   "lote1": 58,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "sonatural",
@@ -165,7 +185,8 @@
   "tipo": "logo",
   "produtos": 52,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "BIODANCE",
@@ -173,7 +194,8 @@
   "tipo": "logo",
   "produtos": 52,
   "lote1": 44,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "Rom&nd",
@@ -181,7 +203,8 @@
   "tipo": "texto",
   "produtos": 49,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "ARENCIA",
@@ -189,7 +212,8 @@
   "tipo": "logo",
   "produtos": 46,
   "lote1": 19,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "d'Alba",
@@ -197,7 +221,8 @@
   "tipo": "texto",
   "produtos": 45,
   "lote1": 0,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "Eqqualberry",
@@ -205,7 +230,8 @@
   "tipo": "logo",
   "produtos": 44,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "celimax",
@@ -213,7 +239,8 @@
   "tipo": "logo",
   "produtos": 44,
   "lote1": 35,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "Torriden",
@@ -221,7 +248,8 @@
   "tipo": "logo",
   "produtos": 43,
   "lote1": 42,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "Dr.G",
@@ -229,7 +257,8 @@
   "tipo": "texto",
   "produtos": 42,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "PURITO SEOUL",
@@ -237,7 +266,8 @@
   "tipo": "logo",
   "produtos": 41,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "Dr. Althea",
@@ -245,7 +275,8 @@
   "tipo": "texto",
   "produtos": 40,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "Rejuran",
@@ -253,7 +284,8 @@
   "tipo": "logo",
   "produtos": 37,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "A'pieu",
@@ -261,7 +293,8 @@
   "tipo": "texto",
   "produtos": 30,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "mise en scène",
@@ -269,7 +302,8 @@
   "tipo": "logo",
   "produtos": 28,
   "lote1": 0,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "ma:nyo",
@@ -277,7 +311,8 @@
   "tipo": "logo",
   "produtos": 27,
   "lote1": 0,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "Sungboon Editor",
@@ -285,7 +320,8 @@
   "tipo": "texto",
   "produtos": 26,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "Another Face",
@@ -293,7 +329,8 @@
   "tipo": "logo",
   "produtos": 26,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "foto"
  },
  {
   "marca": "AESTURA",
@@ -301,7 +338,8 @@
   "tipo": "logo",
   "produtos": 26,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "beplain",
@@ -309,7 +347,8 @@
   "tipo": "logo",
   "produtos": 23,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "KAINE",
@@ -317,7 +356,8 @@
   "tipo": "logo",
   "produtos": 23,
   "lote1": 0,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "ILSO",
@@ -325,7 +365,8 @@
   "tipo": "texto",
   "produtos": 22,
   "lote1": 0,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "WELLAGE",
@@ -333,7 +374,8 @@
   "tipo": "texto",
   "produtos": 22,
   "lote1": 0,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "CLIO",
@@ -341,7 +383,8 @@
   "tipo": "logo",
   "produtos": 22,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "Peripera",
@@ -349,7 +392,8 @@
   "tipo": "texto",
   "produtos": 21,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "òngredients",
@@ -357,7 +401,8 @@
   "tipo": "logo",
   "produtos": 21,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "foto"
  },
  {
   "marca": "purcell",
@@ -365,7 +410,8 @@
   "tipo": "logo",
   "produtos": 20,
   "lote1": 0,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "DR.forHair",
@@ -373,7 +419,8 @@
   "tipo": "logo",
   "produtos": 19,
   "lote1": 0,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "fwee",
@@ -381,7 +428,8 @@
   "tipo": "logo",
   "produtos": 19,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "Growus",
@@ -389,7 +437,8 @@
   "tipo": "texto",
   "produtos": 15,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "Hince",
@@ -397,7 +446,8 @@
   "tipo": "logo",
   "produtos": 14,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "BANILA CO",
@@ -405,7 +455,8 @@
   "tipo": "logo",
   "produtos": 13,
   "lote1": 0,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "Dr. Reju-All",
@@ -413,7 +464,8 @@
   "tipo": "logo",
   "produtos": 12,
   "lote1": 0,
-  "tile": "foto"
+  "tile": "foto",
+  "cena": "foto"
  },
  {
   "marca": "COEVAL",
@@ -421,7 +473,8 @@
   "tipo": "texto",
   "produtos": 17,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "UNOVE",
@@ -429,7 +482,8 @@
   "tipo": "texto",
   "produtos": 12,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "LILY EVE",
@@ -437,7 +491,8 @@
   "tipo": "texto",
   "produtos": 10,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "A'ddict",
@@ -445,7 +500,8 @@
   "tipo": "texto",
   "produtos": 10,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "TS Shampoo",
@@ -453,7 +509,8 @@
   "tipo": "texto",
   "produtos": 9,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "freshian",
@@ -461,7 +518,8 @@
   "tipo": "logo",
   "produtos": 9,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "FOR",
@@ -469,7 +527,8 @@
   "tipo": "texto",
   "produtos": 8,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "GYEOL HAUS",
@@ -477,7 +536,8 @@
   "tipo": "texto",
   "produtos": 7,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "ARCANIC",
@@ -485,7 +545,8 @@
   "tipo": "texto",
   "produtos": 6,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  },
  {
   "marca": "THE KYEOK",
@@ -493,6 +554,7 @@
   "tipo": "texto",
   "produtos": 5,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "padrao",
+  "cena": "decorativa"
  }
 ]
