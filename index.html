@@ -343,6 +343,18 @@ pre.code{font-size:11px}
 .chip{border:1px solid var(--line);background:var(--surface);border-radius:var(--pill);padding:5px 12px;font-size:12px;font-weight:500;color:var(--muted)}
 .chip.on{background:var(--soft);border-color:var(--soft);color:var(--accent);font-weight:600}
 .btn.danger{color:var(--bad)}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.fcard{display:flex;flex-direction:column;gap:8px;padding:12px}
+.fcard .fh{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.fcard .fh b{display:block;font-size:12px;line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.fcard .fh small{display:block;margin-top:3px}
+.thumbs{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.thumbs img{width:64px;height:64px;object-fit:contain;background:#fff;border:1px solid var(--line);border-radius:8px;display:block}
+.thumbs .more{font-size:11px;color:var(--muted)}
+.fsrc{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fsrc a{color:var(--accent)}
+.facts{display:flex;gap:6px;margin-top:auto}
+select.chip{appearance:auto;cursor:pointer}
 @media (max-width:1150px){.page{grid-template-columns:minmax(0,1fr)}.rail{position:static}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.accts{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:860px){.two{grid-template-columns:minmax(0,1fr)}.stepgrid{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:780px){
@@ -457,6 +469,7 @@ const ICONS={
  painel:'<path d="M4 13h6V4H4zM14 20h6v-9h-6zM4 20h6v-4H4zM14 8h6V4h-6z"/>',
  vendas:'<path d="M6 7h12l-1 13H7z"/><path d="M9 7a3 3 0 0 1 6 0"/>',
  documentos:'<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+ fotos:'<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-8 8"/>',
  cortes:'<path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6h.01M4 12h.01M4 18h.01"/>',
  lotes:'<path d="M2 16 22 7l-3 9-6-1-3 5-1-6z"/>',
  financeiro:'<rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 9v.01M18 15v.01"/>',
@@ -470,7 +483,7 @@ const ICONS={
  fornecedores:'<path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/>',
  config:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/>'
 };
-const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Lista do dia'],['','lotes','Embarques'],['','devolucoes','Devoluções'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','insumos','Embalagens'],['','compras','Compras'],['','produtos','Catálogo'],['Clientes','clientes','Clientes e cupons'],['','analises','Análises'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
+const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Lista do dia'],['','lotes','Embarques'],['','devolucoes','Devoluções'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','insumos','Embalagens'],['','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['Clientes','clientes','Clientes e cupons'],['','analises','Análises'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
 
 /* ================= utilidades ================= */
 const $=s=>document.querySelector(s);
@@ -490,7 +503,7 @@ const daysSince=d=>d?Math.floor((Date.parse(today())-Date.parse(d))/864e5):0;
 const svg=k=>'<svg viewBox="0 0 24 24" aria-hidden="true">'+ICONS[k]+'</svg>';
 function toast(t){const el=document.createElement('div');el.className='toast';el.textContent=t;document.body.appendChild(el);setTimeout(()=>el.remove(),2400)}
 const match=row=>!S.q||JSON.stringify(row).toLowerCase().includes(S.q.toLowerCase());
-const PILL={'Entregue':'p-ok','Recebida':'p-ok','Em estoque':'p-ok','Resolvida':'p-ok','Pago':'p-ok','Zerado':'p-ok','Crédito da OMG':'p-info','OMG deve':'p-bad','Ativo':'p-ok','Concluído':'p-ok','Cancelada':'p-mute','Inativo':'p-mute','Cotação':'p-warn','Previsto':'p-warn','Aberta':'p-warn','Indefinido':'p-bad','Arte pronta':'p-info','Em cotação':'p-warn','Enviada':'p-ok','Pendente':'p-warn','No site':'p-ok','Fora do site':'p-mute'};
+const PILL={'Entregue':'p-ok','Recebida':'p-ok','Em estoque':'p-ok','Resolvida':'p-ok','Pago':'p-ok','Zerado':'p-ok','Crédito da OMG':'p-info','OMG deve':'p-bad','Ativo':'p-ok','Concluído':'p-ok','Cancelada':'p-mute','Inativo':'p-mute','Cotação':'p-warn','Previsto':'p-warn','Aberta':'p-warn','Indefinido':'p-bad','Arte pronta':'p-info','Em cotação':'p-warn','Enviada':'p-ok','Pendente':'p-warn','No site':'p-ok','Fora do site':'p-mute','Rejeitada':'p-mute','Erro':'p-bad','Aprovada':'p-info'};
 const stPill=s=>'<span class="pill '+(PILL[s]||'p-info')+'">'+esc(s||'—')+'</span>';
 function nextSeq(col,prefix,pad){let max=0;S.data[col].forEach(r=>{const m=String(r.numero||'').match(/(\d+)$/);if(m)max=Math.max(max,+m[1])});return prefix+String(max+1).padStart(pad,'0')}
 const nextVenda=()=>{let max=100000000;S.data.vendas.forEach(v=>{if(has(v.numero))max=Math.max(max,v.numero)});return max+1};
@@ -616,7 +629,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v6 · 24/10/2026';
+const VERSAO='v7 · 24/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -841,6 +854,64 @@ async function importarCatalogo(file){
  for(let i=0;i<novos.length;i+=200){const {error}=await sb.from('produtos').insert(novos.slice(i,i+200).map(v=>toDb('produtos',v)));if(error)err++}
  for(const [ex,v] of upd){try{await save('produtos',ex,v)}catch(_){err++}}
  toast(err?'Importado com '+err+' erros. Tente de novo.':'Catálogo importado: '+L.length+' produtos');await loadAll();
+}
+
+/* ---------- Fotos oficiais (fila de troca das fotos do site) ---------- */
+const FT={rows:[],loaded:false,missing:false,loading:false,st:'pendente',marca:'',nivel:'',lim:60,busy:false};
+async function loadFotos(){
+ if(FT.loading)return;FT.loading=true;
+ try{let all=[],de=0;for(;;){const {data,error}=await sb.from('fotos_fila').select('*').order('marca').order('score',{ascending:false}).range(de,de+999);
+   if(error)throw error;all=all.concat(data||[]);if(!data||data.length<1000)break;de+=1000}
+  FT.rows=all.map(r=>({...r,pesoG:r.peso_g,fonteUrl:r.fonte_url,fonteTitulo:r.fonte_titulo,fonteSite:r.fonte_site}));FT.missing=false}
+ catch(e){FT.missing=/fotos_fila|relation|schema cache|does not exist/i.test(String(e&&(e.message||e.code)))||e&&e.code==='42P01';FT.rows=[]}
+ FT.loaded=true;FT.loading=false;if(S.view==='fotos')render();
+}
+const nivelF=r=>n(r.score)>=0.65?'forte':'provável';
+const FT_ST=[['pendente','Pendentes'],['aprovada','Aprovadas'],['aplicada','Aplicadas no site'],['rejeitada','Rejeitadas'],['erro','Com erro'],['todas','Todas']];
+const FT_PILL={pendente:'Pendente',aprovada:'Aprovada',aplicada:'No site',rejeitada:'Rejeitada',erro:'Erro'};
+function fotosFiltradas(){return FT.rows.filter(r=>(FT.st==='todas'||r.status===FT.st)&&(!FT.marca||r.marca===FT.marca)&&(!FT.nivel||nivelF(r)===FT.nivel)&&(!S.q||(r.titulo+' '+r.marca+' '+r.handle).toLowerCase().includes(S.q.toLowerCase())))}
+VIEWFN.fotos=()=>{
+ if(!FT.loaded&&S.db)setTimeout(loadFotos,0);
+ const cnt=k=>k==='todas'?FT.rows.length:FT.rows.filter(r=>r.status===k).length;
+ const marcas=[...new Set(FT.rows.map(r=>r.marca).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+ const L=fotosFiltradas(), vis=L.slice(0,FT.lim), apr=cnt('aprovada');
+ const fortesMarca=FT.marca?FT.rows.filter(r=>r.marca===FT.marca&&r.status==='pendente'&&nivelF(r)==='forte').length:0;
+ const acts=(can()&&!FT.missing?(FT.marca&&fortesMarca?'<button class="btn sm" type="button" id="ft-aprmarca">Aprovar fortes de '+esc(FT.marca)+' ('+fortesMarca+')</button> ':'')+'<button class="btn pri sm" type="button" id="ft-aplicar"'+(apr&&!FT.busy?'':' disabled')+'>'+(FT.busy?'Aplicando…':'Aplicar aprovadas no site ('+apr+')')+'</button>':'');
+ return '<div class="page wide"><div class="col">'+head('Fotos oficiais','Troca das fotos do site pelas fotos do site oficial de cada marca. Aprove aqui; depois "Aplicar" substitui as fotos no Shopify (entram as oficiais, saem as antigas) e corrige o peso.',acts)+
+ (FT.missing?'<div class="note"><span class="label">Falta rodar o SQL</span><p>Rode no Supabase (SQL Editor) o <b>20261024d_fotos_oficiais.sql</b> e depois os arquivos <b>fotos_fila_lote1_parte1…5.sql</b>.</p></div>':'')+
+ '<div class="chips">'+FT_ST.map(([k,l])=>'<button type="button" class="chip'+(FT.st===k?' on':'')+'" data-ftst="'+k+'">'+l+' <span class="num">'+cnt(k)+'</span></button>').join('')+'</div>'+
+ '<div class="chips"><select id="ft-marca" class="chip" aria-label="Marca"><option value="">Todas as marcas</option>'+marcas.map(m=>'<option'+(m===FT.marca?' selected':'')+'>'+esc(m)+'</option>').join('')+'</select>'+
+ [['','Forte e provável'],['forte','Só fortes'],['provável','Só prováveis']].map(([k,l])=>'<button type="button" class="chip'+(FT.nivel===k?' on':'')+'" data-ftniv="'+k+'">'+l+'</button>').join('')+'<span class="muted" style="align-self:center;font-size:11.5px">'+L.length+' produtos</span></div>'+
+ (!FT.loaded?'<div class="card"><p class="muted">Carregando…</p></div>':!L.length?'<div class="card">'+empty(FT.missing?'Fila ainda não criada':'Nada neste filtro','Troque o filtro de status ou de marca.')+'</div>':
+ '<div class="fgrid">'+vis.map(r=>{const f=r.fotos||[];
+  return '<div class="card fcard"><div class="fh"><div style="min-width:0"><b>'+esc(r.titulo)+'</b><small class="muted">'+esc(r.marca)+' · <span class="pill '+(nivelF(r)==='forte'?'p-ok':'p-warn')+'">'+nivelF(r)+' '+Math.round(n(r.score)*100)+'%</span>'+(has(r.pesoG)?' · '+r.pesoG+' g':'')+'</small></div>'+stPill(FT_PILL[r.status]||r.status)+'</div>'+
+  '<div class="thumbs">'+f.slice(0,5).map(u=>'<a href="'+esc(u)+'" target="_blank" rel="noopener"><img loading="lazy" src="'+esc(u)+'" alt=""></a>').join('')+(f.length>5?'<span class="more">+'+(f.length-5)+'</span>':'')+'</div>'+
+  '<small class="muted fsrc">Oficial: <a href="'+esc(r.fonteUrl||'#')+'" target="_blank" rel="noopener">'+esc(r.fonteTitulo||r.fonteSite||'')+'</a> · <a href="https://admin.shopify.com/store/mundo-beleza-9571/products?query='+encodeURIComponent(r.handle)+'" target="_blank" rel="noopener">ver no Shopify</a></small>'+
+  (r.obs?'<small style="color:var(--bad)">'+esc(r.obs)+'</small>':'')+
+  (can()&&(r.status==='pendente'||r.status==='rejeitada'||r.status==='aprovada'||r.status==='erro')?'<div class="facts">'+(r.status!=='aprovada'?'<button class="btn sm pri" type="button" data-ftapr="'+esc(r.id)+'">Aprovar</button>':'')+(r.status!=='rejeitada'?'<button class="btn sm" type="button" data-ftrej="'+esc(r.id)+'">Rejeitar</button>':'')+'</div>':'')+
+  '</div>'}).join('')+'</div>'+(L.length>vis.length?'<div style="text-align:center"><button class="btn" type="button" id="ft-mais">Mostrar mais ('+(L.length-vis.length)+')</button></div>':''))+
+ '</div></div>';
+};
+async function decidirFotos(ids,status){
+ const body={status,decidido_por:S.email||'',decidido_em:new Date().toISOString()};if(status!=='erro')body.obs='';
+ for(let i=0;i<ids.length;i+=200){const {error}=await sb.from('fotos_fila').update(body).in('id',ids.slice(i,i+200));if(error){toast(errMsg(error));return false}}
+ const set=new Set(ids);FT.rows.forEach(r=>{if(set.has(r.id)){Object.assign(r,{status,decididoPor:body.decidido_por})}});render();return true;
+}
+async function aplicarFotos(){
+ const L=FT.rows.filter(r=>r.status==='aprovada');if(!L.length)return;
+ if(!confirm('Trocar as fotos de '+L.length+' produtos no site pelas fotos oficiais? As fotos atuais desses produtos serão apagadas do Shopify.'))return;
+ FT.busy=true;render();let ok=0,err=0;
+ for(let i=0;i<L.length;i+=20){
+  const lote=L.slice(i,i+20);
+  const {data,error}=await sb.functions.invoke('shopify-admin',{body:{acao:'fotos',itens:lote.map(r=>({handle:r.handle,fotos:r.fotos,peso_g:r.pesoG}))}});
+  if(error){let st=error.context&&error.context.status,m='';try{m=(await error.context.json()).erro}catch(_){}
+   toast(st===503?'Ligação com o Shopify ainda não ativa':(m||'Não foi possível falar com o Shopify'));break}
+  for(const res of (data&&data.resultados)||[]){const r=lote.find(x=>x.handle===res.handle);if(!r)continue;
+   const upd=res.ok?{status:'aplicada',aplicado_em:new Date().toISOString(),obs:''}:{status:'erro',obs:res.erro||'erro'};
+   await sb.from('fotos_fila').update(upd).eq('id',r.id);Object.assign(r,{status:upd.status,obs:upd.obs});res.ok?ok++:err++}
+  toast('Aplicando… '+(ok+err)+' de '+L.length);
+ }
+ FT.busy=false;render();if(ok||err)toast(ok+(ok===1?' produto':' produtos')+' com fotos oficiais'+(err?' · '+err+' com erro':''));
 }
 
 /* ---------- Devoluções ---------- */
@@ -1553,6 +1624,13 @@ document.addEventListener('click',e=>{
  if(t.dataset.sug){useSug(t.dataset.sug);return}
  if(t.dataset.adv){e.stopPropagation();advance(t.dataset.adv);return}
  if(t.dataset.cut){fecharLista(t.dataset.cut);return}
+ if(t.dataset.ftst){FT.st=t.dataset.ftst;FT.lim=60;render();return}
+ if(t.dataset.ftniv!==undefined){FT.nivel=t.dataset.ftniv;FT.lim=60;render();return}
+ if(t.dataset.ftapr){decidirFotos([t.dataset.ftapr],'aprovada');return}
+ if(t.dataset.ftrej){decidirFotos([t.dataset.ftrej],'rejeitada');return}
+ if(t.id==='ft-mais'){FT.lim+=60;render();return}
+ if(t.id==='ft-aplicar'){aplicarFotos();return}
+ if(t.id==='ft-aprmarca'){const ids=FT.rows.filter(r=>r.marca===FT.marca&&r.status==='pendente'&&nivelF(r)==='forte').map(r=>r.id);if(confirm('Aprovar '+ids.length+' produtos de '+FT.marca+'?'))decidirFotos(ids,'aprovada');return}
  if(t.dataset.docf){S.f.doc=t.dataset.docf;render();return}
  if(t.dataset.docopen){abrirDoc(t.dataset.docopen);return}
  if(t.dataset.docdel){excluirDoc(t.dataset.docdel);return}
@@ -1569,6 +1647,7 @@ document.addEventListener('click',e=>{
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
 document.addEventListener('change',e=>{
+ if(e.target.id==='ft-marca'){FT.marca=e.target.value;FT.lim=60;render();return}
  if(e.target.id==='doc-up'&&e.target.files.length){enviarDocs([...e.target.files]);return}
  if(e.target.id==='cat-up'&&e.target.files[0]){importarCatalogo(e.target.files[0]);e.target.value='';return}
  const s=e.target;if(!s.matches||!s.matches('select[data-combo]'))return;
@@ -1639,7 +1718,7 @@ async function enter(session){
  const {data,error}=await sb.from('membros').select('papel,nome').eq('email',email);
  if(error){showGate('Não foi possível conferir seu acesso agora. Verifique a conexão e abra o app de novo.',true);return}
  if(!data||!data.length){showGate('Sua conta ('+email+') foi criada, mas ainda não tem acesso ao ERP. Peça ao Tae para liberar.',true);return}
- S.canWrite=data[0].papel==='editor';S.db=sb;
+ S.canWrite=data[0].papel==='editor';S.db=sb;S.email=email;
  $('#me-email').textContent=email+(S.canWrite?'':' · consulta');
  $('#gate').hidden=true;$('#app').hidden=false;
  render();await loadAll();
