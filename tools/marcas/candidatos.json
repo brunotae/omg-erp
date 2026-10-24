@@ -1,0 +1,1473 @@
+{
+ "cosrx": {
+  "marca": "COSRX",
+  "tentativas": [],
+  "site": "www.cosrx.com",
+  "final": "https://www.cosrx.com/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/cosrx/0_img.png",
+    "tipo": "img",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Apple_Pay_logo.svg/120px-Apple_Pay_logo.svg.png",
+    "bytes": 1862
+   },
+   {
+    "arquivo": "tools/marcas/logos/cosrx/1_img.png",
+    "tipo": "img",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Pay_Logo.svg/120px-Google_Pay_Logo.svg.png",
+    "bytes": 4180
+   },
+   {
+    "arquivo": "tools/marcas/logos/cosrx/2_img.png",
+    "tipo": "img",
+    "url": "https://www.cosrx.com/cdn/shop/files/COSRX_150x.png?v=1658313147",
+    "bytes": 2606
+   },
+   {
+    "arquivo": "tools/marcas/logos/cosrx/3_og.jpg",
+    "tipo": "og",
+    "url": "http://www.cosrx.com/cdn/shop/files/facebookimg_dedb55e4-9ae0-421a-b480-dbcd570723aa_1200x1200.jpg?v=1612428226",
+    "bytes": 5521
+   },
+   {
+    "arquivo": "tools/marcas/logos/cosrx/svg0.svg",
+    "tipo": "inline-svg",
+    "url": "https://www.cosrx.com/"
+   },
+   {
+    "arquivo": "tools/marcas/logos/cosrx/svg1.svg",
+    "tipo": "inline-svg",
+    "url": "https://www.cosrx.com/"
+   }
+  ]
+ },
+ "abib": {
+  "marca": "Abib",
+  "tentativas": [],
+  "site": "abib.com",
+  "final": "https://abib.com/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/abib/0_img.svg",
+    "tipo": "img",
+    "url": "https://abib.com/images/logo_pc.svg",
+    "bytes": 1633
+   },
+   {
+    "arquivo": "tools/marcas/logos/abib/1_img.svg",
+    "tipo": "img",
+    "url": "https://abib.com/web/img/m_search.svg",
+    "bytes": 514
+   },
+   {
+    "arquivo": "tools/marcas/logos/abib/2_og.jpg",
+    "tipo": "og",
+    "url": "https://abib.com/web/upload/share-image-1-cf1cbbc6155ef9c2033a9581cdbeb9e5.jpg",
+    "bytes": 420075
+   }
+  ]
+ },
+ "round-lab": {
+  "marca": "ROUND LAB",
+  "tentativas": [],
+  "site": "www.roundlab.com",
+  "final": "https://roundlab.com/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/round-lab/0_img.png",
+    "tipo": "img",
+    "url": "https://roundlab.com/cdn/shop/files/ROUND_LAB_LOGO.png?v=1772847590",
+    "bytes": 11197
+   },
+   {
+    "arquivo": "tools/marcas/logos/round-lab/1_img.png",
+    "tipo": "img",
+    "url": "https://roundlab.com/cdn/shop/files/Group_10262.png?v=1772851332&width=360",
+    "bytes": 866
+   },
+   {
+    "arquivo": "tools/marcas/logos/round-lab/2_img.png",
+    "tipo": "img",
+    "url": "https://roundlab.com/cdn/shop/files/Group_10262.png?crop=center&height=2048&v=1772851332&width=2048",
+    "bytes": 866
+   },
+   {
+    "arquivo": "tools/marcas/logos/round-lab/3_img.png",
+    "tipo": "img",
+    "url": "https://roundlab.com/cdn/shop/files/Group_10296.png?v=1772851404&width=360",
+    "bytes": 3886
+   },
+   {
+    "arquivo": "tools/marcas/logos/round-lab/4_img.png",
+    "tipo": "img",
+    "url": "https://roundlab.com/cdn/shop/files/Group_10296.png?crop=center&height=2048&v=1772851404&width=2048",
+    "bytes": 2367
+   },
+   {
+    "arquivo": "tools/marcas/logos/round-lab/svg0.svg",
+    "tipo": "inline-svg",
+    "url": "https://roundlab.com/"
+   }
+  ]
+ },
+ "mixsoon": {
+  "marca": "mixsoon",
+  "tentativas": [],
+  "site": "mixsoon.us",
+  "final": "https://mixsoon.us/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/mixsoon/0_img.png",
+    "tipo": "img",
+    "url": "https://mixsoon.us/cdn/shop/files/2c033f04efc2ffb54d04b8b15ceceb30.png?v=1755158966&width=150",
+    "bytes": 2890
+   },
+   {
+    "arquivo": "tools/marcas/logos/mixsoon/1_img.png",
+    "tipo": "img",
+    "url": "https://mixsoon.us/cdn/shop/files/2c033f04efc2ffb54d04b8b15ceceb30.png?v=1755158966&width=110",
+    "bytes": 2157
+   },
+   {
+    "arquivo": "tools/marcas/logos/mixsoon/svg0.svg",
+    "tipo": "inline-svg",
+    "url": "https://mixsoon.us/"
+   }
+  ]
+ },
+ "anua": {
+  "marca": "Anua",
+  "tentativas": [],
+  "site": "anua.global",
+  "final": "https://anua.com/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/anua/0_img.png",
+    "tipo": "img",
+    "url": "https://anua.com/cdn/shop/files/PNG_RGB_Primary_logo_ver2_2_255e833c-0e91-42df-96ca-0b7377ba7a8a.png?v=1779429699&width=247",
+    "bytes": 3644
+   },
+   {
+    "arquivo": "tools/marcas/logos/anua/1_og.jpg",
+    "tipo": "og",
+    "url": "http://anua.com/cdn/shop/files/1200X600_ANUA.jpg?v=1738611627&width=2048",
+    "bytes": 11261
+   },
+   {
+    "arquivo": "tools/marcas/logos/anua/2_apple.jpg",
+    "tipo": "apple",
+    "url": "https://anua.com/cdn/shop/files/160X160_ANUA.jpg?v=1738611476&width=180",
+    "bytes": 5716
+   }
+  ]
+ },
+ "centellian-24": {
+  "marca": "Centellian 24",
+  "tentativas": [],
+  "site": "centellian24.com",
+  "final": "https://centellian24.com/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/centellian-24/0_img.png",
+    "tipo": "img",
+    "url": "https://centellian24.com/cdn/shop/files/logo-transparent-crop.png?v=1729224346&width=150",
+    "bytes": 3946
+   },
+   {
+    "arquivo": "tools/marcas/logos/centellian-24/1_img.jpg",
+    "tipo": "img",
+    "url": "https://cdn.shopify.com/s/files/1/0617/3160/2513/files/press-20.jpg?v=1773889634",
+    "bytes": 150890
+   },
+   {
+    "arquivo": "tools/marcas/logos/centellian-24/2_img.jpg",
+    "tipo": "img",
+    "url": "https://cdn.shopify.com/s/files/1/0617/3160/2513/files/press-21.jpg?v=1773889634",
+    "bytes": 133626
+   },
+   {
+    "arquivo": "tools/marcas/logos/centellian-24/3_img.jpg",
+    "tipo": "img",
+    "url": "https://cdn.shopify.com/s/files/1/0617/3160/2513/files/press-23.jpg?v=1773889634",
+    "bytes": 135580
+   },
+   {
+    "arquivo": "tools/marcas/logos/centellian-24/4_img.jpg",
+    "tipo": "img",
+    "url": "https://cdn.shopify.com/s/files/1/0617/3160/2513/files/press-22.jpg?v=1773889634",
+    "bytes": 113888
+   }
+  ]
+ },
+ "beauty-of-joseon": {
+  "marca": "Beauty of Joseon",
+  "tentativas": [],
+  "site": "beautyofjoseon.com",
+  "final": "https://beautyofjoseon.com/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/beauty-of-joseon/0_img.png",
+    "tipo": "img",
+    "url": "https://beautyofjoseon.com/cdn/shop/files/boj-logo-text-default.png?crop=center&height=45&v=1765267757&width=480",
+    "bytes": 8905
+   },
+   {
+    "arquivo": "tools/marcas/logos/beauty-of-joseon/1_og.jpg",
+    "tipo": "og",
+    "url": "http://beautyofjoseon.com/cdn/shop/files/boj_domain.webp?v=1789192342",
+    "bytes": 65340
+   }
+  ]
+ },
+ "skin1004": {
+  "marca": "SKIN1004",
+  "tentativas": [],
+  "site": "skin1004.com",
+  "final": "https://www.skin1004.com/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/skin1004/0_img.png",
+    "tipo": "img",
+    "url": "https://www.skin1004.com/cdn/shop/files/SKIN1004_LOGO_300PX_30c77c72-0035-4b50-ba2c-f2c7a36a0d9d.png?v=1738771518&width=600",
+    "bytes": 3269
+   },
+   {
+    "arquivo": "tools/marcas/logos/skin1004/1_og.png",
+    "tipo": "og",
+    "url": "http://www.skin1004.com/cdn/shop/files/logo_3ce60e3c-e671-45a3-b6b2-1c7f4cd826e5.png?v=1738772075",
+    "bytes": 3392
+   }
+  ]
+ },
+ "medicube": {
+  "marca": "medicube",
+  "tentativas": [],
+  "site": "medicube.us",
+  "final": "https://medicube.us/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/medicube/0_img.svg",
+    "tipo": "img",
+    "url": "https://medicube.us/cdn/shop/files/25ME_global.svg?v=1745386759&width=600",
+    "bytes": 12397
+   },
+   {
+    "arquivo": "tools/marcas/logos/medicube/1_img.png",
+    "tipo": "img",
+    "url": "https://cdn.shopify.com/s/files/1/0156/3905/2336/files/footer_logo.png?v=1740364313",
+    "bytes": 5336
+   },
+   {
+    "arquivo": "tools/marcas/logos/medicube/2_img.png",
+    "tipo": "img",
+    "url": "https://cdn.shopify.com/s/files/1/0623/3777/7895/files/ion_social-youtube.png",
+    "bytes": 653
+   },
+   {
+    "arquivo": "tools/marcas/logos/medicube/3_img.png",
+    "tipo": "img",
+    "url": "https://cdn.shopify.com/s/files/1/0623/3777/7895/files/ph_instagram-logo-fill.png",
+    "bytes": 954
+   },
+   {
+    "arquivo": "tools/marcas/logos/medicube/4_img.png",
+    "tipo": "img",
+    "url": "https://cdn.shopify.com/s/files/1/0623/3777/7895/files/typcn_social-facebook.png",
+    "bytes": 486
+   }
+  ]
+ },
+ "mediheal": {
+  "marca": "MEDIHEAL",
+  "tentativas": [],
+  "site": "mediheal.com",
+  "final": "https://mediheal.com/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/mediheal/0_img.png",
+    "tipo": "img",
+    "url": "https://mediheal.com/cdn/shop/files/Mediheal-logo.png?v=1748184769&width=600",
+    "bytes": 1207
+   },
+   {
+    "arquivo": "tools/marcas/logos/mediheal/1_img.png",
+    "tipo": "img",
+    "url": "https://mediheal.com/cdn/shop/files/LOGOTYPE.png?v=1748432875&width=600",
+    "bytes": 2089
+   },
+   {
+    "arquivo": "tools/marcas/logos/mediheal/2_og.png",
+    "tipo": "og",
+    "url": "http://mediheal.com/cdn/shop/files/Blue_240202.png?v=1708018400",
+    "bytes": 13207
+   },
+   {
+    "arquivo": "tools/marcas/logos/mediheal/svg0.svg",
+    "tipo": "inline-svg",
+    "url": "https://mediheal.com/"
+   }
+  ]
+ },
+ "aromatica": {
+  "marca": "AROMATICA",
+  "tentativas": [],
+  "site": "aromatica.us",
+  "final": "https://aromatica.us/",
+  "candidatos": []
+ },
+ "tirtir": {
+  "marca": "TIRTIR",
+  "tentativas": [],
+  "site": "tirtir.us",
+  "final": "https://tirtir.global/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/tirtir/0_img.png",
+    "tipo": "img",
+    "url": "https://tirtir.global/cdn/shop/files/black.png?crop=center&height=37&v=1763012769&width=200",
+    "bytes": 2859
+   },
+   {
+    "arquivo": "tools/marcas/logos/tirtir/1_img.png",
+    "tipo": "img",
+    "url": "https://tirtir.global/cdn/shop/files/thumbnail_milk-skin-toner.png?crop=center&height=2520&v=1786067936&width=2100",
+    "bytes": 642521
+   },
+   {
+    "arquivo": "tools/marcas/logos/tirtir/2_img.png",
+    "tipo": "img",
+    "url": "https://tirtir.global/cdn/shop/files/black_1.png?crop=center&height=41&v=1768537744&width=220",
+    "bytes": 3111
+   },
+   {
+    "arquivo": "tools/marcas/logos/tirtir/3_og.png",
+    "tipo": "og",
+    "url": "http://tirtir.global/cdn/shop/files/7c24b3d66fee6b80dbb4f1a53861468d.png?v=1780380616",
+    "bytes": 247269
+   }
+  ]
+ },
+ "numbuzin": {
+  "marca": "numbuzin",
+  "tentativas": [],
+  "site": "numbuzin.com",
+  "final": "https://numbuzin.com/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/numbuzin/0_img.svg",
+    "tipo": "img",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/upload/cart.svg",
+    "bytes": 841
+   },
+   {
+    "arquivo": "tools/marcas/logos/numbuzin/1_img.svg",
+    "tipo": "img",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/upload/login.svg",
+    "bytes": 1751
+   },
+   {
+    "arquivo": "tools/marcas/logos/numbuzin/2_og.jpg",
+    "tipo": "og",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/upload/share-image-1-28ca7c2a482f3feecd85fe95e4172748.jpg",
+    "bytes": 43890
+   }
+  ]
+ },
+ "vt-cosmetics": {
+  "marca": "VT Cosmetics",
+  "tentativas": [],
+  "site": "vt-cosmetics.com",
+  "final": "https://vt-cosmetics.com/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/vt-cosmetics/0_img.png",
+    "tipo": "img",
+    "url": "https://vt-cosmetics.com/images/cm_logo_1_black.png",
+    "bytes": 4482
+   },
+   {
+    "arquivo": "tools/marcas/logos/vt-cosmetics/1_img.png",
+    "tipo": "img",
+    "url": "https://vt-cosmetics.com/images/cm_icon_people_1_black.png",
+    "bytes": 1273
+   },
+   {
+    "arquivo": "tools/marcas/logos/vt-cosmetics/2_img.png",
+    "tipo": "img",
+    "url": "https://vt-cosmetics.com/images/cm_icon_login_1_black.png",
+    "bytes": 426
+   },
+   {
+    "arquivo": "tools/marcas/logos/vt-cosmetics/3_img.png",
+    "tipo": "img",
+    "url": "https://vt-cosmetics.com/images/cm_logo_1_white.png",
+    "bytes": 5033
+   },
+   {
+    "arquivo": "tools/marcas/logos/vt-cosmetics/4_img.png",
+    "tipo": "img",
+    "url": "https://vt-cosmetics.com/images/cm_logo_social_instagram_1_white.png",
+    "bytes": 1841
+   }
+  ]
+ },
+ "gongskin": {
+  "marca": "GONGSKIN",
+  "tentativas": [],
+  "site": "www.gongskin.co.kr",
+  "final": "https://www.gongskin.co.kr/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/gongskin/0_img.png",
+    "tipo": "img",
+    "url": "https://www.gongskin.co.kr/web/upload/category/editor/2026/02/11/dc673d9e871f89df25f7ce678d205b26.png",
+    "bytes": 9245
+   },
+   {
+    "arquivo": "tools/marcas/logos/gongskin/1_og.png",
+    "tipo": "og",
+    "url": "https://www.gongskin.co.kr/web/upload/share-image-1-14c2fbc0ba0087c282ff0c8fa74442dc.png",
+    "bytes": 9375
+   }
+  ]
+ },
+ "dr-melaxin": {
+  "marca": "Dr.Melaxin",
+  "tentativas": [],
+  "site": "drmelaxin.us",
+  "final": "https://drmelaxin.us/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/dr-melaxin/0_img.png",
+    "tipo": "img",
+    "url": "https://drmelaxin.us/cdn/shop/files/main_logo_black2_120x.png?v=1730767550",
+    "bytes": 2673
+   },
+   {
+    "arquivo": "tools/marcas/logos/dr-melaxin/1_img.png",
+    "tipo": "img",
+    "url": "https://drmelaxin.us/cdn/shop/files/main_logo_black_90x.png?v=1700530804",
+    "bytes": 1960
+   },
+   {
+    "arquivo": "tools/marcas/logos/dr-melaxin/2_img.png",
+    "tipo": "img",
+    "url": "https://st.rch.io/logos/reach_r_black.png",
+    "bytes": 35862
+   },
+   {
+    "arquivo": "tools/marcas/logos/dr-melaxin/3_og.png",
+    "tipo": "og",
+    "url": "http://drmelaxin.us/cdn/shop/files/01_e502332f-181e-4d70-8399-65e44a0d5cb5.png?v=1774232951",
+    "bytes": 11038
+   }
+  ]
+ },
+ "cell-fusion-c": {
+  "marca": "Cell Fusion C",
+  "tentativas": [],
+  "site": "cellfusionc.com",
+  "final": "https://cellfusionc.com/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/cell-fusion-c/0_img.png",
+    "tipo": "img",
+    "url": "https://cellfusionc.com/cdn/shop/files/New_BI_2024.png?crop=center&height=36&v=1752556525&width=240",
+    "bytes": 8629
+   },
+   {
+    "arquivo": "tools/marcas/logos/cell-fusion-c/1_img.png",
+    "tipo": "img",
+    "url": "https://cellfusionc.com/cdn/shop/files/New_BI_2024.png?crop=center&height=534&v=1752556525&width=3508",
+    "bytes": 42306
+   },
+   {
+    "arquivo": "tools/marcas/logos/cell-fusion-c/2_og.png",
+    "tipo": "og",
+    "url": "http://cellfusionc.com/cdn/shop/files/metalogo.png?v=1747619821",
+    "bytes": 14507
+   }
+  ]
+ },
+ "lador": {
+  "marca": "La'dor",
+  "tentativas": [],
+  "site": "lador.us",
+  "final": "https://lador.us/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/lador/0_img.png",
+    "tipo": "img",
+    "url": "https://lador.us/cdn/shop/files/LADOR_logo_black.png?v=1756799884&width=500",
+    "bytes": 7858
+   },
+   {
+    "arquivo": "tools/marcas/logos/lador/1_img.png",
+    "tipo": "img",
+    "url": "https://lador.us/cdn/shop/files/LADOR_logo_black.png?crop=center&height=49&v=1756799884&width=240",
+    "bytes": 5330
+   },
+   {
+    "arquivo": "tools/marcas/logos/lador/2_og.jpg",
+    "tipo": "og",
+    "url": "http://lador.us/cdn/shop/files/social_sharing_image.jpg?v=1756192164",
+    "bytes": 15750
+   },
+   {
+    "arquivo": "tools/marcas/logos/lador/svg0.svg",
+    "tipo": "inline-svg",
+    "url": "https://lador.us/"
+   }
+  ]
+ },
+ "some-by-mi": {
+  "marca": "SOME BY MI",
+  "tentativas": [],
+  "site": "somebymi.com",
+  "final": "https://somebymi.com/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/some-by-mi/0_img.png",
+    "tipo": "img",
+    "url": "https://somebymi.com/web/upload/category/editor/2025/08/19/35279b3e93f1e77a767fe2d5850a75e0.png",
+    "bytes": 357198
+   },
+   {
+    "arquivo": "tools/marcas/logos/some-by-mi/1_img.png",
+    "tipo": "img",
+    "url": "https://somebymi.com/web/upload/category/editor/2025/08/19/ce609f2a901bfe1af7349e19767fb924.png",
+    "bytes": 357198
+   },
+   {
+    "arquivo": "tools/marcas/logos/some-by-mi/2_og.jpg",
+    "tipo": "og",
+    "url": "https://somebymi.com/web/upload/share-image-1-f19f3c3f43b7286c959579f97d5b33c3.jpg",
+    "bytes": 576734
+   }
+  ]
+ },
+ "dasique": {
+  "marca": "Dasique",
+  "tentativas": [],
+  "site": "dasique.com",
+  "final": "https://dasique.com/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/dasique/0_img.png",
+    "tipo": "img",
+    "url": "https://dasique.com/cdn/shop/files/dasique_logo-02.png?height=48&v=1697166595",
+    "bytes": 5397
+   },
+   {
+    "arquivo": "tools/marcas/logos/dasique/1_img.png",
+    "tipo": "img",
+    "url": "https://dasique.com/cdn/shop/files/dasique_logo-02.png?height=66&v=1697166595",
+    "bytes": 7851
+   },
+   {
+    "arquivo": "tools/marcas/logos/dasique/2_og.png",
+    "tipo": "og",
+    "url": "http://dasique.com/cdn/shop/files/Banner_1.png?v=1708321512",
+    "bytes": 1507011
+   }
+  ]
+ },
+ "sonatural": {
+  "marca": "sonatural",
+  "tentativas": [],
+  "site": "sonatural.co.kr",
+  "final": "https://sonatural.co.kr/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/sonatural/0_img.svg",
+    "tipo": "img",
+    "url": "https://sonatural.co.kr/design/sona6769/images/logo_sonatural.svg",
+    "bytes": 4836
+   },
+   {
+    "arquivo": "tools/marcas/logos/sonatural/1_og.png",
+    "tipo": "og",
+    "url": "https://www.sonatural.co.kr/shopimages/sona6769/all_og__20220830141714phpx5ROhu.png",
+    "bytes": 14112
+   },
+   {
+    "arquivo": "tools/marcas/logos/sonatural/2_apple.png",
+    "tipo": "apple",
+    "url": "https://sonatural.co.kr/shopimages/sona6769/mobile_web_icon.png",
+    "bytes": 5261
+   }
+  ]
+ },
+ "biodance": {
+  "marca": "BIODANCE",
+  "tentativas": [],
+  "site": "biodance.com",
+  "final": "https://biodance.com/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/biodance/0_img.svg",
+    "tipo": "img",
+    "url": "https://biodance.com/cdn/shop/files/biodance_black.svg?v=1721704349&width=120",
+    "bytes": 13652
+   },
+   {
+    "arquivo": "tools/marcas/logos/biodance/1_img.svg",
+    "tipo": "img",
+    "url": "https://biodance.com/cdn/shop/files/Biodance_white.svg?v=1721030785&width=120",
+    "bytes": 7750
+   }
+  ]
+ },
+ "romand": {
+  "marca": "Rom&nd",
+  "tentativas": [],
+  "site": "romand.com",
+  "final": "https://www.romand.com/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/romand/0_img.png",
+    "tipo": "img",
+    "url": "https://www.romand.com/images/logoSite.png",
+    "bytes": 11312
+   },
+   {
+    "arquivo": "tools/marcas/logos/romand/1_og.png",
+    "tipo": "og",
+    "url": "https://www.romand.com/images/logo_og.png",
+    "bytes": 20062
+   },
+   {
+    "arquivo": "tools/marcas/logos/romand/svg0.svg",
+    "tipo": "inline-svg",
+    "url": "https://www.romand.com/"
+   }
+  ]
+ },
+ "arencia": {
+  "marca": "ARENCIA",
+  "tentativas": [],
+  "site": "arencia.us",
+  "final": "https://arencia.us/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/arencia/0_img.png",
+    "tipo": "img",
+    "url": "https://arencia.us/cdn/shop/files/Arencia_Logo_Black_Tight.png?v=1756874043&width=600",
+    "bytes": 31070
+   },
+   {
+    "arquivo": "tools/marcas/logos/arencia/1_img.png",
+    "tipo": "img",
+    "url": "https://arencia.us/cdn/shop/files/Arencia_Logo_White_Tight.png?v=1756874044&width=600",
+    "bytes": 22240
+   },
+   {
+    "arquivo": "tools/marcas/logos/arencia/2_og.png",
+    "tipo": "og",
+    "url": "http://arencia.us/cdn/shop/files/fb6cb1c2e585f1803161e42c06cb2338.png?v=1721206154",
+    "bytes": 27767
+   }
+  ]
+ },
+ "dalba": {
+  "marca": "d'Alba",
+  "tentativas": [],
+  "site": "dalba.us",
+  "final": "https://dalba.us/",
+  "candidatos": []
+ },
+ "eqqualberry": {
+  "marca": "Eqqualberry",
+  "tentativas": [],
+  "site": "eqqualberry.com",
+  "final": "https://eqqualberry.com/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/eqqualberry/0_og.jpg",
+    "tipo": "og",
+    "url": "https://eqqualberry.cafe24.com/setting/SEO/brandimg_2602.jpg",
+    "bytes": 86376
+   },
+   {
+    "arquivo": "tools/marcas/logos/eqqualberry/svg0.svg",
+    "tipo": "inline-svg",
+    "url": "https://eqqualberry.com/"
+   },
+   {
+    "arquivo": "tools/marcas/logos/eqqualberry/svg1.svg",
+    "tipo": "inline-svg",
+    "url": "https://eqqualberry.com/"
+   }
+  ]
+ },
+ "celimax": {
+  "marca": "celimax",
+  "tentativas": [],
+  "site": "celimax.us",
+  "final": "https://celimax.us/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/celimax/0_img.png",
+    "tipo": "img",
+    "url": "https://celimax.us/cdn/shop/files/logo.png?v=1737873248&width=185",
+    "bytes": 1089
+   },
+   {
+    "arquivo": "tools/marcas/logos/celimax/1_og.jpg",
+    "tipo": "og",
+    "url": "http://celimax.us/cdn/shop/files/celimax-social-image.jpg?v=1737869525&width=2048",
+    "bytes": 48834
+   },
+   {
+    "arquivo": "tools/marcas/logos/celimax/2_apple.png",
+    "tipo": "apple",
+    "url": "https://celimax.us/cdn/shop/files/celimax-favicon.png?v=1737869986&width=180",
+    "bytes": 417
+   }
+  ]
+ },
+ "torriden": {
+  "marca": "Torriden",
+  "tentativas": [],
+  "site": "torriden.us",
+  "final": "https://torriden.us/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/torriden/0_img.png",
+    "tipo": "img",
+    "url": "https://torriden.us/cdn/shop/files/black.png?v=1750661343",
+    "bytes": 11292
+   },
+   {
+    "arquivo": "tools/marcas/logos/torriden/1_img.png",
+    "tipo": "img",
+    "url": "https://torriden.us/cdn/shop/files/Byrdie_logo.png?v=1753159786",
+    "bytes": 4507
+   },
+   {
+    "arquivo": "tools/marcas/logos/torriden/2_img.png",
+    "tipo": "img",
+    "url": "https://torriden.us/cdn/shop/files/vogue-logo.png?v=1753159786",
+    "bytes": 10512
+   },
+   {
+    "arquivo": "tools/marcas/logos/torriden/3_img.png",
+    "tipo": "img",
+    "url": "https://torriden.us/cdn/shop/files/allure-logo.png?v=1753159887",
+    "bytes": 12588
+   },
+   {
+    "arquivo": "tools/marcas/logos/torriden/4_img.png",
+    "tipo": "img",
+    "url": "https://torriden.us/cdn/shop/files/cut-logo.png?v=1753159786",
+    "bytes": 7190
+   },
+   {
+    "arquivo": "tools/marcas/logos/torriden/svg0.svg",
+    "tipo": "inline-svg",
+    "url": "https://torriden.us/"
+   }
+  ]
+ },
+ "dr-g": {
+  "marca": "Dr.G",
+  "tentativas": [
+   "drg.co.kr: URLError",
+   "gowoonsesang.com: URLError",
+   "drgskin.com: URLError",
+   "drg.us: URLError"
+  ],
+  "site": null,
+  "final": null,
+  "candidatos": []
+ },
+ "purito-seoul": {
+  "marca": "PURITO SEOUL",
+  "tentativas": [],
+  "site": "purito.com",
+  "final": "https://purito.com/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/purito-seoul/0_og.jpg",
+    "tipo": "og",
+    "url": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+    "bytes": 66833
+   },
+   {
+    "arquivo": "tools/marcas/logos/purito-seoul/1_apple.png",
+    "tipo": "apple",
+    "url": "https://purito.com/wp-content/uploads/2024/03/cropped-favicon-v2-1-180x180.png",
+    "bytes": 10156
+   },
+   {
+    "arquivo": "tools/marcas/logos/purito-seoul/svg0.svg",
+    "tipo": "inline-svg",
+    "url": "https://purito.com/"
+   },
+   {
+    "arquivo": "tools/marcas/logos/purito-seoul/svg1.svg",
+    "tipo": "inline-svg",
+    "url": "https://purito.com/"
+   }
+  ]
+ },
+ "dr-althea": {
+  "marca": "Dr. Althea",
+  "tentativas": [
+   "dr-althea.com: URLError",
+   "dralthea.com: URLError",
+   "dralthea.co.kr: URLError"
+  ],
+  "site": null,
+  "final": null,
+  "candidatos": []
+ },
+ "rejuran": {
+  "marca": "Rejuran",
+  "tentativas": [
+   "rejuran.com: URLError"
+  ],
+  "site": "rejuran.co.kr",
+  "final": "https://rejuran.co.kr/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/rejuran/0_img.png",
+    "tipo": "img",
+    "url": "https://rejuran.co.kr/HTML/rejuran/img/logo_header_v2.png",
+    "bytes": 21009
+   },
+   {
+    "arquivo": "tools/marcas/logos/rejuran/1_img.png",
+    "tipo": "img",
+    "url": "https://rejuran.co.kr/HTML/rejuran/img/logo-instagram.png",
+    "bytes": 15237
+   },
+   {
+    "arquivo": "tools/marcas/logos/rejuran/2_img.png",
+    "tipo": "img",
+    "url": "https://rejuran.co.kr/HTML/rejuran/img/logo-kakao.png",
+    "bytes": 17361
+   }
+  ]
+ },
+ "apieu": {
+  "marca": "A'pieu",
+  "tentativas": [
+   "apieu.co.kr: URLError"
+  ],
+  "site": "apieu.com",
+  "final": "https://www.apieu.com/",
+  "candidatos": []
+ },
+ "mise-en-scene": {
+  "marca": "mise en scène",
+  "tentativas": [],
+  "site": "miseenscene.com",
+  "final": "https://miseenscene.com/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/mise-en-scene/0_img.jpg",
+    "tipo": "img",
+    "url": "https://miseenscene.com/web/upload/category/logo/v2_0e5badcf6af3b91e6ef38d24b2298154_zOeItMbSV2_top.jpg",
+    "bytes": 8157
+   },
+   {
+    "arquivo": "tools/marcas/logos/mise-en-scene/1_img.jpg",
+    "tipo": "img",
+    "url": "https://miseenscene.com/web/upload/category/logo/v2_0e5badcf6af3b91e6ef38d24b2298154_0zqpMkDj0q_bottom.jpg",
+    "bytes": 8157
+   },
+   {
+    "arquivo": "tools/marcas/logos/mise-en-scene/2_og.jpg",
+    "tipo": "og",
+    "url": "https://www.miseenscene.com/web/upload/share-image-1-fd084b7479e40953dd6f6c1f55542e68.jpg",
+    "bytes": 36321
+   },
+   {
+    "arquivo": "tools/marcas/logos/mise-en-scene/3_og.jpg",
+    "tipo": "og",
+    "url": "https://miseenscene.com/web/upload/share-image-1-fd084b7479e40953dd6f6c1f55542e68.jpg",
+    "bytes": 36321
+   },
+   {
+    "arquivo": "tools/marcas/logos/mise-en-scene/svg0.svg",
+    "tipo": "inline-svg",
+    "url": "https://miseenscene.com/"
+   },
+   {
+    "arquivo": "tools/marcas/logos/mise-en-scene/svg1.svg",
+    "tipo": "inline-svg",
+    "url": "https://miseenscene.com/"
+   }
+  ]
+ },
+ "manyo": {
+  "marca": "ma:nyo",
+  "tentativas": [],
+  "site": "manyo.us",
+  "final": "https://manyo.us/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/manyo/0_img.png",
+    "tipo": "img",
+    "url": "https://manyo.us/cdn/shop/files/manyo_final_logo_1.png?v=1776721594&width=500",
+    "bytes": 25358
+   },
+   {
+    "arquivo": "tools/marcas/logos/manyo/1_img.png",
+    "tipo": "img",
+    "url": "https://manyo.us/cdn/shop/files/manyo_final_logo_1.png?crop=center&height=406&v=1776721594&width=1361",
+    "bytes": 20713
+   },
+   {
+    "arquivo": "tools/marcas/logos/manyo/2_og.png",
+    "tipo": "og",
+    "url": "http://manyo.us/cdn/shop/files/manyo_final_logo_1_28053ee7-e9ea-4df5-956f-00c2f3959946.png?v=1784140618",
+    "bytes": 20713
+   },
+   {
+    "arquivo": "tools/marcas/logos/manyo/svg0.svg",
+    "tipo": "inline-svg",
+    "url": "https://manyo.us/"
+   }
+  ]
+ },
+ "sungboon-editor": {
+  "marca": "Sungboon Editor",
+  "tentativas": [
+   "sungboneditor.com: URLError",
+   "sungboneditor.co.kr: URLError",
+   "sungboon-editor.com: URLError"
+  ],
+  "site": null,
+  "final": null,
+  "candidatos": []
+ },
+ "another-face": {
+  "marca": "Another Face",
+  "tentativas": [],
+  "site": "anotherface.co.kr",
+  "final": "https://anotherface.co.kr/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/another-face/0_img.png",
+    "tipo": "img",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/upload/_dj/img/AF_logo.png",
+    "bytes": 17196
+   },
+   {
+    "arquivo": "tools/marcas/logos/another-face/1_og.png",
+    "tipo": "og",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/upload/meta_new.png",
+    "bytes": 731417
+   }
+  ]
+ },
+ "aestura": {
+  "marca": "AESTURA",
+  "tentativas": [],
+  "site": "aestura.com",
+  "final": "https://aestura.com/web/main.do",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/aestura/0_img.png",
+    "tipo": "img",
+    "url": "https://image.aestura.com/resources/web/images/common/logo_on.png?ver=20240710_1",
+    "bytes": 3248
+   },
+   {
+    "arquivo": "tools/marcas/logos/aestura/1_og.jpg",
+    "tipo": "og",
+    "url": "https://image.aestura.com/resources/mobile/images/common/sec02_logo1.jpg",
+    "bytes": 209040
+   }
+  ]
+ },
+ "beplain": {
+  "marca": "beplain",
+  "tentativas": [
+   "beplain.com: HTTPError"
+  ],
+  "site": "beplain.co.kr",
+  "final": "https://beplain.co.kr/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/beplain/0_img.svg",
+    "tipo": "img",
+    "url": "https://beplain.co.kr/design/beplain01/images/beplain_source_240214/LOGO.svg",
+    "bytes": 2097
+   },
+   {
+    "arquivo": "tools/marcas/logos/beplain/1_img.svg",
+    "tipo": "img",
+    "url": "https://beplain.co.kr/design/beplain01/images/beplain_source_240214/LOGO2.svg",
+    "bytes": 2240
+   }
+  ]
+ },
+ "kaine": {
+  "marca": "KAINE",
+  "tentativas": [],
+  "site": "kaine.co.kr",
+  "final": "https://kaine.co.kr/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/kaine/0_og.png",
+    "tipo": "og",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/upload/share-image-1-4600327420fea9eea151f7ebd17f6548.png",
+    "bytes": 9310
+   }
+  ]
+ },
+ "ilso": {
+  "marca": "ILSO",
+  "tentativas": [
+   "ilso.co.kr: URLError",
+   "ilso.com: URLError",
+   "ilsoskin.com: URLError"
+  ],
+  "site": null,
+  "final": null,
+  "candidatos": []
+ },
+ "wellage": {
+  "marca": "WELLAGE",
+  "tentativas": [],
+  "site": "wellage.com",
+  "final": "https://wellage.com/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/wellage/0_img.png",
+    "tipo": "img",
+    "url": "https://wellage.com/wp-content/uploads/logo-wellage-senior-living.png",
+    "bytes": 15172
+   },
+   {
+    "arquivo": "tools/marcas/logos/wellage/1_img.png",
+    "tipo": "img",
+    "url": "https://wellage.com/wp-content/uploads/logo-wellage-senior-living-rev.png",
+    "bytes": 23658
+   },
+   {
+    "arquivo": "tools/marcas/logos/wellage/2_img.png",
+    "tipo": "img",
+    "url": "https://wellage.com/wp-content/uploads/eho-ada-petfriendly.png",
+    "bytes": 2315
+   },
+   {
+    "arquivo": "tools/marcas/logos/wellage/3_og.jpg",
+    "tipo": "og",
+    "url": "https://wellage.com/wp-content/uploads/elementor/thumbs/location-sopris-lodge-carbondale-peklp88mmlxikdq4spbaqdbwori2lwovcuqtv4zpfs.jpg",
+    "bytes": 128228
+   },
+   {
+    "arquivo": "tools/marcas/logos/wellage/4_apple.png",
+    "tipo": "apple",
+    "url": "https://wellage.com/wp-content/uploads/cropped-favicon-180x180.png",
+    "bytes": 10404
+   },
+   {
+    "arquivo": "tools/marcas/logos/wellage/svg0.svg",
+    "tipo": "inline-svg",
+    "url": "https://wellage.com/"
+   }
+  ]
+ },
+ "clio": {
+  "marca": "CLIO",
+  "tentativas": [],
+  "site": "clubclio.co.kr",
+  "final": "https://clubclio.co.kr/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/clio/0_img.svg",
+    "tipo": "img",
+    "url": "https://clubclio.co.kr/assets/templet/enterprise/images/layout/clubclio.svg",
+    "bytes": 27475
+   },
+   {
+    "arquivo": "tools/marcas/logos/clio/1_og.png",
+    "tipo": "og",
+    "url": "https://clubclio.co.kr/data/mall_data/images/og_img.png",
+    "bytes": 12437
+   },
+   {
+    "arquivo": "tools/marcas/logos/clio/2_apple.png",
+    "tipo": "apple",
+    "url": "https://clubclio.co.kr/data/mall_data/images/favicon_152.png",
+    "bytes": 1467
+   },
+   {
+    "arquivo": "tools/marcas/logos/clio/3_apple.png",
+    "tipo": "apple",
+    "url": "https://clubclio.co.kr/data/mall_data/images/favicon_180.png",
+    "bytes": 1916
+   }
+  ]
+ },
+ "peripera": {
+  "marca": "Peripera",
+  "tentativas": [
+   "peripera.co.kr: URLError",
+   "peripera.com: URLError",
+   "peripera.us: URLError"
+  ],
+  "site": null,
+  "final": null,
+  "candidatos": []
+ },
+ "ongredients": {
+  "marca": "òngredients",
+  "tentativas": [],
+  "site": "ongredients.com",
+  "final": "https://ongredients.com/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/ongredients/0_img.png",
+    "tipo": "img",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/upload/free_design/head_logo.png",
+    "bytes": 2612
+   },
+   {
+    "arquivo": "tools/marcas/logos/ongredients/1_img.png",
+    "tipo": "img",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/upload/free_design/ft_logo.png",
+    "bytes": 18471
+   },
+   {
+    "arquivo": "tools/marcas/logos/ongredients/2_og.jpg",
+    "tipo": "og",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/upload/share-image-1-aa401c9b0f072cd256911f54c3ab9e5b.jpg",
+    "bytes": 394122
+   }
+  ]
+ },
+ "purcell": {
+  "marca": "purcell",
+  "tentativas": [],
+  "site": "purcell.co.kr",
+  "final": "https://purcell.co.kr/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/purcell/0_img.svg",
+    "tipo": "img",
+    "url": "https://purcell.co.kr/iv/common/logo.svg",
+    "bytes": 1554
+   },
+   {
+    "arquivo": "tools/marcas/logos/purcell/1_img.png",
+    "tipo": "img",
+    "url": "https://purcell.co.kr/iv/common/new_lockup_black.png",
+    "bytes": 18548
+   }
+  ]
+ },
+ "dr-forhair": {
+  "marca": "DR.forHair",
+  "tentativas": [],
+  "site": "drforhair.com",
+  "final": "https://www.drforhair.com/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/dr-forhair/0_img.png",
+    "tipo": "img",
+    "url": "https://www.drforhair.com/cdn/shop/files/drforhair-red-logo.png?v=1770336729",
+    "bytes": 8093
+   },
+   {
+    "arquivo": "tools/marcas/logos/dr-forhair/1_img.png",
+    "tipo": "img",
+    "url": "https://www.drforhair.com/cdn/shop/files/drforhair-red-logo.png?v=1770336729&width=136",
+    "bytes": 4527
+   },
+   {
+    "arquivo": "tools/marcas/logos/dr-forhair/2_og.jpg",
+    "tipo": "og",
+    "url": "http://www.drforhair.com/cdn/shop/files/260219_Sh12_GroupShot_MultipleProduct_027_FINAL_1_890d939c-1b03-4778-94d4-22ab79e91323.jpg?v=1775825643",
+    "bytes": 613032
+   }
+  ]
+ },
+ "fwee": {
+  "marca": "fwee",
+  "tentativas": [],
+  "site": "fwee.kr",
+  "final": "https://fwee.kr/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/fwee/0_img.png",
+    "tipo": "img",
+    "url": "https://fwee.kr/_images/nav_logo.png",
+    "bytes": 2446
+   },
+   {
+    "arquivo": "tools/marcas/logos/fwee/1_img.png",
+    "tipo": "img",
+    "url": "https://fwee.kr/_images/ft_logo.png",
+    "bytes": 1694
+   },
+   {
+    "arquivo": "tools/marcas/logos/fwee/2_og.png",
+    "tipo": "og",
+    "url": "https://fwee.kr/web/upload/share-image-1-b86b7c31970f708ea5e7f06334a18558.png",
+    "bytes": 74518
+   }
+  ]
+ },
+ "growus": {
+  "marca": "Growus",
+  "tentativas": [
+   "growus.co.kr: URLError",
+   "growus.us: URLError",
+   "growusbeauty.com: URLError"
+  ],
+  "site": null,
+  "final": null,
+  "candidatos": []
+ },
+ "hince": {
+  "marca": "Hince",
+  "tentativas": [],
+  "site": "hince.co.kr",
+  "final": "https://hince.co.kr/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/hince/0_img.svg",
+    "tipo": "img",
+    "url": "https://hince.co.kr/images/musign/main/logo_hince.svg",
+    "bytes": 4583
+   },
+   {
+    "arquivo": "tools/marcas/logos/hince/1_img.svg",
+    "tipo": "img",
+    "url": "https://hince.co.kr/images/musign/main/hince_logo_footer.svg",
+    "bytes": 4581
+   },
+   {
+    "arquivo": "tools/marcas/logos/hince/2_og.png",
+    "tipo": "og",
+    "url": "https://hince.co.kr/web/upload/share-image-1-a36ad89eb396453022b80ff902532ee4.png",
+    "bytes": 796563
+   },
+   {
+    "arquivo": null,
+    "tipo": "apple",
+    "url": "https://hince.co.kr/layout/basic/images/icon/icon-167x167.png",
+    "erro": "HTTPError"
+   },
+   {
+    "arquivo": null,
+    "tipo": "apple",
+    "url": "https://hince.co.kr/layout/basic/images/icon/icon-180x180.png",
+    "erro": "HTTPError"
+   }
+  ]
+ },
+ "banila-co": {
+  "marca": "BANILA CO",
+  "tentativas": [],
+  "site": "banilaco.com",
+  "final": "https://banila.com:443/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/banila-co/0_img.png",
+    "tipo": "img",
+    "url": "https://banila.com:443/iv/common/pc/logo.png?v=1",
+    "bytes": 3553
+   },
+   {
+    "arquivo": "tools/marcas/logos/banila-co/1_img.png",
+    "tipo": "img",
+    "url": "https://banila.com:443/iv/common/pc/genuineProduct_logo.png",
+    "bytes": 2447
+   },
+   {
+    "arquivo": "tools/marcas/logos/banila-co/2_og.jpg",
+    "tipo": "og",
+    "url": "https://www.banila.com/web/upload/share-image-1-e15c675e4975df95f2d5076a06067585.jpg",
+    "bytes": 43752
+   }
+  ]
+ },
+ "dr-reju-all": {
+  "marca": "Dr. Reju-All",
+  "tentativas": [],
+  "site": "drrejuall.com",
+  "final": "https://drrejuall.com/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/dr-reju-all/0_img.png",
+    "tipo": "img",
+    "url": "https://drrejuall.com/cdn/shop/files/Dr.Reju-All_logo_RGB_Brown_main_a9908cd1-2d99-4b53-a647-3e8f17f44559.png?v=1789093011",
+    "bytes": 17783
+   },
+   {
+    "arquivo": "tools/marcas/logos/dr-reju-all/1_img.png",
+    "tipo": "img",
+    "url": "https://drrejuall.com/cdn/shop/files/Dr.Reju-All_logo_black_square.png?v=1760648209&width=100",
+    "bytes": 2759
+   },
+   {
+    "arquivo": "tools/marcas/logos/dr-reju-all/2_img.svg",
+    "tipo": "img",
+    "url": "https://drrejuall.com/cdn/shop/files/Dr.Reju-All_logo_RGB_White.svg?v=1785201946&width=360",
+    "bytes": 7031
+   },
+   {
+    "arquivo": "tools/marcas/logos/dr-reju-all/3_img.svg",
+    "tipo": "img",
+    "url": "https://drrejuall.com/cdn/shop/files/Dr.Reju-All_logo_RGB_White.svg?crop=center&height=2048&v=1785201946&width=2048",
+    "bytes": 7031
+   },
+   {
+    "arquivo": "tools/marcas/logos/dr-reju-all/4_og.png",
+    "tipo": "og",
+    "url": "http://drrejuall.com/cdn/shop/files/Meta_Image.png?v=1759293724",
+    "bytes": 716098
+   },
+   {
+    "arquivo": "tools/marcas/logos/dr-reju-all/svg0.svg",
+    "tipo": "inline-svg",
+    "url": "https://drrejuall.com/"
+   }
+  ]
+ },
+ "coeval": {
+  "marca": "COEVAL",
+  "tentativas": [
+   "coeval.co.kr: URLError",
+   "coevalbeauty.com: URLError"
+  ],
+  "site": "coeval.us",
+  "final": "https://coeval.us/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/coeval/0_img.png",
+    "tipo": "img",
+    "url": "https://coeval.us/images/coeval-logo-symbol.png",
+    "bytes": 16525
+   }
+  ]
+ },
+ "unove": {
+  "marca": "UNOVE",
+  "tentativas": [
+   "unove.co.kr: URLError",
+   "unove.com: URLError",
+   "unove.us: URLError"
+  ],
+  "site": null,
+  "final": null,
+  "candidatos": []
+ },
+ "lily-eve": {
+  "marca": "LILY EVE",
+  "tentativas": [
+   "lilyeve.co.kr: URLError",
+   "lilyeve.com: URLError"
+  ],
+  "site": null,
+  "final": null,
+  "candidatos": []
+ },
+ "addict": {
+  "marca": "A'ddict",
+  "tentativas": [
+   "addict.co.kr: URLError",
+   "addictcosmetics.com: URLError"
+  ],
+  "site": null,
+  "final": null,
+  "candidatos": []
+ },
+ "ts-shampoo": {
+  "marca": "TS Shampoo",
+  "tentativas": [
+   "tsshampoo.com: URLError",
+   "tsmall.co.kr: URLError",
+   "tsshampoo.co.kr: URLError"
+  ],
+  "site": null,
+  "final": null,
+  "candidatos": []
+ },
+ "freshian": {
+  "marca": "freshian",
+  "tentativas": [],
+  "site": "freshian.com",
+  "final": "https://freshian.com/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/freshian/0_img.svg",
+    "tipo": "img",
+    "url": "https://freshian.com/layout/basic/img/asset/wordmark_slogan.svg",
+    "bytes": 33147
+   },
+   {
+    "arquivo": "tools/marcas/logos/freshian/1_img.svg",
+    "tipo": "img",
+    "url": "https://freshian.com/layout/basic/img/icon/close.svg",
+    "bytes": 754
+   },
+   {
+    "arquivo": "tools/marcas/logos/freshian/2_img.svg",
+    "tipo": "img",
+    "url": "https://freshian.com/layout/basic/img/icon/login.svg",
+    "bytes": 958
+   },
+   {
+    "arquivo": "tools/marcas/logos/freshian/3_img.svg",
+    "tipo": "img",
+    "url": "https://freshian.com/layout/basic/img/asset/wordmark_w.svg",
+    "bytes": 3502
+   },
+   {
+    "arquivo": "tools/marcas/logos/freshian/4_img.svg",
+    "tipo": "img",
+    "url": "https://freshian.com/layout/basic/img/asset/wordmark.svg",
+    "bytes": 6324
+   }
+  ]
+ },
+ "for": {
+  "marca": "FOR",
+  "tentativas": [],
+  "site": null,
+  "final": null,
+  "candidatos": []
+ },
+ "gyeol-haus": {
+  "marca": "GYEOL HAUS",
+  "tentativas": [],
+  "site": "gyeolhaus.com",
+  "final": "https://gyeolhaus.com/",
+  "candidatos": [
+   {
+    "arquivo": "tools/marcas/logos/gyeol-haus/0_og.jpg",
+    "tipo": "og",
+    "url": "https://gyeolhaus.com/brand/gyeol-skin.jpg",
+    "bytes": 1966059
+   }
+  ]
+ },
+ "arcanic": {
+  "marca": "ARCANIC",
+  "tentativas": [
+   "arcanic.co.kr: URLError",
+   "arcanic.com: URLError"
+  ],
+  "site": null,
+  "final": null,
+  "candidatos": []
+ },
+ "the-kyeok": {
+  "marca": "THE KYEOK",
+  "tentativas": [
+   "thekyeok.com: URLError",
+   "thekyeok.co.kr: URLError"
+  ],
+  "site": null,
+  "final": null,
+  "candidatos": []
+ }
+}
