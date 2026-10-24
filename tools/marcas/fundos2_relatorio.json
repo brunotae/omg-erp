@@ -1,0 +1,4270 @@
+{
+ "abib": {
+  "marca": "Abib",
+  "tentativas": [
+   "abib.com: shopify HTTPError",
+   "abib.com: woo HTTPError",
+   "abib.com: html ok (14 og, 110 img)"
+  ],
+  "site": "abib.com",
+  "metodo": "html",
+  "titulo_pagina": "Abib Cosmetic - 아비브 코스메틱",
+  "candidatos": [
+   {
+    "titulo": "Abib Cosmetic",
+    "url": "https://abib.com/web/upload/share-image-1-cf1cbbc6155ef9c2033a9581cdbeb9e5.jpg"
+   },
+   {
+    "titulo": "Abib Cosmetic",
+    "url": "https://abib.com/web/upload/share-image-1-cf1cbbc6155ef9c2033a9581cdbeb9e5.jpg"
+   },
+   {
+    "titulo": "Abib Cosmetic",
+    "url": "https://abib.com/web/upload/share-image-1-cf1cbbc6155ef9c2033a9581cdbeb9e5.jpg"
+   },
+   {
+    "titulo": "Abib Cosmetic",
+    "url": "https://abib.com/web/upload/share-image-1-cf1cbbc6155ef9c2033a9581cdbeb9e5.jpg"
+   },
+   {
+    "titulo": "Abib Cosmetic",
+    "url": "https://abib.com/web/upload/share-image-1-cf1cbbc6155ef9c2033a9581cdbeb9e5.jpg"
+   },
+   {
+    "titulo": "Abib Cosmetic",
+    "url": "https://abib.com/web/upload/share-image-1-cf1cbbc6155ef9c2033a9581cdbeb9e5.jpg"
+   },
+   {
+    "titulo": "Abib Cosmetic",
+    "url": "https://abib.com/web/upload/share-image-1-cf1cbbc6155ef9c2033a9581cdbeb9e5.jpg"
+   },
+   {
+    "titulo": "Abib Cosmetic",
+    "url": "https://abib.com/web/upload/share-image-1-cf1cbbc6155ef9c2033a9581cdbeb9e5.jpg"
+   },
+   {
+    "titulo": "Abib Cosmetic",
+    "url": "https://abib.com/web/upload/share-image-1-cf1cbbc6155ef9c2033a9581cdbeb9e5.jpg"
+   },
+   {
+    "titulo": "Abib Cosmetic",
+    "url": "https://abib.com/web/upload/share-image-1-cf1cbbc6155ef9c2033a9581cdbeb9e5.jpg"
+   },
+   {
+    "titulo": "Abib Cosmetic",
+    "url": "https://abib.com/web/upload/share-image-1-cf1cbbc6155ef9c2033a9581cdbeb9e5.jpg"
+   },
+   {
+    "titulo": "Abib Cosmetic",
+    "url": "https://abib.com/web/upload/share-image-1-cf1cbbc6155ef9c2033a9581cdbeb9e5.jpg"
+   },
+   {
+    "titulo": "Abib Cosmetic",
+    "url": "https://abib.com/web/upload/share-image-1-cf1cbbc6155ef9c2033a9581cdbeb9e5.jpg"
+   },
+   {
+    "titulo": "Abib Cosmetic",
+    "url": "https://abib.com/web/upload/share-image-1-cf1cbbc6155ef9c2033a9581cdbeb9e5.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://cafe24.poxo.com/ec01/fourco/eQ1ecc0tuYcgNsrP5uY2DIpVaI0IvPKp3AC1LRKgIp6Tx4ckJyJDAHy/Nn3nVHR9tw1ElDfu5UEeK3qc/9Ojfg==/_/web/product/medium/202610/b4e236e283f6aea9d5f09ecff830401c.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://cafe24.poxo.com/ec01/fourco/eQ1ecc0tuYcgNsrP5uY2DIpVaI0IvPKp3AC1LRKgIp6Tx4ckJyJDAHy/Nn3nVHR9tw1ElDfu5UEeK3qc/9Ojfg==/_/web/product/medium/202410/1d7efef8f6405d6da297511aab73a7b0.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://cafe24.poxo.com/ec01/fourco/eQ1ecc0tuYcgNsrP5uY2DIpVaI0IvPKp3AC1LRKgIp6Tx4ckJyJDAHy/Nn3nVHR9tw1ElDfu5UEeK3qc/9Ojfg==/_/web/product/medium/202410/5a5764a410f5da92ca4f95c4d1075f2c.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://cafe24.poxo.com/ec01/fourco/eQ1ecc0tuYcgNsrP5uY2DIpVaI0IvPKp3AC1LRKgIp6Tx4ckJyJDAHy/Nn3nVHR9tw1ElDfu5UEeK3qc/9Ojfg==/_/web/product/medium/202410/641c640855df4f20a5a509bd7bd93c25.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://cafe24.poxo.com/ec01/fourco/eQ1ecc0tuYcgNsrP5uY2DIpVaI0IvPKp3AC1LRKgIp6Tx4ckJyJDAHy/Nn3nVHR9tw1ElDfu5UEeK3qc/9Ojfg==/_/web/product/medium/202610/5b2c987e8f5971651a3a205c7ea4061c.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://cafe24.poxo.com/ec01/fourco/eQ1ecc0tuYcgNsrP5uY2DIpVaI0IvPKp3AC1LRKgIp6Tx4ckJyJDAHy/Nn3nVHR9tw1ElDfu5UEeK3qc/9Ojfg==/_/web/product/medium/202602/aa1ad959987c323d156d9d722e92bbfa.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://cafe24.poxo.com/ec01/fourco/eQ1ecc0tuYcgNsrP5uY2DIpVaI0IvPKp3AC1LRKgIp6Tx4ckJyJDAHy/Nn3nVHR9tw1ElDfu5UEeK3qc/9Ojfg==/_/web/product/medium/202609/457b637eca7c43cf303c4ba765ca6028.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://cafe24.poxo.com/ec01/fourco/eQ1ecc0tuYcgNsrP5uY2DIpVaI0IvPKp3AC1LRKgIp6Tx4ckJyJDAHy/Nn3nVHR9tw1ElDfu5UEeK3qc/9Ojfg==/_/web/product/medium/202602/0da8af53e22c99d00dc6dc2ee4f094db.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://cafe24.poxo.com/ec01/fourco/eQ1ecc0tuYcgNsrP5uY2DIpVaI0IvPKp3AC1LRKgIp6Tx4ckJyJDAHy/Nn3nVHR9tw1ElDfu5UEeK3qc/9Ojfg==/_/web/product/medium/202609/047b9379a54bb25dd4a3cde268f71c9c.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://cafe24.poxo.com/ec01/fourco/eQ1ecc0tuYcgNsrP5uY2DIpVaI0IvPKp3AC1LRKgIp6Tx4ckJyJDAHy/Nn3nVHR9tw1ElDfu5UEeK3qc/9Ojfg==/_/web/product/medium/202603/0cf90505ac74cd38bb73ce8189e0eb29.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://cafe24.poxo.com/ec01/fourco/eQ1ecc0tuYcgNsrP5uY2DIpVaI0IvPKp3AC1LRKgIp6Tx4ckJyJDAHy/Nn3nVHR9tw1ElDfu5UEeK3qc/9Ojfg==/_/web/product/medium/202607/11aab52edb795ddd5f6c274dd39c1db8.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://cafe24.poxo.com/ec01/fourco/eQ1ecc0tuYcgNsrP5uY2DIpVaI0IvPKp3AC1LRKgIp6Tx4ckJyJDAHy/Nn3nVHR9tw1ElDfu5UEeK3qc/9Ojfg==/_/web/product/medium/202607/3cfa25f128f4f07fe998ab5489793929.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://cafe24.poxo.com/ec01/fourco/eQ1ecc0tuYcgNsrP5uY2DIpVaI0IvPKp3AC1LRKgIp6Tx4ckJyJDAHy/Nn3nVHR9tw1ElDfu5UEeK3qc/9Ojfg==/_/web/product/medium/202610/d7630f7df7a3013b134d6c2a2b9fb289.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://cafe24.poxo.com/ec01/fourco/eQ1ecc0tuYcgNsrP5uY2DIpVaI0IvPKp3AC1LRKgIp6Tx4ckJyJDAHy/Nn3nVHR9tw1ElDfu5UEeK3qc/9Ojfg==/_/web/product/medium/202604/eec49d5f207ec864ed8e415bbc4a3d92.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://cafe24.poxo.com/ec01/fourco/eQ1ecc0tuYcgNsrP5uY2DIpVaI0IvPKp3AC1LRKgIp6Tx4ckJyJDAHy/Nn3nVHR9tw1ElDfu5UEeK3qc/9Ojfg==/_/web/product/medium/202604/4e1b3613bfb0f929c6478579a24c796e.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://cafe24.poxo.com/ec01/fourco/eQ1ecc0tuYcgNsrP5uY2DIpVaI0IvPKp3AC1LRKgIp6Tx4ckJyJDAHy/Nn3nVHR9tw1ElDfu5UEeK3qc/9Ojfg==/_/web/product/medium/202604/eaa8cb9286717439cde1cb0ce353293d.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://cafe24.poxo.com/ec01/fourco/eQ1ecc0tuYcgNsrP5uY2DIpVaI0IvPKp3AC1LRKgIp6Tx4ckJyJDAHy/Nn3nVHR9tw1ElDfu5UEeK3qc/9Ojfg==/_/web/product/medium/202601/aa80051ddf7021e17b3f517509213787.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://cafe24.poxo.com/ec01/fourco/eQ1ecc0tuYcgNsrP5uY2DIpVaI0IvPKp3AC1LRKgIp6Tx4ckJyJDAHy/Nn3nVHR9tw1ElDfu5UEeK3qc/9Ojfg==/_/web/product/medium/202602/44d03011dd052681a3ec2a2586788114.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://cafe24.poxo.com/ec01/fourco/eQ1ecc0tuYcgNsrP5uY2DIpVaI0IvPKp3AC1LRKgIp6Tx4ckJyJDAHy/Nn3nVHR9tw1ElDfu5UEeK3qc/9Ojfg==/_/web/product/medium/202603/d4db96a196bc2325bc9afdee1b3c4ae6.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://cafe24.poxo.com/ec01/fourco/eQ1ecc0tuYcgNsrP5uY2DIpVaI0IvPKp3AC1LRKgIp6Tx4ckJyJDAHy/Nn3nVHR9tw1ElDfu5UEeK3qc/9Ojfg==/_/web/product/medium/202606/375c0135c387b8c8c2f5119a5488ab76.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://cafe24.poxo.com/ec01/fourco/eQ1ecc0tuYcgNsrP5uY2DIpVaI0IvPKp3AC1LRKgIp6Tx4ckJyJDAHy/Nn3nVHR9tw1ElDfu5UEeK3qc/9Ojfg==/_/web/product/medium/202412/0fe9d5f471748aaaddcfb4de1a9bf236.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://cafe24.poxo.com/ec01/fourco/eQ1ecc0tuYcgNsrP5uY2DIpVaI0IvPKp3AC1LRKgIp6Tx4ckJyJDAHy/Nn3nVHR9tw1ElDfu5UEeK3qc/9Ojfg==/_/web/product/medium/202601/fc91481dde45016c0c8d3698fa3442d9.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://cafe24.poxo.com/ec01/fourco/eQ1ecc0tuYcgNsrP5uY2DIpVaI0IvPKp3AC1LRKgIp6Tx4ckJyJDAHy/Nn3nVHR9tw1ElDfu5UEeK3qc/9Ojfg==/_/web/product/medium/202007/1ffeaa112235172dd2636e2777aa8652.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://cafe24.poxo.com/ec01/fourco/eQ1ecc0tuYcgNsrP5uY2DIpVaI0IvPKp3AC1LRKgIp6Tx4ckJyJDAHy/Nn3nVHR9tw1ElDfu5UEeK3qc/9Ojfg==/_/web/product/medium/202007/6d2f8909277861d929f54e25dae49a72.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://cafe24.poxo.com/ec01/fourco/eQ1ecc0tuYcgNsrP5uY2DIpVaI0IvPKp3AC1LRKgIp6Tx4ckJyJDAHy/Nn3nVHR9tw1ElDfu5UEeK3qc/9Ojfg==/_/web/product/medium/202304/1234591900085074aedaae433050d1bc.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://cafe24.poxo.com/ec01/fourco/eQ1ecc0tuYcgNsrP5uY2DIpVaI0IvPKp3AC1LRKgIp6Tx4ckJyJDAHy/Nn3nVHR9tw1ElDfu5UEeK3qc/9Ojfg==/_/web/product/medium/202109/a4586cba0f2f599acb0c1f332c61404e.jpg"
+   }
+  ],
+  "baixadas": [
+   {
+    "titulo": "Abib Cosmetic",
+    "url": "https://abib.com/web/upload/share-image-1-cf1cbbc6155ef9c2033a9581cdbeb9e5.jpg"
+   },
+   {
+    "titulo": "Abib Cosmetic",
+    "url": "https://abib.com/web/upload/share-image-1-cf1cbbc6155ef9c2033a9581cdbeb9e5.jpg"
+   },
+   {
+    "titulo": "Abib Cosmetic",
+    "url": "https://abib.com/web/upload/share-image-1-cf1cbbc6155ef9c2033a9581cdbeb9e5.jpg"
+   },
+   {
+    "titulo": "Abib Cosmetic",
+    "url": "https://abib.com/web/upload/share-image-1-cf1cbbc6155ef9c2033a9581cdbeb9e5.jpg"
+   },
+   {
+    "titulo": "Abib Cosmetic",
+    "url": "https://abib.com/web/upload/share-image-1-cf1cbbc6155ef9c2033a9581cdbeb9e5.jpg"
+   },
+   {
+    "titulo": "Abib Cosmetic",
+    "url": "https://abib.com/web/upload/share-image-1-cf1cbbc6155ef9c2033a9581cdbeb9e5.jpg"
+   },
+   {
+    "titulo": "Abib Cosmetic",
+    "url": "https://abib.com/web/upload/share-image-1-cf1cbbc6155ef9c2033a9581cdbeb9e5.jpg"
+   },
+   {
+    "titulo": "Abib Cosmetic",
+    "url": "https://abib.com/web/upload/share-image-1-cf1cbbc6155ef9c2033a9581cdbeb9e5.jpg"
+   }
+  ]
+ },
+ "mediheal": {
+  "marca": "MEDIHEAL",
+  "tentativas": [
+   "mediheal.com: shopify ok (134)"
+  ],
+  "site": "mediheal.com",
+  "metodo": "shopify",
+  "titulo_pagina": "",
+  "candidatos": [
+   {
+    "titulo": "MEDIHEAL TONER PAD SET – 4 TYPES",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/01_5665d8eb-a111-487b-bc62-72e40c26010f.jpg?v=1792116137"
+   },
+   {
+    "titulo": "TEATREE TROUBLE PAD REFILL 3-PACK",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/04_e94312ef-0058-47f1-b95d-fe3648840344.jpg?v=1792116408"
+   },
+   {
+    "titulo": "PHYTO-ENZYME PEELING PAD REFILL 3-PACK",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/03_c058e9f5-4bca-479a-8fbf-374f395636a9.jpg?v=1792116383"
+   },
+   {
+    "titulo": "VITAMIDE BRIGHTENING PAD REFILL 3-PACK",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/05_0e26f091-eef1-4a05-b7ad-c286ec5c714e.jpg?v=1792116430"
+   },
+   {
+    "titulo": "WATERMIDE MOISTURE PAD REFILL 3-PACK",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/06_de302054-abff-4471-888f-b0d1b0f7e2a3.jpg?v=1792116564"
+   },
+   {
+    "titulo": "Tea Tree Clear Set",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Tea-Tree-Clear-Set_shadow_2.png?v=1786979510"
+   },
+   {
+    "titulo": "PDRN Renewal Set",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_PDRN-Renewal-Set_shadow2.png?v=1786979928"
+   },
+   {
+    "titulo": "Madecassoside Soothing Set",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Madecassoside-Soothing-Set_shadow2.png?v=1786980004"
+   },
+   {
+    "titulo": "MEDIHEAL 101 Starter Pack",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_MEDIHEAL-101-Starter-Pack_shadow_2.png?v=1786979679"
+   },
+   {
+    "titulo": "Collagen Firming Set",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Collagen-Firming-Set_shadow2.png?v=1786979748"
+   },
+   {
+    "titulo": "Watermide Hydration Set",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Watermide-Hydration-Set_shadow2.png?v=1786979805"
+   },
+   {
+    "titulo": "Vitamin Glow Set",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Vitamin-Glow-Set_shadow2.png?v=1786979863"
+   },
+   {
+    "titulo": "Derma Creampack Cleanser Rose PDRN Pore Firming",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Derma_Creampack_Cleanser_Rose_PDRN_Pore_Firming_texture-shadow_1.png?v=1786986558"
+   },
+   {
+    "titulo": "Derma Creampack Cleanser Madecassoside Calming Barrier",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Derma_Creampack_Cleanser_Madecassoside_Calming_Barrier-texture-shadow_1.png?v=1786986604"
+   },
+   {
+    "titulo": "Derma Cream PDRN Lifting",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Derma_Cream_PDRN_Lifting_shadow_1.png?v=1786994686"
+   },
+   {
+    "titulo": "Derma Cream Madecassoside Blemish Repair",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Derma_Cream_Madecassoside_Blemish_Repair_shadow_1.png?v=1786994545"
+   },
+   {
+    "titulo": "Madecassoside Moisture Sun Serum [SUNSCREEN]",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Madecassoside_Moisture_Sun_Serum_SUNSCREEN__texture-shadow_1.png?v=1786995200"
+   },
+   {
+    "titulo": "Watermide Deep Hydration Pad - Travel Size (14 Count)",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Watermide-Deep-Hydration-Pad-Travel-Size-_14-Count__clean.png?v=1786984742"
+   },
+   {
+    "titulo": "Vitamide Brightening Pad - Travel Size (14 Count)",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Vitamide-Brightening-Pad-Travel-Size-_14-Count__clean.png?v=1786984674"
+   },
+   {
+    "titulo": "Phyto-Enzyme Peeling Pad - Travel Size (14 Count)",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Phyto-Enzyme-Peeling_Pad_-_Travel-Size-_14-Count__clean.png?v=1786984629"
+   },
+   {
+    "titulo": "PDRN Pore Lifting Pad - Travel Size (14 Count)",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_PDRN-Pore-Lifting-Pad-Travel-Size-_14-Count__clean.png?v=1786984557"
+   },
+   {
+    "titulo": "Madecassoside Blemish Pad - Travel Size (14 Count)",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Madecassoside-Blemish-Pad-Travel-Size-_14-Count__clean.png?v=1786984471"
+   },
+   {
+    "titulo": "Collagen Ampoule Pad - Travel Size (14 Count)",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/Rectangle_372.png?v=1786984976"
+   },
+   {
+    "titulo": "Madecassoside Wrapping Serum Mask",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Madecassoside-Wrapping-Serum-Mask_shadow_1.png?v=1786989495"
+   },
+   {
+    "titulo": "Pantenolips Serum Honey",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Pantenolips-Serum-Honey_shadow_1.png?v=1786994926"
+   },
+   {
+    "titulo": "Pantenolips Healbalm",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Pantenolips-Healbalm_shadow_1.png?v=1786994971"
+   },
+   {
+    "titulo": "Pantenolips Scrub",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Pantenolips-Scrub_shadow_1.png?v=1786994875"
+   },
+   {
+    "titulo": "Pantenolips Healssence",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnai_Pantenolips-Healssence_shadow_1.png?v=1786994838"
+   },
+   {
+    "titulo": "Pantenolips Sleeping Mask",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Pantenolips-Sleeping-Mask_shadow_1.png?v=1786994790"
+   },
+   {
+    "titulo": "Teatree Wrapping Serum Mask",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Teatree-Wrapping-Serum-Mask_shadow_1.png?v=1786989397"
+   },
+   {
+    "titulo": "Derma Synergy Wrapping Mask Calming",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Derma-Synergy-Wrapping-Mask-Calming_shadow_1.png?v=1786988435"
+   },
+   {
+    "titulo": "Hyaluronate Bio Seconderm Mask Ultra Hydration",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Hyaluronate-Bio-Seconderm-Mask-Ultra-Hydration_shadow_1.png?v=1786988995"
+   },
+   {
+    "titulo": "Madecassoside Bio Seconderm Mask Blemish Repair",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Madecassoside-Bio-Seconderm-Mask-Blemish-Repair_shadow_1.png?v=1786988929"
+   },
+   {
+    "titulo": "Rose PDRN Bio Seconderm Mask_Lifting",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Rose-PDRN-Bio-Seconderm-Mask_Lifting_shadow_1.png?v=1786988865"
+   },
+   {
+    "titulo": "Firming Glow Cleanser",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_thumbnail_Firming_Glow_Cleanser_shadow_1.png?v=1786986158"
+   },
+   {
+    "titulo": "Firming Nude Gel Mask",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Firming-Nude-Gel-Mask_shadow_1.png?v=1786988588"
+   },
+   {
+    "titulo": "Vitamin C Brightening Capsule Eye Patch",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Vitamin_C_Brightening_Capsule_Eye_Patch_shadow_1.png?v=1786990673"
+   },
+   {
+    "titulo": "Retinol Lifting Capsule Eye Patch",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Retinol_Lifting_Capsule_Eye_Patch_shadow_1_1.png?v=1786990821"
+   },
+   {
+    "titulo": "Firming Volume Wrapping Serum Mask",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Firming-Volume-Wrapping-Serum-Mask_shadow_1.png?v=1786989275"
+   },
+   {
+    "titulo": "Derma Ampoule Mask I.P.I",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Derma-Ampoule-Mask-I.P.I_shadow_2.png?v=1787242621"
+   }
+  ],
+  "vendors": [
+   "Mediheal",
+   "Mediheal US"
+  ],
+  "baixadas": [
+   {
+    "titulo": "MEDIHEAL TONER PAD SET – 4 TYPES",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/01_5665d8eb-a111-487b-bc62-72e40c26010f.jpg?v=1792116137"
+   },
+   {
+    "titulo": "MEDIHEAL 101 Starter Pack",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_MEDIHEAL-101-Starter-Pack_shadow_2.png?v=1786979679"
+   },
+   {
+    "titulo": "TEATREE TROUBLE PAD REFILL 3-PACK",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/04_e94312ef-0058-47f1-b95d-fe3648840344.jpg?v=1792116408"
+   },
+   {
+    "titulo": "PHYTO-ENZYME PEELING PAD REFILL 3-PACK",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/03_c058e9f5-4bca-479a-8fbf-374f395636a9.jpg?v=1792116383"
+   },
+   {
+    "titulo": "VITAMIDE BRIGHTENING PAD REFILL 3-PACK",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/05_0e26f091-eef1-4a05-b7ad-c286ec5c714e.jpg?v=1792116430"
+   },
+   {
+    "titulo": "WATERMIDE MOISTURE PAD REFILL 3-PACK",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/06_de302054-abff-4471-888f-b0d1b0f7e2a3.jpg?v=1792116564"
+   },
+   {
+    "titulo": "Tea Tree Clear Set",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_Tea-Tree-Clear-Set_shadow_2.png?v=1786979510"
+   },
+   {
+    "titulo": "PDRN Renewal Set",
+    "url": "https://cdn.shopify.com/s/files/1/0053/9033/6034/files/thumbnail_PDRN-Renewal-Set_shadow2.png?v=1786979928"
+   }
+  ]
+ },
+ "aromatica": {
+  "marca": "AROMATICA",
+  "tentativas": [
+   "global.aromatica.co: shopify ok (216)"
+  ],
+  "site": "global.aromatica.co",
+  "metodo": "shopify",
+  "titulo_pagina": "",
+  "candidatos": [
+   {
+    "titulo": "Rosemary Salt Scrub Shampoo 120g",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/1_c876c5af-fe68-4e06-9f22-686475760b0f.jpg?v=1778639230"
+   },
+   {
+    "titulo": "Lemongrass Body Wash Refill 500ml x2 & Lotion Refill 500ml x2",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/1d2960ec11f0624dabdd4b62e9ed8853.jpg?v=1783912044"
+   },
+   {
+    "titulo": "Eucalyptus Body Wash Refill 500ml x2 & Lotion Refill 500ml x2",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/53e24671225dbc873d472c931d87437c.jpg?v=1783912045"
+   },
+   {
+    "titulo": "Serene Body Wash Refill 300ml x2 & Lotion Refill 300ml x2",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/8e2e0fd6b727c761cb6c5234580c8551.jpg?v=1783912045"
+   },
+   {
+    "titulo": "Embrace Body Wash Refill 300ml x2 & Lotion Refill 300ml x2",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/891acc5002f968c9474c43d13e8a6cbe.jpg?v=1783912045"
+   },
+   {
+    "titulo": "Vitalizing Rosemary All-In-One Wash Refill 300ml x2 & Lotion Refill 300ml x2",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/8e2e0fd6b727c761cb6c5234580c8551.jpg?v=1783912045"
+   },
+   {
+    "titulo": "Rosemary Ampoule & Cream Set",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/440ee558d56b6dd54b42021d224cc160.jpg?v=1783906626"
+   },
+   {
+    "titulo": "Rosemary PDRN Root Volume Set",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/result4_2.png?v=1783565393"
+   },
+   {
+    "titulo": "Sleep Tight Pillow Mist & Unburden Stress Relief Balm",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/42788e41748c3f8a102e1320a9c4b6b3.jpg?v=1783492904"
+   },
+   {
+    "titulo": "Embrace Hand Towel",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/A1562_A1616___1.png?v=1783404434"
+   },
+   {
+    "titulo": "Dual-Sided Sugar Body Scrub Towel",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/A1938_under20MB.png?v=1783304333"
+   },
+   {
+    "titulo": "Vitalizing Rosemary Concentrated Essence 300ml",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/c489d9968d865410d0c8803f19b25744.jpg?v=1782977384"
+   },
+   {
+    "titulo": "Super Tea Tree Toner & Cream Set",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/04d141f83f55d080f6d2507801c3ff8b.jpg?v=1782894130"
+   },
+   {
+    "titulo": "Super Tea Tree Skin Care 3-Step Set",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/Frame_4.jpg?v=1782894074"
+   },
+   {
+    "titulo": "Awakening Body Wash & Oil Set",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/7ef2437efbde052a78b773b2b18fe76a.jpg?v=1782892622"
+   },
+   {
+    "titulo": "Bergamot & Petitgrain Deodorant 75g Duo",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/x2_c57983e3-1ebf-457e-a0bf-5019bd4a337c.jpg?v=1784697239"
+   },
+   {
+    "titulo": "Rosemary Hair Thickening Conditioner 180ml Duo",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/A_____-_-180MLx2.jpg?v=1784697088"
+   },
+   {
+    "titulo": "Rosemary Dry Shampoo Powder 10g Duo",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/A_____-_-_-_x2_b89c10bd-6621-4f45-9d66-e6510989037c.jpg?v=1784697088"
+   },
+   {
+    "titulo": "Rosemary Root Volumizing Scalp Ampoule 20ml Duo",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/A_____-_-_-_x2_4faa6e26-f6e7-4b69-a596-1d241150041a.jpg?v=1784697088"
+   },
+   {
+    "titulo": "Rosemary Scalp Scrub 165g Duo",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/A_____-_-_x2_6d9601b0-6caf-4725-8b0c-a81ee9d37559.jpg?v=1784697089"
+   },
+   {
+    "titulo": "Rosemary Root Enhancer 100ml Duo",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/A_____-_-_x2_60bb35e5-a666-4155-897c-4d6b9f2aa141.jpg?v=1784697089"
+   },
+   {
+    "titulo": "Comfort Moisture Feminine Wash Rose & Geranium 200ml & Refill 100ml x2",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/M_____-_-_-_-100MLx2_c986afc8-35dd-43a0-9f5a-f6bbfe959f59.jpg?v=1784697089"
+   },
+   {
+    "titulo": "Comfort Moisture Feminine Wash Rose & Geranium 200ml & Refill 100ml",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/M_____-_-_-_-100ML.jpg?v=1784697089"
+   },
+   {
+    "titulo": "Comfort Moisture Feminine Wash Rose & Geranium Refill 100ml",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/977b389f42702098381cac8f54644b9c.jpg?v=1783299485"
+   },
+   {
+    "titulo": "Comfort Moisture Feminine Wash Rose & Geranium 200ml",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/9d4248c682fde3d45e992a1dbedd423c.jpg?v=1782801117"
+   },
+   {
+    "titulo": "Rosemary Scalp Scaling Shampoo 750ml Duo",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/A_____-_-750MLx2.jpg?v=1784697089"
+   },
+   {
+    "titulo": "Quinoa Hair Protein Routine Pack",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/C_211f215b-a95d-4069-abaf-30aec5792119.jpg?v=1782801119"
+   },
+   {
+    "titulo": "Rosemary Scalp Scaling Shampoo Refill 500ml x2 & Hair Thickening Conditioner Refill 500ml x2",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/4f009fbc3bf58b02e7f011b8f9e815a5.jpg?v=1783299725"
+   },
+   {
+    "titulo": "Rosemary Hair Care Trial Set",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/B_____2.jpg?v=1784697089"
+   },
+   {
+    "titulo": "Rosemary PDRN Scalp Serum Duo",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/A_____-PDRN-_-_x2_9a0537e2-39e8-43ef-bbae-57c58d869ccd.jpg?v=1784697089"
+   },
+   {
+    "titulo": "Rosemary PDRN Scalp Reset Set",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/PDRN_f896f7ce-2406-4c0e-897d-ef58c656623e.jpg?v=1784697089"
+   },
+   {
+    "titulo": "Rosemary PDRN Daily Scalp Care Set",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/A_____-PDRN.jpg?v=1784697089"
+   },
+   {
+    "titulo": "Rosemary PDRN Root Care Set",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/A_b734658e-03f6-48dc-b5bc-b8380e442627.jpg?v=1784688878"
+   },
+   {
+    "titulo": "Rosemary PDRN Scalp Serum 100ml",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/A_____PDRN.jpg?v=1782801119"
+   },
+   {
+    "titulo": "Bergamot & Petitgrain Deodorant 75g",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/62459fcd4e8aa400e0f6e750ab3739c3.jpg?v=1782801119"
+   },
+   {
+    "titulo": "Awakening Body Wash Peppermint & Eucalyptus 300ml & Refill 300ml",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/I_943561c6-c830-40ba-84c8-e8086a99bf69.jpg?v=1782801117"
+   },
+   {
+    "titulo": "Awakening Body Wash Peppermint & Eucalyptus Refill 300ml",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/I.jpg?v=1782801117"
+   },
+   {
+    "titulo": "Tea Tree Purifying Shampoo 400ml & Refill 500ml x2",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/B_____-_-_x2_7a71fcfb-a32c-4af0-a461-267638a3555e.jpg?v=1784781498"
+   },
+   {
+    "titulo": "Rosemary Scalp Scaling Shampoo 400ml & Refill 500ml x2",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/A_____-_-_x2_f227f7b5-0cc7-467b-984b-a70adc831bfb.jpg?v=1784781498"
+   },
+   {
+    "titulo": "Rosemary Hair Thickening Conditioner 400ml & Refill 500ml x2",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/A_____-_-_-500mlx2.jpg?v=1784697089"
+   }
+  ],
+  "vendors": [
+   "AROMATICA GLOBAL",
+   "AROMATICA Global"
+  ],
+  "baixadas": [
+   {
+    "titulo": "Rosemary Salt Scrub Shampoo 120g",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/1_c876c5af-fe68-4e06-9f22-686475760b0f.jpg?v=1778639230"
+   },
+   {
+    "titulo": "Lemongrass Body Wash Refill 500ml x2 & Lotion Refill 500ml x2",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/1d2960ec11f0624dabdd4b62e9ed8853.jpg?v=1783912044"
+   },
+   {
+    "titulo": "Eucalyptus Body Wash Refill 500ml x2 & Lotion Refill 500ml x2",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/53e24671225dbc873d472c931d87437c.jpg?v=1783912045"
+   },
+   {
+    "titulo": "Serene Body Wash Refill 300ml x2 & Lotion Refill 300ml x2",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/8e2e0fd6b727c761cb6c5234580c8551.jpg?v=1783912045"
+   },
+   {
+    "titulo": "Embrace Body Wash Refill 300ml x2 & Lotion Refill 300ml x2",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/891acc5002f968c9474c43d13e8a6cbe.jpg?v=1783912045"
+   },
+   {
+    "titulo": "Vitalizing Rosemary All-In-One Wash Refill 300ml x2 & Lotion Refill 300ml x2",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/8e2e0fd6b727c761cb6c5234580c8551.jpg?v=1783912045"
+   },
+   {
+    "titulo": "Rosemary Ampoule & Cream Set",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/440ee558d56b6dd54b42021d224cc160.jpg?v=1783906626"
+   },
+   {
+    "titulo": "Rosemary PDRN Root Volume Set",
+    "url": "https://cdn.shopify.com/s/files/1/0655/7122/5808/files/result4_2.png?v=1783565393"
+   }
+  ]
+ },
+ "numbuzin": {
+  "marca": "numbuzin",
+  "tentativas": [
+   "numbuzin.com: shopify HTTPError",
+   "numbuzin.com: woo HTTPError",
+   "numbuzin.com: html ok (14 og, 36 img)"
+  ],
+  "site": "numbuzin.com",
+  "metodo": "html",
+  "titulo_pagina": "넘버즈인",
+  "candidatos": [
+   {
+    "titulo": "BEST - BEST - 넘버즈인",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/upload/share-image-1-28ca7c2a482f3feecd85fe95e4172748.jpg"
+   },
+   {
+    "titulo": "전체상품 - 피부 고민별 - 넘버즈인",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/upload/share-image-1-28ca7c2a482f3feecd85fe95e4172748.jpg"
+   },
+   {
+    "titulo": "전체상품 - 수분/진정 - 넘버즈인",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/upload/share-image-1-28ca7c2a482f3feecd85fe95e4172748.jpg"
+   },
+   {
+    "titulo": "전체상품 - 모공/결 - 넘버즈인",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/upload/share-image-1-28ca7c2a482f3feecd85fe95e4172748.jpg"
+   },
+   {
+    "titulo": "전체상품 - 미백/흔적 - 넘버즈인",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/upload/share-image-1-28ca7c2a482f3feecd85fe95e4172748.jpg"
+   },
+   {
+    "titulo": "전체상품 - 주름/탄력 - 넘버즈인",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/upload/share-image-1-28ca7c2a482f3feecd85fe95e4172748.jpg"
+   },
+   {
+    "titulo": "전체상품 - 제품유형별 - 넘버즈인",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/upload/share-image-1-28ca7c2a482f3feecd85fe95e4172748.jpg"
+   },
+   {
+    "titulo": "전체상품 - 마스크팩 - 넘버즈인",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/upload/share-image-1-28ca7c2a482f3feecd85fe95e4172748.jpg"
+   },
+   {
+    "titulo": "전체상품 - 세럼 - 넘버즈인",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/upload/share-image-1-28ca7c2a482f3feecd85fe95e4172748.jpg"
+   },
+   {
+    "titulo": "전체상품 - 토너/패드 - 넘버즈인",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/upload/share-image-1-28ca7c2a482f3feecd85fe95e4172748.jpg"
+   },
+   {
+    "titulo": "전체상품 - 크림 - 넘버즈인",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/upload/share-image-1-28ca7c2a482f3feecd85fe95e4172748.jpg"
+   },
+   {
+    "titulo": "전체상품 - 파우더 - 넘버즈인",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/upload/share-image-1-28ca7c2a482f3feecd85fe95e4172748.jpg"
+   },
+   {
+    "titulo": "전체상품 - 썬케어 - 넘버즈인",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/upload/share-image-1-28ca7c2a482f3feecd85fe95e4172748.jpg"
+   },
+   {
+    "titulo": "전체상품 - 클렌징 - 넘버즈인",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/upload/share-image-1-28ca7c2a482f3feecd85fe95e4172748.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/product/medium/20260108/46e7adf0ed619e94f43f114ba3f44fa5.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/product/tiny/20260108/4395e485518bd827d1e8d3cde9e0ddfd.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/product/medium/20260409/871d310fe2fcb0f7686cebd2fe2be48d.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/product/tiny/20260409/0220fa986e11f9c1d0bcfddf246b323f.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/product/medium/20260107/ab0b099fa956ca42ca0e8c3d3c85d598.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/product/tiny/20260107/d1a2f8971563792881d837be622c3b36.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/product/medium/20260107/ae4b0fefcfcfc843d42c94d60c4804c1.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/product/tiny/20260107/f0d36b21ed26b61a42edfc247c07f5be.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/product/medium/20260831/a258a3c883358502117c7a6a285ad937.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/product/tiny/20260831/ee03f3546e8b30cc46b8e0b00cf7dcb7.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/product/medium/20260713/c02bb136818f577d5fe87829b4efa7d8.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/product/tiny/20260713/42c3b2bd0aaa774d2bb96724c8d5e9da.jpg"
+   }
+  ],
+  "baixadas": [
+   {
+    "titulo": "BEST - BEST - 넘버즈인",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/upload/share-image-1-28ca7c2a482f3feecd85fe95e4172748.jpg"
+   },
+   {
+    "titulo": "전체상품 - 피부 고민별 - 넘버즈인",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/upload/share-image-1-28ca7c2a482f3feecd85fe95e4172748.jpg"
+   },
+   {
+    "titulo": "전체상품 - 수분/진정 - 넘버즈인",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/upload/share-image-1-28ca7c2a482f3feecd85fe95e4172748.jpg"
+   },
+   {
+    "titulo": "전체상품 - 모공/결 - 넘버즈인",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/upload/share-image-1-28ca7c2a482f3feecd85fe95e4172748.jpg"
+   },
+   {
+    "titulo": "전체상품 - 미백/흔적 - 넘버즈인",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/upload/share-image-1-28ca7c2a482f3feecd85fe95e4172748.jpg"
+   },
+   {
+    "titulo": "전체상품 - 주름/탄력 - 넘버즈인",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/upload/share-image-1-28ca7c2a482f3feecd85fe95e4172748.jpg"
+   },
+   {
+    "titulo": "전체상품 - 제품유형별 - 넘버즈인",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/upload/share-image-1-28ca7c2a482f3feecd85fe95e4172748.jpg"
+   },
+   {
+    "titulo": "전체상품 - 마스크팩 - 넘버즈인",
+    "url": "https://ecimg.cafe24img.com/pg1613b12558170092/numbuzin0828/web/upload/share-image-1-28ca7c2a482f3feecd85fe95e4172748.jpg"
+   }
+  ]
+ },
+ "vt-cosmetics": {
+  "marca": "VT Cosmetics",
+  "tentativas": [
+   "vt-cosmetics.com: shopify HTTPError",
+   "vt-cosmetics.com: woo HTTPError",
+   "vt-cosmetics.com: html ok (11 og, 122 img)"
+  ],
+  "site": "vt-cosmetics.com",
+  "metodo": "html",
+  "titulo_pagina": "브이티 공식 웹사이트",
+  "candidatos": [
+   {
+    "titulo": "26년 4월 구매금액별 사은품",
+    "url": "https://vt-cosmetics.com/web/product/big/202603/76570d9e637e45d9cabdd66e7b0fd376.jpg"
+   },
+   {
+    "titulo": "26년 9월 구매금액별 사은품",
+    "url": "https://vt-cosmetics.com/web/product/big/202608/51ac4b2f6264dbcd99bcf1e28ecbf997.jpg"
+   },
+   {
+    "titulo": "26년 10월 구매금액별 사은품",
+    "url": "https://vt-cosmetics.com/web/product/big/202609/eeef9ef903781de2f9c3ea36a45b5f93.jpg"
+   },
+   {
+    "titulo": "[🎁최대할인 + 증정] 피디알엔 리들샷 브러쉬 헤어 세럼",
+    "url": "https://vt-cosmetics.com/web/product/big/202610/5767bacef96d7dcbe8f112ddd473c312.jpg"
+   },
+   {
+    "titulo": "ALLDAY FITNESS CENTER - ALLDAY SKIN FITNESS",
+    "url": "https://vt-cosmetics.com/web/upload/share-image-1-d3c20c9f813005475eabd8cd1999f45c.png"
+   },
+   {
+    "titulo": "특별관 - NEW",
+    "url": "https://vt-cosmetics.com/web/upload/share-image-1-d3c20c9f813005475eabd8cd1999f45c.png"
+   },
+   {
+    "titulo": "특별관 - BEST",
+    "url": "https://vt-cosmetics.com/web/upload/share-image-1-d3c20c9f813005475eabd8cd1999f45c.png"
+   },
+   {
+    "titulo": "라인별 - 리들샷",
+    "url": "https://vt-cosmetics.com/web/upload/share-image-1-d3c20c9f813005475eabd8cd1999f45c.png"
+   },
+   {
+    "titulo": "라인별 - 피디알엔",
+    "url": "https://vt-cosmetics.com/web/upload/share-image-1-d3c20c9f813005475eabd8cd1999f45c.png"
+   },
+   {
+    "titulo": "리들샷 100 2스텝 마스크",
+    "url": "https://vt-cosmetics.com/web/product/big/202601/bab653efde88e345954f2e6a598de87d.jpg"
+   },
+   {
+    "titulo": "[🎁최대할인 + 증정] 피디알엔 리들샷 브러쉬 헤어 세럼",
+    "url": "https://vt-cosmetics.com/web/product/big/202610/5767bacef96d7dcbe8f112ddd473c312.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/tiny/202601/1748565f77017cd8d35a3f627b5bcf8f.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/medium/202601/fff1817670795ccc2380fa58b09e7c25.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/tiny/202610/2620346512d8877c4a5bb4c966e3832d.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/medium/202610/c78a80db705fa2e202adcd428ea706c3.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/tiny/202601/3e9cca0546e75540f74ba0c00420a24e.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/medium/202607/81688d9ccefc6a3e725ad89fb66c437d.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/tiny/202610/bb4d9935e811662af5049022399cf767.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/medium/202610/29890e78b219e752980a9c46709481dd.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/tiny/202602/efe0c4c237352e8d3863a538647abf2e.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/medium/202610/e85e7f56fc62ba56ed31c2b326ac6c0c.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/tiny/202604/f9d1f855b98c79061f9ba83a355c388b.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/medium/202607/4043bcd7147b6f0e8343a371450c6543.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/tiny/202601/fc64e1fb04a8bf0099bc7428d6595621.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/medium/202607/431b7a13899d03fdf85aac124323b05f.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/tiny/202610/7b7e8f01727cc77dc041eda855e9448f.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/medium/202610/41ecc18feedf4e842578154f7d598b38.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/tiny/202601/d186e5d21eeaed40ac7fcf4e9e934950.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/medium/202601/3101e214b145cedb53d5167a485de303.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/tiny/202602/c61d6a5bc223f3eee32d3bf9b0b8b1b8.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/medium/202607/523f8cb7d05690ee632a9b5b8147f27b.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/tiny/202610/94cbaf471c46306aa87c724789743471.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/medium/202610/4fce08e4aefb3a518b461f8ec4e0e001.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/tiny/202610/723f64b1acabd40438a5e5b536207758.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/medium/202610/53048143665a423512f5d90256485d0c.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/tiny/202609/8f2c02ba30e6ff54438d31276460d267.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/medium/202609/53bdb10535177509cec2a90cb106be90.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/tiny/202607/fb61066b0881ce9553c1eda37ff6cf02.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/medium/202607/661a2a4e4b0c25b23b091056c861007c.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://vt-cosmetics.com/web/product/tiny/202607/7aec53883543eebff09d4f25b601d17a.jpg"
+   }
+  ],
+  "baixadas": [
+   {
+    "titulo": "26년 4월 구매금액별 사은품",
+    "url": "https://vt-cosmetics.com/web/product/big/202603/76570d9e637e45d9cabdd66e7b0fd376.jpg"
+   },
+   {
+    "titulo": "26년 9월 구매금액별 사은품",
+    "url": "https://vt-cosmetics.com/web/product/big/202608/51ac4b2f6264dbcd99bcf1e28ecbf997.jpg"
+   },
+   {
+    "titulo": "26년 10월 구매금액별 사은품",
+    "url": "https://vt-cosmetics.com/web/product/big/202609/eeef9ef903781de2f9c3ea36a45b5f93.jpg"
+   },
+   {
+    "titulo": "[🎁최대할인 + 증정] 피디알엔 리들샷 브러쉬 헤어 세럼",
+    "url": "https://vt-cosmetics.com/web/product/big/202610/5767bacef96d7dcbe8f112ddd473c312.jpg"
+   },
+   {
+    "titulo": "ALLDAY FITNESS CENTER - ALLDAY SKIN FITNESS",
+    "url": "https://vt-cosmetics.com/web/upload/share-image-1-d3c20c9f813005475eabd8cd1999f45c.png"
+   },
+   {
+    "titulo": "특별관 - NEW",
+    "url": "https://vt-cosmetics.com/web/upload/share-image-1-d3c20c9f813005475eabd8cd1999f45c.png"
+   },
+   {
+    "titulo": "특별관 - BEST",
+    "url": "https://vt-cosmetics.com/web/upload/share-image-1-d3c20c9f813005475eabd8cd1999f45c.png"
+   },
+   {
+    "titulo": "라인별 - 리들샷",
+    "url": "https://vt-cosmetics.com/web/upload/share-image-1-d3c20c9f813005475eabd8cd1999f45c.png"
+   }
+  ]
+ },
+ "gongskin": {
+  "marca": "GONGSKIN",
+  "tentativas": [
+   "www.gongskin.co.kr: shopify HTTPError",
+   "www.gongskin.co.kr: woo HTTPError",
+   "www.gongskin.co.kr: html ok (3 og, 1 img)"
+  ],
+  "site": "www.gongskin.co.kr",
+  "metodo": "html",
+  "titulo_pagina": "공스킨",
+  "candidatos": [
+   {
+    "titulo": "할인행사 (재고 소진 시 종료) - 할인행사 (재고 소진 시 종료)",
+    "url": "https://www.gongskin.co.kr/web/upload/share-image-1-14c2fbc0ba0087c282ff0c8fa74442dc.png"
+   },
+   {
+    "titulo": "비밀링크(시계) - 비밀링크(시계)",
+    "url": "https://www.gongskin.co.kr/web/upload/share-image-1-14c2fbc0ba0087c282ff0c8fa74442dc.png"
+   },
+   {
+    "titulo": "공스킨 로즈니치 향수",
+    "url": "https://www.gongskin.co.kr/web/product/big/202608/866bdf02a82c321f2acda984dd13b2a9.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://www.gongskin.co.kr/web/product/medium/202608/f6cb0b2b63c4bb909683e8c175ba2944.png"
+   }
+  ],
+  "baixadas": [
+   {
+    "titulo": "할인행사 (재고 소진 시 종료) - 할인행사 (재고 소진 시 종료)",
+    "url": "https://www.gongskin.co.kr/web/upload/share-image-1-14c2fbc0ba0087c282ff0c8fa74442dc.png"
+   },
+   {
+    "titulo": "비밀링크(시계) - 비밀링크(시계)",
+    "url": "https://www.gongskin.co.kr/web/upload/share-image-1-14c2fbc0ba0087c282ff0c8fa74442dc.png"
+   },
+   {
+    "titulo": "공스킨 로즈니치 향수",
+    "url": "https://www.gongskin.co.kr/web/product/big/202608/866bdf02a82c321f2acda984dd13b2a9.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://www.gongskin.co.kr/web/product/medium/202608/f6cb0b2b63c4bb909683e8c175ba2944.png"
+   }
+  ]
+ },
+ "some-by-mi": {
+  "marca": "SOME BY MI",
+  "tentativas": [
+   "somebymi.com: shopify HTTPError",
+   "somebymi.com: woo HTTPError",
+   "somebymi.com: html ok (5 og, 30 img)"
+  ],
+  "site": "somebymi.com",
+  "metodo": "html",
+  "titulo_pagina": "SOMEBYMI Official Store",
+  "candidatos": [
+   {
+    "titulo": "특가 - 특가",
+    "url": "https://somebymi.com/web/upload/share-image-1-f19f3c3f43b7286c959579f97d5b33c3.jpg"
+   },
+   {
+    "titulo": "신상품 - 신상품",
+    "url": "https://somebymi.com/web/upload/share-image-1-f19f3c3f43b7286c959579f97d5b33c3.jpg"
+   },
+   {
+    "titulo": "라인별 - 라인별",
+    "url": "https://somebymi.com/web/upload/share-image-1-f19f3c3f43b7286c959579f97d5b33c3.jpg"
+   },
+   {
+    "titulo": "전제품 - 전제품",
+    "url": "https://somebymi.com/web/upload/share-image-1-f19f3c3f43b7286c959579f97d5b33c3.jpg"
+   },
+   {
+    "titulo": "베스트셀러 - 베스트셀러",
+    "url": "https://tajmjgds1.cafe24.com/web/upload/share-image-1-f19f3c3f43b7286c959579f97d5b33c3.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/big/202608/e226098c2147e3a1933502d3fc628849.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/medium/202608/dfad768afbba398e94a4db6ea0fceb58.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/big/202607/60c001869b4100149834058df5fdd640.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/medium/202607/27f3879f265b3cf74d7ffc546f044b14.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/big/202604/9a5336f9c777e20daaf4169e091dfdf1.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/medium/202604/19badda5539a3dd20a65bb97c42e5071.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/big/202602/1d9fa09da6c20713b94b76dc21e9635b.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/medium/202602/8b964b75579d9f3d4ef7cbc2440d8bd1.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/big/202606/539baaabc7c4583f58f67e8723b6f039.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/medium/202606/93c68ed355cd18268d9f41e168005e0b.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/big/202510/a2174ce6be93a8a800586c29e26ad6cd.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/medium/202510/4bb2f75d167a469c6eb78cc9b6391fc1.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/big/202510/565b01400b671dc02ee72af03632ff3d.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/medium/202510/b34ee073689da7af65fe1d081d9443f2.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/big/202503/66688bf355ad0db8498337dbf198fa07.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/medium/202604/fe2f702e6aeeb9b934c5307fc56353bb.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/big/202501/98649e53ed77b82f4042bfe721175c76.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/medium/202402/11c9744fe8ab3139a8d224dafbb30edf.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/big/202402/ca53abd3b4422922ed4ec1da514e3bec.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/medium/202402/4630eb85913333aae84f3f90cfc45101.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/big/202412/48b66983ccab3fa063c22bb1c355a49d.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/medium/202311/11fbbe6c711b70994cd9312a00b71d97.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/big/202503/37b0b8501dd43f6a6cfca0d465e9c889.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/medium/202401/9edaa0d820da053223432abd8c2d314c.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/big/202412/249a9d370d8e98ae0ac3764c7a5daf73.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/medium/202411/72f3ead33525e152567f25952be93ccb.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/big/202609/9a0f4936464548469942aaa95e792900.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/medium/202609/c1307ce60da6f8f97db1109c18fc56d4.jpg"
+   }
+  ],
+  "baixadas": [
+   {
+    "titulo": "특가 - 특가",
+    "url": "https://somebymi.com/web/upload/share-image-1-f19f3c3f43b7286c959579f97d5b33c3.jpg"
+   },
+   {
+    "titulo": "신상품 - 신상품",
+    "url": "https://somebymi.com/web/upload/share-image-1-f19f3c3f43b7286c959579f97d5b33c3.jpg"
+   },
+   {
+    "titulo": "라인별 - 라인별",
+    "url": "https://somebymi.com/web/upload/share-image-1-f19f3c3f43b7286c959579f97d5b33c3.jpg"
+   },
+   {
+    "titulo": "전제품 - 전제품",
+    "url": "https://somebymi.com/web/upload/share-image-1-f19f3c3f43b7286c959579f97d5b33c3.jpg"
+   },
+   {
+    "titulo": "베스트셀러 - 베스트셀러",
+    "url": "https://tajmjgds1.cafe24.com/web/upload/share-image-1-f19f3c3f43b7286c959579f97d5b33c3.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/big/202608/e226098c2147e3a1933502d3fc628849.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/medium/202608/dfad768afbba398e94a4db6ea0fceb58.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://somebymi.com/web/product/big/202607/60c001869b4100149834058df5fdd640.jpg"
+   }
+  ]
+ },
+ "sonatural": {
+  "marca": "sonatural",
+  "tentativas": [
+   "sonatural.co.kr: shopify HTTPError",
+   "sonatural.co.kr: woo HTTPError",
+   "sonatural.co.kr: html sem produtos (쏘내추럴)",
+   "sonatural.us: shopify URLError",
+   "sonatural.us: woo URLError",
+   "sonatural.us: html URLError"
+  ],
+  "site": "",
+  "metodo": "",
+  "titulo_pagina": "",
+  "candidatos": [],
+  "baixadas": []
+ },
+ "romand": {
+  "marca": "Rom&nd",
+  "tentativas": [
+   "romand.us: shopify URLError",
+   "romand.us: woo URLError",
+   "romand.us: html URLError",
+   "romand.co.kr: shopify HTTPError",
+   "romand.co.kr: woo HTTPError",
+   "romand.co.kr: html ok (12 og, 0 img)"
+  ],
+  "site": "romand.co.kr",
+  "metodo": "html",
+  "titulo_pagina": "롬앤 rom&nd 공식 홈페이지",
+  "candidatos": [
+   {
+    "titulo": "롬앤 UFO 커버 쿠션",
+    "url": "https://cafe24.poxo.com/ec01/romand/6aDrbsrpgztyixM+aENnH1D89vbvN874SJZ0smDxiaa/k9zGF5hClK+Cdcc6Crl70h/a8RobAiR24eeOO4zRMg==/_/web/product/big/202610/46657d810c2b8e969311deb75ca10ea4.jpg"
+   },
+   {
+    "titulo": "UFO 커버 퍼프",
+    "url": "https://cafe24.poxo.com/ec01/romand/6aDrbsrpgztyixM+aENnH1D89vbvN874SJZ0smDxiaa/k9zGF5hClK+Cdcc6Crl70h/a8RobAiR24eeOO4zRMg==/_/web/product/big/202607/b6ede4ed84b8cf00a9c68e89321214c7.jpg"
+   },
+   {
+    "titulo": " - ",
+    "url": "https://romand.co.kr/web/upload/share-image-1-004a5cf2a4d7e76af941fcd877c25d8b.jpg"
+   },
+   {
+    "titulo": " - ",
+    "url": "https://romand.co.kr/web/upload/share-image-1-004a5cf2a4d7e76af941fcd877c25d8b.jpg"
+   },
+   {
+    "titulo": " - ",
+    "url": "https://romand.co.kr/web/upload/share-image-1-004a5cf2a4d7e76af941fcd877c25d8b.jpg"
+   },
+   {
+    "titulo": " - ",
+    "url": "https://romand.co.kr/web/upload/share-image-1-004a5cf2a4d7e76af941fcd877c25d8b.jpg"
+   },
+   {
+    "titulo": " - ",
+    "url": "https://romand.co.kr/web/upload/share-image-1-004a5cf2a4d7e76af941fcd877c25d8b.jpg"
+   },
+   {
+    "titulo": " - ",
+    "url": "https://romand.co.kr/web/upload/share-image-1-004a5cf2a4d7e76af941fcd877c25d8b.jpg"
+   },
+   {
+    "titulo": " - ",
+    "url": "https://romand.co.kr/web/upload/share-image-1-004a5cf2a4d7e76af941fcd877c25d8b.jpg"
+   },
+   {
+    "titulo": " - ",
+    "url": "https://romand.co.kr/web/upload/share-image-1-004a5cf2a4d7e76af941fcd877c25d8b.jpg"
+   },
+   {
+    "titulo": " - ",
+    "url": "https://romand.co.kr/web/upload/share-image-1-004a5cf2a4d7e76af941fcd877c25d8b.jpg"
+   },
+   {
+    "titulo": " - ",
+    "url": "https://romand.co.kr/web/upload/share-image-1-004a5cf2a4d7e76af941fcd877c25d8b.jpg"
+   }
+  ],
+  "baixadas": [
+   {
+    "titulo": "롬앤 UFO 커버 쿠션",
+    "url": "https://cafe24.poxo.com/ec01/romand/6aDrbsrpgztyixM+aENnH1D89vbvN874SJZ0smDxiaa/k9zGF5hClK+Cdcc6Crl70h/a8RobAiR24eeOO4zRMg==/_/web/product/big/202610/46657d810c2b8e969311deb75ca10ea4.jpg"
+   },
+   {
+    "titulo": "UFO 커버 퍼프",
+    "url": "https://cafe24.poxo.com/ec01/romand/6aDrbsrpgztyixM+aENnH1D89vbvN874SJZ0smDxiaa/k9zGF5hClK+Cdcc6Crl70h/a8RobAiR24eeOO4zRMg==/_/web/product/big/202607/b6ede4ed84b8cf00a9c68e89321214c7.jpg"
+   },
+   {
+    "titulo": " - ",
+    "url": "https://romand.co.kr/web/upload/share-image-1-004a5cf2a4d7e76af941fcd877c25d8b.jpg"
+   },
+   {
+    "titulo": " - ",
+    "url": "https://romand.co.kr/web/upload/share-image-1-004a5cf2a4d7e76af941fcd877c25d8b.jpg"
+   },
+   {
+    "titulo": " - ",
+    "url": "https://romand.co.kr/web/upload/share-image-1-004a5cf2a4d7e76af941fcd877c25d8b.jpg"
+   },
+   {
+    "titulo": " - ",
+    "url": "https://romand.co.kr/web/upload/share-image-1-004a5cf2a4d7e76af941fcd877c25d8b.jpg"
+   },
+   {
+    "titulo": " - ",
+    "url": "https://romand.co.kr/web/upload/share-image-1-004a5cf2a4d7e76af941fcd877c25d8b.jpg"
+   },
+   {
+    "titulo": " - ",
+    "url": "https://romand.co.kr/web/upload/share-image-1-004a5cf2a4d7e76af941fcd877c25d8b.jpg"
+   }
+  ]
+ },
+ "dalba": {
+  "marca": "d'Alba",
+  "tentativas": [
+   "dalba.com: shopify ok (55)"
+  ],
+  "site": "dalba.com",
+  "metodo": "shopify",
+  "titulo_pagina": "",
+  "candidatos": [
+   {
+    "titulo": "[Free Gift] Dark Spot & Pigmentation Care Program",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/34070bde1933dcba243accee0fde5b8a_10c5a955-22da-44fd-be2d-40220b54694b.png?v=1792743312"
+   },
+   {
+    "titulo": "[Free Gift] Vitamin Glow Program",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/1_a3b98ba6-8418-4394-a360-bfefe477335f.png?v=1792546224"
+   },
+   {
+    "titulo": "d'Alba Vita Toning Capsule Serum & Vita Toning Capsule Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/2ba106c34c3d5078cc4c249e1c61fed8.png?v=1768392543"
+   },
+   {
+    "titulo": "d'Alba Mild Skin Balancing Vegan Toner 150ml",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/8f9e26f65a9f476d314f85bbe24ea531.png?v=1754965100"
+   },
+   {
+    "titulo": "FULL Firm & Lift Anti-Aging Program",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/34070bde1933dcba243accee0fde5b8a.png?v=1791870402"
+   },
+   {
+    "titulo": "Vita Energy 2-Piece Gift Set (Galvanic Eye Cream + Vita Anti-Aging Mist)",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/Shopify_VitaEnergy2-PieceGiftSet_thumbnail.png?v=1790916645"
+   },
+   {
+    "titulo": "d'Alba White Truffle First Spray Serum 180ml + 100ml",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/Shopify_firstserum_thumbnail.png?v=1790915963"
+   },
+   {
+    "titulo": "d'alba Piedmont White Truffle First Spray serum Pro 2X Peptide 100ml",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/thumbnail-1_d6c3fc1d-238b-424f-9461-09239c34ff98.png?v=1790682712"
+   },
+   {
+    "titulo": "[Free Gift] Dark Spot & Pigmentation Care Program",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/34070bde1933dcba243accee0fde5b8a_5309c391-b404-4861-bc65-1f439c214030.png?v=1792512417"
+   },
+   {
+    "titulo": "[Limited] d'Alba White Truffle Spray Serum 3 Solutions Gift Set (1.7 fl oz x 3ea)",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/25_____1_3.jpg?v=1777001088"
+   },
+   {
+    "titulo": "d'Alba White Truffle Return Oil Cream Cleanser 160ml",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/oilcreamcleanser.png?v=1776998639"
+   },
+   {
+    "titulo": "d'Alba Vita Toning Serum Toner & Vita Capsule Anti-Aging Hydrogel Mask (4ea)",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/b4a75d91f0e15b172a199592afb86e26.png?v=1768392725"
+   },
+   {
+    "titulo": "d'Alba White Truffle First Spray Serum & White Truffle Double Serum and Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/b21352a11b5d4fecbf1ade623ca0ca4a.png?v=1768392304"
+   },
+   {
+    "titulo": "d'Alba White Truffle First Spray Serum & Waterfull Tone-Up Sunscreen",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/7f0d514f18236963d86f9dab5b3f4e75.png?v=1768392149"
+   },
+   {
+    "titulo": "d'Alba Double Serum All In One Multi Balm Stick 10g",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/6a5b72d193b9024251b4d88410fa5402.png?v=1754542643"
+   },
+   {
+    "titulo": "Firm & Lift Anti-Aging Program",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/100ml_b4b64082-aea6-451e-8fd1-6a178eb5e35f.png?v=1766133798"
+   },
+   {
+    "titulo": "d'Alba White Truffle Intensive Vegan Ampoule 50ml",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/products/23e65f1ceeb251a62123aebecc8e308e.jpg?v=1673942021"
+   },
+   {
+    "titulo": "(Lowest Price of the Year & Double Cream Free Gift) d'Alba Signature Allthera Double Shot",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/970591c284662a7deb8fc123e5991e83_4dfd5fc3-6423-4ba8-9cd0-7e3dbd3cf78d.png?v=1764037550"
+   },
+   {
+    "titulo": "d'alba Piedmont Vita Toning Capsule Cream (Tube)",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/a122412c01eaee4c41d0ab56c700ed33.jpg?v=1765541170"
+   },
+   {
+    "titulo": "d'Alba Vita Toning Anti-Aging Spray Serum 8% 70ml",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/Untitleddesign_8c016572-19e9-44a5-a6a5-e5f6721a9016.png?v=1765540886"
+   },
+   {
+    "titulo": "d'Alba White Truffle Serum & Cream Modeling Mask (Nutritive/Hydrating)",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/dbc64fb1df230f12361fda50dc950317.jpg?v=1765538293"
+   },
+   {
+    "titulo": "d'alba Piedmont Professional Reparing Hair Oil Serum 75ml",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/9a3bc5b37d42e74c83538e964c94761b.jpg?v=1765537748"
+   },
+   {
+    "titulo": "d'Alba Signature Vita Capsule Hydrogel Mask 8-Shape 1BOX (4 Sheets)",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/37d01b406f9f268798c1d74b121bec2d.png?v=1765541941"
+   },
+   {
+    "titulo": "d'Alba Vegan Fresh Sun Stick SPF50+",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/a564ee2b733e544a52c44ce29115e999.png?v=1754541843"
+   },
+   {
+    "titulo": "d'Alba Vita Toning Serum Toner 180ml",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/5b36c94022d38622373ae7b21a5c1697.png?v=1754965458"
+   },
+   {
+    "titulo": "d'Alba Vita Toning Capsule Serum 100ml",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/069bb70663a199bce8a8aec008d80564.png?v=1754541814"
+   },
+   {
+    "titulo": "d'Alba Vita Toning Capsule Cream 55g",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/e1944b9bb45fc73eb17d4ae8819c25ad.png?v=1754541768"
+   },
+   {
+    "titulo": "d'Alba White Truffle Double Serum & Cream 70g",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/ver.png?v=1756100655"
+   },
+   {
+    "titulo": "d'Alba White Truffle Waterfull Mild Sunscreen SPF 50+",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/590df2ecd39fa461a1bd3b9e9d28203b.png?v=1754541880"
+   },
+   {
+    "titulo": "d'Alba White Truffle Aromatic Spray Serum",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/120ml.png?v=1754543306"
+   },
+   {
+    "titulo": "d'Alba White Truffle First Spray Serum (50ml/100ml)",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/100ml_18802f44-6c65-4476-af0b-7a8e86a25e8c.png?v=1754542865"
+   },
+   {
+    "titulo": "d'Alba White Truffle Vital Spray Serum 100ml",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/100ml_04ca200f-5a38-4534-9efb-167ed8e1818c.png?v=1754542806"
+   },
+   {
+    "titulo": "d'Alba White Truffle Waterfull Tone-Up Sunscreen SPF 50+",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/b15aef97dfabe02b4154cfc2d8893c1e.png?v=1754541931"
+   },
+   {
+    "titulo": "d'Alba White Truffle Waterfull Essence Sunscreen SPF 50+",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/3fc5273f019a4a544f8624c267860fc7.png?v=1754541907"
+   },
+   {
+    "titulo": "Best Seller",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/100ml_50ml.png?v=1758096660"
+   },
+   {
+    "titulo": "d'Alba Professional Reparing Hair Perfume Serum (50ml/100ml)",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/100ml_d48c150d-e95e-4cc6-8afe-f6c60aefd4d5.png?v=1754542173"
+   },
+   {
+    "titulo": "Shipping Protection by Route",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/route-package-protection-logo-v3.png?v=1742414152"
+   },
+   {
+    "titulo": "d'Alba Italian White Truffle Scalp Repairing Therapy Shampoo 275ml",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/970ac3480d05153814f35cec34ddbd61.png?v=1754543240"
+   },
+   {
+    "titulo": "d'Alba White Truffle Double Moisture Cream 60ml",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/29d7654e85dc53a5495f60fccc5b7103.png?v=1754541975"
+   },
+   {
+    "titulo": "d'Alba White Truffle Oil Serum Body Cleanser 275ml",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/4170e1dd5d38b1516f725a33009925fc_e2476c15-bdea-4f28-b0cd-10ed4da91960.png?v=1754542560"
+   }
+  ],
+  "vendors": [
+   "Route",
+   "d'Alba Official Store"
+  ],
+  "baixadas": [
+   {
+    "titulo": "d'Alba Vita Toning Capsule Serum & Vita Toning Capsule Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/2ba106c34c3d5078cc4c249e1c61fed8.png?v=1768392543"
+   },
+   {
+    "titulo": "d'Alba Mild Skin Balancing Vegan Toner 150ml",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/8f9e26f65a9f476d314f85bbe24ea531.png?v=1754965100"
+   },
+   {
+    "titulo": "d'Alba White Truffle First Spray Serum 180ml + 100ml",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/Shopify_firstserum_thumbnail.png?v=1790915963"
+   },
+   {
+    "titulo": "d'alba Piedmont White Truffle First Spray serum Pro 2X Peptide 100ml",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/thumbnail-1_d6c3fc1d-238b-424f-9461-09239c34ff98.png?v=1790682712"
+   },
+   {
+    "titulo": "[Limited] d'Alba White Truffle Spray Serum 3 Solutions Gift Set (1.7 fl oz x 3ea)",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/25_____1_3.jpg?v=1777001088"
+   },
+   {
+    "titulo": "d'Alba White Truffle Return Oil Cream Cleanser 160ml",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/oilcreamcleanser.png?v=1776998639"
+   },
+   {
+    "titulo": "d'Alba Vita Toning Serum Toner & Vita Capsule Anti-Aging Hydrogel Mask (4ea)",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/b4a75d91f0e15b172a199592afb86e26.png?v=1768392725"
+   },
+   {
+    "titulo": "d'Alba White Truffle First Spray Serum & White Truffle Double Serum and Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0591/1094/9047/files/b21352a11b5d4fecbf1ade623ca0ca4a.png?v=1768392304"
+   }
+  ]
+ },
+ "eqqualberry": {
+  "marca": "Eqqualberry",
+  "tentativas": [
+   "eqqualberry.com: shopify HTTPError",
+   "eqqualberry.com: woo HTTPError",
+   "eqqualberry.com: html ok (9 og, 14 img)"
+  ],
+  "site": "eqqualberry.com",
+  "metodo": "html",
+  "titulo_pagina": "이퀄베리 공식몰",
+  "candidatos": [
+   {
+    "titulo": "EQQUALBERRY",
+    "url": "https://eqqualberry.cafe24.com/setting/SEO/brandimg_2602.jpg"
+   },
+   {
+    "titulo": "EQQUALBERRY",
+    "url": "https://eqqualberry.cafe24.com/setting/SEO/brandimg_2602.jpg"
+   },
+   {
+    "titulo": "EQQUALBERRY",
+    "url": "https://eqqualberry.cafe24.com/setting/SEO/brandimg_2602.jpg"
+   },
+   {
+    "titulo": "EQQUALBERRY",
+    "url": "https://eqqualberry.cafe24.com/setting/SEO/brandimg_2602.jpg"
+   },
+   {
+    "titulo": "EQQUALBERRY",
+    "url": "https://eqqualberry.cafe24.com/setting/SEO/brandimg_2602.jpg"
+   },
+   {
+    "titulo": "EQQUALBERRY",
+    "url": "https://eqqualberry.cafe24.com/setting/SEO/brandimg_2602.jpg"
+   },
+   {
+    "titulo": "EQQUALBERRY",
+    "url": "https://eqqualberry.cafe24.com/setting/SEO/brandimg_2602.jpg"
+   },
+   {
+    "titulo": "EQQUALBERRY",
+    "url": "https://eqqualberry.cafe24.com/setting/SEO/brandimg_2602.jpg"
+   },
+   {
+    "titulo": "EQQUALBERRY",
+    "url": "https://eqqualberry.cafe24.com/setting/SEO/brandimg_2602.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://eqqualberry.com/web/product/big/202501/74385e124bbc55c15732bf931dc20114.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://eqqualberry.com/web/product/medium/202509/46eb7b2f4f878d29f76795751c0f08d2.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://eqqualberry.com/web/product/big/202509/a0768d0fcc0b9dd351180cfcf7f5bb50.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://eqqualberry.com/web/product/medium/202509/8070165108f1d7235be12ea51670833f.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://eqqualberry.com/web/product/big/202509/f330be6207f2f19d5e10c8784c8c30e0.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://eqqualberry.com/web/product/medium/202509/a1780481c4e14b82d8ad978e2d281140.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://eqqualberry.com/web/product/big/202509/7ab8f703736c5eb452a8a5deccdb3aab.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://eqqualberry.com/web/product/medium/202509/b4321c10c3268ff884d63306768b3290.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://eqqualberry.com/web/product/big/202501/0fe259591fc3bba5106a21a6344e5107.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://eqqualberry.com/web/product/medium/202509/ad6d3ff7fd3a6256b612189aa557fbe7.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://eqqualberry.com/web/product/medium/202512/05e4f0db5990939b0e433fe57791d197.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://eqqualberry.com/web/product/medium/202512/ca46788ac5eceaccc183e5495c65f15f.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://eqqualberry.com/web/product/medium/202606/95cbc33a50d88db8666449500326a4e2.jpg"
+   }
+  ],
+  "baixadas": [
+   {
+    "titulo": "EQQUALBERRY",
+    "url": "https://eqqualberry.cafe24.com/setting/SEO/brandimg_2602.jpg"
+   },
+   {
+    "titulo": "EQQUALBERRY",
+    "url": "https://eqqualberry.cafe24.com/setting/SEO/brandimg_2602.jpg"
+   },
+   {
+    "titulo": "EQQUALBERRY",
+    "url": "https://eqqualberry.cafe24.com/setting/SEO/brandimg_2602.jpg"
+   },
+   {
+    "titulo": "EQQUALBERRY",
+    "url": "https://eqqualberry.cafe24.com/setting/SEO/brandimg_2602.jpg"
+   },
+   {
+    "titulo": "EQQUALBERRY",
+    "url": "https://eqqualberry.cafe24.com/setting/SEO/brandimg_2602.jpg"
+   },
+   {
+    "titulo": "EQQUALBERRY",
+    "url": "https://eqqualberry.cafe24.com/setting/SEO/brandimg_2602.jpg"
+   },
+   {
+    "titulo": "EQQUALBERRY",
+    "url": "https://eqqualberry.cafe24.com/setting/SEO/brandimg_2602.jpg"
+   },
+   {
+    "titulo": "EQQUALBERRY",
+    "url": "https://eqqualberry.cafe24.com/setting/SEO/brandimg_2602.jpg"
+   }
+  ]
+ },
+ "dr-g": {
+  "marca": "Dr.G",
+  "tentativas": [
+   "drg.co.kr: shopify URLError",
+   "drg.co.kr: woo URLError",
+   "drg.co.kr: html URLError",
+   "gowoonsesang.com: shopify URLError",
+   "gowoonsesang.com: woo URLError",
+   "gowoonsesang.com: html URLError",
+   "drg.us: shopify URLError",
+   "drg.us: woo URLError",
+   "drg.us: html URLError",
+   "drgskin.com: shopify URLError",
+   "drgskin.com: woo URLError",
+   "drgskin.com: html URLError"
+  ],
+  "site": "",
+  "metodo": "",
+  "titulo_pagina": "",
+  "candidatos": [],
+  "baixadas": []
+ },
+ "purito-seoul": {
+  "marca": "PURITO SEOUL",
+  "tentativas": [
+   "purito.com: shopify HTTPError",
+   "purito.com: woo HTTPError",
+   "purito.com: html ok (4 og, 0 img)"
+  ],
+  "site": "purito.com",
+  "metodo": "html",
+  "titulo_pagina": "Purito Seoul",
+  "candidatos": [
+   {
+    "titulo": "Retinol Retinal 2000 NAD+ Serum | Purito Seoul",
+    "url": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg"
+   },
+   {
+    "titulo": "Daily Soft Touch Sunscreen  SPF50+ PA++++ | Purito Seoul",
+    "url": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg"
+   },
+   {
+    "titulo": "TXA 6 Niacinamide 10 Retinal Serum | Purito Seoul",
+    "url": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg"
+   },
+   {
+    "titulo": "Azelaic Acid 10 Kojic Tea Tree Serum | Purito Seoul",
+    "url": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg"
+   }
+  ],
+  "baixadas": [
+   {
+    "titulo": "Retinol Retinal 2000 NAD+ Serum | Purito Seoul",
+    "url": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg"
+   },
+   {
+    "titulo": "Daily Soft Touch Sunscreen  SPF50+ PA++++ | Purito Seoul",
+    "url": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg"
+   },
+   {
+    "titulo": "TXA 6 Niacinamide 10 Retinal Serum | Purito Seoul",
+    "url": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg"
+   },
+   {
+    "titulo": "Azelaic Acid 10 Kojic Tea Tree Serum | Purito Seoul",
+    "url": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg"
+   }
+  ]
+ },
+ "dr-althea": {
+  "marca": "Dr. Althea",
+  "tentativas": [
+   "dralthea.com: shopify URLError",
+   "dralthea.com: woo URLError",
+   "dralthea.com: html URLError",
+   "dr-althea.com: shopify URLError",
+   "dr-althea.com: woo URLError",
+   "dr-althea.com: html URLError",
+   "dralthea.us: shopify URLError",
+   "dralthea.us: woo URLError",
+   "dralthea.us: html URLError",
+   "dralthea.co.kr: shopify URLError",
+   "dralthea.co.kr: woo URLError",
+   "dralthea.co.kr: html URLError"
+  ],
+  "site": "",
+  "metodo": "",
+  "titulo_pagina": "",
+  "candidatos": [],
+  "baixadas": []
+ },
+ "rejuran": {
+  "marca": "Rejuran",
+  "tentativas": [
+   "rejuran.co.kr: shopify JSONDecodeError",
+   "rejuran.co.kr: woo HTTPError",
+   "rejuran.co.kr: html sem produtos (리쥬란)",
+   "rejuran.com: shopify URLError",
+   "rejuran.com: woo URLError",
+   "rejuran.com: html URLError",
+   "rejuran.us: shopify HTTPError",
+   "rejuran.us: woo HTTPError",
+   "rejuran.us: html sem produtos (rejuran.us)"
+  ],
+  "site": "",
+  "metodo": "",
+  "titulo_pagina": "",
+  "candidatos": [],
+  "baixadas": []
+ },
+ "apieu": {
+  "marca": "A'pieu",
+  "tentativas": [
+   "apieu.co.kr: shopify URLError",
+   "apieu.co.kr: woo URLError",
+   "apieu.co.kr: html URLError",
+   "apieu.com: shopify HTTPError",
+   "apieu.com: woo HTTPError",
+   "apieu.com: html sem produtos (A’pieu)",
+   "beautynet.co.kr: shopify URLError",
+   "beautynet.co.kr: woo URLError",
+   "beautynet.co.kr: html URLError"
+  ],
+  "site": "",
+  "metodo": "",
+  "titulo_pagina": "",
+  "candidatos": [],
+  "baixadas": []
+ },
+ "mise-en-scene": {
+  "marca": "mise en scène",
+  "tentativas": [
+   "miseenscene.com: shopify HTTPError",
+   "miseenscene.com: woo HTTPError",
+   "miseenscene.com: html ok (0 og, 14 img)"
+  ],
+  "site": "miseenscene.com",
+  "metodo": "html",
+  "titulo_pagina": "미쟝센_글로벌 헤어 패션 브랜드 | 미쟝센 한국",
+  "candidatos": [
+   {
+    "titulo": "home",
+    "url": "https://miseenscene.com/web/product/medium/20260320/9ffa4b002dd5a9d960d9b61b25976eba.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://miseenscene.com/web/product/small/20260320/c1bdc9e342b8a91e295e72172a7ce0a8.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://miseenscene.com/web/product/medium/20260320/cdea6eecfca4439b7e000b7040e10a0c.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://miseenscene.com/web/product/small/20260320/88f3bbaaa45a3d582c35331df4afce87.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://miseenscene.com/web/product/medium/20260320/f259ff6a18a1a5aa43547124e45f25c1.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://miseenscene.com/web/product/small/20260320/b66a876ce2e55966c0e67b291728b53f.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://miseenscene.com/web/product/medium/20260320/c91d2aaf5bd40e4519b6d7ea1c148c8a.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://miseenscene.com/web/product/small/20260320/bafbf1f533abb29c632b515dbcf112e2.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://miseenscene.com/web/product/medium/20260320/99e1c7333ffe8587808268edf3600b85.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://miseenscene.com/web/product/small/202605/fe34e7d89d50774f062725cf1afd370f.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://miseenscene.com/web/product/medium/20260320/df9c05b1c782f5b1bdc9f48392fc3cde.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://miseenscene.com/web/product/small/202605/a83cf5e8c5efc28230d26ccc6cef4b08.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://miseenscene.com/web/product/medium/20260320/1d5ddfa7b69d2cbb0d17f6a17eb8101b.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://miseenscene.com/web/product/small/202605/e81ebfee871496badb9e2ec7784cf859.jpg"
+   }
+  ],
+  "baixadas": [
+   {
+    "titulo": "home",
+    "url": "https://miseenscene.com/web/product/medium/20260320/9ffa4b002dd5a9d960d9b61b25976eba.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://miseenscene.com/web/product/small/20260320/c1bdc9e342b8a91e295e72172a7ce0a8.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://miseenscene.com/web/product/medium/20260320/cdea6eecfca4439b7e000b7040e10a0c.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://miseenscene.com/web/product/small/20260320/88f3bbaaa45a3d582c35331df4afce87.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://miseenscene.com/web/product/medium/20260320/f259ff6a18a1a5aa43547124e45f25c1.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://miseenscene.com/web/product/small/20260320/b66a876ce2e55966c0e67b291728b53f.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://miseenscene.com/web/product/medium/20260320/c91d2aaf5bd40e4519b6d7ea1c148c8a.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://miseenscene.com/web/product/small/20260320/bafbf1f533abb29c632b515dbcf112e2.jpg"
+   }
+  ]
+ },
+ "manyo": {
+  "marca": "ma:nyo",
+  "tentativas": [
+   "manyo.us: shopify ok (58)"
+  ],
+  "site": "manyo.us",
+  "metodo": "shopify",
+  "titulo_pagina": "",
+  "candidatos": [
+   {
+    "titulo": "Pure Soybean Cleansing Milk",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/NEW_1500.jpg?v=1792630576"
+   },
+   {
+    "titulo": "manyo Best Sellers Kit",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/41w2A9Dvi2L_a9c5ca6d-09bc-4968-88cd-44f2ac0da33f.jpg?v=1792630173"
+   },
+   {
+    "titulo": "Milk Cleanse & Enzyme Peel Duo",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/MilkCleanse_EnzymePeelDuo.jpg?v=1792483940"
+   },
+   {
+    "titulo": "Milk Cleanse & Barrier Toner Duo",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/MilkCleanse_BarrierTonerDuo.jpg?v=1792484050"
+   },
+   {
+    "titulo": "Gentle Cleanse & Hydrate Trio",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/GentleCleanse_HydrateTrio.jpg?v=1792485283"
+   },
+   {
+    "titulo": "Milk Cleanse, Peel & Glow Trio",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/MilkCleanse_Peel_GlowTrio_2e917d88-afb2-49b2-83fe-79c8490164bc.jpg?v=1792541266"
+   },
+   {
+    "titulo": "Sensitive Skin Calm Cleanse Trio",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/SensitiveSkinCalmCleanseTrio.jpg?v=1792541365"
+   },
+   {
+    "titulo": "7-Day Dark Spot & Barrier Core Routine Set",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/7-DayDarkSpot_BarrierCoreRoutineSet.jpg?v=1792542007"
+   },
+   {
+    "titulo": "Full Cleanse to Glow Routine Set",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/FullCleansetoGlowRoutineSet_f2aad59d-54ee-46d0-85f9-0db7a3f3ab13.jpg?v=1792542840"
+   },
+   {
+    "titulo": "Sensitive Day-to-Night Cleanse & Care Set",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/SensitiveDay-to-NightCleanse_CareSet.jpg?v=1792543152"
+   },
+   {
+    "titulo": "Milk & Foam Double Cleanse Duo",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/Milk_FoamDoubleCleanseDuo.jpg?v=1792483791"
+   },
+   {
+    "titulo": "Bidifa Night Skincare Set",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/BidifaNightSkincareSet.jpg?v=1792543244"
+   },
+   {
+    "titulo": "Brighten, Firm & Protect Full Routine",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/Brighten_Firm_ProtectFullRoutine.jpg?v=1792542741"
+   },
+   {
+    "titulo": "5-Step Glass Skin Perfect Kit",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/5-StepGlassSkinPerfectKit.jpg?v=1792541767"
+   },
+   {
+    "titulo": "7-Day Bifida Barrier Reset Set",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/7-DayBifidaBarrierResetSet.jpg?v=1792541579"
+   },
+   {
+    "titulo": "Bifida Daily Essentials Trio",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/BifidaDailyEssentialsTrio.jpg?v=1792485129"
+   },
+   {
+    "titulo": "Late Summer Brightening Care Kit",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/LateSummerBrighteningCareKit.jpg?v=1792485038"
+   },
+   {
+    "titulo": "Bifida Eye & Wrinkle Care Set",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/BifidaEye_WrinkleCareSet.jpg?v=1792484962"
+   },
+   {
+    "titulo": "Galac Glass Skin Radiance Set",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/GalacGlassSkinRadianceSet.jpg?v=1792484580"
+   },
+   {
+    "titulo": "Azulene Soothing Sensitive Set",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/AzuleneSoothingSensitiveSet.jpg?v=1792484415"
+   },
+   {
+    "titulo": "Advanced Anti-Aging Repair Set",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/AdvancedAnti-AgingRepairSet.jpg?v=1792484338"
+   },
+   {
+    "titulo": "Glutathione Dark Spot Erase Trio",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/GlutathioneDarkSpotEraseTrio.jpg?v=1792484220"
+   },
+   {
+    "titulo": "Glutathione Dark Spot Eraser Duo",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/GlutathioneDarkSpotEraserDuo.jpg?v=1792483501"
+   },
+   {
+    "titulo": "Even Skin Tone Duo",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/EvenSkinToneDuo.jpg?v=1792483245"
+   },
+   {
+    "titulo": "Prep & Repair Skin Barrier Duo",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/Prep_RepairSkinBarrierDuo.jpg?v=1792482966"
+   },
+   {
+    "titulo": "Daily Peel & Glow Routine Duo",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/DailyPeel_GlowRoutineDuo.jpg?v=1792482817"
+   },
+   {
+    "titulo": "Glow Boost Peel & Essence Duo",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/GlowBoostPeel_EssenceDuo_06ef0dd8-3397-41ae-abfd-108adaf57abc.jpg?v=1792482290"
+   },
+   {
+    "titulo": "Galac Tone & Glow Basic Duo",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/GalacTone_GlowBasicDuo_e733b75d-d536-4884-b8c0-e3b6ebbb07c4.jpg?v=1792482073"
+   },
+   {
+    "titulo": "Pure & Deep Cleansing Foam Double Set",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/Pure_DeepCleansingFoamDoubleSet.jpg?v=1792481353"
+   },
+   {
+    "titulo": "Glutathione 7 Dark Spot Serum Double Set",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/Glutathione7DarkSpotSerumDoubleSet.jpg?v=1792481244"
+   },
+   {
+    "titulo": "Galactomy Enzyme Peeling Gel Double Set",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/GalactomyEnzymePeelingGelDoubleSet.jpg?v=1792481139"
+   },
+   {
+    "titulo": "Galac essense mask 10+10",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/Galacessensemask10_10.jpg?v=1792481016"
+   },
+   {
+    "titulo": "Water Skin Duo",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/WaterSkinDuo.jpg?v=1792480479"
+   },
+   {
+    "titulo": "Tiktok Viral Dark Spot Duo",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/TiktokViralDarkSpotDuo.jpg?v=1792395497"
+   },
+   {
+    "titulo": "Pure Aqua Peeling Gel, Face Exfoliator",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/1_27134c07-2900-4208-9405-c31be86801ff.jpg?v=1792391893"
+   },
+   {
+    "titulo": "Glutathione 7 Dark Spot Toner",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/TN_1500_1_100143f7-d41b-4518-8c0a-81ca33365860.jpg?v=1792388903"
+   },
+   {
+    "titulo": "Bifida Complex Ampoule Gel Cleanser",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/manyo_bifida_gel_cleanser_thumb_19794ae3-fc91-4ab6-991c-895003d06b25.jpg?v=1792566608"
+   },
+   {
+    "titulo": "Azulene Hyaluronic 2X Soothing Dual Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/TN_1500_1_413ea1bc-43fd-410a-9c24-f5587b4cab59.jpg?v=1792387440"
+   },
+   {
+    "titulo": "Azulene Hyaluronic 2X Serum Oil Cleanser",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/TN_1500_1.jpg?v=1792387130"
+   },
+   {
+    "titulo": "Azulene Hyaluronic 2X Soothing Jelly Cleanser",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/TN_1500_1A.jpg?v=1792385780"
+   }
+  ],
+  "vendors": [
+   "Route",
+   "ma:nyo",
+   "manyo US"
+  ],
+  "baixadas": [
+   {
+    "titulo": "manyo Best Sellers Kit",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/41w2A9Dvi2L_a9c5ca6d-09bc-4968-88cd-44f2ac0da33f.jpg?v=1792630173"
+   },
+   {
+    "titulo": "Pure Soybean Cleansing Milk",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/NEW_1500.jpg?v=1792630576"
+   },
+   {
+    "titulo": "Milk Cleanse & Enzyme Peel Duo",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/MilkCleanse_EnzymePeelDuo.jpg?v=1792483940"
+   },
+   {
+    "titulo": "Milk Cleanse & Barrier Toner Duo",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/MilkCleanse_BarrierTonerDuo.jpg?v=1792484050"
+   },
+   {
+    "titulo": "Gentle Cleanse & Hydrate Trio",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/GentleCleanse_HydrateTrio.jpg?v=1792485283"
+   },
+   {
+    "titulo": "Milk Cleanse, Peel & Glow Trio",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/MilkCleanse_Peel_GlowTrio_2e917d88-afb2-49b2-83fe-79c8490164bc.jpg?v=1792541266"
+   },
+   {
+    "titulo": "Sensitive Skin Calm Cleanse Trio",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/SensitiveSkinCalmCleanseTrio.jpg?v=1792541365"
+   },
+   {
+    "titulo": "7-Day Dark Spot & Barrier Core Routine Set",
+    "url": "https://cdn.shopify.com/s/files/1/0574/0396/5591/files/7-DayDarkSpot_BarrierCoreRoutineSet.jpg?v=1792542007"
+   }
+  ]
+ },
+ "sungboon-editor": {
+  "marca": "Sungboon Editor",
+  "tentativas": [
+   "sungboneditor.com: shopify URLError",
+   "sungboneditor.com: woo URLError",
+   "sungboneditor.com: html URLError",
+   "sungboon-editor.com: shopify URLError",
+   "sungboon-editor.com: woo URLError",
+   "sungboon-editor.com: html URLError",
+   "sungboneditor.co.kr: shopify URLError",
+   "sungboneditor.co.kr: woo URLError",
+   "sungboneditor.co.kr: html URLError",
+   "sungboonmall.com: shopify URLError",
+   "sungboonmall.com: woo URLError",
+   "sungboonmall.com: html URLError"
+  ],
+  "site": "",
+  "metodo": "",
+  "titulo_pagina": "",
+  "candidatos": [],
+  "baixadas": []
+ },
+ "another-face": {
+  "marca": "Another Face",
+  "tentativas": [
+   "anotherface.co.kr: shopify HTTPError",
+   "anotherface.co.kr: woo HTTPError",
+   "anotherface.co.kr: html ok (6 og, 82 img)"
+  ],
+  "site": "anotherface.co.kr",
+  "metodo": "html",
+  "titulo_pagina": "어나더페이스",
+  "candidatos": [
+   {
+    "titulo": "SHOP - SHOP - 어나더페이스",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/upload/meta_new.png"
+   },
+   {
+    "titulo": "SHOP - 품목별 - 어나더페이스",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/upload/meta_new.png"
+   },
+   {
+    "titulo": "SHOP - 라인별 - 어나더페이스",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/upload/meta_new.png"
+   },
+   {
+    "titulo": "SHOP - 나이아치온 - 어나더페이스",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/upload/meta_new.png"
+   },
+   {
+    "titulo": "SHOP - 펩타테놀 - 어나더페이스",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/upload/meta_new.png"
+   },
+   {
+    "titulo": "SHOP - 기능별 - 어나더페이스",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/upload/meta_new.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/tiny/20251230/964ad3f431ec263d10e7295da92d42dd.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/medium/20251230/41a5ddfd14bebe861b42642f3652e7e7.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/tiny/20251230/8f15e3b33748a28315d408ed60d3fa17.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/medium/20251230/da538f8fa98de8500c8fb7825f85a345.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/tiny/20250922/f28d63b26fa962d449f29f6d3de7a03d.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/medium/20250922/c9389da40bba7eeda3918a95e299a5aa.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/tiny/20250711/9677d2e6abe00b08c41717d732864292.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/medium/20250711/0eac653fc45fbf05bee6bdbf6ee773d8.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/tiny/20250711/3bc23ee783adfe66dce48f48d973fb20.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/medium/20250711/a8d822feec763be86f6e7031254b7ab1.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/tiny/20250710/5d6fb8c3f47e88623afaf112f573731b.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/medium/20250710/b20b2e351af9991f706a925d323a1e93.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/tiny/20250710/2e479e33be9fd82c998382af8036191c.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/medium/20250710/9b3340d704da25ec4f544030b9237928.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/tiny/20250710/511876e949fc44ef995666a3ba32772d.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/medium/20250710/be554a7fbde1196a1e0aa118a1337756.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/tiny/20251230/8976f9583000cc565f3dd5601552f6e3.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/medium/20251230/281984a77e7ef4509657b9347df3a3d4.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/tiny/20250710/7702790ae673f59f8af2ecec3abcc4df.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/medium/20250710/fb29ce1d1010b00a611f28bf39006903.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/tiny/20250710/6f425f5e9a479957e89bcb16c9a11343.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/medium/20250710/d952a2d1d96bcc9fb8d9ff3840fe78d0.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/tiny/20250710/9d3b7cd14a90fa08d6680ee3b326dfde.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/medium/20250710/0bcd71cb0c8c4417b4b0eccc8cd5dca0.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/tiny/20250710/279000a9354b4677a31e0c3c6af77a0f.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/medium/20250710/5b371e31a741a4bb9d6143b048b5a861.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/tiny/20250710/a5a2111edad060bf6c91f19be0f1eadb.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/medium/20250710/65467cd6909815e6bf0fb727bc04c5c3.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/tiny/20250710/0d3770616e1334a093f08d0ef38956ed.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/medium/20250710/fee253ba44e0c7dd4cc9bd0326879066.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/tiny/20251013/5be0715a92c9465699a5e9295e835c85.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/medium/20251013/ec7090f58f79f40f49390edbe7ec15a4.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/tiny/20251013/49fc7a05992388b6b6c9859bab544814.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/medium/20251013/a44b060420fb3967f5f04634446c6f71.jpg"
+   }
+  ],
+  "baixadas": [
+   {
+    "titulo": "SHOP - SHOP - 어나더페이스",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/upload/meta_new.png"
+   },
+   {
+    "titulo": "SHOP - 품목별 - 어나더페이스",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/upload/meta_new.png"
+   },
+   {
+    "titulo": "SHOP - 라인별 - 어나더페이스",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/upload/meta_new.png"
+   },
+   {
+    "titulo": "SHOP - 나이아치온 - 어나더페이스",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/upload/meta_new.png"
+   },
+   {
+    "titulo": "SHOP - 펩타테놀 - 어나더페이스",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/upload/meta_new.png"
+   },
+   {
+    "titulo": "SHOP - 기능별 - 어나더페이스",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/upload/meta_new.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/tiny/20251230/964ad3f431ec263d10e7295da92d42dd.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg797b53790262094/anotherface/web/product/medium/20251230/41a5ddfd14bebe861b42642f3652e7e7.jpg"
+   }
+  ]
+ },
+ "aestura": {
+  "marca": "AESTURA",
+  "tentativas": [
+   "aestura.com: shopify HTTPError",
+   "aestura.com: woo HTTPError",
+   "aestura.com: html sem produtos (AESTURA)",
+   "aestura.us: shopify URLError",
+   "aestura.us: woo URLError",
+   "aestura.us: html URLError"
+  ],
+  "site": "",
+  "metodo": "",
+  "titulo_pagina": "",
+  "candidatos": [],
+  "baixadas": []
+ },
+ "beplain": {
+  "marca": "beplain",
+  "tentativas": [
+   "beplain.co.kr: shopify HTTPError",
+   "beplain.co.kr: woo HTTPError",
+   "beplain.co.kr: html sem produtos (beplain)",
+   "beplain.us: shopify URLError",
+   "beplain.us: woo URLError",
+   "beplain.us: html URLError",
+   "beplain.com: shopify JSONDecodeError",
+   "beplain.com: woo JSONDecodeError",
+   "beplain.com: html sem produtos (Loading...)"
+  ],
+  "site": "",
+  "metodo": "",
+  "titulo_pagina": "",
+  "candidatos": [],
+  "baixadas": []
+ },
+ "kaine": {
+  "marca": "KAINE",
+  "tentativas": [
+   "kaine.co.kr: shopify HTTPError",
+   "kaine.co.kr: woo HTTPError",
+   "kaine.co.kr: html ok (0 og, 36 img)"
+  ],
+  "site": "kaine.co.kr",
+  "metodo": "html",
+  "titulo_pagina": "카이네 KAINE",
+  "candidatos": [
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/big/20260414/76f0d735776e48065854aeb3a6691dc2.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/medium/20260530/940c59223cbbdfbfe444a30ccdca44f3.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/big/20260414/4bdd1c958a07540e99d12f3ab9d224ef.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/medium/20260530/dbff17baf1491293a31d1036f8fed6b4.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/big/20260414/69265a9643fe67b012befbafb44d7dd2.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/medium/20260530/691b09d0c330ecd934d4353a03a9cbd0.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/big/20260414/3053b19f9e1f545dd26a14a6ad482fdd.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/medium/20260530/d733d86d2bfce3b835eb2b49673124a8.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/big/20260728/2556287d422d8f955055b857dd23dd0a.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/medium/20260728/a49e36d8012cd450d7d6f05c832271ee.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/big/20260729/3b855487fbfac88f255008ba6aa81d80.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/medium/20260722/f6a653234193f0a4a6e6401d42e33b8e.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/big/20260430/64de570c043166acb106e16f3399ce94.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/medium/20260530/dd96ba77f2dd6d8cb6fca9890b7f69c3.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/big/20260414/e655ae49043a5fd23b44a5be1481ca4f.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/medium/20260530/63157b7e7d62f5797e88b56a901a3965.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/big/20260414/a8cdb4937563123782a1e009706fab56.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/medium/20260530/9658b2503852c7009f2be1032473f9ff.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/big/20260414/bf49dde72335f2b5acc01e38d8f7a70e.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/medium/20260530/47cc75941d9cc69203922684b12904cc.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/big/20260414/4bea8a2f6531b5bff0de143759c0e6f6.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/medium/20260530/c70aec31a290976d3b5a921f7363c985.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/big/20260414/8ff0b0d5f10e592c2df9de208475f0ce.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/medium/20260530/e9c0e974b15fdfc87e776d6a9071289f.png"
+   }
+  ],
+  "baixadas": [
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/big/20260414/76f0d735776e48065854aeb3a6691dc2.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/medium/20260530/940c59223cbbdfbfe444a30ccdca44f3.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/big/20260414/4bdd1c958a07540e99d12f3ab9d224ef.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/medium/20260530/dbff17baf1491293a31d1036f8fed6b4.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/big/20260414/69265a9643fe67b012befbafb44d7dd2.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/medium/20260530/691b09d0c330ecd934d4353a03a9cbd0.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/big/20260414/3053b19f9e1f545dd26a14a6ad482fdd.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1203b21370950059/vegankaine/web/product/medium/20260530/d733d86d2bfce3b835eb2b49673124a8.png"
+   }
+  ]
+ },
+ "ilso": {
+  "marca": "ILSO",
+  "tentativas": [
+   "ilso.co.kr: shopify URLError",
+   "ilso.co.kr: woo URLError",
+   "ilso.co.kr: html URLError",
+   "ilso.kr: shopify HTTPError",
+   "ilso.kr: woo HTTPError",
+   "ilso.kr: html ok (7 og, 180 img)"
+  ],
+  "site": "ilso.kr",
+  "metodo": "html",
+  "titulo_pagina": "Point Derma, 일소 ILSO",
+  "candidatos": [
+   {
+    "titulo": "빌베리 쿨링 진정 수분 선크림",
+    "url": "https://ilso.kr/web/product/big/202508/3df689af63831e1cdae4d8576c5099c8.jpg"
+   },
+   {
+    "titulo": "NEW 바르는 모공톡스 탄력 앰플",
+    "url": "https://ilso.kr/web/product/big/202605/a287397a342ccb380dcc19983d7b2477.jpg"
+   },
+   {
+    "titulo": "[3종세트] 피지클리너 베스트 세트 (소프트너 + 착붙솜40매 + 제거기) (+증정: 모공텐션마스크 1매)",
+    "url": "https://ilso.kr/web/product/big/202602/e8ef4bb1dabb17f4c04dd4bbfd7502e9.jpg"
+   },
+   {
+    "titulo": "1분 깐달걀 필링 스왑 8매입 (+증정: 모공텐션마스크)",
+    "url": "https://ilso.kr/web/product/big/202604/d52f02726bc389d1236db24ec03522d9.jpg"
+   },
+   {
+    "titulo": "블랙헤드 순삭 인생 코팩",
+    "url": "https://ilso.kr/web/product/big/202508/fe9b38aa1f39f51171cd2fd6331fbe33.jpg"
+   },
+   {
+    "titulo": "피지 쏙 모공 딥 클렌징 오일",
+    "url": "https://ilso.kr/web/product/big/202509/1125aac72c1c4d069f37115f8a9182db.jpg"
+   },
+   {
+    "titulo": "NEW 어성초 PDRN 액티브 버블 클렌저",
+    "url": "https://ilso.kr/web/product/big/202605/364e1a9cd033121c7ba9700c2e3d4e94.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/medium/202608/0c408fdaa63f96f3fc085516176d2315.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/big/202606/6569359205897874e36aca113ea1551e.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/medium/202610/8bd282246744ba48d40e9adf4e42b4f6.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/big/202610/1b184bc5d5ca8788c3d161470d6d916f.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/medium/202604/5f6627254f072e1d8ac3fd25ad3ffcf6.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/big/202604/d52f02726bc389d1236db24ec03522d9.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/medium/202602/a07b738443e9610c1dbcb0dd2db65883.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/big/202602/e8ef4bb1dabb17f4c04dd4bbfd7502e9.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/medium/202608/2f549c1dc81f26f2c2696fd7e2a57628.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/big/202605/a287397a342ccb380dcc19983d7b2477.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/medium/202509/aefa9ae76cc161799b7e829a5476f11a.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/big/202508/fe9b38aa1f39f51171cd2fd6331fbe33.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/medium/202605/23569b9a9be8a4ba609c5f4fbe9bff2b.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/big/202605/364e1a9cd033121c7ba9700c2e3d4e94.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/medium/202604/9fc88813fbaf6fa3fa2934794d722441.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/big/202510/38eaf77090f414cd447477680744202d.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/medium/202509/6b873392d0e5175c15f12b80bc21e5db.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/big/202509/1125aac72c1c4d069f37115f8a9182db.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/medium/202605/1173424a71039ac52c9742edba2fef23.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/big/202605/a50c282816faed0638cedb9a86dba916.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/medium/202605/3d289e87b2f03aa6a7c0f4b09d24cfca.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/big/202508/852270ac242221fc5392598e4c9057ec.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/medium/202605/483ffd373b1c94972ba6361ab4bab3f1.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/big/202508/71e3328e719153d87f629496385563ca.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/medium/202512/b0ed89c7e1aff9dcae9d849de7bf2834.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/big/202608/8d85c39ba01e29517736b7938f605c6b.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/medium/202509/96a0166458b9cbc05b560af515243403.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/big/202509/04143fbc364a9ed51b8f14b8404bd9de.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/medium/202603/2c967cad14f4a1bdd6c5c812553e369b.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/big/202603/20ebeea6ade96db1054de42321b2ce66.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/medium/202508/ab5e0668f6825df2bc441bb047e8a4e8.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/big/202509/c9c90887b46a989527fc390f9ed7dfa0.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/medium/202511/1383433e0814852ffab42930f50b402d.jpg"
+   }
+  ],
+  "baixadas": [
+   {
+    "titulo": "빌베리 쿨링 진정 수분 선크림",
+    "url": "https://ilso.kr/web/product/big/202508/3df689af63831e1cdae4d8576c5099c8.jpg"
+   },
+   {
+    "titulo": "NEW 바르는 모공톡스 탄력 앰플",
+    "url": "https://ilso.kr/web/product/big/202605/a287397a342ccb380dcc19983d7b2477.jpg"
+   },
+   {
+    "titulo": "[3종세트] 피지클리너 베스트 세트 (소프트너 + 착붙솜40매 + 제거기) (+증정: 모공텐션마스크 1매)",
+    "url": "https://ilso.kr/web/product/big/202602/e8ef4bb1dabb17f4c04dd4bbfd7502e9.jpg"
+   },
+   {
+    "titulo": "1분 깐달걀 필링 스왑 8매입 (+증정: 모공텐션마스크)",
+    "url": "https://ilso.kr/web/product/big/202604/d52f02726bc389d1236db24ec03522d9.jpg"
+   },
+   {
+    "titulo": "블랙헤드 순삭 인생 코팩",
+    "url": "https://ilso.kr/web/product/big/202508/fe9b38aa1f39f51171cd2fd6331fbe33.jpg"
+   },
+   {
+    "titulo": "피지 쏙 모공 딥 클렌징 오일",
+    "url": "https://ilso.kr/web/product/big/202509/1125aac72c1c4d069f37115f8a9182db.jpg"
+   },
+   {
+    "titulo": "NEW 어성초 PDRN 액티브 버블 클렌저",
+    "url": "https://ilso.kr/web/product/big/202605/364e1a9cd033121c7ba9700c2e3d4e94.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ilso.kr/web/product/medium/202608/0c408fdaa63f96f3fc085516176d2315.jpg"
+   }
+  ]
+ },
+ "wellage": {
+  "marca": "WELLAGE",
+  "tentativas": [
+   "wellage.co.kr: shopify HTTPError",
+   "wellage.co.kr: woo HTTPError",
+   "wellage.co.kr: html ok (0 og, 38 img)"
+  ],
+  "site": "wellage.co.kr",
+  "metodo": "html",
+  "titulo_pagina": "클리니컬 코스메틱, 웰라쥬",
+  "candidatos": [
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/small/202607/19e618b133717764fe7fbc6ba0f10a31.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/medium/202607/b9091b542636e5e34508b25f9907c6f8.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/small/202607/2f5669c67b57bf214774f9a473b9b23d.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/medium/202607/71fbd21a07bdd5525d0a50d09e2884f7.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/small/202510/eb2058ab9b513a1a5e53289bfb52e62b.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/medium/202510/bd840825b7db3b0d21f20aae5e785185.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/small/202510/cb7363391f2db6c59a540de6b44d041a.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/medium/202510/c6f04b94e281f5f566a499208de74941.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/small/202512/3b14baf6cf5db515990816e2eee1827f.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/medium/202512/167c805c0962e83e7d1a098b69e8056b.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/small/202504/bbad92746ef631b751ae6ead6a663d48.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/medium/202504/c366947e3f5068e33ef0a08f0dd3bf8e.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/small/202603/14edb5ed72c4712e35460b614907b1ea.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/medium/202603/5cd49461aceaefdf9e532a49d79f2f88.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/small/202505/5a2942deb639fc97b574bc74251c4756.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/medium/202505/18b0a61ce3eaa59c6f1cc1b36274c386.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/small/202604/70aa99acbd6b244daa6f9100c7293963.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/medium/202604/1e85b1c7fb0b3ce4c49829bbc65b93c6.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/small/202606/2829fa6c7fc0161c0e8de2d0daae10d6.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/medium/202606/f2393d964e46ee5687b9edad128dc532.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/small/202605/1f403aa1d776041dae581e4139d882d0.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/medium/202605/1f83249fc4eb6e553a211e56cac8e269.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/small/202507/2b1807ab140dff90e201f837b753c98a.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/medium/202507/112972def5782227deef926632056ce2.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/small/202608/646a2009c475968f2c4d01af39107aa6.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/medium/202608/00782de8596e7ffbe399510d31485f57.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/small/202608/e9acd8061a2aae15cb40b74bd693baff.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/medium/202608/6393fa72d74ecea2d552a4ed7a14ce32.jpg"
+   }
+  ],
+  "baixadas": [
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/small/202607/19e618b133717764fe7fbc6ba0f10a31.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/medium/202607/b9091b542636e5e34508b25f9907c6f8.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/small/202607/2f5669c67b57bf214774f9a473b9b23d.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/medium/202607/71fbd21a07bdd5525d0a50d09e2884f7.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/small/202510/eb2058ab9b513a1a5e53289bfb52e62b.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/medium/202510/bd840825b7db3b0d21f20aae5e785185.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/small/202510/cb7363391f2db6c59a540de6b44d041a.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://wellage.co.kr/web/product/medium/202510/c6f04b94e281f5f566a499208de74941.jpg"
+   }
+  ]
+ },
+ "clio": {
+  "marca": "CLIO",
+  "tentativas": [
+   "clubclio.co.kr: shopify HTTPError",
+   "clubclio.co.kr: woo HTTPError",
+   "clubclio.co.kr: html sem produtos (클럽클리오 공식 온라인몰 | CLUBCLIO)",
+   "cliocosmetic.com: shopify HTTPError",
+   "cliocosmetic.com: woo JSONDecodeError",
+   "cliocosmetic.com: html sem produtos (클리오 코스메틱스)",
+   "clio.us: shopify HTTPError",
+   "clio.us: woo HTTPError",
+   "clio.us: html HTTPError"
+  ],
+  "site": "",
+  "metodo": "",
+  "titulo_pagina": "",
+  "candidatos": [],
+  "baixadas": []
+ },
+ "peripera": {
+  "marca": "Peripera",
+  "tentativas": [
+   "peripera.co.kr: shopify URLError",
+   "peripera.co.kr: woo URLError",
+   "peripera.co.kr: html URLError",
+   "peripera.us: shopify URLError",
+   "peripera.us: woo URLError",
+   "peripera.us: html URLError",
+   "peripera.global: shopify URLError",
+   "peripera.global: woo URLError",
+   "peripera.global: html URLError",
+   "clubclio.co.kr: shopify HTTPError",
+   "clubclio.co.kr: woo HTTPError",
+   "clubclio.co.kr: html sem produtos (클럽클리오 공식 온라인몰 | CLUBCLIO)"
+  ],
+  "site": "",
+  "metodo": "",
+  "titulo_pagina": "",
+  "candidatos": [],
+  "baixadas": []
+ },
+ "ongredients": {
+  "marca": "òngredients",
+  "tentativas": [
+   "ongredients.com: shopify HTTPError",
+   "ongredients.com: woo HTTPError",
+   "ongredients.com: html ok (14 og, 11 img)"
+  ],
+  "site": "ongredients.com",
+  "metodo": "html",
+  "titulo_pagina": "온그리디언츠",
+  "candidatos": [
+   {
+    "titulo": "SHOP - SHOP - 온그리디언츠",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/upload/share-image-1-aa401c9b0f072cd256911f54c3ab9e5b.jpg"
+   },
+   {
+    "titulo": "온그리디언츠",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/upload/share-image-1-aa401c9b0f072cd256911f54c3ab9e5b.jpg"
+   },
+   {
+    "titulo": "온그리디언츠",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/upload/share-image-1-aa401c9b0f072cd256911f54c3ab9e5b.jpg"
+   },
+   {
+    "titulo": "온그리디언츠",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/upload/share-image-1-aa401c9b0f072cd256911f54c3ab9e5b.jpg"
+   },
+   {
+    "titulo": "온그리디언츠",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/upload/share-image-1-aa401c9b0f072cd256911f54c3ab9e5b.jpg"
+   },
+   {
+    "titulo": "온그리디언츠",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/upload/share-image-1-aa401c9b0f072cd256911f54c3ab9e5b.jpg"
+   },
+   {
+    "titulo": "SHOP - BEST - 온그리디언츠",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/upload/share-image-1-aa401c9b0f072cd256911f54c3ab9e5b.jpg"
+   },
+   {
+    "titulo": "[속광장벽] 스킨 베리어 카밍 로션 EX 220ml 더블 세트 - 온그리디언츠",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/product/big/20260911/a681ddf3f3a040911fde3115b6f7fcb4.jpg"
+   },
+   {
+    "titulo": "베리베리 TXA 토닝 미스트 50ml *2개 - 온그리디언츠",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/product/big/20260930/cc9a61783ce8aaa4dbf1e5273431f5b1.jpg"
+   },
+   {
+    "titulo": "베리베리 TXA 토닝 미스트 50ml *3개 - 온그리디언츠",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/product/big/20260930/98c41f935422dea2f1e86b0959f20549.jpg"
+   },
+   {
+    "titulo": "[바쿠글로우 SET] 바쿠글로우 캡슐 로션+ 바쿠글로우 레티날 부스터샷 0.2% - 온그리디언츠",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/product/big/20261015/4149c6de2e068a586367982868b834f2.jpg"
+   },
+   {
+    "titulo": "베리베리 TXA 토닝 미스트 50ml - 온그리디언츠",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/product/big/20260921/05dc242b6867fcafc14b6b38711acfaa.jpg"
+   },
+   {
+    "titulo": "온그리디언츠 블랙그리디 필 샷 스틱 20g - 온그리디언츠",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/product/big/20260929/e60d90af116a37bcd1033e3e12525532.jpg"
+   },
+   {
+    "titulo": "온그리디언츠 세라딥 글로우 웨이브 (구성 : 더마 세라딥 부스팅 세럼 50ml 2개) - 온그리디언츠",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/product/big/20261008/af0dfa51c701e3c3276892b54c700e86.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/product/medium/20260911/527b2fe4b970719155faa33e50c5f04f.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/product/tiny/20260911/f8d337324e40f2104e6e51c311f12a6f.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/product/medium/20260930/e000ec04d9f5e5bff9e6d0f577566fe2.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/product/tiny/20260930/9634ab951e70179192d4ae596d572927.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/product/medium/20260930/007e16980da50b973757f56f5da627a6.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/product/tiny/20260930/8ca05a45eaf65c14f4585cea1ce962d2.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/product/medium/20261015/b44d36de88bae2a173f6cb2d2878e5e4.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/product/tiny/20261015/73db395e67afb6a6cb79b8720224bcc7.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/product/medium/20260921/663ec95e196eed31013f18efeb296d1a.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/product/medium/20260929/f5bd2bc2fe60bf8d4bcbc5669f5f1ce6.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/product/medium/20261008/3efabb856cf180fe1b6ce602fcfdd555.png"
+   }
+  ],
+  "baixadas": [
+   {
+    "titulo": "SHOP - SHOP - 온그리디언츠",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/upload/share-image-1-aa401c9b0f072cd256911f54c3ab9e5b.jpg"
+   },
+   {
+    "titulo": "온그리디언츠",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/upload/share-image-1-aa401c9b0f072cd256911f54c3ab9e5b.jpg"
+   },
+   {
+    "titulo": "온그리디언츠",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/upload/share-image-1-aa401c9b0f072cd256911f54c3ab9e5b.jpg"
+   },
+   {
+    "titulo": "온그리디언츠",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/upload/share-image-1-aa401c9b0f072cd256911f54c3ab9e5b.jpg"
+   },
+   {
+    "titulo": "온그리디언츠",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/upload/share-image-1-aa401c9b0f072cd256911f54c3ab9e5b.jpg"
+   },
+   {
+    "titulo": "온그리디언츠",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/upload/share-image-1-aa401c9b0f072cd256911f54c3ab9e5b.jpg"
+   },
+   {
+    "titulo": "SHOP - BEST - 온그리디언츠",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/upload/share-image-1-aa401c9b0f072cd256911f54c3ab9e5b.jpg"
+   },
+   {
+    "titulo": "[속광장벽] 스킨 베리어 카밍 로션 EX 220ml 더블 세트 - 온그리디언츠",
+    "url": "https://ecimg.cafe24img.com/pg1543b76310364036/ongredients/web/product/big/20260911/a681ddf3f3a040911fde3115b6f7fcb4.jpg"
+   }
+  ]
+ },
+ "purcell": {
+  "marca": "purcell",
+  "tentativas": [
+   "purcell.co.kr: shopify HTTPError",
+   "purcell.co.kr: woo HTTPError",
+   "purcell.co.kr: html ok (6 og, 12 img)"
+  ],
+  "site": "purcell.co.kr",
+  "metodo": "html",
+  "titulo_pagina": "PURCELL 퍼셀 공식 온라인 스토어",
+  "candidatos": [
+   {
+    "titulo": "[트러블/긴급진정] 90% 유산균 요철 장벽세럼​ 30mL",
+    "url": "https://purcell.co.kr/web/product/big/202607/042dde0dd3da03d4f3ee494c0a136a96.jpg"
+   },
+   {
+    "titulo": "[장벽광채] 24/7 초유 포어 디펜스 앰플 55mL",
+    "url": "https://purcell.co.kr/web/product/big/202604/4a419ccb0ff9a803a567db4b827a825f.jpg"
+   },
+   {
+    "titulo": "[투명미백] 880억/mL 글루타치온 플렉서블 리포좀 30mL",
+    "url": "https://purcell.co.kr/web/product/big/202607/f9c3586a092050ce4ef983d65d1f8458.jpg"
+   },
+   {
+    "titulo": "[장벽영양] 픽셀바이옴™ 부스터샷 파우더 10ea",
+    "url": "https://purcell.co.kr/web/product/big/202604/3f287a47d622b9ee37c171e4eaba778b.jpg"
+   },
+   {
+    "titulo": "[장벽리페어] 픽셀바이옴™ 5+ 프로바이오틱스 리부팅 크림 50mL",
+    "url": "https://purcell.co.kr/web/product/big/202604/83ea0389bcc8dfab4c5e1c576b7d0b35.jpg"
+   },
+   {
+    "titulo": "[장벽강화] 픽셀바이옴™ O₂ 인핸서 모델링 마스크",
+    "url": "https://purcell.co.kr/web/product/big/202604/3a21034ea0cb25c677816b80cc6f35c1.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://purcell.co.kr/web/product/medium/202607/c50281b7cbcba0ca6aec0d1bf70e2687.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://purcell.co.kr/web/product/small/202205/d62cdd5fa048cc9c3c3b6e28d91e862d.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://purcell.co.kr/web/product/medium/202604/bbe14a53ad5a6c7cead86c0a516acb4c.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://purcell.co.kr/web/product/small/202405/e53b1ca997b700939a85be4f57417476.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://purcell.co.kr/web/product/medium/202607/da96ba2dd86804422eb66e9fe892fcc4.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://purcell.co.kr/web/product/small/202310/8a43656667f18072d7d2c6dc31dc7ba1.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://purcell.co.kr/web/product/medium/202604/60b09afb0f4545ee8eac89f1bedbeb2d.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://purcell.co.kr/web/product/small/202407/d665cc6d36e19315a8ebff12c8a46731.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://purcell.co.kr/web/product/medium/202604/1d6a7e9c573dfd768bae3e904b5fb341.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://purcell.co.kr/web/product/small/202302/50aa80f728debd03d744461bdd3627a9.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://purcell.co.kr/web/product/medium/202604/ec32269e90b745e5071fc6455b2f8170.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://purcell.co.kr/web/product/small/202407/88876003d8fb3758cafd9adfd10d9eda.jpg"
+   }
+  ],
+  "baixadas": [
+   {
+    "titulo": "[트러블/긴급진정] 90% 유산균 요철 장벽세럼​ 30mL",
+    "url": "https://purcell.co.kr/web/product/big/202607/042dde0dd3da03d4f3ee494c0a136a96.jpg"
+   },
+   {
+    "titulo": "[장벽광채] 24/7 초유 포어 디펜스 앰플 55mL",
+    "url": "https://purcell.co.kr/web/product/big/202604/4a419ccb0ff9a803a567db4b827a825f.jpg"
+   },
+   {
+    "titulo": "[투명미백] 880억/mL 글루타치온 플렉서블 리포좀 30mL",
+    "url": "https://purcell.co.kr/web/product/big/202607/f9c3586a092050ce4ef983d65d1f8458.jpg"
+   },
+   {
+    "titulo": "[장벽영양] 픽셀바이옴™ 부스터샷 파우더 10ea",
+    "url": "https://purcell.co.kr/web/product/big/202604/3f287a47d622b9ee37c171e4eaba778b.jpg"
+   },
+   {
+    "titulo": "[장벽리페어] 픽셀바이옴™ 5+ 프로바이오틱스 리부팅 크림 50mL",
+    "url": "https://purcell.co.kr/web/product/big/202604/83ea0389bcc8dfab4c5e1c576b7d0b35.jpg"
+   },
+   {
+    "titulo": "[장벽강화] 픽셀바이옴™ O₂ 인핸서 모델링 마스크",
+    "url": "https://purcell.co.kr/web/product/big/202604/3a21034ea0cb25c677816b80cc6f35c1.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://purcell.co.kr/web/product/medium/202607/c50281b7cbcba0ca6aec0d1bf70e2687.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://purcell.co.kr/web/product/small/202205/d62cdd5fa048cc9c3c3b6e28d91e862d.jpg"
+   }
+  ]
+ },
+ "dr-forhair": {
+  "marca": "DR.forHair",
+  "tentativas": [
+   "www.drforhair.com: shopify ok (9)"
+  ],
+  "site": "www.drforhair.com",
+  "metodo": "shopify",
+  "titulo_pagina": "",
+  "candidatos": [
+   {
+    "titulo": "Aero Cooling Shampoo",
+    "url": "https://cdn.shopify.com/s/files/1/0781/4830/5125/files/01_______1080.png?v=1785923195"
+   },
+   {
+    "titulo": "Folligen Bio-3 Shampoo",
+    "url": "https://cdn.shopify.com/s/files/1/0781/4830/5125/files/41630K3rFgL._SL1080.jpg?v=1777269016"
+   },
+   {
+    "titulo": "Folligen Thickening Scalp Conditioning Mask",
+    "url": "https://cdn.shopify.com/s/files/1/0781/4830/5125/files/260219_____200ml__2_1.jpg?v=1777268453"
+   },
+   {
+    "titulo": "Folligen Thickening Sea Salt Scalp Exfoliator",
+    "url": "https://cdn.shopify.com/s/files/1/0781/4830/5125/files/260219_____250g__1_2.jpg?v=1777267302"
+   },
+   {
+    "titulo": "Aero Purifying Scalp Exfoliator",
+    "url": "https://cdn.shopify.com/s/files/1/0781/4830/5125/files/260203_____300ml__1.jpg?v=1777272219"
+   },
+   {
+    "titulo": "Aero Purifying Shampoo",
+    "url": "https://cdn.shopify.com/s/files/1/0781/4830/5125/files/260203_____300ml__2.jpg?v=1777271450"
+   },
+   {
+    "titulo": "Folligen Thickening Scalp Tonic",
+    "url": "https://cdn.shopify.com/s/files/1/0781/4830/5125/files/dfh_main_tonic_v4.jpg?v=1792659659"
+   },
+   {
+    "titulo": "Folligen Thickening Scalp Serum",
+    "url": "https://cdn.shopify.com/s/files/1/0781/4830/5125/files/dfh_main_serum_v4.jpg?v=1792659499"
+   },
+   {
+    "titulo": "Folligen Thickening Shampoo",
+    "url": "https://cdn.shopify.com/s/files/1/0781/4830/5125/files/dfh_main_shampoo_v4.jpg?v=1792659325"
+   }
+  ],
+  "vendors": [
+   "DR.FORHAIR"
+  ],
+  "baixadas": [
+   {
+    "titulo": "Aero Cooling Shampoo",
+    "url": "https://cdn.shopify.com/s/files/1/0781/4830/5125/files/01_______1080.png?v=1785923195"
+   },
+   {
+    "titulo": "Folligen Bio-3 Shampoo",
+    "url": "https://cdn.shopify.com/s/files/1/0781/4830/5125/files/41630K3rFgL._SL1080.jpg?v=1777269016"
+   },
+   {
+    "titulo": "Folligen Thickening Scalp Conditioning Mask",
+    "url": "https://cdn.shopify.com/s/files/1/0781/4830/5125/files/260219_____200ml__2_1.jpg?v=1777268453"
+   },
+   {
+    "titulo": "Folligen Thickening Sea Salt Scalp Exfoliator",
+    "url": "https://cdn.shopify.com/s/files/1/0781/4830/5125/files/260219_____250g__1_2.jpg?v=1777267302"
+   },
+   {
+    "titulo": "Aero Purifying Scalp Exfoliator",
+    "url": "https://cdn.shopify.com/s/files/1/0781/4830/5125/files/260203_____300ml__1.jpg?v=1777272219"
+   },
+   {
+    "titulo": "Aero Purifying Shampoo",
+    "url": "https://cdn.shopify.com/s/files/1/0781/4830/5125/files/260203_____300ml__2.jpg?v=1777271450"
+   },
+   {
+    "titulo": "Folligen Thickening Scalp Tonic",
+    "url": "https://cdn.shopify.com/s/files/1/0781/4830/5125/files/dfh_main_tonic_v4.jpg?v=1792659659"
+   },
+   {
+    "titulo": "Folligen Thickening Scalp Serum",
+    "url": "https://cdn.shopify.com/s/files/1/0781/4830/5125/files/dfh_main_serum_v4.jpg?v=1792659499"
+   }
+  ]
+ },
+ "fwee": {
+  "marca": "fwee",
+  "tentativas": [
+   "fwee.kr: shopify HTTPError",
+   "fwee.kr: woo HTTPError",
+   "fwee.kr: html ok (6 og, 5 img)"
+  ],
+  "site": "fwee.kr",
+  "metodo": "html",
+  "titulo_pagina": "fwee",
+  "candidatos": [
+   {
+    "titulo": "ALL - ALL",
+    "url": "https://fwee.kr/web/upload/share-image-1-b86b7c31970f708ea5e7f06334a18558.png"
+   },
+   {
+    "titulo": "LIP - LIP",
+    "url": "https://fwee.kr/web/upload/share-image-1-b86b7c31970f708ea5e7f06334a18558.png"
+   },
+   {
+    "titulo": "BASE - BASE",
+    "url": "https://fwee.kr/web/upload/share-image-1-b86b7c31970f708ea5e7f06334a18558.png"
+   },
+   {
+    "titulo": "EYE - EYE",
+    "url": "https://fwee.kr/web/upload/share-image-1-b86b7c31970f708ea5e7f06334a18558.png"
+   },
+   {
+    "titulo": "OTHERS - OTHERS",
+    "url": "https://fwee.kr/web/upload/share-image-1-b86b7c31970f708ea5e7f06334a18558.png"
+   },
+   {
+    "titulo": "[3D 입체광] 퓌 3D 볼류밍 틴트 (12 Colors)",
+    "url": "https://fwee.kr/web/product/big/202608/45b16fe36a1e13974fc2fedaa411b0cb.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://fwee.kr/web/product/medium/202608/c9a4b75b405c70d2aeb29bcb5766b8fc.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://fwee.kr/web/product/medium/202608/5d8d874815787abb6ad3b48ab7e134af.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://fwee.kr/web/product/medium/202608/28a37a1136efe8914ef6f2f3e909b511.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://fwee.kr/web/product/medium/202608/257a3db8bd1b551f569a28a71c4b33c6.jpg"
+   }
+  ],
+  "baixadas": [
+   {
+    "titulo": "ALL - ALL",
+    "url": "https://fwee.kr/web/upload/share-image-1-b86b7c31970f708ea5e7f06334a18558.png"
+   },
+   {
+    "titulo": "LIP - LIP",
+    "url": "https://fwee.kr/web/upload/share-image-1-b86b7c31970f708ea5e7f06334a18558.png"
+   },
+   {
+    "titulo": "BASE - BASE",
+    "url": "https://fwee.kr/web/upload/share-image-1-b86b7c31970f708ea5e7f06334a18558.png"
+   },
+   {
+    "titulo": "EYE - EYE",
+    "url": "https://fwee.kr/web/upload/share-image-1-b86b7c31970f708ea5e7f06334a18558.png"
+   },
+   {
+    "titulo": "OTHERS - OTHERS",
+    "url": "https://fwee.kr/web/upload/share-image-1-b86b7c31970f708ea5e7f06334a18558.png"
+   },
+   {
+    "titulo": "[3D 입체광] 퓌 3D 볼류밍 틴트 (12 Colors)",
+    "url": "https://fwee.kr/web/product/big/202608/45b16fe36a1e13974fc2fedaa411b0cb.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://fwee.kr/web/product/medium/202608/c9a4b75b405c70d2aeb29bcb5766b8fc.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://fwee.kr/web/product/medium/202608/5d8d874815787abb6ad3b48ab7e134af.jpg"
+   }
+  ]
+ },
+ "growus": {
+  "marca": "Growus",
+  "tentativas": [
+   "growus.co.kr: shopify URLError",
+   "growus.co.kr: woo URLError",
+   "growus.co.kr: html URLError",
+   "growus.us: shopify URLError",
+   "growus.us: woo URLError",
+   "growus.us: html URLError",
+   "growus.kr: shopify HTTPError",
+   "growus.kr: woo HTTPError",
+   "growus.kr: html ok (5 og, 0 img)"
+  ],
+  "site": "growus.kr",
+  "metodo": "html",
+  "titulo_pagina": "Growus - 탈라소테라피 헤어&스파케어 브랜드",
+  "candidatos": [
+   {
+    "titulo": "데미지 테라피 노워시 트리트먼트 EX(Due Rose)",
+    "url": "https://shopby-images.cdn-nhncommerce.com/Mall-No-rEpM/20260813/001147.792652304/[섬네일]데미지_노워시트리트먼트.jpg"
+   },
+   {
+    "titulo": "[다시마/PDRN] 알게 테라피 미네랄 샴푸",
+    "url": "https://shopby-images.cdn-nhncommerce.com/Mall-No-rEpM/20260813/001033.318659334/[섬네일]알게_미네랄샴푸.jpg"
+   },
+   {
+    "titulo": "[2세대 리뉴얼] 씨솔트 테라피 샴푸 EX",
+    "url": "https://shopby-images.cdn-nhncommerce.com/20260813/001120.849289681/[섬네일]씨솔트_샴푸EX.jpg"
+   },
+   {
+    "titulo": "[NEW] 알게 테라피 미네랄 워터 트리트먼트",
+    "url": "https://shopby-images.cdn-nhncommerce.com/Mall-No-rEpM/20261022/111102.524089080/[섬네일]알게_워터트리트먼트.jpg"
+   },
+   {
+    "titulo": "[비오틴샷] 리커버 테라피 헤어 부스터 세럼 EX",
+    "url": "https://shopby-images.cdn-nhncommerce.com/Mall-No-rEpM/20260813/000734.85335623/[섬네일]리커버_부스터세럼.jpg"
+   }
+  ],
+  "baixadas": []
+ },
+ "hince": {
+  "marca": "Hince",
+  "tentativas": [
+   "hince.co.kr: shopify HTTPError",
+   "hince.co.kr: woo HTTPError",
+   "hince.co.kr: html ok (12 og, 32 img)"
+  ],
+  "site": "hince.co.kr",
+  "metodo": "html",
+  "titulo_pagina": "hince",
+  "candidatos": [
+   {
+    "titulo": "hince",
+    "url": "https://hince.co.kr/web/upload/share-image-1-a36ad89eb396453022b80ff902532ee4.png"
+   },
+   {
+    "titulo": "hince",
+    "url": "https://hince.co.kr/web/upload/share-image-1-a36ad89eb396453022b80ff902532ee4.png"
+   },
+   {
+    "titulo": "hince",
+    "url": "https://hince.co.kr/web/upload/share-image-1-a36ad89eb396453022b80ff902532ee4.png"
+   },
+   {
+    "titulo": "hince",
+    "url": "https://hince.co.kr/web/upload/share-image-1-a36ad89eb396453022b80ff902532ee4.png"
+   },
+   {
+    "titulo": "hince",
+    "url": "https://hince.co.kr/web/upload/share-image-1-a36ad89eb396453022b80ff902532ee4.png"
+   },
+   {
+    "titulo": "hince",
+    "url": "https://hince.co.kr/web/upload/share-image-1-a36ad89eb396453022b80ff902532ee4.png"
+   },
+   {
+    "titulo": "SHOP - hince",
+    "url": "https://hince.co.kr/web/upload/share-image-1-a36ad89eb396453022b80ff902532ee4.png"
+   },
+   {
+    "titulo": "SHOP - hince",
+    "url": "https://hince.co.kr/web/upload/share-image-1-a36ad89eb396453022b80ff902532ee4.png"
+   },
+   {
+    "titulo": "SHOP - hince",
+    "url": "https://hince.co.kr/web/upload/share-image-1-a36ad89eb396453022b80ff902532ee4.png"
+   },
+   {
+    "titulo": "SHOP - hince",
+    "url": "https://hince.co.kr/web/upload/share-image-1-a36ad89eb396453022b80ff902532ee4.png"
+   },
+   {
+    "titulo": "SHOP - hince",
+    "url": "https://hince.co.kr/web/upload/share-image-1-a36ad89eb396453022b80ff902532ee4.png"
+   },
+   {
+    "titulo": "SHOP - hince",
+    "url": "https://hince.co.kr/web/upload/share-image-1-a36ad89eb396453022b80ff902532ee4.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://hince.co.kr/web/product/big/202610/dd0e315ca863a5ea40033b9cbb9743e2.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://hince.co.kr/web/product/small/202610/0f452e9c14a3b54d2b67cce6ec3a3154.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://hince.co.kr/web/product/big/202610/7fd7d352badfb9676f6114088269e4cd.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://hince.co.kr/web/product/small/202610/c77daf7a3e27f0459f8b408288d25dba.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://hince.co.kr/web/product/big/202609/72dfd41020da7f24c034872fd2262653.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://hince.co.kr/web/product/small/202609/bc60b0280f9ab7d926980c0fd9659ef0.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://hince.co.kr/web/product/big/202609/d1c7b04d79263d09d1997e4428c11882.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://hince.co.kr/web/product/small/202609/2bd6bac2a5fa70f6f06e0b2748598952.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://hince.co.kr/web/product/big/202609/260a9a03908722a8bfc7f95ad8afd35e.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://hince.co.kr/web/product/small/202609/413f856548e8977e616f9f32e2374718.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://hince.co.kr/web/product/big/202609/87ef87d4d72ad1864a6f9f6d3bab0ca8.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://hince.co.kr/web/product/small/202609/12a98858223f1d2fd7351e03de0014b0.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://hince.co.kr/web/product/big/202609/83500caa694452df58053d9baef5e980.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://hince.co.kr/web/product/small/202609/8dcbb587e1f7fca0ffdb92c8e2314f8a.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://hince.co.kr/web/product/big/202608/980dbf2a284ec36a774addbaf6f32b1d.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://hince.co.kr/web/product/small/202608/badf4f0b75ac7dd175618edd310ffd3f.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://hince.co.kr/web/product/big/202609/4817a009c886d283e2562be1ef707d78.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://hince.co.kr/web/product/small/202609/f0ddff7568b9d10f5da5407217490c33.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://hince.co.kr/web/product/big/202606/c065ace6734923c57ae6e10fe365e83b.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://hince.co.kr/web/product/small/202606/409c435b22f85c29e06fdd392f447c4d.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://hince.co.kr/web/product/big/202605/d2a793f41960a5495d868cce2ee17d44.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://hince.co.kr/web/product/small/202605/1d30ce86e446efe9a70639aa878d6c34.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://hince.co.kr/web/product/big/202610/10fd8e3e26bd3abeb3f1a4c0ea2495b8.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://hince.co.kr/web/product/small/202610/06c6d04eb29e2ed4010935d055a27cfa.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://hince.co.kr/web/product/big/202607/18fb48bf41c684fe0aa939044162cb9a.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://hince.co.kr/web/product/small/202607/34b37769249938d16affd757d49b89a4.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://hince.co.kr/web/product/big/202609/2fe89df5927166eca0ba696cbe259037.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://hince.co.kr/web/product/small/202609/66b4a857272f60234cbcf53bbe10f7b8.jpg"
+   }
+  ],
+  "baixadas": [
+   {
+    "titulo": "hince",
+    "url": "https://hince.co.kr/web/upload/share-image-1-a36ad89eb396453022b80ff902532ee4.png"
+   },
+   {
+    "titulo": "hince",
+    "url": "https://hince.co.kr/web/upload/share-image-1-a36ad89eb396453022b80ff902532ee4.png"
+   },
+   {
+    "titulo": "hince",
+    "url": "https://hince.co.kr/web/upload/share-image-1-a36ad89eb396453022b80ff902532ee4.png"
+   },
+   {
+    "titulo": "hince",
+    "url": "https://hince.co.kr/web/upload/share-image-1-a36ad89eb396453022b80ff902532ee4.png"
+   },
+   {
+    "titulo": "hince",
+    "url": "https://hince.co.kr/web/upload/share-image-1-a36ad89eb396453022b80ff902532ee4.png"
+   },
+   {
+    "titulo": "hince",
+    "url": "https://hince.co.kr/web/upload/share-image-1-a36ad89eb396453022b80ff902532ee4.png"
+   },
+   {
+    "titulo": "SHOP - hince",
+    "url": "https://hince.co.kr/web/upload/share-image-1-a36ad89eb396453022b80ff902532ee4.png"
+   },
+   {
+    "titulo": "SHOP - hince",
+    "url": "https://hince.co.kr/web/upload/share-image-1-a36ad89eb396453022b80ff902532ee4.png"
+   }
+  ]
+ },
+ "banila-co": {
+  "marca": "BANILA CO",
+  "tentativas": [
+   "banila.com: shopify HTTPError",
+   "banila.com: woo HTTPError",
+   "banila.com: html ok (14 og, 111 img)"
+  ],
+  "site": "banila.com",
+  "metodo": "html",
+  "titulo_pagina": "바닐라닷컴",
+  "candidatos": [
+   {
+    "titulo": "전체보기 - 전체보기",
+    "url": "https://banila.com/web/upload/share-image-1-e15c675e4975df95f2d5076a06067585.jpg"
+   },
+   {
+    "titulo": "[핫딜] 하이드레이팅 립 오일 (6colors)",
+    "url": "https://banila.com/web/product/big/202606/044b9e28d21d2e0eb460963cde408435.jpg"
+   },
+   {
+    "titulo": "[핫딜] 에센스 스킨 틴티드 모이스처라이저 (2colors)",
+    "url": "https://banila.com/web/product/big/202610/48f13ae5f30d048ea6b0b49d262d11f4.jpg"
+   },
+   {
+    "titulo": "전체보기 - 클렌징 밤",
+    "url": "https://banila.com/web/upload/share-image-1-e15c675e4975df95f2d5076a06067585.jpg"
+   },
+   {
+    "titulo": "[4종교차선택] 클린 잇 제로 클렌징밤 대용량 3개 골라담기 SET (증정: 핑크 메쉬 파우치)",
+    "url": "https://banila.com/web/product/big/202610/ff6e8672924f91dd9e573ad3c68e2de8.jpg"
+   },
+   {
+    "titulo": "정한PICK💗클린 잇 제로 오리지널 클렌징밤 대용량 180ml (증정: 오리지널밤 25ml)",
+    "url": "https://banila.com/web/product/big/202610/8d9ed0a2fa6c65568350bdd501689f26.jpg"
+   },
+   {
+    "titulo": "클린 잇 제로 버라이어티 트래블 키트 3ml*16개입",
+    "url": "https://banila.com/web/product/big/202606/d3fbe7b6aa74b037e3b32fa74b1fefcf.jpg"
+   },
+   {
+    "titulo": "전체보기 - 쿠션",
+    "url": "https://banila.com/web/upload/share-image-1-e15c675e4975df95f2d5076a06067585.jpg"
+   },
+   {
+    "titulo": "[품절템재입고] 화이트 쿠션 에어 미니 (2colors)",
+    "url": "https://banila.com/web/product/big/202608/e1a7041e24092803e3edfb34344a40f3.jpg"
+   },
+   {
+    "titulo": "화이트 쿠션 에어 본품+리필 (5colors)",
+    "url": "https://banila.com/web/product/big/202609/b2adbf392062576b99f229ede9a7f269.jpg"
+   },
+   {
+    "titulo": "[1+1] 커버리셔스 얼티밋 화이트 쿠션 에어 리필 (5colors)",
+    "url": "https://banila.com/web/product/big/202610/62cbb93616173d396263a43fc8ee814f.jpg"
+   },
+   {
+    "titulo": "전체보기 - 페이스 메이크업",
+    "url": "https://banila.com/web/upload/share-image-1-e15c675e4975df95f2d5076a06067585.jpg"
+   },
+   {
+    "titulo": "쉬어 블러 팟 (9colors)",
+    "url": "https://banila.com/web/product/big/202610/f5cff14b004c5fcb880525f529bd1bab.jpg"
+   },
+   {
+    "titulo": "로맨틱 블러쉬 립앤치크 (26colors)",
+    "url": "https://banila.com/web/product/big/202608/d6684034f172df5ce8f2fcd594cdfe87.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://www.banila.com/web/product/medium/202606/8829b0b859a0f94b9be7260c57506e31.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://www.banila.com/web/product/medium/202610/55bdc35a7291a309d03bacc239677d3d.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://www.banila.com/web/product/medium/202610/f8c3ef9e7b37b4aa710e756da7f3355f.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://www.banila.com/web/product/medium/202610/7ccebb7771e5107a4e865522846da9d4.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://www.banila.com/web/product/medium/202606/4038ac718c316aa464447793228d5df9.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://www.banila.com/web/product/medium/202608/6dd2e3e001ea0b44141848e90a556882.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://www.banila.com/web/product/medium/202609/6947a5ffc3c50b551ec2f60cbb15b94b.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://www.banila.com/web/product/medium/202610/a1899595cda013dbd381869c1a84f2dd.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://www.banila.com/web/product/medium/202610/ef9e28745127395b54cfd395208cd275.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://www.banila.com/web/product/medium/202608/219ec435dfbcd389352ff7a5bb8e79ec.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://www.banila.com/web/product/medium/202608/37ec86168522e0b8d6ca1812f7a15e95.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://www.banila.com/web/product/medium/202610/7a4bc6f42c5e0c01f41d495cb081cff4.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://www.banila.com/web/product/medium/202609/ff9b1dad0a09a66ae8b5830b0e2b86ac.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://www.banila.com/web/product/medium/202610/d9a2a394d0d223cd8342b6ad806dcd63.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://www.banila.com/web/product/medium/202610/28fb9a1b0b1321f58fe90aed3b0cf071.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://www.banila.com/web/product/medium/202610/6266f340fe75080e0defc3d18841e0ce.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://www.banila.com/web/product/medium/202610/de3243f32f8cf0ee225f4e41b7e5ce28.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://www.banila.com/web/product/medium/202610/7f0d6b583f9ea1be62f6d5b532a77f97.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://www.banila.com/web/product/medium/202610/3576f29d0c395a76f91a3a441cc34b55.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://www.banila.com/web/product/medium/202610/c00ccec9c79a65ccb7bb0edfa236d532.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://www.banila.com/web/product/medium/202610/92f643b2dc511af5b67f2e9f226be8cd.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://www.banila.com/web/product/medium/202610/002d508a9817069eff7d3537afe2be5a.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://www.banila.com/web/product/medium/202610/65659dd10d5bd89feb42d1d12595e403.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://www.banila.com/web/product/medium/202610/73364ba2c8420aaca7bf3a8753bd7e8a.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://www.banila.com/web/product/medium/202610/adfd385730c31164a53b036085f1ffb1.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://www.banila.com/web/product/medium/202610/3d3c055f2ce9863fa86b527a61f016a8.jpg"
+   }
+  ],
+  "baixadas": [
+   {
+    "titulo": "전체보기 - 전체보기",
+    "url": "https://banila.com/web/upload/share-image-1-e15c675e4975df95f2d5076a06067585.jpg"
+   },
+   {
+    "titulo": "[핫딜] 하이드레이팅 립 오일 (6colors)",
+    "url": "https://banila.com/web/product/big/202606/044b9e28d21d2e0eb460963cde408435.jpg"
+   },
+   {
+    "titulo": "[핫딜] 에센스 스킨 틴티드 모이스처라이저 (2colors)",
+    "url": "https://banila.com/web/product/big/202610/48f13ae5f30d048ea6b0b49d262d11f4.jpg"
+   },
+   {
+    "titulo": "전체보기 - 클렌징 밤",
+    "url": "https://banila.com/web/upload/share-image-1-e15c675e4975df95f2d5076a06067585.jpg"
+   },
+   {
+    "titulo": "[4종교차선택] 클린 잇 제로 클렌징밤 대용량 3개 골라담기 SET (증정: 핑크 메쉬 파우치)",
+    "url": "https://banila.com/web/product/big/202610/ff6e8672924f91dd9e573ad3c68e2de8.jpg"
+   },
+   {
+    "titulo": "정한PICK💗클린 잇 제로 오리지널 클렌징밤 대용량 180ml (증정: 오리지널밤 25ml)",
+    "url": "https://banila.com/web/product/big/202610/8d9ed0a2fa6c65568350bdd501689f26.jpg"
+   },
+   {
+    "titulo": "클린 잇 제로 버라이어티 트래블 키트 3ml*16개입",
+    "url": "https://banila.com/web/product/big/202606/d3fbe7b6aa74b037e3b32fa74b1fefcf.jpg"
+   },
+   {
+    "titulo": "전체보기 - 쿠션",
+    "url": "https://banila.com/web/upload/share-image-1-e15c675e4975df95f2d5076a06067585.jpg"
+   }
+  ]
+ },
+ "dr-reju-all": {
+  "marca": "Dr. Reju-All",
+  "tentativas": [
+   "drrejuall.com: shopify ok (13)"
+  ],
+  "site": "drrejuall.com",
+  "metodo": "shopify",
+  "titulo_pagina": "",
+  "candidatos": [
+   {
+    "titulo": "PDRN Essentials Trio: Advanced PDRN Rejuvenating Cream with Lip Serum & Mask",
+    "url": "https://cdn.shopify.com/s/files/1/0763/7965/2316/files/SkinEssentialsTrio__1.jpg?v=1790042716"
+   },
+   {
+    "titulo": "PDRN Glow Skin & Lip Duo: Advanced PDRN Rejuvenating Cream + Advanced PDRN Rejuvenating Lip Serum",
+    "url": "https://cdn.shopify.com/s/files/1/0763/7965/2316/files/01_12d202e4-6e52-44ba-8bff-1a51e6ef6aa2.jpg?v=1788310452"
+   },
+   {
+    "titulo": "The Curated Essentials Bundle: PDRN Copper Peptide Serum + PDRN Cream + LC-Ceramide Barrier Cream + PDRN Mask",
+    "url": "https://cdn.shopify.com/s/files/1/0763/7965/2316/files/TheCuratedEssentialsBundle__1.jpg?v=1786675855"
+   },
+   {
+    "titulo": "PDRN Plumping Duo: Advanced PDRN Copper Peptide Serum + Advanced PDRN Rejuvenating Lip Serum",
+    "url": "https://cdn.shopify.com/s/files/1/0763/7965/2316/files/PDRNPlumpingDuo__1.png?v=1786353220"
+   },
+   {
+    "titulo": "Firming & Glass Skin Duo: Advanced PDRN Copper Peptide Serum + Advanced PDRN Rejuvenating Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0763/7965/2316/files/Firming_GlassSkinDuo__1.png?v=1786346744"
+   },
+   {
+    "titulo": "Advanced PDRN Copper Peptide Serum",
+    "url": "https://cdn.shopify.com/s/files/1/0763/7965/2316/files/2dd244e74d61bc7b533a1ad465f81930_af347edc-12dd-4424-a99f-85c4c63d8b07.jpg?v=1786082791"
+   },
+   {
+    "titulo": "Advanced PDRN Hair Density Scalp Serum",
+    "url": "https://cdn.shopify.com/s/files/1/0763/7965/2316/files/6f4cb2516c4c479c16359c7e9b129bc9_efe6d384-5757-4d78-b13a-61c33ebd4554.jpg?v=1786082870"
+   },
+   {
+    "titulo": "Advanced PDRN Rejuvenating Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0763/7965/2316/files/PDRN.jpg?v=1786083499"
+   },
+   {
+    "titulo": "Advanced Skincare System",
+    "url": "https://cdn.shopify.com/s/files/1/0763/7965/2316/files/61OhXrmujZL._SL1500.jpg?v=1772569002"
+   },
+   {
+    "titulo": "Advanced PDRN Rejuvenating Mask",
+    "url": "https://cdn.shopify.com/s/files/1/0763/7965/2316/files/PDRNMask.jpg?v=1786083642"
+   },
+   {
+    "titulo": "Advanced PDRN Rejuvenating Lip Serum",
+    "url": "https://cdn.shopify.com/s/files/1/0763/7965/2316/files/PDRN_Lip_Serum_960c47a3-706b-4b11-8f39-e712dea15dbe.jpg?v=1786083233"
+   },
+   {
+    "titulo": "Advanced LC-Ceramide Barrier Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0763/7965/2316/files/CERAMIDE.jpg?v=1786082709"
+   },
+   {
+    "titulo": "Advanced Retino-Mela Serum",
+    "url": "https://cdn.shopify.com/s/files/1/0763/7965/2316/files/2dd244e74d61bc7b533a1ad465f81930.jpg?v=1786079594"
+   }
+  ],
+  "vendors": [
+   "Dr.Reju-All"
+  ],
+  "baixadas": [
+   {
+    "titulo": "PDRN Essentials Trio: Advanced PDRN Rejuvenating Cream with Lip Serum & Mask",
+    "url": "https://cdn.shopify.com/s/files/1/0763/7965/2316/files/SkinEssentialsTrio__1.jpg?v=1790042716"
+   },
+   {
+    "titulo": "PDRN Glow Skin & Lip Duo: Advanced PDRN Rejuvenating Cream + Advanced PDRN Rejuvenating Lip Serum",
+    "url": "https://cdn.shopify.com/s/files/1/0763/7965/2316/files/01_12d202e4-6e52-44ba-8bff-1a51e6ef6aa2.jpg?v=1788310452"
+   },
+   {
+    "titulo": "PDRN Plumping Duo: Advanced PDRN Copper Peptide Serum + Advanced PDRN Rejuvenating Lip Serum",
+    "url": "https://cdn.shopify.com/s/files/1/0763/7965/2316/files/PDRNPlumpingDuo__1.png?v=1786353220"
+   },
+   {
+    "titulo": "Firming & Glass Skin Duo: Advanced PDRN Copper Peptide Serum + Advanced PDRN Rejuvenating Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0763/7965/2316/files/Firming_GlassSkinDuo__1.png?v=1786346744"
+   },
+   {
+    "titulo": "Advanced PDRN Rejuvenating Cream",
+    "url": "https://cdn.shopify.com/s/files/1/0763/7965/2316/files/PDRN.jpg?v=1786083499"
+   },
+   {
+    "titulo": "Advanced PDRN Rejuvenating Mask",
+    "url": "https://cdn.shopify.com/s/files/1/0763/7965/2316/files/PDRNMask.jpg?v=1786083642"
+   },
+   {
+    "titulo": "Advanced PDRN Rejuvenating Lip Serum",
+    "url": "https://cdn.shopify.com/s/files/1/0763/7965/2316/files/PDRN_Lip_Serum_960c47a3-706b-4b11-8f39-e712dea15dbe.jpg?v=1786083233"
+   },
+   {
+    "titulo": "The Curated Essentials Bundle: PDRN Copper Peptide Serum + PDRN Cream + LC-Ceramide Barrier Cream + PDRN Mask",
+    "url": "https://cdn.shopify.com/s/files/1/0763/7965/2316/files/TheCuratedEssentialsBundle__1.jpg?v=1786675855"
+   }
+  ]
+ },
+ "coeval": {
+  "marca": "COEVAL",
+  "tentativas": [
+   "coeval.co.kr: shopify URLError",
+   "coeval.co.kr: woo URLError",
+   "coeval.co.kr: html URLError",
+   "coeval.us: shopify HTTPError",
+   "coeval.us: woo HTTPError",
+   "coeval.us: html sem produtos (CoEval | Collective Evaluation for AI & Life Sciences)",
+   "coevalbeauty.com: shopify URLError",
+   "coevalbeauty.com: woo URLError",
+   "coevalbeauty.com: html URLError"
+  ],
+  "site": "",
+  "metodo": "",
+  "titulo_pagina": "",
+  "candidatos": [],
+  "baixadas": []
+ },
+ "unove": {
+  "marca": "UNOVE",
+  "tentativas": [
+   "unove.co.kr: shopify URLError",
+   "unove.co.kr: woo URLError",
+   "unove.co.kr: html URLError",
+   "unove.us: shopify URLError",
+   "unove.us: woo URLError",
+   "unove.us: html URLError",
+   "unove.com: shopify URLError",
+   "unove.com: woo URLError",
+   "unove.com: html URLError",
+   "unove.global: shopify URLError",
+   "unove.global: woo URLError",
+   "unove.global: html URLError"
+  ],
+  "site": "",
+  "metodo": "",
+  "titulo_pagina": "",
+  "candidatos": [],
+  "baixadas": []
+ },
+ "lily-eve": {
+  "marca": "LILY EVE",
+  "tentativas": [
+   "lilyeve.co.kr: shopify URLError",
+   "lilyeve.co.kr: woo URLError",
+   "lilyeve.co.kr: html URLError",
+   "lilyeve.com: shopify URLError",
+   "lilyeve.com: woo URLError",
+   "lilyeve.com: html URLError",
+   "lilyeve.us: shopify URLError",
+   "lilyeve.us: woo URLError",
+   "lilyeve.us: html URLError"
+  ],
+  "site": "",
+  "metodo": "",
+  "titulo_pagina": "",
+  "candidatos": [],
+  "baixadas": []
+ },
+ "addict": {
+  "marca": "A'ddict",
+  "tentativas": [
+   "addict.co.kr: shopify URLError",
+   "addict.co.kr: woo URLError",
+   "addict.co.kr: html URLError",
+   "addictcosmetics.com: shopify URLError",
+   "addictcosmetics.com: woo URLError",
+   "addictcosmetics.com: html URLError"
+  ],
+  "site": "",
+  "metodo": "",
+  "titulo_pagina": "",
+  "candidatos": [],
+  "baixadas": []
+ },
+ "ts-shampoo": {
+  "marca": "TS Shampoo",
+  "tentativas": [
+   "tsshampoo.com: shopify URLError",
+   "tsshampoo.com: woo URLError",
+   "tsshampoo.com: html URLError",
+   "tstrillion.co.kr: shopify HTTPError",
+   "tstrillion.co.kr: woo HTTPError",
+   "tstrillion.co.kr: html sem produtos (홈페이지 - TS트릴리온)",
+   "tsmall.co.kr: shopify URLError",
+   "tsmall.co.kr: woo URLError",
+   "tsmall.co.kr: html URLError"
+  ],
+  "site": "",
+  "metodo": "",
+  "titulo_pagina": "",
+  "candidatos": [],
+  "baixadas": []
+ },
+ "freshian": {
+  "marca": "freshian",
+  "tentativas": [
+   "freshian.com: shopify HTTPError",
+   "freshian.com: woo HTTPError",
+   "freshian.com: html ok (12 og, 4 img)"
+  ],
+  "site": "freshian.com",
+  "metodo": "html",
+  "titulo_pagina": "프레시안 (Freshian)",
+  "candidatos": [
+   {
+    "titulo": "프레시안",
+    "url": "https://freshian.com/layout/basic/img/asset/og.jpg"
+   },
+   {
+    "titulo": "프레시안",
+    "url": "https://freshian.com/layout/basic/img/asset/og.jpg"
+   },
+   {
+    "titulo": "프레시안",
+    "url": "https://freshian.com/layout/basic/img/asset/og.jpg"
+   },
+   {
+    "titulo": "프레시안",
+    "url": "https://freshian.com/layout/basic/img/asset/og.jpg"
+   },
+   {
+    "titulo": "프레시안",
+    "url": "https://freshian.com/layout/basic/img/asset/og.jpg"
+   },
+   {
+    "titulo": "프레시안",
+    "url": "https://freshian.com/layout/basic/img/asset/og.jpg"
+   },
+   {
+    "titulo": "프레시안",
+    "url": "https://freshian.com/layout/basic/img/asset/og.jpg"
+   },
+   {
+    "titulo": "프레시안",
+    "url": "https://freshian.com/layout/basic/img/asset/og.jpg"
+   },
+   {
+    "titulo": "프레시안",
+    "url": "https://freshian.com/layout/basic/img/asset/og.jpg"
+   },
+   {
+    "titulo": "프레시안",
+    "url": "https://freshian.com/layout/basic/img/asset/og.jpg"
+   },
+   {
+    "titulo": "프레시안",
+    "url": "https://freshian.com/layout/basic/img/asset/og.jpg"
+   },
+   {
+    "titulo": "프레시안",
+    "url": "https://freshian.com/layout/basic/img/asset/og.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://freshian.com/web/product/small/202512/a4f7c7a55123051236d3c954013cc60a.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://freshian.com/web/product/small/202512/97cfe110c010665c1c7f91a1a7e34ad8.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://freshian.com/web/product/small/202512/5b932ef6804634d660b480f4d3a1bd72.png"
+   },
+   {
+    "titulo": "home",
+    "url": "https://freshian.com/web/product/small/202512/50795bf56115552042d3ccf8a0524646.png"
+   }
+  ],
+  "baixadas": [
+   {
+    "titulo": "프레시안",
+    "url": "https://freshian.com/layout/basic/img/asset/og.jpg"
+   },
+   {
+    "titulo": "프레시안",
+    "url": "https://freshian.com/layout/basic/img/asset/og.jpg"
+   },
+   {
+    "titulo": "프레시안",
+    "url": "https://freshian.com/layout/basic/img/asset/og.jpg"
+   },
+   {
+    "titulo": "프레시안",
+    "url": "https://freshian.com/layout/basic/img/asset/og.jpg"
+   },
+   {
+    "titulo": "프레시안",
+    "url": "https://freshian.com/layout/basic/img/asset/og.jpg"
+   },
+   {
+    "titulo": "프레시안",
+    "url": "https://freshian.com/layout/basic/img/asset/og.jpg"
+   },
+   {
+    "titulo": "프레시안",
+    "url": "https://freshian.com/layout/basic/img/asset/og.jpg"
+   },
+   {
+    "titulo": "프레시안",
+    "url": "https://freshian.com/layout/basic/img/asset/og.jpg"
+   }
+  ]
+ },
+ "gyeol-haus": {
+  "marca": "GYEOL HAUS",
+  "tentativas": [
+   "gyeolhaus.com: shopify HTTPError",
+   "gyeolhaus.com: woo HTTPError",
+   "gyeolhaus.com: html sem produtos (GYEOL HAUS — Coming Soon Internationally)",
+   "gyeolhaus.co.kr: shopify HTTPError",
+   "gyeolhaus.co.kr: woo HTTPError",
+   "gyeolhaus.co.kr: html ok (1 og, 14 img)"
+  ],
+  "site": "gyeolhaus.co.kr",
+  "metodo": "html",
+  "titulo_pagina": "GYEOL HAUS",
+  "candidatos": [
+   {
+    "titulo": "PRODUCT - PRODUCT - 결 하우스",
+    "url": "https://gyeolhaus.co.kr/web/upload/share-image-1-79dc24316ccd5780892809cd7cb9a6ce.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://gyeolhaus.co.kr/web/product/medium/202610/fdc765f275f104634aee27f1c0dd6ba9.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://gyeolhaus.co.kr/web/product/medium/202610/c2c6979b3ea0b015580713dd709af555.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://gyeolhaus.co.kr/web/product/medium/202610/42c8d977283ecc01c2a4ac4ee3bfa3fc.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://gyeolhaus.co.kr/web/product/medium/202610/5018109b0568430199c7baa1a4a31527.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://gyeolhaus.co.kr/web/product/medium/202610/14e9953920e9f981c8359399700140bc.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://gyeolhaus.co.kr/web/product/medium/202607/76037e6294c526bbf983d14620127837.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://gyeolhaus.co.kr/web/product/medium/202606/887cbae22fd42c6d0f3c2f78634312bc.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://gyeolhaus.co.kr/web/product/medium/202605/6c62844e6c53ecbc7eb2036991f0ea87.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://gyeolhaus.co.kr/web/product/medium/202605/979c980ff5dd86082de1204294b43bb2.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://gyeolhaus.co.kr/web/product/medium/202605/40abba8f36f03cbd21697453b31cb4ed.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://gyeolhaus.co.kr/web/product/medium/202605/ce757dbd8cbc099960d7e37e08d2b276.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://gyeolhaus.co.kr/web/product/medium/202605/4c7546bc3646f393786e92343bbaf758.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://gyeolhaus.co.kr/web/product/medium/202605/ccd3632d62510eb01bbcbee9af158963.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://gyeolhaus.co.kr/web/product/medium/202605/ab4a6e9679afd02d89f62cb5ddddf9fb.jpg"
+   }
+  ],
+  "baixadas": [
+   {
+    "titulo": "PRODUCT - PRODUCT - 결 하우스",
+    "url": "https://gyeolhaus.co.kr/web/upload/share-image-1-79dc24316ccd5780892809cd7cb9a6ce.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://gyeolhaus.co.kr/web/product/medium/202610/fdc765f275f104634aee27f1c0dd6ba9.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://gyeolhaus.co.kr/web/product/medium/202610/c2c6979b3ea0b015580713dd709af555.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://gyeolhaus.co.kr/web/product/medium/202610/42c8d977283ecc01c2a4ac4ee3bfa3fc.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://gyeolhaus.co.kr/web/product/medium/202610/5018109b0568430199c7baa1a4a31527.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://gyeolhaus.co.kr/web/product/medium/202610/14e9953920e9f981c8359399700140bc.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://gyeolhaus.co.kr/web/product/medium/202607/76037e6294c526bbf983d14620127837.jpg"
+   },
+   {
+    "titulo": "home",
+    "url": "https://gyeolhaus.co.kr/web/product/medium/202606/887cbae22fd42c6d0f3c2f78634312bc.jpg"
+   }
+  ]
+ },
+ "arcanic": {
+  "marca": "ARCANIC",
+  "tentativas": [
+   "arcanic.co.kr: shopify URLError",
+   "arcanic.co.kr: woo URLError",
+   "arcanic.co.kr: html URLError",
+   "arcanic.com: shopify URLError",
+   "arcanic.com: woo URLError",
+   "arcanic.com: html URLError"
+  ],
+  "site": "",
+  "metodo": "",
+  "titulo_pagina": "",
+  "candidatos": [],
+  "baixadas": []
+ },
+ "the-kyeok": {
+  "marca": "THE KYEOK",
+  "tentativas": [
+   "thekyeok.com: shopify URLError",
+   "thekyeok.com: woo URLError",
+   "thekyeok.com: html URLError",
+   "thekyeok.co.kr: shopify URLError",
+   "thekyeok.co.kr: woo URLError",
+   "thekyeok.co.kr: html URLError",
+   "thekyeok.kr: shopify HTTPError",
+   "thekyeok.kr: woo HTTPError",
+   "thekyeok.kr: html sem produtos (더격 THE KYEOK)"
+  ],
+  "site": "",
+  "metodo": "",
+  "titulo_pagina": "",
+  "candidatos": [],
+  "baixadas": []
+ }
+}
