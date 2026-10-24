@@ -189,7 +189,7 @@ corpo = f"""<div class="omg-ajuda">
 <label class="busca"><span aria-hidden="true">🔍</span><input id="omg-busca" type="search" placeholder="Busque: prazo, imposto, CPF, devolução…" aria-label="Buscar na Central de Ajuda"></label></div>
 <div class="grade">
 <aside class="lado" aria-label="Categorias"><div class="tit">Categorias</div><button type="button" class="mi mi-inicio"><span>Início</span><small></small></button>{''.join(menu)}
-<div class="contato"><b>Ainda com dúvida?</b><br>WhatsApp: {inline('[A DEFINIR #D1: número do WhatsApp]')}<br>E-mail: <a href="mailto:{C.EMAIL}">{C.EMAIL}</a></div></aside>
+<div class="contato"><b>Ainda com dúvida?</b><br>WhatsApp: <a href="https://wa.me/5511945884562" target="_blank" rel="noopener">+55 11 94588-4562</a><br>E-mail: <a href="mailto:{C.EMAIL}">{C.EMAIL}</a></div></aside>
 <main>
 <select class="sel" aria-label="Categoria"><option value="">Início · todas as categorias</option>{opts}</select>
 <div class="home">
