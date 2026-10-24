@@ -2,7 +2,7 @@ name: Sondar fontes de fotos das marcas
 on:
   push:
     branches: [main]
-    paths: ['tools/fontes/candidatos.txt', 'tools/fontes/sondar.py']
+    paths: ['tools/fontes/candidatos.txt', 'tools/fontes/sondar.py', 'tools/fontes/baixar_catalogos.py']
   workflow_dispatch:
 permissions:
   contents: write
@@ -12,9 +12,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: python3 tools/fontes/sondar.py
+      - run: python3 tools/fontes/baixar_catalogos.py
       - name: Guardar resultado
         run: |
           git config user.name "omg-bot"; git config user.email "bot@ohmygirl.com.br"
-          git add tools/fontes/resultado.csv
+          git add tools/fontes/resultado.csv tools/fontes/catalogos
           git commit -m "Resultado da sondagem de fontes de fotos" || true
           git push
