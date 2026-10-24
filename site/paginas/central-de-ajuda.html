@@ -1,47 +1,72 @@
 <div class="omg-ajuda">
 <style>
-.omg-ajuda{--chiclete:#F48FB1;--framboesa:#D9577F;--pri:#B83D66;--bebe:#FDE4EC;--creme:#FFF9F6;--ameixa:#4A2638;--menta:#9EDFC4;
- font-family:Poppins,"Helvetica Neue",Arial,sans-serif;color:var(--ameixa);background:var(--creme);max-width:980px;margin:0 auto;padding:24px 16px 48px;line-height:1.55;font-size:15px}
+.omg-ajuda{--chiclete:#F48FB1;--framboesa:#D9577F;--pri:#B83D66;--bebe:#FDE4EC;--creme:#FFF9F6;--ameixa:#4A2638;--menta:#9EDFC4;--linha:#F6E2E9;--muted:#7A5566;
+ font-family:Poppins,"Helvetica Neue",Arial,sans-serif;color:var(--ameixa);background:var(--creme);max-width:1180px;margin:0 auto;padding:20px 16px 48px;line-height:1.55;font-size:14px}
 .omg-ajuda *{box-sizing:border-box}
-.omg-ajuda .topo{text-align:center;padding:8px 0 18px}
-.omg-ajuda .topo h1{font-size:clamp(24px,4vw,34px);margin:0 0 6px;color:var(--ameixa);font-weight:800}
-.omg-ajuda .topo p{margin:0;color:#7A5566}
-.omg-ajuda .busca{display:flex;gap:8px;align-items:center;background:#fff;border:2px solid var(--bebe);border-radius:999px;padding:10px 16px;margin:16px auto 14px;max-width:620px}
+.omg-ajuda .topo{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:6px 0 16px;border-bottom:1px solid var(--linha);margin-bottom:18px}
+.omg-ajuda .topo h1{font-size:clamp(22px,3vw,28px);margin:0 0 4px;font-weight:800}
+.omg-ajuda .topo p{margin:0;color:var(--muted);font-size:13px}
+.omg-ajuda .busca{display:flex;gap:8px;align-items:center;background:#fff;border:1px solid var(--bebe);border-radius:999px;padding:8px 14px;flex:0 1 380px}
 .omg-ajuda .busca input{flex:1;border:0;outline:0;font:inherit;color:inherit;background:transparent;min-width:0}
-.omg-ajuda .chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:22px}
-.omg-ajuda .chip{border:1px solid var(--bebe);background:#fff;color:var(--pri);border-radius:999px;padding:6px 14px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
-.omg-ajuda .chip.on,.omg-ajuda .chip:hover{background:var(--pri);color:#fff;border-color:var(--pri)}
-.omg-ajuda .destaques{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:26px}
-.omg-ajuda .destaques div{background:#fff;border:1px solid var(--bebe);border-radius:16px;padding:14px}
-.omg-ajuda .destaques b{display:block;color:var(--pri);margin-bottom:4px}
-.omg-ajuda .cat{margin:0 0 26px}
-.omg-ajuda .cat h2{font-size:20px;margin:0 0 2px;color:var(--ameixa)}
-.omg-ajuda .cat .desc{margin:0 0 10px;color:#7A5566;font-size:13.5px}
-.omg-ajuda details.q{background:#fff;border:1px solid var(--bebe);border-radius:14px;margin:8px 0;overflow:hidden}
-.omg-ajuda details.q summary{cursor:pointer;padding:13px 44px 13px 16px;font-weight:600;list-style:none;position:relative}
+.omg-ajuda .grade{display:grid;grid-template-columns:240px minmax(0,1fr);gap:28px;align-items:start}
+.omg-ajuda .lado{position:sticky;top:16px;background:#fff;border:1px solid var(--linha);border-radius:14px;padding:8px}
+.omg-ajuda .lado .tit{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:8px 10px 6px}
+.omg-ajuda .mi{display:flex;width:100%;justify-content:space-between;align-items:center;gap:8px;text-align:left;border:0;background:none;font:inherit;font-size:13.5px;color:var(--ameixa);padding:8px 10px;border-radius:9px;cursor:pointer}
+.omg-ajuda .mi small{color:var(--muted);font-size:11px}
+.omg-ajuda .mi:hover{background:var(--creme)}
+.omg-ajuda .mi.on{background:var(--bebe);color:var(--pri);font-weight:600}
+.omg-ajuda .mi.on small{color:var(--pri)}
+.omg-ajuda .sel{display:none;width:100%;padding:10px 12px;border:1px solid var(--bebe);border-radius:12px;background:#fff;font:inherit;color:inherit;margin-bottom:14px}
+.omg-ajuda .destaques{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:22px}
+.omg-ajuda .destaques div{background:#fff;border:1px solid var(--linha);border-radius:14px;padding:14px;font-size:13px}
+.omg-ajuda .destaques b{display:block;color:var(--pri);margin-bottom:4px;font-size:14px}
+.omg-ajuda .pops{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.omg-ajuda .pop{background:#fff;border:1px solid var(--linha);border-radius:14px;padding:12px 14px}
+.omg-ajuda .pt{border:0;background:none;font:inherit;font-weight:700;color:var(--ameixa);padding:0;cursor:pointer;font-size:14.5px}
+.omg-ajuda .pt:hover{color:var(--pri)}
+.omg-ajuda .pop ul{margin:6px 0 0;padding-left:18px}
+.omg-ajuda .pop li{margin:3px 0;font-size:13px}
+.omg-ajuda .pop a{color:var(--muted);text-decoration:none}
+.omg-ajuda .pop a:hover{color:var(--pri);text-decoration:underline}
+.omg-ajuda h2.inicio{font-size:17px;margin:0 0 10px}
+.omg-ajuda .cat{display:none;margin:0 0 20px}
+.omg-ajuda.busca-on .cat,.omg-ajuda .cat.on{display:block}
+.omg-ajuda.busca-on .home,.omg-ajuda.cat-on .home{display:none}
+.omg-ajuda .cat h2{font-size:20px;margin:0 0 2px}
+.omg-ajuda .cat .desc{margin:0 0 10px;color:var(--muted);font-size:13px}
+.omg-ajuda details.q{background:#fff;border:1px solid var(--linha);border-radius:12px;margin:7px 0;overflow:hidden}
+.omg-ajuda details.q summary{cursor:pointer;padding:11px 40px 11px 14px;font-weight:600;list-style:none;position:relative;font-size:14px}
 .omg-ajuda details.q summary::-webkit-details-marker{display:none}
-.omg-ajuda details.q summary::after{content:"+";position:absolute;right:16px;top:10px;font-size:22px;color:var(--framboesa)}
+.omg-ajuda details.q summary::after{content:"+";position:absolute;right:14px;top:7px;font-size:20px;color:var(--framboesa)}
 .omg-ajuda details.q[open] summary::after{content:"–"}
 .omg-ajuda details.q[open] summary{background:var(--bebe)}
-.omg-ajuda .r{padding:4px 16px 14px}
-.omg-ajuda .r p{margin:10px 0}
+.omg-ajuda .r{padding:2px 14px 12px}
+.omg-ajuda .r p{margin:9px 0}
 .omg-ajuda .r ul,.omg-ajuda .r ol{margin:8px 0;padding-left:22px}
 .omg-ajuda .r li{margin:4px 0}
 .omg-ajuda .r a{color:var(--pri)}
-.omg-ajuda .aviso{background:var(--creme);border-left:4px solid var(--menta);padding:8px 12px;border-radius:8px;font-size:13.5px}
+.omg-ajuda .aviso{background:#fff;border-left:4px solid var(--menta);padding:8px 12px;border-radius:8px;font-size:12.5px}
 .omg-ajuda mark.pend{background:#FFE08A;color:#5a3b00;border:1px dashed #C78A00;border-radius:6px;padding:0 4px;font-weight:600}
-.omg-ajuda .vazio{display:none;text-align:center;color:#7A5566;padding:20px}
-.omg-ajuda .contato{background:var(--pri);color:#fff;border-radius:20px;padding:20px;text-align:center;margin-top:30px}
+.omg-ajuda .vazio{display:none;text-align:center;color:var(--muted);padding:20px}
+.omg-ajuda .contato{background:var(--pri);color:#fff;border-radius:14px;padding:14px;margin-top:10px;font-size:13px}
 .omg-ajuda .contato a{color:#fff;font-weight:700}
-@media (max-width:640px){.omg-ajuda{font-size:14px;padding:16px 12px 40px}.omg-ajuda .destaques{grid-template-columns:1fr}.omg-ajuda .chips{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px}.omg-ajuda .chip{flex:none}}
+@media (max-width:820px){.omg-ajuda .grade{grid-template-columns:minmax(0,1fr)}.omg-ajuda .lado{display:none}.omg-ajuda .sel{display:block}.omg-ajuda .destaques,.omg-ajuda .pops{grid-template-columns:minmax(0,1fr)}.omg-ajuda .busca{flex:1 1 100%}}
 </style>
-<div class="topo"><h1>Central de Ajuda</h1><p>Oi! Aqui você encontra tudo sobre pedidos, impostos, entrega e skincare. Não achou? Fale com a gente. 💗</p></div>
-<label class="busca"><span aria-hidden="true">🔍</span><input id="omg-busca" type="search" placeholder="Busque: prazo, imposto, CPF, devolução…" aria-label="Buscar na Central de Ajuda"></label>
-<div class="chips"><button type="button" class="chip" data-cat="sobre">Sobre a OMG</button><button type="button" class="chip" data-cat="remessa-conforme">Remessa Conforme e impostos</button><button type="button" class="chip" data-cat="pedidos">Pedidos e compras</button><button type="button" class="chip" data-cat="pagamento">Pagamento</button><button type="button" class="chip" data-cat="entrega">Frete, prazo e entrega</button><button type="button" class="chip" data-cat="rastreio">Rastreamento</button><button type="button" class="chip" data-cat="devolucoes">Trocas, devoluções e reembolsos</button><button type="button" class="chip" data-cat="autenticidade">Autenticidade e origem</button><button type="button" class="chip" data-cat="produtos">Produtos e restrições</button><button type="button" class="chip" data-cat="skincare">Rotina de skincare</button><button type="button" class="chip" data-cat="conta">Minha conta e privacidade</button><button type="button" class="chip" data-cat="cupons">Cupons, promoções e fidelidade</button><button type="button" class="chip" data-cat="avaliacoes">Avaliações e conteúdo</button><button type="button" class="chip" data-cat="afiliados">Afiliados e influenciadores</button><button type="button" class="chip" data-cat="golpes">Golpes e sites falsos</button><button type="button" class="chip" data-cat="contato">Fale com a gente</button></div>
+<div class="topo"><div><h1>Central de Ajuda</h1><p>Pedidos, impostos, entrega e skincare. Não achou? Fale com a gente. 💗</p></div>
+<label class="busca"><span aria-hidden="true">🔍</span><input id="omg-busca" type="search" placeholder="Busque: prazo, imposto, CPF, devolução…" aria-label="Buscar na Central de Ajuda"></label></div>
+<div class="grade">
+<aside class="lado" aria-label="Categorias"><div class="tit">Categorias</div><button type="button" class="mi mi-inicio"><span>Início</span><small></small></button><button type="button" class="mi" data-cat="sobre"><span>Sobre a OMG</span><small>8</small></button><button type="button" class="mi" data-cat="remessa-conforme"><span>Remessa Conforme e impostos</span><small>16</small></button><button type="button" class="mi" data-cat="pedidos"><span>Pedidos e compras</span><small>17</small></button><button type="button" class="mi" data-cat="pagamento"><span>Pagamento</span><small>12</small></button><button type="button" class="mi" data-cat="entrega"><span>Frete, prazo e entrega</span><small>14</small></button><button type="button" class="mi" data-cat="rastreio"><span>Rastreamento</span><small>8</small></button><button type="button" class="mi" data-cat="devolucoes"><span>Trocas, devoluções e reembolsos</span><small>11</small></button><button type="button" class="mi" data-cat="autenticidade"><span>Autenticidade e origem</span><small>7</small></button><button type="button" class="mi" data-cat="produtos"><span>Produtos e restrições</span><small>11</small></button><button type="button" class="mi" data-cat="skincare"><span>Rotina de skincare</span><small>14</small></button><button type="button" class="mi" data-cat="conta"><span>Minha conta e privacidade</span><small>8</small></button><button type="button" class="mi" data-cat="cupons"><span>Cupons, promoções e fidelidade</span><small>9</small></button><button type="button" class="mi" data-cat="avaliacoes"><span>Avaliações e conteúdo</span><small>4</small></button><button type="button" class="mi" data-cat="afiliados"><span>Afiliados e influenciadores</span><small>4</small></button><button type="button" class="mi" data-cat="golpes"><span>Golpes e sites falsos</span><small>5</small></button><button type="button" class="mi" data-cat="contato"><span>Fale com a gente</span><small>5</small></button>
+<div class="contato"><b>Ainda com dúvida?</b><br>WhatsApp: <mark class="pend" title="Pendente D1">⚠ Definir D1: número do WhatsApp</mark><br>E-mail: <a href="mailto:atendimento@ohmygirl.com.br">atendimento@ohmygirl.com.br</a></div></aside>
+<main>
+<select class="sel" aria-label="Categoria"><option value="">Início · todas as categorias</option><option value="sobre">Sobre a OMG</option><option value="remessa-conforme">Remessa Conforme e impostos</option><option value="pedidos">Pedidos e compras</option><option value="pagamento">Pagamento</option><option value="entrega">Frete, prazo e entrega</option><option value="rastreio">Rastreamento</option><option value="devolucoes">Trocas, devoluções e reembolsos</option><option value="autenticidade">Autenticidade e origem</option><option value="produtos">Produtos e restrições</option><option value="skincare">Rotina de skincare</option><option value="conta">Minha conta e privacidade</option><option value="cupons">Cupons, promoções e fidelidade</option><option value="avaliacoes">Avaliações e conteúdo</option><option value="afiliados">Afiliados e influenciadores</option><option value="golpes">Golpes e sites falsos</option><option value="contato">Fale com a gente</option></select>
+<div class="home">
 <div class="destaques">
 <div><b>Imposto já incluso</b>O total do checkout já tem Imposto de Importação e ICMS. Sem taxa surpresa na entrega.</div>
 <div><b>Direto da Coreia</b>Produtos originais, comprados de marcas e distribuidores e enviados de Seul para você.</div>
 <div><b>Até 15 dias úteis</b>Prazo oficial para capitais, com rastreio desde a Coreia.</div>
+</div>
+<h2 class="inicio">Perguntas mais comuns</h2>
+<div class="pops"><div class="pop"><button type="button" class="pt" data-cat="sobre">Sobre a OMG ›</button><ul><li><a href="#o-que-e-a-omg-oh-my-girl" data-ir="o-que-e-a-omg-oh-my-girl" data-c="sobre">O que é a OMG (Oh My Girl)?</a></li><li><a href="#quem-vende-os-produtos-por-que-aparece-mpoema-inc" data-ir="quem-vende-os-produtos-por-que-aparece-mpoema-inc" data-c="sobre">Quem vende os produtos? Por que aparece MPOEMA INC?</a></li><li><a href="#a-omg-e-confiavel" data-ir="a-omg-e-confiavel" data-c="sobre">A OMG é confiável?</a></li></ul></div><div class="pop"><button type="button" class="pt" data-cat="remessa-conforme">Remessa Conforme e impostos ›</button><ul><li><a href="#o-que-e-o-remessa-conforme-prc" data-ir="o-que-e-o-remessa-conforme-prc" data-c="remessa-conforme">O que é o Remessa Conforme (PRC)?</a></li><li><a href="#o-preco-do-site-ja-inclui-impostos" data-ir="o-preco-do-site-ja-inclui-impostos" data-c="remessa-conforme">O preço do site já inclui impostos?</a></li><li><a href="#quais-impostos-eu-pago" data-ir="quais-impostos-eu-pago" data-c="remessa-conforme">Quais impostos eu pago?</a></li></ul></div><div class="pop"><button type="button" class="pt" data-cat="pedidos">Pedidos e compras ›</button><ul><li><a href="#como-faco-um-pedido" data-ir="como-faco-um-pedido" data-c="pedidos">Como faço um pedido?</a></li><li><a href="#preciso-criar-conta-para-comprar" data-ir="preciso-criar-conta-para-comprar" data-c="pedidos">Preciso criar conta para comprar?</a></li><li><a href="#recebi-o-e-mail-de-confirmacao-e-agora" data-ir="recebi-o-e-mail-de-confirmacao-e-agora" data-c="pedidos">Recebi o e-mail de confirmação. E agora?</a></li></ul></div><div class="pop"><button type="button" class="pt" data-cat="pagamento">Pagamento ›</button><ul><li><a href="#quais-formas-de-pagamento-voces-aceitam" data-ir="quais-formas-de-pagamento-voces-aceitam" data-c="pagamento">Quais formas de pagamento vocês aceitam?</a></li><li><a href="#posso-parcelar" data-ir="posso-parcelar" data-c="pagamento">Posso parcelar?</a></li><li><a href="#quando-o-valor-e-cobrado-no-cartao" data-ir="quando-o-valor-e-cobrado-no-cartao" data-c="pagamento">Quando o valor é cobrado no cartão?</a></li></ul></div><div class="pop"><button type="button" class="pt" data-cat="entrega">Frete, prazo e entrega ›</button><ul><li><a href="#qual-e-o-prazo-de-entrega" data-ir="qual-e-o-prazo-de-entrega" data-c="entrega">Qual é o prazo de entrega?</a></li><li><a href="#por-que-demora-ate-15-dias-uteis" data-ir="por-que-demora-ate-15-dias-uteis" data-c="entrega">Por que demora até 15 dias úteis?</a></li><li><a href="#quanto-custa-o-frete" data-ir="quanto-custa-o-frete" data-c="entrega">Quanto custa o frete?</a></li></ul></div><div class="pop"><button type="button" class="pt" data-cat="rastreio">Rastreamento ›</button><ul><li><a href="#como-acompanho-meu-pedido" data-ir="como-acompanho-meu-pedido" data-c="rastreio">Como acompanho meu pedido?</a></li><li><a href="#por-que-o-rastreio-nao-atualiza" data-ir="por-que-o-rastreio-nao-atualiza" data-c="rastreio">Por que o rastreio não atualiza?</a></li><li><a href="#o-que-significa-chegou-ao-brasil-desembaraco" data-ir="o-que-significa-chegou-ao-brasil-desembaraco" data-c="rastreio">O que significa &#x27;Chegou ao Brasil / desembaraço&#x27;?</a></li></ul></div><div class="pop"><button type="button" class="pt" data-cat="devolucoes">Trocas, devoluções e reembolsos ›</button><ul><li><a href="#posso-devolver-se-me-arrepender" data-ir="posso-devolver-se-me-arrepender" data-c="devolucoes">Posso devolver se me arrepender?</a></li><li><a href="#recebi-o-produto-quebrado-ou-vazando" data-ir="recebi-o-produto-quebrado-ou-vazando" data-c="devolucoes">Recebi o produto quebrado ou vazando.</a></li><li><a href="#recebi-o-produto-errado" data-ir="recebi-o-produto-errado" data-c="devolucoes">Recebi o produto errado.</a></li></ul></div><div class="pop"><button type="button" class="pt" data-cat="autenticidade">Autenticidade e origem ›</button><ul><li><a href="#os-produtos-sao-originais" data-ir="os-produtos-sao-originais" data-c="autenticidade">Os produtos são originais?</a></li><li><a href="#por-que-a-embalagem-tem-textos-em-coreano" data-ir="por-que-a-embalagem-tem-textos-em-coreano" data-c="autenticidade">Por que a embalagem tem textos em coreano?</a></li><li><a href="#como-confiro-o-lote-e-a-validade" data-ir="como-confiro-o-lote-e-a-validade" data-c="autenticidade">Como confiro o lote e a validade?</a></li></ul></div><div class="pop"><button type="button" class="pt" data-cat="produtos">Produtos e restrições ›</button><ul><li><a href="#por-que-voces-nao-vendem-perfume-spray-ou-removedor-de-esmal" data-ir="por-que-voces-nao-vendem-perfume-spray-ou-removedor-de-esmal" data-c="produtos">Por que vocês não vendem perfume, spray ou removedor de esmalte?</a></li><li><a href="#os-produtos-tem-traducao-em-portugues" data-ir="os-produtos-tem-traducao-em-portugues" data-c="produtos">Os produtos têm tradução em português?</a></li><li><a href="#qual-produto-e-melhor-para-a-minha-pele" data-ir="qual-produto-e-melhor-para-a-minha-pele" data-c="produtos">Qual produto é melhor para a minha pele?</a></li></ul></div><div class="pop"><button type="button" class="pt" data-cat="skincare">Rotina de skincare ›</button><ul><li><a href="#como-comecar-uma-rotina-coreana" data-ir="como-comecar-uma-rotina-coreana" data-c="skincare">Como começar uma rotina coreana?</a></li><li><a href="#o-que-e-dupla-limpeza" data-ir="o-que-e-dupla-limpeza" data-c="skincare">O que é dupla limpeza?</a></li><li><a href="#qual-a-ordem-de-aplicacao-dos-produtos" data-ir="qual-a-ordem-de-aplicacao-dos-produtos" data-c="skincare">Qual a ordem de aplicação dos produtos?</a></li></ul></div><div class="pop"><button type="button" class="pt" data-cat="conta">Minha conta e privacidade ›</button><ul><li><a href="#como-crio-uma-conta" data-ir="como-crio-uma-conta" data-c="conta">Como crio uma conta?</a></li><li><a href="#esqueci-minha-senha-nao-recebo-o-codigo-de-login" data-ir="esqueci-minha-senha-nao-recebo-o-codigo-de-login" data-c="conta">Esqueci minha senha / não recebo o código de login.</a></li><li><a href="#como-altero-meus-dados-ou-endereco" data-ir="como-altero-meus-dados-ou-endereco" data-c="conta">Como altero meus dados ou endereço?</a></li></ul></div><div class="pop"><button type="button" class="pt" data-cat="cupons">Cupons, promoções e fidelidade ›</button><ul><li><a href="#como-uso-um-cupom-de-desconto" data-ir="como-uso-um-cupom-de-desconto" data-c="cupons">Como uso um cupom de desconto?</a></li><li><a href="#meu-cupom-nao-funcionou" data-ir="meu-cupom-nao-funcionou" data-c="cupons">Meu cupom não funcionou.</a></li><li><a href="#posso-usar-mais-de-um-cupom" data-ir="posso-usar-mais-de-um-cupom" data-c="cupons">Posso usar mais de um cupom?</a></li></ul></div><div class="pop"><button type="button" class="pt" data-cat="avaliacoes">Avaliações e conteúdo ›</button><ul><li><a href="#como-avalio-um-produto" data-ir="como-avalio-um-produto" data-c="avaliacoes">Como avalio um produto?</a></li><li><a href="#ganho-desconto-por-avaliar-com-foto-ou-video" data-ir="ganho-desconto-por-avaliar-com-foto-ou-video" data-c="avaliacoes">Ganho desconto por avaliar com foto ou vídeo?</a></li><li><a href="#por-que-minha-avaliacao-nao-apareceu" data-ir="por-que-minha-avaliacao-nao-apareceu" data-c="avaliacoes">Por que minha avaliação não apareceu?</a></li></ul></div><div class="pop"><button type="button" class="pt" data-cat="afiliados">Afiliados e influenciadores ›</button><ul><li><a href="#como-funciona-o-programa-de-afiliados" data-ir="como-funciona-o-programa-de-afiliados" data-c="afiliados">Como funciona o programa de afiliados?</a></li><li><a href="#quanto-ganho-de-comissao-e-quando-recebo" data-ir="quanto-ganho-de-comissao-e-quando-recebo" data-c="afiliados">Quanto ganho de comissão e quando recebo?</a></li><li><a href="#sou-influenciadora-como-faco-parceria" data-ir="sou-influenciadora-como-faco-parceria" data-c="afiliados">Sou influenciadora. Como faço parceria?</a></li></ul></div><div class="pop"><button type="button" class="pt" data-cat="golpes">Golpes e sites falsos ›</button><ul><li><a href="#qual-e-o-site-oficial-da-omg" data-ir="qual-e-o-site-oficial-da-omg" data-c="golpes">Qual é o site oficial da OMG?</a></li><li><a href="#recebi-mensagem-pedindo-pagamento-por-pix-em-nome-da-omg" data-ir="recebi-mensagem-pedindo-pagamento-por-pix-em-nome-da-omg" data-c="golpes">Recebi mensagem pedindo pagamento por Pix em nome da OMG.</a></li><li><a href="#como-sei-se-um-e-mail-e-mesmo-da-omg" data-ir="como-sei-se-um-e-mail-e-mesmo-da-omg" data-c="golpes">Como sei se um e-mail é mesmo da OMG?</a></li></ul></div><div class="pop"><button type="button" class="pt" data-cat="contato">Fale com a gente ›</button><ul><li><a href="#quero-falar-com-uma-pessoa" data-ir="quero-falar-com-uma-pessoa" data-c="contato">Quero falar com uma pessoa.</a></li><li><a href="#quero-fazer-uma-reclamacao" data-ir="quero-fazer-uma-reclamacao" data-c="contato">Quero fazer uma reclamação.</a></li><li><a href="#que-informacoes-devo-ter-em-maos" data-ir="que-informacoes-devo-ter-em-maos" data-c="contato">Que informações devo ter em mãos?</a></li></ul></div></div>
 </div>
 <section class="cat" id="cat-sobre" data-cat="sobre"><h2>Sobre a OMG</h2><p class="desc">Quem somos, de onde vem o produto e como falar com a gente.</p>
 <details class="q" id="o-que-e-a-omg-oh-my-girl" data-busca="o que é a omg (oh my girl)? oq é a omg vcs são uma loja de onde? quem é oh my girl omg é brasileira?"><summary>O que é a OMG (Oh My Girl)?</summary><div class="r"><p>A <strong>OMG! (Oh My Girl)</strong> é uma loja online de cosméticos coreanos <strong>originais</strong>, enviados <strong>direto da Coreia do Sul</strong> para a sua casa.</p>
@@ -428,20 +453,28 @@
 <details class="q" id="posso-mandar-audio-no-whatsapp" data-busca="posso mandar áudio no whatsapp? mandar audio pode ser audio aceita audio"><summary>Posso mandar áudio no WhatsApp?</summary><div class="r"><p>Prefira texto: o atendimento fica mais rápido e registrado. Se precisar mostrar um problema, mande fotos ou vídeo.</p></div></details>
 </section>
 <p class="vazio">Não encontramos nada com essa busca. Tente outra palavra ou fale com a gente.</p>
-<div class="contato"><b>Ainda com dúvida?</b><br>WhatsApp: <mark class="pend" title="Pendente D1">⚠ Definir D1: número do WhatsApp</mark> · E-mail: <a href="mailto:atendimento@ohmygirl.com.br">atendimento@ohmygirl.com.br</a></div>
 <p class="aviso" style="margin-top:18px">Produto proveniente do exterior. Será importado e será registrada uma Declaração de Importação. Está sujeito à tributação federal e estadual.</p>
+</main></div>
 <script>
 (function(){var R=document.querySelector('.omg-ajuda');if(!R)return;
-var inp=R.querySelector('#omg-busca'),qs=[].slice.call(R.querySelectorAll('details.q')),cats=[].slice.call(R.querySelectorAll('section.cat')),chips=[].slice.call(R.querySelectorAll('.chip')),vz=R.querySelector('.vazio');
+var inp=R.querySelector('#omg-busca'),qs=[].slice.call(R.querySelectorAll('details.q')),cats=[].slice.call(R.querySelectorAll('section.cat')),mis=[].slice.call(R.querySelectorAll('.mi')),sel=R.querySelector('.sel'),vz=R.querySelector('.vazio');
 function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
 var cat='';
-function filtra(){var t=norm(inp.value).trim(),n=0;
- qs.forEach(function(d){var ok=(!t||norm(d.dataset.busca+' '+d.textContent).indexOf(t)>=0)&&(!cat||d.closest('section').dataset.cat===cat);d.style.display=ok?'':'none';if(ok)n++;if(t&&ok&&t.length>3)d.open=false});
+function abre(c){cat=c||'';inp.value='';R.classList.remove('busca-on');R.classList.toggle('cat-on',!!cat);
+ cats.forEach(function(s){s.classList.toggle('on',s.dataset.cat===cat)});mis.forEach(function(m){m.classList.toggle('on',m.dataset.cat===cat)});
+ if(sel)sel.value=cat;qs.forEach(function(d){d.style.display=''});vz.style.display='none'}
+function busca(){var t=norm(inp.value).trim();if(!t){abre(cat);return}
+ R.classList.add('busca-on');var n=0;
+ qs.forEach(function(d){var ok=norm(d.dataset.busca+' '+d.textContent).indexOf(t)>=0;d.style.display=ok?'':'none';if(ok)n++});
  cats.forEach(function(s){s.style.display=[].some.call(s.querySelectorAll('details.q'),function(d){return d.style.display!=='none'})?'':'none'});
- vz.style.display=n?'none':'block';var ds=R.querySelector('.destaques');if(ds)ds.style.display=(t||cat)?'none':''}
-inp.addEventListener('input',filtra);
-chips.forEach(function(c){c.addEventListener('click',function(){cat=cat===c.dataset.cat?'':c.dataset.cat;chips.forEach(function(x){x.classList.toggle('on',x.dataset.cat===cat)});filtra()})});
-if(location.hash){var d=R.querySelector(location.hash);if(d&&d.tagName==='DETAILS')d.open=true}
+ vz.style.display=n?'none':'block'}
+inp.addEventListener('input',function(){cats.forEach(function(s){s.style.display=''});busca()});
+mis.forEach(function(m){m.addEventListener('click',function(){abre(m.dataset.cat);R.scrollIntoView({behavior:'smooth'})})});
+R.querySelector('.mi-inicio').addEventListener('click',function(){abre('')});
+if(sel)sel.addEventListener('change',function(){abre(sel.value)});
+[].forEach.call(R.querySelectorAll('.pt'),function(b){b.addEventListener('click',function(){abre(b.dataset.cat)})});
+[].forEach.call(R.querySelectorAll('[data-ir]'),function(a){a.addEventListener('click',function(e){e.preventDefault();abre(a.dataset.c);var d=document.getElementById(a.dataset.ir);if(d){d.open=true;d.scrollIntoView({behavior:'smooth',block:'center'})}})});
+if(location.hash){var d=R.querySelector(location.hash);if(d&&d.tagName==='DETAILS'){abre(d.closest('section').dataset.cat);d.open=true}}
 })();
 </script>
 </div>
