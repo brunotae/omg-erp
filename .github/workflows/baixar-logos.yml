@@ -1,0 +1,21 @@
+name: Baixar logos das marcas
+on:
+  push:
+    branches: [main]
+    paths: ['tools/marcas/sites.csv', 'tools/marcas/baixar_logos.py']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  logos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install beautifulsoup4
+      - run: python3 tools/marcas/baixar_logos.py
+      - name: Guardar resultado
+        run: |
+          git config user.name "omg-bot"; git config user.email "bot@ohmygirl.com.br"
+          git add tools/marcas
+          git commit -m "Logos candidatos das marcas" || true
+          git pull --rebase -q origin main && git push
