@@ -10,7 +10,12 @@ ESCOLHA = {  # índices das fotos escolhidas (revisadas à mão: só packshots, 
  "anua":[0,1,2], "arencia":[0,7,5], "beauty-of-joseon":[0,6,4], "biodance":[3,1,5], "celimax":[1,2,3],
  "cell-fusion-c":[0,1,3], "centellian-24":[1,5,6], "cosrx":[0,3,5], "dasique":[0,1,6], "dr-melaxin":[2,3,5],
  "lador":[0,1,3], "medicube":[1,2,0], "mixsoon":[2,3,4], "round-lab":[3,6,4], "skin1004":[0,3,4],
- "tirtir":[0,2,7], "torriden":[5,6,2]}
+ "tirtir":[0,2,7], "torriden":[5,6,2],
+ # marcas restantes (sites oficiais, 2ª rodada). (índice, recorte) tira selos de promoção do canto.
+ "aromatica":[0,6,7], "dalba":[0,2,3], "manyo":[1,0,(2,(0,.16,1,1))], "kaine":[0,4,6], "wellage":[0,2,6],
+ "ilso":[5,0,6], "dr-forhair":[1,0,4], "dr-reju-all":[2,1,4], "purcell":[7,(4,(0,.26,1,1)),(5,(0,.26,1,1))],
+ "mise-en-scene":[4,6,7], "banila-co":[1,2,(5,(0,0,.7,.7))], "some-by-mi":[7,5,6],
+ "mediheal":[(0,(0,.3,.74,1)),(2,(0,.3,.74,1)),(4,(0,.3,.74,1))]}
 S = 800
 CREME=(255,249,246); BEBE=(253,228,236); CHICLE=(244,143,177); FRAMB=(217,87,127); PRI=(184,61,102); AMEIXA=(74,38,56); MENTA=(158,223,196)
 FONT = "/usr/share/fonts/truetype/google-fonts/Poppins-Bold.ttf"
@@ -83,7 +88,12 @@ fontes = []
 for m in M:
     slug, nome, tipo = m["slug"], m["marca"], m["tipo"]
     if slug in ESCOLHA and slug in CAND:
-        fotos = [Image.open(f"{R}/tools/marcas/fundos/{slug}/{i}.jpg") for i in ESCOLHA[slug]]
+        fotos = []
+        for e in ESCOLHA[slug]:
+            i, cx = (e, None) if isinstance(e, int) else e
+            im = Image.open(f"{R}/tools/marcas/fundos/{slug}/{i}.jpg")
+            if cx: w, h = im.size; im = im.crop((int(cx[0]*w), int(cx[1]*h), int(cx[2]*w), int(cx[3]*h)))
+            fotos.append(im)
         bg = Image.new("RGB", (S, S), (255, 255, 255))
         g = 4
         bg.paste(cover(fotos[0], S//2-g//2, S), (0, 0))
@@ -92,7 +102,7 @@ for m in M:
         base = bg.convert("RGBA")
         base.alpha_composite(Image.new("RGBA", (S, S), CREME+(70,)))
         estilo = "foto"
-        fontes.append((nome, CAND[slug]["site"], " | ".join(CAND[slug]["candidatos"][i]["url"] for i in ESCOLHA[slug])))
+        fontes.append((nome, CAND[slug]["site"], " | ".join(CAND[slug]["candidatos"][e if isinstance(e, int) else e[0]]["url"] for e in ESCOLHA[slug])))
     else:
         base = bojagi(slug).convert("RGBA")
         base.alpha_composite(Image.new("RGBA", (S, S), CREME+(70,)))

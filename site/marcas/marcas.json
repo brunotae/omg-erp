@@ -77,7 +77,7 @@
   "tipo": "logo",
   "produtos": 108,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "foto"
  },
  {
   "marca": "AROMATICA",
@@ -85,7 +85,7 @@
   "tipo": "texto",
   "produtos": 103,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "foto"
  },
  {
   "marca": "TIRTIR",
@@ -149,7 +149,7 @@
   "tipo": "logo",
   "produtos": 59,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "foto"
  },
  {
   "marca": "Dasique",
@@ -197,7 +197,7 @@
   "tipo": "texto",
   "produtos": 45,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "foto"
  },
  {
   "marca": "Eqqualberry",
@@ -269,7 +269,7 @@
   "tipo": "logo",
   "produtos": 28,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "foto"
  },
  {
   "marca": "ma:nyo",
@@ -277,7 +277,7 @@
   "tipo": "logo",
   "produtos": 27,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "foto"
  },
  {
   "marca": "Sungboon Editor",
@@ -317,7 +317,7 @@
   "tipo": "logo",
   "produtos": 23,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "foto"
  },
  {
   "marca": "ILSO",
@@ -325,7 +325,7 @@
   "tipo": "texto",
   "produtos": 22,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "foto"
  },
  {
   "marca": "WELLAGE",
@@ -333,7 +333,7 @@
   "tipo": "texto",
   "produtos": 22,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "foto"
  },
  {
   "marca": "CLIO",
@@ -365,7 +365,7 @@
   "tipo": "logo",
   "produtos": 20,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "foto"
  },
  {
   "marca": "DR.forHair",
@@ -373,7 +373,7 @@
   "tipo": "logo",
   "produtos": 19,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "foto"
  },
  {
   "marca": "fwee",
@@ -405,7 +405,7 @@
   "tipo": "logo",
   "produtos": 13,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "foto"
  },
  {
   "marca": "Dr. Reju-All",
@@ -413,7 +413,7 @@
   "tipo": "logo",
   "produtos": 12,
   "lote1": 0,
-  "tile": "padrao"
+  "tile": "foto"
  },
  {
   "marca": "COEVAL",
