@@ -7,7 +7,7 @@
 #   [A VERIFICAR #Vn: descrição] → fato a confirmar antes de publicar
 
 SITE = "ohmygirl.com.br"
-EMAIL = "atendimento@ohmygirl.com.br"
+EMAIL = "info.br@ohmygirl.com.br"
 AVISO = ("Produto proveniente do exterior. Será importado e será registrada uma Declaração de "
          "Importação. Está sujeito à tributação federal e estadual.")
 

@@ -26,13 +26,13 @@ Seguimos a **Lei Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018)**.
 
 **Com quem compartilhamos** (só o necessário): processador de pagamento, parceiros de logística e transportadora, e a Receita Federal.
 
-**Seus direitos**: acesso, correção, exclusão, portabilidade e revogar o consentimento de marketing. Peça pelo e-mail **atendimento@ohmygirl.com.br**.
+**Seus direitos**: acesso, correção, exclusão, portabilidade e revogar o consentimento de marketing. Peça pelo e-mail **info.br@ohmygirl.com.br**.
 
 **Nunca vendemos** os seus dados.
 
 ### Como excluo minha conta?
 
-Peça pelo e-mail atendimento@ohmygirl.com.br com o assunto 'Excluir conta'. Alguns dados de pedidos precisam ser guardados pelo prazo legal (obrigações fiscais e de importação); o restante é apagado.
+Peça pelo e-mail info.br@ohmygirl.com.br com o assunto 'Excluir conta'. Alguns dados de pedidos precisam ser guardados pelo prazo legal (obrigações fiscais e de importação); o restante é apagado.
 
 ### Como paro de receber e-mails de promoção?
 
@@ -48,4 +48,4 @@ Sim. Crie a conta com o mesmo e-mail da compra para ver os pedidos ou pergunte a
 
 ### Como peço uma cópia dos meus dados (LGPD)?
 
-Envie um e-mail para atendimento@ohmygirl.com.br com o assunto 'LGPD' dizendo o que você quer: acesso, correção, portabilidade ou exclusão. Respondemos no prazo da lei.
+Envie um e-mail para info.br@ohmygirl.com.br com o assunto 'LGPD' dizendo o que você quer: acesso, correção, portabilidade ou exclusão. Respondemos no prazo da lei.

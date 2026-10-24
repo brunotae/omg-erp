@@ -31,7 +31,7 @@
   "links": [],
   "status": "a_definir",
   "escalar_humano": false,
-  "resposta_longa": "A loja **ohmygirl.com.br** pertence à **MPOEMA INC**, empresa sediada nos Estados Unidos e **certificada pela Receita Federal no Programa Remessa Conforme (PRC)** — Ato Declaratório Executivo Coana nº 111, de 14/10/2026 (DOU de 21/10/2026), que inclui expressamente o site ohmygirl.com.br.\n\nPor isso o nome **MPOEMA INC** pode aparecer:\n- no comprovante do pedido;\n- na fatura do cartão de crédito;\n- na Declaração de Importação da sua encomenda.\n\n**Dados da empresa**: MPOEMA INC · TIN US933093849 · [A DEFINIR #D31: endereço físico da MPOEMA INC] · atendimento@ohmygirl.com.br."
+  "resposta_longa": "A loja **ohmygirl.com.br** pertence à **MPOEMA INC**, empresa sediada nos Estados Unidos e **certificada pela Receita Federal no Programa Remessa Conforme (PRC)** — Ato Declaratório Executivo Coana nº 111, de 14/10/2026 (DOU de 21/10/2026), que inclui expressamente o site ohmygirl.com.br.\n\nPor isso o nome **MPOEMA INC** pode aparecer:\n- no comprovante do pedido;\n- na fatura do cartão de crédito;\n- na Declaração de Importação da sua encomenda.\n\n**Dados da empresa**: MPOEMA INC · TIN US933093849 · [A DEFINIR #D31: endereço físico da MPOEMA INC] · info.br@ohmygirl.com.br."
  },
  {
   "id": "sobre-03",
@@ -92,11 +92,11 @@
    "quero falar com atendente",
    "atendimento humano"
   ],
-  "resposta": "Pelo WhatsApp +55 11 94588-4562 ou pelo e-mail atendimento@ohmygirl.com.br. Nosso assistente responde na hora e, se precisar, passa para uma pessoa da equipe, de segunda a sexta, das 9h às 18h (horário de Brasília).",
+  "resposta": "Pelo WhatsApp +55 11 94588-4562 ou pelo e-mail info.br@ohmygirl.com.br. Nosso assistente responde na hora e, se precisar, passa para uma pessoa da equipe, de segunda a sexta, das 9h às 18h (horário de Brasília).",
   "links": [],
   "status": "ok",
   "escalar_humano": false,
-  "resposta_longa": "- **WhatsApp**: **+55 11 94588-4562** — assistente automático 24h e equipe humana no horário de atendimento.\n- **E-mail**: atendimento@ohmygirl.com.br — resposta em até **2 dias úteis**.\n- **Horário da equipe**: de segunda a sexta, das 9h às 18h (horário de Brasília).\n\nPara agilizar, tenha em mãos o **número do pedido** (ex.: #1001) e o **e-mail** usado na compra."
+  "resposta_longa": "- **WhatsApp**: **+55 11 94588-4562** — assistente automático 24h e equipe humana no horário de atendimento.\n- **E-mail**: info.br@ohmygirl.com.br — resposta em até **2 dias úteis**.\n- **Horário da equipe**: de segunda a sexta, das 9h às 18h (horário de Brasília).\n\nPara agilizar, tenha em mãos o **número do pedido** (ex.: #1001) e o **e-mail** usado na compra."
  },
  {
   "id": "sobre-07",
@@ -123,11 +123,11 @@
    "preço pra revenda",
    "compra em grande quantidade"
   ],
-  "resposta": "Os pedidos pelo site são para uso pessoal. Para parcerias comerciais, escreva para atendimento@ohmygirl.com.br com o assunto 'Parceria'.",
+  "resposta": "Os pedidos pelo site são para uso pessoal. Para parcerias comerciais, escreva para info.br@ohmygirl.com.br com o assunto 'Parceria'.",
   "links": [],
   "status": "ok",
   "escalar_humano": true,
-  "resposta_longa": "As compras pelo site seguem o regime de **remessa internacional para uso pessoal** (Remessa Conforme). Por isso não vendemos para revenda pelo site. Interessados em parcerias comerciais podem escrever para **atendimento@ohmygirl.com.br** com o assunto **Parceria**. Veja também *Limite de unidades por pedido*."
+  "resposta_longa": "As compras pelo site seguem o regime de **remessa internacional para uso pessoal** (Remessa Conforme). Por isso não vendemos para revenda pelo site. Interessados em parcerias comerciais podem escrever para **info.br@ohmygirl.com.br** com o assunto **Parceria**. Veja também *Limite de unidades por pedido*."
  },
  {
   "id": "remessa-conforme-01",
@@ -1996,7 +1996,7 @@
   "links": [],
   "status": "ok",
   "escalar_humano": false,
-  "resposta_longa": "Seguimos a **Lei Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018)**.\n\n**Para que usamos os seus dados**\n- processar e **entregar o pedido**;\n- cumprir obrigações legais da **importação** (nome, CPF e endereço na Declaração de Importação);\n- **atendimento**;\n- enviar **novidades e promoções**, só se você autorizar.\n\n**Com quem compartilhamos** (só o necessário): processador de pagamento, parceiros de logística e transportadora, e a Receita Federal.\n\n**Seus direitos**: acesso, correção, exclusão, portabilidade e revogar o consentimento de marketing. Peça pelo e-mail **atendimento@ohmygirl.com.br**.\n\n**Nunca vendemos** os seus dados."
+  "resposta_longa": "Seguimos a **Lei Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018)**.\n\n**Para que usamos os seus dados**\n- processar e **entregar o pedido**;\n- cumprir obrigações legais da **importação** (nome, CPF e endereço na Declaração de Importação);\n- **atendimento**;\n- enviar **novidades e promoções**, só se você autorizar.\n\n**Com quem compartilhamos** (só o necessário): processador de pagamento, parceiros de logística e transportadora, e a Receita Federal.\n\n**Seus direitos**: acesso, correção, exclusão, portabilidade e revogar o consentimento de marketing. Peça pelo e-mail **info.br@ohmygirl.com.br**.\n\n**Nunca vendemos** os seus dados."
  },
  {
   "id": "conta-05",
@@ -2007,7 +2007,7 @@
    "apagar meus dados",
    "deletar cadastro"
   ],
-  "resposta": "Peça pelo e-mail atendimento@ohmygirl.com.br com o assunto 'Excluir conta'. Alguns dados de pedidos precisam ser guardados pelo prazo legal (obrigações fiscais e de importação); o restante é apagado.",
+  "resposta": "Peça pelo e-mail info.br@ohmygirl.com.br com o assunto 'Excluir conta'. Alguns dados de pedidos precisam ser guardados pelo prazo legal (obrigações fiscais e de importação); o restante é apagado.",
   "links": [],
   "status": "ok",
   "escalar_humano": false
@@ -2063,7 +2063,7 @@
    "quero saber que dados vcs tem",
    "acesso aos meus dados"
   ],
-  "resposta": "Envie um e-mail para atendimento@ohmygirl.com.br com o assunto 'LGPD' dizendo o que você quer: acesso, correção, portabilidade ou exclusão. Respondemos no prazo da lei.",
+  "resposta": "Envie um e-mail para info.br@ohmygirl.com.br com o assunto 'LGPD' dizendo o que você quer: acesso, correção, portabilidade ou exclusão. Respondemos no prazo da lei.",
   "links": [],
   "status": "ok",
   "escalar_humano": false
@@ -2265,11 +2265,11 @@
    "link de afiliado",
    "como ser afiliado"
   ],
-  "resposta": "Ainda não temos programa de afiliados. Se você tem interesse, escreva para atendimento@ohmygirl.com.br com o assunto 'Parceria' que avisamos quando abrir.",
+  "resposta": "Ainda não temos programa de afiliados. Se você tem interesse, escreva para info.br@ohmygirl.com.br com o assunto 'Parceria' que avisamos quando abrir.",
   "links": [],
   "status": "ok",
   "escalar_humano": false,
-  "resposta_longa": "Ainda **não temos** programa de afiliados. Quando abrirmos, as regras (comissão, prazos e pagamento) serão publicadas aqui. Interessados podem escrever para **atendimento@ohmygirl.com.br** com o assunto **Parceria**."
+  "resposta_longa": "Ainda **não temos** programa de afiliados. Quando abrirmos, as regras (comissão, prazos e pagamento) serão publicadas aqui. Interessados podem escrever para **info.br@ohmygirl.com.br** com o assunto **Parceria**."
  },
  {
   "id": "afiliados-02",
@@ -2295,7 +2295,7 @@
    "recebidos",
    "publi"
   ],
-  "resposta": "Que bom! Ainda não temos um programa aberto de influenciadores, mas adoramos conhecer quem ama skincare coreano. Mande para atendimento@ohmygirl.com.br com o assunto 'Influenciadora' o seu @ e uma ideia de conteúdo que a nossa equipe avalia.",
+  "resposta": "Que bom! Ainda não temos um programa aberto de influenciadores, mas adoramos conhecer quem ama skincare coreano. Mande para info.br@ohmygirl.com.br com o assunto 'Influenciadora' o seu @ e uma ideia de conteúdo que a nossa equipe avalia.",
   "links": [],
   "status": "ok",
   "escalar_humano": false
@@ -2454,7 +2454,7 @@
    "posso ligar",
    "numero pra ligar"
   ],
-  "resposta": "O nosso atendimento é por WhatsApp (+55 11 94588-4562, mensagens) e e-mail (atendimento@ohmygirl.com.br). Assim registramos tudo e resolvemos mais rápido.",
+  "resposta": "O nosso atendimento é por WhatsApp (+55 11 94588-4562, mensagens) e e-mail (info.br@ohmygirl.com.br). Assim registramos tudo e resolvemos mais rápido.",
   "links": [],
   "status": "ok",
   "escalar_humano": false

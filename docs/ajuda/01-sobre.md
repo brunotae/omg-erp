@@ -20,7 +20,7 @@ Por isso o nome **MPOEMA INC** pode aparecer:
 - na fatura do cartão de crédito;
 - na Declaração de Importação da sua encomenda.
 
-**Dados da empresa**: MPOEMA INC · TIN US933093849 · [A DEFINIR #D31: endereço físico da MPOEMA INC] · atendimento@ohmygirl.com.br.
+**Dados da empresa**: MPOEMA INC · TIN US933093849 · [A DEFINIR #D31: endereço físico da MPOEMA INC] · info.br@ohmygirl.com.br.
 
 ### A OMG é confiável?
 
@@ -49,7 +49,7 @@ Não. A OMG é 100% online e os pedidos saem da Coreia do Sul, então não há r
 ### Como falo com a OMG?
 
 - **WhatsApp**: **+55 11 94588-4562** — assistente automático 24h e equipe humana no horário de atendimento.
-- **E-mail**: atendimento@ohmygirl.com.br — resposta em até **2 dias úteis**.
+- **E-mail**: info.br@ohmygirl.com.br — resposta em até **2 dias úteis**.
 - **Horário da equipe**: de segunda a sexta, das 9h às 18h (horário de Brasília).
 
 Para agilizar, tenha em mãos o **número do pedido** (ex.: #1001) e o **e-mail** usado na compra.
@@ -60,4 +60,4 @@ O assistente responde 24 horas. A equipe humana atende de segunda a sexta, das 9
 
 ### Vocês vendem no atacado ou para revenda?
 
-As compras pelo site seguem o regime de **remessa internacional para uso pessoal** (Remessa Conforme). Por isso não vendemos para revenda pelo site. Interessados em parcerias comerciais podem escrever para **atendimento@ohmygirl.com.br** com o assunto **Parceria**. Veja também *Limite de unidades por pedido*.
+As compras pelo site seguem o regime de **remessa internacional para uso pessoal** (Remessa Conforme). Por isso não vendemos para revenda pelo site. Interessados em parcerias comerciais podem escrever para **info.br@ohmygirl.com.br** com o assunto **Parceria**. Veja também *Limite de unidades por pedido*.
