@@ -12,7 +12,11 @@ jobs:
       - uses: supabase/setup-cli@v1
         with:
           version: latest
-      - name: Publicar shopify-webhook
+      - name: Publicar shopify-webhook (avisos do Shopify)
         run: supabase functions deploy shopify-webhook --project-ref nzsiuniabovvptuqmkmi --no-verify-jwt
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      - name: Publicar shopify-admin (ações do ERP no Shopify)
+        run: supabase functions deploy shopify-admin --project-ref nzsiuniabovvptuqmkmi
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}

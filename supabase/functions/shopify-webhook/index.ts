@@ -1,8 +1,10 @@
 // Recebe os avisos (webhooks) do Shopify e grava as vendas no ERP.
-// Tópicos usados: orders/paid (cria a venda) e orders/cancelled (marca como cancelada).
+// Tópicos usados: orders/paid (cria a venda), orders/cancelled (marca como cancelada),
+// products/create e products/update (atualiza o Catálogo), products/delete (marca como excluído do site).
 // Segredo necessário (Supabase → Edge Functions → Secrets): SHOPIFY_WEBHOOK_SECRET
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { pedidoParaVenda } from "./map.js";
+import { gravarProdutos, marcarExcluido, produtoParaLinhas } from "../_shared/produtos.js";
 
 const SECRET = Deno.env.get("SHOPIFY_WEBHOOK_SECRET") ?? "";
 const sb = createClient(
@@ -49,7 +51,7 @@ Deno.serve(async (req) => {
   } catch {
     return resp(400, "JSON inválido");
   }
-  const extId = "shopify:" + pedido.id;
+  const extId = "shopify:" + pedido.id; // usado nos pedidos
 
   try {
     if (topico === "orders/paid") {
@@ -71,6 +73,16 @@ Deno.serve(async (req) => {
         .eq("ext_id", extId);
       if (error) throw error;
       return resp(200, "venda cancelada");
+    }
+
+    if (topico === "products/create" || topico === "products/update") {
+      const r = await gravarProdutos(sb, produtoParaLinhas(pedido));
+      return resp(200, `catálogo: ${r.novos} novos, ${r.atualizados} atualizados`);
+    }
+
+    if (topico === "products/delete") {
+      await marcarExcluido(sb, pedido.id);
+      return resp(200, "produto marcado como excluído");
     }
 
     return resp(200, "tópico ignorado: " + topico);

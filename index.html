@@ -616,7 +616,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v5 · 24/10/2026';
+const VERSAO='v6 · 24/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -926,7 +926,7 @@ VIEWFN.compras=()=>{
 /* ---------- Catálogo ---------- */
 VIEWFN.produtos=()=>{
  const rows=S.data.produtos.filter(match);
- return '<div class="page"><div class="col">'+head('Catálogo','Todos os produtos, inclusive os que não estão à venda no site. SKUs, custos na Coreia e preço sugerido pela regra da OMG. Ao lançar uma venda, o SKU preenche preço e custos.',(can()?'<label class="btn sm" style="cursor:pointer">Importar do Shopify (CSV)<input type="file" id="cat-up" accept=".csv,text/csv" hidden></label> ':'')+newBtn('produtos','Novo produto'))+(S.data.produtos.length?'<p class="muted" style="margin:-6px 0 0;font-size:11.5px">'+S.data.produtos.length+' produtos · '+S.data.produtos.filter(p=>p.ativo).length+' ativos no site · '+S.data.produtos.filter(p=>!p.ativo).length+' fora do site</p>':'')+
+ return '<div class="page"><div class="col">'+head('Catálogo','Todos os produtos, inclusive os que não estão à venda no site. SKUs, custos na Coreia e preço sugerido pela regra da OMG. Ao lançar uma venda, o SKU preenche preço e custos.',(can()?'<button class="btn sm" type="button" id="sync-shop">Sincronizar com o Shopify</button> <label class="btn sm" style="cursor:pointer">Importar do Shopify (CSV)<input type="file" id="cat-up" accept=".csv,text/csv" hidden></label> ':'')+newBtn('produtos','Novo produto'))+(S.data.produtos.length?'<p class="muted" style="margin:-6px 0 0;font-size:11.5px">'+S.data.produtos.length+(S.data.produtos.length===1?' produto · ':' produtos · ')+S.data.produtos.filter(p=>p.ativo).length+' ativos no site · '+S.data.produtos.filter(p=>!p.ativo).length+' fora do site</p>':'')+
  '<div class="card">'+(loading('produtos')?'<p class="muted">Carregando…</p>':rows.length?'<div class="tblwrap"><table><thead><tr><th>Produto</th><th class="r">Custo fábrica</th><th class="r">Preço La Belle</th><th class="r">Sugerido</th><th class="r">Venda</th><th>Status</th></tr></thead><tbody>'+
  rows.map(p=>{const s=suggest(p);return '<tr data-edit="produtos" data-id="'+esc(p.id)+'"><td><b>'+esc(p.nome)+'</b><small>'+esc(p.marca||'')+' · '+esc(p.sku)+' · '+esc(p.categoria||'')+'</small></td><td class="r num">'+krw(p.custoFab)+'</td><td class="r num">'+krw(p.custoLB)+'<small>'+(has(p.custoLB)&&has(p.custoFab)?'Janice '+krw(p.custoLB-p.custoFab):'')+'</small></td><td class="r num">'+(s?'<b>'+brl(s.v)+'</b><small>'+esc(s.how)+'</small>':'<small>sem referência</small>')+'</td><td class="r num"><b>'+brl(p.preco)+'</b></td><td>'+(p.dg?'<span class="pill p-bad">DG bloqueado</span>':p.ativo?stPill('No site'):stPill('Fora do site'))+'</td></tr>'}).join('')+'</tbody></table></div>'
  :empty('Catálogo vazio','No Shopify, vá em Produtos → Exportar → Todos os produtos → CSV. Depois clique em Importar do Shopify (CSV) aqui. Vêm também os produtos em rascunho.'))+'</div></div>'+
@@ -1120,10 +1120,13 @@ function openForm(key,id){
  const F=FORMS[key];if(F.custom)return key==='vendas'?openVenda(id):key==='cortes'?openCorte(id):openLote(id);
  const rec=id?S.data[F.col].find(r=>r.id===id):null, init=rec?{...rec}:F.def(), ro=!can();
  const fs=F.secs.flatMap(s=>s[1]);
+ const preP=(key==='produtos'&&rec&&rec.shopify_variant_id)?'<div class="sec"><span class="label">No site (Shopify)</span><p style="grid-column:1/-1;margin:0">'+(rec.ativo?stPill('No site'):stPill('Fora do site'))+' <span class="muted">'+esc(({active:'ativo',draft:'rascunho',archived:'arquivado',excluido:'excluído do site'})[rec.site_status]||rec.site_status||'')+' · preço no site '+brl(rec.preco)+'</span></p>'+(can()?'<div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" type="button" id="sp-status">'+(rec.ativo?'Pausar no site':'Reativar no site')+'</button><button class="btn sm" type="button" id="sp-preco">Enviar preço do campo Venda ao site</button></div><p class="muted" style="grid-column:1/-1;margin:0;font-size:11px">Pausar deixa o produto como rascunho no Shopify: some do site, mas nada é apagado.</p>':'')+'</div>':'';
  const pre=(key==='fornecedores'&&rec)?(()=>{const L=ledger(rec);return '<div class="sec"><span class="label">Extrato · saldo '+esc(fmtM(L.saldo,L.M))+' · '+esc(saldoTxt(L.saldo))+'</span><div style="grid-column:1/-1;min-width:0">'+extratoHTML(L,false)+'</div></div>'})():'';
- shell(rec?F.title[1]+(rec.codigo?' '+rec.codigo:''):F.title[0],pre+F.secs.map(([t,f])=>'<div class="sec">'+f.map(x=>fieldHTML(x,init[x.k],ro)).join('')+'</div>').join('')+anexosHTML(F.col,ro),rec,ro);
+ shell(rec?F.title[1]+(rec.codigo?' '+rec.codigo:''):F.title[0],preP+pre+F.secs.map(([t,f])=>'<div class="sec">'+f.map(x=>fieldHTML(x,init[x.k],ro)).join('')+'</div>').join('')+anexosHTML(F.col,ro),rec,ro);
  wireDelete(F.col,rec);
  wireAnexos(F.col,rec);
+ if(preP&&can()){$('#sp-status').addEventListener('click',()=>acaoShopify({acao:'status',produtoId:rec.shopify_product_id,ativo:!rec.ativo},rec.ativo?'Produto pausado no site':'Produto ativo no site'));
+  $('#sp-preco').addEventListener('click',()=>{const v=parseFloat((document.querySelector('#mform [name="preco"]')||{}).value);if(!(v>0)){toast('Preencha o preço de venda');return}if(confirm('Mudar o preço no site para '+brl(v)+'?'))acaoShopify({acao:'preco',produtoId:rec.shopify_product_id,varianteId:rec.shopify_variant_id,preco:v},'Preço atualizado no site')})}
  wireSubmit(async form=>{const vals=readFields(form,fs);const id=await save(F.col,rec,vals);await finishAnexos(F.col,id);toast(rec?'Alterações salvas':'Cadastrado')});
 }
 
@@ -1190,6 +1193,15 @@ function manifestoMile(l){
   vs.length+' pacotes (1 por venda):\n'+vs.map(v=>'• '+vnum(v.numero)+(v.pedidoSite?' ('+v.pedidoSite+')':'')+' · '+(v.cliente||'')+' · CPF '+(v.cpf||'FALTANDO')+' · '+[v.cidade,v.uf].filter(Boolean).join('/')+(v.etiquetaMile?' · etiqueta '+v.etiquetaMile:'')).join('\n');
  const csv=csvOf(['Embarque','AWB','Venda','Pedido site','Cliente','CPF','Cidade','UF','Etiqueta Mile','Total R$','II R$','ICMS R$'],vs.map(v=>{const k=calc(v);return[l.numero,l.awb||'',vnum(v.numero),v.pedidoSite||'',v.cliente,v.cpf,v.cidade,v.uf,v.etiquetaMile||'',k.total.toFixed(2).replace('.',','),n(v.ii).toFixed(2).replace('.',','),n(v.icms).toFixed(2).replace('.',',')]}));
  return {txt:txt.replace(/\n{3,}/g,'\n\n'),csv};
+}
+
+/* ---------- ações no Shopify (via função shopify-admin no Supabase) ---------- */
+async function acaoShopify(body,ok){
+ toast(body.acao==='sincronizar'?'Sincronizando com o Shopify…':'Enviando ao Shopify…');
+ try{const {data,error}=await sb.functions.invoke('shopify-admin',{body});
+  if(error){let m='';try{m=(await error.context.json()).erro}catch(_){}throw new Error(m||'A ligação com o Shopify ainda não está ativa.')}
+  toast(body.acao==='sincronizar'?'Catálogo sincronizado: '+data.produtos+' produtos ('+data.novos+' novos)':ok);close();await loadAll();
+ }catch(e){toast(e.message||'Não foi possível falar com o Shopify')}
 }
 
 /* ---------- formulário de embarque ---------- */
@@ -1550,6 +1562,7 @@ document.addEventListener('click',e=>{
  if(t.dataset.new){openForm(t.dataset.new);return}
  if(t.dataset.edit&&!t.closest('#modal-root')){openForm(t.dataset.edit,t.dataset.id);return}
  if(t.id==='backup'){doBackup();return}
+ if(t.id==='sync-shop'){acaoShopify({acao:'sincronizar'});return}
  if(t.id==='logout'||t.hasAttribute('data-logout')){sb.auth.signOut();return}
  if(t.id==='copy-schema'){const txt=$('#schema').textContent;const sel=()=>{const r=document.createRange();r.selectNodeContents($('#schema'));const s=getSelection();s.removeAllRanges();s.addRange(r);toast('Texto selecionado. Copie com Ctrl/Cmd + C')};
   try{navigator.clipboard.writeText(txt).then(()=>toast('Formato copiado'),sel)}catch(_){sel()}}
