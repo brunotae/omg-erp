@@ -1,0 +1,100 @@
+{%- comment -%}
+  OMG · Página de marcas (grade de quadrados com o logo de cada marca)
+  Cada bloco = uma marca. Logo: escolha uma imagem no bloco OU informe o nome do arquivo enviado em Conteúdo → Arquivos.
+  Link: por padrão abre os produtos da marca (/collections/vendors?q=Fornecedor).
+{%- endcomment -%}
+<section class="omg-marcas" id="omg-marcas-{{ section.id }}">
+  <div class="omg-marcas__topo">
+    {%- if section.settings.subtitulo != blank -%}<p class="omg-marcas__sobre">{{ section.settings.subtitulo }}</p>{%- endif -%}
+    <h1 class="omg-marcas__titulo">{{ section.settings.titulo }}</h1>
+    {%- if section.settings.texto != blank -%}<div class="omg-marcas__texto">{{ section.settings.texto }}</div>{%- endif -%}
+    {%- if section.settings.busca -%}
+      <label class="omg-marcas__busca">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="search" placeholder="Buscar marca" aria-label="Buscar marca" data-omg-busca>
+      </label>
+    {%- endif -%}
+  </div>
+  <ul class="omg-marcas__grade" role="list">
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign nome = block.settings.nome
+        assign fornecedor = block.settings.fornecedor | default: nome
+        assign link = block.settings.link
+        if link == blank
+          assign link = fornecedor | url_encode | prepend: '/collections/vendors?q='
+        endif
+      -%}
+      <li class="omg-marcas__item" data-nome="{{ nome | downcase | escape }}" {{ block.shopify_attributes }}>
+        <a class="omg-marcas__tile" href="{{ link }}" aria-label="{{ nome | escape }}">
+          {%- if block.settings.logo != blank -%}
+            {{ block.settings.logo | image_url: width: 600 | image_tag: loading: 'lazy', alt: nome, class: 'omg-marcas__logo' }}
+          {%- elsif block.settings.arquivo != blank -%}
+            <img class="omg-marcas__logo" src="{{ block.settings.arquivo | file_url }}" alt="{{ nome | escape }}" loading="lazy" width="600" height="600">
+          {%- else -%}
+            <span class="omg-marcas__nome">{{ nome }}</span>
+          {%- endif -%}
+        </a>
+      </li>
+    {%- endfor -%}
+  </ul>
+  <p class="omg-marcas__vazio" hidden data-omg-vazio>Nenhuma marca encontrada.</p>
+</section>
+
+<style>
+  #omg-marcas-{{ section.id }}{--plum:#4A2638;--rosa:#F48FB1;--framb:#D9577F;--pri:#B83D66;--bebe:#FDE4EC;--creme:#FFF9F6;--menta:#9EDFC4;
+    background:var(--creme);padding:clamp(28px,5vw,64px) 16px;font-family:Poppins,system-ui,sans-serif;color:var(--plum)}
+  #omg-marcas-{{ section.id }} .omg-marcas__topo{max-width:1200px;margin:0 auto 28px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px}
+  #omg-marcas-{{ section.id }} .omg-marcas__sobre{margin:0;font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--framb);font-weight:500}
+  #omg-marcas-{{ section.id }} .omg-marcas__titulo{margin:0;font-size:clamp(24px,3.4vw,38px);font-weight:700;line-height:1.15}
+  #omg-marcas-{{ section.id }} .omg-marcas__texto{max-width:62ch;font-size:15px;line-height:1.55;color:#7A5566}
+  #omg-marcas-{{ section.id }} .omg-marcas__busca{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--bebe);border-radius:999px;padding:10px 16px;width:min(380px,100%);box-sizing:border-box;margin-top:6px}
+  #omg-marcas-{{ section.id }} .omg-marcas__busca svg{width:17px;height:17px;stroke:var(--framb);fill:none;stroke-width:2}
+  #omg-marcas-{{ section.id }} .omg-marcas__busca input{border:0;outline:0;flex:1;font:inherit;font-size:15px;background:none;color:var(--plum)}
+  #omg-marcas-{{ section.id }} .omg-marcas__grade{list-style:none;margin:0 auto;padding:0;max-width:1200px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  @media(min-width:640px){#omg-marcas-{{ section.id }} .omg-marcas__grade{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}}
+  @media(min-width:900px){#omg-marcas-{{ section.id }} .omg-marcas__grade{grid-template-columns:repeat({{ section.settings.colunas }},minmax(0,1fr));gap:16px}}
+  #omg-marcas-{{ section.id }} .omg-marcas__tile{display:flex;align-items:center;justify-content:center;aspect-ratio:1/1;box-sizing:border-box;background:#fff;border:1px solid var(--bebe);border-radius:18px;overflow:hidden;
+    transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;text-decoration:none}
+  #omg-marcas-{{ section.id }} .omg-marcas__tile:hover,#omg-marcas-{{ section.id }} .omg-marcas__tile:focus-visible{transform:translateY(-4px);box-shadow:0 12px 28px rgba(74,38,56,.12);border-color:var(--rosa)}
+  #omg-marcas-{{ section.id }} .omg-marcas__tile:focus-visible{outline:2px solid var(--pri);outline-offset:3px}
+  #omg-marcas-{{ section.id }} .omg-marcas__logo{width:100%;height:100%;object-fit:contain;display:block}
+  #omg-marcas-{{ section.id }} .omg-marcas__nome{font-weight:700;font-size:clamp(16px,2vw,22px);text-align:center;padding:12px}
+  #omg-marcas-{{ section.id }} .omg-marcas__vazio{text-align:center;color:#7A5566;margin-top:20px}
+</style>
+
+{%- if section.settings.busca -%}
+<script>
+  (function(){var s=document.getElementById('omg-marcas-{{ section.id }}');if(!s)return;var i=s.querySelector('[data-omg-busca]'),v=s.querySelector('[data-omg-vazio]');
+  i&&i.addEventListener('input',function(){var q=i.value.trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''),n=0;
+  s.querySelectorAll('.omg-marcas__item').forEach(function(li){var ok=!q||li.dataset.nome.normalize('NFD').replace(/[̀-ͯ]/g,'').indexOf(q)>-1;li.hidden=!ok;if(ok)n++});v.hidden=n>0});})();
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "OMG · Marcas",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "subtitulo", "label": "Sobretítulo", "default": "Direto da Coreia" },
+    { "type": "text", "id": "titulo", "label": "Título", "default": "Nossas marcas" },
+    { "type": "richtext", "id": "texto", "label": "Texto", "default": "<p>Todas originais, compradas na Coreia do Sul e enviadas direto para você, com imposto já incluso.</p>" },
+    { "type": "checkbox", "id": "busca", "label": "Mostrar busca de marcas", "default": true },
+    { "type": "range", "id": "colunas", "label": "Colunas no computador", "min": 4, "max": 7, "step": 1, "default": 6 }
+  ],
+  "blocks": [
+    {
+      "type": "marca",
+      "name": "Marca",
+      "settings": [
+        { "type": "text", "id": "nome", "label": "Nome da marca" },
+        { "type": "text", "id": "fornecedor", "label": "Fornecedor no Shopify (se diferente do nome)" },
+        { "type": "image_picker", "id": "logo", "label": "Logo (opcional)" },
+        { "type": "text", "id": "arquivo", "label": "Arquivo do logo em Conteúdo → Arquivos", "info": "Ex.: cosrx.png" },
+        { "type": "url", "id": "link", "label": "Link (opcional)", "info": "Em branco = produtos da marca" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "OMG · Marcas" }]
+}
+{% endschema %}
