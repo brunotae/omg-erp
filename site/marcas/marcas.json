@@ -1,0 +1,436 @@
+[
+ {
+  "marca": "COSRX",
+  "slug": "cosrx",
+  "tipo": "logo",
+  "produtos": 243,
+  "lote1": 161
+ },
+ {
+  "marca": "Abib",
+  "slug": "abib",
+  "tipo": "logo",
+  "produtos": 211,
+  "lote1": 0
+ },
+ {
+  "marca": "ROUND LAB",
+  "slug": "round-lab",
+  "tipo": "logo",
+  "produtos": 210,
+  "lote1": 105
+ },
+ {
+  "marca": "mixsoon",
+  "slug": "mixsoon",
+  "tipo": "logo",
+  "produtos": 199,
+  "lote1": 127
+ },
+ {
+  "marca": "Anua",
+  "slug": "anua",
+  "tipo": "logo",
+  "produtos": 156,
+  "lote1": 93
+ },
+ {
+  "marca": "Centellian 24",
+  "slug": "centellian-24",
+  "tipo": "logo",
+  "produtos": 137,
+  "lote1": 61
+ },
+ {
+  "marca": "Beauty of Joseon",
+  "slug": "beauty-of-joseon",
+  "tipo": "logo",
+  "produtos": 135,
+  "lote1": 19
+ },
+ {
+  "marca": "SKIN1004",
+  "slug": "skin1004",
+  "tipo": "logo",
+  "produtos": 115,
+  "lote1": 88
+ },
+ {
+  "marca": "medicube",
+  "slug": "medicube",
+  "tipo": "logo",
+  "produtos": 109,
+  "lote1": 97
+ },
+ {
+  "marca": "MEDIHEAL",
+  "slug": "mediheal",
+  "tipo": "logo",
+  "produtos": 108,
+  "lote1": 0
+ },
+ {
+  "marca": "AROMATICA",
+  "slug": "aromatica",
+  "tipo": "texto",
+  "produtos": 103,
+  "lote1": 0
+ },
+ {
+  "marca": "TIRTIR",
+  "slug": "tirtir",
+  "tipo": "logo",
+  "produtos": 100,
+  "lote1": 80
+ },
+ {
+  "marca": "numbuzin",
+  "slug": "numbuzin",
+  "tipo": "logo",
+  "produtos": 92,
+  "lote1": 0
+ },
+ {
+  "marca": "VT Cosmetics",
+  "slug": "vt-cosmetics",
+  "tipo": "logo",
+  "produtos": 89,
+  "lote1": 0
+ },
+ {
+  "marca": "GONGSKIN",
+  "slug": "gongskin",
+  "tipo": "logo",
+  "produtos": 82,
+  "lote1": 0
+ },
+ {
+  "marca": "Dr.Melaxin",
+  "slug": "dr-melaxin",
+  "tipo": "logo",
+  "produtos": 79,
+  "lote1": 61
+ },
+ {
+  "marca": "Cell Fusion C",
+  "slug": "cell-fusion-c",
+  "tipo": "logo",
+  "produtos": 77,
+  "lote1": 44
+ },
+ {
+  "marca": "La'dor",
+  "slug": "lador",
+  "tipo": "logo",
+  "produtos": 76,
+  "lote1": 23
+ },
+ {
+  "marca": "SOME BY MI",
+  "slug": "some-by-mi",
+  "tipo": "logo",
+  "produtos": 59,
+  "lote1": 0
+ },
+ {
+  "marca": "Dasique",
+  "slug": "dasique",
+  "tipo": "logo",
+  "produtos": 58,
+  "lote1": 58
+ },
+ {
+  "marca": "sonatural",
+  "slug": "sonatural",
+  "tipo": "logo",
+  "produtos": 52,
+  "lote1": 0
+ },
+ {
+  "marca": "BIODANCE",
+  "slug": "biodance",
+  "tipo": "logo",
+  "produtos": 52,
+  "lote1": 44
+ },
+ {
+  "marca": "Rom&nd",
+  "slug": "romand",
+  "tipo": "texto",
+  "produtos": 49,
+  "lote1": 0
+ },
+ {
+  "marca": "ARENCIA",
+  "slug": "arencia",
+  "tipo": "logo",
+  "produtos": 46,
+  "lote1": 19
+ },
+ {
+  "marca": "d'Alba",
+  "slug": "dalba",
+  "tipo": "texto",
+  "produtos": 45,
+  "lote1": 0
+ },
+ {
+  "marca": "Eqqualberry",
+  "slug": "eqqualberry",
+  "tipo": "logo",
+  "produtos": 44,
+  "lote1": 0
+ },
+ {
+  "marca": "celimax",
+  "slug": "celimax",
+  "tipo": "logo",
+  "produtos": 44,
+  "lote1": 35
+ },
+ {
+  "marca": "Torriden",
+  "slug": "torriden",
+  "tipo": "logo",
+  "produtos": 43,
+  "lote1": 42
+ },
+ {
+  "marca": "Dr.G",
+  "slug": "dr-g",
+  "tipo": "texto",
+  "produtos": 42,
+  "lote1": 0
+ },
+ {
+  "marca": "PURITO SEOUL",
+  "slug": "purito-seoul",
+  "tipo": "logo",
+  "produtos": 41,
+  "lote1": 0
+ },
+ {
+  "marca": "Dr. Althea",
+  "slug": "dr-althea",
+  "tipo": "texto",
+  "produtos": 40,
+  "lote1": 0
+ },
+ {
+  "marca": "Rejuran",
+  "slug": "rejuran",
+  "tipo": "logo",
+  "produtos": 37,
+  "lote1": 0
+ },
+ {
+  "marca": "A'pieu",
+  "slug": "apieu",
+  "tipo": "texto",
+  "produtos": 30,
+  "lote1": 0
+ },
+ {
+  "marca": "mise en scène",
+  "slug": "mise-en-scene",
+  "tipo": "logo",
+  "produtos": 28,
+  "lote1": 0
+ },
+ {
+  "marca": "ma:nyo",
+  "slug": "manyo",
+  "tipo": "logo",
+  "produtos": 27,
+  "lote1": 0
+ },
+ {
+  "marca": "Sungboon Editor",
+  "slug": "sungboon-editor",
+  "tipo": "texto",
+  "produtos": 26,
+  "lote1": 0
+ },
+ {
+  "marca": "Another Face",
+  "slug": "another-face",
+  "tipo": "logo",
+  "produtos": 26,
+  "lote1": 0
+ },
+ {
+  "marca": "AESTURA",
+  "slug": "aestura",
+  "tipo": "logo",
+  "produtos": 26,
+  "lote1": 0
+ },
+ {
+  "marca": "beplain",
+  "slug": "beplain",
+  "tipo": "logo",
+  "produtos": 23,
+  "lote1": 0
+ },
+ {
+  "marca": "KAINE",
+  "slug": "kaine",
+  "tipo": "logo",
+  "produtos": 23,
+  "lote1": 0
+ },
+ {
+  "marca": "ILSO",
+  "slug": "ilso",
+  "tipo": "texto",
+  "produtos": 22,
+  "lote1": 0
+ },
+ {
+  "marca": "WELLAGE",
+  "slug": "wellage",
+  "tipo": "texto",
+  "produtos": 22,
+  "lote1": 0
+ },
+ {
+  "marca": "CLIO",
+  "slug": "clio",
+  "tipo": "logo",
+  "produtos": 22,
+  "lote1": 0
+ },
+ {
+  "marca": "Peripera",
+  "slug": "peripera",
+  "tipo": "texto",
+  "produtos": 21,
+  "lote1": 0
+ },
+ {
+  "marca": "òngredients",
+  "slug": "ongredients",
+  "tipo": "logo",
+  "produtos": 21,
+  "lote1": 0
+ },
+ {
+  "marca": "purcell",
+  "slug": "purcell",
+  "tipo": "logo",
+  "produtos": 20,
+  "lote1": 0
+ },
+ {
+  "marca": "DR.forHair",
+  "slug": "dr-forhair",
+  "tipo": "logo",
+  "produtos": 19,
+  "lote1": 0
+ },
+ {
+  "marca": "fwee",
+  "slug": "fwee",
+  "tipo": "logo",
+  "produtos": 19,
+  "lote1": 0
+ },
+ {
+  "marca": "Growus",
+  "slug": "growus",
+  "tipo": "texto",
+  "produtos": 15,
+  "lote1": 0
+ },
+ {
+  "marca": "Hince",
+  "slug": "hince",
+  "tipo": "logo",
+  "produtos": 14,
+  "lote1": 0
+ },
+ {
+  "marca": "BANILA CO",
+  "slug": "banila-co",
+  "tipo": "logo",
+  "produtos": 13,
+  "lote1": 0
+ },
+ {
+  "marca": "Dr. Reju-All",
+  "slug": "dr-reju-all",
+  "tipo": "logo",
+  "produtos": 12,
+  "lote1": 0
+ },
+ {
+  "marca": "COEVAL",
+  "slug": "coeval",
+  "tipo": "texto",
+  "produtos": 17,
+  "lote1": 0
+ },
+ {
+  "marca": "UNOVE",
+  "slug": "unove",
+  "tipo": "texto",
+  "produtos": 12,
+  "lote1": 0
+ },
+ {
+  "marca": "LILY EVE",
+  "slug": "lily-eve",
+  "tipo": "texto",
+  "produtos": 10,
+  "lote1": 0
+ },
+ {
+  "marca": "A'ddict",
+  "slug": "addict",
+  "tipo": "texto",
+  "produtos": 10,
+  "lote1": 0
+ },
+ {
+  "marca": "TS Shampoo",
+  "slug": "ts-shampoo",
+  "tipo": "texto",
+  "produtos": 9,
+  "lote1": 0
+ },
+ {
+  "marca": "freshian",
+  "slug": "freshian",
+  "tipo": "logo",
+  "produtos": 9,
+  "lote1": 0
+ },
+ {
+  "marca": "FOR",
+  "slug": "for",
+  "tipo": "texto",
+  "produtos": 8,
+  "lote1": 0
+ },
+ {
+  "marca": "GYEOL HAUS",
+  "slug": "gyeol-haus",
+  "tipo": "texto",
+  "produtos": 7,
+  "lote1": 0
+ },
+ {
+  "marca": "ARCANIC",
+  "slug": "arcanic",
+  "tipo": "texto",
+  "produtos": 6,
+  "lote1": 0
+ },
+ {
+  "marca": "THE KYEOK",
+  "slug": "the-kyeok",
+  "tipo": "texto",
+  "produtos": 5,
+  "lote1": 0
+ }
+]
