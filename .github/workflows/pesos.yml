@@ -1,0 +1,23 @@
+name: Robô de pesos e medidas
+on:
+  push:
+    branches: [main]
+    paths: ['tools/pesos/*.py']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  pesos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/pesos/sondar.py
+      - run: if [ -f tools/pesos/buscar.py ]; then python3 tools/pesos/buscar.py; fi
+      - name: Guardar resultado
+        run: |
+          git config user.name "omg-bot"; git config user.email "bot@ohmygirl.com.br"
+          git add tools/pesos
+          git commit -m "Robô de pesos: resultado" || true
+          git pull --rebase -q || true
+          git push
