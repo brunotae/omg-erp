@@ -343,6 +343,10 @@ pre.code{font-size:11px}
 .chip{border:1px solid var(--line);background:var(--surface);border-radius:var(--pill);padding:5px 12px;font-size:12px;font-weight:500;color:var(--muted)}
 .chip.on{background:var(--soft);border-color:var(--soft);color:var(--accent);font-weight:600}
 .btn.danger{color:var(--bad)}
+.dropz{display:flex;flex-direction:column;align-items:center;gap:2px;border:1.5px dashed var(--chiclete);border-radius:14px;padding:16px;margin:0 0 12px;background:var(--surface2);color:var(--muted);text-align:center;cursor:pointer;font-size:12px;transition:background .15s,border-color .15s}
+.dropz b{color:var(--accent);font-size:13px}
+.dropz.over,body.dz-on .dropz{background:var(--soft);border-color:var(--accent);border-style:solid}
+body.dz-on #doc-card{outline:2px solid var(--accent);outline-offset:3px}
 .fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
 .fcard{display:flex;flex-direction:column;gap:8px;padding:12px}
 .fcard .fh{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
@@ -629,7 +633,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v8 · 24/10/2026';
+const VERSAO='v9 · 24/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -794,11 +798,12 @@ VIEWFN.documentos=()=>{
  const list=(D&&D.list||[]).filter(f=>!S.q||docNome(f.name).toLowerCase().includes(S.q.toLowerCase()));
  return '<div class="page"><div class="col">'+head('Documentos','Arquivos da empresa num lugar só: manual da marca, ADE e documentos da Receita, contratos, faturas. Só membros do ERP enxergam.')+
  '<div class="chips">'+PASTAS.map(p=>'<button type="button" class="chip'+(p[0]===k?' on':'')+'" data-docf="'+p[0]+'">'+esc(p[1])+(DOCS[p[0]]&&DOCS[p[0]].list?' <span class="num">'+DOCS[p[0]].list.length+'</span>':'')+'</button>').join('')+'</div>'+
- '<div class="card"><div class="card-h"><div><h2>'+esc(P[1])+'</h2><small class="muted">'+esc(P[2])+'</small></div>'+(can()?'<label class="btn pri sm" style="cursor:pointer">+ Enviar arquivos<input type="file" id="doc-up" multiple hidden></label>':'')+'</div>'+
+ '<div class="card" id="doc-card"><div class="card-h"><div><h2>'+esc(P[1])+'</h2><small class="muted">'+esc(P[2])+'</small></div>'+(can()?'<label class="btn pri sm" style="cursor:pointer">+ Enviar arquivos<input type="file" id="doc-up" multiple hidden></label>':'')+'</div>'+
+ (can()?'<label class="dropz" id="doc-drop" for="doc-up2"><b>Arraste e solte os arquivos aqui</b><span>ou clique para escolher · vários de uma vez · até 50 MB cada</span><input type="file" id="doc-up2" multiple hidden></label>':'')+
  (!D||D.loading&&!D.list.length?'<p class="muted">Carregando…</p>':D.err?'<p class="muted">'+esc(D.err)+'</p>':list.length?
   '<div class="tblwrap"><table><thead><tr><th>Arquivo</th><th class="r">Tamanho</th><th>Enviado em</th><th class="r"></th></tr></thead><tbody>'+
   list.map(f=>'<tr><td><b>'+esc(docNome(f.name))+'</b></td><td class="r num">'+fsize(f.metadata&&f.metadata.size)+'</td><td class="num">'+(f.created_at?new Date(f.created_at).toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo',day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'}):'')+'</td><td class="r" style="white-space:nowrap"><button class="btn sm" type="button" data-docopen="'+esc(f.name)+'">Abrir</button>'+(can()?' <button class="btn sm danger" type="button" data-docdel="'+esc(f.name)+'">Excluir</button>':'')+'</td></tr>').join('')+'</tbody></table></div>'
-  :empty('Pasta vazia','Use Enviar arquivos. Pode mandar vários de uma vez (PDF, imagens, planilhas, até 50 MB cada).'))+'</div></div>'+
+  :empty('Pasta vazia','Arraste os arquivos para esta tela ou use Enviar arquivos.'))+'</div></div>'+
  '<aside class="rail"><div class="note"><span class="label">Como organizar</span><p>Um arquivo por documento, com nome claro: <b>ADE Coana 111-2026.pdf</b>, <b>Contrato Skyroad 2026.pdf</b>.</p><p class="muted">Documentos de uma venda, embarque ou compra específica ficam anexados dentro dela, não aqui.</p></div></aside></div>';
 };
 const limpaNome=s=>String(s).normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^A-Za-z0-9._ -]/g,'_').replace(/\s+/g,' ').trim().slice(0,120)||'arquivo';
@@ -1645,10 +1650,23 @@ document.addEventListener('click',e=>{
  if(t.id==='copy-schema'){const txt=$('#schema').textContent;const sel=()=>{const r=document.createRange();r.selectNodeContents($('#schema'));const s=getSelection();s.removeAllRanges();s.addRange(r);toast('Texto selecionado. Copie com Ctrl/Cmd + C')};
   try{navigator.clipboard.writeText(txt).then(()=>toast('Formato copiado'),sel)}catch(_){sel()}}
 });
+
+/* ---------- arrastar e soltar arquivos na tela Documentos (em qualquer ponto da página) ---------- */
+(function(){
+ let depth=0;
+ const temArq=e=>e.dataTransfer&&[...(e.dataTransfer.types||[])].includes('Files');
+ const ativo=()=>S.view==='documentos'&&can()&&!document.querySelector('#ov');
+ window.addEventListener('dragenter',e=>{if(!temArq(e)||!ativo())return;depth++;document.body.classList.add('dz-on')});
+ window.addEventListener('dragleave',e=>{if(!temArq(e)||!ativo())return;depth=Math.max(0,depth-1);if(!depth)document.body.classList.remove('dz-on')});
+ // impede o navegador de abrir o arquivo e sair do ERP quando ele é solto fora de uma área de envio
+ window.addEventListener('dragover',e=>{if(!temArq(e))return;e.preventDefault();if(e.dataTransfer)e.dataTransfer.dropEffect=ativo()||e.target.closest&&e.target.closest('#ov')?'copy':'none'});
+ window.addEventListener('drop',e=>{if(!temArq(e))return;e.preventDefault();depth=0;document.body.classList.remove('dz-on');
+  if(ativo()&&e.dataTransfer.files.length)enviarDocs([...e.dataTransfer.files])});
+})();
 document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
 document.addEventListener('change',e=>{
  if(e.target.id==='ft-marca'){FT.marca=e.target.value;FT.lim=60;render();return}
- if(e.target.id==='doc-up'&&e.target.files.length){enviarDocs([...e.target.files]);return}
+ if((e.target.id==='doc-up'||e.target.id==='doc-up2')&&e.target.files.length){enviarDocs([...e.target.files]);e.target.value='';return}
  if(e.target.id==='cat-up'&&e.target.files[0]){importarCatalogo(e.target.files[0]);e.target.value='';return}
  const s=e.target;if(!s.matches||!s.matches('select[data-combo]'))return;
  const o=document.getElementById(s.id+'-outra');if(!o)return;
