@@ -14,7 +14,7 @@
       "niacinamida poro aberto",
       "niacinamida todo dia pode?"
     ],
-    "resposta_chat": "A niacinamida (vitamina B3) é um ativo suave e versátil: ajuda no controle da oleosidade, na aparência dos poros, no tom uniforme e na barreira da pele. Quer opções pro seu tipo de pele?",
+    "resposta_chat": "A niacinamida (vitamina B3) é suave e versátil: ajuda na oleosidade, nos poros, no tom uniforme e na barreira da pele. Quer opções pro seu tipo de pele?",
     "resposta_chat_alt": "Niacinamida é a vitamina B3, queridinha de quase todo tipo de pele ✨ Ajuda com oleosidade, poros, viço e tom mais uniforme. Pode usar de dia e à noite.",
     "escalar_humano": false,
     "quando_escalar": "Reação (vermelhidão persistente, coceira, inchaço) ou condição de pele diagnosticada: orientar dermatologista. Reação a produto comprado na OMG: transferir para atendimento humano.",
@@ -125,7 +125,7 @@
       "retinol descasca",
       "retinol é forte?"
     ],
-    "resposta_chat": "Retinol é uma forma de vitamina A que ajuda na renovação da pele e na aparência de linhas e textura. É forte: use à noite, comece devagar e protetor solar todo dia ✨",
+    "resposta_chat": "Retinol é vitamina A que ajuda na renovação da pele e na aparência de linhas e textura. É forte: à noite, comece devagar e use protetor todo dia ✨",
     "resposta_chat_alt": "Retinol é potente! Comece 2 a 3 noites por semana, numa pele bem seca, e use protetor de dia. Gestantes e lactantes devem evitar e falar com o médico.",
     "escalar_humano": false,
     "quando_escalar": "Gravidez, amamentação, uso de isotretinoína ou outro tratamento dermatológico, pele com condição diagnosticada (dermatite, rosácea, acne grave) ou reação (ardência forte, inchaço, bolhas, coceira persistente): não indicar produto, orientar a procurar dermatologista/médico. Reação a produto comprado na OMG: transferir para atendimento humano.",
@@ -190,7 +190,7 @@
       "vitamin c serum",
       "vitamina c com retinol"
     ],
-    "resposta_chat": "A vitamina C é um antioxidante que deixa a pele mais luminosa e com tom uniforme. A forma pura é mais forte; os derivados são mais suaves. Ideal de manhã, com protetor 💗",
+    "resposta_chat": "A vitamina C é um antioxidante que deixa a pele luminosa e com tom uniforme. A forma pura é mais forte, os derivados mais suaves. Ideal de manhã 💗",
     "resposta_chat_alt": "Vitamina C dá viço e ajuda no tom uniforme! Se sua pele é sensível, os derivados são mais gentis. Quer que eu procure opções?",
     "escalar_humano": false,
     "quando_escalar": "Reação (vermelhidão persistente, coceira, inchaço) ou condição de pele diagnosticada: orientar dermatologista. Reação a produto comprado na OMG: transferir para atendimento humano.",

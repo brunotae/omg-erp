@@ -13,7 +13,7 @@
       "essencia ou serum",
       "first treatment essence"
     ],
-    "resposta_chat": "A essence é um líquido leve de hidratação e tratamento, um pouco mais concentrado que o tônico. Vai depois do tônico e antes do sérum ✨",
+    "resposta_chat": "A essence é um líquido leve de hidratação e cuidado, um pouco mais concentrado que o tônico. Vai depois do tônico e antes do sérum ✨",
     "resposta_chat_alt": "Pense na essence como um \"tônico turbinado\": preparo a pele com hidratação e ativos leves. É um passo opcional, mas muito amado na Coreia.",
     "escalar_humano": false,
     "quando_escalar": "",
@@ -33,7 +33,7 @@
       "ampola de centella",
       "ampola todo dia pode"
     ],
-    "resposta_chat": "A ampoule (ampola) é um tratamento concentrado, geralmente com um ou poucos ativos em alta dose. Use poucas gotas depois da essence ou junto do sérum 💗",
+    "resposta_chat": "A ampoule (ampola) é um cuidado concentrado, geralmente com um ou poucos ativos em alta dose. Use poucas gotas depois da essence ou junto do sérum 💗",
     "resposta_chat_alt": "Ampola é a versão \"intensiva\" do sérum: mais concentrada e focada numa necessidade. Pode usar todo dia ou em fases específicas.",
     "escalar_humano": false,
     "quando_escalar": "",
@@ -367,7 +367,7 @@
       "protetor coreano é melhor?",
       "tone up cream"
     ],
-    "resposta_chat": "São texturas de protetor solar coreano: sun cream é mais cremoso, sun essence e sun gel são fluidos e leves, sun milk é líquido e resistente. Todos protegem; a diferença é a sensação 😊",
+    "resposta_chat": "São texturas de protetor coreano: sun cream é cremoso, sun essence e sun gel são leves, sun milk é líquido e resistente. Todos protegem, muda a sensação 😊",
     "resposta_chat_alt": "Pele oleosa costuma amar sun essence ou sun gel; pele seca prefere sun cream. O importante é o FPS, o PA e usar a quantidade certa. Quer ajuda para escolher?",
     "escalar_humano": false,
     "quando_escalar": "",
@@ -390,7 +390,7 @@
       "spf 50+ pa++++ meaning"
     ],
     "resposta_chat": "FPS (ou SPF) mede a proteção contra UVB, ligado a queimaduras. PA mede a proteção contra UVA, ligado a manchas e envelhecimento: PA++++ é o nível mais alto 💗",
-    "resposta_chat_alt": "SPF e FPS são a mesma coisa (inglês e português) e medem UVB. O PA, de + a ++++, mede UVA. Para o dia a dia, FPS 30+ e PA+++ ou PA++++ é ótimo!",
+    "resposta_chat_alt": "SPF e FPS são a mesma coisa e medem UVB. O PA, de + a ++++, mede UVA. No dia a dia, FPS 30+ com PA+++ ou PA++++ é ótimo!",
     "escalar_humano": false,
     "quando_escalar": "",
     "notas_internas": "FPS (fator de proteção solar; SPF em inglês) indica a proteção contra a radiação UVB, principal responsável por vermelhidão e queimadura; FPS 30 bloqueia cerca de 97% do UVB e FPS 50 cerca de 98%, na quantidade testada (2 mg/cm², cerca de 2 dedos para o rosto). Na Coreia, rótulos acima de 50 aparecem como SPF 50+. PA (Protection Grade of UVA) é um sistema criado no Japão e adotado na Coreia que indica proteção contra UVA, ligado a manchas, bronzeamento e fotoenvelhecimento; baseia-se no teste PPD (persistent pigment darkening): PA+ (PPD 2 a <4), PA++ (4 a <8), PA+++ (8 a <16) e PA++++ (16 ou mais), o nível mais alto. No Brasil, a Anvisa exige que a proteção UVA seja de pelo menos 1/3 do FPS declarado e usa outra forma de rotular; PA não é a escala brasileira, mas é uma referência válida. Para o dia a dia, recomendado FPS 30 ou mais com PA+++ ou PA++++, aplicado na quantidade certa e reaplicado a cada 2 horas ao sol.",
@@ -515,7 +515,7 @@
       "pele repuxando e vermelha",
       "barreira da pele sinais"
     ],
-    "resposta_chat": "A barreira cutânea é a camada mais externa da pele, que segura a hidratação e protege contra agressões. Ardência com produtos suaves, repuxamento e descamação podem ser sinais de que ela precisa de cuidado 💗",
+    "resposta_chat": "A barreira cutânea é a camada externa que segura a hidratação e protege a pele. Ardência com produtos suaves, repuxamento e descamação são sinais de que ela pede cuidado 💗",
     "resposta_chat_alt": "Barreira sensibilizada? Simplifique: limpeza suave, hidratante com ceramidas ou pantenol, protetor e pausa nos ácidos e retinol. Se não melhorar, procure um dermatologista.",
     "escalar_humano": false,
     "quando_escalar": "Reação (vermelhidão persistente, coceira, inchaço, bolhas) ou condição de pele diagnosticada: orientar dermatologista. Reação a produto comprado na OMG: transferir para atendimento humano.",
@@ -537,8 +537,8 @@
       "skin purging",
       "produto novo deu espinha"
     ],
-    "resposta_chat": "Purging é uma piora temporária com ativos que aceleram a renovação, como retinol e ácidos, nas áreas onde você já costuma ter espinhas. Coceira, ardência ou espinhas em áreas novas indicam reação: suspenda 😊",
-    "resposta_chat_alt": "Purging acontece com retinoides e ácidos e melhora em algumas semanas. Se o produto não tem esses ativos, ou se coça, arde ou aparece em áreas novas, pare e fale com um dermatologista.",
+    "resposta_chat": "Purging é uma piora passageira com retinol ou ácidos, nas áreas onde você já tem espinhas. Coceira, ardência ou espinhas em áreas novas indicam reação: suspenda o produto.",
+    "resposta_chat_alt": "Purging só acontece com retinoides e ácidos e melhora em algumas semanas. Se coça, arde ou surge em áreas novas, pare o produto e procure um dermatologista.",
     "escalar_humano": false,
     "quando_escalar": "Reação (vermelhidão persistente, coceira, inchaço, bolhas) ou condição de pele diagnosticada: orientar dermatologista. Reação a produto comprado na OMG: transferir para atendimento humano.",
     "notas_internas": "Purging é uma piora temporária da pele causada por ativos que aceleram a renovação celular (retinoides, AHA, BHA, PHA e similares), que trazem à superfície mais rápido cravos e espinhas que já estavam se formando. Características: ocorre com esses ativos; aparece nas áreas onde a pessoa já costuma ter espinhas; as lesões tendem a durar menos; e melhora em cerca de 4 a 6 semanas (um a dois ciclos de renovação da pele). Reação ou breakout por incompatibilidade: ocorre com produtos sem ativos de renovação (ex.: hidratante, protetor), aparece em áreas novas, vem com coceira, ardência, vermelhidão difusa, inchaço ou bolinhas, ou persiste após 6 a 8 semanas. Nesse caso, suspender o produto e procurar dermatologista. A Bomi não deve diagnosticar: apenas explicar a diferença e orientar.",
