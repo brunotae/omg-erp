@@ -31,7 +31,7 @@ CSS = """
 .omg-pol .aviso{background:#fff;border-left:4px solid var(--menta);padding:10px 14px;border-radius:8px;font-size:13.5px;margin-top:26px}
 @media (max-width:640px){.omg-pol{font-size:14.5px;padding:18px 14px 40px}.omg-pol .toc ol{columns:1}}
 """
-AVISO = ("Dúvidas? Fale com a gente: WhatsApp <a href=\"https://wa.me/5511945884562\">+55 11 94588-4562</a> · "
+AVISO = ("Dúvidas? Fale com a gente: WhatsApp <a href=\"https://wa.me/5511993049122\">+55 11 99304-9122</a> · "
          "<a href=\"mailto:info.br@ohmygirl.com.br\">info.br@ohmygirl.com.br</a> · MPOEMA INC (OMG! / Oh My Girl) — Los Angeles, Califórnia, EUA.")
 
 def pend(s):
@@ -68,7 +68,7 @@ for fn in sorted(os.listdir(SRC)):
 # Rodapé (Decreto 7.962/2013, art. 2º)
 rodape = """<div class="omg-rodape-empresa" style="font-family:Poppins,Arial,sans-serif;font-size:12.5px;line-height:1.6;color:#7A5566;text-align:center;padding:14px 12px">
   <strong style="color:#4A2638">MPOEMA INC</strong> · Los Angeles, Califórnia, EUA<br>
-  <a href="mailto:info.br@ohmygirl.com.br" style="color:#B83D66">info.br@ohmygirl.com.br</a> · WhatsApp <a href="https://wa.me/5511945884562" style="color:#B83D66">+55 11 94588-4562</a> · seg. a sex., 9h às 18h (Brasília)<br>
+  <a href="mailto:info.br@ohmygirl.com.br" style="color:#B83D66">info.br@ohmygirl.com.br</a> · WhatsApp <a href="https://wa.me/5511993049122" style="color:#B83D66">+55 11 99304-9122</a> · seg. a sex., 9h às 18h (Brasília)<br>
   Empresa certificada no Programa Remessa Conforme (ADE Coana nº 81/2026, alterado pelo ADE nº 111/2026).<br>
   <a href="/policies/terms-of-service" style="color:#7A5566">Termos de Uso</a> · <a href="/policies/privacy-policy" style="color:#7A5566">Privacidade</a> · <a href="/policies/refund-policy" style="color:#7A5566">Trocas e Devoluções</a> · <a href="/policies/shipping-policy" style="color:#7A5566">Entrega</a> · <a href="/pages/cookies" style="color:#7A5566">Cookies</a>
 </div>

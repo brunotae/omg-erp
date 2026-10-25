@@ -5,7 +5,7 @@
 - **Sede:** Los Angeles, Califórnia, EUA
 - **Encarregado de dados (LGPD):** info.br@ohmygirl.com.br
 - **E-mail:** info.br@ohmygirl.com.br
-- **WhatsApp:** +55 11 94588-4562
+- **WhatsApp:** +55 11 99304-9122
 - **Atendimento humano:** segunda a sexta, das 9h às 18h (horário de Brasília). Fora desse horário, a assistente virtual responde e a equipe retoma no próximo dia útil.
 - **Programa Remessa Conforme:** empresa certificada pela Receita Federal (ADE Coana nº 81/2026, alterado pelo ADE Coana nº 111/2026).
 

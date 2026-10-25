@@ -68,8 +68,8 @@ CATS.append(("sobre", "Sobre a OMG", "Quem somos, de onde vem o produto e como f
    None),
  Q("Como falo com a OMG?",
    ["como falo com vcs", "tem whatsapp?", "qual o email de vcs", "quero falar com atendente", "atendimento humano"],
-   "Pelo WhatsApp +55 11 94588-4562 ou pelo e-mail " + EMAIL + ". Nosso assistente responde na hora e, se precisar, passa para uma pessoa da equipe, de segunda a sexta, das 9h às 18h (horário de Brasília).",
-   "- **WhatsApp**: **+55 11 94588-4562** — assistente automático 24h e equipe humana no horário de atendimento.\n- **E-mail**: " + EMAIL + " — resposta em até **2 dias úteis**.\n- **Horário da equipe**: de segunda a sexta, das 9h às 18h (horário de Brasília).\n\nPara agilizar, tenha em mãos o **número do pedido** (ex.: #1001) e o **e-mail** usado na compra.",
+   "Pelo WhatsApp +55 11 99304-9122 ou pelo e-mail " + EMAIL + ". Nosso assistente responde na hora e, se precisar, passa para uma pessoa da equipe, de segunda a sexta, das 9h às 18h (horário de Brasília).",
+   "- **WhatsApp**: **+55 11 99304-9122** — assistente automático 24h e equipe humana no horário de atendimento.\n- **E-mail**: " + EMAIL + " — resposta em até **2 dias úteis**.\n- **Horário da equipe**: de segunda a sexta, das 9h às 18h (horário de Brasília).\n\nPara agilizar, tenha em mãos o **número do pedido** (ex.: #1001) e o **e-mail** usado na compra.",
    h=False),
  Q("Qual é o horário de atendimento?",
    ["horario de atendimento", "vcs atendem sabado?", "que horas vcs respondem", "atende domingo"],
@@ -543,7 +543,7 @@ CATS.append(("golpes", "Golpes e sites falsos", "Como se proteger.", [
 CATS.append(("contato", "Fale com a gente", "Canais e como agilizar o atendimento.", [
  Q("Quero falar com uma pessoa.",
    ["falar com atendente", "quero humano", "atendimento humano", "falar com alguem"],
-   "Claro! Escreva 'atendente' no WhatsApp (+55 11 94588-4562) que passamos para a equipe, de segunda a sexta, das 9h às 18h (horário de Brasília). Fora do horário, deixe a sua mensagem que respondemos no próximo dia útil.",
+   "Claro! Escreva 'atendente' no WhatsApp (+55 11 99304-9122) que passamos para a equipe, de segunda a sexta, das 9h às 18h (horário de Brasília). Fora do horário, deixe a sua mensagem que respondemos no próximo dia útil.",
    None, h=True),
  Q("Quero fazer uma reclamação.",
    ["reclamação", "estou insatisfeita", "pessimo atendimento", "vou abrir reclame aqui"],
@@ -555,7 +555,7 @@ CATS.append(("contato", "Fale com a gente", "Canais e como agilizar o atendiment
    None),
  Q("Vocês têm telefone?",
    ["tem telefone", "posso ligar", "numero pra ligar"],
-   "O nosso atendimento é por WhatsApp (+55 11 94588-4562, mensagens) e e-mail (" + EMAIL + "). Assim registramos tudo e resolvemos mais rápido.",
+   "O nosso atendimento é por WhatsApp (+55 11 99304-9122, mensagens) e e-mail (" + EMAIL + "). Assim registramos tudo e resolvemos mais rápido.",
    None),
 ]))
 
@@ -686,7 +686,7 @@ NOVAS = {
  "devolucoes": [
   Q("O pacote chegou com o lacre rompido ou violado. O que faço?", ["lacre rompido", "pacote violado", "caixa aberta", "veio sem lacre", "fita violada"],
     "Se perceber na entrega, o melhor é recusar o pacote e nos avisar na hora pelo WhatsApp, com foto ou vídeo. Se só notar depois, fale com a gente em até 30 dias do recebimento, com fotos da caixa e do produto. Os seus direitos continuam garantidos.",
-    "Os pedidos OMG saem da Coreia **lacrados**.\n\n- **Na hora da entrega**: se a caixa estiver aberta, amassada demais ou com o lacre rompido, **recuse** o pacote e nos avise **na hora** pelo WhatsApp (" + "+55 11 94588-4562" + "), com foto ou vídeo.\n- **Depois de receber**: fale com a gente em **até 30 dias** do recebimento, com fotos da caixa, do lacre e dos produtos.\n\nRecusar na entrega agiliza a solução, mas **não é condição** para os seus direitos: em qualquer caso, enviamos de novo ou reembolsamos.", h=True),
+    "Os pedidos OMG saem da Coreia **lacrados**.\n\n- **Na hora da entrega**: se a caixa estiver aberta, amassada demais ou com o lacre rompido, **recuse** o pacote e nos avise **na hora** pelo WhatsApp (" + "+55 11 99304-9122" + "), com foto ou vídeo.\n- **Depois de receber**: fale com a gente em **até 30 dias** do recebimento, com fotos da caixa, do lacre e dos produtos.\n\nRecusar na entrega agiliza a solução, mas **não é condição** para os seus direitos: em qualquer caso, enviamos de novo ou reembolsamos.", h=True),
   Q("Recebi um produto que não pedi.", ["veio produto a mais", "recebi coisa que nao comprei", "brinde?"],
     "Pode ter sido um brinde ou um engano na separação. Mande uma foto pelo WhatsApp com o número do pedido que verificamos e, se for engano, combinamos o que fazer sem custo para você.",
     None),
@@ -718,7 +718,7 @@ NOVAS = {
  ],
  "golpes": [
   Q("A OMG pede senha ou código por mensagem?", ["pediram meu codigo", "pediram senha", "codigo do whatsapp", "sms com codigo"],
-    "Nunca. A OMG não pede senha, código de verificação, dados completos do cartão nem pagamento por Pix por mensagem. Se alguém pedir em nosso nome, não passe e nos avise no WhatsApp oficial (+55 11 94588-4562).",
+    "Nunca. A OMG não pede senha, código de verificação, dados completos do cartão nem pagamento por Pix por mensagem. Se alguém pedir em nosso nome, não passe e nos avise no WhatsApp oficial (+55 11 99304-9122).",
     None, h=True),
  ],
  "entrega": [

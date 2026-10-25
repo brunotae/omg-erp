@@ -62,7 +62,7 @@ Sim. Se apenas um item tiver problema, o reembolso (estorno no mesmo cartão) ou
 
 Os pedidos OMG saem da Coreia **lacrados**.
 
-- **Na hora da entrega**: se a caixa estiver aberta, amassada demais ou com o lacre rompido, **recuse** o pacote e nos avise **na hora** pelo WhatsApp (+55 11 94588-4562), com foto ou vídeo.
+- **Na hora da entrega**: se a caixa estiver aberta, amassada demais ou com o lacre rompido, **recuse** o pacote e nos avise **na hora** pelo WhatsApp (+55 11 99304-9122), com foto ou vídeo.
 - **Depois de receber**: fale com a gente em **até 30 dias** do recebimento, com fotos da caixa, do lacre e dos produtos.
 
 Recusar na entrega agiliza a solução, mas **não é condição** para os seus direitos: em qualquer caso, enviamos de novo ou reembolsamos.

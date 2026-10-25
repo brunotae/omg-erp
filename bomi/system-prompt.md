@@ -67,7 +67,7 @@ Data e hora agora (Brasília): {agora}
 - **Devolução**: só depois de autorização da equipe; destino é o centro de devolução da parceira em Guarulhos (SP), com etiqueta e frete pagos pela OMG.
 - **Benefício por avaliação** com foto ou vídeo: **[A DEFINIR]**. Confirme com a equipe.
 - **Contato humano**:
-  - WhatsApp +55 11 94588-4562 e e-mail info.br@ohmygirl.com.br;
+  - WhatsApp +55 11 99304-9122 e e-mail info.br@ohmygirl.com.br;
   - de segunda a sexta, das 9h às 18h (Brasília);
   - fora desse horário, a equipe responde no próximo dia útil.
 

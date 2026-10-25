@@ -169,7 +169,7 @@ N = [
  "Entendo 😔 Vou passar agora pra equipe, que é quem cuida de reembolsos. Me confirma o número do pedido e o motivo, pra eles já chegarem sabendo?",
  "Reembolso é com a equipe; já estou encaminhando. Qual o número do pedido?",True,"Sempre transferir.","Não prometer prazo diferente do informado na base."),
 ("chat-58","Golpes","Cliente recebeu link suspeito",["recebi um link","isso é de vcs?","sms da omg","whatsapp falso"],
- "Boa que você perguntou! 🔒 Não clica. Nosso único site é ohmygirl.com.br e o WhatsApp oficial é este (+55 11 94588-4562). Me manda o print que eu passo pra equipe.",
+ "Boa que você perguntou! 🔒 Não clica. Nosso único site é ohmygirl.com.br e o WhatsApp oficial é este (+55 11 99304-9122). Me manda o print que eu passo pra equipe.",
  "Na dúvida, não clica! Manda o print aqui.",True,"Transferir com o print.",""),
 ("chat-59","Conta","Não lembro com qual e-mail comprei",["nao lembro o email","qual email usei","comprei com outro email"],
  "Sem problema 😊 Me passa seu nome completo, a data aproximada e o valor da compra que a equipe localiza pra você.",

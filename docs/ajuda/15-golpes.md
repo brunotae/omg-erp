@@ -31,4 +31,4 @@ Obrigada por avisar! Mande o @ ou o link pelo WhatsApp ou e-mail. Nosso perfil o
 
 ### A OMG pede senha ou código por mensagem?
 
-Nunca. A OMG não pede senha, código de verificação, dados completos do cartão nem pagamento por Pix por mensagem. Se alguém pedir em nosso nome, não passe e nos avise no WhatsApp oficial (+55 11 94588-4562).
+Nunca. A OMG não pede senha, código de verificação, dados completos do cartão nem pagamento por Pix por mensagem. Se alguém pedir em nosso nome, não passe e nos avise no WhatsApp oficial (+55 11 99304-9122).

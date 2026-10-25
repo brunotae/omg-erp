@@ -100,4 +100,4 @@ Podemos atualizar esta Política. Mudanças relevantes serão avisadas no site o
 
 ## 15. Contato
 
-**info.br@ohmygirl.com.br** (assunto "LGPD") · WhatsApp **+55 11 94588-4562**.
+**info.br@ohmygirl.com.br** (assunto "LGPD") · WhatsApp **+55 11 99304-9122**.

@@ -51,4 +51,4 @@ Os pedidos saem **lacrados**. Se o pacote estiver violado ou com o lacre rompido
 
 ## 10. Contato
 
-WhatsApp **+55 11 94588-4562** · **info.br@ohmygirl.com.br**.
+WhatsApp **+55 11 99304-9122** · **info.br@ohmygirl.com.br**.

@@ -48,7 +48,7 @@ Não. A OMG é 100% online e os pedidos saem da Coreia do Sul, então não há r
 
 ### Como falo com a OMG?
 
-- **WhatsApp**: **+55 11 94588-4562** — assistente automático 24h e equipe humana no horário de atendimento.
+- **WhatsApp**: **+55 11 99304-9122** — assistente automático 24h e equipe humana no horário de atendimento.
 - **E-mail**: info.br@ohmygirl.com.br — resposta em até **2 dias úteis**.
 - **Horário da equipe**: de segunda a sexta, das 9h às 18h (horário de Brasília).
 

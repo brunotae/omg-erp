@@ -73,7 +73,7 @@ A Bomi conversa de forma natural, mas **sempre se apresenta como assistente virt
 
 ## Opções de canal (WhatsApp)
 
-O número **+55 11 94588-4562** é o mesmo que a equipe usa hoje. Seja qual for a opção, é preciso decidir se o número fica **só na API** ou em **coexistência** com o app WhatsApp Business. Com coexistência, a equipe continua usando o app no celular enquanto a Bomi responde pela API. A Meta passou a permitir isso em muitos casos, mas a disponibilidade depende do provedor e do país: **confirmar antes**.
+O número **+55 11 99304-9122** é o mesmo que a equipe usa hoje. Seja qual for a opção, é preciso decidir se o número fica **só na API** ou em **coexistência** com o app WhatsApp Business. Com coexistência, a equipe continua usando o app no celular enquanto a Bomi responde pela API. A Meta passou a permitir isso em muitos casos, mas a disponibilidade depende do provedor e do país: **confirmar antes**.
 
 ### Opção A · Direto: WhatsApp Cloud API + função no Supabase + API do Claude
 

@@ -8,7 +8,7 @@ Bem-vinda à OMG! Estes Termos explicam como funcionam o uso do site **ohmygirl.
 
 - **Marca:** OMG! / Oh My Girl.
 - **Vendedora:** **MPOEMA INC** — Los Angeles, Califórnia, EUA.
-- **Contato:** e-mail **info.br@ohmygirl.com.br** · WhatsApp **+55 11 94588-4562** (equipe de segunda a sexta, das 9h às 18h, horário de Brasília).
+- **Contato:** e-mail **info.br@ohmygirl.com.br** · WhatsApp **+55 11 99304-9122** (equipe de segunda a sexta, das 9h às 18h, horário de Brasília).
 
 A MPOEMA INC é certificada no **Programa Remessa Conforme (PRC)** da Receita Federal do Brasil, pelo Ato Declaratório Executivo Coana nº 81/2026, alterado pelo ADE Coana nº 111/2026, que inclui o site **www.ohmygirl.com.br**.
 
