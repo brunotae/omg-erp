@@ -32,7 +32,7 @@ Dentro dos **7 dias** do recebimento você pode usar o direito de arrependimento
 
 ### Posso trocar por outro produto?
 
-Como os produtos vêm da Coreia para cada pedido, não fazemos troca direta. Você pode usar o direito de arrependimento (7 dias) e comprar o produto desejado num novo pedido.
+Como cada pedido sai do nosso estoque na Coreia já com a sua Declaração de Importação, não fazemos troca direta. Você pode usar o direito de arrependimento (7 dias) e comprar o produto desejado num novo pedido.
 
 ### Como recebo o reembolso e em quanto tempo?
 
