@@ -2,7 +2,9 @@
 
 A Bomi atende as clientes da OMG no WhatsApp e por e-mail, com o jeito de "a amiga que entende de skincare". Ela responde a partir da mesma base da Central de Ajuda do site. Quando o caso pede uma pessoa, passa para a equipe.
 
-> **Status:** só conteúdo. **Nada está conectado ainda**: nenhum número, nenhuma chave e nenhuma automação ativa.
+> **Status:** conteúdo pronto e **página de teste** no ar (`bomi/teste/`, roda com a conta do Claude do Tae). **Nada está conectado à loja ainda**: nenhuma chave de API e nenhuma automação ativa.
+>
+> **Decidido (25/10/2026):** canal pela **API oficial da Meta, direto** (Opção A abaixo), com coexistência no app WhatsApp Business; número **+55 11 99304-9122** (linha da empresa). Modelo recomendado: Claude Sonnet 5.5. Primeiro canal: **chat do site**, na inauguração (31/10); WhatsApp em novembro.
 
 ## O que tem nesta pasta
 
@@ -10,9 +12,12 @@ A Bomi atende as clientes da OMG no WhatsApp e por e-mail, com o jeito de "a ami
 |---|---|
 | `persona.md` | Quem é a Bomi: voz, tom, faça/não faça e exemplos. É a referência para qualquer pessoa que for escrever respostas. |
 | `system-prompt.md` | O prompt de sistema do modelo de IA, em português. Traz as regras, os fatos fixos, as 4 ferramentas, quando escalar e exemplos. |
-| `base-conhecimento.json` | 229 entradas. Cada uma tem: gatilhos (jeitos reais de perguntar), resposta de chat, resposta alternativa, quando escalar e notas internas. |
+| `base-conhecimento.json` | Central de Ajuda + intenções de chat + guias (`fonte/guias/`: ativos, termos coreanos, rotinas, tons de base, validade e originalidade, objeções, marcas). Cada uma tem: gatilhos (jeitos reais de perguntar), resposta de chat, resposta alternativa, quando escalar e notas internas. |
 | `testes/conversas.md` | 40 conversas de teste com personas e critérios de aprovação. |
 | `fonte/` | De onde o JSON é gerado. É aqui que se edita (veja abaixo). |
+| `fichas-produtos.json` | Ficha de cada produto do lote 1 (preço, descrição, como usar, ingredientes), tirada do export do Shopify por `teste/fichas.py`. Em produção vem do catálogo sincronizado. |
+| `teste/` | Página de teste (`gerar.py` + `modelo.html` → `bomi-teste.html`). |
+| `REVISAO-SEMANAL.md` | Como melhorar a Bomi toda semana com as conversas reais. |
 
 ## Como as peças se encaixam
 
@@ -27,9 +32,12 @@ bomi/fonte/chat_novos.py  ──┘   tom de chat + 60 intenções só do chat
 Mensagem da cliente ─► canal (WhatsApp/e-mail) ─► função no servidor
    └─► modelo de IA com system-prompt.md + entradas relevantes da base
          ├─ consultar_pedido   → pedidos (Shopify/ERP)
-         ├─ buscar_produto     → catálogo do Shopify
+         ├─ buscar_produto     → catálogo do Shopify (resumo)
+         ├─ ver_produto        → ficha completa do produto
+         ├─ simular_imposto    → II + ICMS estimados (PTAX do dia útil anterior)
          ├─ transferir_humano  → caixa de atendimento da equipe
          └─ registrar_feedback → tabela de feedback (ERP)
+   + avisos do momento (tabela avisos_bomi, tela "Avisos da Bomi" no ERP)
 ```
 
 **Regra de ouro:** os **fatos** (prazo, imposto, devolução etc.) moram na Central de Ajuda. A pasta `bomi/fonte` só guarda o **jeito de falar**.
@@ -42,7 +50,7 @@ Mensagem da cliente ─► canal (WhatsApp/e-mail) ─► função no servidor
    - depois procure o mesmo `id` em `bomi/fonte/chat_*.py` e ajuste o texto de chat.
 2. **Quer mudar o tom de uma resposta:** edite só o `chat_*.py` daquele `id`. O formato é `(resposta_chat, resposta_chat_alt, [gatilhos extras])`.
 3. **Nova intenção que não existe no site** (ex.: "vocês têm loja física?"): acrescente uma linha em `chat_novos.py`, com um `id` novo (`chat-61`…).
-4. **Resolveu um [A DEFINIR]** (resgate de pontos D30, benefício por avaliação D16, endereço da MPOEMA D31):
+4. **Resolveu um [A DEFINIR]** (hoje só o benefício por avaliação, D16; pontos de fidelidade ficaram para depois e o endereço da MPOEMA é só "Los Angeles, CA, EUA"):
    - atualize a Central de Ajuda;
    - tire o "confirmo com a equipe" da resposta de chat;
    - ajuste `system-prompt.md`, seção 3.
@@ -73,7 +81,7 @@ A Bomi conversa de forma natural, mas **sempre se apresenta como assistente virt
 
 ## Opções de canal (WhatsApp)
 
-O número **+55 11 99304-9122** é o mesmo que a equipe usa hoje. Seja qual for a opção, é preciso decidir se o número fica **só na API** ou em **coexistência** com o app WhatsApp Business. Com coexistência, a equipe continua usando o app no celular enquanto a Bomi responde pela API. A Meta passou a permitir isso em muitos casos, mas a disponibilidade depende do provedor e do país: **confirmar antes**.
+O número **+55 11 99304-9122** é a linha da empresa (Claro, eSIM), já no app WhatsApp Business. Seja qual for a opção, é preciso decidir se o número fica **só na API** ou em **coexistência** com o app WhatsApp Business. Com coexistência, a equipe continua usando o app no celular enquanto a Bomi responde pela API. A Meta passou a permitir isso em muitos casos, mas a disponibilidade depende do provedor e do país: **confirmar antes**.
 
 ### Opção A · Direto: WhatsApp Cloud API + função no Supabase + API do Claude
 
@@ -134,7 +142,7 @@ Envio automático só depois que as 40 conversas de teste passarem.
 
 ## Antes de ligar (checklist)
 
-- [ ] Resolver ou aceitar os [A DEFINIR]: D30 (resgate de pontos), D16 (benefício por avaliação), D31 (endereço da MPOEMA).
+- [ ] Resolver ou aceitar o [A DEFINIR] D16 (benefício por avaliação).
 - [ ] Escolher o canal (A ou B) e fazer a verificação no Meta Business.
 - [ ] Implementar as 4 ferramentas (`consultar_pedido` lendo do Shopify/ERP; `buscar_produto` no catálogo; `transferir_humano`; `registrar_feedback`).
 - [ ] Rodar as 40 conversas de teste e a checagem de termos proibidos.

@@ -4,7 +4,7 @@ Junta num único HTML:
 - o prompt de sistema (bomi/system-prompt.md);
 - a base de conhecimento (bomi/base-conhecimento.json), versão enxuta para a busca;
 - os 40 cenários de teste (bomi/testes/conversas.md);
-- o catálogo de teste (nomes dos produtos do lote 1, das seeds de fotos);
+- as fichas de produto do lote 1 (bomi/fichas-produtos.json);
 - pedidos fictícios para testar a consulta de pedido.
 
 Uso: python3 bomi/teste/gerar.py
@@ -59,21 +59,14 @@ for s in re.split(r"^### ", t, flags=re.M)[1:]:
     if falas:
         cenarios.append({"titulo": titulo, "falas": falas, "esperado": esperado})
 
-# 4. Catálogo de teste (lote 1)
-produtos, vistos = [], set()
-for f in sorted(glob.glob(str(RAIZ / "supabase/seeds/fotos_fila_lote1_parte*.sql"))):
-    for m in re.finditer(r"^\('((?:[^']|'')*)','((?:[^']|'')*)','((?:[^']|'')*)'", Path(f).read_text(), re.M):
-        slug, marca, nome = (x.replace("''", "'") for x in m.groups())
-        if slug in vistos:
-            continue
-        vistos.add(slug)
-        produtos.append([slug, marca, nome])
+# 4. Fichas de produto do lote 1 (gere antes com bomi/teste/fichas.py)
+produtos = json.loads((RAIZ / "bomi/fichas-produtos.json").read_text())
 
 dados = {
     "prompt": prompt,
     "base": base_min,
     "cenarios": cenarios,
-    "produtos": produtos,
+    "fichas": produtos,
 }
 
 modelo = (AQUI / "modelo.html").read_text()

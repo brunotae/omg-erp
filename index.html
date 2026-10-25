@@ -484,10 +484,11 @@ const ICONS={
  produtos:'<rect x="8" y="3" width="8" height="5" rx="1"/><path d="M7 8h10v12a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1z"/>',
  clientes:'<circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0"/><path d="M16 11h5M18.5 8.5v5"/>',
  analises:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+ avisos:'<path d="M4 10v4h3l5 4V6L7 10z"/><path d="M16 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"/>',
  fornecedores:'<path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/>',
  config:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/>'
 };
-const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Lista do dia'],['','lotes','Embarques'],['','devolucoes','Devoluções'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','insumos','Embalagens'],['','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['Clientes','clientes','Clientes e cupons'],['','analises','Análises'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
+const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Lista do dia'],['','lotes','Embarques'],['','devolucoes','Devoluções'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','insumos','Embalagens'],['','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['Clientes','clientes','Clientes e cupons'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
 
 /* ================= utilidades ================= */
 const $=s=>document.querySelector(s);
@@ -633,7 +634,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v9 · 24/10/2026';
+const VERSAO='v10 · 25/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -917,6 +918,40 @@ async function aplicarFotos(){
   toast('Aplicando… '+(ok+err)+' de '+L.length);
  }
  FT.busy=false;render();if(ok||err)toast(ok+(ok===1?' produto':' produtos')+' com fotos oficiais'+(err?' · '+err+' com erro':''));
+}
+
+/* ---------- Avisos da Bomi (o que a assistente virtual deve saber agora) ---------- */
+const AV={rows:[],loaded:false,missing:false,loading:false};
+async function loadAvisos(){
+ if(AV.loading)return;AV.loading=true;
+ try{const {data,error}=await sb.from('avisos_bomi').select('*').order('criado_em',{ascending:false});if(error)throw error;AV.rows=data||[];AV.missing=false}
+ catch(e){AV.missing=/avisos_bomi|relation|schema cache|does not exist/i.test(String(e&&(e.message||e.code)))||e&&e.code==='42P01';AV.rows=[]}
+ AV.loaded=true;AV.loading=false;if(S.view==='avisos')render();
+}
+const hojeISO=()=>new Date(Date.now()-3*3600e3).toISOString().slice(0,10);
+function avisoValendo(a){const h=hojeISO();return a.ativo&&(!a.inicio||a.inicio<=h)&&(!a.fim||a.fim>=h)}
+const dBR=d=>d?d.split('-').reverse().join('/'):'';
+VIEWFN.avisos=()=>{
+ if(!AV.loaded&&S.db)setTimeout(loadAvisos,0);
+ const valendo=AV.rows.filter(avisoValendo);
+ const form=can()&&!AV.missing?'<div class="card"><span class="label">Novo aviso</span><textarea id="av-txt" rows="3" placeholder="Ex.: Cupom OMGBOO dá 15% de desconto de 31/10 a 02/11, em compras acima de R$ 99." style="width:100%;margin:6px 0"></textarea>'+
+  '<div class="chips"><label class="muted" style="font-size:12px">Começa <input type="date" id="av-ini" value="'+hojeISO()+'"></label><label class="muted" style="font-size:12px">Termina <input type="date" id="av-fim"></label><button class="btn pri sm" type="button" id="av-add">Salvar aviso</button></div></div>':'';
+ return '<div class="page"><div class="col">'+head('Avisos da Bomi','O que a assistente virtual deve saber agora: cupom ativo, promoção, atraso geral, feriado. Os avisos valendo hoje entram nas respostas dela e têm prioridade sobre a base. Escreva o fato completo, como explicaria para uma atendente.','')+
+ (AV.missing?'<div class="note"><span class="label">Falta rodar o SQL</span><p>Rode no Supabase (SQL Editor) o <b>20261025_avisos_bomi.sql</b>.</p></div>':'')+form+
+ '<div class="card"><span class="label">Valendo hoje · '+valendo.length+'</span>'+(!AV.loaded?'<p class="muted">Carregando…</p>':!AV.rows.length?empty('Nenhum aviso','A Bomi responde só com a base de conhecimento.'):
+ '<div class="tblwrap"><table><thead><tr><th>Aviso</th><th>Período</th><th>Situação</th><th></th></tr></thead><tbody>'+AV.rows.map(a=>'<tr><td style="white-space:pre-wrap">'+esc(a.texto)+'</td><td class="num">'+(dBR(a.inicio)||'—')+' → '+(dBR(a.fim)||'sem fim')+'</td><td>'+stPill(avisoValendo(a)?'Valendo':a.ativo?'Fora do período':'Desligado')+'</td><td>'+(can()?'<button class="btn sm" type="button" data-avtog="'+esc(a.id)+'">'+(a.ativo?'Desligar':'Ligar')+'</button> <button class="btn sm" type="button" data-avdel="'+esc(a.id)+'">Apagar</button>':'')+'</td></tr>').join('')+'</tbody></table></div>')+'</div></div></div>';
+};
+async function salvarAviso(){
+ const t=($('#av-txt').value||'').trim();if(!t){toast('Escreva o aviso');return}
+ const row={texto:t,inicio:$('#av-ini').value||null,fim:$('#av-fim').value||null,ativo:true,criado_por:S.email||''};
+ const {data,error}=await sb.from('avisos_bomi').insert(row).select().single();if(error){toast(errMsg(error));return}
+ AV.rows.unshift(data);toast('Aviso salvo');render();
+}
+async function mudarAviso(id,apagar){
+ const a=AV.rows.find(x=>x.id===id);if(!a)return;
+ if(apagar){if(!confirm('Apagar este aviso?'))return;const {error}=await sb.from('avisos_bomi').delete().eq('id',id);if(error){toast(errMsg(error));return}AV.rows=AV.rows.filter(x=>x.id!==id)}
+ else{const {error}=await sb.from('avisos_bomi').update({ativo:!a.ativo}).eq('id',id);if(error){toast(errMsg(error));return}a.ativo=!a.ativo}
+ render();
 }
 
 /* ---------- Devoluções ---------- */
@@ -1634,6 +1669,9 @@ document.addEventListener('click',e=>{
  if(t.dataset.ftapr){decidirFotos([t.dataset.ftapr],'aprovada');return}
  if(t.dataset.ftrej){decidirFotos([t.dataset.ftrej],'rejeitada');return}
  if(t.id==='ft-mais'){FT.lim+=60;render();return}
+ if(t.id==='av-add'){salvarAviso();return}
+ if(t.dataset.avtog){mudarAviso(t.dataset.avtog,false);return}
+ if(t.dataset.avdel){mudarAviso(t.dataset.avdel,true);return}
  if(t.id==='ft-aplicar'){aplicarFotos();return}
  if(t.id==='ft-aprmarca'){const ids=FT.rows.filter(r=>r.marca===FT.marca&&r.status==='pendente'&&nivelF(r)==='forte').map(r=>r.id);if(confirm('Aprovar '+ids.length+' produtos de '+FT.marca+'?'))decidirFotos(ids,'aprovada');return}
  if(t.dataset.docf){S.f.doc=t.dataset.docf;render();return}

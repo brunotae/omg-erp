@@ -134,6 +134,25 @@ for (i, cat, perg, gat, rc, alt, esc, quando, notas) in NOVOS:
         "links": [],
     })
 
+# Guias de conteúdo (bomi/fonte/guias/*.json): ativos, termos, rotinas, tons, validade, objeções, marcas
+CAMPOS = ["id", "categoria", "pergunta", "gatilhos", "resposta_chat", "resposta_chat_alt", "escalar_humano", "quando_escalar", "notas_internas", "links"]
+n_guias = 0
+for arq in sorted((FONTE / "guias").glob("*.json")):
+    for g in json.loads(arq.read_text()):
+        falta = [c for c in ("id", "pergunta", "gatilhos", "resposta_chat") if not g.get(c)]
+        if falta:
+            raise SystemExit(f"{arq.name}: entrada {g.get('id')} sem {falta}")
+        entradas.append({
+            "id": g["id"], "categoria": g.get("categoria", ""), "pergunta": g["pergunta"], "status": "ok",
+            "escalar_humano": bool(g.get("escalar_humano")),
+            "gatilhos": gatilhos(g["gatilhos"], [], minimo=6, maximo=14),
+            "resposta_chat": g["resposta_chat"], "resposta_chat_alt": g.get("resposta_chat_alt", ""),
+            "quando_escalar": ((g.get("quando_escalar") or "") + " " + GERAL).strip(),
+            "notas_internas": ("Guia " + arq.stem + ". " + (g.get("notas_internas") or "")).strip(),
+            "links": g.get("links", []),
+        })
+        n_guias += 1
+
 if faltando:
     raise SystemExit("Sem resposta de chat para: " + ", ".join(faltando))
 
@@ -147,4 +166,4 @@ saida = {
     "entradas": entradas,
 }
 (RAIZ / "bomi" / "base-conhecimento.json").write_text(json.dumps(saida, ensure_ascii=False, indent=1) + "\n")
-print("entradas:", len(entradas), "| da Central:", len(BASE), "| novas:", len(NOVOS))
+print("entradas:", len(entradas), "| da Central:", len(BASE), "| novas:", len(NOVOS), "| guias:", n_guias)
