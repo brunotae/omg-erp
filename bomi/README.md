@@ -135,7 +135,6 @@ Envio automático só depois que as 40 conversas de teste passarem.
 ## Antes de ligar (checklist)
 
 - [ ] Resolver ou aceitar os [A DEFINIR]: D30 (resgate de pontos), D16 (benefício por avaliação), D31 (endereço da MPOEMA).
-- [ ] Corrigir no site a frase de `devolucoes-05` ("Como os produtos vêm da Coreia para cada pedido…"), que sugere compra por pedido. Na Bomi ela já foi reescrita.
 - [ ] Escolher o canal (A ou B) e fazer a verificação no Meta Business.
 - [ ] Implementar as 4 ferramentas (`consultar_pedido` lendo do Shopify/ERP; `buscar_produto` no catálogo; `transferir_humano`; `registrar_feedback`).
 - [ ] Rodar as 40 conversas de teste e a checagem de termos proibidos.
