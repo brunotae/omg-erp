@@ -92,7 +92,7 @@ def status_de(e):
     return "ok"
 
 AJUSTE = {
- "sobre-02": (False, "Se pedirem o endereço físico da MPOEMA INC (ainda [A DEFINIR #D31]): dizer que vai confirmar com a equipe e transferir."),
+ "sobre-02": (False, "Se pedirem o endereço da empresa: MPOEMA INC, Los Angeles, Califórnia, EUA. Não informar rua nem número de registro fiscal (EIN/TIN)."),
 }
 
 entradas = []

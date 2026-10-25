@@ -26,7 +26,7 @@ C = {
 "devolucoes-09": ("Me manda o número do pedido que eu passo pra equipe agora 🙏 A OMG resolve com a transportadora e a Receita, sem custo extra pra você. Se isso fizer passar do prazo de entrega, devolvemos o seu dinheiro.",
   "Fica tranquila que isso é com a gente. Número do pedido, por favor, que a equipe assume.",
   ["retido na alfandega", "receita reteve", "devolvido pela alfandega", "fiscalizacao"]),
-"devolucoes-10": ("Me passa o número do pedido 😊 A equipe te manda as instruções: a devolução vai pro centro da nossa parceira em São Paulo, com frete pago pela OMG.",
+"devolucoes-10": ("Me passa o número do pedido 😊 A equipe te manda as instruções: a devolução vai pro centro de devolução da nossa parceira em Guarulhos (SP), com etiqueta e frete pagos pela OMG. Só não envia antes de receber a autorização, tá?",
   "A equipe te manda o passo a passo, e o frete de volta é por nossa conta. Qual o número do pedido?",
   ["como devolvo", "endereco de devolucao", "mandar de volta"]),
 "devolucoes-11": ("Pode sim! Se só um item teve problema, o reembolso (no mesmo cartão) ou o reenvio é só dele. Me passa o número do pedido e qual item?",

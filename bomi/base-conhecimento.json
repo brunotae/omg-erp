@@ -35,7 +35,7 @@
    "id": "sobre-02",
    "categoria": "Sobre a OMG",
    "pergunta": "Quem vende os produtos? Por que aparece MPOEMA INC?",
-   "status": "a_definir",
+   "status": "ok",
    "escalar_humano": false,
    "gatilhos": [
     "mpoema na fatura",
@@ -52,7 +52,7 @@
    ],
    "resposta_chat": "A MPOEMA INC é a nossa empresa vendedora, com sede nos EUA e certificada pela Receita Federal no Remessa Conforme. Por isso esse nome aparece na fatura ou no recibo. Pode ficar tranquila, não é golpe 😉",
    "resposta_chat_alt": "Esse nome é da nossa empresa mesmo! A MPOEMA INC é quem vende oficialmente pela OMG, certificada no Remessa Conforme. É normal aparecer na fatura do cartão.",
-   "quando_escalar": "Se pedirem o endereço físico da MPOEMA INC (ainda [A DEFINIR #D31]): dizer que vai confirmar com a equipe e transferir. Cliente irritada após uma tentativa, ameaça de Procon/processo ou qualquer dúvida sem resposta na base: transferir.",
+   "quando_escalar": "Se pedirem o endereço da empresa: MPOEMA INC, Los Angeles, Califórnia, EUA. Não informar rua nem número de registro fiscal (EIN/TIN). Cliente irritada após uma tentativa, ameaça de Procon/processo ou qualquer dúvida sem resposta na base: transferir.",
    "notas_internas": "Fonte: Central de Ajuda (sobre-02). Fato oficial: A vendedora oficial da OMG é a MPOEMA INC, empresa dos Estados Unidos certificada pela Receita Federal no Programa Remessa Conforme. Por isso esse nome pode aparecer no seu comprovante ou na fatura do cartão. Não é golpe: é a nossa empresa.",
    "links": []
   },
@@ -1990,10 +1990,10 @@
     "onde mando o produto de volta",
     "como deovlvo o produto"
    ],
-   "resposta_chat": "Me passa o número do pedido 😊 A equipe te manda as instruções: a devolução vai pro centro da nossa parceira em São Paulo, com frete pago pela OMG.",
+   "resposta_chat": "Me passa o número do pedido 😊 A equipe te manda as instruções: a devolução vai pro centro de devolução da nossa parceira em Guarulhos (SP), com etiqueta e frete pagos pela OMG. Só não envia antes de receber a autorização, tá?",
    "resposta_chat_alt": "A equipe te manda o passo a passo, e o frete de volta é por nossa conta. Qual o número do pedido?",
    "quando_escalar": "Cliente irritada após uma tentativa, ameaça de Procon/processo ou qualquer dúvida sem resposta na base: transferir.",
-   "notas_internas": "Fonte: Central de Ajuda (devolucoes-10). Fato oficial: Fale com a gente pelo WhatsApp ou e-mail com o número do pedido. Enviamos as instruções: a devolução vai para o centro da nossa parceira logística em São Paulo, com frete pago pela OMG.",
+   "notas_internas": "Fonte: Central de Ajuda (devolucoes-10). Fato oficial: Fale com a gente primeiro pelo WhatsApp ou e-mail, com o número do pedido. Enviamos a autorização e a etiqueta de devolução, com frete pago pela OMG. O destino é o centro de devoluções da nossa parceira logística (Rua Engenheiro Albert Leimer, 426 – Taboão, Guarulhos – SP). Não envie sem a autorização, para o pacote não se perder.",
    "links": []
   },
   {
@@ -3249,8 +3249,8 @@
    "id": "cupons-05",
    "categoria": "Cupons, promoções e fidelidade",
    "pergunta": "Vocês têm programa de fidelidade?",
-   "status": "a_definir",
-   "escalar_humano": true,
+   "status": "ok",
+   "escalar_humano": false,
    "gatilhos": [
     "programa de pontos",
     "fidelidade",
@@ -3261,10 +3261,10 @@
     "voces tem programa de fideildade",
     "prorgama de pontos"
    ],
-   "resposta_chat": "Temos! A cada R$ 1 gasto você junta 10 pontos, que viram desconto nas próximas compras 💗 É só comprar logada na sua conta. As regras de resgate eu confirmo com a equipe, quer que eu pergunte?",
-   "resposta_chat_alt": "Sim! 10 pontos por real gasto, comprando com a sua conta. O detalhe do resgate eu confirmo com a equipe.",
-   "quando_escalar": "Regra ainda não definida pela OMG: dizer que vai confirmar com a equipe e transferir.  Cliente irritada após uma tentativa, ameaça de Procon/processo ou qualquer dúvida sem resposta na base: transferir.",
-   "notas_internas": "Fonte: Central de Ajuda (cupons-05). Fato oficial: Sim! A cada R$ 1 gasto você acumula 10 pontos, que viram desconto em compras futuras. Para juntar pontos, compre com a sua conta. Regras de resgate: [A DEFINIR #D30: resgate dos pontos].",
+   "resposta_chat": "Temos! A cada R$ 1 gasto você junta 10 pontos, e cada 1.000 pontos viram R$ 1 de desconto nas próximas compras 💗 É só comprar logada na sua conta. E vem novidade: categorias com vantagens maiores!",
+   "resposta_chat_alt": "Sim! 10 pontos por real gasto, comprando com a sua conta, e 1.000 pontos = R$ 1 de desconto 😊",
+   "quando_escalar": "Cliente irritada após uma tentativa, ameaça de Procon/processo ou qualquer dúvida sem resposta na base: transferir.",
+   "notas_internas": "Fonte: Central de Ajuda (cupons-05). Fato oficial: Sim! A cada R$ 1 gasto você acumula 10 pontos, que viram desconto em compras futuras. Para juntar pontos, compre com a sua conta. No resgate, 1.000 pontos valem R$ 1 de desconto (ex.: uma compra de R$ 200 gera 2.000 pontos = R$ 2). Em breve teremos categorias de clientes com vantagens maiores.",
    "links": []
   },
   {
