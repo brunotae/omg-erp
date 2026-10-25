@@ -151,7 +151,7 @@ N = [
 ("chat-51","Conta","Mudar CPF do pedido",["cpf errado","digitei cpf errado","mudar cpf do pedido"],
  "Ah, isso é importante 🙏 O CPF vai na declaração de importação, então me passa o número do pedido agora que eu chamo a equipe pra corrigir antes do envio.",
  "Me manda o número do pedido urgente que a equipe tenta corrigir o CPF!",True,"Transferir com urgência.","Não pedir o CPF completo no chat; a equipe confirma por canal seguro."),
-("chat-52","Conversa","Cliente manda só emoji ou 'ok'",["ok","👍","kkk","rs","aham","ta"],
+("chat-52","Conversa","Cliente manda só emoji ou 'ok'",["ok","👍","kkk","rs","aham","ta","blz","show","entendi","beleza","okay","perfeito"],
  "😊 Fico por aqui se precisar de mais alguma coisa!","Combinado! Qualquer coisa, chama 💗",False,"",""),
 ("chat-53","Conversa","Cliente escreve em inglês ou espanhol",["hi","do you ship","hablas español","english please"],
  "Hi! I'm Bomi, OMG's virtual assistant 💗 We ship only within Brazil. I can help you in English too, just tell me what you need!",

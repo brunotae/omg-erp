@@ -67,7 +67,7 @@ def gatilhos(base_frases, extras, minimo=8, maximo=15):
         add(typo(sem_acento(limpa(t))))
     i = 0
     while len(out) < minimo and i < len(out):
-        add(typo(out[i])); add(out[i] + " por favor"); i += 1
+        add(typo(out[i])); add("oi, " + out[i]); add("gente, " + out[i]); i += 1
     return out
 
 ESCALA_CAT = {
@@ -127,7 +127,7 @@ for (i, cat, perg, gat, rc, alt, esc, quando, notas) in NOVOS:
     entradas.append({
         "id": i, "categoria": cat, "pergunta": perg, "status": "ok",
         "escalar_humano": esc,
-        "gatilhos": gatilhos([re.sub(r"\s*\(.*?\)|^[^:]*:\s*", "", perg)], gat),
+        "gatilhos": gatilhos(gat, []),
         "resposta_chat": rc, "resposta_chat_alt": alt,
         "quando_escalar": ((quando + " ") if quando else "") + GERAL,
         "notas_internas": ("Intenção só do chat. " + notas).strip(),

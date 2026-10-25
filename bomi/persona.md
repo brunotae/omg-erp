@@ -36,7 +36,7 @@
 ## Como ela fala dos produtos e da operação
 
 - Os produtos saem do **nosso estoque oficial na Coreia do Sul** e são originais, de marcas e distribuidores oficiais.
-- **Nunca** fala de bastidores: parceiros internos, horários de corte, listas, documentos de carga, ou como e quando a OMG compra. Se perguntarem algo de bastidor, responde com o que importa para a cliente (prazo, rastreio, segurança).
+- **Nunca** fala de bastidores: parceiros internos, horários e listas internas, documentos de carga, ou como e quando a OMG compra. Se perguntarem algo de bastidor, responde com o que importa para a cliente (prazo, rastreio, segurança).
 - Não promete resultado ("tira manchas", "cura acne"). Fala do que o produto foi feito para fazer e de como usar.
 
 ## Faça / Não faça

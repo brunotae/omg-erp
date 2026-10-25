@@ -1493,7 +1493,8 @@
     "voces entergam aos sabados",
     "enrtega sabado",
     "chega no fim de seamna",
-    "entrega sabado por favor"
+    "oi, entrega sabado",
+    "gente, entrega sabado"
    ],
    "resposta_chat": "Depende da transportadora na sua região, mas em geral as entregas são em dias úteis 😊",
    "resposta_chat_alt": "Normalmente a entrega acontece em dia útil, mas pode variar na sua região.",
@@ -2300,7 +2301,8 @@
     "produto perto de vencer",
     "a valdiade esta curta. e normal",
     "valdiade curta",
-    "validade curta por favor"
+    "oi, validade curta",
+    "gente, validade curta"
    ],
    "resposta_chat": "A gente envia com validade adequada pra uso. Se chegou com menos de 6 meses, me manda foto da data e o número do pedido (até 30 dias do recebimento) que eu passo pra equipe 🙏",
    "resposta_chat_alt": "Validade curta? Foto da data + número do pedido, que a equipe resolve.",
@@ -2634,8 +2636,8 @@
     "qual a diferença entre o tamanho normal, mini e kit?",
     "tamanho viagem",
     "qual a difreenca entre o tamanho normal, mini e kit",
-    "mini é igual por favor",
-    "kit vale a pena por favor"
+    "oi, mini é igual",
+    "gente, mini é igual"
    ],
    "resposta_chat": "A fórmula é a mesma, muda a quantidade 😊 Mini é ótimo pra testar e kit costuma sair mais em conta por unidade.",
    "resposta_chat_alt": "Mesmo produto, tamanhos diferentes. Kit costuma compensar!",
@@ -2792,7 +2794,8 @@
     "oq significa pa++++ no protetor",
     "o que siginfica pa++++ no protetor",
     "pa no proettor",
-    "oq é pa++++ por favor"
+    "oi, oq é pa++++",
+    "gente, oq é pa++++"
    ],
    "resposta_chat": "O FPS protege dos raios UVB (que queimam) e o PA dos UVA (que mancham e envelhecem). PA++++ é o nível máximo ☀️",
    "resposta_chat_alt": "FPS = queimadura (UVB); PA = manchas e envelhecimento (UVA). ++++ é o máximo.",
@@ -2837,9 +2840,8 @@
     "patch test",
     "como faco o teste de sensiiblidade",
     "teste de alregia",
-    "teste de alergia por favor",
-    "como testar prdouto novo",
-    "como testar produto novo por favor"
+    "oi, teste de alergia",
+    "gente, teste de alergia"
    ],
    "resposta_chat": "Passa um pouquinho atrás da orelha ou no antebraço, uma vez por dia, por 2 ou 3 dias. Sem vermelhidão, coceira ou ardor? Pode usar no rosto 😊",
    "resposta_chat_alt": "Teste rápido: um pouco atrás da orelha por 2–3 dias. Tudo bem? Pode usar.",
@@ -2970,8 +2972,8 @@
     "como crio uma conta?",
     "como me cadastro",
     "cadsatro",
-    "criar conta por favor",
-    "cadastro por favor"
+    "oi, criar conta",
+    "gente, criar conta"
    ],
    "resposta_chat": "Clica no ícone de pessoa no topo do site e escolhe criar conta 😊 Também dá pra criar quando finalizar a primeira compra.",
    "resposta_chat_alt": "No topo do site, no ícone de pessoa. Rapidinho!",
@@ -3344,9 +3346,8 @@
     "tem cupom de anivresario",
     "cupom anivresario",
     "desconto no meu anivresario",
-    "cupom aniversario por favor",
-    "tem cupom de anivesrário?",
-    "tem cupom de aniversário? por favor"
+    "oi, cupom aniversario",
+    "gente, cupom aniversario"
    ],
    "resposta_chat": "Ainda não temos cupom de aniversário 🎂 Mas lançamos promoções com frequência: newsletter e @omg_ohmygirlbr!",
    "resposta_chat_alt": "Aniversário ainda não, mas promo é o que não falta!",
@@ -3743,7 +3744,8 @@
     "numero p ligar",
     "voces tem telfeone",
     "tem telfeone",
-    "tem telefone por favor"
+    "oi, tem telefone",
+    "gente, tem telefone"
    ],
    "resposta_chat": "Nosso atendimento é por aqui (WhatsApp, só mensagens) e por e-mail, info.br@ohmygirl.com.br. Assim fica tudo registrado e resolve mais rápido 😊",
    "resposta_chat_alt": "A gente atende por mensagem e e-mail, não tem ligação.",
@@ -3765,7 +3767,8 @@
     "aceita audio",
     "posso mandar audio no whastapp",
     "madnar audio",
-    "mandar audio por favor"
+    "oi, mandar audio",
+    "gente, mandar audio"
    ],
    "resposta_chat": "Pode mandar, mas texto é mais rápido e fica registrado 😊 Se precisar mostrar um problema, manda foto ou vídeo.",
    "resposta_chat_alt": "Prefere escrever? Fica mais rápido. Foto e vídeo também ajudam!",
@@ -3812,8 +3815,7 @@
     "hello",
     "hola",
     "tudo bem?",
-    "alguem ai?",
-    "saudação"
+    "alguem ai?"
    ],
    "resposta_chat": "Oii! Eu sou a Bomi, assistente virtual da OMG 💗 Posso te ajudar com pedidos, entregas, impostos ou indicar um produto pra sua pele. Como posso te chamar?",
    "resposta_chat_alt": "Oi, tudo bem? Aqui é a Bomi, assistente virtual da OMG ✨ Me conta como posso te ajudar!",
@@ -3832,11 +3834,11 @@
     "voltei",
     "sou eu de novo",
     "oi bomi",
-    "saudação",
-    "sauadcao",
-    "oi de novo por favor",
     "votlei",
-    "voltei por favor"
+    "oi, oi de novo",
+    "gente, oi de novo",
+    "oi, voltei",
+    "gente, voltei"
    ],
    "resposta_chat": "Oi de novo, {nome}! 😊 Em que posso te ajudar agora?",
    "resposta_chat_alt": "Que bom te ver por aqui de novo! Me conta 💗",
@@ -3858,7 +3860,8 @@
     "bjs",
     "obg tchau",
     "era so isso",
-    "despedida"
+    "oi, tchau",
+    "gente, tchau"
    ],
    "resposta_chat": "Imagina! Qualquer coisa, é só chamar 💗 Beijos e boa skincare ✨",
    "resposta_chat_alt": "Foi um prazer ajudar! Até a próxima 😊",
@@ -3881,7 +3884,7 @@
     "thanks",
     "gracias",
     "mt obrigada",
-    "agradecimento"
+    "mt obg"
    ],
    "resposta_chat": "Imagina, fico feliz em ajudar! 💗 Precisa de mais alguma coisa?",
    "resposta_chat_alt": "Por nada! Tô por aqui se precisar 😊",
@@ -3902,8 +3905,8 @@
     "melhor loja",
     "amei o produto",
     "chegou rapido amei",
-    "elogio à loja ou ao atendimento",
-    "elogio a loja ou ao atenidmento"
+    "vcs sao otmios",
+    "adroei"
    ],
    "resposta_chat": "Aaah, que alegria ler isso! 🥰 Se quiser, conta sua experiência numa avaliação do produto ou marca a @omg_ohmygirlbr, ajuda muito outras clientes 💗",
    "resposta_chat_alt": "Você fez o meu dia! 💗 Obrigada por confiar na OMG.",
@@ -3925,7 +3928,7 @@
     "vc é ia?",
     "is this a bot",
     "é uma pessoa de verdade",
-    "é robô? é uma pessoa?"
+    "vc e huamna"
    ],
    "resposta_chat": "Sou a Bomi, uma assistente virtual (inteligência artificial) da OMG 🤖💗 Consigo resolver muita coisa na hora, mas se preferir falar com alguém da equipe, é só dizer que eu chamo!",
    "resposta_chat_alt": "Sou assistente virtual, sim! Mas a equipe humana está aqui também: quer que eu te transfira?",
@@ -3944,11 +3947,10 @@
     "audio",
     "mandei audio",
     "ouve meu audio",
-    "áudio que não deu para entender",
-    "audio q nao deu pra entender",
-    "audio que nao deu para entneder",
     "[aduio]",
-    "[audio] por favor"
+    "madnei audio",
+    "oi, [audio]",
+    "gente, [audio]"
    ],
    "resposta_chat": "Ops, não consegui ouvir o áudio por aqui 😅 Você consegue me escrever rapidinho o que precisa?",
    "resposta_chat_alt": "Desculpa, não consigo abrir áudio. Me manda por escrito que eu te ajudo na hora!",
@@ -3968,10 +3970,9 @@
     "[video]",
     "mandei foto",
     "segue a foto",
-    "foto ou vídeo enviado",
-    "foto ou video enivado",
     "[imgaem]",
-    "[imagem] por favor"
+    "[ftoo]",
+    "[vdieo]"
    ],
    "resposta_chat": "Recebi a imagem 📸 Pra eu te ajudar direitinho, me conta o que aconteceu e o número do pedido, se tiver?",
    "resposta_chat_alt": "Obrigada pela foto! Me explica rapidinho o que você quer que eu veja?",
@@ -3990,11 +3991,10 @@
     "alguem responde?",
     "atende agora?",
     "plantao",
-    "mensagem fora do horário da equipe",
-    "menasgem fora do horario da equipe",
-    "ta ai? por favor",
-    "alguem resopnde?",
-    "alguem responde? por favor"
+    "alguem resopnde",
+    "atnede agora",
+    "oi, ta ai?",
+    "gente, ta ai?"
    ],
    "resposta_chat": "Eu tô aqui 24h 😊 A equipe humana volta de segunda a sexta, a partir das 9h (Brasília). Me conta o que precisa: se eu não resolver, deixo tudo anotado pra eles te responderem logo cedo.",
    "resposta_chat_alt": "A equipe está fora agora, mas eu posso adiantar seu atendimento e deixar tudo pronto pra eles!",
@@ -4014,10 +4014,9 @@
     "to esperando resposta",
     "cade o retorno",
     "vcs nao respondem",
-    "não recebi resposta",
-    "nao recebi resopsta",
     "ninguem me resopnde",
-    "ninguem me responde por favor"
+    "ja madnei msg e nada",
+    "to espreando resposta"
    ],
    "resposta_chat": "Desculpa pela demora 😔 Me passa o número do pedido e o assunto que eu já sinalizo pra equipe como prioridade.",
    "resposta_chat_alt": "Sinto muito pela espera! Vou reforçar seu caso com a equipe agora. Qual o número do pedido?",
@@ -4039,7 +4038,8 @@
     "nunca mais compro",
     "que raiva",
     "vcs sao uma piada",
-    "cliente irritada"
+    "q palhacada",
+    "q raiva"
    ],
    "resposta_chat": "Entendo totalmente e sinto muito por essa experiência 😔 Quero resolver isso com você. Me passa o número do pedido e o que aconteceu?",
    "resposta_chat_alt": "Você tem razão de estar chateada. Me conta o que houve que eu já levo pra equipe resolver com prioridade.",
@@ -4059,10 +4059,9 @@
     "vou processar",
     "advogado",
     "vou denunciar",
-    "ameaça de procon, reclame aqui ou processo",
-    "ameaca de procon, reclame aqui ou proecsso",
     "vou no prcoon",
-    "vou no procon por favor"
+    "relcame aqui",
+    "vou proecssar"
    ],
    "resposta_chat": "Sinto muito que tenha chegado a esse ponto 😔 Quero muito resolver antes disso. Vou passar seu caso agora para uma pessoa da equipe, com prioridade. Me confirma o número do pedido?",
    "resposta_chat_alt": "Entendo. Já estou levando seu caso pra equipe com prioridade, pra resolver o quanto antes.",
@@ -4081,11 +4080,11 @@
     "chama o gerente",
     "quem manda ai",
     "responsavel",
-    "quero falar com o dono / gerente",
-    "quero falar com o dono / geernte",
-    "quero falar com o dono por favor",
     "chama o geernte",
-    "chama o gerente por favor"
+    "oi, quero falar com o dono",
+    "gente, quero falar com o dono",
+    "oi, chama o gerente",
+    "gente, chama o gerente"
    ],
    "resposta_chat": "Entendo 😊 Vou passar seu caso pra equipe responsável, que tem autonomia pra resolver. Me conta rapidinho o que aconteceu?",
    "resposta_chat_alt": "Vou te encaminhar pra equipe responsável agora. Pode me adiantar o assunto?",
@@ -4106,8 +4105,8 @@
     "da um desconto ai",
     "cupom pra mim?",
     "desconto pra pagar",
-    "pedido de desconto",
-    "pedido de desocnto"
+    "cupom p mim",
+    "desconto p pagar"
    ],
    "resposta_chat": "Queria muito poder 😅 Eu não consigo dar desconto por aqui, mas sempre rola cupom e promoção: segue a @omg_ohmygirlbr e assina a newsletter no rodapé do site!",
    "resposta_chat_alt": "Desconto direto eu não consigo, mas fica de olho no Insta e na newsletter que cupom aparece sempre 💗",
@@ -4128,8 +4127,8 @@
     "e se nao chegar",
     "é seguro mesmo?",
     "vcs existem?",
-    "vocês são confiáveis?",
-    "voces sao confaiveis"
+    "e seguro msm",
+    "tenho medo de copmrar"
    ],
    "resposta_chat": "Super entendo o receio 💗 A OMG é certificada pela Receita no Remessa Conforme, o pagamento é pelo checkout seguro do Shopify (a gente nem vê seu cartão), todo pedido tem rastreio e você tem os direitos do Código de Defesa do Consumidor. O site oficial é ohmygirl.com.br.",
    "resposta_chat_alt": "Pode perguntar o que quiser! Somos certificados no Remessa Conforme, pagamento protegido pelo Shopify e rastreio do início ao fim.",
@@ -4149,10 +4148,10 @@
     "me ajuda com dever de casa",
     "qual a capital",
     "me conta uma piada",
-    "pergunta fora do escopo",
-    "perugnta fora do escopo",
-    "vc é de esqeurda",
-    "vc é de esquerda por favor"
+    "vc e de esqeurda",
+    "quem vai ganhar a eliecao",
+    "oi, vc é de esquerda",
+    "gente, vc é de esquerda"
    ],
    "resposta_chat": "Haha, aí eu não sou a melhor pessoa pra ajudar 😅 Meu negócio é skincare e pedidos da OMG! Posso te ajudar com alguma coisa por aqui?",
    "resposta_chat_alt": "Esse assunto foge do que eu sei fazer 😊 Mas se for sobre a OMG ou skincare, tô dentro!",
@@ -4171,11 +4170,10 @@
     "comprei na shopee e nao chegou",
     "e a sephora?",
     "amazon é mais barato",
-    "pergunta sobre outras lojas ou concorrentes",
+    "vcs sao melhores q a shein",
     "vcs sao melohres que a shein",
-    "vcs sao melhores que a shein por favor",
     "copmrei na shopee e nao chegou",
-    "comprei na shopee e nao chegou por favor"
+    "e a sehpora"
    ],
    "resposta_chat": "Sobre outras lojas eu não consigo opinar 😊 Aqui na OMG é tudo original, do nosso estoque oficial na Coreia, com imposto já calculado no checkout. Posso te ajudar a achar algum produto?",
    "resposta_chat_alt": "Não consigo falar por outras lojas, mas te conto tudo sobre como funciona aqui!",
@@ -4198,7 +4196,8 @@
     "recomenda um kit",
     "to perdida",
     "quero comecar skincare",
-    "pedido de recomendação de produto"
+    "quero algo p manchas",
+    "melhor protetor p mim"
    ],
    "resposta_chat": "Vamos achar o ideal pra você ✨ Me conta três coisinhas: seu tipo de pele (oleosa, seca, mista ou sensível), o que quer melhorar e quanto quer investir mais ou menos?",
    "resposta_chat_alt": "Amo essa parte! Me diz seu tipo de pele e seu objetivo principal que eu te mostro opções do nosso catálogo 💗",
@@ -4216,12 +4215,12 @@
     "pele oleosa o que usar",
     "muito brilho no rosto",
     "oleosidade",
-    "pele oleosa",
-    "pele oloesa",
+    "pele oleosa oq usar",
     "pele oloesa o que usar",
-    "pele oleosa o que usar por favor",
     "muito brliho no rosto",
-    "muito brilho no rosto por favor"
+    "oleoisdade",
+    "oi, pele oleosa o que usar",
+    "gente, pele oleosa o que usar"
    ],
    "resposta_chat": "Pra pele oleosa costuma funcionar: limpeza em gel, um tônico calmante (heartleaf ou BHA algumas vezes na semana), niacinamida e hidratante em gel ✨ Quer que eu te mostre opções do catálogo nessa linha?",
    "resposta_chat_alt": "Oleosa ama texturas leves e niacinamida. Te mostro alguns produtos?",
@@ -4239,12 +4238,11 @@
     "pele seca o que usar",
     "pele repuxa",
     "descamando",
-    "pele seca",
-    "pele seca o que usar por favor",
+    "pele seca oq usar",
     "pele reupxa",
-    "pele repuxa por favor",
     "descmaando",
-    "descamando por favor"
+    "oi, pele seca o que usar",
+    "gente, pele seca o que usar"
    ],
    "resposta_chat": "Pra pele seca, vale caprichar nas camadas de hidratação 💧 tônico ou essência hidratante, sérum com ácido hialurônico ou ceramidas e um creme mais rico. Quer ver opções do catálogo?",
    "resposta_chat_alt": "Seca pede hidratação em camadas. Posso te mostrar alguns cremes e essências?",
@@ -4262,12 +4260,11 @@
     "pele sensivel o que usar",
     "tudo irrita",
     "pele vermelha facil",
-    "pele sensível",
-    "pele senisvel",
+    "pele sensivel oq usar",
+    "td irrita",
     "pele senisvel o que usar",
-    "pele sensivel o que usar por favor",
     "tudo irirta",
-    "tudo irrita por favor"
+    "pele veremlha facil"
    ],
    "resposta_chat": "Pra pele sensível, o caminho é fórmula simples, sem fragrância, com centella ou pantenol 🌿 e sempre um produto novo por vez, com teste antes. Quer que eu procure opções assim?",
    "resposta_chat_alt": "Sensível? Bora de centella e fórmulas curtinhas. Te mostro algumas?",
@@ -4285,12 +4282,12 @@
     "produto pra mancha",
     "clarear",
     "manchinha de espinha",
-    "manchas",
-    "macnhas",
+    "produto p mancha",
     "prdouto pra mancha",
-    "produto pra mancha por favor",
     "clraear",
-    "clarear por favor"
+    "manhcinha de espinha",
+    "oi, produto pra mancha",
+    "gente, produto pra mancha"
    ],
    "resposta_chat": "Pra manchas, o passo nº1 é protetor solar todo dia ☀️ Junto dele, ativos como vitamina C, niacinamida ou arbutin ajudam a uniformizar. Quer ver opções? (Se for melasma, o ideal é um dermatologista.)",
    "resposta_chat_alt": "Protetor + um sérum clareador costuma ser a dupla. Quer sugestões?",
@@ -4309,10 +4306,10 @@
     "acne",
     "cravo",
     "pele acneica",
-    "acne / espinhas",
-    "acne / espnihas",
+    "espinha oq usar",
     "esipnha o que usar",
-    "espinha o que usar por favor"
+    "oi, espinha o que usar",
+    "gente, espinha o que usar"
    ],
    "resposta_chat": "Pra espinha pontual, os patches de hidrocoloide ajudam bastante 🩹 Pra cravos, limpeza suave e BHA. Se a acne for inflamada ou não melhora, o ideal é um dermatologista, tá? Quer ver os patches?",
    "resposta_chat_alt": "Patch pra espinha + limpeza suave é um bom começo. Acne mais forte, melhor dermatologista.",
@@ -4332,9 +4329,9 @@
     "anti idade",
     "envelhecimento",
     "colageno",
-    "anti-idade",
-    "antii-dade",
-    "rugas por favor"
+    "lihnas finas",
+    "oi, rugas",
+    "gente, rugas"
    ],
    "resposta_chat": "Pra linhas finas, protetor todo dia é o maior anti-idade que existe ☀️ Além dele, peptídeos, retinol (à noite, com calma) e boa hidratação ajudam. Quer ver opções do catálogo?",
    "resposta_chat_alt": "Protetor + hidratação + um ativo como peptídeo ou retinol. Te mostro produtos?",
@@ -4354,9 +4351,9 @@
     "ate 150",
     "kit barato",
     "presente ate 200",
-    "recomendação por orçamento",
-    "recomnedacao por orcamento",
-    "tenho 100 reais por favor"
+    "algo baarto",
+    "oi, tenho 100 reais",
+    "gente, tenho 100 reais"
    ],
    "resposta_chat": "Consigo sim! 😊 Me fala pra quem é (você ou presente), o tipo de pele e o que procura, que eu monto umas opções dentro de R$ {valor} (lembrando que frete e imposto aparecem no checkout).",
    "resposta_chat_alt": "Me diz pra quem é e o objetivo que eu acho opções no seu orçamento!",
@@ -4375,10 +4372,10 @@
     "presente pra minha mae",
     "kit presente",
     "nao sei o que dar",
-    "presente",
-    "preesnte",
-    "preesnte pra namorada",
-    "presente pra namorada por favor"
+    "presente p namorada",
+    "presente p minha mae",
+    "nao sei oq dar",
+    "preesnte pra namorada"
    ],
    "resposta_chat": "Que fofo! 🎁 Me conta um pouco da pessoa (idade aproximada, tipo de pele, se já usa skincare) e o orçamento, que eu te sugiro opções. Dica: dá pra mandar direto pra ela com nome, endereço e CPF dela no checkout (só não fazemos embrulho nem cartão).",
    "resposta_chat_alt": "Bora achar o presente perfeito! Pra quem é e quanto quer gastar?",
@@ -4397,10 +4394,11 @@
     "rotina coreana simples",
     "quantos passos",
     "rotina de manha e noite",
-    "rotina básica coreana",
-    "rotina basica coerana",
     "roitna basica",
-    "rotina basica por favor"
+    "rotina coerana simples",
+    "qunatos passos",
+    "oi, rotina basica",
+    "gente, rotina basica"
    ],
    "resposta_chat": "A base é simples 💗 Manhã: limpeza suave → hidratante → protetor. Noite: limpeza (dupla, se usou protetor/maquiagem) → hidratante, e um sérum se quiser. Constância vale mais que 10 passos!",
    "resposta_chat_alt": "Limpar, hidratar e proteger já é uma rotina coreana linda. Quer sugestões de produto pra cada passo?",
@@ -4418,12 +4416,11 @@
     "como usar protetor",
     "quanto protetor passar",
     "reaplicar protetor",
-    "protetor solar",
-    "proettor solar",
     "como usar proettor",
-    "como usar protetor por favor",
     "quanto proettor passar",
-    "quanto protetor passar por favor"
+    "realpicar protetor",
+    "oi, como usar protetor",
+    "gente, como usar protetor"
    ],
    "resposta_chat": "Usa como último passo de manhã ☀️ Uma boa quantidade (cerca de dois dedos pro rosto e pescoço) e reaplica a cada 2–3 horas se estiver no sol.",
    "resposta_chat_alt": "Último passo da manhã, quantidade generosa e reaplicação ao longo do dia!",
@@ -4441,11 +4438,11 @@
     "como usar pad",
     "toner pad todo dia",
     "passa o disquinho",
-    "toner pad",
-    "como usar pad por favor",
-    "toner pad todo dia por favor",
     "passa o disuqinho",
-    "passa o disquinho por favor"
+    "oi, como usar pad",
+    "gente, como usar pad",
+    "oi, toner pad todo dia",
+    "gente, toner pad todo dia"
    ],
    "resposta_chat": "Depois da limpeza, passa o disquinho no rosto seguindo o sentido de dentro pra fora ✨ Alguns dá pra deixar uns minutinhos como compressa. Os com ácido, vale começar 2–3x por semana.",
    "resposta_chat_alt": "Passa o pad depois de limpar. Se tiver ácido, começa algumas vezes por semana.",
@@ -4463,11 +4460,12 @@
     "como usar serum",
     "quantas gotas",
     "ampola usa como",
-    "sérum / ampola",
-    "serum / amopla",
-    "como usar serum por favor",
     "qunatas gotas",
-    "quantas gotas por favor"
+    "amopla usa como",
+    "oi, como usar serum",
+    "gente, como usar serum",
+    "oi, quantas gotas",
+    "gente, quantas gotas"
    ],
    "resposta_chat": "Depois do tônico, 2 a 3 gotinhas no rosto, espalhando com leves batidinhas 💧 Depois vem o creme. Se tiver ativo forte (retinol, ácido), começa em noites alternadas.",
    "resposta_chat_alt": "Algumas gotas depois do tônico e antes do creme!",
@@ -4485,11 +4483,12 @@
     "como usar mascara de folha",
     "sheet mask",
     "quanto tempo mascara",
-    "máscara em folha",
-    "macsara em folha",
     "como usar macsara de folha",
-    "como usar mascara de folha por favor",
-    "sheet mask por favor"
+    "quanto tempo macsara",
+    "oi, como usar mascara de folha",
+    "gente, como usar mascara de folha",
+    "oi, sheet mask",
+    "gente, sheet mask"
    ],
    "resposta_chat": "Depois da limpeza (e do tônico), aplica a folha e deixa uns 15–20 minutos 🧖‍♀️ Tira, e espalha o excesso com batidinhas. Não precisa enxaguar!",
    "resposta_chat_alt": "15–20 min de folha, tira e espalha o que sobrou. Sem enxaguar!",
@@ -4507,12 +4506,11 @@
     "como usar oleo de limpeza",
     "balm de limpeza",
     "cleansing balm",
-    "óleo/bálsamo de limpeza",
-    "oleo/ablsamo de limpeza",
     "como usar oleo de lipmeza",
-    "como usar oleo de limpeza por favor",
     "balm de lipmeza",
-    "balm de limpeza por favor"
+    "clenasing balm",
+    "oi, como usar oleo de limpeza",
+    "gente, como usar oleo de limpeza"
    ],
    "resposta_chat": "Com o rosto e as mãos secos, massageia o óleo/bálsamo por uns 30 segundos, molha as mãos pra emulsionar (fica leitoso) e enxagua ✨ Depois, o sabonete em gel ou espuma.",
    "resposta_chat_alt": "Rosto seco, massageia, emulsiona com água e enxagua. Depois vem o segundo limpador.",
@@ -4529,12 +4527,13 @@
    "gatilhos": [
     "como usar patch",
     "patch de espinha funciona",
-    "patch de espinha",
-    "patch de esipnha",
-    "como usar patch por favor",
     "patch de espinha funicona",
-    "patch de espinha funciona por favor",
-    "patch de espinha por favor"
+    "oi, como usar patch",
+    "gente, como usar patch",
+    "oi, patch de espinha funciona",
+    "gente, patch de espinha funciona",
+    "oi, patch de espinha funicona",
+    "gente, patch de espinha funicona"
    ],
    "resposta_chat": "Com a pele limpa e seca, cola o patch em cima da espinha e deixa algumas horas (ou a noite toda) 🩹 Troca quando ficar esbranquiçado.",
    "resposta_chat_alt": "Pele limpa e seca, cola e deixa agir. Troca quando ficar branquinho.",
@@ -4552,12 +4551,11 @@
     "como usar tonico capilar",
     "tratamento de cabelo coreano",
     "shampoo coreano como usa",
-    "shampoo/tratamento capilar",
-    "shampoo/rtatamento capilar",
     "como usar tonico caiplar",
-    "como usar tonico capilar por favor",
     "tratmaento de cabelo coreano",
-    "tratamento de cabelo coreano por favor"
+    "shmapoo coreano como usa",
+    "oi, como usar tonico capilar",
+    "gente, como usar tonico capilar"
    ],
    "resposta_chat": "Cada produto tem sua indicação na página (e na embalagem) 😊 Em geral: shampoo massageando o couro cabeludo, tratamento nos fios e tônico capilar no couro, sem enxaguar. Me fala qual é que eu te passo direitinho.",
    "resposta_chat_alt": "Me diz qual produto de cabelo é que eu te explico como usar!",
@@ -4576,10 +4574,11 @@
     "pedido 1001",
     "consulta meu pedido",
     "status #",
-    "consultar meu pedido",
-    "conusltar meu pedido",
-    "meu peiddo é #",
-    "meu pedido é # por favor"
+    "meu peiddo e #",
+    "peiddo 1001",
+    "conuslta meu pedido",
+    "oi, meu pedido é #",
+    "gente, meu pedido é #"
    ],
    "resposta_chat": "Deixa comigo! 😊 Me confirma o e-mail da compra (ou os 3 últimos dígitos do CPF) pra eu consultar com segurança?",
    "resposta_chat_alt": "Pra eu olhar seu pedido, me passa o número e o e-mail usado na compra?",
@@ -4597,12 +4596,12 @@
     "saiu da coreia",
     "em transito internacional",
     "ta no aviao",
-    "pedido saiu da coreia",
-    "peiddo saiu da coreia",
     "saiu da coeria",
-    "saiu da coreia por favor",
     "em transito interancional",
-    "em transito internacional por favor"
+    "oi, saiu da coreia",
+    "gente, saiu da coreia",
+    "oi, em transito internacional",
+    "gente, em transito internacional"
    ],
    "resposta_chat": "Oba! ✈️ Seu pedido já está a caminho do Brasil. Durante o voo e a liberação o rastreio pode ficar uns dias sem novidade, é normal. Assim que chegar, você recebe um aviso.",
    "resposta_chat_alt": "Saiu da Coreia = está voando pra cá! Logo vem o aviso de chegada.",
@@ -4620,12 +4619,11 @@
     "saiu pra entrega",
     "a caminho",
     "em rota",
-    "pedido a caminho",
-    "pedido a caimnho",
+    "saiu p entrega",
     "saiu pra enrtega",
-    "saiu pra entrega por favor",
     "a caimnho",
-    "a caminho por favor"
+    "oi, saiu pra entrega",
+    "gente, saiu pra entrega"
    ],
    "resposta_chat": "Tá quase! 📦 Seu pedido está com a transportadora a caminho da sua casa. Se precisar, me avisa que eu acompanho.",
    "resposta_chat_alt": "Última etapa! Fica de olho que chega em breve 💗",
@@ -4643,12 +4641,12 @@
     "quero adicionar mais coisa",
     "esqueci de comprar",
     "da pra juntar no mesmo pacote",
-    "quero comprar mais antes de enviar",
-    "quero copmrar mais antes de enviar",
+    "da p juntar no msm pacote",
     "quero adiiconar mais coisa",
-    "quero adicionar mais coisa por favor",
     "esuqeci de comprar",
-    "esqueci de comprar por favor"
+    "da pra jutnar no mesmo pacote",
+    "oi, quero adicionar mais coisa",
+    "gente, quero adicionar mais coisa"
    ],
    "resposta_chat": "O jeito é fazer um pedido novo rapidinho 😊 Cada pedido tem frete e impostos próprios. Se quiser trocar ou incluir item no pedido já feito, me passa o número que eu chamo a equipe pra ver se ainda dá.",
    "resposta_chat_alt": "O mais rápido é um pedido novo. Cada um tem frete e impostos próprios!",
@@ -4668,9 +4666,9 @@
     "transferencia",
     "pago por fora",
     "faz um link de pagamento",
-    "pedido para pagar por pix ou fora do site",
-    "pedido pra pagar por pix ou fora do site",
-    "peiddo para pagar por pix ou fora do site"
+    "transefrencia",
+    "oi, posso pagar no pix?",
+    "gente, posso pagar no pix?"
    ],
    "resposta_chat": "Por segurança, a gente só recebe pagamento pelo checkout do site, no cartão 💳 Nunca pedimos Pix ou transferência por mensagem: se alguém pedir em nome da OMG, é golpe!",
    "resposta_chat_alt": "Pagamento só pelo site, no cartão. Pix por mensagem, nunca!",
@@ -4689,10 +4687,10 @@
     "numero do cartao",
     "cvv",
     "vou passar meu cartao",
-    "cliente envia dados de cartão no chat",
-    "cleinte envia dados de cartao no chat",
-    "meu catrao é",
-    "meu cartao é por favor"
+    "meu catrao e",
+    "nuemro do cartao",
+    "oi, meu cartao é",
+    "gente, meu cartao é"
    ],
    "resposta_chat": "Opa, por segurança não manda dados do cartão por aqui! 🔒 O pagamento é só no checkout do site. Se já enviou, apaga a mensagem e, se achar necessário, fala com o seu banco.",
    "resposta_chat_alt": "Não precisa (nem deve) mandar cartão por aqui! O pagamento é só no site.",
@@ -4712,10 +4710,9 @@
     "preço de atacado",
     "comprar em quantidade",
     "vender no meu salao",
-    "revendedora / quero vender os produtos",
-    "revednedora / quero vender os produtos",
     "quero revneder",
-    "quero revender por favor"
+    "sou revednedora",
+    "preco de atcaado"
    ],
    "resposta_chat": "Que bom seu interesse! 💗 Pelo site as compras são pra uso pessoal (até 6 unidades de cada item). Pra conversar sobre revenda, manda um e-mail pra info.br@ohmygirl.com.br com o assunto 'Parceria' que a equipe responde.",
    "resposta_chat_alt": "Revenda é com a equipe comercial: e-mail info.br@ohmygirl.com.br, assunto 'Parceria'.",
@@ -4735,9 +4732,10 @@
     "imprensa",
     "entrevista",
     "parceria comercial",
-    "imprensa / marcas / fornecedores",
-    "imprensa / marcas / forneecdores",
-    "sou de uma marca por favor"
+    "quero forencer",
+    "impernsa",
+    "oi, sou de uma marca",
+    "gente, sou de uma marca"
    ],
    "resposta_chat": "Obrigada pelo contato! 😊 Pra isso, o melhor é o e-mail info.br@ohmygirl.com.br com o assunto 'Parceria' que a equipe responsável retorna.",
    "resposta_chat_alt": "Manda os detalhes pro info.br@ohmygirl.com.br (assunto 'Parceria')!",
@@ -4756,10 +4754,11 @@
     "to usando isotretinoina",
     "faço tratamento com dermato",
     "uso acido receitado",
-    "uso com medicação ou tratamento dermatológico",
-    "uso com medicacao ou tratamento dermaotlogico",
     "tomo roauctan",
-    "tomo roacutan por favor"
+    "to usando isotrteinoina",
+    "faco tratmaento com dermato",
+    "oi, tomo roacutan",
+    "gente, tomo roacutan"
    ],
    "resposta_chat": "Nesse caso, o ideal é seguir o que o seu dermatologista orientou e perguntar a ele antes de incluir qualquer produto novo 💗 Se quiser, te mando os ingredientes do produto pra levar na consulta.",
    "resposta_chat_alt": "Com tratamento em andamento, quem libera é o seu dermatologista. Posso te passar a lista de ingredientes?",
@@ -4778,10 +4777,11 @@
     "tenho alergia a perfume",
     "alergia a niacinamida",
     "contem fragrancia?",
-    "alergia conhecida a ingrediente",
-    "alergia conhecida a ingrdeiente",
     "sou alegrica a",
-    "sou alergica a por favor"
+    "tenho alregia a perfume",
+    "alergia a niacniamida",
+    "oi, sou alergica a",
+    "gente, sou alergica a"
    ],
    "resposta_chat": "Boa pergunta! 💗 Na página do produto tem a lista de ingredientes. Me diz qual produto que eu confiro pra você. E, na dúvida, faz o teste atrás da orelha ou fala com seu dermatologista antes.",
    "resposta_chat_alt": "Me passa o nome do produto que eu te mostro os ingredientes!",
@@ -4799,11 +4799,11 @@
     "pode usar em crianca",
     "minha filha de 10 anos",
     "produto pra adolescente",
-    "uso em crianças",
-    "uso em crinacas",
+    "produto p adolescente",
     "pode usar em crainca",
-    "pode usar em crianca por favor",
-    "minha filha de 10 anos por favor"
+    "produto pra adolsecente",
+    "oi, pode usar em crianca",
+    "gente, pode usar em crianca"
    ],
    "resposta_chat": "Pra crianças, o ideal é falar antes com o pediatra ou dermatologista 💗 Em geral, adolescentes podem usar o básico (limpeza suave, hidratante e protetor), mas sem ativos fortes.",
    "resposta_chat_alt": "Para os pequenos, melhor confirmar com o pediatra. O básico suave costuma ser o caminho.",
@@ -4822,10 +4822,10 @@
     "nao achei o produto",
     "tem a marca x?",
     "procurei e nao tem",
-    "produto não está no site",
-    "prdouto nao esta no site",
     "vcs tem tal prdouto",
-    "vcs tem tal produto por favor"
+    "nao achei o prdouto",
+    "oi, vcs tem tal produto",
+    "gente, vcs tem tal produto"
    ],
    "resposta_chat": "Me fala o nome que eu procuro no nosso catálogo 🔎 Se não tivermos, deixo anotado como sugestão pra equipe!",
    "resposta_chat_alt": "Deixa eu procurar! Qual o nome do produto?",
@@ -4843,12 +4843,11 @@
     "qual a diferenca entre",
     "esse ou aquele",
     "comparar dois",
-    "diferença entre dois produtos",
-    "difreenca entre dois produtos",
     "qual a difreenca entre",
-    "qual a diferenca entre por favor",
     "esse ou aqeule",
-    "esse ou aquele por favor"
+    "comaprar dois",
+    "oi, qual a diferenca entre",
+    "gente, qual a diferenca entre"
    ],
    "resposta_chat": "Me manda os dois nomes que eu te explico a diferença de forma simples 😊",
    "resposta_chat_alt": "Quais são os dois? Te conto a diferença rapidinho!",
@@ -4867,10 +4866,10 @@
     "em quanto tempo vejo resultado",
     "clareia mesmo?",
     "resolve meu problema?",
-    "o produto funciona?",
-    "o produto funicona",
+    "isso funciona msm",
+    "clareia msm",
     "isso funicona mesmo",
-    "isso funciona mesmo por favor"
+    "em quanto tempo vejo reslutado"
    ],
    "resposta_chat": "Depende muito de cada pele 💗 O que posso te contar é pra que o produto foi feito e como usar direitinho. Em geral, skincare pede constância de algumas semanas. Quer que eu te mostre a descrição dele?",
    "resposta_chat_alt": "Cada pele responde de um jeito, mas com uso constante você percebe. Te passo as infos do produto?",
@@ -4888,12 +4887,12 @@
     "vai chegar mesmo?",
     "e se nao chegar",
     "tem garantia de entrega",
-    "cliente quer saber se pode confiar no prazo",
-    "cleinte quer saber se pode confiar no prazo",
-    "vai chgear mesmo?",
-    "vai chegar mesmo? por favor",
+    "vai chegar msm",
+    "vai chgear mesmo",
     "e se nao chgear",
-    "e se nao chegar por favor"
+    "tem garnatia de entrega",
+    "oi, vai chegar mesmo?",
+    "gente, vai chegar mesmo?"
    ],
    "resposta_chat": "Vai sim 💗 Todo pedido tem rastreio e, se algo sair do combinado (atraso, extravio), a gente resolve com reenvio ou reembolso. E você tem todos os direitos do Código de Defesa do Consumidor.",
    "resposta_chat_alt": "Tem rastreio do começo ao fim, e se algo der errado a gente resolve.",
@@ -4911,12 +4910,11 @@
     "comprei errado",
     "escolhi o produto errado",
     "cliquei errado",
-    "comprou errado",
-    "copmrou errado",
     "copmrei errado",
-    "comprei errado por favor",
     "esoclhi o produto errado",
-    "escolhi o produto errado por favor"
+    "clqiuei errado",
+    "oi, comprei errado",
+    "gente, comprei errado"
    ],
    "resposta_chat": "Acontece! 😅 Me passa o número do pedido agora que eu chamo a equipe: quanto antes, mais fácil ajustar ou cancelar sem custo.",
    "resposta_chat_alt": "Sem problema, me manda o número do pedido que a gente vê rapidinho!",
@@ -4934,11 +4932,11 @@
     "cpf errado",
     "digitei cpf errado",
     "mudar cpf do pedido",
-    "mudar cpf do peiddo",
     "cpf erardo",
-    "cpf errado por favor",
     "diigtei cpf errado",
-    "digitei cpf errado por favor"
+    "mudar cpf do peiddo",
+    "oi, cpf errado",
+    "gente, cpf errado"
    ],
    "resposta_chat": "Ah, isso é importante 🙏 O CPF vai na declaração de importação, então me passa o número do pedido agora que eu chamo a equipe pra corrigir antes do envio.",
    "resposta_chat_alt": "Me manda o número do pedido urgente que a equipe tenta corrigir o CPF!",
@@ -4959,8 +4957,12 @@
     "rs",
     "aham",
     "ta",
-    "cliente manda só emoji ou 'ok'",
-    "cleinte manda so emoji ou 'ok'"
+    "blz",
+    "show",
+    "entendi",
+    "beleza",
+    "okay",
+    "perfeito"
    ],
    "resposta_chat": "😊 Fico por aqui se precisar de mais alguma coisa!",
    "resposta_chat_alt": "Combinado! Qualquer coisa, chama 💗",
@@ -4979,10 +4981,11 @@
     "do you ship",
     "hablas español",
     "english please",
-    "cliente escreve em inglês ou espanhol",
-    "cliente escreve em ingles ou espnahol",
-    "hi por favor",
-    "do you ship por favor"
+    "hablas esapnol",
+    "oi, hi",
+    "gente, hi",
+    "oi, do you ship",
+    "gente, do you ship"
    ],
    "resposta_chat": "Hi! I'm Bomi, OMG's virtual assistant 💗 We ship only within Brazil. I can help you in English too, just tell me what you need!",
    "resposta_chat_alt": "¡Hola! Soy Bomi, asistente virtual de OMG 💗 Enviamos solo dentro de Brasil. ¿En qué te ayudo?",
@@ -5001,10 +5004,10 @@
     "lancamentos",
     "o que chegou de novo",
     "produto viral do tiktok",
-    "lançamentos e novidades",
-    "lancmaentos e novidades",
+    "oq chegou de novo",
     "tem novdiade",
-    "tem novidade por favor"
+    "lancmaentos",
+    "o que chgeou de novo"
    ],
    "resposta_chat": "Sempre tem novidade chegando ✨ Dá uma olhada na página inicial e segue a @omg_ohmygirlbr! Se você viu algum produto específico, me fala o nome que eu procuro.",
    "resposta_chat_alt": "Me fala o nome do produto que viralizou que eu vejo se a gente tem!",
@@ -5023,10 +5026,10 @@
     "simula pra mim",
     "quanto da no total",
     "valor final",
-    "quanto vou pagar no total?",
-    "qunato vou pagar no total",
+    "simula p mim",
     "qunato fica com frete",
-    "quanto fica com frete por favor"
+    "siumla pra mim",
+    "qunato da no total"
    ],
    "resposta_chat": "O jeito mais certinho é colocar no carrinho e informar o CEP: o checkout mostra produto, frete e impostos antes de você pagar 😊 Quer que eu te explique como o imposto é calculado?",
    "resposta_chat_alt": "O checkout simula tudo pelo seu CEP antes de pagar, sem compromisso!",
@@ -5044,11 +5047,12 @@
     "me avisa depois",
     "me lembra",
     "me chama quando chegar",
-    "cliente pede para a bomi lembrar algo / retornar depois",
-    "cliente pede pra a bomi lembrar algo / retornar depois",
-    "cliente pede para a bomi lembrar algo / retronar depois",
+    "me chama qnd chegar",
     "me avisa deopis",
-    "me avisa depois por favor"
+    "me lebmra",
+    "me chama qunado chegar",
+    "oi, me avisa depois",
+    "gente, me avisa depois"
    ],
    "resposta_chat": "Eu não consigo te chamar depois por aqui 😕 Mas você recebe e-mail a cada etapa do pedido, e pode me chamar quando quiser!",
    "resposta_chat_alt": "Os avisos chegam por e-mail automaticamente. E eu tô sempre aqui 💗",
@@ -5066,12 +5070,11 @@
     "quero meu dinheiro de volta",
     "devolve meu dinheiro",
     "estorno agora",
-    "cliente pede reembolso imediato",
-    "cliente pede reebmolso imediato",
     "quero meu dinehiro de volta",
-    "quero meu dinheiro de volta por favor",
     "devolve meu dinehiro",
-    "devolve meu dinheiro por favor"
+    "esotrno agora",
+    "oi, quero meu dinheiro de volta",
+    "gente, quero meu dinheiro de volta"
    ],
    "resposta_chat": "Entendo 😔 Vou passar agora pra equipe, que é quem cuida de reembolsos. Me confirma o número do pedido e o motivo, pra eles já chegarem sabendo?",
    "resposta_chat_alt": "Reembolso é com a equipe; já estou encaminhando. Qual o número do pedido?",
@@ -5090,10 +5093,11 @@
     "isso é de vcs?",
     "sms da omg",
     "whatsapp falso",
-    "cliente recebeu link suspeito",
-    "cliente recebeu link susepito",
     "reecbi um link",
-    "recebi um link por favor"
+    "oi, recebi um link",
+    "gente, recebi um link",
+    "oi, isso é de vcs?",
+    "gente, isso é de vcs?"
    ],
    "resposta_chat": "Boa que você perguntou! 🔒 Não clica. Nosso único site é ohmygirl.com.br e o WhatsApp oficial é este (+55 11 94588-4562). Me manda o print que eu passo pra equipe.",
    "resposta_chat_alt": "Na dúvida, não clica! Manda o print aqui.",
@@ -5111,11 +5115,12 @@
     "nao lembro o email",
     "qual email usei",
     "comprei com outro email",
-    "não lembro com qual e-mail comprei",
-    "nao lembro com qual e-mail copmrei",
     "nao lebmro o email",
-    "nao lembro o email por favor",
-    "qual email usei por favor"
+    "copmrei com outro email",
+    "oi, nao lembro o email",
+    "gente, nao lembro o email",
+    "oi, qual email usei",
+    "gente, qual email usei"
    ],
    "resposta_chat": "Sem problema 😊 Me passa seu nome completo, a data aproximada e o valor da compra que a equipe localiza pra você.",
    "resposta_chat_alt": "Me dá nome, data e valor da compra que a equipe encontra!",
@@ -5133,11 +5138,12 @@
     "nota com cnpj",
     "comprar pela empresa",
     "faturar no cnpj",
-    "quer nota fiscal com cnpj",
-    "quer nota ficsal com cnpj",
-    "nota com cnpj por favor",
     "copmrar pela empresa",
-    "comprar pela empresa por favor"
+    "fautrar no cnpj",
+    "oi, nota com cnpj",
+    "gente, nota com cnpj",
+    "oi, comprar pela empresa",
+    "gente, comprar pela empresa"
    ],
    "resposta_chat": "Como a vendedora é a MPOEMA INC (empresa dos EUA), não tem NF-e brasileira 😕 Você recebe o recibo (invoice) da MPOEMA INC por e-mail, e a compra pelo site é pra uso pessoal.",
    "resposta_chat_alt": "Não tem NF-e brasileira: você recebe o recibo (invoice) da MPOEMA INC por e-mail.",
