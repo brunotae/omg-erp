@@ -14,7 +14,7 @@ _Como comprar, alterar e cancelar._
 
 ### Preciso criar conta para comprar?
 
-Não precisa: você pode comprar como visitante, informando e-mail e CPF. Com conta, você acompanha pedidos e endereços num só lugar e junta pontos de fidelidade.
+Não precisa: você pode comprar como visitante, informando e-mail e CPF. Com conta, você acompanha pedidos e endereços num só lugar.
 
 ### Recebi o e-mail de confirmação. E agora?
 
@@ -91,6 +91,6 @@ Não fazemos reservas. O produto fica garantido para você assim que o pedido é
 
 Fale com a gente o quanto antes pelo WhatsApp. Quanto antes você avisar, maior a chance de corrigir antes do envio. Depois, se a entrega falhar por endereço errado, o pacote volta ao centro de distribuição e a nova entrega é cobrada.
 
-### O que acontece com o cupom ou os pontos se eu cancelar?
+### O que acontece com o cupom se eu cancelar?
 
-Os pontos da compra cancelada são estornados. O cupom volta a valer se ainda estiver dentro da validade e das regras dele; se não, fale com a gente que avaliamos.
+O cupom volta a valer se ainda estiver dentro da validade e das regras dele; se não, fale com a gente que avaliamos.

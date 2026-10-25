@@ -392,7 +392,7 @@
    "posso comprar sem conta",
    "compra como visitante"
   ],
-  "resposta": "Não precisa: você pode comprar como visitante, informando e-mail e CPF. Com conta, você acompanha pedidos e endereços num só lugar e junta pontos de fidelidade.",
+  "resposta": "Não precisa: você pode comprar como visitante, informando e-mail e CPF. Com conta, você acompanha pedidos e endereços num só lugar.",
   "links": [],
   "status": "ok",
   "escalar_humano": false
@@ -632,13 +632,13 @@
  {
   "id": "pedidos-19",
   "categoria": "Pedidos e compras",
-  "pergunta": "O que acontece com o cupom ou os pontos se eu cancelar?",
+  "pergunta": "O que acontece com o cupom se eu cancelar?",
   "variacoes": [
    "cancelei e o cupom",
-   "perdi meus pontos",
+   "perdi o cupom",
    "cupom volta?"
   ],
-  "resposta": "Os pontos da compra cancelada são estornados. O cupom volta a valer se ainda estiver dentro da validade e das regras dele; se não, fale com a gente que avaliamos.",
+  "resposta": "O cupom volta a valer se ainda estiver dentro da validade e das regras dele; se não, fale com a gente que avaliamos.",
   "links": [],
   "status": "ok",
   "escalar_humano": false
@@ -2136,7 +2136,7 @@
    "cliente fiel ganha desconto",
    "cashback"
   ],
-  "resposta": "Sim! A cada R$ 1 gasto você acumula 10 pontos, que viram desconto em compras futuras. Para juntar pontos, compre com a sua conta. No resgate, 1.000 pontos valem R$ 1 de desconto (ex.: uma compra de R$ 200 gera 2.000 pontos = R$ 2). Em breve teremos categorias de clientes com vantagens maiores.",
+  "resposta": "Ainda não, mas está nos nossos planos! Estamos preparando um clube de fidelidade para premiar quem compra com a gente com frequência. Quando lançar, avisamos no site e no Instagram @omg_ohmygirlbr 💗",
   "links": [],
   "status": "ok",
   "escalar_humano": false

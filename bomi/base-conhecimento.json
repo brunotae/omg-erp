@@ -598,10 +598,10 @@
     "compra como visitante",
     "preciso criar conta pra comprar"
    ],
-   "resposta_chat": "Não precisa! Dá pra comprar como visitante, só com e-mail e CPF. Com conta é mais prático: você acompanha pedidos e junta pontos de fidelidade ✨",
-   "resposta_chat_alt": "Pode comprar sem conta, sim. Mas se criar, você vê seus pedidos num lugar só e acumula pontos.",
+   "resposta_chat": "Não precisa! Dá pra comprar como visitante, só com e-mail e CPF. Com conta é mais prático: você acompanha seus pedidos num lugar só ✨",
+   "resposta_chat_alt": "Pode comprar sem conta, sim. Mas se criar, você vê seus pedidos num lugar só.",
    "quando_escalar": "Cliente irritada após uma tentativa, ameaça de Procon/processo ou qualquer dúvida sem resposta na base: transferir.",
-   "notas_internas": "Fonte: Central de Ajuda (pedidos-02). Fato oficial: Não precisa: você pode comprar como visitante, informando e-mail e CPF. Com conta, você acompanha pedidos e endereços num só lugar e junta pontos de fidelidade.",
+   "notas_internas": "Fonte: Central de Ajuda (pedidos-02). Fato oficial: Não precisa: você pode comprar como visitante, informando e-mail e CPF. Com conta, você acompanha pedidos e endereços num só lugar.",
    "links": []
   },
   {
@@ -969,23 +969,23 @@
   {
    "id": "pedidos-19",
    "categoria": "Pedidos e compras",
-   "pergunta": "O que acontece com o cupom ou os pontos se eu cancelar?",
+   "pergunta": "O que acontece com o cupom se eu cancelar?",
    "status": "ok",
    "escalar_humano": false,
    "gatilhos": [
     "cupom volta se cancelar",
-    "perco os pontos",
-    "o que acontece com o cupom ou os pontos se eu cancelar?",
+    "perco o cupom",
+    "o que acontece com o cupom se eu cancelar?",
     "cancelei e o cupom",
-    "perdi meus pontos",
+    "perdi o cupom",
     "cupom volta?",
-    "oq acontece com o cupom ou os pontos se eu cancelar",
-    "o que acotnece com o cupom ou os pontos se eu cancelar"
+    "oq acontece com o cupom se eu cancelar",
+    "o que acotnece com o cupom se eu cancelar"
    ],
-   "resposta_chat": "Os pontos da compra cancelada são estornados. O cupom volta a valer se ainda estiver na validade e nas regras dele; se não, me avisa que a equipe avalia 😊",
-   "resposta_chat_alt": "Cancelou? Os pontos saem e o cupom volta, se ainda estiver valendo.",
+   "resposta_chat": "O cupom volta a valer se ainda estiver na validade e nas regras dele; se não, me avisa que a equipe avalia 😊",
+   "resposta_chat_alt": "Cancelou? O cupom volta, se ainda estiver valendo.",
    "quando_escalar": "Cliente irritada após uma tentativa, ameaça de Procon/processo ou qualquer dúvida sem resposta na base: transferir.",
-   "notas_internas": "Fonte: Central de Ajuda (pedidos-19). Fato oficial: Os pontos da compra cancelada são estornados. O cupom volta a valer se ainda estiver dentro da validade e das regras dele; se não, fale com a gente que avaliamos.",
+   "notas_internas": "Fonte: Central de Ajuda (pedidos-19). Fato oficial: O cupom volta a valer se ainda estiver dentro da validade e das regras dele; se não, fale com a gente que avaliamos.",
    "links": []
   },
   {
@@ -3261,10 +3261,10 @@
     "voces tem programa de fideildade",
     "prorgama de pontos"
    ],
-   "resposta_chat": "Temos! A cada R$ 1 gasto você junta 10 pontos, e cada 1.000 pontos viram R$ 1 de desconto nas próximas compras 💗 É só comprar logada na sua conta. E vem novidade: categorias com vantagens maiores!",
-   "resposta_chat_alt": "Sim! 10 pontos por real gasto, comprando com a sua conta, e 1.000 pontos = R$ 1 de desconto 😊",
+   "resposta_chat": "Ainda não, mas está nos nossos planos! Estamos preparando um clube de fidelidade para premiar quem compra com a gente com frequência. Quando lançar, avisamos no site e no Instagram @omg_ohmygirlbr 💗",
+   "resposta_chat_alt": "Ainda não temos, mas um clube de fidelidade está nos planos! Quando lançar, a gente avisa 😉",
    "quando_escalar": "Cliente irritada após uma tentativa, ameaça de Procon/processo ou qualquer dúvida sem resposta na base: transferir.",
-   "notas_internas": "Fonte: Central de Ajuda (cupons-05). Fato oficial: Sim! A cada R$ 1 gasto você acumula 10 pontos, que viram desconto em compras futuras. Para juntar pontos, compre com a sua conta. No resgate, 1.000 pontos valem R$ 1 de desconto (ex.: uma compra de R$ 200 gera 2.000 pontos = R$ 2). Em breve teremos categorias de clientes com vantagens maiores.",
+   "notas_internas": "Fonte: Central de Ajuda (cupons-05). Fato oficial: Ainda não, mas está nos nossos planos! Estamos preparando um clube de fidelidade para premiar quem compra com a gente com frequência. Quando lançar, avisamos no site e no Instagram @omg_ohmygirlbr 💗",
    "links": []
   },
   {

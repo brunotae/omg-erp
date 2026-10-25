@@ -43,7 +43,7 @@ Enquanto o pedido **não tiver saído da Coreia**, o cancelamento é **sem custo
 - **Forma:** estorno no **mesmo cartão** usado na compra.
 - **Prazo:** solicitamos o estorno à administradora **imediatamente** no arrependimento e no cancelamento, e **após a análise** nos casos de defeito ou avaria. O crédito pode aparecer em **até duas faturas**, conforme o banco.
 - **Reembolso parcial:** se só um item tiver problema, o reembolso ou reenvio é feito só para ele.
-- **Pontos e cupons:** pontos de fidelidade do pedido devolvido são estornados; cupons voltam a valer se ainda estiverem dentro da validade e das regras.
+- **Cupons:** cupons voltam a valer se ainda estiverem dentro da validade e das regras.
 
 ## 7. Encomenda retida ou devolvida pela alfândega
 

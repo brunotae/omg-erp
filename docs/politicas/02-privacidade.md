@@ -15,7 +15,7 @@ Esta Política explica como a OMG trata os seus dados pessoais, conforme a **Lei
 - **Pagamento:** dados de cobrança e confirmação do pagamento. Os **dados completos do cartão são tratados pelo provedor de pagamento** (padrão PCI DSS) e **não ficam com a OMG**. Se você optar pelo **Shop Pay**, os dados são guardados pelo Shopify.
 - **Atendimento:** mensagens, fotos e áudios que você envia por WhatsApp ou e-mail.
 - **Navegação:** endereço IP, dispositivo, páginas visitadas e cookies (veja a [Política de Cookies](#)).
-- **Fidelidade e avaliações:** pontos acumulados, avaliações, fotos e vídeos publicados por você.
+- **Avaliações:** avaliações, fotos e vídeos publicados por você (e, quando houver clube de fidelidade, os dados do programa).
 
 ## 3. Para que usamos e com qual base legal
 

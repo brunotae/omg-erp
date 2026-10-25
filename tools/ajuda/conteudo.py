@@ -139,7 +139,7 @@ CATS.append(("pedidos", "Pedidos e compras", "Como comprar, alterar e cancelar."
    "1. Encontre os produtos pela busca, pelo menu ou por **Marcas**.\n2. Clique em **Adicionar ao carrinho**.\n3. No carrinho, clique em **Finalizar compra**.\n4. Informe **e-mail, nome completo, CPF e endereço** de quem vai receber.\n5. O checkout calcula **frete e impostos** pelo seu CEP.\n6. Escolha a forma de **pagamento** e confirme.\n7. Você recebe um **e-mail de confirmação** com o número do pedido (ex.: #1001)."),
  Q("Preciso criar conta para comprar?",
    ["precisa cadastro", "posso comprar sem conta", "compra como visitante"],
-   "Não precisa: você pode comprar como visitante, informando e-mail e CPF. Com conta, você acompanha pedidos e endereços num só lugar e junta pontos de fidelidade.",
+   "Não precisa: você pode comprar como visitante, informando e-mail e CPF. Com conta, você acompanha pedidos e endereços num só lugar.",
    None),
  Q("Recebi o e-mail de confirmação. E agora?",
    ["recebi o email e agora", "o que acontece depois que compro", "quando vcs enviam meu produto"],
@@ -451,7 +451,7 @@ CATS.append(("conta", "Minha conta e privacidade", "Cadastro, senha e como cuida
    None),
 ]))
 
-CATS.append(("cupons", "Cupons, promoções e fidelidade", "Como usar cupons, regras e programa de pontos.", [
+CATS.append(("cupons", "Cupons, promoções e fidelidade", "Como usar cupons, promoções e o futuro clube de fidelidade.", [
  Q("Como uso um cupom de desconto?",
    ["onde coloco o cupom", "como usar cupom", "codigo de desconto", "cupom nao aparece"],
    "No checkout, procure o campo 'Código de desconto', digite o cupom e clique em 'Aplicar'. O desconto aparece antes de você pagar.",
@@ -470,7 +470,7 @@ CATS.append(("cupons", "Cupons, promoções e fidelidade", "Como usar cupons, re
    None),
  Q("Vocês têm programa de fidelidade?",
    ["programa de pontos", "fidelidade", "cliente fiel ganha desconto", "cashback"],
-   "Sim! A cada R$ 1 gasto você acumula 10 pontos, que viram desconto em compras futuras. Para juntar pontos, compre com a sua conta. No resgate, 1.000 pontos valem R$ 1 de desconto (ex.: uma compra de R$ 200 gera 2.000 pontos = R$ 2). Em breve teremos categorias de clientes com vantagens maiores.",
+   "Ainda não, mas está nos nossos planos! Estamos preparando um clube de fidelidade para premiar quem compra com a gente com frequência. Quando lançar, avisamos no site e no Instagram @omg_ohmygirlbr 💗",
    None),
  Q("Como fico sabendo das promoções?",
    ["promoção", "black friday", "quando tem desconto", "liquidação"],
@@ -707,8 +707,8 @@ NOVAS = {
   Q("Meu endereço está incompleto ou errado. E agora?", ["endereço incompleto", "faltou numero da casa", "complemento errado"],
     "Fale com a gente o quanto antes pelo WhatsApp. Quanto antes você avisar, maior a chance de corrigir antes do envio. Depois, se a entrega falhar por endereço errado, o pacote volta ao centro de distribuição e a nova entrega é cobrada.",
     None, h=True),
-  Q("O que acontece com o cupom ou os pontos se eu cancelar?", ["cancelei e o cupom", "perdi meus pontos", "cupom volta?"],
-    "Os pontos da compra cancelada são estornados. O cupom volta a valer se ainda estiver dentro da validade e das regras dele; se não, fale com a gente que avaliamos.",
+  Q("O que acontece com o cupom se eu cancelar?", ["cancelei e o cupom", "perdi o cupom", "cupom volta?"],
+    "O cupom volta a valer se ainda estiver dentro da validade e das regras dele; se não, fale com a gente que avaliamos.",
     None),
  ],
  "conta": [

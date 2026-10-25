@@ -27,7 +27,7 @@ A MPOEMA INC é certificada no **Programa Remessa Conforme (PRC)** da Receita Fe
 
 ## 4. Conta e segurança
 
-- Você pode comprar **com conta ou como visitante**. Com conta, você acompanha pedidos e acumula pontos de fidelidade.
+- Você pode comprar **com conta ou como visitante**. Com conta, você acompanha seus pedidos e endereços num só lugar.
 - Para concluir o pedido, são obrigatórios: **nome completo, CPF de quem recebe, e-mail, telefone e endereço completo**. Você é responsável pela **exatidão** dos dados: CPF ou endereço incorretos podem atrasar, reter ou impedir a entrega.
 - Você é responsável por **guardar a sua senha** e pelo uso da sua conta. Se perceber qualquer acesso que não reconhece, avise a gente na hora.
 - **A OMG nunca pede** senha, código de verificação, dados completos do cartão nem pagamento por mensagem.
@@ -118,11 +118,8 @@ Se a encomenda for retida ou houver exigência na fiscalização, a **OMG cuida 
 
 ## 17. Programa de fidelidade
 
-- A cada **R$ 1** gasto em compras feitas **com a sua conta**, você acumula **10 pontos**.
-- **Resgate:** **1.000 pontos = R$ 1** de desconto em compras futuras. Exemplo: uma compra de R$ 200 gera 2.000 pontos, que valem R$ 2.
-- Os pontos de pedidos **cancelados ou devolvidos** são estornados.
-- Os pontos **não** são dinheiro, não podem ser trocados por dinheiro nem transferidos.
-- Estamos preparando **categorias de clientes com vantagens maiores**, que serão anunciadas no site. Mudanças nas regras serão avisadas com antecedência, preservando os pontos já acumulados.
+- A OMG poderá lançar um **clube de fidelidade** para clientes com cadastro. Quando isso acontecer, as regras (acúmulo, níveis, resgate e validade) serão publicadas em **regulamento próprio** no site, antes do início do programa.
+- Até lá, não há acúmulo de pontos.
 
 ## 18. Avaliações e conteúdo enviado por você
 
