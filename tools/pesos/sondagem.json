@@ -1,0 +1,149 @@
+{
+ "sokoglam.com": {
+  "busca_status": 200,
+  "achados": [
+   "AHA-BHA-PHA 30Days Miracle Toner",
+   "Licorice pH Balancing Cleansing Toner",
+   "Supple Preparation Facial Toner"
+  ],
+  "produto_status": 200,
+  "pesos_g": [
+   200
+  ]
+ },
+ "ohlolly.com": {
+  "busca_status": 200,
+  "achados": [
+   "Anua Heartleaf 77% Clear Pad",
+   "Anua Heartleaf 80% Moisture Soothing Ampoule",
+   "haruharu wonder Black Rice Hyaluronic Toner for Sensitive Skin"
+  ],
+  "produto_status": 200,
+  "pesos_g": [
+   333
+  ]
+ },
+ "wishtrend.com": {
+  "busca_status": 200,
+  "achados": [
+   "Mandelic Acid Gentle Exfoliating Toner"
+  ],
+  "produto_status": 200,
+  "pesos_g": [
+   0,
+   0
+  ]
+ },
+ "www.beautyofjoseon.com": {
+  "busca_status": 200,
+  "achados": [
+   "Green Plum Refreshing Toner : AHA + BHA",
+   "Glow Replenishing Rice Milk",
+   "Ginseng Essence Water"
+  ],
+  "produto_status": 200,
+  "pesos_g": [
+   240
+  ]
+ },
+ "kbeautyaddiction.com": {
+  "busca_status": 200,
+  "erro": "<!doctype html>\n<html lang=\"en-US\" class=\"no-js\" itemtype=\"https://schema.org/SearchResultsPage\" itemscope>\n<head>\n\t<met"
+ },
+ "seoulplus.com": {
+  "busca_status": 200,
+  "erro": "<!doctype html>\n<html lang=\"en-US\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"height=device-height, w"
+ },
+ "yesstyle": {
+  "status": 200,
+  "tamanho": 399915,
+  "achou": {
+   "weight": true,
+   "dimension": false,
+   "\\b\\d+(\\.\\d+)?\\s?(kg|lb|oz)\\b": false,
+   "중량": false,
+   "용량": false
+  },
+  "trechos": [
+   "t-text-size-adjust:100%;}*,*::before,*::after{box-sizing:inherit;}strong,b{font-weight:700;}body{margin:0;color:rgba(0, 0, 0, 0.87);font-family:var(--Noto-font),Helvetica,Arial,tahoma,'Microsoft YaHei',sans"
+  ]
+ },
+ "stylevana": {
+  "status": 403,
+  "tamanho": 0,
+  "achou": {
+   "weight": false,
+   "dimension": false,
+   "\\b\\d+(\\.\\d+)?\\s?(kg|lb|oz)\\b": false,
+   "중량": false,
+   "용량": false
+  },
+  "trechos": []
+ },
+ "oliveyoung_global": {
+  "status": 403,
+  "tamanho": 0,
+  "achou": {
+   "weight": false,
+   "dimension": false,
+   "\\b\\d+(\\.\\d+)?\\s?(kg|lb|oz)\\b": false,
+   "중량": false,
+   "용량": false
+  },
+  "trechos": []
+ },
+ "oliveyoung_kr": {
+  "status": 403,
+  "tamanho": 0,
+  "achou": {
+   "weight": false,
+   "dimension": false,
+   "\\b\\d+(\\.\\d+)?\\s?(kg|lb|oz)\\b": false,
+   "중량": false,
+   "용량": false
+  },
+  "trechos": []
+ },
+ "iherb": {
+  "status": 403,
+  "tamanho": 0,
+  "achou": {
+   "weight": false,
+   "dimension": false,
+   "\\b\\d+(\\.\\d+)?\\s?(kg|lb|oz)\\b": false,
+   "중량": false,
+   "용량": false
+  },
+  "trechos": []
+ },
+ "jolse": {
+  "status": 200,
+  "tamanho": 170213,
+  "achou": {
+   "weight": true,
+   "dimension": false,
+   "\\b\\d+(\\.\\d+)?\\s?(kg|lb|oz)\\b": false,
+   "중량": false,
+   "용량": false
+  },
+  "trechos": [
+   "ass=\"title displaynone\"><span class=\"\" style=\"font-size:14px;color:#555555;font-weight:bold;\">Product Name</span> :</span> <span class=\"\" style=\"font-size:14px;color:#555555;font-weight:bold;\">Anua Heartlea"
+  ]
+ },
+ "amazon": {
+  "status": 200,
+  "tamanho": 399966,
+  "achou": {
+   "weight": true,
+   "dimension": true,
+   "\\b\\d+(\\.\\d+)?\\s?(kg|lb|oz)\\b": true,
+   "중량": false,
+   "용량": false
+  },
+  "trechos": [
+   "00%} @font-face{font-family:Ember Modern Display Regular;font-style:normal;font-weight:400;src:url(https://m.media-amazon.com/images/G/01/ADT/Fonts/EmberModernDisplayStd-Regular.ttf) format(\"truetype\")}._c2",
+   "\"KillSwitch.\"+n];function r(n){return function(e){a(\"Metrics\",{producerId:\"csa\",dimensions:{message:e}})(\"recordMetric\",n,1)}}function t(r){var t,o,l=a(\"Events\",{producerId:r.producerId,lob:e.lob||\"0\"}),i=[\"na",
+   "mage_2So9N\"><img alt=\"Heartleaf Pore Control Cleansing Oil by Anua for Unisex - 6.76 oz Cleanser | Pore Cleanser, Sebum Care, Gentle Melting Oil Cleanser for Face, Safe For All Skin Type, Daily Hydrating Mak"
+  ]
+ }
+}
