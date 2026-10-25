@@ -12,7 +12,7 @@ Pelo **art. 49 do Código de Defesa do Consumidor**, você pode desistir da comp
 
 1. Fale com a gente dentro dos 7 dias, pelo **mesmo canal da compra** (site) ou pelo **WhatsApp +55 11 94588-4562** ou **info.br@ohmygirl.com.br**, com o número do pedido.
 2. **Confirmamos imediatamente** o recebimento do seu pedido de arrependimento e enviamos as instruções de devolução.
-3. A devolução vai para o centro da nossa parceira logística em **São Paulo**, com **frete pago pela OMG**. O endereço e a etiqueta são enviados no atendimento.
+3. Enviamos a **autorização e a etiqueta de devolução**, com **frete pago pela OMG**. O destino é o centro de devoluções da nossa parceira logística: **Rua Engenheiro Albert Leimer, 426 – Taboão, Guarulhos – SP**. **Não envie sem falar com a gente antes**: sem a autorização, o pacote pode não ser identificado.
 4. Assim que a devolução é postada, **comunicamos imediatamente a administradora do cartão** para o estorno (Decreto 7.962/2013, art. 5º, § 3º).
 5. O reembolso é **integral**: **produtos, frete e impostos**.
 

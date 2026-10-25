@@ -10,21 +10,9 @@ Cada item aparece no texto como [A DEFINIR #Dn] ou [A VERIFICAR #Vn]. Decida, ed
 Sugestão: Em discussão com o Tae (benefício para quem é fiel × para quem chega).  
 Aparece em (1): Avaliações e conteúdo › Ganho desconto por avaliar com foto ou vídeo?
 
-**D28. Endereço do centro da Mile em São Paulo para devoluções**  
-Sugestão: Pedir à Mile o endereço completo e o procedimento (etiqueta reversa paga pela OMG). Só uso interno: a cliente recebe as instruções pelo atendimento.  
-Aparece em (0): —
-
 **D29. Forma de compensação quando o pedido passa do prazo (D27)**  
 Sugestão: Ex.: cupom de 10% na próxima compra ou pontos de fidelidade extras; além do reembolso, se a cliente preferir cancelar.  
 Aparece em (0): —
-
-**D30. Resgate dos pontos de fidelidade (quanto vale cada ponto, validade, mínimo para resgate)**  
-Sugestão: Como R$ 1 = 10 pontos, 1.000 pontos = R$ 100 gastos. Ex.: 1.000 pontos = R$ 3 de desconto (3% de volta); validade de 12 meses; resgate como cupom a partir de 1.000 pontos. Calibrar pela margem.  
-Aparece em (1): Cupons, promoções e fidelidade › Vocês têm programa de fidelidade?
-
-**D31. Endereço físico e identificação da MPOEMA INC no site (Decreto 7.962/2013, art. 2º)**  
-Sugestão: Publicar no rodapé e em 'Sobre': MPOEMA INC, TIN US933093849, endereço completo nos EUA e e-mail de contato. É exigência legal para lojas online que vendem ao consumidor brasileiro.  
-Aparece em (1): Sobre a OMG › Quem vende os produtos? Por que aparece MPOEMA INC?
 
 ## A VERIFICAR (fatos a confirmar)
 

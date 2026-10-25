@@ -20,7 +20,7 @@ Infelizmente o cupom precisa ser aplicado no checkout, antes do pagamento. Se a 
 
 ### Vocês têm programa de fidelidade?
 
-Sim! A cada R$ 1 gasto você acumula 10 pontos, que viram desconto em compras futuras. Para juntar pontos, compre com a sua conta. Regras de resgate: [A DEFINIR #D30: resgate dos pontos].
+Sim! A cada R$ 1 gasto você acumula 10 pontos, que viram desconto em compras futuras. Para juntar pontos, compre com a sua conta. No resgate, 1.000 pontos valem R$ 1 de desconto (ex.: uma compra de R$ 200 gera 2.000 pontos = R$ 2). Em breve teremos categorias de clientes com vantagens maiores.
 
 ### Como fico sabendo das promoções?
 

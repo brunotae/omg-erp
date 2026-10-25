@@ -20,7 +20,7 @@ Por isso o nome **MPOEMA INC** pode aparecer:
 - na fatura do cartão de crédito;
 - na Declaração de Importação da sua encomenda.
 
-**Dados da empresa**: MPOEMA INC · TIN US933093849 · [A DEFINIR #D31: endereço físico da MPOEMA INC] · info.br@ohmygirl.com.br.
+**Dados da empresa**: MPOEMA INC · Los Angeles, Califórnia, EUA · info.br@ohmygirl.com.br.
 
 ### A OMG é confiável?
 

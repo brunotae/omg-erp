@@ -2,8 +2,8 @@
 
 - **Nome empresarial:** MPOEMA INC
 - **Marca:** OMG! / Oh My Girl
-- **Registro:** TIN US933093849 (Estados Unidos)
-- **Endereço físico:** [A DEFINIR #D31: endereço completo da MPOEMA INC]
+- **Sede:** Los Angeles, Califórnia, EUA
+- **Encarregado de dados (LGPD):** info.br@ohmygirl.com.br
 - **E-mail:** info.br@ohmygirl.com.br
 - **WhatsApp:** +55 11 94588-4562
 - **Atendimento humano:** segunda a sexta, das 9h às 18h (horário de Brasília). Fora desse horário, a assistente virtual responde e a equipe retoma no próximo dia útil.

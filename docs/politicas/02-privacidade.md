@@ -6,9 +6,8 @@ Esta Política explica como a OMG trata os seus dados pessoais, conforme a **Lei
 
 ## 1. Quem é o controlador
 
-- **Controladora:** MPOEMA INC (marca OMG! / Oh My Girl), TIN US933093849.
-- **Endereço:** [A DEFINIR #D31: endereço completo da MPOEMA INC]
-- **Encarregado (DPO) e canal de privacidade:** [A DEFINIR: nome do encarregado]. Enquanto não houver indicação, use **info.br@ohmygirl.com.br**, com o assunto **"LGPD"**.
+- **Controladora:** MPOEMA INC (marca OMG! / Oh My Girl) — Los Angeles, Califórnia, EUA.
+- **Encarregado (DPO) e canal de privacidade:** **info.br@ohmygirl.com.br**, com o assunto **"LGPD"**.
 
 ## 2. Quais dados coletamos
 
@@ -65,24 +64,40 @@ Você pode pedir, a qualquer momento:
 - **informação** sobre com quem compartilhamos;
 - **revogação do consentimento** e informação sobre as consequências de não consentir.
 
-**Como pedir:** envie um e-mail para **info.br@ohmygirl.com.br** com o assunto **"LGPD"**. Podemos pedir uma confirmação de identidade para proteger você. Você também pode reclamar à **Autoridade Nacional de Proteção de Dados (ANPD)**.
+**Como pedir:** envie um e-mail para **info.br@ohmygirl.com.br** com o assunto **"LGPD"**. Podemos pedir uma confirmação de identidade para proteger você. Respondemos à confirmação de existência e ao acesso **de forma simplificada, na hora, ou completa em até 15 dias** (LGPD, art. 19). Você também pode reclamar à **Autoridade Nacional de Proteção de Dados (ANPD)**.
 
-## 8. Segurança
+## 8. Decisões automatizadas e personalização
+
+- **Antifraude:** alguns pedidos passam por análise automática de risco feita pela plataforma de pagamento. Se um pedido for recusado por essa análise, você pode pedir a **revisão por uma pessoa** da equipe (LGPD, art. 20).
+- **Recomendações:** podemos sugerir produtos com base no que você comprou ou navegou. Você pode desativar o uso de cookies de personalização na [Política de Cookies](#).
+
+## 9. Comunicações
+
+- **Mensagens do pedido** (confirmação, envio, rastreio, atendimento) são enviadas por e-mail, WhatsApp ou SMS porque fazem parte da compra.
+- **Novidades e promoções** só com o seu consentimento. Para sair, use o link de descadastro do e-mail ou peça pelo WhatsApp.
+
+## 10. Segurança e incidentes
 
 Usamos conexão criptografada (HTTPS), plataforma e pagamento com padrões de segurança do mercado e acesso restrito aos dados pela equipe. **A OMG nunca pede senha, código de verificação ou dados completos do cartão por mensagem.**
 
-## 9. Menores de idade
+Se ocorrer um incidente de segurança que possa trazer risco ou dano relevante a você, avisaremos você e a ANPD, como determina o **art. 48 da LGPD**.
+
+## 11. Redes sociais e links de terceiros
+
+Quando você interage com a OMG no Instagram, TikTok ou WhatsApp, esses serviços também tratam os seus dados conforme as políticas deles. Links para sites de terceiros seguem as regras de privacidade desses sites.
+
+## 12. Menores de idade
 
 O site não é dirigido a menores de 18 anos. Compras de menores devem ser feitas pelo responsável legal, ou com a sua autorização (LGPD, art. 14).
 
-## 10. Cookies
+## 13. Cookies
 
 Usamos cookies para o site funcionar, lembrar o seu carrinho, medir o uso e, com a sua permissão, mostrar anúncios. Detalhes e opções na [Política de Cookies](#).
 
-## 11. Alterações
+## 14. Alterações
 
 Podemos atualizar esta Política. Mudanças relevantes serão avisadas no site ou por e-mail.
 
-## 12. Contato
+## 15. Contato
 
 **info.br@ohmygirl.com.br** (assunto "LGPD") · WhatsApp **+55 11 94588-4562**.

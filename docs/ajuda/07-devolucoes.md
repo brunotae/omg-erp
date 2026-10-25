@@ -8,7 +8,7 @@ Sim. O **Código de Defesa do Consumidor (art. 49)** garante o **direito de arre
 
 Como funciona na OMG:
 1. Fale com a gente dentro dos 7 dias, com o número do pedido.
-2. Confirmamos o seu pedido na hora e enviamos as instruções: a devolução vai para o centro da nossa parceira logística em **São Paulo**, com **frete pago pela OMG**.
+2. Confirmamos o seu pedido na hora e enviamos a **autorização e a etiqueta de devolução**, com **frete pago pela OMG**. A devolução vai para o centro de devoluções da nossa parceira logística (**Rua Engenheiro Albert Leimer, 426 – Taboão, Guarulhos – SP**). Não envie sem falar com a gente antes: sem a autorização, o pacote pode se perder.
 3. Assim que você posta a devolução, pedimos o **estorno no mesmo cartão** da compra, com **reembolso integral** (produtos, frete e impostos).
 
 Pedimos que o produto volte com todos os itens e, se possível, **sem uso e na embalagem original**. Abrir a embalagem para conhecer o produto não tira o seu direito.
@@ -52,7 +52,7 @@ Fale com a gente pelo WhatsApp com o número do pedido. A OMG resolve com a tran
 
 ### Como devolvo o produto?
 
-Fale com a gente pelo WhatsApp ou e-mail com o número do pedido. Enviamos as instruções: a devolução vai para o centro da nossa parceira logística em São Paulo, com frete pago pela OMG.
+Fale com a gente primeiro pelo WhatsApp ou e-mail, com o número do pedido. Enviamos a autorização e a etiqueta de devolução, com frete pago pela OMG. O destino é o centro de devoluções da nossa parceira logística (Rua Engenheiro Albert Leimer, 426 – Taboão, Guarulhos – SP). Não envie sem a autorização, para o pacote não se perder.
 
 ### Posso receber reembolso de só parte do pedido?
 

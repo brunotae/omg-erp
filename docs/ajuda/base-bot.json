@@ -29,9 +29,9 @@
   ],
   "resposta": "A vendedora oficial da OMG é a MPOEMA INC, empresa dos Estados Unidos certificada pela Receita Federal no Programa Remessa Conforme. Por isso esse nome pode aparecer no seu comprovante ou na fatura do cartão. Não é golpe: é a nossa empresa.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": false,
-  "resposta_longa": "A loja **ohmygirl.com.br** pertence à **MPOEMA INC**, empresa sediada nos Estados Unidos e **certificada pela Receita Federal no Programa Remessa Conforme (PRC)** — Ato Declaratório Executivo Coana nº 111, de 14/10/2026 (DOU de 21/10/2026), que inclui expressamente o site ohmygirl.com.br.\n\nPor isso o nome **MPOEMA INC** pode aparecer:\n- no comprovante do pedido;\n- na fatura do cartão de crédito;\n- na Declaração de Importação da sua encomenda.\n\n**Dados da empresa**: MPOEMA INC · TIN US933093849 · [A DEFINIR #D31: endereço físico da MPOEMA INC] · info.br@ohmygirl.com.br."
+  "resposta_longa": "A loja **ohmygirl.com.br** pertence à **MPOEMA INC**, empresa sediada nos Estados Unidos e **certificada pela Receita Federal no Programa Remessa Conforme (PRC)** — Ato Declaratório Executivo Coana nº 111, de 14/10/2026 (DOU de 21/10/2026), que inclui expressamente o site ohmygirl.com.br.\n\nPor isso o nome **MPOEMA INC** pode aparecer:\n- no comprovante do pedido;\n- na fatura do cartão de crédito;\n- na Declaração de Importação da sua encomenda.\n\n**Dados da empresa**: MPOEMA INC · Los Angeles, Califórnia, EUA · info.br@ohmygirl.com.br."
  },
  {
   "id": "sobre-03",
@@ -1172,7 +1172,7 @@
   "links": [],
   "status": "ok",
   "escalar_humano": true,
-  "resposta_longa": "Sim. O **Código de Defesa do Consumidor (art. 49)** garante o **direito de arrependimento** em compras feitas fora da loja física, como pela internet: **7 dias** a partir do recebimento.\n\nComo funciona na OMG:\n1. Fale com a gente dentro dos 7 dias, com o número do pedido.\n2. Confirmamos o seu pedido na hora e enviamos as instruções: a devolução vai para o centro da nossa parceira logística em **São Paulo**, com **frete pago pela OMG**.\n3. Assim que você posta a devolução, pedimos o **estorno no mesmo cartão** da compra, com **reembolso integral** (produtos, frete e impostos).\n\nPedimos que o produto volte com todos os itens e, se possível, **sem uso e na embalagem original**. Abrir a embalagem para conhecer o produto não tira o seu direito."
+  "resposta_longa": "Sim. O **Código de Defesa do Consumidor (art. 49)** garante o **direito de arrependimento** em compras feitas fora da loja física, como pela internet: **7 dias** a partir do recebimento.\n\nComo funciona na OMG:\n1. Fale com a gente dentro dos 7 dias, com o número do pedido.\n2. Confirmamos o seu pedido na hora e enviamos a **autorização e a etiqueta de devolução**, com **frete pago pela OMG**. A devolução vai para o centro de devoluções da nossa parceira logística (**Rua Engenheiro Albert Leimer, 426 – Taboão, Guarulhos – SP**). Não envie sem falar com a gente antes: sem a autorização, o pacote pode se perder.\n3. Assim que você posta a devolução, pedimos o **estorno no mesmo cartão** da compra, com **reembolso integral** (produtos, frete e impostos).\n\nPedimos que o produto volte com todos os itens e, se possível, **sem uso e na embalagem original**. Abrir a embalagem para conhecer o produto não tira o seu direito."
  },
  {
   "id": "devolucoes-02",
@@ -1303,7 +1303,7 @@
    "processo de devolução",
    "onde mando o produto de volta"
   ],
-  "resposta": "Fale com a gente pelo WhatsApp ou e-mail com o número do pedido. Enviamos as instruções: a devolução vai para o centro da nossa parceira logística em São Paulo, com frete pago pela OMG.",
+  "resposta": "Fale com a gente primeiro pelo WhatsApp ou e-mail, com o número do pedido. Enviamos a autorização e a etiqueta de devolução, com frete pago pela OMG. O destino é o centro de devoluções da nossa parceira logística (Rua Engenheiro Albert Leimer, 426 – Taboão, Guarulhos – SP). Não envie sem a autorização, para o pacote não se perder.",
   "links": [],
   "status": "ok",
   "escalar_humano": true
@@ -2136,9 +2136,9 @@
    "cliente fiel ganha desconto",
    "cashback"
   ],
-  "resposta": "Sim! A cada R$ 1 gasto você acumula 10 pontos, que viram desconto em compras futuras. Para juntar pontos, compre com a sua conta. Regras de resgate: [A DEFINIR #D30: resgate dos pontos].",
+  "resposta": "Sim! A cada R$ 1 gasto você acumula 10 pontos, que viram desconto em compras futuras. Para juntar pontos, compre com a sua conta. No resgate, 1.000 pontos valem R$ 1 de desconto (ex.: uma compra de R$ 200 gera 2.000 pontos = R$ 2). Em breve teremos categorias de clientes com vantagens maiores.",
   "links": [],
-  "status": "a_definir",
+  "status": "ok",
   "escalar_humano": false
  },
  {

@@ -14,10 +14,7 @@ AVISO = ("Produto proveniente do exterior. Será importado e será registrada um
 # ---------------------------------------------------------------- decisões pendentes
 DECISOES = {
  "D16": ("Desconto por avaliação com foto/vídeo", "Em discussão com o Tae (benefício para quem é fiel × para quem chega)."),
- "D28": ("Endereço do centro da Mile em São Paulo para devoluções", "Pedir à Mile o endereço completo e o procedimento (etiqueta reversa paga pela OMG). Só uso interno: a cliente recebe as instruções pelo atendimento."),
  "D29": ("Forma de compensação quando o pedido passa do prazo (D27)", "Ex.: cupom de 10% na próxima compra ou pontos de fidelidade extras; além do reembolso, se a cliente preferir cancelar."),
- "D30": ("Resgate dos pontos de fidelidade (quanto vale cada ponto, validade, mínimo para resgate)", "Como R$ 1 = 10 pontos, 1.000 pontos = R$ 100 gastos. Ex.: 1.000 pontos = R$ 3 de desconto (3% de volta); validade de 12 meses; resgate como cupom a partir de 1.000 pontos. Calibrar pela margem."),
- "D31": ("Endereço físico e identificação da MPOEMA INC no site (Decreto 7.962/2013, art. 2º)", "Publicar no rodapé e em 'Sobre': MPOEMA INC, TIN US933093849, endereço completo nos EUA e e-mail de contato. É exigência legal para lojas online que vendem ao consumidor brasileiro."),
 }
 VERIFICAR = {
  "V8": ("Produto claramente usado/consumido devolvido no prazo de arrependimento", "A OMG aceita o arrependimento em 7 dias, inclusive com embalagem aberta (o Procon-MG multou a Shein em set/2026 por restringir o arrependimento de cosméticos com lacre removido). Confirmar com advogado se, em casos de uso evidente (produto consumido), cabe abatimento proporcional — nunca recusar de antemão."),
@@ -56,7 +53,7 @@ CATS.append(("sobre", "Sobre a OMG", "Quem somos, de onde vem o produto e como f
  Q("Quem vende os produtos? Por que aparece MPOEMA INC?",
    ["quem é mpoema", "pq aparece mpoema na fatura", "a empresa é dos eua?", "mpoema inc é golpe?"],
    "A vendedora oficial da OMG é a MPOEMA INC, empresa dos Estados Unidos certificada pela Receita Federal no Programa Remessa Conforme. Por isso esse nome pode aparecer no seu comprovante ou na fatura do cartão. Não é golpe: é a nossa empresa.",
-   "A loja **ohmygirl.com.br** pertence à **MPOEMA INC**, empresa sediada nos Estados Unidos e **certificada pela Receita Federal no Programa Remessa Conforme (PRC)** — Ato Declaratório Executivo Coana nº 111, de 14/10/2026 (DOU de 21/10/2026), que inclui expressamente o site ohmygirl.com.br.\n\nPor isso o nome **MPOEMA INC** pode aparecer:\n- no comprovante do pedido;\n- na fatura do cartão de crédito;\n- na Declaração de Importação da sua encomenda.\n\n**Dados da empresa**: MPOEMA INC · TIN US933093849 · [A DEFINIR #D31: endereço físico da MPOEMA INC] · " + EMAIL + "."),
+   "A loja **ohmygirl.com.br** pertence à **MPOEMA INC**, empresa sediada nos Estados Unidos e **certificada pela Receita Federal no Programa Remessa Conforme (PRC)** — Ato Declaratório Executivo Coana nº 111, de 14/10/2026 (DOU de 21/10/2026), que inclui expressamente o site ohmygirl.com.br.\n\nPor isso o nome **MPOEMA INC** pode aparecer:\n- no comprovante do pedido;\n- na fatura do cartão de crédito;\n- na Declaração de Importação da sua encomenda.\n\n**Dados da empresa**: MPOEMA INC · Los Angeles, Califórnia, EUA · " + EMAIL + "."),
  Q("A OMG é confiável?",
    ["essa loja é confiável", "posso confiar?", "vcs são golpe?", "como sei que é seguro comprar aqui", "reclame aqui de vcs"],
    "Sim. Somos certificados pela Receita Federal no Programa Remessa Conforme (ADE Coana nº 111/2026), o pagamento é processado pelo Shopify com segurança, e todo pedido tem rastreio. Desconfie de sites com nome parecido: o único site oficial é ohmygirl.com.br.",
@@ -299,7 +296,7 @@ CATS.append(("devolucoes", "Trocas, devoluções e reembolsos", "Arrependimento,
  Q("Posso devolver se me arrepender?",
    ["direito de arrependimento", "nao gostei quero devolver", "7 dias pra devolver", "desistir da compra depois que chegou"],
    "Sim. Pelo Código de Defesa do Consumidor (art. 49), compras online podem ser desistidas em até 7 dias do recebimento. Fale com a gente pelo WhatsApp com o número do pedido para combinar a devolução.",
-   "Sim. O **Código de Defesa do Consumidor (art. 49)** garante o **direito de arrependimento** em compras feitas fora da loja física, como pela internet: **7 dias** a partir do recebimento.\n\nComo funciona na OMG:\n1. Fale com a gente dentro dos 7 dias, com o número do pedido.\n2. Confirmamos o seu pedido na hora e enviamos as instruções: a devolução vai para o centro da nossa parceira logística em **São Paulo**, com **frete pago pela OMG**.\n3. Assim que você posta a devolução, pedimos o **estorno no mesmo cartão** da compra, com **reembolso integral** (produtos, frete e impostos).\n\nPedimos que o produto volte com todos os itens e, se possível, **sem uso e na embalagem original**. Abrir a embalagem para conhecer o produto não tira o seu direito.", h=True),
+   "Sim. O **Código de Defesa do Consumidor (art. 49)** garante o **direito de arrependimento** em compras feitas fora da loja física, como pela internet: **7 dias** a partir do recebimento.\n\nComo funciona na OMG:\n1. Fale com a gente dentro dos 7 dias, com o número do pedido.\n2. Confirmamos o seu pedido na hora e enviamos a **autorização e a etiqueta de devolução**, com **frete pago pela OMG**. A devolução vai para o centro de devoluções da nossa parceira logística (**Rua Engenheiro Albert Leimer, 426 – Taboão, Guarulhos – SP**). Não envie sem falar com a gente antes: sem a autorização, o pacote pode se perder.\n3. Assim que você posta a devolução, pedimos o **estorno no mesmo cartão** da compra, com **reembolso integral** (produtos, frete e impostos).\n\nPedimos que o produto volte com todos os itens e, se possível, **sem uso e na embalagem original**. Abrir a embalagem para conhecer o produto não tira o seu direito.", h=True),
  Q("Recebi o produto quebrado ou vazando.",
    ["veio quebrado", "produto vazou", "chegou danificado", "embalagem amassada", "veio aberto"],
    "Sentimos muito! Fale com a gente pelo WhatsApp em até 30 dias do recebimento, com fotos ou vídeo da caixa e do produto. Resolvemos com reenvio ou reembolso, sem custo para você. Dica: se o lacre estiver rompido ou o pacote violado, recuse na entrega e nos avise na hora.",
@@ -473,7 +470,7 @@ CATS.append(("cupons", "Cupons, promoções e fidelidade", "Como usar cupons, re
    None),
  Q("Vocês têm programa de fidelidade?",
    ["programa de pontos", "fidelidade", "cliente fiel ganha desconto", "cashback"],
-   "Sim! A cada R$ 1 gasto você acumula 10 pontos, que viram desconto em compras futuras. Para juntar pontos, compre com a sua conta. Regras de resgate: [A DEFINIR #D30: resgate dos pontos].",
+   "Sim! A cada R$ 1 gasto você acumula 10 pontos, que viram desconto em compras futuras. Para juntar pontos, compre com a sua conta. No resgate, 1.000 pontos valem R$ 1 de desconto (ex.: uma compra de R$ 200 gera 2.000 pontos = R$ 2). Em breve teremos categorias de clientes com vantagens maiores.",
    None),
  Q("Como fico sabendo das promoções?",
    ["promoção", "black friday", "quando tem desconto", "liquidação"],
@@ -612,7 +609,7 @@ EXTRA = {
  ],
  "devolucoes": [
   Q("Como devolvo o produto?", ["como faço devolução", "processo de devolução", "onde mando o produto de volta"],
-    "Fale com a gente pelo WhatsApp ou e-mail com o número do pedido. Enviamos as instruções: a devolução vai para o centro da nossa parceira logística em São Paulo, com frete pago pela OMG.", h=True),
+    "Fale com a gente primeiro pelo WhatsApp ou e-mail, com o número do pedido. Enviamos a autorização e a etiqueta de devolução, com frete pago pela OMG. O destino é o centro de devoluções da nossa parceira logística (Rua Engenheiro Albert Leimer, 426 – Taboão, Guarulhos – SP). Não envie sem a autorização, para o pacote não se perder.", h=True),
   Q("Posso receber reembolso de só parte do pedido?", ["reembolso parcial", "devolver só um item", "um produto veio errado só"],
     "Sim. Se apenas um item tiver problema, o reembolso (estorno no mesmo cartão) ou o reenvio é feito só para ele.", h=True),
  ],
