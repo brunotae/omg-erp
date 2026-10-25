@@ -1,0 +1,486 @@
+<title>Bomi · Teste</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Nanum+Gothic:wght@700&display=swap">
+<style>
+/* Layout: conversa à esquerda (como o chat do site), laboratório de teste à direita; empilha no celular. */
+:root{
+  --creme:#FFF7EE; --papel:#FFFFFF; --tinta:#2B1630; --suave:#7A6377; --linha:#EEDFE6;
+  --framboesa:#D61F6E; --chiclete:#FF8EC4; --chiclete-claro:#FFE3F0; --menta:#BFEFDB; --menta-escura:#1E7A5A;
+  --ameixa:#4A1D45; --aviso:#FFF1C7; --aviso-tinta:#7A5300; --erro:#B42318;
+  --bolha-cliente:#4A1D45; --bolha-cliente-tinta:#FFFFFF; --bolha-bomi:#FFFFFF;
+  --f-ui:"Poppins",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-ko:"Nanum Gothic","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --creme:#1C1219; --papel:#271A24; --tinta:#F7E9F0; --suave:#BBA3B5; --linha:#3D2A38;
+  --framboesa:#FF5C9D; --chiclete:#FF8EC4; --chiclete-claro:#3A1F30; --menta:#1E4A3B; --menta-escura:#9FE7C8;
+  --ameixa:#E9C7E2; --aviso:#3B3015; --aviso-tinta:#F4D58A; --erro:#FF8A80;
+  --bolha-cliente:#6B2C63; --bolha-cliente-tinta:#FFFFFF; --bolha-bomi:#2F2029; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --creme:#1C1219; --papel:#271A24; --tinta:#F7E9F0; --suave:#BBA3B5; --linha:#3D2A38;
+  --framboesa:#FF5C9D; --chiclete:#FF8EC4; --chiclete-claro:#3A1F30; --menta:#1E4A3B; --menta-escura:#9FE7C8;
+  --ameixa:#E9C7E2; --aviso:#3B3015; --aviso-tinta:#F4D58A; --erro:#FF8A80;
+  --bolha-cliente:#6B2C63; --bolha-cliente-tinta:#FFFFFF; --bolha-bomi:#2F2029; color-scheme:dark}
+html,body{height:100%}
+body{background:var(--creme);color:var(--tinta);font-family:var(--f-ui);font-size:14px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px;box-sizing:border-box}
+*{box-sizing:border-box}
+button{font:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--framboesa);outline-offset:2px}
+.app{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:16px;height:100%}
+@media (max-width:860px){.app{grid-template-columns:1fr;height:auto}}
+
+/* Conversa */
+.chat{background:var(--papel);border:1px solid var(--linha);border-radius:20px;display:flex;flex-direction:column;min-height:0;min-width:0;overflow:hidden}
+@media (max-width:860px){.chat{height:78vh;min-height:520px}}
+.topo{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--ameixa);color:var(--creme)}
+:root:not([data-theme="light"]) .topo{}
+.avatar{width:38px;height:38px;border-radius:50%;background:var(--chiclete);display:grid;place-items:center;font-family:var(--f-ko);font-weight:700;color:#4A1D45;font-size:15px;flex:none}
+.topo h1{font-size:15px;margin:0;font-weight:600;color:#fff}
+.topo p{margin:0;font-size:11.5px;opacity:.85;color:#fff}
+.topo .sel{margin-left:auto;display:flex;gap:6px;align-items:center}
+.pill{border:1px solid rgba(255,255,255,.35);background:transparent;color:#fff;border-radius:999px;padding:4px 10px;font-size:11.5px}
+.pill[aria-pressed="true"]{background:#fff;color:#4A1D45;border-color:#fff}
+.faixa{background:var(--aviso);color:var(--aviso-tinta);font-size:11.5px;padding:6px 14px}
+.msgs{flex:1;overflow-y:auto;padding:16px 14px;display:flex;flex-direction:column;gap:8px;min-height:0;
+  background:radial-gradient(circle at 20% 0%,var(--chiclete-claro),transparent 55%)}
+.linha{display:flex;flex-direction:column;max-width:82%}
+.linha.c{align-self:flex-end;align-items:flex-end}
+.linha.b{align-self:flex-start}
+.bolha{padding:9px 12px;border-radius:16px;white-space:pre-wrap;overflow-wrap:anywhere}
+.c .bolha{background:var(--bolha-cliente);color:var(--bolha-cliente-tinta);border-bottom-right-radius:4px}
+.b .bolha{background:var(--bolha-bomi);border:1px solid var(--linha);border-bottom-left-radius:4px}
+.b .bolha a{color:var(--framboesa)}
+.bolha.pensando{color:var(--suave);font-style:italic}
+.meta{font-size:10.5px;color:var(--suave);margin-top:2px;display:flex;gap:6px;align-items:center}
+.nota{font-size:11px;background:transparent;border:0;color:var(--suave);padding:0 2px}
+.nota[aria-pressed="true"]{color:var(--framboesa);font-weight:600}
+.evento{align-self:center;font-size:11.5px;color:var(--menta-escura);background:var(--menta);border-radius:999px;padding:3px 10px;max-width:92%;text-align:center}
+.evento.h{background:var(--chiclete-claro);color:var(--framboesa)}
+.erro{align-self:center;font-size:12px;color:var(--erro)}
+.boasvindas{align-self:center;text-align:center;color:var(--suave);font-size:12.5px;max-width:420px;padding:20px 8px}
+.boasvindas b{color:var(--tinta)}
+.compor{display:flex;gap:8px;padding:10px;border-top:1px solid var(--linha);background:var(--papel)}
+.compor textarea{flex:1;resize:none;border:1px solid var(--linha);border-radius:12px;padding:9px 12px;font:inherit;background:var(--creme);color:var(--tinta);min-height:42px;max-height:120px}
+.btn{border:0;border-radius:12px;padding:0 16px;background:var(--framboesa);color:#fff;font-weight:600}
+.btn:disabled{opacity:.45;cursor:default}
+.btn.sec{background:transparent;border:1px solid var(--linha);color:var(--tinta);font-weight:500}
+
+/* Laboratório */
+.lab{background:var(--papel);border:1px solid var(--linha);border-radius:20px;display:flex;flex-direction:column;min-height:0;min-width:0;overflow:hidden}
+.abas{display:flex;gap:4px;padding:8px;border-bottom:1px solid var(--linha);flex-wrap:wrap}
+.aba{border:0;background:transparent;color:var(--suave);padding:6px 10px;border-radius:999px;font-size:12.5px}
+.aba[aria-selected="true"]{background:var(--chiclete-claro);color:var(--framboesa);font-weight:600}
+.painel{padding:14px;overflow-y:auto;flex:1;min-height:0}
+@media (max-width:860px){.painel{max-height:none}}
+.painel h2{font-size:13px;margin:0 0 8px;font-weight:600}
+.painel p.ajuda{margin:0 0 12px;color:var(--suave);font-size:12px}
+.lista{display:flex;flex-direction:column;gap:4px}
+.cen{display:flex;gap:8px;align-items:baseline;text-align:left;border:1px solid transparent;background:transparent;color:var(--tinta);padding:6px 8px;border-radius:10px;font-size:12.5px}
+.cen:hover{background:var(--creme)}
+.cen.ativo{border-color:var(--chiclete);background:var(--chiclete-claro)}
+.cen .n{font-variant-numeric:tabular-nums;color:var(--suave);min-width:20px}
+.detalhe{border:1px solid var(--linha);border-radius:12px;padding:12px;margin-bottom:12px;background:var(--creme)}
+.detalhe h3{margin:0 0 8px;font-size:13.5px}
+.falas{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.fala{text-align:left;border:1px dashed var(--chiclete);background:var(--papel);color:var(--tinta);border-radius:10px;padding:6px 10px;font-size:12.5px}
+.fala.usada{border-style:solid;opacity:.6}
+.esp{margin:0;padding-left:18px;font-size:12px;color:var(--suave)}
+.esp li{margin:2px 0}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th,td{text-align:left;padding:6px 6px;border-bottom:1px solid var(--linha);vertical-align:top}
+th{color:var(--suave);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.tw{overflow-x:auto}
+.log{display:flex;flex-direction:column;gap:8px}
+.log .item{border:1px solid var(--linha);border-radius:10px;padding:8px 10px;font-size:12px}
+.log .item b{font-weight:600}
+.log pre{margin:6px 0 0;white-space:pre-wrap;overflow-wrap:anywhere;font-size:11px;color:var(--suave);font-family:ui-monospace,Menlo,monospace}
+.vazio{color:var(--suave);font-size:12px}
+.acoes{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.acoes .btn{padding:8px 14px}
+.copia{width:100%;min-height:120px;margin-top:8px;font:11px ui-monospace,Menlo,monospace;border:1px solid var(--linha);border-radius:10px;background:var(--creme);color:var(--tinta);padding:8px}
+.kpis{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.kpi{border:1px solid var(--linha);border-radius:10px;padding:8px 12px;min-width:90px}
+.kpi b{display:block;font-size:18px;font-variant-numeric:tabular-nums}
+.kpi span{font-size:11px;color:var(--suave)}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+
+<div class="app">
+  <section class="chat" aria-label="Conversa com a Bomi">
+    <div class="topo">
+      <div class="avatar" aria-hidden="true">봄</div>
+      <div><h1>Bomi · OMG</h1><p>assistente virtual · chat do site</p></div>
+      <div class="sel" role="group" aria-label="Modelo">
+        <button class="pill" id="tier-default" aria-pressed="true" title="Modelo equilibrado (mais caprichado, mais lento)">Caprichado</button>
+        <button class="pill" id="tier-quick" aria-pressed="false" title="Modelo rápido (responde quase na hora)">Rápido</button>
+      </div>
+    </div>
+    <div class="faixa">Ambiente de teste: pedidos são fictícios e o catálogo não tem preços ainda. Usa a sua conta do Claude.</div>
+    <div class="msgs" id="msgs" aria-live="polite">
+      <div class="boasvindas" id="boas">Escreva como uma cliente escreveria, ou escolha um <b>cenário</b> ao lado.<br>Ex.: <i>"oii vcs sao confiaveis??"</i>, <i>"cade meu pedido 100000143"</i>, <i>"tenho pele oleosa, me indica um tônico"</i>.</div>
+    </div>
+    <form class="compor" id="form">
+      <label for="txt" hidden>Mensagem</label>
+      <textarea id="txt" rows="1" placeholder="Mensagem como cliente…"></textarea>
+      <button class="btn" id="enviar" type="submit">Enviar</button>
+      <button class="btn sec" id="parar" type="button" hidden>Parar</button>
+    </form>
+  </section>
+
+  <section class="lab" aria-label="Laboratório de teste">
+    <div class="abas" role="tablist">
+      <button class="aba" role="tab" aria-selected="true" data-aba="cenarios">Cenários (40)</button>
+      <button class="aba" role="tab" aria-selected="false" data-aba="pedidos">Pedidos de teste</button>
+      <button class="aba" role="tab" aria-selected="false" data-aba="bastidores">Bastidores</button>
+      <button class="aba" role="tab" aria-selected="false" data-aba="avaliar">Avaliar e enviar</button>
+    </div>
+    <div class="painel" id="p-cenarios"></div>
+    <div class="painel" id="p-pedidos" hidden></div>
+    <div class="painel" id="p-bastidores" hidden>
+      <p class="ajuda">O que a Bomi consultou a cada mensagem: respostas da base usadas e ferramentas chamadas. A cliente não vê isto.</p>
+      <div class="log" id="log"><p class="vazio">Nada ainda.</p></div>
+    </div>
+    <div class="painel" id="p-avaliar" hidden></div>
+  </section>
+</div>
+
+<script>
+const D = /*__DADOS__*/null;
+
+/* ---------- utilidades ---------- */
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const norm = s => String(s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+const PARE = new Set("a o e de da do das dos em no na nos nas um uma uns umas para pra pro por com sem que qual quais como meu minha meus minhas seu sua vc voce voces vcs eu me te se ja nao sim oi ola oii gente ai la ta tá isso esse essa este esta tem ter sao é the and to is of for it".split(" "));
+const toks = s => norm(s).replace(/[^a-z0-9\s]/g, " ").split(/\s+/).filter(w => w.length > 1 && !PARE.has(w));
+function mdLeve(t) {
+  let h = esc(t);
+  h = h.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
+  h = h.replace(/(https?:\/\/[^\s<]+[^\s<.,;:!?)])/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+  return h;
+}
+function agoraBR() {
+  const d = new Date();
+  const f = new Intl.DateTimeFormat("pt-BR", { timeZone: "America/Sao_Paulo", weekday: "long", day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });
+  return f.format(d);
+}
+function horarioComercial() {
+  const p = Object.fromEntries(new Intl.DateTimeFormat("en-US", { timeZone: "America/Sao_Paulo", weekday: "short", hour: "numeric", hour12: false }).formatToParts(new Date()).map(x => [x.type, x.value]));
+  const h = Number(p.hour) % 24;
+  return !["Sat", "Sun"].includes(p.weekday) && h >= 9 && h < 18;
+}
+
+/* ---------- busca na base ---------- */
+const BASE = D.base.map(e => ({ e, gat: [e.pergunta, ...e.gatilhos].map(g => new Set(toks(g))), todos: new Set(toks([e.pergunta, e.categoria, ...e.gatilhos].join(" "))) }));
+function buscarBase(texto, anterior) {
+  const q = toks(texto), q2 = toks(anterior || "");
+  if (!q.length && !q2.length) return [];
+  const nq = norm(texto);
+  const pont = BASE.map(b => {
+    let melhor = 0;
+    for (const g of b.gat) {
+      if (!g.size) continue;
+      let hit = 0; for (const w of q) if (g.has(w)) hit++;
+      melhor = Math.max(melhor, hit / Math.sqrt(g.size * Math.max(q.length, 1)));
+    }
+    let extra = 0; for (const w of q) if (b.todos.has(w)) extra += 0.15;
+    for (const w of q2) if (b.todos.has(w)) extra += 0.05;
+    if (b.e.gatilhos.some(g => g.length > 5 && nq.includes(norm(g)))) extra += 1;
+    return { e: b.e, s: melhor + extra };
+  }).filter(x => x.s > 0.2).sort((a, b) => b.s - a.s).slice(0, 7);
+  return pont;
+}
+
+/* ---------- dados de teste ---------- */
+const PEDIDOS = [
+  { numero: "100000143", alias: ["1043"], email: "ana@email.com", cpf3: "123", nome: "Ana", etapa: "Saiu da Coreia", detalhe: "Em voo para o Brasil; o rastreio pode ficar alguns dias sem atualização durante o voo e a liberação.", rastreio: "OMG1430000BR", comprado: "15/10/2026", itens: ["Anua Heartleaf 77% Soothing Toner 250 ml", "Beauty of Joseon Relief Sun 50 ml"] },
+  { numero: "100000150", alias: ["1050"], email: "lu@teste.com", cpf3: "123", nome: "Luana", etapa: "Chegou ao Brasil", detalhe: "Em liberação pela Receita Federal (Remessa Conforme). Imposto já pago no checkout.", rastreio: "OMG1500000BR", comprado: "10/10/2026", itens: ["COSRX Advanced Snail 96 Mucin Power Essence 100 ml"] },
+  { numero: "100000188", alias: ["1088"], email: "bia@x.com", cpf3: "456", nome: "Bia", etapa: "A caminho", detalhe: "Com a transportadora para entrega no endereço. Último registro há 4 dias.", rastreio: "OMG1880000BR", comprado: "25/09/2026", itens: ["ROUND LAB 1025 Dokdo Toner 200 ml", "SKIN1004 Centella Ampoule 100 ml"] },
+  { numero: "100000201", alias: ["1101"], email: "carla@teste.com", cpf3: "789", nome: "Carla", etapa: "Entregue", detalhe: "Entregue em 20/10/2026.", rastreio: "OMG2010000BR", comprado: "02/10/2026", itens: ["Torriden DIVE-IN Serum 50 ml"] },
+  { numero: "100000215", alias: [], email: "dani@teste.com", cpf3: "321", nome: "Dani", etapa: "Compra recebida", detalhe: "Pagamento aprovado; ainda não saiu da Coreia (pode cancelar sem custo).", rastreio: "—", comprado: "25/10/2026", itens: ["medicube Zero Pore Pad 2.0"] },
+];
+const PRODUTOS = D.produtos.map(([slug, marca, nome]) => ({ slug, marca, nome, t: new Set(toks(marca + " " + nome + " " + slug.replace(/-/g, " "))) }));
+
+/* ---------- estado ---------- */
+let turnos = [];             // {role, content}
+let rodada = 0;              // número da mensagem da cliente
+let ctl = null;
+let tier = "default";
+const notas = {};            // id da bolha -> {voto, texto}
+const eventos = [];          // para a transcrição
+let cenAtivo = null;
+
+/* ---------- ferramentas ---------- */
+function eventoChat(txt, humano) {
+  const el = document.createElement("div");
+  el.className = "evento" + (humano ? " h" : "");
+  el.textContent = txt;
+  $("#msgs").appendChild(el); rolar();
+  eventos.push({ rodada, tipo: "evento", txt });
+}
+function logar(titulo, corpo) {
+  const log = $("#log");
+  if (log.querySelector(".vazio")) log.innerHTML = "";
+  const it = document.createElement("div");
+  it.className = "item";
+  it.innerHTML = `<b>Msg ${rodada} · ${esc(titulo)}</b>${corpo ? `<pre>${esc(corpo)}</pre>` : ""}`;
+  log.prepend(it);
+}
+const FERRAMENTAS = [
+  {
+    name: "consultar_pedido",
+    description: "Consulta status, etapa e rastreio de um pedido da OMG. Exige o número do pedido E o e-mail da compra ou os 3 últimos dígitos do CPF. Retorna {encontrado, etapa, detalhe, rastreio, itens} ou {encontrado:false}.",
+    inputSchema: { type: "object", properties: { numero_pedido: { type: "string" }, email_ou_cpf_final: { type: "string", description: "e-mail da compra ou os 3 últimos dígitos do CPF" } }, required: ["numero_pedido", "email_ou_cpf_final"] },
+    execute(inp) {
+      const n = String(inp.numero_pedido || "").replace(/\D/g, "");
+      const v = norm(inp.email_ou_cpf_final).replace(/\s/g, "");
+      const p = PEDIDOS.find(p => p.numero === n || p.alias.includes(n));
+      const ok = p && (v === norm(p.email) || v.replace(/\D/g, "").slice(-3) === p.cpf3);
+      const r = ok ? { encontrado: true, numero: p.numero, nome: p.nome, etapa: p.etapa, detalhe: p.detalhe, rastreio: p.rastreio, data_compra: p.comprado, itens: p.itens }
+                   : { encontrado: false, motivo: "número e e-mail/CPF não conferem com nenhum pedido" };
+      eventoChat(`📦 consultou pedido ${n || "?"} → ${ok ? p.etapa : "não encontrado"}`);
+      logar("consultar_pedido", JSON.stringify(inp) + "\n→ " + JSON.stringify(r));
+      return r;
+    },
+  },
+  {
+    name: "buscar_produto",
+    description: "Procura produtos no catálogo do site da OMG por nome, marca, tipo ou necessidade (ex.: 'tônico pele oleosa', 'Anua', 'protetor solar'). Retorna até 6 itens {nome, marca, link, preco, disponivel}. Neste ambiente de teste os preços ainda não estão carregados: diga que o preço aparece no site.",
+    inputSchema: { type: "object", properties: { texto: { type: "string" } }, required: ["texto"] },
+    execute(inp) {
+      const q = toks(inp.texto);
+      const r = PRODUTOS.map(p => { let s = 0; for (const w of q) { if (p.t.has(w)) s += 1; else for (const x of p.t) if (x.length > 3 && w.length > 3 && (x.startsWith(w) || w.startsWith(x))) { s += 0.5; break; } } return { p, s }; })
+        .filter(x => x.s > 0).sort((a, b) => b.s - a.s).slice(0, 6)
+        .map(({ p }) => ({ nome: p.nome, marca: p.marca, link: "https://ohmygirl.com.br/products/" + p.slug, preco: "ver no site", disponivel: true }));
+      eventoChat(`🔎 buscou "${inp.texto}" → ${r.length} produto(s)`);
+      logar("buscar_produto", JSON.stringify(inp) + "\n→ " + r.map(x => `${x.marca} · ${x.nome}`).join("\n"));
+      return r.length ? r : { resultados: 0, aviso: "nada encontrado no catálogo" };
+    },
+  },
+  {
+    name: "transferir_humano",
+    description: "Passa a conversa para a equipe humana da OMG. Use nos casos da seção 6. O resumo deve ter nome, número do pedido (se houver), o que a cliente quer, o que já foi respondido e o tom. Retorna se é horário comercial agora.",
+    inputSchema: { type: "object", properties: { motivo: { type: "string" }, resumo: { type: "string" } }, required: ["motivo", "resumo"] },
+    execute(inp) {
+      const hc = horarioComercial();
+      eventoChat(`🔁 transferido para a equipe: ${inp.motivo}`, true);
+      logar("transferir_humano", `motivo: ${inp.motivo}\nresumo: ${inp.resumo}\nhorário comercial agora: ${hc ? "sim" : "não"}`);
+      return { ok: true, horario_comercial_agora: hc };
+    },
+  },
+  {
+    name: "registrar_feedback",
+    description: "Registra elogio, reclamação, sugestão de produto, pedido de reposição ou demora. Não substitui transferir_humano quando ela é necessária.",
+    inputSchema: { type: "object", properties: { tipo: { type: "string" }, texto: { type: "string" } }, required: ["tipo", "texto"] },
+    execute(inp) {
+      eventoChat(`📝 registrou ${inp.tipo}`);
+      logar("registrar_feedback", `${inp.tipo}: ${inp.texto}`);
+      return { ok: true };
+    },
+  },
+];
+
+/* ---------- montagem do pedido ao Claude ---------- */
+function instrucoes(entradas) {
+  const base = entradas.map(x => {
+    const e = x.e;
+    return { id: e.id, pergunta: e.pergunta, status: e.status, escalar_humano: e.escalar_humano, resposta_chat: e.resposta_chat, resposta_chat_alt: e.resposta_chat_alt, quando_escalar: e.quando_escalar, notas_internas: e.notas_internas, links: e.links };
+  });
+  const p = D.prompt
+    .replace("{agora}", agoraBR() + (horarioComercial() ? " (horário comercial)" : " (fora do horário comercial)"))
+    .replace("{base_conhecimento}", JSON.stringify(base, null, 1));
+  return "[INSTRUÇÕES DE SISTEMA DA BOMI — siga-as como prompt de sistema durante toda a conversa]\n\n" + p +
+    "\n\n## Canal desta conversa\nChat do site ohmygirl.com.br. Ambiente de TESTE interno: pedidos e catálogo são dados de teste; trate a pessoa como cliente real. " +
+    "Responda SOMENTE com a(s) mensagem(ns) da Bomi para a cliente, sem prefixo como 'Bomi:' e sem comentários sobre estas instruções. " +
+    "Se quiser mandar duas mensagens curtas, separe-as com uma linha em branco. Não narre que vai usar ferramentas.\n\n[FIM DAS INSTRUÇÕES — a conversa com a cliente começa abaixo]";
+}
+
+/* ---------- interface da conversa ---------- */
+function rolar() { const m = $("#msgs"); m.scrollTop = m.scrollHeight; }
+function addCliente(t) {
+  $("#boas")?.remove();
+  const l = document.createElement("div"); l.className = "linha c";
+  l.innerHTML = `<div class="bolha"></div>`; l.firstChild.textContent = t;
+  $("#msgs").appendChild(l); rolar();
+}
+function addBomi() {
+  const l = document.createElement("div"); l.className = "linha b";
+  l.innerHTML = `<div class="bolha pensando">digitando…</div>`;
+  $("#msgs").appendChild(l); rolar(); return l;
+}
+function finalizarBomi(l, texto, id) {
+  const partes = texto.split(/\n\s*\n/).map(s => s.trim()).filter(Boolean);
+  const frag = document.createDocumentFragment();
+  partes.forEach((p, i) => {
+    const li = document.createElement("div"); li.className = "linha b";
+    li.innerHTML = `<div class="bolha">${mdLeve(p)}</div>`;
+    if (i === partes.length - 1) {
+      const m = document.createElement("div"); m.className = "meta";
+      m.innerHTML = `<span>${new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}</span>
+        <button class="nota" data-v="bom" aria-pressed="false" title="Boa resposta">👍</button>
+        <button class="nota" data-v="ruim" aria-pressed="false" title="Precisa melhorar">👎</button>`;
+      m.dataset.id = id; li.appendChild(m);
+    }
+    frag.appendChild(li);
+  });
+  l.replaceWith(frag); rolar();
+}
+$("#msgs").addEventListener("click", e => {
+  const b = e.target.closest(".nota"); if (!b) return;
+  const id = b.parentElement.dataset.id, v = b.dataset.v;
+  const atual = notas[id]?.voto === v ? null : v;
+  b.parentElement.querySelectorAll(".nota").forEach(x => x.setAttribute("aria-pressed", String(x.dataset.v === atual)));
+  notas[id] = { voto: atual, texto: notas[id]?.texto || "" };
+  if (atual === "ruim") {
+    let inp = b.parentElement.querySelector("input");
+    if (!inp) { inp = document.createElement("input"); inp.id = "nota-" + id; inp.placeholder = "o que estava errado?"; inp.style.cssText = "font:inherit;font-size:11px;border:1px solid var(--linha);border-radius:8px;padding:2px 6px;background:var(--creme);color:var(--tinta);min-width:0;flex:1";
+      inp.addEventListener("input", () => { notas[id].texto = inp.value; renderAvaliar(); }); b.parentElement.appendChild(inp); }
+    inp.focus();
+  } else b.parentElement.querySelector("input")?.remove();
+  renderAvaliar();
+});
+
+let sample = null;
+(window.claude?.use ? window.claude.use("sample") : Promise.resolve(null)).then(s => {
+  sample = s;
+  if (!s) { erro("Este visualizador não consegue chamar o Claude. Abra a página dentro do claude.ai."); $("#enviar").disabled = true; }
+});
+function erro(t) { const e = document.createElement("div"); e.className = "erro"; e.textContent = t; $("#msgs").appendChild(e); rolar(); }
+
+const COPIA = {
+  not_granted: "Você não liberou o uso do Claude nesta página. Recarregue e clique em Permitir.",
+  sampling_disabled: "O Claude não está disponível nesta conta.",
+  rate_limited: "Muitas mensagens seguidas ou limite de uso atingido. Espere um pouco e tente de novo.",
+  tools_unavailable: "Este aplicativo não roda as ferramentas da Bomi. Tente pelo navegador no claude.ai.",
+  prompt_too_large: "A conversa ficou longa demais. Clique em Nova conversa.",
+  refused: "O Claude recusou essa mensagem. Tente escrever de outro jeito.",
+  empty_completion: "A Bomi não respondeu. Tente de novo.",
+  session_expired: "Sua sessão expirou. Entre de novo no claude.ai.",
+};
+
+async function enviar(texto) {
+  texto = texto.trim();
+  if (!texto || ctl || !sample) return;
+  rodada++;
+  const anterior = [...turnos].reverse().find(t => t.role === "user")?.content || "";
+  turnos.push({ role: "user", content: texto });
+  eventos.push({ rodada, tipo: "cliente", txt: texto });
+  addCliente(texto);
+  const achadas = buscarBase(texto, anterior);
+  logar("base consultada", achadas.length ? achadas.map(x => `${x.e.id} · ${x.e.pergunta} (${x.s.toFixed(2)})`).join("\n") : "nenhuma entrada parecida — Bomi usa só os fatos fixos");
+  const l = addBomi();
+  const bolha = l.querySelector(".bolha");
+  ctl = new AbortController();
+  $("#enviar").disabled = true; $("#parar").hidden = false;
+  const id = "m" + rodada;
+  // mantém só os últimos 16 turnos de conversa
+  const hist = turnos.slice(-16);
+  if (hist[0].role !== "user") hist.shift();
+  try {
+    const opts = { cache: false, signal: ctl.signal, tools: FERRAMENTAS, modelTier: tier,
+      onText: ({ text }) => { bolha.classList.remove("pensando"); bolha.innerHTML = mdLeve(text); rolar(); } };
+    if (tier === "default") opts.effort = "low";
+    const r = await sample([{ role: "user", content: instrucoes(achadas) }, ...hist], opts);
+    let t = r.text.replace(/^\s*Bomi:\s*/i, "").trim();
+    turnos.push({ role: "assistant", content: t });
+    eventos.push({ rodada, tipo: "bomi", txt: t, id });
+    finalizarBomi(l, t, id);
+    if (r.truncated) erro("A resposta foi cortada.");
+  } catch (e) {
+    const parcial = e && e.text;
+    if (parcial) { turnos.push({ role: "assistant", content: parcial }); finalizarBomi(l, parcial, id); }
+    else l.remove();
+    if (e?.code !== "cancelled") erro(COPIA[e?.code] || "Falhou a conexão. Tente de novo.");
+  } finally {
+    ctl = null; $("#enviar").disabled = false; $("#parar").hidden = true; $("#txt").focus();
+    renderAvaliar();
+  }
+}
+$("#form").addEventListener("submit", e => { e.preventDefault(); const v = $("#txt").value; $("#txt").value = ""; enviar(v); });
+$("#txt").addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); $("#form").requestSubmit(); } });
+$("#parar").addEventListener("click", () => ctl?.abort());
+for (const b of document.querySelectorAll(".sel .pill")) b.addEventListener("click", () => {
+  tier = b.id === "tier-quick" ? "quick" : "default";
+  document.querySelectorAll(".sel .pill").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+});
+
+function novaConversa() {
+  if (ctl) ctl.abort();
+  turnos = []; rodada = 0; eventos.length = 0; for (const k in notas) delete notas[k];
+  $("#msgs").innerHTML = `<div class="boasvindas" id="boas">Nova conversa. Escreva como cliente ou escolha um <b>cenário</b>.</div>`;
+  $("#log").innerHTML = `<p class="vazio">Nada ainda.</p>`;
+  renderAvaliar();
+}
+
+/* ---------- abas ---------- */
+document.querySelectorAll(".aba").forEach(a => a.addEventListener("click", () => {
+  document.querySelectorAll(".aba").forEach(x => x.setAttribute("aria-selected", String(x === a)));
+  ["cenarios", "pedidos", "bastidores", "avaliar"].forEach(k => $("#p-" + k).hidden = k !== a.dataset.aba);
+}));
+
+/* ---------- cenários ---------- */
+function renderCenarios() {
+  const p = $("#p-cenarios");
+  let det = "";
+  if (cenAtivo !== null) {
+    const c = D.cenarios[cenAtivo];
+    det = `<div class="detalhe"><h3>${esc(c.titulo)}</h3>
+      <div class="falas">${c.falas.map((f, i) => `<button class="fala" data-i="${i}">Enviar: “${esc(f)}”</button>`).join("")}</div>
+      <ul class="esp">${c.esperado.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>`;
+  }
+  p.innerHTML = `<p class="ajuda">Escolha um cenário: a conversa reinicia e você envia as falas da cliente uma a uma. Abaixo das falas está o que a Bomi deveria fazer.</p>${det}
+    <div class="lista">${D.cenarios.map((c, i) => { const [n, ...r] = c.titulo.split(". "); return `<button class="cen${i === cenAtivo ? " ativo" : ""}" data-c="${i}"><span class="n">${esc(n)}</span><span>${esc(r.join(". "))}</span></button>`; }).join("")}</div>`;
+}
+$("#p-cenarios").addEventListener("click", e => {
+  const c = e.target.closest(".cen");
+  if (c) { cenAtivo = Number(c.dataset.c); novaConversa(); renderCenarios(); $("#p-cenarios").scrollTop = 0; return; }
+  const f = e.target.closest(".fala");
+  if (f && !ctl) { f.classList.add("usada"); enviar(D.cenarios[cenAtivo].falas[Number(f.dataset.i)].replace(/^\[foto\]\s*/, "")); }
+});
+
+/* ---------- pedidos ---------- */
+$("#p-pedidos").innerHTML = `<p class="ajuda">Pedidos fictícios que a Bomi consegue consultar. Ela só mostra o status se o número <b>e</b> o e-mail (ou os 3 últimos dígitos do CPF) baterem. Os números curtos (1043, 1050…) são os usados nos cenários.</p>
+<div class="tw"><table><thead><tr><th>Pedido</th><th>E-mail · CPF final</th><th>Etapa</th></tr></thead><tbody>
+${PEDIDOS.map(p => `<tr><td class="num">${p.numero}${p.alias.length ? `<br><span style="color:var(--suave)">${p.alias.join(", ")}</span>` : ""}</td><td>${esc(p.email)}<br><span class="num">${p.cpf3}</span></td><td>${esc(p.etapa)}</td></tr>`).join("")}
+</tbody></table></div>
+<p class="ajuda" style="margin-top:12px">Catálogo de teste: ${D.produtos.length.toLocaleString("pt-BR")} produtos do lote 1 (nomes e links; sem preço).</p>`;
+
+/* ---------- avaliação e transcrição ---------- */
+function transcricao() {
+  const linhas = ["BOMI · TESTE · " + agoraBR() + " · modelo: " + (tier === "quick" ? "rápido" : "caprichado")];
+  if (cenAtivo !== null) linhas.push("Cenário: " + D.cenarios[cenAtivo].titulo);
+  linhas.push("");
+  for (const ev of eventos) {
+    if (ev.tipo === "cliente") linhas.push("CLIENTE: " + ev.txt);
+    else if (ev.tipo === "evento") linhas.push("   [" + ev.txt + "]");
+    else {
+      linhas.push("BOMI: " + ev.txt.replace(/\n/g, "\n      "));
+      const n = notas[ev.id];
+      if (n?.voto) linhas.push("   >> AVALIAÇÃO: " + (n.voto === "bom" ? "👍" : "👎") + (n.texto ? " — " + n.texto : ""));
+    }
+  }
+  return linhas.join("\n");
+}
+function renderAvaliar() {
+  const bons = Object.values(notas).filter(n => n.voto === "bom").length;
+  const ruins = Object.values(notas).filter(n => n.voto === "ruim").length;
+  const resp = eventos.filter(e => e.tipo === "bomi").length;
+  $("#p-avaliar").innerHTML = `<p class="ajuda">Marque 👍 ou 👎 nas respostas da Bomi (no 👎, escreva o que estava errado). Depois copie a conversa e cole no chat com o Claude para eu ajustar a Bomi.</p>
+  <div class="kpis"><div class="kpi"><b>${resp}</b><span>respostas</span></div><div class="kpi"><b>${bons}</b><span>👍 boas</span></div><div class="kpi"><b>${ruins}</b><span>👎 a corrigir</span></div></div>
+  <div class="acoes"><button class="btn" id="copiar" type="button">Copiar conversa</button><button class="btn sec" id="nova" type="button">Nova conversa</button></div>
+  <textarea class="copia" id="copia" readonly hidden></textarea>`;
+}
+$("#p-avaliar").addEventListener("click", async e => {
+  if (e.target.id === "nova") { novaConversa(); return; }
+  if (e.target.id !== "copiar") return;
+  const t = transcricao();
+  try { await navigator.clipboard.writeText(t); e.target.textContent = "Copiado ✓"; setTimeout(() => e.target.textContent = "Copiar conversa", 1800); }
+  catch { const ta = $("#copia"); ta.hidden = false; ta.value = t; ta.select(); e.target.textContent = "Selecione e copie"; }
+});
+
+renderCenarios(); renderAvaliar();
+</script>
