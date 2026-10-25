@@ -81,6 +81,18 @@ export function itens(o) {
     }));
 }
 
+function utmDe(url) {
+  if (!url) return null;
+  try {
+    const q = new URL(url, "https://ohmygirl.com.br").searchParams;
+    const u = {};
+    for (const k of ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "ref"]) if (q.get(k)) u[k] = q.get(k);
+    return Object.keys(u).length ? u : null;
+  } catch {
+    return null;
+  }
+}
+
 export function pedidoParaVenda(o) {
   const ad = o.shipping_address || o.billing_address || {};
   const nome =
@@ -126,6 +138,11 @@ export function pedidoParaVenda(o) {
       total_duties: o.total_duties_set || null,
       shipping_lines: (o.shipping_lines || []).map((l) => ({ title: l.title, price: l.price })),
       note_attributes: o.note_attributes || [],
+      // origem da visita (links rastreáveis de afiliadas): landing_site traz os parâmetros utm_*
+      landing_site: o.landing_site || null,
+      referring_site: o.referring_site || null,
+      source_name: o.source_name || null,
+      utm: utmDe(o.landing_site),
       linhas: (o.line_items || []).map((l) => ({ sku: l.sku, title: l.title, qtd: l.quantity, price: l.price })),
     },
   };
