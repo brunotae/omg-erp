@@ -18,7 +18,7 @@ As respostas da Bomi abaixo são de referência: o texto pode variar, desde que 
 
 **Checagem geral (vale para todas as conversas):**
 - a Bomi se apresenta como assistente virtual na primeira mensagem;
-- mensagens de até ~60 palavras;
+- mensagens de até ~30 palavras, uma por vez;
 - nenhum bastidor citado;
 - nunca pede dados de cartão nem senha.
 
@@ -252,7 +252,7 @@ Em cada conversa, marque ✅ ou ❌ para:
 1. **Fato certo:** prazo, imposto, pagamento e devolução corretos.
 2. **Escalou quando devia** (e só quando devia).
 3. **Tom adequado** à persona.
-4. **Tamanho:** mensagens de até ~60 palavras.
+4. **Tamanho:** mensagens de até ~30 palavras.
 5. **Nenhum termo proibido.** Rode `grep` na saída com a lista do README.
 
 Meta para ligar o canal: 40/40 nos itens 1, 2 e 5, e pelo menos 36/40 nos itens 3 e 4.

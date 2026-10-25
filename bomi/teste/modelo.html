@@ -121,7 +121,7 @@ td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
     </div>
     <div class="faixa">Ambiente de teste: pedidos são fictícios e o catálogo não tem preços ainda. Usa a sua conta do Claude.</div>
     <div class="msgs" id="msgs" aria-live="polite">
-      <div class="boasvindas" id="boas">Escreva como uma cliente escreveria, ou escolha um <b>cenário</b> ao lado.<br>Ex.: <i>"oii vcs sao confiaveis??"</i>, <i>"cade meu pedido 100000143"</i>, <i>"tenho pele oleosa, me indica um tônico"</i>.</div>
+      <div class="boasvindas" id="boas">Escreva como uma cliente escreveria, ou escolha um <b>cenário</b> ao lado.<br>Ex.: <i>"oii vcs sao confiaveis??"</i>, <i>"cade meu pedido 100000143"</i>, <i>"tenho pele oleosa, me indica um tônico"</i>.<br><br>No celular, dá para <b>ditar</b> pelo 🎤 do teclado.</div>
     </div>
     <form class="compor" id="form">
       <label for="txt" hidden>Mensagem</label>
@@ -296,7 +296,7 @@ function instrucoes(entradas) {
   return "[INSTRUÇÕES DE SISTEMA DA BOMI — siga-as como prompt de sistema durante toda a conversa]\n\n" + p +
     "\n\n## Canal desta conversa\nChat do site ohmygirl.com.br. Ambiente de TESTE interno: pedidos e catálogo são dados de teste; trate a pessoa como cliente real. " +
     "Responda SOMENTE com a(s) mensagem(ns) da Bomi para a cliente, sem prefixo como 'Bomi:' e sem comentários sobre estas instruções. " +
-    "Se quiser mandar duas mensagens curtas, separe-as com uma linha em branco. Não narre que vai usar ferramentas.\n\n[FIM DAS INSTRUÇÕES — a conversa com a cliente começa abaixo]";
+    "Escreva UMA mensagem curta (até ~30 palavras). Não narre que vai usar ferramentas.\n\n[FIM DAS INSTRUÇÕES — a conversa com a cliente começa abaixo]";
 }
 
 /* ---------- interface da conversa ---------- */
