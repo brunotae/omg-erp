@@ -1,0 +1,21 @@
+name: Robô de pesos · sonda 3
+on:
+  push:
+    branches: [main]
+    paths: ['tools/pesos/sondar3.py']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  sonda:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/pesos/sondar3.py
+      - run: |
+          git config user.name "omg-bot"; git config user.email "bot@ohmygirl.com.br"
+          git add tools/pesos/sondagem3.json
+          git commit -m "Robô de pesos: sonda 3" || true
+          git pull --rebase -q || true
+          git push
