@@ -1,0 +1,104 @@
+{
+ "jolse": {
+  "busca_status": 200,
+  "busca_tam": 162726,
+  "links": [],
+  "trechos_busca": []
+ },
+ "yesstyle": {
+  "busca_status": 200,
+  "busca_tam": 528952,
+  "links": [
+   "/en/aplb-glutathione-niacinamide-sheet-mask-25ml/info.html/pid.1124536886",
+   "/en/medicube-zero-pore-pad-2-0-70-pads/info.html/pid.1135111653",
+   "/en/medicube-zero-pore-pad-2-0-2pcs-bundle-set-70-pads-x-2-pcs/info.html/pid.1137959730"
+  ],
+  "produto": "https://www.yesstyle.com/en/aplb-glutathione-niacinamide-sheet-mask-25ml/info.html/pid.1124536886",
+  "produto_status": 200,
+  "produto_tam": 333207,
+  "trechos": []
+ },
+ "stylekorean": {
+  "busca_status": 200,
+  "busca_tam": 189473,
+  "links": [],
+  "trechos_busca": [
+   "Cotton pad Brush Others K-POP EVENT SUPPLEMENTS Supplements Weight Management Beverage BEST TIME DEAL NEW MASK SHEET Nails BLOG CLEARANCE smaill basic big --> Q&A Shipping Order Etc How "
+  ]
+ },
+ "holastylekorean": {
+  "busca_status": 200,
+  "busca_tam": 1498728,
+  "links": [],
+  "trechos_busca": []
+ },
+ "siliconetwo": {
+  "busca_status": 0,
+  "busca_tam": 52,
+  "links": [],
+  "trechos_busca": []
+ },
+ "sephora": {
+  "busca_status": 200,
+  "busca_tam": 635917,
+  "links": [],
+  "trechos_busca": []
+ },
+ "oliveyoung_global": {
+  "busca_status": 403,
+  "busca_tam": 0,
+  "links": [],
+  "trechos_busca": []
+ },
+ "stylevana": {
+  "busca_status": 403,
+  "busca_tam": 0,
+  "links": [],
+  "trechos_busca": []
+ },
+ "upcitemdb": {
+  "status": 200,
+  "itens": [
+   {
+    "title": "Medicube Zero Pore Pad 2.0 (70EA)",
+    "brand": "DGTVVR",
+    "ean": "0248328023633",
+    "dimension": "",
+    "weight": "",
+    "size": ""
+   },
+   {
+    "title": "Medicube Zero Pore Cream 60g / Pore Tightening / Pore Care / Clinically Approved",
+    "brand": "MEDICUBE",
+    "ean": "0798753170858",
+    "dimension": "",
+    "weight": "",
+    "size": ""
+   },
+   {
+    "title": "medicube Zero Pore Pad Korean Skincare - 5.46oz/70ct",
+    "brand": "medicube",
+    "ean": "8800256114665",
+    "dimension": "",
+    "weight": "",
+    "size": ""
+   },
+   {
+    "title": "Medicube Zero Pore Pads || Exfoliate and clear sebum to minimize appearance of pores | 4.5% AHA + 0.45% BHA with dual-sided pads | Sold over 280M sheets worldwide | 2021 Korean Beauty Awards Winner (70 sheets) (B09V7Z4TJG)",
+    "brand": "",
+    "ean": "8809506808705",
+    "dimension": "",
+    "weight": "",
+    "size": ""
+   },
+   {
+    "title": "Medicube Zero Pore Pad Kbeauty Sebum Remover Skincare Daily Cosmetics Toner",
+    "brand": "APR",
+    "ean": "8809517410553",
+    "dimension": "",
+    "weight": "",
+    "size": ""
+   }
+  ]
+ }
+}
