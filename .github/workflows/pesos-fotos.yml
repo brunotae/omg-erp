@@ -1,0 +1,21 @@
+name: Robô de pesos · fotos da amostra
+on:
+  push:
+    branches: [main]
+    paths: ['tools/pesos/baixar_fotos.py', 'tools/pesos/amostra_fotos.json']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  sonda:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/pesos/baixar_fotos.py
+      - run: |
+          git config user.name "omg-bot"; git config user.email "bot@ohmygirl.com.br"
+          git add tools/pesos/fotos_amostra
+          git commit -m "Robô de pesos: fotos da amostra" || true
+          git pull --rebase -q || true
+          git push

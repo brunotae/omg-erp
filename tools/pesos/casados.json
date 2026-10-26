@@ -1,0 +1,2974 @@
+{
+"PU0042": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 114.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563100828",
+"nome_fornecedor": "PURITO Wonder Releaf Centella Mini Kit Unscented"
+},
+"PU0041": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 182.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563103645",
+"nome_fornecedor": "PURITO SEOUL BEST KIT"
+},
+"PU0039-1": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 366.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563103799",
+"nome_fornecedor": "PURITO Luminous Moisture Shea Butter Body Lotion Midnight Romance"
+},
+"PU0039-2": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 366.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563103805",
+"nome_fornecedor": "PURITO Luminous Moisture Shea Butter Body Lotion Ocean Breeze"
+},
+"PU0039-3": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 366.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563103782",
+"nome_fornecedor": "PURITO Luminous Moisture Shea Butter Body Lotion Cotton Dreamlight"
+},
+"PU0038-1": {
+"confianca": 1.14,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 140.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563103355",
+"nome_fornecedor": "PURITO Wonder Releaf Centella  BB Cushion 13 Neutral Ivory"
+},
+"PU0038-2": {
+"confianca": 1.14,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 140.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563103379",
+"nome_fornecedor": "PURITO Wonder Releaf Centella BB Cushion 21 Light Beige"
+},
+"PU0038-3": {
+"confianca": 1.14,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 140.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563103362",
+"nome_fornecedor": "PURITO Wonder Releaf Centella BB Cushion 23 Natural Beige"
+},
+"PU0038-4": {
+"confianca": 1.08,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 140.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563103355",
+"nome_fornecedor": "PURITO Wonder Releaf Centella  BB Cushion 13 Neutral Ivory"
+},
+"PU0038-5": {
+"confianca": 1.08,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 140.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563103379",
+"nome_fornecedor": "PURITO Wonder Releaf Centella BB Cushion 21 Light Beige"
+},
+"PU0038-6": {
+"confianca": 1.08,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 140.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563103362",
+"nome_fornecedor": "PURITO Wonder Releaf Centella BB Cushion 23 Natural Beige"
+},
+"PU0037-1": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 40.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563103676",
+"nome_fornecedor": "PURITO Wonder Releaf Centella BB Cream #13 Neutral Ivory"
+},
+"PU0037-2": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 40.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563103683",
+"nome_fornecedor": "PURITO Wonder Releaf Centella BB Cream #15 Rose Ivory"
+},
+"PU0037-3": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 40.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563103690",
+"nome_fornecedor": "PURITO Wonder Releaf Centella BB Cream #21 Light Beige"
+},
+"PU0037-4": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 40.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563103706",
+"nome_fornecedor": "PURITO Wonder Releaf Centella BB Cream #23 Natural Beige"
+},
+"PU0037-5": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 40.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563103713",
+"nome_fornecedor": "PURITO Wonder Releaf Centella BB Cream #27 Sand Beige"
+},
+"PU0037-6": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 40.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563103720",
+"nome_fornecedor": "PURITO Wonder Releaf Centella BB Cream #29 Caramel Beige"
+},
+"PU0035": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 66.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563103843",
+"nome_fornecedor": "PURITO Daily Soft Touch Sunscreen Stick"
+},
+"PU0034-1": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 88.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563103072",
+"nome_fornecedor": "PURITO Wonder Releaf Centella Daily Sun Lotion"
+},
+"PU0034-2": {
+"confianca": 1.13,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 88.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563103072",
+"nome_fornecedor": "PURITO Wonder Releaf Centella Daily Sun Lotion"
+},
+"PU0033-1": {
+"confianca": 1.09,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 88.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563102600",
+"nome_fornecedor": "PURITO Daily Soft Touch Sunscreen (Renewer)"
+},
+"PU0033-2": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 88.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563102600",
+"nome_fornecedor": "PURITO Daily Soft Touch Sunscreen (Renewer)"
+},
+"PU0032": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 44.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563103065",
+"nome_fornecedor": "PURITO Timeless Bloom Retinol Spot Cream"
+},
+"PU0031": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 14.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563100330",
+"nome_fornecedor": "PURITO Wonder Releaf Centella Spot Patch"
+},
+"PU0030": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 140.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563104161",
+"nome_fornecedor": "PURITO Multi PDRN Collagen Real Glow Mask"
+},
+"PU0029": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 200.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563103652",
+"nome_fornecedor": "PURITO Mighty Bamboo Panthenol Cleanser"
+},
+"PU0028": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 170.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563102686",
+"nome_fornecedor": "PURITO From Green Deep Foaming Cleanser"
+},
+"PU0027": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 220.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563103904",
+"nome_fornecedor": "PURITO Oat In Gentle Exfoliating Face Cleanser"
+},
+"PU0026": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 186.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563102792",
+"nome_fornecedor": "PURITO From Green Avocado Cleansing Balm"
+},
+"PU0025-1": {
+"confianca": 1.09,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 260.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563102532",
+"nome_fornecedor": "PURITO From Green Cleansing Oil"
+},
+"PU0025-2": {
+"confianca": 1.09,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 260.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563102532",
+"nome_fornecedor": "PURITO From Green Cleansing Oil"
+},
+"PU0025-3": {
+"confianca": 1.02,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 260.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563102532",
+"nome_fornecedor": "PURITO From Green Cleansing Oil"
+},
+"PU0024": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 128.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563104055",
+"nome_fornecedor": "PURITO Peel Shot Exfoliating Pad"
+},
+"PU0023": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 270.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563103959",
+"nome_fornecedor": "PURITO Oat PDRN Gentle Refining Toner"
+},
+"PU0022": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 280.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563101009",
+"nome_fornecedor": "PURITO Wonder Releaf Centella Toner"
+},
+"PU0021-1": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 280.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563100347",
+"nome_fornecedor": "PURITO Wonder Releaf Centella Toner Unscented"
+},
+"PU0021-2": {
+"confianca": 1.11,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 280.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563100347",
+"nome_fornecedor": "PURITO Wonder Releaf Centella Toner Unscented"
+},
+"PU0020": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 40.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563100156",
+"nome_fornecedor": "PURITO Wonder Releaf Centella Eye Cream"
+},
+"PU0019": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 40.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563101023",
+"nome_fornecedor": "PURITO Wonder Releaf Centella Eye Cream Unscented"
+},
+"PU0017": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 80.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563102464",
+"nome_fornecedor": "PURITO Wonder Releaf Centella Cream"
+},
+"PU0016-1": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 80.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563102471",
+"nome_fornecedor": "PURITO Wonder Releaf Centella Cream Unscented"
+},
+"PU0016-2": {
+"confianca": 1.11,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 80.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563102471",
+"nome_fornecedor": "PURITO Wonder Releaf Centella Cream Unscented"
+},
+"PU0015": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 80.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563100385",
+"nome_fornecedor": "PURITO Hydro Wave Deep Sea Cream"
+},
+"PU0014": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 103.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563102136",
+"nome_fornecedor": "PURITO Luminous Ceramide Sleeping Pack"
+},
+"PU0013": {
+"confianca": 0.87,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 180.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563102129",
+"nome_fornecedor": "PURITO Luminous Ceramide Moistureizer"
+},
+"PU0012": {
+"confianca": 1.02,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 140.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563101054",
+"nome_fornecedor": "PURITO Oat-in Calming Gel Cream (Package Renewal)"
+},
+"PU0011": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 140.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563103430",
+"nome_fornecedor": "PURITO Mighty Bamboo Panthenol Cream"
+},
+"PU0010": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 197.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563102006",
+"nome_fornecedor": "PURITO Fermented Complex 94 Boosting Essence"
+},
+"PU0009": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 94.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563102013",
+"nome_fornecedor": "PURITO Galacto Niacin 97 Power Essence"
+},
+"PU0008": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 80.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563102365",
+"nome_fornecedor": "PURITO Timeless Bloom Bakuchiol Serum"
+},
+"PU0007": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 100.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563102655",
+"nome_fornecedor": "PURITO Hydro Wave Deep Sea Serum"
+},
+"PU0006": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 80.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563103423",
+"nome_fornecedor": "PURITO Mighty Bamboo Panthenol Serum"
+},
+"PU0005": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 94.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563100729",
+"nome_fornecedor": "PURITO Pure Vitamin C Serum"
+},
+"PU0004": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 100.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563100149",
+"nome_fornecedor": "PURITO Wonder Releaf Centella Serum"
+},
+"PU0003-1": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 100.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563100316",
+"nome_fornecedor": "PURITO Wonder Releaf Centella Serum Unscented"
+},
+"PU0003-2": {
+"confianca": 1.11,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 100.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563100316",
+"nome_fornecedor": "PURITO Wonder Releaf Centella Serum Unscented"
+},
+"PU0002": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 100.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563103973",
+"nome_fornecedor": "PURITO TXA 6 Niacinamide 10 Retinal Serum"
+},
+"PU0001": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 92.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Purito 영세",
+"barcode": "8809563104239",
+"nome_fornecedor": "PURITO Retinol Retinal 2000 Nad+ Serum"
+},
+"MB001666": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": 65.5,
+"peso_g": 40.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809900981530",
+"nome_fornecedor": "PERIPERA WATER BARE TINT 002 UNIVERSAL CORAL"
+},
+"MB001690": {
+"confianca": 0.8,
+"dim_mm": null,
+"vol_cm3": 90.2,
+"peso_g": null,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8800255687764",
+"nome_fornecedor": "PERIPERA SPEEDY SKINNY BROW 10 PEONY TAUPE"
+},
+"MB001691": {
+"confianca": 0.8,
+"dim_mm": null,
+"vol_cm3": 90.2,
+"peso_g": null,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8800255687764",
+"nome_fornecedor": "PERIPERA SPEEDY SKINNY BROW 10 PEONY TAUPE"
+},
+"MB001700": {
+"confianca": 0.87,
+"dim_mm": null,
+"vol_cm3": 35.9,
+"peso_g": 10.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809900981240",
+"nome_fornecedor": "PERIPERA V SHADING 001 NATURAL BROWN"
+},
+"MB001701": {
+"confianca": 0.87,
+"dim_mm": null,
+"vol_cm3": 35.9,
+"peso_g": 10.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809900981257",
+"nome_fornecedor": "PERIPERA V SHADING 002 DEEP BROWN"
+},
+"MB001702": {
+"confianca": 0.87,
+"dim_mm": null,
+"vol_cm3": 35.9,
+"peso_g": 10.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809900981264",
+"nome_fornecedor": "PERIPERA V SHADING 003 GRAYISH COOL"
+},
+"MB001714": {
+"confianca": 0.95,
+"dim_mm": null,
+"vol_cm3": 78.0,
+"peso_g": 38.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809644495102",
+"nome_fornecedor": "PERIPERA INK VELVET #8 SELLOUT RED"
+},
+"MB001716": {
+"confianca": 0.78,
+"dim_mm": null,
+"vol_cm3": 64.3,
+"peso_g": 40.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809828411287",
+"nome_fornecedor": "PERIPERA INK VELVET 024 MILKY NUDE"
+},
+"MB001717": {
+"confianca": 0.95,
+"dim_mm": null,
+"vol_cm3": 78.0,
+"peso_g": 38.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809644495102",
+"nome_fornecedor": "PERIPERA INK VELVET #8 SELLOUT RED"
+},
+"MB001718": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 78.0,
+"peso_g": 38.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809644495102",
+"nome_fornecedor": "PERIPERA INK VELVET #8 SELLOUT RED"
+},
+"MB001719": {
+"confianca": 0.87,
+"dim_mm": null,
+"vol_cm3": 78.0,
+"peso_g": 38.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809751118710",
+"nome_fornecedor": "PERIPERA INK VELVET 018 STAR PLUM PINK"
+},
+"MB001721": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 78.0,
+"peso_g": 38.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809691972076",
+"nome_fornecedor": "PERIPERA INK VELVET 16 HEART FUCHSIA PINK"
+},
+"MB001722": {
+"confianca": 0.95,
+"dim_mm": null,
+"vol_cm3": 78.0,
+"peso_g": 38.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809828415278",
+"nome_fornecedor": "PERIPERA INK VELVET 03CLASSIC NUDE"
+},
+"MB001723": {
+"confianca": 0.9,
+"dim_mm": null,
+"vol_cm3": 78.0,
+"peso_g": 38.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809751118710",
+"nome_fornecedor": "PERIPERA INK VELVET 018 STAR PLUM PINK"
+},
+"MB001724": {
+"confianca": 0.87,
+"dim_mm": null,
+"vol_cm3": 78.0,
+"peso_g": 38.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809644495102",
+"nome_fornecedor": "PERIPERA INK VELVET #8 SELLOUT RED"
+},
+"MB001726": {
+"confianca": 0.87,
+"dim_mm": null,
+"vol_cm3": 78.0,
+"peso_g": 38.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809644495102",
+"nome_fornecedor": "PERIPERA INK VELVET #8 SELLOUT RED"
+},
+"MB001727": {
+"confianca": 0.95,
+"dim_mm": null,
+"vol_cm3": 78.0,
+"peso_g": 38.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809828415278",
+"nome_fornecedor": "PERIPERA INK VELVET 03CLASSIC NUDE"
+},
+"MB001728": {
+"confianca": 0.95,
+"dim_mm": null,
+"vol_cm3": 78.0,
+"peso_g": 38.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809828415278",
+"nome_fornecedor": "PERIPERA INK VELVET 03CLASSIC NUDE"
+},
+"MB001729": {
+"confianca": 0.95,
+"dim_mm": null,
+"vol_cm3": 78.0,
+"peso_g": 38.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809828415278",
+"nome_fornecedor": "PERIPERA INK VELVET 03CLASSIC NUDE"
+},
+"MB001730": {
+"confianca": 0.95,
+"dim_mm": null,
+"vol_cm3": 78.0,
+"peso_g": 38.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809828415278",
+"nome_fornecedor": "PERIPERA INK VELVET 03CLASSIC NUDE"
+},
+"MB001731": {
+"confianca": 0.9,
+"dim_mm": null,
+"vol_cm3": 57.0,
+"peso_g": 40.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809828411300",
+"nome_fornecedor": "PERIPERA INK VELVET 026 WELL-MADE NUDE"
+},
+"MB001732": {
+"confianca": 0.95,
+"dim_mm": null,
+"vol_cm3": 78.0,
+"peso_g": 38.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809828415278",
+"nome_fornecedor": "PERIPERA INK VELVET 03CLASSIC NUDE"
+},
+"MB001733": {
+"confianca": 0.95,
+"dim_mm": null,
+"vol_cm3": 78.0,
+"peso_g": 38.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809828415278",
+"nome_fornecedor": "PERIPERA INK VELVET 03CLASSIC NUDE"
+},
+"MB001734": {
+"confianca": 0.95,
+"dim_mm": null,
+"vol_cm3": 78.0,
+"peso_g": 38.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809828415278",
+"nome_fornecedor": "PERIPERA INK VELVET 03CLASSIC NUDE"
+},
+"MB001735": {
+"confianca": 0.95,
+"dim_mm": null,
+"vol_cm3": 78.0,
+"peso_g": 38.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809828415278",
+"nome_fornecedor": "PERIPERA INK VELVET 03CLASSIC NUDE"
+},
+"MB001736": {
+"confianca": 0.95,
+"dim_mm": null,
+"vol_cm3": 78.0,
+"peso_g": 38.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809828415278",
+"nome_fornecedor": "PERIPERA INK VELVET 03CLASSIC NUDE"
+},
+"MB001737": {
+"confianca": 0.95,
+"dim_mm": null,
+"vol_cm3": 78.0,
+"peso_g": 38.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809644495102",
+"nome_fornecedor": "PERIPERA INK VELVET #8 SELLOUT RED"
+},
+"MB001738": {
+"confianca": 0.95,
+"dim_mm": null,
+"vol_cm3": 78.0,
+"peso_g": 38.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809644495102",
+"nome_fornecedor": "PERIPERA INK VELVET #8 SELLOUT RED"
+},
+"MB001739": {
+"confianca": 0.95,
+"dim_mm": null,
+"vol_cm3": 78.0,
+"peso_g": 38.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809644495102",
+"nome_fornecedor": "PERIPERA INK VELVET #8 SELLOUT RED"
+},
+"MB001744": {
+"confianca": 0.9,
+"dim_mm": null,
+"vol_cm3": 57.0,
+"peso_g": 40.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809862288951",
+"nome_fornecedor": "PERIPERA INK VELVET 039 SUNNY ORANGE"
+},
+"MB001749": {
+"confianca": 0.82,
+"dim_mm": null,
+"vol_cm3": 66.4,
+"peso_g": 39.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809828414233",
+"nome_fornecedor": "PERIPERA INK MOOD GLOWY TINT 02 CORAL INFLUENCER"
+},
+"MB001750": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 66.4,
+"peso_g": 39.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809828414233",
+"nome_fornecedor": "PERIPERA INK MOOD GLOWY TINT 02 CORAL INFLUENCER"
+},
+"MB001751": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 66.4,
+"peso_g": 39.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809828414240",
+"nome_fornecedor": "PERIPERA INK MOOD GLOWY TINT 03 ROSE IN MIND"
+},
+"MB001752": {
+"confianca": 0.88,
+"dim_mm": null,
+"vol_cm3": 70.5,
+"peso_g": 43.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809970750944",
+"nome_fornecedor": "PERIPERA INK MOOD GLOWY TINT (TTEOK RECIPE) 029 HURRY UP PINK"
+},
+"MB001753": {
+"confianca": 0.91,
+"dim_mm": null,
+"vol_cm3": 71.5,
+"peso_g": null,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809970750371",
+"nome_fornecedor": "PERIPERA INK MOOD GLOWY TINT 26 WHY SO BERRY"
+},
+"MB001754": {
+"confianca": 0.87,
+"dim_mm": null,
+"vol_cm3": 66.4,
+"peso_g": 39.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809828414233",
+"nome_fornecedor": "PERIPERA INK MOOD GLOWY TINT 02 CORAL INFLUENCER"
+},
+"MB001755": {
+"confianca": 0.87,
+"dim_mm": null,
+"vol_cm3": 66.4,
+"peso_g": 39.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809828414233",
+"nome_fornecedor": "PERIPERA INK MOOD GLOWY TINT 02 CORAL INFLUENCER"
+},
+"MB001780": {
+"confianca": 0.83,
+"dim_mm": null,
+"vol_cm3": 70.2,
+"peso_g": 22.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809970758155",
+"nome_fornecedor": "PERIPERA INK ALL BLACK CARA 01 LONG CURLING"
+},
+"MB001781": {
+"confianca": 0.91,
+"dim_mm": null,
+"vol_cm3": 70.2,
+"peso_g": 22.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809970758162",
+"nome_fornecedor": "PERIPERA INK ALL BLACK CARA 02 VOLUME CURLING"
+},
+"MB001784": {
+"confianca": 0.87,
+"dim_mm": null,
+"vol_cm3": 78.0,
+"peso_g": 38.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809644495102",
+"nome_fornecedor": "PERIPERA INK VELVET #8 SELLOUT RED"
+},
+"MB001792": {
+"confianca": 0.75,
+"dim_mm": null,
+"vol_cm3": 78.0,
+"peso_g": 38.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809691972076",
+"nome_fornecedor": "PERIPERA INK VELVET 16 HEART FUCHSIA PINK"
+},
+"MB001796": {
+"confianca": 0.9,
+"dim_mm": null,
+"vol_cm3": 78.0,
+"peso_g": 38.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809828419719",
+"nome_fornecedor": "PERIPERA INK AIRY VELVET 021 FLUFFY PEACH"
+},
+"MB001818": {
+"confianca": 0.94,
+"dim_mm": null,
+"vol_cm3": 65.5,
+"peso_g": 40.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809900986214",
+"nome_fornecedor": "PERIPERA ALL TAKE MOOD LIKE PALETTE 01 PRESTIGE PINK (PERITAGE)"
+},
+"MB001831": {
+"confianca": 0.76,
+"dim_mm": null,
+"vol_cm3": 247.5,
+"peso_g": 180.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809598290266",
+"nome_fornecedor": "CLIO SHARP, SO SIMPLE WATERPROOF PENCIL LINER 3 SET 01 BLACK"
+},
+"MB001833": {
+"confianca": 0.76,
+"dim_mm": null,
+"vol_cm3": 247.5,
+"peso_g": 180.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809598290266",
+"nome_fornecedor": "CLIO SHARP, SO SIMPLE WATERPROOF PENCIL LINER 3 SET 01 BLACK"
+},
+"MB001834": {
+"confianca": 0.76,
+"dim_mm": null,
+"vol_cm3": 146.4,
+"peso_g": null,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809937599821",
+"nome_fornecedor": "CLIO SHARP SO SIMPLE WATERPROOF PENCIL LINER 002 BROWN"
+},
+"MB001839": {
+"confianca": 0.84,
+"dim_mm": null,
+"vol_cm3": 535.5,
+"peso_g": 60.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809970751934",
+"nome_fornecedor": "CLIO PRO EYE PALETTE AIR (EVERY FRUIT GROCERY) 09 PEACH MATE APPLE"
+},
+"MB001840": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": 66.0,
+"peso_g": 36.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809970750258",
+"nome_fornecedor": "CLIO PRO EYE PALETTE AIR 07 LAVENDER STAFF"
+},
+"MB001841": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": 219.7,
+"peso_g": 130.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809970750265",
+"nome_fornecedor": "CLIO PRO EYE PALETTE AIR 08 LATTE SENIOR"
+},
+"MB001844": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": 209.2,
+"peso_g": 140.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809751115542",
+"nome_fornecedor": "CLIO PRISM HIGHLIGHTER DUO 01 CREAM FIZZ"
+},
+"MB001845": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": 219.7,
+"peso_g": 140.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809751115559",
+"nome_fornecedor": "CLIO PRISM HIGHLIGHTER DUO 02 LAVENDER VOYAGE"
+},
+"MB001846": {
+"confianca": 0.93,
+"dim_mm": null,
+"vol_cm3": 35.5,
+"peso_g": 10.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809598299719",
+"nome_fornecedor": "CLIO KILL LASH SUPERPROOF MASCARA 01 LONG CURLING"
+},
+"MB001847": {
+"confianca": 0.83,
+"dim_mm": null,
+"vol_cm3": 35.5,
+"peso_g": 10.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809598299719",
+"nome_fornecedor": "CLIO KILL LASH SUPERPROOF MASCARA 01 LONG CURLING"
+},
+"MB001848": {
+"confianca": 0.93,
+"dim_mm": null,
+"vol_cm3": 35.5,
+"peso_g": 10.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809598299726",
+"nome_fornecedor": "CLIO KILL LASH SUPERPROOF MASCARA 02 VOLUME CURLING"
+},
+"MB001849": {
+"confianca": 0.83,
+"dim_mm": null,
+"vol_cm3": 35.5,
+"peso_g": 10.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809598299726",
+"nome_fornecedor": "CLIO KILL LASH SUPERPROOF MASCARA 02 VOLUME CURLING"
+},
+"MB001850": {
+"confianca": 0.76,
+"dim_mm": null,
+"vol_cm3": 81.0,
+"peso_g": 18.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809644499902",
+"nome_fornecedor": "CLIO KILL LASH MASCARA REMOVER"
+},
+"MB001853": {
+"confianca": 0.77,
+"dim_mm": null,
+"vol_cm3": 65.0,
+"peso_g": null,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8800255688815",
+"nome_fornecedor": "CLIO KILL COVER MESH GLOW ESSENTIAL CUSHION SPF50+, PA++++ 19C LIGHT"
+},
+"MB001855": {
+"confianca": 0.77,
+"dim_mm": null,
+"vol_cm3": 65.0,
+"peso_g": null,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8800255688846",
+"nome_fornecedor": "CLIO KILL COVER MESH GLOW ESSENTIAL CUSHION SPF50+, PA++++ 21C LINGERIE"
+},
+"MB001856": {
+"confianca": 0.77,
+"dim_mm": null,
+"vol_cm3": 65.0,
+"peso_g": null,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8800255688839",
+"nome_fornecedor": "CLIO KILL COVER MESH GLOW ESSENTIAL CUSHION SPF50+, PA++++ 21N LINEN"
+},
+"MB001857": {
+"confianca": 0.77,
+"dim_mm": null,
+"vol_cm3": 65.0,
+"peso_g": null,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8800255688822",
+"nome_fornecedor": "CLIO KILL COVER MESH GLOW ESSENTIAL CUSHION SPF50+, PA++++ 23N GINGER"
+},
+"MB001858": {
+"confianca": 1.09,
+"dim_mm": null,
+"vol_cm3": 287.5,
+"peso_g": 200.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809900986269",
+"nome_fornecedor": "CLIO KILL COVER FOUNWEAR CONCEALER 2 LINGERIE"
+},
+"MB001859": {
+"confianca": 1.09,
+"dim_mm": null,
+"vol_cm3": 287.5,
+"peso_g": 200.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809900986276",
+"nome_fornecedor": "CLIO KILL COVER FOUNWEAR CONCEALER 3 LINEN"
+},
+"MB001860": {
+"confianca": 0.87,
+"dim_mm": null,
+"vol_cm3": 287.5,
+"peso_g": 200.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809900986269",
+"nome_fornecedor": "CLIO KILL COVER FOUNWEAR CONCEALER 2 LINGERIE"
+},
+"MB001862": {
+"confianca": 0.88,
+"dim_mm": null,
+"vol_cm3": 73.1,
+"peso_g": 40.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809544394543",
+"nome_fornecedor": "CLIO KILL COVER AIRY-FIT CONCEALER 3-BY LINEN"
+},
+"MB001863": {
+"confianca": 0.88,
+"dim_mm": null,
+"vol_cm3": 73.1,
+"peso_g": 40.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809544394567",
+"nome_fornecedor": "CLIO KILL COVER AIRY-FIT CONCEALER 4-BO GINGER"
+},
+"MB001874": {
+"confianca": 0.8,
+"dim_mm": null,
+"vol_cm3": 42.3,
+"peso_g": 170.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809937598404",
+"nome_fornecedor": "CLIO KILL BROW AUTO HARD BROW PENCIL 01 NATURAL BROWN"
+},
+"MB001875": {
+"confianca": 0.8,
+"dim_mm": null,
+"vol_cm3": 42.3,
+"peso_g": 170.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809937598411",
+"nome_fornecedor": "CLIO KILL BROW AUTO HARD BROW PENCIL 02 LIGHT BROWN"
+},
+"MB001876": {
+"confianca": 0.8,
+"dim_mm": null,
+"vol_cm3": 42.3,
+"peso_g": 170.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809937598428",
+"nome_fornecedor": "CLIO KILL BROW AUTO HARD BROW PENCIL 03 PEANUT BROWN"
+},
+"MB001878": {
+"confianca": 0.81,
+"dim_mm": null,
+"vol_cm3": 72.0,
+"peso_g": null,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8800255688969",
+"nome_fornecedor": "CLIO EXTREME GELPRESSO PENCIL LINER 10 GLAM BROWN"
+},
+"MB001879": {
+"confianca": 0.81,
+"dim_mm": null,
+"vol_cm3": 72.0,
+"peso_g": null,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8800255688969",
+"nome_fornecedor": "CLIO EXTREME GELPRESSO PENCIL LINER 10 GLAM BROWN"
+},
+"MB001880": {
+"confianca": 0.81,
+"dim_mm": null,
+"vol_cm3": 72.0,
+"peso_g": null,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8800255688969",
+"nome_fornecedor": "CLIO EXTREME GELPRESSO PENCIL LINER 10 GLAM BROWN"
+},
+"MB001881": {
+"confianca": 0.81,
+"dim_mm": null,
+"vol_cm3": 72.0,
+"peso_g": null,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8800255688969",
+"nome_fornecedor": "CLIO EXTREME GELPRESSO PENCIL LINER 10 GLAM BROWN"
+},
+"MB001882": {
+"confianca": 0.81,
+"dim_mm": null,
+"vol_cm3": 72.0,
+"peso_g": null,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8800255688969",
+"nome_fornecedor": "CLIO EXTREME GELPRESSO PENCIL LINER 10 GLAM BROWN"
+},
+"MB001883": {
+"confianca": 0.81,
+"dim_mm": null,
+"vol_cm3": 72.0,
+"peso_g": null,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8800255688969",
+"nome_fornecedor": "CLIO EXTREME GELPRESSO PENCIL LINER 10 GLAM BROWN"
+},
+"MB001898": {
+"confianca": 0.93,
+"dim_mm": null,
+"vol_cm3": 209.2,
+"peso_g": 120.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809900989352",
+"nome_fornecedor": "CLIO PRO SINGLE SHADOW (23FW) G03 PIN LIGHT"
+},
+"MB001918": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": 42.3,
+"peso_g": 170.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809937598404",
+"nome_fornecedor": "CLIO KILL BROW AUTO HARD BROW PENCIL 01 NATURAL BROWN"
+},
+"MB001919": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": 42.3,
+"peso_g": 170.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809937598411",
+"nome_fornecedor": "CLIO KILL BROW AUTO HARD BROW PENCIL 02 LIGHT BROWN"
+},
+"MB001920": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": 42.3,
+"peso_g": 170.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809937598428",
+"nome_fornecedor": "CLIO KILL BROW AUTO HARD BROW PENCIL 03 PEANUT BROWN"
+},
+"MB001921": {
+"confianca": 0.86,
+"dim_mm": null,
+"vol_cm3": 42.3,
+"peso_g": 170.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809937598404",
+"nome_fornecedor": "CLIO KILL BROW AUTO HARD BROW PENCIL 01 NATURAL BROWN"
+},
+"MB001922": {
+"confianca": 0.86,
+"dim_mm": null,
+"vol_cm3": 42.3,
+"peso_g": 170.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809937598404",
+"nome_fornecedor": "CLIO KILL BROW AUTO HARD BROW PENCIL 01 NATURAL BROWN"
+},
+"MB001923": {
+"confianca": 0.86,
+"dim_mm": null,
+"vol_cm3": 42.3,
+"peso_g": 170.0,
+"tipo": "inner box ÷ quantidade",
+"fonte": "fornecedor: CLIO 영세",
+"barcode": "8809937598411",
+"nome_fornecedor": "CLIO KILL BROW AUTO HARD BROW PENCIL 02 LIGHT BROWN"
+},
+"MB002424": {
+"confianca": 0.91,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 130.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809086208155",
+"nome_fornecedor": "MOISTURE GEL OINT"
+},
+"MB002426": {
+"confianca": 1.07,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 108.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809694627010",
+"nome_fornecedor": "TONING C VITA SHOT AMPOULE"
+},
+"MB002428": {
+"confianca": 1.09,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 130.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809694624101",
+"nome_fornecedor": "Toning C Dark Spot Serum"
+},
+"MB002431": {
+"confianca": 0.91,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 54.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809694628642",
+"nome_fornecedor": "Cell Fusion C Skin Blemish Balm Intensive Light"
+},
+"MB002432": {
+"confianca": 0.93,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 54.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809694628659",
+"nome_fornecedor": "Cell Fusion C Skin Blemish Balm Intensive Natural Light"
+},
+"MB002433": {
+"confianca": 0.93,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 54.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809694628666",
+"nome_fornecedor": "Cell Fusion C Skin Blemish Balm Intensive Signature Beige"
+},
+"MB002434": {
+"confianca": 0.91,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 54.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "880353360255",
+"nome_fornecedor": "Cell Fusion C Skin Blemish Balm Intensive Golden"
+},
+"MB002435": {
+"confianca": 0.91,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 54.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "880353360262",
+"nome_fornecedor": "Cell Fusion C Skin Blemish Balm Intensive Hazel"
+},
+"MB002436": {
+"confianca": 0.91,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 54.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "880353360279",
+"nome_fornecedor": "Cell Fusion C Skin Blemish Balm Intensive Mocha"
+},
+"MB002439": {
+"confianca": 0.82,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 223.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809086208131",
+"nome_fornecedor": "POST α FIRST COOLING MASK"
+},
+"MB002440": {
+"confianca": 1.05,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 182.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809694627133",
+"nome_fornecedor": "POST α COOLING SKIN BOOSTER SERUM"
+},
+"MB002441": {
+"confianca": 1.11,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 97.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8800353360002",
+"nome_fornecedor": "Cell Fusion C Post Alpha Cooling Peptide Ampoule"
+},
+"MB002442": {
+"confianca": 0.77,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 287.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809694623319",
+"nome_fornecedor": "POST α COOLING PAD"
+},
+"MB002443": {
+"confianca": 1.02,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 105.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809694627362",
+"nome_fornecedor": "POST α COOLING GEL CREAM"
+},
+"MB002445": {
+"confianca": 1.09,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 200.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809694624156",
+"nome_fornecedor": "Pore Sun Cleansing Foam"
+},
+"MB002446": {
+"confianca": 0.93,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 240.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809694628161",
+"nome_fornecedor": "PHA Enzyme Pore Cleansing Oil"
+},
+"MB002447": {
+"confianca": 1.11,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 195.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809694628178",
+"nome_fornecedor": "PHA Enzyme Pore Cleansing Foam"
+},
+"MB002448": {
+"confianca": 1.11,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 95.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809694628185",
+"nome_fornecedor": "PHA Enzyme Granule Peels Powder"
+},
+"MB002453": {
+"confianca": 1.07,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 84.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809694620011",
+"nome_fornecedor": "LASER REJUVENATION CREAM"
+},
+"MB002454": {
+"confianca": 1.07,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 78.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809694620004",
+"nome_fornecedor": "LASER REJUVENATION AMPOULE"
+},
+"MB002457": {
+"confianca": 1.11,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 77.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809694625450",
+"nome_fornecedor": "GLASS SKIN TONE UP CREAM"
+},
+"MB002458": {
+"confianca": 1.07,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 87.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809694626600",
+"nome_fornecedor": "GLASS SKIN SERUM"
+},
+"MB002459": {
+"confianca": 1.02,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 270.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809694626747",
+"nome_fornecedor": "GLASS SKIN COLLAGEN MASK"
+},
+"MB002463": {
+"confianca": 0.87,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 43.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809694622558",
+"nome_fornecedor": "POST α CICA COOLING MASK"
+},
+"MB002464": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 196.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809694626846",
+"nome_fornecedor": "POST α CICA CALMING DOWN CREAM"
+},
+"MB002587": {
+"confianca": 1.2,
+"dim_mm": [
+58.0,
+58.0,
+195.0
+],
+"vol_cm3": 656.0,
+"peso_g": 275.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Price List 11CORP",
+"barcode": "8809704092210",
+"nome_fornecedor": "GROWUS  Sea Salt Therapy Treatment"
+},
+"MB002588": {
+"confianca": 1.2,
+"dim_mm": [
+90.0,
+53.0,
+187.0
+],
+"vol_cm3": 892.0,
+"peso_g": 617.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Price List 11CORP",
+"barcode": "8809704095167",
+"nome_fornecedor": "GROWUS Sea Salt Therapy Shampoo"
+},
+"MB002589": {
+"confianca": 1.13,
+"dim_mm": [
+46.0,
+46.0,
+154.0
+],
+"vol_cm3": 325.9,
+"peso_g": 159.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Price List 11CORP",
+"barcode": "8809704070287",
+"nome_fornecedor": "GROWUS Sea Salt Therapy Scalp Scaler 120g"
+},
+"MB002591": {
+"confianca": 1.2,
+"dim_mm": [
+21.0,
+21.0,
+145.0
+],
+"vol_cm3": 63.9,
+"peso_g": 43.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Price List 11CORP",
+"barcode": "8809704096058",
+"nome_fornecedor": "GROWUS Recover Therapy Hair Booster Serum"
+},
+"MB002595": {
+"confianca": 0.96,
+"dim_mm": [
+70.0,
+47.0,
+208.0
+],
+"vol_cm3": 684.3,
+"peso_g": 292.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Price List 11CORP",
+"barcode": "8809704094368",
+"nome_fornecedor": "GROWUS Damage Therapy No-wash Treatment EX_Trueme"
+},
+"MB002596": {
+"confianca": 1.07,
+"dim_mm": [
+90.0,
+53.0,
+187.0
+],
+"vol_cm3": 892.0,
+"peso_g": 653.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Price List 11CORP",
+"barcode": "8809704097901",
+"nome_fornecedor": "GROWUS Damage Therapy Shampoo EX"
+},
+"MB002597": {
+"confianca": 1.09,
+"dim_mm": [
+39.0,
+39.0,
+128.0
+],
+"vol_cm3": 194.7,
+"peso_g": 115.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Price List 11CORP",
+"barcode": "8809704095204",
+"nome_fornecedor": "GROWUS Damage Therapy Scalp Scaling Ampoule"
+},
+"MB002599": {
+"confianca": 1.0,
+"dim_mm": [
+70.0,
+47.0,
+208.0
+],
+"vol_cm3": 684.3,
+"peso_g": 292.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Price List 11CORP",
+"barcode": "8809704094368",
+"nome_fornecedor": "GROWUS Damage Therapy No-wash Treatment EX_Trueme"
+},
+"MB002600": {
+"confianca": 0.96,
+"dim_mm": [
+70.0,
+47.0,
+208.0
+],
+"vol_cm3": 684.3,
+"peso_g": 292.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Price List 11CORP",
+"barcode": "8809704094368",
+"nome_fornecedor": "GROWUS Damage Therapy No-wash Treatment EX_Trueme"
+},
+"MB002601": {
+"confianca": 1.2,
+"dim_mm": [
+46.0,
+46.0,
+130.0
+],
+"vol_cm3": 275.1,
+"peso_g": 350.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Price List 11CORP",
+"barcode": "8809704097734",
+"nome_fornecedor": "GROWUS Damage Therapy Hair Oil"
+},
+"MB002603": {
+"confianca": 1.2,
+"dim_mm": [
+90.0,
+53.0,
+187.0
+],
+"vol_cm3": 892.0,
+"peso_g": 653.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Price List 11CORP",
+"barcode": "8809704095211",
+"nome_fornecedor": "GROWUS Algae Therapy Mineral Shampoo"
+},
+"MB002604": {
+"confianca": 1.2,
+"dim_mm": [
+58.0,
+58.0,
+198.0
+],
+"vol_cm3": 666.1,
+"peso_g": 263.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Price List 11CORP",
+"barcode": "8809704091923",
+"nome_fornecedor": "GROWUS Algae Therapy Mineral No-wash Treatment"
+},
+"MB002619": {
+"confianca": 0.8,
+"dim_mm": [
+47.0,
+47.0,
+162.0
+],
+"vol_cm3": 357.9,
+"peso_g": 220.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Unove 영세",
+"barcode": "8809669505763",
+"nome_fornecedor": "UNOVE Frizz-Calming Sleek Leave-in Conditioner"
+},
+"MB002623": {
+"confianca": 0.75,
+"dim_mm": [
+73.5,
+73.5,
+182.0
+],
+"vol_cm3": 983.2,
+"peso_g": 580.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Unove 영세",
+"barcode": "8809669502571",
+"nome_fornecedor": "UNOVE DEEP DAMAGE REPAIR SHAMPOO"
+},
+"MB002624": {
+"confianca": 0.75,
+"dim_mm": [
+73.5,
+73.5,
+182.0
+],
+"vol_cm3": 983.2,
+"peso_g": 580.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Unove 영세",
+"barcode": "8809669502571",
+"nome_fornecedor": "UNOVE DEEP DAMAGE REPAIR SHAMPOO"
+},
+"MB002625": {
+"confianca": 0.75,
+"dim_mm": [
+73.5,
+73.5,
+182.0
+],
+"vol_cm3": 983.2,
+"peso_g": 580.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Unove 영세",
+"barcode": "8809669502571",
+"nome_fornecedor": "UNOVE DEEP DAMAGE REPAIR SHAMPOO"
+},
+"MB002626": {
+"confianca": 0.75,
+"dim_mm": [
+73.5,
+73.5,
+182.0
+],
+"vol_cm3": 983.2,
+"peso_g": 580.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Unove 영세",
+"barcode": "8809669502571",
+"nome_fornecedor": "UNOVE DEEP DAMAGE REPAIR SHAMPOO"
+},
+"MB002627": {
+"confianca": 0.75,
+"dim_mm": [
+73.5,
+73.5,
+182.0
+],
+"vol_cm3": 983.2,
+"peso_g": 580.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Unove 영세",
+"barcode": "8809669502571",
+"nome_fornecedor": "UNOVE DEEP DAMAGE REPAIR SHAMPOO"
+},
+"MB002628": {
+"confianca": 0.75,
+"dim_mm": [
+73.5,
+73.5,
+182.0
+],
+"vol_cm3": 983.2,
+"peso_g": 580.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Unove 영세",
+"barcode": "8809669502571",
+"nome_fornecedor": "UNOVE DEEP DAMAGE REPAIR SHAMPOO"
+},
+"MB002629": {
+"confianca": 0.75,
+"dim_mm": [
+73.5,
+73.5,
+182.0
+],
+"vol_cm3": 983.2,
+"peso_g": 580.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Unove 영세",
+"barcode": "8809669502571",
+"nome_fornecedor": "UNOVE DEEP DAMAGE REPAIR SHAMPOO"
+},
+"MB002808": {
+"confianca": 0.8,
+"dim_mm": null,
+"vol_cm3": 211.1,
+"peso_g": 55.0,
+"tipo": "peso líquido; volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: BoJ 영세",
+"barcode": "8809875906477",
+"nome_fornecedor": "Light On Serum : Centella + Vita C"
+},
+"MB002830": {
+"confianca": 0.97,
+"dim_mm": null,
+"vol_cm3": 741.8,
+"peso_g": 255.0,
+"tipo": "peso líquido; volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: BoJ 영세",
+"barcode": "8809968130130",
+"nome_fornecedor": "Ginseng Cleansing Oil"
+},
+"MB002836": {
+"confianca": 0.83,
+"dim_mm": null,
+"vol_cm3": 619.9,
+"peso_g": 220.0,
+"tipo": "peso líquido; volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: BoJ 영세",
+"barcode": "8809525249565",
+"nome_fornecedor": "Dynasty Cream"
+},
+"MB002837": {
+"confianca": 0.97,
+"dim_mm": null,
+"vol_cm3": 957.9,
+"peso_g": 132.0,
+"tipo": "peso líquido; volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: BoJ 영세",
+"barcode": "8809954941498",
+"nome_fornecedor": "Dynasty Cream 100ml"
+},
+"MB002838": {
+"confianca": 0.91,
+"dim_mm": null,
+"vol_cm3": 957.9,
+"peso_g": 132.0,
+"tipo": "peso líquido; volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: BoJ 영세",
+"barcode": "8809954941498",
+"nome_fornecedor": "Dynasty Cream 100ml"
+},
+"MB002921": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 411.7,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463006419",
+"nome_fornecedor": "VT REEDLE SHOT 1300"
+},
+"MB002924": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": 256.0,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463007256",
+"nome_fornecedor": "VT 100 VITA-LIGHT REEDLE SHOT"
+},
+"MB002925": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 267.4,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463006402",
+"nome_fornecedor": "VT VITA-LIGHT REEDLE SHOT 100"
+},
+"MB002926": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 170.8,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463004552",
+"nome_fornecedor": "VT REEDLE SHOT VITA-LIGHT EYE CREAM"
+},
+"MB002927": {
+"confianca": 1.02,
+"dim_mm": null,
+"vol_cm3": 256.0,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463007256",
+"nome_fornecedor": "VT 100 VITA-LIGHT REEDLE SHOT"
+},
+"MB002928": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 542.5,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463007768",
+"nome_fornecedor": "VT TX-TONING TONER"
+},
+"MB002929": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 51.6,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463007454",
+"nome_fornecedor": "VT TX-TONING ESSENCE 1000 SHOT"
+},
+"MB002930": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": 110.0,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463007737",
+"nome_fornecedor": "VT TX-TONING DAILY MASK"
+},
+"MB002931": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 304.4,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463007782",
+"nome_fornecedor": "VT TX-TONING CREAM"
+},
+"MB002932": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": 6018.7,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463010423",
+"nome_fornecedor": "VT SKIN PACK (SMOOTH)"
+},
+"MB002934": {
+"confianca": 0.78,
+"dim_mm": null,
+"vol_cm3": 315.0,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463012816",
+"nome_fornecedor": "VT PDRN CAPSULE CREAM 100"
+},
+"MB002938": {
+"confianca": 0.78,
+"dim_mm": null,
+"vol_cm3": 315.0,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463012816",
+"nome_fornecedor": "VT PDRN CAPSULE CREAM 100"
+},
+"MB002939": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": 256.0,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463007249",
+"nome_fornecedor": "VT 100 RETI-A REEDLE SHOT"
+},
+"MB002940": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 267.4,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463006396",
+"nome_fornecedor": "VT RETI-A REEDLE SHOT 100"
+},
+"MB002941": {
+"confianca": 0.97,
+"dim_mm": null,
+"vol_cm3": 256.0,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463007249",
+"nome_fornecedor": "VT 100 RETI-A REEDLE SHOT"
+},
+"MB002942": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 339.6,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463004637",
+"nome_fornecedor": "VT REEDLE SHOT VITA-LIGHT CREAM"
+},
+"MB002949": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": 152.4,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8809695679544",
+"nome_fornecedor": "VT REEDLE SHOT LIFTING EYE CREAM"
+},
+"MB002950": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 217.5,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8809695678448",
+"nome_fornecedor": "VT REEDLE SHOT 700"
+},
+"MB002951": {
+"confianca": 0.91,
+"dim_mm": null,
+"vol_cm3": 256.0,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463007300",
+"nome_fornecedor": "VT 300 REEDLE SHOT"
+},
+"MB002952": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 285.5,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8809695678431",
+"nome_fornecedor": "VT REEDLE SHOT 300"
+},
+"MB002954": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 285.5,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8809695678363",
+"nome_fornecedor": "VT REEDLE SHOT 100"
+},
+"MB002955": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 285.5,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463009175",
+"nome_fornecedor": "VT RED BOOSTER REEDLE SHOT 100"
+},
+"MB002956": {
+"confianca": 1.02,
+"dim_mm": null,
+"vol_cm3": 256.0,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463007324",
+"nome_fornecedor": "VT 100 PRO CICA REEDLE SHOT"
+},
+"MB002958": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": 256.0,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463007324",
+"nome_fornecedor": "VT 100 PRO CICA REEDLE SHOT"
+},
+"MB002959": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 267.4,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463003685",
+"nome_fornecedor": "VT PRO CICA REEDLE SHOT 100"
+},
+"MB002961": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": 1136.7,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463014407",
+"nome_fornecedor": "VT PDRN TENSION TONER PAD"
+},
+"MB002963": {
+"confianca": 0.93,
+"dim_mm": null,
+"vol_cm3": 1452.0,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463011420",
+"nome_fornecedor": "VT PDRN REEDLE SHOT SHAMPOO, TREATMENT DUO SET"
+},
+"MB002964": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 255.0,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463009960",
+"nome_fornecedor": "VT PDRN REEDLE SHOT HAIR AMPOULE 700dL"
+},
+"MB002965": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 255.0,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463009779",
+"nome_fornecedor": "VT PDRN REEDLE SHOT HAIR AMPOULE 300dL"
+},
+"MB002966": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 255.0,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463009762",
+"nome_fornecedor": "VT PDRN REEDLE SHOT HAIR AMPOULE 100dL"
+},
+"MB002967": {
+"confianca": 0.93,
+"dim_mm": null,
+"vol_cm3": 152.4,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8809695679544",
+"nome_fornecedor": "VT REEDLE SHOT LIFTING EYE CREAM"
+},
+"MB002969": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 288.8,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463006853",
+"nome_fornecedor": "VT PDRN REEDLE SHOT 100"
+},
+"MB002970": {
+"confianca": 1.07,
+"dim_mm": null,
+"vol_cm3": 265.8,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463010515",
+"nome_fornecedor": "VT R5 FIRMING AMPOULE"
+},
+"MB002971": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": 142.9,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463007515",
+"nome_fornecedor": "VT PDRN HYDROGEL MASK"
+},
+"MB002974": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 382.7,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463009687",
+"nome_fornecedor": "VT PDRN GLOW AMPOULE"
+},
+"MB002975": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 209.7,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463004286",
+"nome_fornecedor": "VT PDRN ESSENCE 100"
+},
+"MB002976": {
+"confianca": 1.02,
+"dim_mm": null,
+"vol_cm3": 315.0,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463012816",
+"nome_fornecedor": "VT PDRN CAPSULE CREAM 100"
+},
+"MB002977": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 315.0,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463012816",
+"nome_fornecedor": "VT PDRN CAPSULE CREAM 100"
+},
+"MB002979": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": 6018.7,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463010416",
+"nome_fornecedor": "VT SKIN PACK (MILD)"
+},
+"MB002980": {
+"confianca": 1.02,
+"dim_mm": null,
+"vol_cm3": 285.5,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8809559626196",
+"nome_fornecedor": "VT REEDLE SHOT 50"
+},
+"MB002982": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": 6018.7,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463010430",
+"nome_fornecedor": "VT SKIN PACK (LUMINOUS)"
+},
+"MB002983": {
+"confianca": 0.87,
+"dim_mm": null,
+"vol_cm3": 285.5,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463007546",
+"nome_fornecedor": "VT HYDROP REEDLE SHOT 100hL"
+},
+"MB002984": {
+"confianca": 1.07,
+"dim_mm": null,
+"vol_cm3": 285.5,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463007546",
+"nome_fornecedor": "VT HYDROP REEDLE SHOT 100hL"
+},
+"MB002985": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 436.2,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463014070",
+"nome_fornecedor": "VT GLYCOLIC REEDLE SHOT HEAD TO TOE MIST"
+},
+"MB002986": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 748.0,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463015442",
+"nome_fornecedor": "VT GLUTATHIONE GLOW CLEANSING OIL"
+},
+"MB002987": {
+"confianca": 0.82,
+"dim_mm": null,
+"vol_cm3": 1143.5,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463008390",
+"nome_fornecedor": "VT GLUCAMUNE MASK (1EA)"
+},
+"MB002988": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 410.7,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463008376",
+"nome_fornecedor": "VT GLUCAMUNE ESSENCE"
+},
+"MB002989": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 490.7,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463008383",
+"nome_fornecedor": "VT GLUCAMUNE CREAM"
+},
+"MB002991": {
+"confianca": 1.03,
+"dim_mm": null,
+"vol_cm3": 122.3,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463012090",
+"nome_fornecedor": "VT GARLIC AC REEDLE SHOT GEL CREAM"
+},
+"MB002992": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": 122.3,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463011970",
+"nome_fornecedor": "VT GARLIC AC REEDLE SHOT POINT PATCH"
+},
+"MB002993": {
+"confianca": 1.03,
+"dim_mm": null,
+"vol_cm3": 214.9,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463012106",
+"nome_fornecedor": "VT GARLIC AC REEDLE SHOT SPOT CREAM"
+},
+"MB002994": {
+"confianca": 0.97,
+"dim_mm": null,
+"vol_cm3": 256.0,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463007317",
+"nome_fornecedor": "VT 100 COLLAGEN REEDLE SHOT"
+},
+"MB002995": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": 256.0,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463007317",
+"nome_fornecedor": "VT 100 COLLAGEN REEDLE SHOT"
+},
+"MB002996": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 267.4,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463003692",
+"nome_fornecedor": "VT COLLAGEN REEDLE SHOT 100"
+},
+"MB002997": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": 1772.7,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8809695678028",
+"nome_fornecedor": "VT CICA RETI-A MASK"
+},
+"MB002998": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 265.8,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463012601",
+"nome_fornecedor": "VT CICA MASK CLEANSER"
+},
+"MB002999": {
+"confianca": 0.89,
+"dim_mm": null,
+"vol_cm3": 1386.0,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8809559627490",
+"nome_fornecedor": "VT CICA DAILY SOOTHING MASK"
+},
+"MB003000": {
+"confianca": 1.07,
+"dim_mm": null,
+"vol_cm3": 530.9,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463007461",
+"nome_fornecedor": "VT CICA CREAM PLUS (100ml)"
+},
+"MB003001": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": 1386.0,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8809695677281",
+"nome_fornecedor": "VT CICA COLLAGEN MASK"
+},
+"MB003002": {
+"confianca": 0.78,
+"dim_mm": null,
+"vol_cm3": 152.4,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463003517",
+"nome_fornecedor": "VT CICA COLLAGEN EYE CREAM"
+},
+"MB003003": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 285.5,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8809695677250",
+"nome_fornecedor": "VT CICA COLLAGEN ESSENCE"
+},
+"MB003004": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 748.0,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463015435",
+"nome_fornecedor": "VT CERAMIDE AQUA CLEANSING OIL"
+},
+"MB003006": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 508.8,
+"peso_g": null,
+"tipo": "volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: VT 영세",
+"barcode": "8803463010867",
+"nome_fornecedor": "VT BLACK TRUFFLE REEDLE SHOT® 100"
+},
+"MB003553": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 39.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809694629014",
+"nome_fornecedor": "Cell Fusion C Toning C Vita Retinal Eye Cream"
+},
+"MB003554": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 147.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809694628826",
+"nome_fornecedor": "GLASS SKIN COLLAGEN CREAM"
+},
+"MB003555": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 97.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8800353360002",
+"nome_fornecedor": "Cell Fusion C Post Alpha Cooling Peptide Ampoule"
+},
+"MB003560": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 195.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809694628178",
+"nome_fornecedor": "PHA Enzyme Pore Cleansing Foam"
+},
+"MB003562": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 240.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809694628161",
+"nome_fornecedor": "PHA Enzyme Pore Cleansing Oil"
+},
+"MB003564": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 55.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809694627287",
+"nome_fornecedor": "Cell Fusion C Red Ultimate Eye Cream"
+},
+"MB003569": {
+"confianca": 0.89,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 287.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809694625627",
+"nome_fornecedor": "POST α CICA COOLING PAD"
+},
+"MB003571": {
+"confianca": 0.75,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 108.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809694627010",
+"nome_fornecedor": "TONING C VITA SHOT AMPOULE"
+},
+"MB003573": {
+"confianca": 1.0,
+"dim_mm": null,
+"vol_cm3": null,
+"peso_g": 724.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: CFC 영세",
+"barcode": "8809694621995",
+"nome_fornecedor": "Cell Fusion C Low Ph pHarrier Mask"
+},
+"MB003609": {
+"confianca": 0.93,
+"dim_mm": [
+43.0,
+43.0,
+103.0
+],
+"vol_cm3": 190.4,
+"peso_g": 87.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Biodance 영세",
+"barcode": "8809891184316",
+"nome_fornecedor": "[Biodance] PORE PERFECTING COLLAGEN PEPTIDE SERUM 30ml"
+},
+"MB003612": {
+"confianca": 0.91,
+"dim_mm": [
+95.0,
+95.0,
+79.0
+],
+"vol_cm3": 713.0,
+"peso_g": 291.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Biodance 영세",
+"barcode": "8809891183685",
+"nome_fornecedor": "[Biodance] Vita Niacinamide Gel Toner Pads 60Pads"
+},
+"MB003613": {
+"confianca": 1.09,
+"dim_mm": [
+45.0,
+45.0,
+110.0
+],
+"vol_cm3": 222.8,
+"peso_g": 139.6,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Biodance 영세",
+"barcode": "8809891185078",
+"nome_fornecedor": "[Biodance] RADIANT VITA NIACINAMIDE CREAM 50ml"
+},
+"MB003614": {
+"confianca": 0.82,
+"dim_mm": [
+160.0,
+20.0,
+180.0
+],
+"vol_cm3": 576.0,
+"peso_g": 228.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Biodance 영세",
+"barcode": "8809937361466",
+"nome_fornecedor": "[Biodance] Radiant Vita Niacinamide Real Deep Mask 1Box (34g*4ea)"
+},
+"MB003618": {
+"confianca": 1.09,
+"dim_mm": [
+43.0,
+43.0,
+103.0
+],
+"vol_cm3": 190.4,
+"peso_g": 94.9,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Biodance 영세",
+"barcode": "8809891185009",
+"nome_fornecedor": "[Biodance] RADIANT VITA NIACINAMIDE SERUM 30ml"
+},
+"MB003623": {
+"confianca": 1.09,
+"dim_mm": [
+43.0,
+43.0,
+103.0
+],
+"vol_cm3": 190.4,
+"peso_g": 92.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Biodance 영세",
+"barcode": "8809891185184",
+"nome_fornecedor": "[Biodance] HYDRO CERA-NOL SERUM 30ml"
+},
+"MB003624": {
+"confianca": 1.11,
+"dim_mm": [
+43.0,
+43.0,
+103.0
+],
+"vol_cm3": 190.4,
+"peso_g": 87.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Biodance 영세",
+"barcode": "8809891184316",
+"nome_fornecedor": "[Biodance] PORE PERFECTING COLLAGEN PEPTIDE SERUM 30ml"
+},
+"MB003626": {
+"confianca": 0.91,
+"dim_mm": [
+95.0,
+95.0,
+79.0
+],
+"vol_cm3": 713.0,
+"peso_g": 291.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Biodance 영세",
+"barcode": "8809891183685",
+"nome_fornecedor": "[Biodance] Vita Niacinamide Gel Toner Pads 60Pads"
+},
+"MB003631": {
+"confianca": 0.91,
+"dim_mm": [
+95.0,
+95.0,
+79.0
+],
+"vol_cm3": 713.0,
+"peso_g": 291.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Biodance 영세",
+"barcode": "8809891183678",
+"nome_fornecedor": "[Biodance] Sea Kelp Gel Toner Pads 60Pads"
+},
+"MB003633": {
+"confianca": 0.79,
+"dim_mm": [
+160.0,
+20.0,
+180.0
+],
+"vol_cm3": 576.0,
+"peso_g": 228.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Biodance 영세",
+"barcode": "8809937361060",
+"nome_fornecedor": "[Biodance] Bio Collagen-Real Deep Mask 1Box (34g*4ea)"
+},
+"MB003634": {
+"confianca": 0.82,
+"dim_mm": [
+160.0,
+20.0,
+180.0
+],
+"vol_cm3": 576.0,
+"peso_g": 228.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Biodance 영세",
+"barcode": "8809937360971",
+"nome_fornecedor": "[Biodance] Hydro Cera-nol Real Deep Mask 1Box (34g*4ea)"
+},
+"MB003635": {
+"confianca": 0.82,
+"dim_mm": [
+160.0,
+20.0,
+180.0
+],
+"vol_cm3": 576.0,
+"peso_g": 228.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Biodance 영세",
+"barcode": "8809937361480",
+"nome_fornecedor": "[Biodance] Refreshing Sea Kelp Real Deep Mask  1Box (34g*4ea)"
+},
+"MB003639": {
+"confianca": 1.11,
+"dim_mm": [
+45.0,
+45.0,
+110.0
+],
+"vol_cm3": 222.8,
+"peso_g": 138.0,
+"tipo": "unidade (fornecedor)",
+"fonte": "fornecedor: Biodance 영세",
+"barcode": "8809891184330",
+"nome_fornecedor": "[Biodance] PORE PERFECTING COLLAGEN PEPTIDE CREAM 50ml"
+},
+"MB003657": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 685.1,
+"peso_g": 266.0,
+"tipo": "peso líquido; volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: BoJ 영세",
+"barcode": "8809968130239",
+"nome_fornecedor": "Glow Replenishing Rice Milk"
+},
+"MB003661": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 722.6,
+"peso_g": 260.0,
+"tipo": "peso líquido; volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: BoJ 영세",
+"barcode": "8809738310960",
+"nome_fornecedor": "Ginseng Essence Water"
+},
+"MB003666": {
+"confianca": 1.2,
+"dim_mm": null,
+"vol_cm3": 985.8,
+"peso_g": 140.0,
+"tipo": "peso líquido; volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: BoJ 영세",
+"barcode": "8809738316993",
+"nome_fornecedor": "Red Bean Water Gel"
+},
+"MB003667": {
+"confianca": 0.97,
+"dim_mm": null,
+"vol_cm3": 211.1,
+"peso_g": 55.0,
+"tipo": "peso líquido; volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: BoJ 영세",
+"barcode": "8809875906477",
+"nome_fornecedor": "Light On Serum : Centella + Vita C"
+},
+"MB003668": {
+"confianca": 0.78,
+"dim_mm": null,
+"vol_cm3": 310.1,
+"peso_g": 75.0,
+"tipo": "peso líquido; volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: BoJ 영세",
+"barcode": "8809657114960",
+"nome_fornecedor": "Glow Serum : Proplis + Niacinamide"
+},
+"MB003669": {
+"confianca": 0.83,
+"dim_mm": null,
+"vol_cm3": 391.5,
+"peso_g": 55.0,
+"tipo": "peso líquido; volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: BoJ 영세",
+"barcode": "8809738316146",
+"nome_fornecedor": "Revive Eye Serum : Ginseng + Retinal"
+},
+"MB003670": {
+"confianca": 0.91,
+"dim_mm": null,
+"vol_cm3": 310.1,
+"peso_g": 75.0,
+"tipo": "peso líquido; volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: BoJ 영세",
+"barcode": "8809657114960",
+"nome_fornecedor": "Glow Serum : Proplis + Niacinamide"
+},
+"MB003676": {
+"confianca": 0.8,
+"dim_mm": null,
+"vol_cm3": 302.3,
+"peso_g": 60.0,
+"tipo": "peso líquido; volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: BoJ 영세",
+"barcode": "8809864766884",
+"nome_fornecedor": "Matte Sun Stick : Mugwort + Camelia"
+},
+"MB003677": {
+"confianca": 0.78,
+"dim_mm": null,
+"vol_cm3": 437.4,
+"peso_g": 70.0,
+"tipo": "peso líquido; volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: BoJ 영세",
+"barcode": "8809968130277",
+"nome_fornecedor": "Relief Sun Aqua-fresh : Rice +B5"
+},
+"MB003678": {
+"confianca": 0.87,
+"dim_mm": null,
+"vol_cm3": 437.4,
+"peso_g": 70.0,
+"tipo": "peso líquido; volume = caixa master ÷ quantidade",
+"fonte": "fornecedor: BoJ 영세",
+"barcode": "8809968130277",
+"nome_fornecedor": "Relief Sun Aqua-fresh : Rice +B5"
+}
+}
