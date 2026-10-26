@@ -90,11 +90,10 @@
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "DM0075": [
-"peso do site oficial descartado por não bater com o tamanho",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "DM0074": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "DM0073-1": [
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
@@ -109,11 +108,9 @@
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "DM0070-1": [
-"peso do site oficial descartado por não bater com o tamanho",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "DM0070-2": [
-"peso do site oficial descartado por não bater com o tamanho",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "DM0069": [
@@ -124,7 +121,7 @@
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "DM0067": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "DM0066": [
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
@@ -144,22 +141,16 @@
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "DM0062": [
+"peso do site oficial descartado por não bater com o tamanho",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "DM0061": [
-"peso do site oficial descartado por não bater com o tamanho",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "DM0041": [
 "peso do site oficial descartado por não bater com o tamanho"
 ],
 "DM0037": [
-"peso do site oficial descartado por não bater com o tamanho"
-],
-"DM0034": [
-"peso do site oficial descartado por não bater com o tamanho"
-],
-"DM0022": [
 "peso do site oficial descartado por não bater com o tamanho"
 ],
 "DM0020": [
@@ -232,7 +223,7 @@
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "EQ0044": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "EQ0043": [
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
@@ -298,7 +289,6 @@
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "BP0022": [
-"peso acima de 1,5 kg (1520 g): confirmar se é o produto ou uma caixa com vários",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "BP0021": [
@@ -919,9 +909,6 @@
 "MB000211": [
 "peso do site oficial descartado por não bater com o tamanho"
 ],
-"MB000219": [
-"pesado demais para o tamanho: 391 g numa caixa de 239 cm³"
-],
 "MB000227": [
 "o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
 ],
@@ -1050,11 +1037,7 @@
 "peso do site oficial descartado por não bater com o tamanho"
 ],
 "MB000333": [
-"peso do site oficial descartado por não bater com o tamanho",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
-],
-"MB000334": [
-"pesado demais para o tamanho: 147 g numa caixa de 87 cm³"
 ],
 "MB000337": [
 "peso do site oficial descartado por não bater com o tamanho"
@@ -1066,7 +1049,7 @@
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000340": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000341": [
 "peso do site oficial descartado por não bater com o tamanho"
@@ -1124,8 +1107,6 @@
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000400": [
-"peso acima de 1,5 kg (2130 g): confirmar se é o produto ou uma caixa com vários",
-"peso do site oficial descartado por não bater com o tamanho",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000403": [
@@ -1148,7 +1129,7 @@
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000415": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000416": [
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
@@ -1161,7 +1142,7 @@
 "peso do site oficial descartado por não bater com o tamanho"
 ],
 "MB000420": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000421": [
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
@@ -1197,15 +1178,6 @@
 "MB000431": [
 "peso do site oficial descartado por não bater com o tamanho"
 ],
-"MB000435": [
-"peso do site oficial descartado por não bater com o tamanho"
-],
-"MB000436": [
-"peso do site oficial descartado por não bater com o tamanho"
-],
-"MB000440": [
-"peso do site oficial descartado por não bater com o tamanho"
-],
 "MB000442": [
 "peso do site oficial descartado por não bater com o tamanho",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
@@ -1224,6 +1196,7 @@
 "peso do site oficial descartado por não bater com o tamanho"
 ],
 "MB000451": [
+"peso do site oficial descartado por não bater com o tamanho",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000453": [
@@ -1239,6 +1212,7 @@
 "peso do site oficial descartado por não bater com o tamanho"
 ],
 "MB000466": [
+"peso do site oficial descartado por não bater com o tamanho",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000467": [
@@ -1248,11 +1222,8 @@
 "peso do site oficial descartado por não bater com o tamanho",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
-"MB000472": [
-"peso do site oficial descartado por não bater com o tamanho"
-],
 "MB000473": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000474": [
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
@@ -1360,7 +1331,7 @@
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000526": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000527": [
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
@@ -1406,7 +1377,6 @@
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000561": [
-"peso acima de 1,5 kg (1537 g): confirmar se é o produto ou uma caixa com vários",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000565": [
@@ -1420,7 +1390,6 @@
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000570": [
-"peso do site oficial descartado por não bater com o tamanho",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000572": [
@@ -1510,13 +1479,9 @@
 "peso do site oficial descartado por não bater com o tamanho"
 ],
 "MB000639": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
-],
-"MB000649": [
-"peso do site oficial descartado por não bater com o tamanho"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000656": [
-"peso do site oficial descartado por não bater com o tamanho",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000668": [
@@ -1526,7 +1491,7 @@
 "o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
 ],
 "MB000670": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000671": [
 "o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
@@ -1550,57 +1515,55 @@
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000685": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000686": [
-"peso do site oficial descartado por não bater com o tamanho",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000687": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000688": [
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000689": [
-"peso do site oficial descartado por não bater com o tamanho",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000690": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000691": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000692": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000693": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000694": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000695": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000696": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000697": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000698": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000699": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000700": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000701": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000707": [
 "peso do site oficial descartado por não bater com o tamanho"
@@ -1630,7 +1593,7 @@
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000758": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000760": [
 "peso do site oficial descartado por não bater com o tamanho"
@@ -1660,15 +1623,12 @@
 "peso do site oficial descartado por não bater com o tamanho"
 ],
 "MB000786": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000788": [
 "peso do site oficial descartado por não bater com o tamanho"
 ],
 "MB000789": [
-"peso do site oficial descartado por não bater com o tamanho"
-],
-"MB000793": [
 "peso do site oficial descartado por não bater com o tamanho"
 ],
 "MB000801": [
@@ -1774,6 +1734,7 @@
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000881": [
+"peso do site oficial descartado por não bater com o tamanho",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000882": [
@@ -1795,7 +1756,7 @@
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000896": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000909": [
 "peso do site oficial descartado por não bater com o tamanho"
@@ -1805,7 +1766,7 @@
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000912": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000913": [
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
@@ -1817,7 +1778,7 @@
 "peso do site oficial descartado por não bater com o tamanho"
 ],
 "MB000917": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000919": [
 "peso do site oficial descartado por não bater com o tamanho"
@@ -1844,7 +1805,7 @@
 "peso do site oficial descartado por não bater com o tamanho"
 ],
 "MB000935": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB000937": [
 "peso do site oficial descartado por não bater com o tamanho"
@@ -2132,7 +2093,7 @@
 "o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
 ],
 "MB001216": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB001221": [
 "peso do site oficial descartado por não bater com o tamanho"
@@ -2426,11 +2387,9 @@
 "o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
 ],
 "MB001831": [
-"pesado demais para o tamanho: 180 g numa caixa de 51 cm³",
 "caixa master do fornecedor dava volume grande demais; usado o tipo"
 ],
 "MB001833": [
-"pesado demais para o tamanho: 180 g numa caixa de 21 cm³",
 "caixa master do fornecedor dava volume grande demais; usado o tipo"
 ],
 "MB001834": [
@@ -2440,36 +2399,27 @@
 "caixa master do fornecedor dava volume grande demais; usado o tipo"
 ],
 "MB001841": [
-"pesado demais para o tamanho: 130 g numa caixa de 72 cm³",
 "caixa master do fornecedor dava volume grande demais; usado o tipo"
 ],
 "MB001844": [
-"pesado demais para o tamanho: 140 g numa caixa de 27 cm³",
-"caixa master do fornecedor dava volume grande demais; usado o tipo",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB001845": [
-"pesado demais para o tamanho: 140 g numa caixa de 27 cm³",
-"caixa master do fornecedor dava volume grande demais; usado o tipo",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB001853": [
-"pesado demais para o tamanho: 116 g numa caixa de 65 cm³",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB001854": [
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB001855": [
-"pesado demais para o tamanho: 116 g numa caixa de 65 cm³",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB001856": [
-"pesado demais para o tamanho: 116 g numa caixa de 65 cm³",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB001857": [
-"pesado demais para o tamanho: 116 g numa caixa de 65 cm³",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB001862": [
@@ -2488,38 +2438,16 @@
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB001874": [
-"pesado demais para o tamanho: 170 g numa caixa de 17 cm³",
 "caixa master do fornecedor dava volume grande demais; usado o tipo"
 ],
 "MB001875": [
-"pesado demais para o tamanho: 170 g numa caixa de 17 cm³",
 "caixa master do fornecedor dava volume grande demais; usado o tipo"
 ],
 "MB001876": [
-"pesado demais para o tamanho: 170 g numa caixa de 17 cm³",
 "caixa master do fornecedor dava volume grande demais; usado o tipo"
 ],
 "MB001898": [
-"pesado demais para o tamanho: 120 g numa caixa de 72 cm³",
 "caixa master do fornecedor dava volume grande demais; usado o tipo"
-],
-"MB001918": [
-"pesado demais para o tamanho: 170 g numa caixa de 43 cm³"
-],
-"MB001919": [
-"pesado demais para o tamanho: 170 g numa caixa de 43 cm³"
-],
-"MB001920": [
-"pesado demais para o tamanho: 170 g numa caixa de 43 cm³"
-],
-"MB001921": [
-"pesado demais para o tamanho: 170 g numa caixa de 43 cm³"
-],
-"MB001922": [
-"pesado demais para o tamanho: 170 g numa caixa de 43 cm³"
-],
-"MB001923": [
-"pesado demais para o tamanho: 170 g numa caixa de 43 cm³"
 ],
 "MB001925": [
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
@@ -3017,7 +2945,7 @@
 "peso do site oficial descartado por não bater com o tamanho"
 ],
 "MB002813": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB002818": [
 "o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
@@ -3026,13 +2954,13 @@
 "peso do site oficial descartado por não bater com o tamanho"
 ],
 "MB002824": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB002825": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB002826": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB002827": [
 "o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
@@ -3106,14 +3034,8 @@
 "MB002927": [
 "caixa master do fornecedor dava volume grande demais; usado o tipo"
 ],
-"MB002929": [
-"pesado demais para o tamanho: 92 g numa caixa de 52 cm³"
-],
-"MB002930": [
-"pesado demais para o tamanho: 915 g numa caixa de 105 cm³"
-],
 "MB002932": [
-"peso acima de 1,5 kg (3015 g): confirmar se é o produto ou uma caixa com vários"
+"caixa master do fornecedor dava volume grande demais; usado o tipo"
 ],
 "MB002950": [
 "caixa master do fornecedor dava volume grande demais; usado o tipo"
@@ -3137,10 +3059,10 @@
 "caixa master do fornecedor dava volume grande demais; usado o tipo"
 ],
 "MB002979": [
-"peso acima de 1,5 kg (3015 g): confirmar se é o produto ou uma caixa com vários"
+"caixa master do fornecedor dava volume grande demais; usado o tipo"
 ],
 "MB002982": [
-"peso acima de 1,5 kg (3015 g): confirmar se é o produto ou uma caixa com vários"
+"caixa master do fornecedor dava volume grande demais; usado o tipo"
 ],
 "MB003003": [
 "caixa master do fornecedor dava volume grande demais; usado o tipo"
@@ -3155,7 +3077,7 @@
 "o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
 ],
 "MB003012": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003013": [
 "o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
@@ -3225,7 +3147,6 @@
 "peso do site oficial descartado por não bater com o tamanho"
 ],
 "MB003120": [
-"peso do site oficial descartado por não bater com o tamanho",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003121": [
@@ -3328,21 +3249,21 @@
 "o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
 ],
 "MB003245": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003246": [
-"pesado demais para o tamanho: 1914 g numa caixa de 810 cm³",
 "peso acima de 1,5 kg (1914 g): confirmar se é o produto ou uma caixa com vários",
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003248": [
+"peso do site oficial descartado por não bater com o tamanho",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003255": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003257": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003258": [
 "peso do site oficial descartado por não bater com o tamanho"
@@ -3378,9 +3299,10 @@
 "peso do site oficial descartado por não bater com o tamanho"
 ],
 "MB003283": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003284": [
+"peso do site oficial descartado por não bater com o tamanho",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003289": [
@@ -3513,7 +3435,7 @@
 "peso do site oficial descartado por não bater com o tamanho"
 ],
 "MB003381": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003384": [
 "o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
@@ -3546,10 +3468,10 @@
 "o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
 ],
 "MB003401": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003402": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003403": [
 "o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
@@ -3561,22 +3483,22 @@
 "o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
 ],
 "MB003406": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003407": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003408": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003409": [
 "o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
 ],
 "MB003410": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003421": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003424": [
 "o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
@@ -3616,9 +3538,6 @@
 ],
 "MB003453": [
 "o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
-],
-"MB003454": [
-"peso do site oficial descartado por não bater com o tamanho"
 ],
 "MB003455": [
 "peso do site oficial descartado por não bater com o tamanho"
@@ -3801,7 +3720,6 @@
 "peso do site oficial descartado por não bater com o tamanho"
 ],
 "MB003600": [
-"peso do site oficial descartado por não bater com o tamanho",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003602": [
@@ -3837,10 +3755,7 @@
 "o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
 ],
 "MB003619": [
-"o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
-],
-"MB003620": [
-"peso do site oficial descartado por não bater com o tamanho"
+"kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003621": [
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
@@ -3858,18 +3773,13 @@
 "peso do site oficial descartado por não bater com o tamanho",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
-"MB003630": [
-"peso do site oficial descartado por não bater com o tamanho"
-],
 "MB003636": [
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003637": [
-"peso do site oficial descartado por não bater com o tamanho",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003640": [
-"peso do site oficial descartado por não bater com o tamanho",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003641": [
@@ -3894,7 +3804,6 @@
 "o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
 ],
 "MB003649": [
-"pesado demais para o tamanho: 140 g numa caixa de 81 cm³",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003650": [
@@ -3958,9 +3867,6 @@
 "MB003681": [
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
-"MB003682": [
-"peso do site oficial descartado por não bater com o tamanho"
-],
 "MB003685": [
 "o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
 ],
@@ -3992,11 +3898,9 @@
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003703": [
-"peso acima de 1,5 kg (1893 g): confirmar se é o produto ou uma caixa com vários",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003704": [
-"peso acima de 1,5 kg (1732 g): confirmar se é o produto ou uma caixa com vários",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003707": [
@@ -4024,7 +3928,6 @@
 "o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
 ],
 "MB003718": [
-"peso acima de 1,5 kg (1732 g): confirmar se é o produto ou uma caixa com vários",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003724": [
@@ -4049,7 +3952,6 @@
 "o produto não informa ml/g: tamanho e peso são do tipo, não do produto"
 ],
 "MB003754": [
-"peso acima de 1,5 kg (1732 g): confirmar se é o produto ou uma caixa com vários",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003755": [
@@ -4065,7 +3967,6 @@
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003771": [
-"peso acima de 1,5 kg (1732 g): confirmar se é o produto ou uma caixa com vários",
 "kit: medida estimada pela soma dos conteúdos (confirmar caixa)"
 ],
 "MB003797": [

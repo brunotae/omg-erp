@@ -31,9 +31,9 @@ def norm(s):
 # classe: (regex no tipo+nome, conteúdo de referência, dimensões de referência em cm, embalagem em g)
 CLASSES = [
     ("kit", r"\bkit\b|conjunto|dupla|\bduo\b|\bset\b|\btrio\b|\d\s?(ml|g|un|unidades|discos)\b\s*\+|\+\s*\d+\s?(ml|g)\b", None, None, None),
+    ("patch pote", r"eye patch|patches? de hidrogel|adesivos de hidrogel|gel patch|hydrogel patch|adesivos? .{0,40}\bpotes?\b", 60, (9.0, 9.0, 6.0), 150),
     ("acessorio", r"acessori|accessory|sticker|adesivo|patch|esponja|puff|pincel|brush|aparelho|ferramenta|scrunchie|prendedor|derma booster|device|escova|pente|faixa|headband|massageador|gua sha", 1, (10.0, 15.0, 2.0), 25),
-    ("patch pote", r"eye patch|patches? de hidrogel|adesivos de hidrogel|gel patch|hydrogel patch", 60, (9.0, 9.0, 6.0), 150),
-    ("toner pad", r"toner pad|\bpads?\b|\bdiscos?\b|almofadas|\bpad\b", 70, (9.7, 8.9, 8.8), 145),
+    ("toner pad", r"toner pad|\bpads?\b|\bdiscos?\b|almofadas|\bpad\b|laminas|skin pack", 70, (9.7, 8.9, 8.8), 145),
     ("sabonete barra", r"\bbarra\b|bar soap|soap bar", 100, (9.0, 6.0, 3.5), 15),
     ("mascara tubo", r"peel.?off|wrapping|mud pack|clay pack|pack cleanser|mascara de argila", 100, (5.0, 4.0, 18.0), 40),
     ("olhos make", r"sombra|paleta|palette|shadow|blush|iluminador|highlighter|po compacto|pressed|bronzer", 6, (6.0, 6.0, 2.0), 35),
@@ -57,6 +57,11 @@ CLASSES = [
 DEF = ("outros", None, 50, (5.0, 5.0, 12.0), 60)
 
 
+def floz(t):
+    """'0,33 fl oz' → '9.8 ml' (para os kits descritos em onças fluidas)."""
+    return re.sub(r"(\d+(?:[.,]\d+)?)\s?fl\.?\s?oz", lambda m: f"{float(m.group(1).replace(',', '.')) * 29.57:.1f} ml", t)
+
+
 def classe(tipo, nome):
     t = norm(tipo) + " | " + norm(nome)
     t = re.sub(r"pa\s?\+{1,4}|(spf|fps)\s?\d+\s?\+?", " ", t)
@@ -67,9 +72,9 @@ def classe(tipo, nome):
 
 
 def conteudo(nome, var, cls):
-    t = norm(nome + " " + var)
+    t = floz(norm(nome + " " + var))
     if cls == "toner pad":
-        m = re.search(r"(\d+)\s*(discos|pads?|unidades|ea|pcs)", t)
+        m = re.search(r"(\d+)\s*(discos|pads?|unidades|ea|pcs|laminas)", t)
         return float(m.group(1)) if m else 70.0
     if cls == "mascara folha":
         m = re.search(r"(\d+)\s*(unidades|folhas|un\b|ea|pcs|mascaras|sheets|pares)", t)
@@ -88,6 +93,10 @@ def conteudo(nome, var, cls):
     if not vals:
         return None
     if cls == "kit":
+        m = re.search(r"\b(\d{1,2})\s+[^\d]{0,40}?(\d+(?:[.,]\d+)?)\s?(?:ml|g)\b\s+cada", t) or \
+            re.search(r"\b(\d{1,2})\s+(?:minis?|frascos|unidades|seruns|sachets?|tubos|potes)\s+(?:mini\s+)?de\s+(\d+(?:[.,]\d+)?)\s?(?:ml|g)\b", t)
+        if m:
+            return int(m.group(1)) * float(m.group(2).replace(",", "."))
         mult = re.findall(r"(\d+(?:[.,]\d+)?)\s?(?:ml|g)\s?[x×]\s?(\d+)", t)
         return sum(vals) + sum(float(a.replace(",", ".")) * (int(b) - 1) for a, b in mult)
     return vals[0]
@@ -107,7 +116,7 @@ def texto_corpo(html):
 
 def conteudo_corpo(corpo, cls):
     """Tamanho a partir da página do produto: 'Tamanho: 150 ml'; no kit, soma do trecho 'O que vem'."""
-    t = norm(corpo)
+    t = floz(norm(corpo))
     if cls == "kit":
         m = re.search(r"o que vem(.*?)(beneficios|indicado para|como usar|ingredientes|$)", t)
         trecho = m.group(1) if m else ""
@@ -177,8 +186,9 @@ def estimar(s):
         if not q:
             q, tipico = 150.0, True
         # kit: soma dos conteúdos como se fosse um frasco de sérum/creme, + 30% de caixa
-        vol = VOLREF["serum"] * (q / 50) ** 0.85 * 1.3
-        return {"classe": c[0], "conteudo": q, "tipico": tipico, "dim": caixa((12, 8, 15), vol), "vol": round(vol), "peso": round(q + EMBREF["serum"] * (q / 50) ** (2 / 3) * 1.4)}
+        vol = max(VOLREF["serum"] * (q / 50) ** 0.85 * 1.3, 250 + q * 1.5)
+        peso = q * 1.15 + 80
+        return {"classe": c[0], "conteudo": q, "tipico": tipico, "dim": caixa((12, 8, 15), vol), "vol": round(vol), "peso": round(peso)}
     if q is None:
         q = c[2] if c[0] in ("acessorio", "lapis", "batom", "olhos make", "cushion") else None
     if q is None:
@@ -187,7 +197,8 @@ def estimar(s):
         dim = [12.0, 18.0, round(0.7 * q + 0.5, 1)] if q > 1 else [12.0, 18.0, 0.7]
         return {"classe": c[0], "conteudo": q, "dim": dim, "vol": round(math.prod(dim)), "peso": round(30 * q + (15 if q > 1 else 0))}
     if c[0] == "patch pote":
-        return {"classe": c[0], "conteudo": q, "tipico": tipico, "dim": [9.0, 9.0, 6.0], "vol": 486, "peso": 180}
+        n = 2 if re.search(r"\b(2|dois) potes\b", norm(s["nome"] + " " + s["corpo"][:400])) else 1
+        return {"classe": c[0], "conteudo": q, "tipico": tipico, "dim": [9.0 * n, 9.0, 6.0], "vol": 486 * n, "peso": 180 * n}
     if c[0] == "toner pad":
         vol = VOLREF["toner pad"] * (q / 70) ** 0.85
         return {"classe": c[0], "conteudo": q, "dim": caixa(c[3], vol), "vol": round(vol), "peso": round(300 * (q / 70) ** 0.9)}
@@ -255,6 +266,29 @@ for s in skus:
         r.update(peso=None, peso_origem="sem peso")
     r["barcode"] = (cas or {}).get("barcode") or ""
     out[s["sku"]] = r
+
+# ---------- razoabilidade (depois de escolher as fontes) ----------
+KIT_DENS, MAX_DENS = 0.45, 1.2  # g/cm³: caixa de kit (frascos + papelão) e limite de um produto embalado
+AJ = json.loads((A / "ajustes.json").read_text()) if (A / "ajustes.json").exists() else {}
+for s in skus:
+    r = out[s["sku"]]
+    if s["sku"] in AJ:
+        a = AJ[s["sku"]]
+        r.update(dim=a["dim"], peso=a["peso"], dim_origem="ajuste manual: " + a["motivo"], peso_origem="ajuste manual: " + a["motivo"])
+        continue
+    if r["dim_origem"].startswith("medida real") or ("(unidade)" in r["dim_origem"] and r["peso_origem"].startswith("fornecedor")):
+        continue
+    vol = math.prod(r["dim"]) if r.get("dim") else None
+    if r["classe"] == "kit" and r.get("peso") and not r["peso_origem"].startswith("estimado"):
+        v2 = r["peso"] / KIT_DENS
+        r.update(dim=caixa((12, 8, 15), v2), dim_origem="estimado pelo peso do kit (caixa com frascos ≈ 0,45 g/cm³)")
+    elif vol and r.get("peso") and r["peso"] / vol > MAX_DENS:
+        e = estimar(s) or {}
+        if not r["peso_origem"].startswith(("estimado", "medida real")) and e.get("peso") and not e.get("tipico"):
+            r.update(peso=e["peso"], peso_origem="estimado por tipo (" + str(e["classe"]) + "); o peso informado (" + str(round(r["peso"])) + " g) era pesado demais para o tamanho")
+        else:
+            cls = next((c for c in CLASSES if c[0] == r["classe"] and c[3]), (DEF[0], "", DEF[2], DEF[3], DEF[4]))
+            r.update(dim=caixa(cls[3], r["peso"] / 0.6), dim_origem=r["dim_origem"] + "; caixa aumentada para caber o peso")
 
 codigos = json.loads((A / "codigos_barra.json").read_text())
 for k, v in codigos.items():
