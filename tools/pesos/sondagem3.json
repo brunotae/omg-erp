@@ -1,0 +1,17 @@
+{
+ "yesstyle": {
+  "status": 200,
+  "tam": 330162,
+  "trechos": [],
+  "ld_json": [
+   "{\"itemListElement\":[{\"item\":{\"@type\":\"Thing\",\"name\":\"Home\",\"@id\":\"https://www.yesstyle.com/en/home.html\"},\"@type\":\"ListItem\",\"position\":1},{\"item\":{\"@type\":\"Thing\",\"name\":\"Beauty\",\"@id\":\"https://www.yesstyle.com/en/women-fashion.html\"},\"@type\":\"ListItem\",\"position\":2},{\"item\":{\"@type\":\"Thing\",\"name\":\"Skin Care\",\"@id\":\"https://www.yesstyle.com/en/beauty-skin-care/list.html/bcc.15544_bpt.46\"},\"@type\":\"ListItem\",\"position\":3},{\"item\":{\"@type\":\"Thing\",\"name\":\"Toners\",\"@id\":\"https://www.yesstyle.com/en/beauty-toners/list.html/bcc.15552_bpt.46\"},\"@type\":\"ListItem\",\"position\":4}],\"@type\":\"BreadcrumbL",
+   "{\"offers\":[{\"seller\":{\"@type\":\"Organization\",\"name\":\"YESSTYLE\"},\"priceCurrency\":\"USD\",\"shippingDetails\":[{\"shippingRate\":{\"@type\":\"MonetaryAmount\",\"currency\":\"USD\",\"value\":0},\"deliveryTime\":{\"@type\":\"ShippingDeliveryTime\",\"transitTime\":{\"minValue\":7,\"@type\":\"QuantitativeValue\",\"maxValue\":11,\"unitCode\":\"DAY\"}},\"@type\":\"OfferShippingDetails\",\"shippingDestination\":{\"addressCountry\":\"US\",\"@type\":\"DefinedRegion\"},\"description\":\"Standard Free (US$ 35 or more)\"},{\"shippingRate\":{\"@type\":\"MonetaryAmount\",\"currency\":\"USD\",\"value\":6},\"deliveryTime\":{\"@type\":\"ShippingDeliveryTime\",\"transitTime\":{\"minValu"
+  ]
+ },
+ "jolse_busca_json": {
+  "status": 200,
+  "tam": 378,
+  "trechos": [],
+  "ld_json": []
+ }
+}
