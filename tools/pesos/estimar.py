@@ -31,8 +31,11 @@ def norm(s):
 # classe: (regex no tipo+nome, conteúdo de referência, dimensões de referência em cm, embalagem em g)
 CLASSES = [
     ("kit", r"\bkit\b|conjunto|dupla|\bduo\b|\bset\b|\btrio\b|\d\s?(ml|g|un|unidades|discos)\b\s*\+|\+\s*\d+\s?(ml|g)\b", None, None, None),
-    ("toner pad", r"toner pad|\bpads?\b|disco|discos|almofadas|\bpad\b", 70, (9.7, 8.9, 8.8), 145),
-    ("olhos make", r"sombra|paleta|palette|shadow|blush|iluminador|highlighter|contorno|po compacto|pressed|bronzer", 6, (6.0, 6.0, 2.0), 35),
+    ("patch pote", r"eye patch|patches? de hidrogel|adesivos de hidrogel|gel patch|hydrogel patch", 60, (9.0, 9.0, 6.0), 150),
+    ("toner pad", r"toner pad|\bpads?\b|\bdiscos?\b|almofadas|\bpad\b", 70, (9.7, 8.9, 8.8), 145),
+    ("sabonete barra", r"\bbarra\b|bar soap|soap bar", 100, (9.0, 6.0, 3.5), 15),
+    ("mascara tubo", r"peel.?off|wrapping|mud pack|clay pack|pack cleanser|mascara de argila", 100, (5.0, 4.0, 18.0), 40),
+    ("olhos make", r"sombra|paleta|palette|shadow|blush|iluminador|highlighter|po compacto|pressed|bronzer", 6, (6.0, 6.0, 2.0), 35),
     ("cushion", r"cushion|almofada de base", 15, (9.0, 9.0, 4.0), 110),
     ("mascara folha", r"mascara (facial|em folha|de tecido)|sheet mask|facial mask|face mask|\bmask(s)?\b(?!.*(sleeping|wash|noturna|capilar|hair))|mascara(s)? facia|mascara de colageno|mascara em gel|hidrogel", 1, (12.0, 18.0, 0.7), 8),
     ("mascara pote", r"sleeping|noturna|overnight|wash.?off|argila|clay|mascara capilar|hair mask|mascara de cabelo|mascara em creme", 100, (7.5, 7.5, 7.0), 110),
@@ -46,7 +49,7 @@ CLASSES = [
     ("shampoo", r"shampoo|condicionador|conditioner", 500, (8.0, 5.5, 21.0), 60),
     ("capilar", r"capilar|hair|cabelo|couro cabeludo|scalp|tratamento", 200, (5.5, 5.5, 18.0), 50),
     ("corpo", r"corpo|corporal|body|banho|sabonete|maos|hand|intimo", 300, (7.0, 5.0, 20.0), 60),
-    ("tonico", r"tonico|toner|mist|bruma|agua|water|essence water|skin", 200, (6.5, 6.5, 17.0), 60),
+    ("tonico", r"tonico|toner|mist|bruma|agua|water|essence water", 200, (6.5, 6.5, 17.0), 60),
     ("serum", r"serum|ampola|ampoule|essencia|essence|booster|concentrado", 50, (4.5, 4.5, 12.0), 70),
     ("creme", r"creme|cream|locao|lotion|emulsao|emulsion|gel|hidratante|moistur", 50, (7.0, 7.0, 7.0), 90),
     ("acessorio", r"acessori|accessory|sticker|adesivo|patch|esponja|puff|pincel|brush|aparelho|ferramenta", 1, (10.0, 15.0, 2.0), 25),
@@ -56,6 +59,7 @@ DEF = ("outros", None, 50, (5.0, 5.0, 12.0), 60)
 
 def classe(tipo, nome):
     t = norm(tipo) + " | " + norm(nome)
+    t = re.sub(r"pa\s?\+{1,4}|(spf|fps)\s?\d+\s?\+?", " ", t)
     for c in CLASSES:
         if re.search(c[1], t):
             return c
@@ -72,6 +76,13 @@ def conteudo(nome, var, cls):
         if m:
             return float(m.group(1))
         return 10.0 if re.search(r"\bcaixa\b|\bbox\b", t) else 1.0
+    m = re.search(r"(\d+)\s?[x×]\s?(\d+(?:[.,]\d+)?)\s?(ml|g)\b", t) or re.search(r"(\d+(?:[.,]\d+)?)\s?(?:ml|g)\s?[x×]\s?(\d+)\b", t)
+    if m and cls != "kit":
+        a, b = float(m.group(1).replace(",", ".")), float(m.group(2).replace(",", "."))
+        return a * b
+    if cls == "patch pote":
+        m = re.search(r"(\d+)\s*(unidades|patches|adesivos|ea|pcs|pares)", t)
+        return float(m.group(1)) if m else 60.0
     vals = [float(x.replace(",", ".")) for x, _ in re.findall(r"(\d+(?:[.,]\d+)?)\s?(ml|g)\b", t)]
     vals = [v for v in vals if 0.5 <= v <= 2000]
     if not vals:
@@ -126,7 +137,7 @@ LOTE = {r["handle"]: r for r in csv.DictReader(open(A / "pesos_final.csv", encod
 cal_vol, cal_peso = defaultdict(list), defaultdict(list)
 for s in skus:
     c = classe(s["tipo"], s["nome"] + " " + s["var"])
-    if c[0] in ("kit",):
+    if c[0] in ("kit", "patch pote"):
         continue
     q = conteudo(s["nome"], s["var"], c[0])
     if not q:
@@ -147,7 +158,7 @@ for s in skus:
 
 VOLREF, EMBREF = {}, {}
 for c in CLASSES + [(DEF[0], "", DEF[2], DEF[3], DEF[4])]:
-    if c[2] is None:
+    if c[2] is None or c[0] == "patch pote":
         continue
     base_v = math.prod(c[3])
     VOLREF[c[0]] = statistics.median(cal_vol[c[0]]) if len(cal_vol[c[0]]) >= 4 else base_v
@@ -175,6 +186,8 @@ def estimar(s):
     if c[0] == "mascara folha":
         dim = [12.0, 18.0, round(0.7 * q + 0.5, 1)] if q > 1 else [12.0, 18.0, 0.7]
         return {"classe": c[0], "conteudo": q, "dim": dim, "vol": round(math.prod(dim)), "peso": round(30 * q + (15 if q > 1 else 0))}
+    if c[0] == "patch pote":
+        return {"classe": c[0], "conteudo": q, "tipico": tipico, "dim": [9.0, 9.0, 6.0], "vol": 486, "peso": 180}
     if c[0] == "toner pad":
         vol = VOLREF["toner pad"] * (q / 70) ** 0.85
         return {"classe": c[0], "conteudo": q, "dim": caixa(c[3], vol), "vol": round(vol), "peso": round(300 * (q / 70) ** 0.9)}
