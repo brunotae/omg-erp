@@ -168,7 +168,7 @@ rs["A1"].font = Font(name=F, bold=True, size=14)
 rs.append([])
 rs.append(["Origem do peso a usar", "Lote 1 (SKUs)", "Todos (SKUs)"])
 origens = [("pesado / medida real", "pesado (real)"), ("medida real (enviada)", "medida real*"), ("planilha do fornecedor", "fornecedor*"),
-           ("site oficial da marca", "site oficial*"), ("lojas de varejo", "varejo*"), ("estimado por tipo de embalagem", "estimado por tipo*")]
+           ("site oficial da marca", "site oficial*"), ("lojas de varejo", "varejo*"), ("ajuste manual", "ajuste manual*"), ("estimado por tipo de embalagem", "estimado por tipo*")]
 for i, (rot, crit) in enumerate(origens, start=4):
     rs.append([rot, f'=COUNTIFS(Produtos!$P$2:$P${ult},"{crit}",Produtos!$A$2:$A${ult},"Sim")', f'=COUNTIF(Produtos!$P$2:$P${ult},"{crit}")'])
 t = 4 + len(origens)
@@ -177,7 +177,7 @@ rs.append([])
 rs.append(["Origem das dimensões", "Lote 1 (SKUs)", "Todos (SKUs)"])
 d0 = t + 3
 dims_o = [("medida real", "medida real*"), ("fornecedor: unidade", "fornecedor*(unidade)"), ("fornecedor: caixa master ÷ quantidade", "fornecedor*aproximado)"),
-          ("estimado por tipo de embalagem", "estimado por tipo*")]
+          ("ajuste manual", "ajuste manual*"), ("estimado pelo peso do kit", "estimado pelo peso*"), ("estimado por tipo de embalagem", "estimado por tipo*")]
 for i, (rot, crit) in enumerate(dims_o, start=d0):
     rs.append([rot, f'=COUNTIFS(Produtos!$T$2:$T${ult},"{crit}",Produtos!$A$2:$A${ult},"Sim")', f'=COUNTIF(Produtos!$T$2:$T${ult},"{crit}")'])
 t2 = d0 + len(dims_o)
