@@ -1,5 +1,6 @@
 {
  "vol_ref_cm3": {
+  "acessorio": 300,
   "toner pad": 786,
   "sabonete barra": 189,
   "mascara tubo": 360,
@@ -20,7 +21,6 @@
   "tonico": 718,
   "serum": 243,
   "creme": 343,
-  "acessorio": 300,
   "outros": 300
  },
  "amostras_vol": {
@@ -33,6 +33,7 @@
   "serum": 2,
   "mascara folha": 3,
   "creme": 1,
+  "acessorio": 0,
   "sabonete barra": 0,
   "mascara tubo": 0,
   "cushion": 0,
@@ -44,10 +45,10 @@
   "limpeza": 0,
   "corpo": 0,
   "tonico": 0,
-  "acessorio": 0,
   "outros": 0
  },
  "embalagem_g": {
+  "acessorio": 25,
   "toner pad": 145,
   "sabonete barra": 15,
   "mascara tubo": 61,
@@ -65,14 +66,13 @@
   "shampoo": 107,
   "capilar": 106,
   "corpo": 66,
-  "tonico": 79,
+  "tonico": 80,
   "serum": 87,
   "creme": 56,
-  "acessorio": 25,
   "outros": 60
  },
  "amostras_peso": {
-  "tonico": 60,
+  "tonico": 59,
   "serum": 110,
   "corpo": 21,
   "oleo limpeza": 26,
@@ -89,10 +89,10 @@
   "outros": 2,
   "cushion": 161,
   "mascara pote": 6,
+  "acessorio": 0,
   "toner pad": 0,
   "sabonete barra": 0,
   "mascara folha": 0,
-  "lapis": 0,
-  "acessorio": 0
+  "lapis": 0
  }
 }

@@ -43,6 +43,7 @@ def dim(v):
 # 2. Linhas do export (uma por variante/SKU)
 import json
 MED = json.loads((A / "medidas_sku.json").read_text())
+CONF = json.loads((A / "conferir.json").read_text()) if (A / "conferir.json").exists() else {}
 linhas, prod = [], {}
 for f in arquivos:
     for r in csv.DictReader(open(f, encoding="utf-8")):
@@ -104,7 +105,7 @@ cab = ["Lote 1", "Status no site", "Marca", "Produto", "Variante", "SKU", "Handl
        "Peso real (g)", "Peso a usar (g)", "Origem do peso a usar",
        "Comprimento estimado (cm)", "Largura estimada (cm)", "Altura estimada (cm)", "Origem das dimensões",
        "Comprimento real (cm)", "Largura real (cm)", "Altura real (cm)",
-       "Volume a usar (cm³)", "Peso cubado aéreo (g)", "Formato (tipo de embalagem)", "Código de barras", "Dimensões no Shopify hoje (cm)", "Observação"]
+       "Volume a usar (cm³)", "Peso cubado aéreo (g)", "Formato (tipo de embalagem)", "Código de barras", "Dimensões no Shopify hoje (cm)", "Conferir (por quê)"]
 ws.append(cab)
 amarelo = PatternFill("solid", start_color="FFFF00")
 cinza = PatternFill("solid", start_color="F2E8EE")
@@ -121,7 +122,7 @@ for n, x in enumerate(linhas, start=2):
                None, f'=IF(N{n}<>"",N{n},IF(L{n}<>"",L{n},""))', f'=IF(N{n}<>"","pesado (real)",M{n})',
                x["c"], x["l"], x["a"], x["dim_origem"], None, None, None,
                f'=IF(AND(U{n}<>"",V{n}<>"",W{n}<>""),U{n}*V{n}*W{n},IF(Q{n}<>"",Q{n}*R{n}*S{n},""))',
-               f'=IF(X{n}<>"",X{n}/6,"")', x["classe"], x["barcode"], x["dim_site"], None])
+               f'=IF(X{n}<>"",X{n}/6,"")', x["classe"], x["barcode"], x["dim_site"], "; ".join(CONF.get(x["sku"], []))])
 
 ult = len(linhas) + 1
 fonte = Font(name=F, size=10)
@@ -210,6 +211,7 @@ txt = [
     ("   'tamanho típico' = o produto não informa ml/g; foi usado o tamanho comum daquele tipo (menos confiável).", False),
     ("", False),
     ("Peso cubado (coluna Y): no frete aéreo cobra-se o maior entre o peso real e C × L × A ÷ 6.000. Em cosmético o peso real quase sempre é maior.", False),
+    ("Aba 'Para conferir': SKUs com número suspeito, em ordem de prioridade (1 = mais grave). Lote 1 primeiro.", False),
     ("Aba 'Para o Keepa': SKUs do lote 1 que ainda dependem de estimativa, com código de barras quando o fornecedor informou. É a fila da próxima etapa.", False),
     ("Fontes: exportação do Shopify (24/10/2026), planilhas dos fornecedores (pasta OMG Fornecedores), sites oficiais das marcas e lojas de varejo (robô do ERP, 25/10/2026).", False),
 ]
@@ -217,6 +219,28 @@ for i, (t_, b) in enumerate(txt, 1):
     cu.cell(row=i, column=1, value=t_).font = Font(name=F, size=11 if b else 10, bold=b)
 cu.column_dimensions["A"].width = 120
 
+PRIO = ["pesado demais", "leve demais", "peso acima", "peso do site oficial descartado", "caixa master", "kit", "o produto não informa"]
+cf = wb.create_sheet("Para conferir")
+cf.append(["Prioridade", "Lote 1", "SKU", "Marca", "Produto", "Variante", "Peso a usar (g)", "C × L × A (cm)", "Por quê"])
+for c in cf[1]:
+    c.font = Font(name=F, bold=True, color="FFFFFF"); c.fill = PatternFill("solid", start_color="D61F6E")
+lst = []
+for x in linhas:
+    mot = CONF.get(x["sku"])
+    if not mot:
+        continue
+    pr = min(next((i for i, p_ in enumerate(PRIO) if m_.startswith(p_)), 9) for m_ in mot) + 1
+    lst.append((x["lote"] != "Sim", pr, x["marca"], x["produto"], x))
+for _, pr, _, _, x in sorted(lst, key=lambda t: t[:4]):
+    dims_ = " × ".join(f"{v:g}" for v in (x["c"], x["l"], x["a"])) if x["c"] else ""
+    cf.append([pr, x["lote"], x["sku"], x["marca"], x["produto"], x["variante"], x["peso_est"], dims_, "; ".join(CONF[x["sku"]])])
+for row in cf.iter_rows(min_row=2):
+    for c in row:
+        c.font = Font(name=F, size=10)
+for i, w in enumerate([10, 7, 14, 16, 60, 16, 12, 18, 80], 1):
+    cf.column_dimensions[get_column_letter(i)].width = w
+cf.freeze_panes = "A2"
+cf.auto_filter.ref = f"A1:I{cf.max_row}"
 kp = wb.create_sheet("Para o Keepa")
 kp.append(["SKU", "Marca", "Produto", "Variante", "Tamanho", "Código de barras", "Origem das dimensões hoje"])
 for c in kp[1]:
@@ -230,7 +254,7 @@ for row in kp.iter_rows(min_row=2):
 for i, w in enumerate([14, 16, 60, 16, 10, 16, 40], 1):
     kp.column_dimensions[get_column_letter(i)].width = w
 kp.freeze_panes = "A2"
-wb.move_sheet("Como usar", offset=-2)
+wb.move_sheet("Como usar", offset=-3)
 wb.active = 1
 wb.save(saida)
 print("linhas:", len(linhas), "lote 1:", sum(1 for x in linhas if x["lote"] == "Sim"))

@@ -31,6 +31,7 @@ def norm(s):
 # classe: (regex no tipo+nome, conteúdo de referência, dimensões de referência em cm, embalagem em g)
 CLASSES = [
     ("kit", r"\bkit\b|conjunto|dupla|\bduo\b|\bset\b|\btrio\b|\d\s?(ml|g|un|unidades|discos)\b\s*\+|\+\s*\d+\s?(ml|g)\b", None, None, None),
+    ("acessorio", r"acessori|accessory|sticker|adesivo|patch|esponja|puff|pincel|brush|aparelho|ferramenta|scrunchie|prendedor|derma booster|device|escova|pente|faixa|headband|massageador|gua sha", 1, (10.0, 15.0, 2.0), 25),
     ("patch pote", r"eye patch|patches? de hidrogel|adesivos de hidrogel|gel patch|hydrogel patch", 60, (9.0, 9.0, 6.0), 150),
     ("toner pad", r"toner pad|\bpads?\b|\bdiscos?\b|almofadas|\bpad\b", 70, (9.7, 8.9, 8.8), 145),
     ("sabonete barra", r"\bbarra\b|bar soap|soap bar", 100, (9.0, 6.0, 3.5), 15),
@@ -52,7 +53,6 @@ CLASSES = [
     ("tonico", r"tonico|toner|mist|bruma|agua|water|essence water", 200, (6.5, 6.5, 17.0), 60),
     ("serum", r"serum|ampola|ampoule|essencia|essence|booster|concentrado", 50, (4.5, 4.5, 12.0), 70),
     ("creme", r"creme|cream|locao|lotion|emulsao|emulsion|gel|hidratante|moistur", 50, (7.0, 7.0, 7.0), 90),
-    ("acessorio", r"acessori|accessory|sticker|adesivo|patch|esponja|puff|pincel|brush|aparelho|ferramenta", 1, (10.0, 15.0, 2.0), 25),
 ]
 DEF = ("outros", None, 50, (5.0, 5.0, 12.0), 60)
 
@@ -191,14 +191,35 @@ def estimar(s):
     if c[0] == "toner pad":
         vol = VOLREF["toner pad"] * (q / 70) ** 0.85
         return {"classe": c[0], "conteudo": q, "dim": caixa(c[3], vol), "vol": round(vol), "peso": round(300 * (q / 70) ** 0.9)}
-    vol = VOLREF[c[0]] * (q / c[2]) ** 0.85
+    expo = 0.5 if c[0] in ("batom", "lapis", "olhos make") else 0.85
+    vol = VOLREF[c[0]] * (q / c[2]) ** expo
     peso = q * 1.0 + EMBREF[c[0]] * (q / c[2]) ** (2 / 3)
     return {"classe": c[0], "conteudo": q, "tipico": tipico, "dim": caixa(c[3], vol), "vol": round(vol), "peso": round(peso)}
+
+
+def conteudo_pelo_peso(cls, w):
+    """Produto sem ml/g: deduz o conteúdo a partir do peso (conteúdo + embalagem do tipo)."""
+    ref, emb = next(((c[2], EMBREF.get(c[0], c[4])) for c in CLASSES if c[0] == cls and c[2]), (None, None))
+    if not ref:
+        return None
+    q = w * 0.6
+    for _ in range(30):
+        q = max(0.5, w - emb * (q / ref) ** (2 / 3))
+    return q
 
 
 out = {}
 for s in skus:
     e = estimar(s) or {"classe": "kit"}
+    lt0 = LOTE.get(s["handle"])
+    if e.get("tipico") and e.get("classe") not in ("kit", "mascara folha", "toner pad", "acessorio", "patch pote") and lt0 and lt0["peso_g"] and lt0["fonte"] != "estimado pelo tamanho":
+        q2 = float(lt0["peso_g"])  # nos produtos sem ml/g, o "peso" do site oficial costuma ser o conteúdo líquido
+        cdef = next((c for c in CLASSES if c[0] == e["classe"]), (DEF[0], "", DEF[2], DEF[3], DEF[4]))
+        if q2:
+            expo = 0.5 if e["classe"] in ("batom", "lapis", "olhos make") else 0.85
+            vol = VOLREF[e["classe"]] * (q2 / cdef[2]) ** expo
+            emb = EMBREF.get(e["classe"], cdef[4]) * (q2 / cdef[2]) ** (2 / 3)
+            e = {"classe": e["classe"], "conteudo": q2, "tipico": False, "pelo_peso": True, "dim": caixa(cdef[3], vol), "vol": round(vol), "peso": round(q2 + emb)}
     r = {"classe": e.get("classe"), "conteudo": e.get("conteudo")}
     real, cas, lt = REAIS.get(s["sku"]), CAS.get(s["sku"]), LOTE.get(s["handle"])
     # dimensões
@@ -206,10 +227,12 @@ for s in skus:
         r.update(dim=[x / 10 for x in real["dim_mm"]], dim_origem="medida real")
     elif cas and cas.get("dim_mm"):
         r.update(dim=[round(x / 10, 1) for x in cas["dim_mm"]], dim_origem=cas["fonte"] + " (unidade)")
+    elif cas and cas.get("vol_cm3") and e.get("vol") and cas["vol_cm3"] > 1.6 * e["vol"] and not e.get("tipico"):
+        r.update(dim=e["dim"], dim_origem="estimado por tipo (" + e["classe"] + "); a caixa master do fornecedor dava " + str(round(cas["vol_cm3"])) + " cm³, grande demais")
     elif cas and cas.get("vol_cm3"):
         r.update(dim=caixa(next((c[3] for c in CLASSES if c[0] == e.get("classe") and c[3]), DEF[3]), cas["vol_cm3"]), dim_origem=cas["fonte"] + " (caixa master ÷ quantidade, aproximado)")
     elif e.get("dim"):
-        r.update(dim=e["dim"], dim_origem="estimado por tipo (" + e["classe"] + (", tamanho típico: o produto não informa ml/g" if e.get("tipico") else "") + ")")
+        r.update(dim=e["dim"], dim_origem="estimado por tipo (" + e["classe"] + (", tamanho típico: o produto não informa ml/g" if e.get("tipico") else "") + (", conteúdo = peso líquido do site oficial" if e.get("pelo_peso") else "") + ")")
     else:
         r.update(dim=None, dim_origem="sem dimensão")
     # peso
@@ -217,8 +240,12 @@ for s in skus:
         r.update(peso=real["peso_g"], peso_origem="medida real")
     elif cas and cas.get("peso_g"):
         r.update(peso=cas["peso_g"], peso_origem=cas["fonte"] + (" (peso líquido)" if "líquido" in cas["tipo"] else ""))
+    elif e.get("pelo_peso"):
+        r.update(peso=e["peso"], peso_origem="estimado por tipo (" + e["classe"] + "): " + lt["fonte"] + " informa " + str(round(float(lt["peso_g"]))) + " g, tratado como peso líquido + embalagem")
     elif lt and lt["peso_g"] and lt["fonte"] != "estimado pelo tamanho" and not (
-            e.get("peso") and not e.get("tipico") and not 0.4 <= float(lt["peso_g"]) / e["peso"] <= 3):
+            e.get("peso") and not e.get("tipico") and not 0.4 <= float(lt["peso_g"]) / e["peso"] <= 3) and not (
+            e.get("conteudo") and not e.get("tipico") and e.get("classe") not in ("kit", "mascara folha", "toner pad", "acessorio", "patch pote", "lapis")
+            and not e["conteudo"] * 0.85 <= float(lt["peso_g"]) <= e["conteudo"] * 4 + 200):
         r.update(peso=float(lt["peso_g"]), peso_origem=lt["fonte"])
     elif lt and lt["peso_g"] and lt["fonte"] != "estimado pelo tamanho":
         r.update(peso=e["peso"], peso_origem="estimado por tipo (" + e["classe"] + "); o peso do " + lt["fonte"] + " (" + str(round(float(lt["peso_g"]))) + " g) parecia errado")
