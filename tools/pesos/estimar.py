@@ -290,6 +290,13 @@ for s in skus:
             cls = next((c for c in CLASSES if c[0] == r["classe"] and c[3]), (DEF[0], "", DEF[2], DEF[3], DEF[4]))
             r.update(dim=caixa(cls[3], r["peso"] / 0.6), dim_origem=r["dim_origem"] + "; caixa aumentada para caber o peso")
 
+# Sem ml/g em lugar nenhum: o tamanho é chute do tipo; arredonda para cima (+15% no peso) para não cobrar frete de menos.
+for s in skus:
+    r = out[s["sku"]]
+    if "típico" in r.get("peso_origem", "") and r.get("peso"):
+        r["peso"] = round(r["peso"] * 1.15)
+        r["peso_origem"] += " +15% de margem"
+
 codigos = json.loads((A / "codigos_barra.json").read_text())
 for k, v in codigos.items():
     if k in out and not out[k]["barcode"]:

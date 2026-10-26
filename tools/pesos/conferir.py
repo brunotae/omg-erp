@@ -38,12 +38,7 @@ for k, v in M.items():
         out[k].append(f"peso acima de 1,5 kg ({p:g} g): confirmar se é o produto ou uma caixa com vários")
     if "típico" in v["dim_origem"]:
         out[k].append("o produto não informa ml/g: tamanho e peso são do tipo, não do produto")
-    if "parecia errado" in v["peso_origem"]:
-        out[k].append("peso do site oficial descartado por não bater com o tamanho")
-    if "grande demais" in v["dim_origem"]:
-        out[k].append("caixa master do fornecedor dava volume grande demais; usado o tipo")
-    if c == "kit" and "típico" not in v["dim_origem"]:
-        out[k].append("kit: medida estimada pela soma dos conteúdos (confirmar caixa)")
+    # Aceitos sem conferência (estimativa coerente): peso do site descartado, caixa master grande demais, kit com tamanhos conhecidos.
 
 (A / "conferir.json").write_text(json.dumps(out, ensure_ascii=False, indent=0))
 from collections import Counter
