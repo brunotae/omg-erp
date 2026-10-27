@@ -218,7 +218,7 @@ Deno.serve(async (req) => {
         if (!porProduto.has(p.shopify_product_id)) porProduto.set(p.shopify_product_id, []);
         porProduto.get(p.shopify_product_id)!.push({ sku: i.sku, g, v });
       }
-      for (const [pid, vs] of porProduto) {
+      const umProduto = async ([pid, vs]: [string, any[]]) => {
         try {
           const d: any = await gql(`mutation($pid: ID!, $v: [ProductVariantsBulkInput!]!) {
               productVariantsBulkUpdate(productId: $pid, variants: $v) { userErrors { message } } }`,
@@ -232,7 +232,9 @@ Deno.serve(async (req) => {
         } catch (e) {
           for (const x of vs) resultados.push({ sku: x.sku, ok: false, erro: String((e as Error).message || e).slice(0, 200) });
         }
-      }
+      };
+      const fila = [...porProduto.entries()];
+      for (let i = 0; i < fila.length; i += 5) await Promise.all(fila.slice(i, i + 5).map(umProduto)); // 5 produtos por vez
       return resp(200, { ok: true, resultados });
     }
 
