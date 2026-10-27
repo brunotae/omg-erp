@@ -1144,6 +1144,9 @@ VIEWFN.config=()=>{
  const dis=can()?'':' disabled';
  const fi=(id,l,v,step,h)=>'<div class="f"><label for="c-'+id+'">'+l+'</label><input id="c-'+id+'" type="number" step="'+step+'" value="'+v+'"'+dis+'><span class="hint">'+h+'</span></div>';
  return '<div class="page wide"><div class="col">'+head('Ajustes e integração','Parâmetros usados nos cálculos e o formato de dados para ligar o site ao ERP.')+
+ (can()?'<div class="card"><span class="label">Site (Shopify)</span><p class="muted" style="margin:4px 0 10px;font-size:12.5px">Ações do ERP na loja, pelo app OMG ERP. O resultado aparece abaixo.</p>'+
+  '<div class="chips"><button class="btn sm" type="button" id="shop-testar">1. Testar ligação</button><button class="btn sm" type="button" id="sync-shop">2. Sincronizar catálogo</button><button class="btn sm" type="button" id="shop-paginas">3. Publicar políticas e páginas</button><button class="btn sm" type="button" id="pesos-shop">4. Enviar pesos</button></div>'+
+  '<pre id="shop-saida" style="white-space:pre-wrap;font-size:12px;margin:10px 0 0;max-height:260px;overflow:auto">'+esc(SHOPLOG||'')+'</pre></div>':'')+
  '<form class="card" id="cfg" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px">'+
   fi('krwUsd','Câmbio ₩ por US$1',Math.round(n(S.cfg.usd)/(n(S.cfg.krw)||1)),'1','Ex.: 1380. Usado para won ↔ dólar')+fi('usd','Câmbio R$ por US$1',n(S.cfg.usd),'0.01','Usado para mostrar em reais')+
   fi('desc','Desconto vs KS / Jini (%)',n(S.cfg.desc),'0.5','Faixa combinada: 10 a 15%')+fi('markup','Acréscimo sobre site KR (%)',n(S.cfg.markup),'1','Quando não há concorrente')+fi('fielMin','Compras para cliente fiel',n(S.cfg.fielMin),'1','A partir de quantas compras')+
@@ -1355,10 +1358,28 @@ async function acaoShopify(body,ok){
  toast(body.acao==='sincronizar'?'Sincronizando com o Shopify…':'Enviando ao Shopify…');
  try{const {data,error}=await sb.functions.invoke('shopify-admin',{body});
   if(error){let m='';try{m=(await error.context.json()).erro}catch(_){}throw new Error(m||'A ligação com o Shopify ainda não está ativa.')}
-  toast(body.acao==='sincronizar'?'Catálogo sincronizado: '+data.produtos+' produtos ('+data.novos+' novos)':ok);close();await loadAll();
- }catch(e){toast(e.message||'Não foi possível falar com o Shopify')}
+  const msgS=body.acao==='sincronizar'?'Catálogo sincronizado: '+data.produtos+' produtos ('+data.novos+' novos)':ok;toast(msgS);if(body.acao==='sincronizar')shopLog(msgS);close();await loadAll();
+ }catch(e){toast(e.message||'Não foi possível falar com o Shopify');if(body.acao==='sincronizar')shopLog('Erro: '+(e.message||''))}
 }
 
+let SHOPLOG='';
+function shopLog(t){SHOPLOG=(new Date().toLocaleTimeString('pt-BR').slice(0,5)+' · '+t+'\n'+SHOPLOG).slice(0,6000);const el=document.getElementById('shop-saida');if(el)el.textContent=SHOPLOG}
+async function chamarShop(body){const {data,error}=await sb.functions.invoke('shopify-admin',{body});if(error){let m='';try{m=(await error.context.json()).erro}catch(_){}throw new Error(m||'A ligação com o Shopify ainda não está ativa.')}return data}
+async function testarShop(){shopLog('Testando…');try{const d=await chamarShop({acao:'testar'});shopLog('Ligado à loja '+d.loja+' ('+d.dominio+'). Permissões: '+d.permissoes.join(', '))}catch(e){shopLog('Erro: '+e.message)}}
+const PAGINAS_SITE=[['site/politicas/termos-de-uso.html',{politica:'TERMS_OF_SERVICE'}],['site/politicas/privacidade.html',{politica:'PRIVACY_POLICY'}],['site/politicas/trocas-devolucoes-reembolsos.html',{politica:'REFUND_POLICY'}],['site/politicas/entrega-frete.html',{politica:'SHIPPING_POLICY'}],['site/politicas/empresa-contato.html',{politica:'CONTACT_INFORMATION'}],['site/politicas/cookies.html',{handle:'cookies',titulo:'Política de Cookies'}],['site/paginas/central-de-ajuda.html',{handle:'central-de-ajuda',titulo:'Central de Ajuda'}]];
+async function publicarPaginas(){
+ if(!confirm('Publicar no site os Termos, a Privacidade, Trocas, Entrega, Contato, Cookies e a Central de Ajuda? (substitui o texto atual dessas páginas)'))return;
+ shopLog('Publicando políticas e páginas…');
+ const itens=[];for(const [arq,meta] of PAGINAS_SITE){try{const r=await fetch(arq,{cache:'no-store'});if(!r.ok)throw 0;itens.push({...meta,html:await r.text()})}catch(_){shopLog('Não achei '+arq)}}
+ for(let i=0;i<itens.length;i+=4){try{const d=await chamarShop({acao:'paginas',itens:itens.slice(i,i+4)});(d.resultados||[]).forEach(r=>shopLog((r.ok?'✓ ':'✗ ')+r.nome+(r.ok?(r.url?' → '+r.url:''):' · '+r.erro)))}catch(e){shopLog('Erro: '+e.message);break}}
+ shopLog('Fim da publicação.');
+}
+async function sincronizarTudo(){
+ let after=null,tot=0,nov=0;shopLog('Sincronizando o catálogo…');toast('Sincronizando com o Shopify…');
+ try{do{const d=await chamarShop({acao:'sincronizar',after});tot+=d.produtos;nov+=d.novos;after=d.proximo;shopLog('… '+tot+' produtos lidos');toast('Sincronizando… '+tot+' produtos')}while(after);
+  const m='Catálogo sincronizado: '+tot+' produtos ('+nov+' variantes novas)';shopLog(m);toast(m);await loadAll();
+ }catch(e){shopLog('Erro: '+e.message);toast(e.message)}
+}
 async function enviarPesos(){
  let M;try{M=await (await fetch('tools/pesos/medidas_sku.json',{cache:'no-store'})).json()}catch(_){toast('Não achei a lista de pesos (tools/pesos/medidas_sku.json)');return}
  const fila=S.data.produtos.filter(p=>p.shopify_variant_id&&M[p.sku]&&M[p.sku].peso>0&&Math.round(M[p.sku].peso)!==Math.round(n(p.pesoG))).map(p=>({sku:p.sku,peso_g:M[p.sku].peso,dim:M[p.sku].dim}));
@@ -1372,7 +1393,7 @@ async function enviarPesos(){
    (data.resultados||[]).forEach(r=>{if(r.ok)ok++;else{falha++;if(erros.length<5)erros.push(r.sku+': '+r.erro)}});
   }catch(e){toast(e.message||'Não foi possível falar com o Shopify');break}
  }
- toast('Pesos no Shopify: '+ok+' gravados'+(falha?' · '+falha+' com erro ('+erros.join(' | ')+')':''));await loadAll();
+ const msgP='Pesos no Shopify: '+ok+' gravados'+(falha?' · '+falha+' com erro ('+erros.join(' | ')+')':'');toast(msgP);shopLog(msgP);await loadAll();
 }
 
 /* ---------- formulário de embarque ---------- */
@@ -1746,8 +1767,10 @@ document.addEventListener('click',e=>{
  if(t.dataset.new){openForm(t.dataset.new);return}
  if(t.dataset.edit&&!t.closest('#modal-root')){openForm(t.dataset.edit,t.dataset.id);return}
  if(t.id==='backup'){doBackup();return}
- if(t.id==='sync-shop'){acaoShopify({acao:'sincronizar'});return}
+ if(t.id==='sync-shop'){sincronizarTudo();return}
  if(t.id==='pesos-shop'){enviarPesos();return}
+ if(t.id==='shop-testar'){testarShop();return}
+ if(t.id==='shop-paginas'){publicarPaginas();return}
  if(t.id==='logout'||t.hasAttribute('data-logout')){sb.auth.signOut();return}
  if(t.id==='copy-schema'){const txt=$('#schema').textContent;const sel=()=>{const r=document.createRange();r.selectNodeContents($('#schema'));const s=getSelection();s.removeAllRanges();s.addRange(r);toast('Texto selecionado. Copie com Ctrl/Cmd + C')};
   try{navigator.clipboard.writeText(txt).then(()=>toast('Formato copiado'),sel)}catch(_){sel()}}

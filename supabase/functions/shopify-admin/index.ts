@@ -3,6 +3,8 @@
 //   { acao: "status", produtoId, ativo: true|false }     → ativa ou pausa (rascunho) no site
 //   { acao: "preco", produtoId, varianteId, preco }      → muda o preço da variante no site
 //   { acao: "fotos", itens: [{ handle, fotos, peso_g }] } → troca as fotos pelas oficiais e corrige o peso
+//   { acao: "testar" }                                   → confere a ligação (nome da loja e permissões)
+//   { acao: "paginas", itens: [{ politica?: "PRIVACY_POLICY"|..., handle?, titulo?, html }] } → publica políticas e páginas
 //   { acao: "pesos", itens: [{ sku, peso_g, dim: [c, l, a] (cm) }] } → grava peso (frete) e dimensões (metafield custom.dimensoes_cm), até 100 por vez
 // Segredos: SHOPIFY_SHOP (ex.: mundo-beleza-9571.myshopify.com), SHOPIFY_API_VERSION (opcional) e
 //   SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET (app do Dev Dashboard; token pedido a cada 24 h por client credentials)
@@ -113,7 +115,9 @@ Deno.serve(async (req) => {
 
   try {
     if (b.acao === "sincronizar") {
-      let after: string | null = null, total = 0, novos = 0, atualizados = 0;
+      // Em partes (o servidor tem limite de tempo): até ~60 s por chamada; devolve "proximo" para continuar.
+      let after: string | null = b.after || null, total = 0, novos = 0, atualizados = 0;
+      const ini = Date.now();
       do {
         const d: any = await gql(Q_PRODUTOS, { after });
         for (const p of d.products.nodes) {
@@ -121,8 +125,8 @@ Deno.serve(async (req) => {
           novos += r.novos; atualizados += r.atualizados; total++;
         }
         after = d.products.pageInfo.hasNextPage ? d.products.pageInfo.endCursor : null;
-      } while (after);
-      return resp(200, { ok: true, produtos: total, novos, atualizados });
+      } while (after && Date.now() - ini < 60_000);
+      return resp(200, { ok: true, produtos: total, novos, atualizados, proximo: after });
     }
 
     if (b.acao === "status") {
@@ -154,6 +158,46 @@ Deno.serve(async (req) => {
       for (const it of itens) {
         try { await trocarFotos(it); resultados.push({ handle: it.handle, ok: true }); }
         catch (e) { resultados.push({ handle: it.handle, ok: false, erro: String((e as Error).message || e).slice(0, 200) }); }
+      }
+      return resp(200, { ok: true, resultados });
+    }
+
+    if (b.acao === "testar") {
+      const d: any = await gql(`{ shop { name myshopifyDomain } currentAppInstallation { accessScopes { handle } } }`);
+      return resp(200, { ok: true, loja: d.shop.name, dominio: d.shop.myshopifyDomain,
+        permissoes: (d.currentAppInstallation?.accessScopes || []).map((x: any) => x.handle) });
+    }
+
+    if (b.acao === "paginas") {
+      const POL = ["PRIVACY_POLICY", "TERMS_OF_SERVICE", "REFUND_POLICY", "SHIPPING_POLICY", "CONTACT_INFORMATION"];
+      const resultados: any[] = [];
+      for (const it of (Array.isArray(b.itens) ? b.itens : []).slice(0, 15)) {
+        const nome = it.politica || it.handle;
+        try {
+          const html = String(it.html || "");
+          if (html.length < 50) throw new Error("conteúdo vazio");
+          if (it.politica) {
+            if (!POL.includes(it.politica)) throw new Error("política desconhecida");
+            const d: any = await gql(`mutation($p: ShopPolicyInput!) { shopPolicyUpdate(shopPolicy: $p) { shopPolicy { url } userErrors { message } } }`,
+              { p: { type: it.politica, body: html } });
+            const e = d.shopPolicyUpdate.userErrors; if (e.length) throw new Error(e[0].message);
+            resultados.push({ nome, ok: true, url: d.shopPolicyUpdate.shopPolicy?.url });
+          } else {
+            const h = String(it.handle || "").replace(/[^a-z0-9-]/g, "");
+            if (!h) throw new Error("sem handle");
+            const q: any = await gql(`query($q: String!) { pages(first: 1, query: $q) { nodes { id handle } } }`, { q: "handle:" + h });
+            const ex = q.pages.nodes.find((x: any) => x.handle === h);
+            const page = { title: String(it.titulo || h), body: html, isPublished: true, ...(ex ? {} : { handle: h }) };
+            const d: any = ex
+              ? await gql(`mutation($id: ID!, $p: PageUpdateInput!) { pageUpdate(id: $id, page: $p) { page { handle } userErrors { message } } }`, { id: ex.id, p: page })
+              : await gql(`mutation($p: PageCreateInput!) { pageCreate(page: $p) { page { handle } userErrors { message } } }`, { p: page });
+            const r = ex ? d.pageUpdate : d.pageCreate;
+            if (r.userErrors.length) throw new Error(r.userErrors[0].message);
+            resultados.push({ nome, ok: true, url: "/pages/" + r.page.handle, criada: !ex });
+          }
+        } catch (e) {
+          resultados.push({ nome, ok: false, erro: String((e as Error).message || e).slice(0, 200) });
+        }
       }
       return resp(200, { ok: true, resultados });
     }
@@ -197,6 +241,6 @@ Deno.serve(async (req) => {
     return resp(400, { erro: "ação desconhecida" });
   } catch (e) {
     console.error(b?.acao, e);
-    return resp(502, { erro: "O Shopify não respondeu como esperado. Tente de novo em instantes." });
+    return resp(502, { erro: "O Shopify não respondeu como esperado: " + String((e as Error).message || e).slice(0, 300) });
   }
 });
