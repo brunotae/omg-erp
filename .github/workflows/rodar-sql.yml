@@ -1,0 +1,30 @@
+name: Rodar SQL no Supabase
+# Roda arquivos .sql do repositório no banco (mesmo efeito de colar no SQL Editor).
+# Use só com arquivos que podem ser repetidos sem estragar nada ("create ... if not exists").
+on:
+  workflow_dispatch:
+    inputs:
+      arquivos:
+        description: 'Arquivos .sql separados por espaço (ex.: supabase/migrations/20261027_bomi_conversas.sql)'
+        required: true
+jobs:
+  sql:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rodar
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ARQUIVOS: ${{ inputs.arquivos }}
+        run: |
+          set -e
+          for f in $ARQUIVOS; do
+            case "$f" in supabase/*.sql|supabase/*/*.sql) ;; *) echo "recusado: $f"; exit 1;; esac
+            echo "== $f"
+            jq -Rs '{query: .}' "$f" > corpo.json
+            code=$(curl -sS -o saida.json -w '%{http_code}' -X POST \
+              "https://api.supabase.com/v1/projects/nzsiuniabovvptuqmkmi/database/query" \
+              -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" -H "Content-Type: application/json" --data @corpo.json)
+            head -c 600 saida.json; echo
+            [ "$code" -lt 300 ] || { echo "falhou ($code)"; exit 1; }
+          done

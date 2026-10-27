@@ -484,11 +484,12 @@ const ICONS={
  produtos:'<rect x="8" y="3" width="8" height="5" rx="1"/><path d="M7 8h10v12a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1z"/>',
  clientes:'<circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0"/><path d="M16 11h5M18.5 8.5v5"/>',
  analises:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+ atendimentos:'<path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/>',
  avisos:'<path d="M4 10v4h3l5 4V6L7 10z"/><path d="M16 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"/>',
  fornecedores:'<path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/>',
  config:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/>'
 };
-const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Lista do dia'],['','lotes','Embarques'],['','devolucoes','Devoluções'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','insumos','Embalagens'],['','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['Clientes','clientes','Clientes e cupons'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
+const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Lista do dia'],['','lotes','Embarques'],['','devolucoes','Devoluções'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','insumos','Embalagens'],['','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['Clientes','clientes','Clientes e cupons'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
 
 /* ================= utilidades ================= */
 const $=s=>document.querySelector(s);
@@ -634,7 +635,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v10 · 25/10/2026';
+const VERSAO='v11 · 27/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -954,6 +955,49 @@ async function mudarAviso(id,apagar){
  render();
 }
 
+/* ---------- Atendimento da Bomi (transferências e conversas do chat do site) ---------- */
+const AT={rows:[],convs:[],loaded:false,missing:false,loading:false,ver:'abertos'};
+async function loadAtend(){
+ if(AT.loading)return;AT.loading=true;
+ try{
+  const a=await sb.from('bomi_atendimentos').select('*').order('criado_em',{ascending:false}).limit(300);if(a.error)throw a.error;
+  const c=await sb.from('bomi_conversas').select('id,canal,pagina,mensagens,turnos,tokens_in,tokens_out,transferida,nota,criado_em,atualizado_em').order('atualizado_em',{ascending:false}).limit(100);if(c.error)throw c.error;
+  AT.rows=a.data||[];AT.convs=c.data||[];AT.missing=false;
+ }catch(e){AT.missing=/bomi_|relation|schema cache|does not exist/i.test(String(e&&(e.message||e.code)))||e&&e.code==='42P01';AT.rows=[];AT.convs=[]}
+ AT.loaded=true;AT.loading=false;if(S.view==='atendimentos')render();
+}
+const dhBR=d=>d?new Date(d).toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
+function conversaHTML(cv){
+ if(!cv)return '<p class="muted">Conversa não encontrada.</p>';
+ return '<div style="display:flex;flex-direction:column;gap:4px;margin-top:6px;font-size:12.5px">'+(cv.mensagens||[]).map(m=>m.papel==='evento'?'<div class="muted" style="text-align:center">— '+esc(m.texto)+' —</div>':
+  '<div style="align-self:'+(m.papel==='cliente'?'flex-end':'flex-start')+';max-width:85%;background:'+(m.papel==='cliente'?'#FDE4EC':'#fff')+';border:1px solid #F6E2E9;border-radius:10px;padding:5px 9px;white-space:pre-wrap"><b>'+(m.papel==='cliente'?'Cliente':'Bomi')+'</b> · <span class="muted">'+dhBR(m.em)+'</span><br>'+esc(m.texto)+'</div>').join('')+'</div>';
+}
+VIEWFN.atendimentos=()=>{
+ if(!AT.loaded&&S.db)setTimeout(loadAtend,0);
+ const conv=id=>AT.convs.find(c=>c.id===id);
+ const transf=AT.rows.filter(r=>r.tipo==='transferencia'&&(AT.ver==='todos'||r.status!=='resolvido'));
+ const fb=AT.rows.filter(r=>r.tipo==='feedback').slice(0,30);
+ const tok=AT.convs.reduce((a,c)=>[a[0]+(c.tokens_in||0),a[1]+(c.tokens_out||0)],[0,0]);
+ const usd=tok[0]/1e6*2+tok[1]/1e6*10;
+ return '<div class="page"><div class="col">'+head('Atendimento da Bomi','Clientes que a Bomi passou para a equipe no chat do site. Responda pelo contato que a cliente deixou (e-mail ou WhatsApp) e marque como resolvido. Abaixo, as últimas conversas e o que as clientes comentaram.','<button class="btn sm" type="button" id="at-rec">Atualizar</button>')+
+ (AT.missing?'<div class="note"><span class="label">Falta rodar o SQL</span><p>Rode no Supabase (SQL Editor) o <b>20261027_bomi_conversas.sql</b>.</p></div>':'')+
+ '<div class="card"><span class="label">Para a equipe responder · '+AT.rows.filter(r=>r.tipo==='transferencia'&&r.status!=='resolvido').length+' em aberto</span>'+
+ '<div class="chips" style="margin:6px 0"><button class="chip'+(AT.ver==='abertos'?' on':'')+'" type="button" data-atver="abertos">Em aberto</button><button class="chip'+(AT.ver==='todos'?' on':'')+'" type="button" data-atver="todos">Todos</button></div>'+
+ (!AT.loaded?'<p class="muted">Carregando…</p>':!transf.length?empty('Nada pendente','Quando a Bomi passar uma cliente para a equipe, ela aparece aqui.'):
+  transf.map(r=>'<div style="border-top:1px solid var(--line,#eee);padding:10px 0"><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><b>'+esc(r.motivo||'Transferência')+'</b>'+stPill(r.status==='resolvido'?'Resolvido':r.status==='respondido'?'Respondido':'Em aberto')+'<span class="muted" style="font-size:12px">'+dhBR(r.criado_em)+'</span></div>'+
+  '<p style="margin:4px 0;white-space:pre-wrap">'+esc(r.resumo)+'</p>'+(r.contato?'<p style="margin:2px 0"><b>Contato:</b> '+esc(r.contato)+'</p>':'<p class="muted" style="margin:2px 0">A cliente não deixou contato.</p>')+
+  '<details><summary class="muted" style="cursor:pointer;font-size:12px">Ver a conversa</summary>'+conversaHTML(conv(r.conversa_id))+'</details>'+
+  (can()&&r.status!=='resolvido'?'<div style="margin-top:6px"><button class="btn sm" type="button" data-atst="respondido" data-atid="'+esc(r.id)+'">Respondi</button> <button class="btn pri sm" type="button" data-atst="resolvido" data-atid="'+esc(r.id)+'">Resolvido</button></div>':'')+'</div>').join(''))+'</div>'+
+ '<div class="card"><span class="label">Comentários das clientes · '+fb.length+'</span>'+(!fb.length?'<p class="muted">Nenhum ainda.</p>':'<div class="tblwrap"><table><thead><tr><th>Quando</th><th>Tipo</th><th>Comentário</th></tr></thead><tbody>'+fb.map(r=>'<tr><td class="num">'+dhBR(r.criado_em)+'</td><td>'+esc(r.motivo)+'</td><td style="white-space:pre-wrap">'+esc(r.resumo)+'</td></tr>').join('')+'</tbody></table></div>')+'</div>'+
+ '<div class="card"><span class="label">Últimas conversas · '+AT.convs.length+'</span><p class="muted" style="font-size:12px;margin:2px 0 6px">Custo aproximado destas conversas: US$ '+usd.toFixed(2)+' (Sonnet: US$ 2 por milhão de tokens lidos e US$ 10 por milhão escritos; sem o desconto do cache).</p>'+
+ (!AT.convs.length?'<p class="muted">Nenhuma ainda.</p>':AT.convs.map(c=>{const pr=(c.mensagens||[]).find(m=>m.papel==='cliente');return '<details style="border-top:1px solid var(--line,#eee);padding:6px 0"><summary style="cursor:pointer"><span class="muted" style="font-size:12px">'+dhBR(c.atualizado_em)+' · '+c.turnos+' msg'+(c.transferida?' · transferida':'')+(c.nota?' · '+(c.nota==='bom'?'👍':c.nota==='ruim'?'👎':esc(c.nota)):'')+'</span> '+esc(pr?pr.texto.slice(0,90):'')+'</summary>'+(c.pagina?'<p class="muted" style="font-size:12px;margin:4px 0">Começou em '+esc(c.pagina)+'</p>':'')+conversaHTML(c)+'</details>'}).join(''))+'</div></div></div>';
+};
+async function mudarAtend(id,st){
+ const r=AT.rows.find(x=>x.id===id);if(!r)return;
+ const {error}=await sb.from('bomi_atendimentos').update({status:st,resolvido_por:S.email||'',atualizado_em:new Date().toISOString()}).eq('id',id);if(error){toast(errMsg(error));return}
+ r.status=st;toast(st==='resolvido'?'Marcado como resolvido':'Marcado como respondido');render();
+}
+
 /* ---------- Devoluções ---------- */
 VIEWFN.devolucoes=()=>{
  const rows=S.data.devolucoes.filter(match);
@@ -1037,7 +1081,7 @@ VIEWFN.compras=()=>{
 /* ---------- Catálogo ---------- */
 VIEWFN.produtos=()=>{
  const rows=S.data.produtos.filter(match);
- return '<div class="page"><div class="col">'+head('Catálogo','Todos os produtos, inclusive os que não estão à venda no site. SKUs, custos na Coreia e preço sugerido pela regra da OMG. Ao lançar uma venda, o SKU preenche preço e custos.',(can()?'<button class="btn sm" type="button" id="sync-shop">Sincronizar com o Shopify</button> <label class="btn sm" style="cursor:pointer">Importar do Shopify (CSV)<input type="file" id="cat-up" accept=".csv,text/csv" hidden></label> ':'')+newBtn('produtos','Novo produto'))+(S.data.produtos.length?'<p class="muted" style="margin:-6px 0 0;font-size:11.5px">'+S.data.produtos.length+(S.data.produtos.length===1?' produto · ':' produtos · ')+S.data.produtos.filter(p=>p.ativo).length+' ativos no site · '+S.data.produtos.filter(p=>!p.ativo).length+' fora do site</p>':'')+
+ return '<div class="page"><div class="col">'+head('Catálogo','Todos os produtos, inclusive os que não estão à venda no site. SKUs, custos na Coreia e preço sugerido pela regra da OMG. Ao lançar uma venda, o SKU preenche preço e custos.',(can()?'<button class="btn sm" type="button" id="sync-shop">Sincronizar com o Shopify</button> <button class="btn sm" type="button" id="pesos-shop" title="Grava no Shopify o peso e as dimensões de cada SKU (tools/pesos/medidas_sku.json)">Enviar pesos ao Shopify</button> <label class="btn sm" style="cursor:pointer">Importar do Shopify (CSV)<input type="file" id="cat-up" accept=".csv,text/csv" hidden></label> ':'')+newBtn('produtos','Novo produto'))+(S.data.produtos.length?'<p class="muted" style="margin:-6px 0 0;font-size:11.5px">'+S.data.produtos.length+(S.data.produtos.length===1?' produto · ':' produtos · ')+S.data.produtos.filter(p=>p.ativo).length+' ativos no site · '+S.data.produtos.filter(p=>!p.ativo).length+' fora do site</p>':'')+
  '<div class="card">'+(loading('produtos')?'<p class="muted">Carregando…</p>':rows.length?'<div class="tblwrap"><table><thead><tr><th>Produto</th><th class="r">Custo fábrica</th><th class="r">Preço La Belle</th><th class="r">Sugerido</th><th class="r">Venda</th><th>Status</th></tr></thead><tbody>'+
  rows.map(p=>{const s=suggest(p);return '<tr data-edit="produtos" data-id="'+esc(p.id)+'"><td><b>'+esc(p.nome)+'</b><small>'+esc(p.marca||'')+' · '+esc(p.sku)+' · '+esc(p.categoria||'')+'</small></td><td class="r num">'+krw(p.custoFab)+'</td><td class="r num">'+krw(p.custoLB)+'<small>'+(has(p.custoLB)&&has(p.custoFab)?'Janice '+krw(p.custoLB-p.custoFab):'')+'</small></td><td class="r num">'+(s?'<b>'+brl(s.v)+'</b><small>'+esc(s.how)+'</small>':'<small>sem referência</small>')+'</td><td class="r num"><b>'+brl(p.preco)+'</b></td><td>'+(p.dg?'<span class="pill p-bad">DG bloqueado</span>':p.ativo?stPill('No site'):stPill('Fora do site'))+'</td></tr>'}).join('')+'</tbody></table></div>'
  :empty('Catálogo vazio','No Shopify, vá em Produtos → Exportar → Todos os produtos → CSV. Depois clique em Importar do Shopify (CSV) aqui. Vêm também os produtos em rascunho.'))+'</div></div>'+
@@ -1313,6 +1357,22 @@ async function acaoShopify(body,ok){
   if(error){let m='';try{m=(await error.context.json()).erro}catch(_){}throw new Error(m||'A ligação com o Shopify ainda não está ativa.')}
   toast(body.acao==='sincronizar'?'Catálogo sincronizado: '+data.produtos+' produtos ('+data.novos+' novos)':ok);close();await loadAll();
  }catch(e){toast(e.message||'Não foi possível falar com o Shopify')}
+}
+
+async function enviarPesos(){
+ let M;try{M=await (await fetch('tools/pesos/medidas_sku.json',{cache:'no-store'})).json()}catch(_){toast('Não achei a lista de pesos (tools/pesos/medidas_sku.json)');return}
+ const fila=S.data.produtos.filter(p=>p.shopify_variant_id&&M[p.sku]&&M[p.sku].peso>0&&Math.round(M[p.sku].peso)!==Math.round(n(p.pesoG))).map(p=>({sku:p.sku,peso_g:M[p.sku].peso,dim:M[p.sku].dim}));
+ if(!fila.length){toast('Todos os produtos sincronizados já estão com o peso da lista');return}
+ if(!confirm('Gravar peso e dimensões de '+fila.length+' SKUs no Shopify? (só muda os que estão diferentes)'))return;
+ let ok=0,falha=0;const erros=[];
+ for(let i=0;i<fila.length;i+=100){
+  toast('Enviando pesos ao Shopify… '+Math.min(i+100,fila.length)+' de '+fila.length);
+  try{const {data,error}=await sb.functions.invoke('shopify-admin',{body:{acao:'pesos',itens:fila.slice(i,i+100)}});
+   if(error){let m='';try{m=(await error.context.json()).erro}catch(_){}throw new Error(m||'A ligação com o Shopify ainda não está ativa.')}
+   (data.resultados||[]).forEach(r=>{if(r.ok)ok++;else{falha++;if(erros.length<5)erros.push(r.sku+': '+r.erro)}});
+  }catch(e){toast(e.message||'Não foi possível falar com o Shopify');break}
+ }
+ toast('Pesos no Shopify: '+ok+' gravados'+(falha?' · '+falha+' com erro ('+erros.join(' | ')+')':''));await loadAll();
 }
 
 /* ---------- formulário de embarque ---------- */
@@ -1670,6 +1730,9 @@ document.addEventListener('click',e=>{
  if(t.dataset.ftrej){decidirFotos([t.dataset.ftrej],'rejeitada');return}
  if(t.id==='ft-mais'){FT.lim+=60;render();return}
  if(t.id==='av-add'){salvarAviso();return}
+ if(t.id==='at-rec'){AT.loaded=false;loadAtend();return}
+ if(t.dataset.atver){AT.ver=t.dataset.atver;render();return}
+ if(t.dataset.atst){mudarAtend(t.dataset.atid,t.dataset.atst);return}
  if(t.dataset.avtog){mudarAviso(t.dataset.avtog,false);return}
  if(t.dataset.avdel){mudarAviso(t.dataset.avdel,true);return}
  if(t.id==='ft-aplicar'){aplicarFotos();return}
@@ -1684,6 +1747,7 @@ document.addEventListener('click',e=>{
  if(t.dataset.edit&&!t.closest('#modal-root')){openForm(t.dataset.edit,t.dataset.id);return}
  if(t.id==='backup'){doBackup();return}
  if(t.id==='sync-shop'){acaoShopify({acao:'sincronizar'});return}
+ if(t.id==='pesos-shop'){enviarPesos();return}
  if(t.id==='logout'||t.hasAttribute('data-logout')){sb.auth.signOut();return}
  if(t.id==='copy-schema'){const txt=$('#schema').textContent;const sel=()=>{const r=document.createRange();r.selectNodeContents($('#schema'));const s=getSelection();s.removeAllRanges();s.addRange(r);toast('Texto selecionado. Copie com Ctrl/Cmd + C')};
   try{navigator.clipboard.writeText(txt).then(()=>toast('Formato copiado'),sel)}catch(_){sel()}}

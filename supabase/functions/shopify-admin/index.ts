@@ -3,6 +3,7 @@
 //   { acao: "status", produtoId, ativo: true|false }     → ativa ou pausa (rascunho) no site
 //   { acao: "preco", produtoId, varianteId, preco }      → muda o preço da variante no site
 //   { acao: "fotos", itens: [{ handle, fotos, peso_g }] } → troca as fotos pelas oficiais e corrige o peso
+//   { acao: "pesos", itens: [{ sku, peso_g, dim: [c, l, a] (cm) }] } → grava peso (frete) e dimensões (metafield custom.dimensoes_cm), até 100 por vez
 // Segredos: SHOPIFY_SHOP (ex.: mundo-beleza-9571.myshopify.com), SHOPIFY_API_VERSION (opcional) e
 //   SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET (app do Dev Dashboard; token pedido a cada 24 h por client credentials)
 //   ou, alternativa, SHOPIFY_ADMIN_TOKEN fixo.
@@ -153,6 +154,42 @@ Deno.serve(async (req) => {
       for (const it of itens) {
         try { await trocarFotos(it); resultados.push({ handle: it.handle, ok: true }); }
         catch (e) { resultados.push({ handle: it.handle, ok: false, erro: String((e as Error).message || e).slice(0, 200) }); }
+      }
+      return resp(200, { ok: true, resultados });
+    }
+
+    if (b.acao === "pesos") {
+      const itens = (Array.isArray(b.itens) ? b.itens : []).slice(0, 100).filter((i: any) => i?.sku && Number(i.peso_g) > 0);
+      const { data: prods } = await admin.from("produtos").select("sku,shopify_product_id,shopify_variant_id")
+        .in("sku", itens.map((i: any) => String(i.sku))).not("shopify_variant_id", "is", null);
+      const porSku = new Map((prods || []).map((p: any) => [p.sku, p]));
+      const porProduto = new Map<string, any[]>();
+      const resultados: any[] = [];
+      for (const i of itens) {
+        const p: any = porSku.get(String(i.sku));
+        if (!p) { resultados.push({ sku: i.sku, ok: false, erro: "SKU não está no catálogo sincronizado" }); continue; }
+        const g = Math.round(Number(i.peso_g));
+        const dim = Array.isArray(i.dim) && i.dim.length === 3 && i.dim.every((x: any) => Number(x) > 0)
+          ? i.dim.map((x: any) => String(Math.round(Number(x) * 10) / 10).replace(".", ",")).join(" × ") + " cm" : "";
+        const v: any = { id: "gid://shopify/ProductVariant/" + p.shopify_variant_id, inventoryItem: { measurement: { weight: { value: g, unit: "GRAMS" } } } };
+        if (dim) v.metafields = [{ namespace: "custom", key: "dimensoes_cm", type: "single_line_text_field", value: dim }];
+        if (!porProduto.has(p.shopify_product_id)) porProduto.set(p.shopify_product_id, []);
+        porProduto.get(p.shopify_product_id)!.push({ sku: i.sku, g, v });
+      }
+      for (const [pid, vs] of porProduto) {
+        try {
+          const d: any = await gql(`mutation($pid: ID!, $v: [ProductVariantsBulkInput!]!) {
+              productVariantsBulkUpdate(productId: $pid, variants: $v) { userErrors { message } } }`,
+            { pid: "gid://shopify/Product/" + pid, v: vs.map((x) => x.v) });
+          const e = d.productVariantsBulkUpdate.userErrors;
+          if (e.length) throw new Error(e[0].message);
+          for (const x of vs) {
+            await admin.from("produtos").update({ peso_g: x.g }).eq("sku", x.sku);
+            resultados.push({ sku: x.sku, ok: true });
+          }
+        } catch (e) {
+          for (const x of vs) resultados.push({ sku: x.sku, ok: false, erro: String((e as Error).message || e).slice(0, 200) });
+        }
       }
       return resp(200, { ok: true, resultados });
     }
