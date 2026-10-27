@@ -5,6 +5,10 @@ jobs:
   testar:
     runs-on: ubuntu-latest
     steps:
+      - name: Widget no ar
+        run: |
+          c=$(curl -sS -o w.js -w '%{http_code}' https://brunotae.github.io/omg-erp/site/bomi/bomi-chat.js)
+          echo "::notice title=widget::HTTP $c, $(wc -c < w.js) bytes"
       - name: Conversar
         run: |
           S="robo-teste-$(date +%s)-$RANDOM"
