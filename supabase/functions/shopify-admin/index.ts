@@ -10,7 +10,7 @@
 //   SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET (app do Dev Dashboard; token pedido a cada 24 h por client credentials)
 //   ou, alternativa, SHOPIFY_ADMIN_TOKEN fixo.
 import { createClient } from "npm:@supabase/supabase-js@2";
-import { gravarProdutos, produtoParaLinhas } from "../_shared/produtos.js";
+import { gravarProdutosLote, produtoParaLinhas } from "../_shared/produtos.js";
 
 const URL_SB = Deno.env.get("SUPABASE_URL")!;
 const admin = createClient(URL_SB, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
@@ -120,12 +120,10 @@ Deno.serve(async (req) => {
       const ini = Date.now();
       do {
         const d: any = await gql(Q_PRODUTOS, { after });
-        for (const p of d.products.nodes) {
-          const r = await gravarProdutos(admin, produtoParaLinhas(p));
-          novos += r.novos; atualizados += r.atualizados; total++;
-        }
+        const r = await gravarProdutosLote(admin, d.products.nodes.flatMap((p: any) => produtoParaLinhas(p)));
+        novos += r.novos; atualizados += r.atualizados; total += d.products.nodes.length;
         after = d.products.pageInfo.hasNextPage ? d.products.pageInfo.endCursor : null;
-      } while (after && Date.now() - ini < 60_000);
+      } while (after && Date.now() - ini < 50_000);
       return resp(200, { ok: true, produtos: total, novos, atualizados, proximo: after });
     }
 

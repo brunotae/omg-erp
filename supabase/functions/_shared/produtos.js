@@ -54,3 +54,41 @@ export async function marcarExcluido(sb, productId) {
     .eq("shopify_product_id", gid(productId));
   if (error) throw error;
 }
+
+// Versão em lote (sincronização do catálogo): 2 consultas para achar o que já existe,
+// 1 inserção em bloco para os novos e atualizações em paralelo (10 por vez).
+export async function gravarProdutosLote(sb, linhas) {
+  if (!linhas.length) return { novos: 0, atualizados: 0 };
+  const vids = linhas.map((l) => l.shopify_variant_id);
+  const skus = linhas.map((l) => l.sku).filter(Boolean);
+  const porVid = new Map(), porSku = new Map();
+  for (let i = 0; i < vids.length; i += 200) {
+    const { data, error } = await sb.from("produtos").select("id,shopify_variant_id").in("shopify_variant_id", vids.slice(i, i + 200));
+    if (error) throw error;
+    for (const r of data || []) porVid.set(r.shopify_variant_id, r.id);
+  }
+  for (let i = 0; i < skus.length; i += 200) {
+    const { data, error } = await sb.from("produtos").select("id,sku").in("sku", skus.slice(i, i + 200));
+    if (error) throw error;
+    for (const r of data || []) if (!porSku.has(r.sku)) porSku.set(r.sku, r.id);
+  }
+  const agora = new Date().toISOString();
+  const novos = [], upd = [], usados = new Set(), skuNovo = new Set();
+  for (let l of linhas) {
+    let id = porVid.get(l.shopify_variant_id);
+    if (!id && l.sku && !porVid.has(l.shopify_variant_id)) id = porSku.get(l.sku);
+    if (id && usados.has(id)) id = undefined;
+    // SKU repetido no Shopify (a coluna sku é única): o segundo ganha o id da variante no fim
+    if (!id && l.sku && (porSku.has(l.sku) || skuNovo.has(l.sku))) l = { ...l, sku: l.sku + "-" + l.shopify_variant_id };
+    if (id) { usados.add(id); upd.push([id, l]); } else { skuNovo.add(l.sku); novos.push(l); }
+  }
+  for (let i = 0; i < novos.length; i += 200) {
+    const { error } = await sb.from("produtos").insert(novos.slice(i, i + 200));
+    if (error) throw error;
+  }
+  for (let i = 0; i < upd.length; i += 10) {
+    const rs = await Promise.all(upd.slice(i, i + 10).map(([id, l]) => sb.from("produtos").update({ ...l, atualizado_em: agora }).eq("id", id)));
+    const e = rs.find((r) => r.error); if (e) throw e.error;
+  }
+  return { novos: novos.length, atualizados: upd.length };
+}
