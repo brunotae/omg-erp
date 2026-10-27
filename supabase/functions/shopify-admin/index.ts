@@ -5,6 +5,7 @@
 //   { acao: "fotos", itens: [{ handle, fotos, peso_g }] } → troca as fotos pelas oficiais e corrige o peso
 //   { acao: "testar" }                                   → confere a ligação (nome da loja e permissões)
 //   { acao: "paginas", itens: [{ politica?: "PRIVACY_POLICY"|..., handle?, titulo?, html }] } → publica políticas e páginas
+//   { acao: "webhooks" }                                 → assina os avisos do Shopify (pedidos e produtos) para a função shopify-webhook
 //   { acao: "pesos", itens: [{ sku, peso_g, dim: [c, l, a] (cm) }] } → grava peso (frete) e dimensões (metafield custom.dimensoes_cm), até 100 por vez
 // Segredos: SHOPIFY_SHOP (ex.: mundo-beleza-9571.myshopify.com), SHOPIFY_API_VERSION (opcional) e
 //   SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET (app do Dev Dashboard; token pedido a cada 24 h por client credentials)
@@ -164,6 +165,25 @@ Deno.serve(async (req) => {
       const d: any = await gql(`{ shop { name myshopifyDomain } currentAppInstallation { accessScopes { handle } } }`);
       return resp(200, { ok: true, loja: d.shop.name, dominio: d.shop.myshopifyDomain,
         permissoes: (d.currentAppInstallation?.accessScopes || []).map((x: any) => x.handle) });
+    }
+
+    if (b.acao === "webhooks") {
+      const URL_WH = URL_SB + "/functions/v1/shopify-webhook";
+      const TOPICOS = ["ORDERS_PAID", "ORDERS_CANCELLED", "PRODUCTS_CREATE", "PRODUCTS_UPDATE", "PRODUCTS_DELETE"];
+      const ex: any = await gql(`{ webhookSubscriptions(first: 50) { nodes { id topic endpoint { __typename ... on WebhookHttpEndpoint { callbackUrl } } } } }`);
+      const ja = new Set(ex.webhookSubscriptions.nodes.filter((w: any) => w.endpoint?.callbackUrl === URL_WH).map((w: any) => w.topic));
+      const resultados: any[] = [];
+      for (const t of TOPICOS) {
+        if (ja.has(t)) { resultados.push({ topico: t, ok: true, obs: "já estava ligado" }); continue; }
+        try {
+          const d: any = await gql(`mutation($t: WebhookSubscriptionTopic!, $w: WebhookSubscriptionInput!) {
+              webhookSubscriptionCreate(topic: $t, webhookSubscription: $w) { webhookSubscription { id } userErrors { message } } }`,
+            { t, w: { callbackUrl: URL_WH, format: "JSON" } });
+          const e = d.webhookSubscriptionCreate.userErrors; if (e.length) throw new Error(e[0].message);
+          resultados.push({ topico: t, ok: true, obs: "ligado agora" });
+        } catch (e) { resultados.push({ topico: t, ok: false, erro: String((e as Error).message || e).slice(0, 300) }); }
+      }
+      return resp(200, { ok: true, resultados });
     }
 
     if (b.acao === "paginas") {
