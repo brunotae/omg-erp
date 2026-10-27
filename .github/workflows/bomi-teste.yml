@@ -1,0 +1,15 @@
+name: Testar a Bomi publicada
+# Manda algumas mensagens para a função bomi (como se fosse o chat do site) e mostra as respostas no resumo.
+on: workflow_dispatch
+jobs:
+  testar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Conversar
+        run: |
+          S="robo-teste-$(date +%s)-$RANDOM"
+          for m in "oi" "aceita pix?" "quanto pago de imposto num pedido de 300 reais pra Bahia?" "me indica um protetor solar pra pele oleosa" "cade meu pedido 1001, email teste@teste.com" "vcs compram o produto depois que eu pago?"; do
+            r=$(jq -n --arg s "$S" --arg t "$m" '{sessao:$s,texto:$t,pagina:"/teste"}' | curl -sS -m 90 -X POST https://nzsiuniabovvptuqmkmi.supabase.co/functions/v1/bomi -H 'content-type: application/json' --data @-)
+            echo "CLIENTE: $m"; echo "BOMI: $r"; echo
+            echo "::notice title=$m::$(echo "$r" | jq -r '(.mensagens // [.]) | map(tostring) | join(" / ")' | tr -d '\n' | head -c 900)"
+          done
