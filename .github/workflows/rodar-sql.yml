@@ -26,5 +26,6 @@ jobs:
               "https://api.supabase.com/v1/projects/nzsiuniabovvptuqmkmi/database/query" \
               -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" -H "Content-Type: application/json" --data @corpo.json)
             head -c 600 saida.json; echo
-            [ "$code" -lt 300 ] || { echo "falhou ($code)"; exit 1; }
+            if [ "$code" -ge 300 ]; then echo "::error::$f falhou ($code): $(head -c 400 saida.json | tr -d '\n')"; exit 1; fi
+            echo "::notice::$f ok ($code)"
           done
