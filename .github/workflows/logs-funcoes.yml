@@ -1,15 +1,21 @@
 name: Ver logs das funções
 on: workflow_dispatch
+permissions:
+  contents: write
 jobs:
   logs:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - run: |
-          SQL="select datetime(timestamp) as t, event_message from function_logs where event_message like '%products/update%' or event_message like '%erro%' or event_message like '%Error%' order by timestamp desc limit 40"
-          curl -sS -G "https://api.supabase.com/v1/projects/nzsiuniabovvptuqmkmi/analytics/endpoints/logs.all" \
-            -H "Authorization: Bearer $TOKEN" \
-            --data-urlencode "sql=$SQL" \
+          mkdir -p tools/logs
+          q(){ curl -sS -G "https://api.supabase.com/v1/projects/nzsiuniabovvptuqmkmi/analytics/endpoints/logs.all" -H "Authorization: Bearer $TOKEN" \
+            --data-urlencode "sql=$1" \
             --data-urlencode "iso_timestamp_start=$(date -u -d '-30 hours' +%Y-%m-%dT%H:%M:%SZ)" \
-            --data-urlencode "iso_timestamp_end=$(date -u +%Y-%m-%dT%H:%M:%SZ)" | head -c 20000
+            --data-urlencode "iso_timestamp_end=$(date -u +%Y-%m-%dT%H:%M:%SZ)"; }
+          q "select datetime(timestamp) as t, event_message from function_logs where event_message like '%products%' or event_message like '%rro%' order by timestamp desc limit 60" > tools/logs/function_logs.json
+          q "select datetime(timestamp) as t, r.status_code, r.url, m.execution_time_ms from function_edge_logs cross join unnest(metadata) as m cross join unnest(m.response) as r cross join unnest(m.request) as rq where rq.url like '%shopify-webhook%' and r.status_code >= 400 order by timestamp desc limit 60" > tools/logs/edge_logs.json
+          git config user.name "robo-omg"; git config user.email "robo@ohmygirl.com.br"
+          git add tools/logs && git commit -m "Logs das funções" && git pull --rebase && git push || echo nada
         env:
           TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
