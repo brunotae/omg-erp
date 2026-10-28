@@ -8,8 +8,9 @@ import requests
 from PIL import Image, ImageDraw, ImageFont
 
 A = Path(__file__).resolve().parent
-D = json.loads((A / "decisao.json").read_text())
-OUT = A / "folhas"; OUT.mkdir(exist_ok=True)
+import os
+D = json.loads((A / os.environ.get("DECISAO", "decisao.json")).read_text())
+OUT = A / os.environ.get("SAIDA", "folhas"); OUT.mkdir(exist_ok=True)
 H = {"User-Agent": "Mozilla/5.0 (OMG conferencia de fotos)"}
 
 def baixar(u, lado=260):
@@ -29,7 +30,7 @@ def vivo(u):
 
 # 1) originais ainda abrem? (só na primeira vez)
 import os
-if not (A / "originais_vivas.json").exists():
+if os.environ.get("VIVAS") == "1" and not (A / "originais_vivas.json").exists():
   todas = {h: v.get("fotos_originais", [])[:1] for h, v in D.items()}
   with cf.ThreadPoolExecutor(16) as ex:
     res = dict(zip(todas, ex.map(lambda us: bool(us) and vivo(us[0]), todas.values())))
@@ -38,7 +39,7 @@ if not (A / "originais_vivas.json").exists():
 # 2) folhas dos confirmados (16 pares por folha); "extras" = já aplicados que precisam de olhar à parte
 import shutil
 shutil.rmtree(OUT); OUT.mkdir()
-EX = json.loads((A / "extras.json").read_text()) if (A / "extras.json").exists() else {}
+EX = json.loads((A / "extras.json").read_text()) if (A / "extras.json").exists() and not os.environ.get("SAIDA") else {}
 ok = [(h, v) for h, v in sorted(D.items()) if v["ok"]] + sorted(EX.items())
 font = ImageFont.load_default(size=13) if hasattr(ImageFont, "load_default") else None
 def par(item):
@@ -66,5 +67,5 @@ for i in range(0, len(pares), 16):
         d.text((x + 243, y + Hc - 18), "oficial (novo)", fill=(90, 90, 90), font=font)
     folha.save(OUT / f"folha_{i // 16 + 1:03d}.jpg", quality=75)
 idx = {f"{i + 1}": h for i, (h, *_ ) in enumerate(pares)}
-(A / "folhas_indice.json").write_text(json.dumps(idx, indent=0))
+(A / (os.environ.get("SAIDA", "folhas") + "_indice.json")).write_text(json.dumps(idx, indent=0))
 print("folhas:", (len(pares) + 15) // 16)

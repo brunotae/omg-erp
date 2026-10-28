@@ -1,0 +1,17 @@
+name: Fotos - folhas do resto do catálogo
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  f:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install requests pillow
+      - run: DECISAO=decisao_resto.json SAIDA=folhas_resto python3 tools/fotos/folhas.py
+      - run: DECISAO=decisao_resto.json SAIDA=atuais_resto python3 tools/fotos/atuais.py
+      - run: |
+          git config user.name "robo-omg"; git config user.email "robo@ohmygirl.com.br"
+          git add tools/fotos/folhas_resto tools/fotos/atuais_resto tools/fotos/*_indice.json tools/fotos/*_semfoto.json
+          git commit -m "Fotos: folhas do resto do catálogo" && git pull --rebase && git push || echo nada

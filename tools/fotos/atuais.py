@@ -5,13 +5,16 @@ from pathlib import Path
 import requests
 from PIL import Image, ImageDraw, ImageFont
 A = Path(__file__).resolve().parent
-D = json.loads((A / "decisao_final.json").read_text())
-L = set(json.loads((A.parent.parent / "site/lote1.json").read_text()))
+import os
+D = json.loads((A / os.environ.get("DECISAO", "decisao_final.json")).read_text())
+L = set(D) if os.environ.get("DECISAO") else set(json.loads((A.parent.parent / "site/lote1.json").read_text()))
 F = {f["handle"]: f for f in json.loads((A.parent.parent / "bomi/fichas-produtos.json").read_text())}
 for h, v in D.items():
     if h in F: v["titulo"] = F[h]["nome"]; v["marca"] = F[h]["marca"]
+itens_sem = [(h, v) for h, v in sorted(D.items()) if not v["ok"] and h in L and not v.get("fotos_originais")]
+(A / (os.environ.get("SAIDA", "atuais") + "_semfoto.json")).write_text(json.dumps([h for h, _ in itens_sem]))
 itens = [(h, v) for h, v in sorted(D.items()) if not v["ok"] and h in L and v.get("fotos_originais")]
-OUT = A / "atuais"; shutil.rmtree(OUT, ignore_errors=True); OUT.mkdir()
+OUT = A / os.environ.get("SAIDA", "atuais"); shutil.rmtree(OUT, ignore_errors=True); OUT.mkdir()
 font = ImageFont.load_default(size=13)
 def baixar(u):
     try:
@@ -33,5 +36,5 @@ for i in range(0, len(pares), 16):
             if im: fo.paste(im, (x + 8 + k * 235, y + 72))
             else: d.text((x + 60 + k * 235, y + 170), "NÃO ABRE", fill=(200, 0, 0), font=font)
     fo.save(OUT / f"atual_{i // 16 + 1:03d}.jpg", quality=75)
-(A / "atuais_indice.json").write_text(json.dumps({str(i + 1): h for i, (h, *_ ) in enumerate(pares)}, indent=0))
+(A / (os.environ.get("SAIDA", "atuais") + "_indice.json")).write_text(json.dumps({str(i + 1): h for i, (h, *_ ) in enumerate(pares)}, indent=0))
 print(len(pares))
