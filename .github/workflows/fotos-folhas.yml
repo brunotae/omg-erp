@@ -1,0 +1,16 @@
+name: Fotos - folhas de conferência
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  folhas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install requests pillow
+      - run: python3 tools/fotos/folhas.py
+      - name: Guardar
+        run: |
+          git config user.name "robo-omg"; git config user.email "robo@ohmygirl.com.br"
+          git add tools/fotos/folhas tools/fotos/originais_vivas.json tools/fotos/folhas_indice.json
+          git commit -m "Fotos: folhas de conferência visual" && git pull --rebase && git push || echo "nada novo"
