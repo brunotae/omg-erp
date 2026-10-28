@@ -1,0 +1,15 @@
+name: Ver logs das funções
+on: workflow_dispatch
+jobs:
+  logs:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          SQL="select datetime(timestamp) as t, event_message from function_logs where event_message like '%products/update%' or event_message like '%erro%' or event_message like '%Error%' order by timestamp desc limit 40"
+          curl -sS -G "https://api.supabase.com/v1/projects/nzsiuniabovvptuqmkmi/analytics/endpoints/logs.all" \
+            -H "Authorization: Bearer $TOKEN" \
+            --data-urlencode "sql=$SQL" \
+            --data-urlencode "iso_timestamp_start=$(date -u -d '-30 hours' +%Y-%m-%dT%H:%M:%SZ)" \
+            --data-urlencode "iso_timestamp_end=$(date -u +%Y-%m-%dT%H:%M:%SZ)" | head -c 20000
+        env:
+          TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
