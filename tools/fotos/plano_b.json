@@ -1,0 +1,11 @@
+{
+ "conjunto-completo-da-linha-vermelha": {"fotos": [[0, [[0.615, 0.0, 1.0, 0.575]]], 2, 3, 4, 5]},
+ "conjunto-de-cuidados-faciais-e-corporais-red-line-ultimate": {"fotos": [[0, [[0.615, 0.0, 1.0, 0.47], [0.77, 0.47, 1.0, 0.575]]], 4, 5, 6, 7]},
+ "essenciais-para-o-corpo-com-brilho-vermelho": {"fotos": [4, 1, 2, 3]},
+ "serum-de-capsulas-de-curcuma-com-acido-kojico": {"fotos": [0, 1, 2, 5]},
+ "serum-facial-com-txa-e-niacinamida": {"fotos": [0, 1, 3, 5]},
+ "serum-concentrado-de-exossomos-com-pdrn-e-colageno-rosa": {"fotos": [6, 1, 4]},
+ "serum-concentrado-zero-exossomos": {"fotos": [[0, [], [0.0, 0.0, 0.5, 1.0]], 2, 3]},
+ "cosrx-cosrx-centella-blemish-cream-30ml": {"fotos": [0, 1, 3, 5]},
+ "cosrx-cosrx-the-blue-peptide-bakuchiol-hydra-plump-boosting-mist": {"fotos": [0, 1, 3, 6]}
+}

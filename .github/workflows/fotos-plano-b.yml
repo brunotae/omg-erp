@@ -1,0 +1,15 @@
+name: Fotos - plano B
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  b:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install requests pillow
+      - run: python3 tools/fotos/plano_b.py
+      - run: |
+          git config user.name "robo-omg"; git config user.email "robo@ohmygirl.com.br"
+          git add site/fotos tools/fotos/plano_b_saida.json tools/fotos/plano_b_preview.jpg
+          git commit -m "Fotos: plano B" && git pull --rebase && git push || echo nada
