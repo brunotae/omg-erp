@@ -38,4 +38,12 @@ for n, q in B.items():
             pass
     for k, a in enumerate(achados[n][:8]):
         folha(f"{n}__{k + 1}", f"{a['loja']} | {a['titulo']} | {a['variantes']}", a["fotos"])
+D = json.loads((A / "galeria2_direto.json").read_text()) if (A / "galeria2_direto.json").exists() else {}
+for n, url in D.items():
+    try:
+        j = requests.get(url.rstrip("/") + ".json", headers=H, timeout=20).json()["product"]
+        achados[n] = [{"loja": url, "titulo": j["title"], "variantes": [v["title"] for v in j["variants"]], "fotos": [i["src"] for i in j["images"]]}]
+        folha(n, url + " | " + j["title"], achados[n][0]["fotos"])
+    except Exception as e:
+        achados[n] = [{"erro": str(e)[:200]}]
 (A / "galeria2_achados.json").write_text(json.dumps(achados, indent=1, ensure_ascii=False))
