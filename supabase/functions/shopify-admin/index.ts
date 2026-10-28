@@ -321,13 +321,14 @@ Deno.serve(async (req) => {
     }
 
     if (b.acao === "ativar") {
-      const hs: string[] = (Array.isArray(b.handles) ? b.handles : []).slice(0, 50).map((h: any) => String(h).replace(/[^a-z0-9-]/gi, "")).filter(Boolean);
+      const hs: string[] = (Array.isArray(b.handles) ? b.handles : []).slice(0, 50).map((h: any) => String(h).replace(/[\s"'\\]/g, "")).filter(Boolean);
       const st = b.ativo === false ? "DRAFT" : "ACTIVE";
       const resultados: any[] = [];
       const um = async (h: string) => {
         try {
-          const q: any = await gql(`query($q: String!) { products(first: 1, query: $q) { nodes { id handle status } } }`, { q: "handle:" + h });
-          const p = q.products.nodes.find((x: any) => x.handle === h);
+          // busca exata pelo handle (aceita handles com º, ™ etc.)
+          const q: any = await gql(`query($h: String!) { productByIdentifier(identifier: { handle: $h }) { id handle status } }`, { h });
+          const p = q.productByIdentifier;
           if (!p) throw new Error("não está no Shopify");
           if (p.status !== st) {
             const d: any = await gql(`mutation($p: ProductUpdateInput!) { productUpdate(product: $p) { product { id } userErrors { message } } }`, { p: { id: p.id, status: st } });
