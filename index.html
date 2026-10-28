@@ -1123,10 +1123,11 @@ VIEWFN.clientes=()=>{
 
 
 /* ---------- Criar cupom no Shopify ---------- */
+const num=v=>{const x=parseFloat(String(v??'').replace(',','.'));return isFinite(x)?x:0};
 function cupomResumo(c){
- const v=c.tipo==='%'?n(c.valor)+'% de desconto':brl(n(c.valor))+' de desconto';
+ const v=c.tipo==='%'?num(c.valor)+'% de desconto':brl(num(c.valor))+' de desconto';
  const quem=c.publico==='primeira'?'só na 1ª compra':c.publico==='clientes'?'só para as clientes da lista':'para todas as clientes';
- return v+(n(c.minimo)>0?' em compras a partir de '+brl(n(c.minimo)):'')+', '+quem+(c.uma_vez?', 1 vez por cliente':'')+(n(c.limite_total)>0?', até '+n(c.limite_total)+' usos no total':'')+(c.fim?', válido até '+fdate(c.fim):', sem data de fim')+'.';
+ return v+(num(c.minimo)>0?' em compras a partir de '+brl(num(c.minimo)):'')+', '+quem+(c.uma_vez?', 1 vez por cliente':'')+(num(c.limite_total)>0?', até '+num(c.limite_total)+' usos no total':'')+(c.fim?', válido até '+fdate(c.fim):', sem data de fim')+'.';
 }
 function emailsDaLista(txt){
  const itens=String(txt||'').split(/[\s,;]+/).map(x=>x.trim()).filter(Boolean), emails=[], semEmail=[];
@@ -1166,17 +1167,17 @@ function openCupomShopify(){
  form.addEventListener('submit',async e=>{e.preventDefault();const b=document.querySelector('.mf .btn.pri'), err=$('#m-err');err.textContent='';
   const c=le();
   if(!/^[A-Z0-9_-]{3,}$/.test(c.codigo)){err.textContent='Código: use ao menos 3 letras ou números, sem espaço.';return}
-  if(!(n(c.valor)>0)){err.textContent='Preencha o valor do desconto.';return}
-  if(c.tipo==='%'&&n(c.valor)>100){err.textContent='Percentual não pode passar de 100%.';return}
+  if(!(num(c.valor)>0)){err.textContent='Preencha o valor do desconto.';return}
+  if(c.tipo==='%'&&num(c.valor)>100){err.textContent='Percentual não pode passar de 100%.';return}
   if(c.fim&&c.inicio&&c.fim<c.inicio){err.textContent='A data de fim é antes do início.';return}
   let L={emails:[],semEmail:[]};
   if(c.publico==='clientes'){L=emailsDaLista(c.lista);if(!L.emails.length){err.textContent='Nenhum e-mail encontrado'+(L.semEmail.length?' (sem compra no ERP: '+L.semEmail.slice(0,5).join(', ')+')':'')+'.';return}}
   if(!confirm('Criar no Shopify?\n\n'+c.codigo+': '+cupomResumo(c)+(L.semEmail.length?'\n\nFicam de fora (sem e-mail): '+L.semEmail.join(', '):'')))return;
   b.disabled=true;b.textContent='Criando…';
   try{
-   const d=await chamarShop({acao:'cupom_criar',cupom:{codigo:c.codigo,titulo:c.titulo,tipo:c.tipo,valor:n(c.valor),minimo:n(c.minimo),publico:c.publico,emails:L.emails,uma_vez:c.uma_vez,limite_total:n(c.limite_total),inicio:c.inicio,fim:c.fim}});
+   const d=await chamarShop({acao:'cupom_criar',cupom:{codigo:c.codigo,titulo:c.titulo,tipo:c.tipo,valor:num(c.valor),minimo:num(c.minimo),publico:c.publico,emails:L.emails,uma_vez:c.uma_vez,limite_total:num(c.limite_total),inicio:c.inicio,fim:c.fim}});
    const pub={todas:'Todos',primeira:'Primeira compra',clientes:'Clientes específicas'}[c.publico];
-   await save('cupons',null,{codigo:d.codigo,tipo:c.tipo,valor:n(c.valor),publico:pub,validade:c.fim||null,limite:n(c.limite_total)||null,ativo:true,
+   await save('cupons',null,{codigo:d.codigo,tipo:c.tipo,valor:num(c.valor),publico:pub,validade:c.fim||null,limite:num(c.limite_total)||null,ativo:true,
     obs:cupomResumo(c)+' · Shopify: '+d.id+(d.clientes!=null?' · '+d.clientes+' clientes':'')+(d.sem_cadastro&&d.sem_cadastro.length?' · sem cadastro no site: '+d.sem_cadastro.join(', '):'')});
    close();loadAll();toast('Cupom '+d.codigo+' criado: já vale no site');
    if(d.sem_cadastro&&d.sem_cadastro.length)setTimeout(()=>toast(d.sem_cadastro.length+' e-mail(s) sem cadastro no site ficaram de fora'),2600);
