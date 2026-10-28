@@ -6,6 +6,8 @@
 //   { acao: "testar" }                                   → confere a ligação (nome da loja e permissões)
 //   { acao: "paginas", itens: [{ politica?: "PRIVACY_POLICY"|..., handle?, titulo?, html }] } → publica políticas e páginas
 //   { acao: "webhooks" }                                 → assina os avisos do Shopify (pedidos e produtos) para a função shopify-webhook
+//   { acao: "rodape", aplicar: false|true }              → troca links do rodapé das páginas antigas pela Central de Ajuda,
+//                                                          esconde as páginas antigas e cria redirecionamentos (aplicar:false só mostra o plano)
 //   { acao: "pesos", itens: [{ sku, peso_g, dim: [c, l, a] (cm) }] } → grava peso (frete) e dimensões (metafield custom.dimensoes_cm), até 100 por vez
 // Segredos: SHOPIFY_SHOP (ex.: mundo-beleza-9571.myshopify.com), SHOPIFY_API_VERSION (opcional) e
 //   SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET (app do Dev Dashboard; token pedido a cada 24 h por client credentials)
@@ -218,6 +220,73 @@ Deno.serve(async (req) => {
         }
       }
       return resp(200, { ok: true, resultados });
+    }
+
+    if (b.acao === "rodape") {
+      const CA = "/pages/central-de-ajuda";
+      // título da página antiga → destino novo
+      const DESTINOS: [RegExp, string, string][] = [
+        [/prazo|entrega|envio/i, CA + "#cat-entrega", "Central de Ajuda · Entrega"],
+        [/frete|imposto|taxa/i, CA + "#cat-remessa-conforme", "Central de Ajuda · Impostos"],
+        [/pre[cç]o/i, CA + "#o-preco-do-site-ja-inclui-impostos", "Central de Ajuda · Preços"],
+        [/troca|devolu|reembolso/i, "/policies/refund-policy", "Política de Trocas e Devoluções"],
+        [/sobre os produtos|original|autentic/i, CA + "#cat-autenticidade", "Central de Ajuda · Originalidade"],
+        [/pedido|conta/i, CA + "#cat-pedidos", "Central de Ajuda · Pedidos"],
+        [/rastrei/i, CA + "#cat-rastreio", "Central de Ajuda · Rastreio"],
+        [/faq|perguntas|d[uú]vidas|ajuda/i, CA, "Central de Ajuda"],
+      ];
+      const NOSSAS = new Set(["central-de-ajuda", "cookies", "contact", "contato"]);
+      const pg: any = await gql(`{ pages(first: 100) { nodes { id handle title isPublished } } }`);
+      const antigas = new Map<string, any>();
+      for (const p of pg.pages.nodes) {
+        if (NOSSAS.has(p.handle)) continue;
+        const d = DESTINOS.find(([re]) => re.test(p.title) || re.test(p.handle));
+        if (d) antigas.set(p.id, { ...p, destino: d[1] });
+      }
+      const ITEM = `id title type url resourceId tags`;
+      const mn: any = await gql(`{ menus(first: 25) { nodes { id handle title items { ${ITEM} items { ${ITEM} items { ${ITEM} } } } } } }`);
+      const plano: any[] = [];
+      const troca = (it: any, menu: string): any => {
+        const ant = it.resourceId && antigas.get(it.resourceId);
+        const out: any = { id: it.id, title: it.title, type: it.type, url: it.url, resourceId: it.resourceId, tags: it.tags,
+          items: (it.items || []).map((x: any) => troca(x, menu)) };
+        if (ant) {
+          plano.push({ menu, item: it.title, de: "/pages/" + ant.handle, para: ant.destino });
+          out.type = "HTTP"; out.url = ant.destino; delete out.resourceId;
+        }
+        if (out.type !== "HTTP") delete out.url;
+        if (!out.resourceId) delete out.resourceId;
+        return out;
+      };
+      const menusNovos = mn.menus.nodes.map((m: any) => ({ m, items: m.items.map((x: any) => troca(x, m.title)) }));
+      // menu do rodapé com links de atendimento ganha "Central de Ajuda" no topo, se ainda não tiver
+      for (const x of menusNovos) {
+        const temAntiga = plano.some((p) => p.menu === x.m.title);
+        const jaTem = JSON.stringify(x.items).includes(CA + '"') || x.items.some((i: any) => /central de ajuda/i.test(i.title));
+        if (temAntiga && !jaTem) { x.items.unshift({ title: "Central de Ajuda", type: "HTTP", url: CA, items: [] }); plano.push({ menu: x.m.title, item: "Central de Ajuda", de: "(novo)", para: CA }); }
+      }
+      const paginas = [...antigas.values()].map((p) => ({ pagina: p.title, url: "/pages/" + p.handle, publicada: p.isPublished, redireciona_para: p.destino }));
+      if (!b.aplicar) return resp(200, { ok: true, aplicado: false, links: plano, paginas_antigas: paginas });
+
+      const erros: string[] = [];
+      for (const x of menusNovos) {
+        if (!plano.some((p) => p.menu === x.m.title)) continue;
+        try {
+          const d: any = await gql(`mutation($id: ID!, $t: String!, $h: String, $i: [MenuItemUpdateInput!]!) {
+              menuUpdate(id: $id, title: $t, handle: $h, items: $i) { menu { id } userErrors { message } } }`,
+            { id: x.m.id, t: x.m.title, h: x.m.handle, i: x.items });
+          const e = d.menuUpdate.userErrors; if (e.length) throw new Error(e[0].message);
+        } catch (e) { erros.push("menu " + x.m.title + ": " + String((e as Error).message || e).slice(0, 200)); }
+      }
+      for (const p of antigas.values()) {
+        try {
+          const d: any = await gql(`mutation($id: ID!, $p: PageUpdateInput!) { pageUpdate(id: $id, page: $p) { page { id } userErrors { message } } }`, { id: p.id, p: { isPublished: false } });
+          const e = d.pageUpdate.userErrors; if (e.length) throw new Error(e[0].message);
+          const r: any = await gql(`mutation($r: UrlRedirectInput!) { urlRedirectCreate(urlRedirect: $r) { urlRedirect { id } userErrors { message } } }`, { r: { path: "/pages/" + p.handle, target: p.destino } });
+          const e2 = r.urlRedirectCreate.userErrors; if (e2.length && !/taken|already/i.test(e2[0].message)) throw new Error(e2[0].message);
+        } catch (e) { erros.push("página " + p.title + ": " + String((e as Error).message || e).slice(0, 200)); }
+      }
+      return resp(200, { ok: true, aplicado: true, links: plano, paginas_antigas: paginas, erros });
     }
 
     if (b.acao === "pesos") {

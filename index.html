@@ -1145,7 +1145,7 @@ VIEWFN.config=()=>{
  const fi=(id,l,v,step,h)=>'<div class="f"><label for="c-'+id+'">'+l+'</label><input id="c-'+id+'" type="number" step="'+step+'" value="'+v+'"'+dis+'><span class="hint">'+h+'</span></div>';
  return '<div class="page wide"><div class="col">'+head('Ajustes e integração','Parâmetros usados nos cálculos e o formato de dados para ligar o site ao ERP.')+
  (can()?'<div class="card"><span class="label">Site (Shopify)</span><p class="muted" style="margin:4px 0 10px;font-size:12.5px">Ações do ERP na loja, pelo app OMG ERP. O resultado aparece abaixo.</p>'+
-  '<div class="chips"><button class="btn sm" type="button" id="shop-testar">1. Testar ligação</button><button class="btn sm" type="button" id="sync-shop">2. Sincronizar catálogo</button><button class="btn sm" type="button" id="shop-paginas">3. Publicar políticas e páginas</button><button class="btn sm" type="button" id="pesos-shop">4. Enviar pesos</button><button class="btn sm" type="button" id="shop-webhooks">5. Ligar pedidos ao ERP</button></div>'+
+  '<div class="chips"><button class="btn sm" type="button" id="shop-testar">1. Testar ligação</button><button class="btn sm" type="button" id="sync-shop">2. Sincronizar catálogo</button><button class="btn sm" type="button" id="shop-paginas">3. Publicar políticas e páginas</button><button class="btn sm" type="button" id="pesos-shop">4. Enviar pesos</button><button class="btn sm" type="button" id="shop-webhooks">5. Ligar pedidos ao ERP</button><button class="btn sm" type="button" id="shop-rodape">6. Trocar páginas antigas do rodapé</button></div>'+
   '<pre id="shop-saida" style="white-space:pre-wrap;font-size:12px;margin:10px 0 0;max-height:260px;overflow:auto">'+esc(SHOPLOG||'')+'</pre></div>':'')+
  '<form class="card" id="cfg" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px">'+
   fi('krwUsd','Câmbio ₩ por US$1',Math.round(n(S.cfg.usd)/(n(S.cfg.krw)||1)),'1','Ex.: 1380. Usado para won ↔ dólar')+fi('usd','Câmbio R$ por US$1',n(S.cfg.usd),'0.01','Usado para mostrar em reais')+
@@ -1368,6 +1368,17 @@ async function chamarShop(body){const {data,error}=await sb.functions.invoke('sh
 async function testarShop(){shopLog('Testando…');try{const d=await chamarShop({acao:'testar'});shopLog('Ligado à loja '+d.loja+' ('+d.dominio+'). Permissões: '+d.permissoes.join(', '))}catch(e){shopLog('Erro: '+e.message)}}
 const PAGINAS_SITE=[['site/politicas/termos-de-uso.html',{politica:'TERMS_OF_SERVICE'}],['site/politicas/privacidade.html',{politica:'PRIVACY_POLICY'}],['site/politicas/trocas-devolucoes-reembolsos.html',{politica:'REFUND_POLICY'}],['site/politicas/entrega-frete.html',{politica:'SHIPPING_POLICY'}],['site/politicas/empresa-contato.html',{politica:'CONTACT_INFORMATION'}],['site/politicas/cookies.html',{handle:'cookies',titulo:'Política de Cookies'}],['site/paginas/central-de-ajuda.html',{handle:'central-de-ajuda',titulo:'Central de Ajuda'}]];
 async function ligarWebhooks(){shopLog('Ligando os avisos de pedidos e produtos…');try{const d=await chamarShop({acao:'webhooks'});(d.resultados||[]).forEach(r=>shopLog((r.ok?'✓ ':'✗ ')+r.topico+' · '+(r.ok?r.obs:r.erro)));shopLog('Fim. Pedidos pagos no site agora entram sozinhos em Vendas.')}catch(e){shopLog('Erro: '+e.message)}}
+async function arrumarRodape(){
+ shopLog('Olhando o rodapé e as páginas antigas…');
+ try{const d=await chamarShop({acao:'rodape',aplicar:false});
+  if(!d.links.length&&!d.paginas_antigas.length){shopLog('Nada para trocar: o rodapé já aponta para as páginas novas.');return}
+  const txt=d.links.map(l=>'• '+l.menu+' › '+l.item+': '+l.de+' → '+l.para).join('\n')+(d.paginas_antigas.length?'\n\nPáginas antigas que saem do ar (com redirecionamento):\n'+d.paginas_antigas.map(p=>'• '+p.pagina+' ('+p.url+') → '+p.redireciona_para).join('\n'):'');
+  shopLog('Plano:\n'+txt);
+  if(!confirm('Aplicar no site?\n\n'+txt.slice(0,1500)))return;
+  const r=await chamarShop({acao:'rodape',aplicar:true});
+  shopLog(r.erros&&r.erros.length?'Feito com avisos: '+r.erros.join(' | '):'✓ Rodapé trocado e páginas antigas fora do ar (quem abrir o link antigo cai na página nova).');
+ }catch(e){shopLog('Erro: '+e.message)}
+}
 async function publicarPaginas(){
  if(!confirm('Publicar no site os Termos, a Privacidade, Trocas, Entrega, Contato, Cookies e a Central de Ajuda? (substitui o texto atual dessas páginas)'))return;
  shopLog('Publicando políticas e páginas…');
@@ -1773,6 +1784,7 @@ document.addEventListener('click',e=>{
  if(t.id==='shop-testar'){testarShop();return}
  if(t.id==='shop-paginas'){publicarPaginas();return}
  if(t.id==='shop-webhooks'){ligarWebhooks();return}
+ if(t.id==='shop-rodape'){arrumarRodape();return}
  if(t.id==='logout'||t.hasAttribute('data-logout')){sb.auth.signOut();return}
  if(t.id==='copy-schema'){const txt=$('#schema').textContent;const sel=()=>{const r=document.createRange();r.selectNodeContents($('#schema'));const s=getSelection();s.removeAllRanges();s.addRange(r);toast('Texto selecionado. Copie com Ctrl/Cmd + C')};
   try{navigator.clipboard.writeText(txt).then(()=>toast('Formato copiado'),sel)}catch(_){sel()}}
