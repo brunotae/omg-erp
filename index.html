@@ -1145,7 +1145,7 @@ VIEWFN.config=()=>{
  const fi=(id,l,v,step,h)=>'<div class="f"><label for="c-'+id+'">'+l+'</label><input id="c-'+id+'" type="number" step="'+step+'" value="'+v+'"'+dis+'><span class="hint">'+h+'</span></div>';
  return '<div class="page wide"><div class="col">'+head('Ajustes e integração','Parâmetros usados nos cálculos e o formato de dados para ligar o site ao ERP.')+
  (can()?'<div class="card"><span class="label">Site (Shopify)</span><p class="muted" style="margin:4px 0 10px;font-size:12.5px">Ações do ERP na loja, pelo app OMG ERP. O resultado aparece abaixo.</p>'+
-  '<div class="chips"><button class="btn sm" type="button" id="shop-testar">1. Testar ligação</button><button class="btn sm" type="button" id="sync-shop">2. Sincronizar catálogo</button><button class="btn sm" type="button" id="shop-paginas">3. Publicar políticas e páginas</button><button class="btn sm" type="button" id="pesos-shop">4. Enviar pesos</button><button class="btn sm" type="button" id="shop-webhooks">5. Ligar pedidos ao ERP</button><button class="btn sm" type="button" id="shop-rodape">6. Trocar páginas antigas do rodapé</button></div>'+
+  '<div class="chips"><button class="btn sm" type="button" id="shop-testar">1. Testar ligação</button><button class="btn sm" type="button" id="sync-shop">2. Sincronizar catálogo</button><button class="btn sm" type="button" id="shop-paginas">3. Publicar políticas e páginas</button><button class="btn sm" type="button" id="pesos-shop">4. Enviar pesos</button><button class="btn sm" type="button" id="shop-webhooks">5. Ligar pedidos ao ERP</button><button class="btn sm" type="button" id="shop-rodape">6. Trocar páginas antigas do rodapé</button><button class="btn sm" type="button" id="shop-ativar">7. Ativar lote 1 no site</button></div>'+
   '<pre id="shop-saida" style="white-space:pre-wrap;font-size:12px;margin:10px 0 0;max-height:260px;overflow:auto">'+esc(SHOPLOG||'')+'</pre></div>':'')+
  '<form class="card" id="cfg" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px">'+
   fi('krwUsd','Câmbio ₩ por US$1',Math.round(n(S.cfg.usd)/(n(S.cfg.krw)||1)),'1','Ex.: 1380. Usado para won ↔ dólar')+fi('usd','Câmbio R$ por US$1',n(S.cfg.usd),'0.01','Usado para mostrar em reais')+
@@ -1378,6 +1378,18 @@ async function arrumarRodape(){
   const r=await chamarShop({acao:'rodape',aplicar:true});
   shopLog(r.erros&&r.erros.length?'Feito com avisos: '+r.erros.join(' | '):'✓ Rodapé trocado e páginas antigas fora do ar (quem abrir o link antigo cai na página nova).');
  }catch(e){shopLog('Erro: '+e.message)}
+}
+async function ativarLote1(){
+ let hs;try{hs=await (await fetch('site/lote1.json',{cache:'no-store'})).json()}catch(_){shopLog('Não achei a lista do lote 1');return}
+ if(!confirm('Ativar no site os '+hs.length+' produtos do lote 1? (a loja continua fechada com senha até você abrir)'))return;
+ let ok=0,mud=0,falha=0;const erros=[];shopLog('Ativando o lote 1 ('+hs.length+' produtos)…');
+ for(let i=0;i<hs.length;i+=50){
+  try{const d=await chamarShop({acao:'ativar',handles:hs.slice(i,i+50),ativo:true});
+   (d.resultados||[]).forEach(r=>{if(r.ok){ok++;if(r.mudou)mud++}else{falha++;if(erros.length<8)erros.push(r.handle+': '+r.erro)}});
+   toast('Ativando… '+Math.min(i+50,hs.length)+' de '+hs.length);
+  }catch(e){shopLog('Erro: '+e.message);break}
+ }
+ shopLog('Lote 1: '+ok+' ativos ('+mud+' ativados agora)'+(falha?' · '+falha+' com erro: '+erros.join(' | '):''));await loadAll();
 }
 async function publicarPaginas(){
  if(!confirm('Publicar no site os Termos, a Privacidade, Trocas, Entrega, Contato, Cookies e a Central de Ajuda? (substitui o texto atual dessas páginas)'))return;
@@ -1785,6 +1797,7 @@ document.addEventListener('click',e=>{
  if(t.id==='shop-paginas'){publicarPaginas();return}
  if(t.id==='shop-webhooks'){ligarWebhooks();return}
  if(t.id==='shop-rodape'){arrumarRodape();return}
+ if(t.id==='shop-ativar'){ativarLote1();return}
  if(t.id==='logout'||t.hasAttribute('data-logout')){sb.auth.signOut();return}
  if(t.id==='copy-schema'){const txt=$('#schema').textContent;const sel=()=>{const r=document.createRange();r.selectNodeContents($('#schema'));const s=getSelection();s.removeAllRanges();s.addRange(r);toast('Texto selecionado. Copie com Ctrl/Cmd + C')};
   try{navigator.clipboard.writeText(txt).then(()=>toast('Formato copiado'),sel)}catch(_){sel()}}

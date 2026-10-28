@@ -8,6 +8,7 @@
 //   { acao: "webhooks" }                                 → assina os avisos do Shopify (pedidos e produtos) para a função shopify-webhook
 //   { acao: "rodape", aplicar: false|true }              → troca links do rodapé das páginas antigas pela Central de Ajuda,
 //                                                          esconde as páginas antigas e cria redirecionamentos (aplicar:false só mostra o plano)
+//   { acao: "ativar", handles: [..], ativo: true|false } → ativa (ou pausa) produtos pelo handle, até 50 por vez
 //   { acao: "pesos", itens: [{ sku, peso_g, dim: [c, l, a] (cm) }] } → grava peso (frete) e dimensões (metafield custom.dimensoes_cm), até 100 por vez
 // Segredos: SHOPIFY_SHOP (ex.: mundo-beleza-9571.myshopify.com), SHOPIFY_API_VERSION (opcional) e
 //   SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET (app do Dev Dashboard; token pedido a cada 24 h por client credentials)
@@ -287,6 +288,27 @@ Deno.serve(async (req) => {
         } catch (e) { erros.push("página " + p.title + ": " + String((e as Error).message || e).slice(0, 200)); }
       }
       return resp(200, { ok: true, aplicado: true, links: plano, paginas_antigas: paginas, erros });
+    }
+
+    if (b.acao === "ativar") {
+      const hs: string[] = (Array.isArray(b.handles) ? b.handles : []).slice(0, 50).map((h: any) => String(h).replace(/[^a-z0-9-]/gi, "")).filter(Boolean);
+      const st = b.ativo === false ? "DRAFT" : "ACTIVE";
+      const resultados: any[] = [];
+      const um = async (h: string) => {
+        try {
+          const q: any = await gql(`query($q: String!) { products(first: 1, query: $q) { nodes { id handle status } } }`, { q: "handle:" + h });
+          const p = q.products.nodes.find((x: any) => x.handle === h);
+          if (!p) throw new Error("não está no Shopify");
+          if (p.status !== st) {
+            const d: any = await gql(`mutation($p: ProductUpdateInput!) { productUpdate(product: $p) { product { id } userErrors { message } } }`, { p: { id: p.id, status: st } });
+            const e = d.productUpdate.userErrors; if (e.length) throw new Error(e[0].message);
+            await admin.from("produtos").update({ ativo: st === "ACTIVE", site_status: st.toLowerCase() }).eq("shopify_product_id", p.id.split("/").pop());
+          }
+          resultados.push({ handle: h, ok: true, mudou: p.status !== st });
+        } catch (e) { resultados.push({ handle: h, ok: false, erro: String((e as Error).message || e).slice(0, 200) }); }
+      };
+      for (let i = 0; i < hs.length; i += 5) await Promise.all(hs.slice(i, i + 5).map(um));
+      return resp(200, { ok: true, resultados });
     }
 
     if (b.acao === "pesos") {
