@@ -218,8 +218,19 @@ Deno.serve(async (req) => {
           if (html.length < 50) throw new Error("conteúdo vazio");
           if (it.politica) {
             if (!POL.includes(it.politica)) throw new Error("política desconhecida");
+            // As políticas do Shopify não aceitam <style> (o CSS aparecia como texto na página).
+            // Tiramos o bloco de estilo e o título repetido (o Shopify já mostra o nome da política)
+            // e deixamos só estilos em linha, simples.
+            const corpo = html
+              .replace(/<style[\s\S]*?<\/style>/gi, "")
+              .replace(/<h1[\s\S]*?<\/h1>/i, "")
+              .replace(/<nav class="toc"/g, '<nav style="background:#fff;border:1px solid #F6E2E9;border-radius:14px;padding:12px 16px;margin:16px 0 8px"')
+              .replace(/<div class="aviso"/g, '<div style="background:#fff;border-left:4px solid #9EDFC4;padding:10px 14px;border-radius:8px;margin-top:26px"')
+              .replace(/<div class="tbl"/g, '<div style="overflow-x:auto;margin:10px 0"')
+              .replace(/<div class="omg-pol"/g, "<div")
+              .replace(/ class="[^"]*"/g, "");
             const d: any = await gql(`mutation($p: ShopPolicyInput!) { shopPolicyUpdate(shopPolicy: $p) { shopPolicy { url } userErrors { message } } }`,
-              { p: { type: it.politica, body: html } });
+              { p: { type: it.politica, body: corpo } });
             const e = d.shopPolicyUpdate.userErrors; if (e.length) throw new Error(e[0].message);
             resultados.push({ nome, ok: true, url: d.shopPolicyUpdate.shopPolicy?.url });
           } else {
