@@ -15,10 +15,10 @@
    {
     "url": "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/dokdo_toner_cleanser.png?v=1785849031",
     "corte": [
-     0,
-     0,
-     0.56,
-     1
+     0.05,
+     0.12,
+     0.552,
+     0.95
     ]
    },
    "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/1025-dokdo-cleanser-round-lab-3_1296x_2_06837aac-0aa0-49ee-87b4-38f517459b74.webp?v=1785849032",
@@ -76,11 +76,10 @@
     "url": "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/skin1004-perfect-pore-set-1246829895.png?v=1785845950",
     "brancos": [
      [
-      0.6,
+      0.55,
       0,
       1,
-      0.27,
-      "cor"
+      0.26
      ]
     ]
    }
