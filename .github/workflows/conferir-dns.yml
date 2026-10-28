@@ -1,0 +1,17 @@
+name: Conferir DNS e e-mail
+on: workflow_dispatch
+jobs:
+  dns:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Consultar
+        run: |
+          q(){ r=$(dig +short "$2" "$1" @8.8.8.8 | tr '\n' ' ' | head -c 300); echo "::notice title=$1 $2::${r:-(vazio)}"; }
+          q TXT google._domainkey.ohmygirl.com.br
+          q TXT ohmygirl.com.br
+          q TXT _dmarc.ohmygirl.com.br
+          q MX ohmygirl.com.br
+          q CNAME bdx._domainkey.ohmygirl.com.br
+          q CNAME pdk1._domainkey.mailer4au.ohmygirl.com.br
+          q A ohmygirl.com.br
+          q CNAME www.ohmygirl.com.br
