@@ -1,0 +1,13 @@
+name: Bomi - atualizar CDN
+on:
+  push:
+    branches: [main]
+    paths: ['site/bomi/**']
+  workflow_dispatch:
+jobs:
+  purge:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          sleep 20
+          curl -sS "https://purge.jsdelivr.net/gh/brunotae/omg-erp@main/site/bomi/bomi-chat.js"
