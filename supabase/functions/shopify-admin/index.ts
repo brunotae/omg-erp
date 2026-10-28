@@ -205,6 +205,64 @@ Deno.serve(async (req) => {
       return resp(200, { ok: true, codigo, id: d.discountCodeBasicCreate.codeDiscountNode.id, clientes: alvo.ids?.length ?? null, sem_cadastro: semCadastro });
     }
 
+    if (b.acao === "envio_sync") {
+      // Leva as etapas do ERP para o Shopify (o Shopify manda os e-mails à cliente):
+      // embarcado → "pedido enviado" (fulfillment com link de rastreio); desembaraço → em trânsito;
+      // last mile → saiu para entrega; entregue → entregue. Idempotente: guarda o que já foi feito em dados_site.envio.
+      const ids = (Array.isArray(b.ids) ? b.ids : []).map(String).slice(0, 30);
+      const PAG = "https://ohmygirl.com.br/pages/acompanhe-seu-pedido";
+      const { data: vs } = await admin.from("vendas").select("id,numero,ext_id,pedido_site,etapas,rastreio,cancelada,dados_site").in("id", ids);
+      const ORD = ["embarcado", "manifesto", "desembaraco", "lastmile", "entregue"];
+      const EVT: [string, string, string][] = [["desembaraco", "IN_TRANSIT", "Chegou ao Brasil: em liberação na Receita Federal"], ["lastmile", "OUT_FOR_DELIVERY", "Saiu para entrega"], ["entregue", "DELIVERED", "Entregue"]];
+      const resultados: any[] = [];
+      for (const v of vs || []) {
+        const r: any = { numero: v.numero, feito: [] as string[] };
+        try {
+          const e = v.etapas || {};
+          if (v.cancelada || !String(v.ext_id || "").startsWith("shopify:")) { r.pulado = v.cancelada ? "cancelada" : "não veio do site"; resultados.push(r); continue; }
+          if (!ORD.some((k) => e[k])) { r.pulado = "ainda não embarcou"; resultados.push(r); continue; }
+          const ds = v.dados_site || {}; const env = { eventos: [] as string[], ...(ds.envio || {}) };
+          const orderId = "gid://shopify/Order/" + String(v.ext_id).split(":")[1];
+          const nPed = String(v.pedido_site || v.numero).replace(/\D/g, "");
+          const track = (num: string) => ({ company: v.rastreio ? "Mile Express" : "OMG", number: num, url: PAG + "?pedido=" + nPed });
+          if (!env.fulfillment_id) {
+            const q: any = await gql(`query($id: ID!) { order(id: $id) { fulfillments(first: 5) { id } fulfillmentOrders(first: 10) { nodes { id status } } } }`, { id: orderId });
+            if (!q.order) throw new Error("pedido não encontrado no Shopify");
+            if (q.order.fulfillments.length) env.fulfillment_id = q.order.fulfillments[0].id;
+            else {
+              const fos = q.order.fulfillmentOrders.nodes.filter((f: any) => ["OPEN", "IN_PROGRESS", "SCHEDULED"].includes(f.status));
+              if (!fos.length) throw new Error("sem itens a enviar no Shopify");
+              const d: any = await gql(`mutation($f: FulfillmentInput!) { fulfillmentCreate(fulfillment: $f) { fulfillment { id } userErrors { message } } }`,
+                { f: { lineItemsByFulfillmentOrder: fos.map((f: any) => ({ fulfillmentOrderId: f.id })), notifyCustomer: true, trackingInfo: track(v.rastreio || String(v.numero)) } });
+              const ue = d.fulfillmentCreate.userErrors; if (ue.length) throw new Error(ue[0].message);
+              env.fulfillment_id = d.fulfillmentCreate.fulfillment.id; r.feito.push("enviado (e-mail à cliente)");
+            }
+            env.rastreio = v.rastreio || "";
+          }
+          if (v.rastreio && env.rastreio !== v.rastreio) {
+            const d: any = await gql(`mutation($id: ID!, $t: FulfillmentTrackingInput!) { fulfillmentTrackingInfoUpdate(fulfillmentId: $id, trackingInfoInput: $t, notifyCustomer: false) { userErrors { message } } }`,
+              { id: env.fulfillment_id, t: track(v.rastreio) });
+            const ue = d.fulfillmentTrackingInfoUpdate.userErrors; if (ue.length) throw new Error(ue[0].message);
+            env.rastreio = v.rastreio; r.feito.push("rastreio atualizado");
+          }
+          for (const [k, st, msg] of EVT) {
+            if (!e[k] || env.eventos.includes(k)) continue;
+            const d: any = await gql(`mutation($ev: FulfillmentEventInput!) { fulfillmentEventCreate(fulfillmentEvent: $ev) { userErrors { message } } }`,
+              { ev: { fulfillmentId: env.fulfillment_id, status: st, message: msg, happenedAt: String(e[k]).slice(0, 10) + "T12:00:00-03:00" } });
+            const ue = d.fulfillmentEventCreate.userErrors; if (ue.length) throw new Error(ue[0].message);
+            env.eventos.push(k); r.feito.push(msg.toLowerCase());
+          }
+          await admin.from("vendas").update({ dados_site: { ...ds, envio: env } }).eq("id", v.id);
+          r.ok = true;
+        } catch (err) {
+          const m = String((err as Error).message || err);
+          r.ok = false; r.erro = /access|scope|denied|permission/i.test(m) ? "o app do Shopify ainda não tem permissão de envio (fulfillments)" : m.slice(0, 200);
+        }
+        resultados.push(r);
+      }
+      return resp(200, { ok: true, resultados });
+    }
+
     if (b.acao === "cupom_status") {
       const id = String(b.id || "");
       if (!id.startsWith("gid://shopify/DiscountCodeNode/")) return resp(400, { erro: "cupom sem ligação com o Shopify" });

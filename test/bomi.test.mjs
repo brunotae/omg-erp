@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
-import { buscarBase, buscarProdutos, confereDono, etapaCliente, fichaProduto, indexarBase, indexarFichas, simularImposto, nomeItem } from "../supabase/functions/bomi/busca.js";
+import { buscarBase, buscarProdutos, confereDono, etapaCliente, linhaDoTempo, fichaProduto, indexarBase, indexarFichas, simularImposto, nomeItem } from "../supabase/functions/bomi/busca.js";
 
 const BASE = JSON.parse(fs.readFileSync(new URL("../supabase/functions/bomi/dados/base.json", import.meta.url)));
 const FICHAS = JSON.parse(fs.readFileSync(new URL("../supabase/functions/bomi/dados/fichas.json", import.meta.url)));
@@ -32,8 +32,11 @@ test("imposto: até US$ 50 sem II; acima com II; ICMS 20% na BA", () => {
 });
 
 test("pedido: etapa sem bastidores e conferência do dono", () => {
-  assert.equal(etapaCliente({ etapas: { pago: "2026-10-30", skyroad: "2026-10-31" } }).etapa, "Compra recebida");
-  assert.equal(etapaCliente({ etapas: { pago: "x", manifesto: "y" } }).etapa, "Saiu da Coreia");
+  assert.equal(etapaCliente({ etapas: { pago: "2026-10-30" } }).etapa, "Compra confirmada");
+  assert.equal(etapaCliente({ etapas: { pago: "2026-10-30", skyroad: "2026-10-31" } }).etapa, "Em separação no nosso estoque na Coreia");
+  assert.equal(etapaCliente({ etapas: { pago: "x", manifesto: "y" } }).etapa, "Pedido enviado: a caminho do Brasil");
+  const lt = linhaDoTempo({ etapas: { pago: "2026-10-30", embalado: "2026-11-02", embarcado: "2026-11-04" } });
+  assert.equal(lt.length, 6); assert.ok(lt[2].atual && lt[2].feito && !lt[3].feito); assert.equal(lt[1].data, "02/11/2026");
   assert.equal(etapaCliente({ etapas: { entregue: "2026-11-10" } }).detalhe, "Entregue em 10/11/2026.");
   assert.equal(etapaCliente({ cancelada: true }).etapa, "Cancelado");
   for (const k of ["pago", "awb", "manifesto", "desembaraco", "lastmile"]) {

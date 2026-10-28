@@ -93,18 +93,35 @@ export function simularImposto({ valor_reais, uf, frete_reais }, cambio, dataCam
 
 // ---------- pedido: etapa que a cliente pode ver (sem bastidores) ----------
 const ORDEM = ["pago", "docs", "skyroad", "separado", "embalado", "consolidado", "awb", "rfkr", "embarcado", "manifesto", "desembaraco", "lastmile", "entregue"];
+// Etapas que a cliente vê (6). Nada de Skyroad, corte, AWB ou "enviado para a Coreia":
+// o pedido sai do nosso estoque oficial na Coreia do Sul.
+export const ETAPAS_CLIENTE = [
+  { id: "confirmada", titulo: "Compra confirmada", chaves: ["pago"], detalhe: "Pagamento aprovado e impostos já recolhidos no checkout." },
+  { id: "separacao", titulo: "Em separação no nosso estoque na Coreia", chaves: ["docs", "skyroad", "separado", "embalado", "consolidado", "awb", "rfkr"], detalhe: "Seu pedido está sendo separado, embalado e preparado para o voo." },
+  { id: "enviado", titulo: "Pedido enviado: a caminho do Brasil", chaves: ["embarcado", "manifesto"], detalhe: "Em voo para o Brasil. Durante o voo e a liberação o status pode ficar alguns dias sem mudar." },
+  { id: "brasil", titulo: "Chegou ao Brasil: liberação na Receita", chaves: ["desembaraco"], detalhe: "Em liberação pela Receita Federal (Remessa Conforme). O imposto já foi pago no checkout." },
+  { id: "entrega", titulo: "Saiu para entrega", chaves: ["lastmile"], detalhe: "Com a transportadora para entrega no seu endereço." },
+  { id: "entregue", titulo: "Entregue", chaves: ["entregue"], detalhe: "Pedido entregue. Aproveite! 💗" },
+];
+const fdata = (d) => (d ? String(d).slice(0, 10).split("-").reverse().join("/") : "");
+export function linhaDoTempo(v) {
+  const e = v.etapas || {};
+  let atual = -1;
+  ETAPAS_CLIENTE.forEach((s, i) => { if (s.chaves.some((k) => e[k])) atual = i; });
+  return ETAPAS_CLIENTE.map((s, i) => {
+    const datas = s.chaves.map((k) => e[k]).filter(Boolean).map(String).sort();
+    return { titulo: s.titulo, feito: i <= atual, atual: i === atual, data: fdata(datas[0]) };
+  });
+}
 export function etapaCliente(v) {
   if (v.cancelada) return { etapa: "Cancelado", detalhe: "Este pedido foi cancelado." };
   const e = v.etapas || {};
-  let c = -1; ORDEM.forEach((k, i) => { if (e[k]) c = i; });
-  const k = ORDEM[c];
-  const fd = (d) => (d ? String(d).slice(0, 10).split("-").reverse().join("/") : "");
-  if (k === "entregue") return { etapa: "Entregue", detalhe: "Entregue em " + fd(e.entregue) + "." };
-  if (k === "lastmile") return { etapa: "A caminho", detalhe: "Com a transportadora para entrega no endereço." };
-  if (k === "desembaraco") return { etapa: "Chegou ao Brasil", detalhe: "Em liberação pela Receita Federal (Remessa Conforme). O imposto já foi pago no checkout." };
-  if (k === "embarcado" || k === "manifesto") return { etapa: "Saiu da Coreia", detalhe: "Em voo para o Brasil; o rastreio pode ficar alguns dias sem atualização durante o voo e a liberação." };
-  if (c >= 0) return { etapa: "Compra recebida", detalhe: "Pagamento aprovado; o pedido está sendo preparado para sair da Coreia do Sul (ainda dá para cancelar sem custo)." };
-  return { etapa: "Compra recebida", detalhe: "Pedido registrado; aguardando a confirmação do pagamento." };
+  let atual = -1;
+  ETAPAS_CLIENTE.forEach((s, i) => { if (s.chaves.some((k) => e[k])) atual = i; });
+  if (atual < 0) return { etapa: "Compra recebida", detalhe: "Pedido registrado; aguardando a confirmação do pagamento." };
+  const s = ETAPAS_CLIENTE[atual];
+  const det = s.id === "entregue" ? "Entregue em " + fdata(e.entregue) + "." : s.id === "confirmada" || s.id === "separacao" ? s.detalhe + " (Ainda dá para cancelar sem custo.)" : s.detalhe;
+  return { etapa: s.titulo, detalhe: det };
 }
 
 export function confereDono(v, emailOuCpf) {

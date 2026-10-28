@@ -133,3 +133,78 @@
     });
   }
 })();
+
+// Acompanhe seu pedido: a pagina /pages/acompanhe-seu-pedido tem so <div id="omg-rastreio"></div>; este codigo monta o formulario.
+(function () {
+  var URL_BOMI = "https://nzsiuniabovvptuqmkmi.supabase.co/functions/v1/bomi";
+  function iniciar() {
+    var raiz = document.getElementById("omg-rastreio");
+    if (!raiz || raiz.dataset.pronto) return;
+    raiz.dataset.pronto = "1";
+    var css = document.createElement("style");
+    css.textContent = "#omg-rastreio{--r-pri:#B83D66;--r-fram:#D9577F;--r-bebe:#FDE4EC;--r-menta:#9EDFC4;--r-ameixa:#4A2638;--r-muted:#7A5566;--r-linha:#F6E2E9;max-width:620px;margin:0 auto;color:var(--r-ameixa);font-family:inherit}" +
+      "#omg-rastreio form{display:grid;gap:12px;background:#fff;border:1px solid var(--r-linha);border-radius:18px;padding:20px}" +
+      "#omg-rastreio label{display:grid;gap:6px;font-size:14px;font-weight:600}" +
+      "#omg-rastreio input{font:inherit;font-size:16px;padding:12px 14px;border:1px solid var(--r-linha);border-radius:12px;color:var(--r-ameixa);background:#FFF9F6}" +
+      "#omg-rastreio input:focus{outline:2px solid var(--r-fram);outline-offset:1px}" +
+      "#omg-rastreio button{font:inherit;font-weight:700;font-size:16px;border:0;border-radius:999px;padding:13px 18px;background:var(--r-pri);color:#fff;cursor:pointer}" +
+      "#omg-rastreio button[disabled]{opacity:.6}" +
+      "#omg-rastreio .r-dica{font-size:13px;color:var(--r-muted);margin:0}" +
+      "#omg-rastreio .r-erro{color:#B5303B;font-size:14px;margin:0}" +
+      "#omg-rastreio .r-res{margin-top:18px;background:#fff;border:1px solid var(--r-linha);border-radius:18px;padding:20px}" +
+      "#omg-rastreio .r-res h3{margin:0 0 4px;font-size:18px}" +
+      "#omg-rastreio .r-det{margin:0 0 16px;color:var(--r-muted);font-size:14px}" +
+      "#omg-rastreio ol{list-style:none;margin:0;padding:0}" +
+      "#omg-rastreio li{position:relative;padding:0 0 18px 34px;font-size:15px}" +
+      "#omg-rastreio li:last-child{padding-bottom:0}" +
+      "#omg-rastreio li:before{content:'';position:absolute;left:6px;top:4px;width:14px;height:14px;border-radius:50%;border:2px solid var(--r-linha);background:#fff}" +
+      "#omg-rastreio li:after{content:'';position:absolute;left:13px;top:22px;bottom:2px;width:2px;background:var(--r-linha)}" +
+      "#omg-rastreio li:last-child:after{display:none}" +
+      "#omg-rastreio li.feito:before{background:var(--r-menta);border-color:var(--r-menta)}" +
+      "#omg-rastreio li.feito:after{background:var(--r-menta)}" +
+      "#omg-rastreio li.atual:before{background:var(--r-pri);border-color:var(--r-pri);box-shadow:0 0 0 4px var(--r-bebe)}" +
+      "#omg-rastreio li.atual{font-weight:700}" +
+      "#omg-rastreio li small{display:block;color:var(--r-muted);font-weight:400;font-size:13px}" +
+      "#omg-rastreio li.falta{color:var(--r-muted)}" +
+      "#omg-rastreio .r-extra{margin-top:16px;padding-top:14px;border-top:1px solid var(--r-linha);font-size:14px;display:grid;gap:6px}";
+    document.head.appendChild(css);
+    var p = new URLSearchParams(location.search);
+    raiz.innerHTML =
+      '<form novalidate>' +
+      '<label>N\u00famero do pedido<input name="pedido" inputmode="numeric" autocomplete="off" placeholder="Ex.: 1001" required></label>' +
+      '<label>E-mail da compra ou 3 \u00faltimos d\u00edgitos do CPF<input name="dono" autocomplete="email" placeholder="voce@email.com" required></label>' +
+      '<p class="r-dica">O n\u00famero est\u00e1 no e-mail de confirma\u00e7\u00e3o da compra.</p>' +
+      '<p class="r-erro" role="alert" hidden></p>' +
+      '<button type="submit">Acompanhar pedido</button></form>' +
+      '<div class="r-res" hidden aria-live="polite"></div>';
+    var f = raiz.querySelector("form"), erro = raiz.querySelector(".r-erro"), res = raiz.querySelector(".r-res"), bt = f.querySelector("button");
+    if (p.get("pedido")) f.pedido.value = p.get("pedido").replace(/\D/g, "");
+    function esc(t) { return String(t == null ? "" : t).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+    f.addEventListener("submit", function (e) {
+      e.preventDefault(); erro.hidden = true;
+      var ped = f.pedido.value.replace(/\D/g, ""), dono = f.dono.value.trim();
+      if (!ped || !dono) { erro.textContent = "Preencha o n\u00famero do pedido e o e-mail (ou o final do CPF)."; erro.hidden = false; return; }
+      bt.disabled = true; bt.textContent = "Consultando\u2026";
+      fetch(URL_BOMI, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ acao: "rastreio", pedido: ped, email_ou_cpf: dono }) })
+        .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+        .then(function (x) {
+          bt.disabled = false; bt.textContent = "Acompanhar pedido";
+          if (!x.ok) { erro.textContent = x.j.erro || "N\u00e3o foi poss\u00edvel consultar agora. Tente de novo."; erro.hidden = false; res.hidden = true; return; }
+          var d = x.j;
+          var linha = (d.linha || []).map(function (s) {
+            return '<li class="' + (s.atual ? "atual feito" : s.feito ? "feito" : "falta") + '">' + esc(s.titulo) + (s.data ? "<small>" + esc(s.data) + "</small>" : "") + "</li>";
+          }).join("");
+          res.innerHTML = "<h3>Pedido " + esc(d.numero) + (d.nome ? " \u00b7 " + esc(d.nome) : "") + "</h3>" +
+            '<p class="r-det"><b>' + esc(d.etapa) + ".</b> " + esc(d.detalhe) + "</p>" +
+            (linha ? "<ol>" + linha + "</ol>" : "") +
+            '<div class="r-extra">' + (d.data_compra ? "<span>Compra em " + esc(d.data_compra) + "</span>" : "") +
+            (d.rastreio ? "<span>C\u00f3digo de rastreio: <b>" + esc(d.rastreio) + "</b></span>" : "") +
+            (d.itens && d.itens.length ? "<span>Itens: " + esc(d.itens.join(", ")) + "</span>" : "") +
+            '<span>D\u00favidas? Fale com a Bomi no bot\u00e3o do canto da tela ou escreva para info.br@ohmygirl.com.br.</span></div>';
+          res.hidden = false;
+        })
+        .catch(function () { bt.disabled = false; bt.textContent = "Acompanhar pedido"; erro.textContent = "Sem conex\u00e3o agora. Tente de novo em instantes."; erro.hidden = false; });
+    });
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", iniciar); else iniciar();
+})();

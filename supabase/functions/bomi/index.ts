@@ -8,7 +8,7 @@ import PROMPT from "./dados/prompt.json" with { type: "json" };
 import BASE from "./dados/base.json" with { type: "json" };
 import FICHAS from "./dados/fichas.json" with { type: "json" };
 import {
-  buscarBase, buscarProdutos, confereDono, etapaCliente, fichaProduto, indexarBase, indexarFichas, nomeItem, simularImposto,
+  buscarBase, buscarProdutos, confereDono, etapaCliente, linhaDoTempo, fichaProduto, indexarBase, indexarFichas, nomeItem, simularImposto,
 } from "./busca.js";
 
 const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
@@ -157,6 +157,7 @@ async function ipHash(req: Request) {
   return Array.from(new Uint8Array(d)).slice(0, 12).map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
+const TENT = new Map<string, number[]>();
 const DESCULPA = "Ops, tive um probleminha aqui 😕 Pode tentar de novo? Se preferir, fale com a equipe: WhatsApp +55 11 99304-9122 ou info.br@ohmygirl.com.br.";
 
 Deno.serve(async (req) => {
@@ -164,6 +165,25 @@ Deno.serve(async (req) => {
   if (req.method !== "POST") return resp(405, { erro: "use POST" });
   let b: any;
   try { b = await req.json(); } catch { return resp(400, { erro: "pedido inválido" }); }
+
+  // Página "Acompanhe seu pedido": número do pedido + e-mail (ou 3 últimos dígitos do CPF)
+  if (b.acao === "rastreio") {
+    const ih = await ipHash(req);
+    const agora = Date.now(); const t = TENT.get(ih) || []; const rec = t.filter((x) => agora - x < 600_000);
+    if (rec.length >= 20) return resp(429, { erro: "Muitas consultas seguidas. Tente de novo em alguns minutos." });
+    rec.push(agora); TENT.set(ih, rec);
+    const n = String(b.pedido || "").replace(/\D/g, "");
+    if (!n) return resp(400, { erro: "Informe o número do pedido." });
+    const { data } = await sb.from("vendas").select("pedido_site,numero,cliente,cpf,contato,etapas,cancelada,rastreio,itens,data_compra")
+      .or(`pedido_site.eq.#${n},pedido_site.eq.${n}` + (n.length >= 9 ? `,numero.eq.${n}` : "")).limit(3);
+    const v = (data || []).find((x: any) => confereDono(x, b.email_ou_cpf));
+    if (!v) return resp(404, { erro: "Não encontramos um pedido com esse número e esse e-mail (ou final do CPF). Confira os dados do e-mail de confirmação." });
+    return resp(200, { ok: true, numero: v.pedido_site || String(v.numero), nome: String(v.cliente || "").split(" ")[0],
+      ...etapaCliente(v), cancelado: !!v.cancelada, linha: v.cancelada ? [] : linhaDoTempo(v), rastreio: v.rastreio || "",
+      data_compra: String(v.data_compra || "").split("-").reverse().join("/"),
+      itens: (v.itens || []).map((i: any) => (i.qtd > 1 ? i.qtd + "× " : "") + nomeItem(i.produto)) });
+  }
+
   const sessao = String(b.sessao || "").replace(/[^\w-]/g, "").slice(0, 64);
   if (sessao.length < 16) return resp(400, { erro: "sessão inválida" });
 

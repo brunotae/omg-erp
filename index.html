@@ -663,7 +663,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v13 · 28/10/2026';
+const VERSAO='v14 · 28/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1473,7 +1473,7 @@ let SHOPLOG='';
 function shopLog(t){SHOPLOG=(new Date().toLocaleTimeString('pt-BR').slice(0,5)+' · '+t+'\n'+SHOPLOG).slice(0,6000);const el=document.getElementById('shop-saida');if(el)el.textContent=SHOPLOG}
 async function chamarShop(body){const {data,error}=await sb.functions.invoke('shopify-admin',{body});if(error){let m='';try{m=(await error.context.json()).erro}catch(_){}throw new Error(m||'A ligação com o Shopify ainda não está ativa.')}return data}
 async function testarShop(){shopLog('Testando…');try{const d=await chamarShop({acao:'testar'});shopLog('Ligado à loja '+d.loja+' ('+d.dominio+'). Permissões: '+d.permissoes.join(', '))}catch(e){shopLog('Erro: '+e.message)}}
-const PAGINAS_SITE=[['site/politicas/termos-de-uso.html',{politica:'TERMS_OF_SERVICE'}],['site/politicas/privacidade.html',{politica:'PRIVACY_POLICY'}],['site/politicas/trocas-devolucoes-reembolsos.html',{politica:'REFUND_POLICY'}],['site/politicas/entrega-frete.html',{politica:'SHIPPING_POLICY'}],['site/politicas/empresa-contato.html',{politica:'CONTACT_INFORMATION'}],['site/politicas/cookies.html',{handle:'cookies',titulo:'Política de Cookies'}],['site/paginas/central-de-ajuda.html',{handle:'central-de-ajuda',titulo:'Central de Ajuda'}]];
+const PAGINAS_SITE=[['site/politicas/termos-de-uso.html',{politica:'TERMS_OF_SERVICE'}],['site/politicas/privacidade.html',{politica:'PRIVACY_POLICY'}],['site/politicas/trocas-devolucoes-reembolsos.html',{politica:'REFUND_POLICY'}],['site/politicas/entrega-frete.html',{politica:'SHIPPING_POLICY'}],['site/politicas/empresa-contato.html',{politica:'CONTACT_INFORMATION'}],['site/politicas/cookies.html',{handle:'cookies',titulo:'Política de Cookies'}],['site/paginas/central-de-ajuda.html',{handle:'central-de-ajuda',titulo:'Central de Ajuda'}],['site/paginas/acompanhe-seu-pedido.html',{handle:'acompanhe-seu-pedido',titulo:'Acompanhe seu pedido'}]];
 async function ligarWebhooks(){shopLog('Ligando os avisos de pedidos e produtos…');try{const d=await chamarShop({acao:'webhooks'});(d.resultados||[]).forEach(r=>shopLog((r.ok?'✓ ':'✗ ')+r.topico+' · '+(r.ok?r.obs:r.erro)));shopLog('Fim. Pedidos pagos no site agora entram sozinhos em Vendas.')}catch(e){shopLog('Erro: '+e.message)}}
 async function arrumarRodape(){
  shopLog('Olhando o rodapé e as páginas antigas…');
@@ -1848,6 +1848,18 @@ async function finishAnexos(col,id){
 
 /* ================= gravação ================= */
 async function save(col,rec,vals){
+ const r=await save0(col,rec,vals);
+ if(col==='vendas'&&vals&&('etapas' in vals||'rastreio' in vals)&&r)filaEnvio(r);
+ return r;
+}
+/* Etapas da venda → Shopify (o Shopify manda os e-mails de envio, em trânsito, saiu para entrega e entregue) */
+const FILA_ENVIO=new Set();let tEnvio=null,avisoEnvio=false;
+function filaEnvio(id){FILA_ENVIO.add(id);clearTimeout(tEnvio);tEnvio=setTimeout(async()=>{const ids=[...FILA_ENVIO];FILA_ENVIO.clear();
+ try{const d=await chamarShop({acao:'envio_sync',ids});const rs=d.resultados||[];
+  const feitos=rs.filter(r=>r.ok&&r.feito&&r.feito.length);if(feitos.length)toast('Site avisado: '+feitos.map(r=>vnum(r.numero)+' ('+r.feito.join(', ')+')').join(' · '));
+  const erros=rs.filter(r=>r.ok===false);if(erros.length&&!avisoEnvio){avisoEnvio=true;toast('Não deu para avisar o site: '+erros[0].erro)}
+ }catch(e){if(!avisoEnvio){avisoEnvio=true;toast('Não deu para avisar o site: '+e.message)}}},1500)}
+async function save0(col,rec,vals){
  const all={...(rec||{}),...vals};
  if(col==='compras'){const pp=parcById(all.parceiro);if(pp)all.fornecedor=pp.nome}
  if(col==='lotes'&&('parceiroPagador' in vals)){all.pagoPor=vals.parceiroPagador?'Parceiro':'Pago direto pela OMG'}
@@ -1913,6 +1925,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v14','28/10/2026',['Acompanhamento do pedido: ao avançar a etapa da venda, o ERP avisa o site. A cliente recebe os e-mails de pedido enviado, saiu para entrega e entregue.','Página Acompanhe seu pedido no site, com a linha do tempo em 6 etapas.']],
  ['v13','28/10/2026',['Clicar no logo volta para a página inicial.','Qualquer campo de arquivo aceita arrastar e soltar.','O número da versão abre esta lista de novidades.','Aviso de versão nova com botão Atualizar.','Botão 🎨 Cores com 7 combinações de cores (vale por pessoa e por aparelho).','Os quadros não fecham mais ao clicar fora.']],
  ['v12','28/10/2026',['Criar cupom direto no site (Shopify): todas, só 1ª compra ou clientes por CPF/e-mail; R$ ou %; compra mínima, usos e validade.','Desativar e reativar o cupom no site pelo ERP.']],
  ['v11','27/10/2026',['Fotos oficiais: só fotos conferidas, botão Refazer fila (regra rígida) e aplicar sem mexer no peso.','Ajustes: botões do site (testar, sincronizar, políticas, avisos de pedidos, rodapé, ativar lote 1).','Atendimento da Bomi.']],
