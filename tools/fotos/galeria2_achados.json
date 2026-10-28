@@ -1,5 +1,67 @@
 {
- "acv-shampoo": [
+ "acvS": [
+  {
+   "loja": "www.dodoskin.com",
+   "titulo": "Lador ACV Vinegar Shampoo 150ml",
+   "variantes": [
+    "150ml"
+   ],
+   "fotos": [
+    "https://cdn.shopify.com/s/files/1/0506/2121/8972/files/l4_63699c67-83b4-459d-a88b-cb2158b4abfe.jpg?v=1694736596"
+   ]
+  },
+  {
+   "loja": "www.dodoskin.com",
+   "titulo": "Lador ACV Vinegar Treatment 430ml",
+   "variantes": [
+    "430ml"
+   ],
+   "fotos": [
+    "https://cdn.shopify.com/s/files/1/0506/2121/8972/files/l20_6648dbd3-6d1a-4006-8958-bc7d300aa974.jpg?v=1694745184"
+   ]
+  },
+  {
+   "loja": "www.dodoskin.com",
+   "titulo": "Lador ACV Vinegar Treatment 150ml",
+   "variantes": [
+    "150ml"
+   ],
+   "fotos": [
+    "https://cdn.shopify.com/s/files/1/0506/2121/8972/files/l18_d92d7eed-baff-44e2-8d28-7a16bdd58b46.jpg?v=1694744249"
+   ]
+  },
+  {
+   "loja": "www.dodoskin.com",
+   "titulo": "mommy care Apple Cider Vinegar Shampoo 500ml",
+   "variantes": [
+    "Default Title"
+   ],
+   "fotos": [
+    "https://cdn.shopify.com/s/files/1/0506/2121/8972/files/mommycareAppleCiderVinegarShampoo500ml-1_9b6a7e00-c825-4773-8dc1-1db303bdafd1.jpg?v=1771482356",
+    "https://cdn.shopify.com/s/files/1/0506/2121/8972/files/mommycareAppleCiderVinegarShampoo500ml-2_833a3ba6-3e4d-4686-bdf0-e68c42e06522.jpg?v=1771482356",
+    "https://cdn.shopify.com/s/files/1/0506/2121/8972/files/mommycareAppleCiderVinegarShampoo500ml-3_fa5ea0f3-eee0-4c48-94c6-7c36302dd72d.jpg?v=1771482356"
+   ]
+  },
+  {
+   "loja": "www.dodoskin.com",
+   "titulo": "Lador Herbalism Shampoo 150ml",
+   "variantes": [
+    "150ml"
+   ],
+   "fotos": [
+    "https://cdn.shopify.com/s/files/1/0506/2121/8972/files/l32_28a45221-e6ed-4ee6-9bc5-d91b11940ea1.jpg?v=1694752102"
+   ]
+  },
+  {
+   "loja": "www.dodoskin.com",
+   "titulo": "Lador Damage Protector Acid Shampoo 150ml",
+   "variantes": [
+    "150ml"
+   ],
+   "fotos": [
+    "https://cdn.shopify.com/s/files/1/0506/2121/8972/files/l17_87c80cb7-c8f0-4d04-8d60-fd2a46d8571f.jpg?v=1694480194"
+   ]
+  },
   {
    "loja": "sokoglam.com",
    "titulo": "Keratin LPP Shampoo",
@@ -25,6 +87,18 @@
   },
   {
    "loja": "sokoglam.com",
+   "titulo": "Hydro LPP Treatment",
+   "variantes": [
+    "Default Title"
+   ],
+   "fotos": [
+    "https://cdn.shopify.com/s/files/1/0249/1218/files/La_dor-HYDRO-LPP-TREATMENT.jpg?v=1756219978",
+    "https://cdn.shopify.com/s/files/1/0249/1218/products/Soko-Glam-PDP-La_dor-HYDRO-LPP-TREATMENT-texture.png?v=1755478515",
+    "https://cdn.shopify.com/s/files/1/0249/1218/products/Soko-Glam-PDP-La_dor-HYDRO-LPP-TREATMENT-lifestyle.png?v=1755478515"
+   ]
+  },
+  {
+   "loja": "sokoglam.com",
    "titulo": "Lime Sunday Refresh Shampoo",
    "variantes": [
     "Default Title"
@@ -40,18 +114,6 @@
     "https://cdn.shopify.com/s/files/1/0249/1218/files/Soko-Glam-PDP-Anillo-Lime-Sunday-Refresh-Shampoo-04.png?v=1758213494",
     "https://cdn.shopify.com/s/files/1/0249/1218/files/IMG_1417_press__Resized.jpg?v=1758827855",
     "https://cdn.shopify.com/s/files/1/0249/1218/files/Anillo_1221_1520-fix-1_press__Resized.jpg?v=1758826928"
-   ]
-  },
-  {
-   "loja": "sokoglam.com",
-   "titulo": "Hydro LPP Treatment",
-   "variantes": [
-    "Default Title"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/La_dor-HYDRO-LPP-TREATMENT.jpg?v=1756219978",
-    "https://cdn.shopify.com/s/files/1/0249/1218/products/Soko-Glam-PDP-La_dor-HYDRO-LPP-TREATMENT-texture.png?v=1755478515",
-    "https://cdn.shopify.com/s/files/1/0249/1218/products/Soko-Glam-PDP-La_dor-HYDRO-LPP-TREATMENT-lifestyle.png?v=1755478515"
    ]
   },
   {
@@ -98,6 +160,23 @@
     "https://cdn.shopify.com/s/files/1/0980/9700/files/107_Scalp_Purifying_Microbiome_Shampoo_7.jpg?v=1746063363",
     "https://cdn.shopify.com/s/files/1/0980/9700/files/107_Scalp_Purifying_Microbiome_Shampoo_4.jpg?v=1746059841",
     "https://cdn.shopify.com/s/files/1/0980/9700/files/107_Scalp_Purifying_Microbiome_Shampoo_8.jpg?v=1746059841"
+   ]
+  },
+  {
+   "loja": "ohlolly.com",
+   "titulo": "Core by Urang ACV 1% Apple Honey 2% Gentle Cleanser",
+   "variantes": [
+    "Default Title"
+   ],
+   "fotos": [
+    "https://cdn.shopify.com/s/files/1/0980/9700/files/CoreACV1_AppleHoney2_GentleCleanser_9.jpg?v=1760563437",
+    "https://cdn.shopify.com/s/files/1/0980/9700/files/CoreACV1_AppleHoney2_GentleCleanser_8.jpg?v=1760563437",
+    "https://cdn.shopify.com/s/files/1/0980/9700/files/Core_ACV_1__Apple_Honey_2__Gentle_Cleanser_2.jpg?v=1760563437",
+    "https://cdn.shopify.com/s/files/1/0980/9700/files/Core_ACV_1__Apple_Honey_2__Gentle_Cleanser_3.jpg?v=1760563437",
+    "https://cdn.shopify.com/s/files/1/0980/9700/files/CoreACV1_AppleHoney2_GentleCleanser_6.jpg?v=1760563437",
+    "https://cdn.shopify.com/s/files/1/0980/9700/files/CoreACV1_AppleHoney2_GentleCleanser_7.jpg?v=1760563437",
+    "https://cdn.shopify.com/s/files/1/0980/9700/files/Core_ACV_1__Apple_Honey_2__Gentle_Cleanser_4.jpg?v=1760562860",
+    "https://cdn.shopify.com/s/files/1/0980/9700/files/Core_ACV_1__Apple_Honey_2__Gentle_Cleanser_5.jpg?v=1760562860"
    ]
   },
   {
@@ -153,13 +232,12 @@
   },
   {
    "loja": "www.kollab.com.br",
-   "titulo": "Kit Mini Trio Mise en Scène Perfect Serum Magic Straight (Shampoo 140ml + Tratamento 30ml + Sérum 15ml)",
+   "titulo": "Shampoo Mise en Scène Moisture 5 Plus Hyaluronic Biotin 1000 Shot 700g",
    "variantes": [
     "Default Title"
    ],
    "fotos": [
-    "https://cdn.shopify.com/s/files/1/0997/5152/6707/files/erp-d9860c70ecf97eb58ddf952d77fca84316a50a4f26640264a1bff99c118ff433-d13107cf.png?v=1789536118",
-    "https://cdn.shopify.com/s/files/1/0997/5152/6707/files/erp-fba768866c22979cf1481d627d419c332ed44b00189e70bb6d707a6dcfe41be3-09743596.png?v=1789555848"
+    "https://cdn.shopify.com/s/files/1/0997/5152/6707/files/erp-247f2a33934b94553b531f0640f74f35a7e1514b4fb18b2d2c6a9c099f26dec0-0718fd9c.png?v=1789553156"
    ]
   },
   {
@@ -277,6 +355,23 @@
   },
   {
    "loja": "kbeautystore.com",
+   "titulo": "Caffeine Shampoo",
+   "variantes": [
+    "Cherry Blossom",
+    "White Musk",
+    "Baby Powder"
+   ],
+   "fotos": [
+    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/Product-page-sizes_fbba03d4-69bd-4192-9b1e-feb1c57fbd94_jpg.webp?v=1753108502",
+    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/6a0721fd-9fd6-4ba0-81ba-99d869e7d8a3_jpg.webp?v=1753694985",
+    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/image-32.jpg?v=1753694985",
+    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/221117__-_-ENG-05_950_895a6211-1672-438d-ad92-01c8de06adab_900x_jpg.webp?v=1753694985",
+    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/kundal-caffeine-shampoo-white-musk-63619275030911_jpg.webp?v=1753694985",
+    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/hikoco_Kundal_CaffeineHairLossReliefShampooBabyPowder_01_jpg.webp?v=1753694985"
+   ]
+  },
+  {
+   "loja": "kbeautystore.com",
    "titulo": "Rosemary PDRN Cooling Thickening Shampoo",
    "variantes": [
     "Default Title"
@@ -290,30 +385,15 @@
   },
   {
    "loja": "kbeautystore.com",
-   "titulo": "PDRN Reedle Shot Scalp Shampoo",
+   "titulo": "GROW:TURN Exosome 3D Volume Brush Shampoo",
    "variantes": [
     "Default Title"
    ],
    "fotos": [
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/41_41d041ed-bf66-4d0f-8ff3-5792a98a8f2c.png?v=1782458938",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/40.png?v=1782458965",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/42_47ceefad-c31a-4e84-ad80-7934a8fe15bb.png?v=1782458940"
-   ]
-  },
-  {
-   "loja": "kbeautystore.com",
-   "titulo": "Annurcatin Shampoo",
-   "variantes": [
-    "Default Title"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/16._Product_afbeeldingen_vierkant-140.png?v=1769072175",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/AnnurcatinShampoo_png.webp?v=1769072175",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/608eab79c1d5bfcb65f1264f9c7c7294.jpg?v=1769072175",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/1-_MOEV_-ApplicationImage_shampoo-300ml_png.webp?v=1769072175",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/MOEV_Annurcatin_Shampoo_300ml_Skin_Cupid_STAGE_SHOT_png.webp?v=1769072175",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/image-15.webp?v=1769072175",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/moev-annurcatin-shampoo-67524832952703_jpg.webp?v=1769072175"
+    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/4_33c4a998-b088-43c1-9f90-395ac85243f3.png?v=1782381873",
+    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/5_d7a64c05-9f27-45f9-b8d4-b79f49421f3c.png?v=1782381874",
+    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/6_73c68800-c9a9-4e75-80f4-4eda6d52d9ce.png?v=1782381873",
+    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/7_e482600c-33a0-4694-8c41-a8902906236c.png?v=1782381873"
    ]
   },
   {
@@ -334,23 +414,90 @@
   },
   {
    "loja": "kbeautystore.com",
-   "titulo": "Caffeine Shampoo",
+   "titulo": "PDRN Reedle Shot Scalp Shampoo",
    "variantes": [
-    "Cherry Blossom",
-    "White Musk",
-    "Baby Powder"
+    "Default Title"
    ],
    "fotos": [
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/Product-page-sizes_fbba03d4-69bd-4192-9b1e-feb1c57fbd94_jpg.webp?v=1753108502",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/6a0721fd-9fd6-4ba0-81ba-99d869e7d8a3_jpg.webp?v=1753694985",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/image-32.jpg?v=1753694985",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/221117__-_-ENG-05_950_895a6211-1672-438d-ad92-01c8de06adab_900x_jpg.webp?v=1753694985",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/kundal-caffeine-shampoo-white-musk-63619275030911_jpg.webp?v=1753694985",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/hikoco_Kundal_CaffeineHairLossReliefShampooBabyPowder_01_jpg.webp?v=1753694985"
+    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/41_41d041ed-bf66-4d0f-8ff3-5792a98a8f2c.png?v=1782458938",
+    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/40.png?v=1782458965",
+    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/42_47ceefad-c31a-4e84-ad80-7934a8fe15bb.png?v=1782458940"
    ]
   }
  ],
- "acv-treatment": [
+ "acvT": [
+  {
+   "loja": "www.dodoskin.com",
+   "titulo": "Lador ACV Vinegar Treatment 430ml",
+   "variantes": [
+    "430ml"
+   ],
+   "fotos": [
+    "https://cdn.shopify.com/s/files/1/0506/2121/8972/files/l20_6648dbd3-6d1a-4006-8958-bc7d300aa974.jpg?v=1694745184"
+   ]
+  },
+  {
+   "loja": "www.dodoskin.com",
+   "titulo": "Lador ACV Vinegar Treatment 150ml",
+   "variantes": [
+    "150ml"
+   ],
+   "fotos": [
+    "https://cdn.shopify.com/s/files/1/0506/2121/8972/files/l18_d92d7eed-baff-44e2-8d28-7a16bdd58b46.jpg?v=1694744249"
+   ]
+  },
+  {
+   "loja": "www.dodoskin.com",
+   "titulo": "Lador ACV Vinegar Shampoo 150ml",
+   "variantes": [
+    "150ml"
+   ],
+   "fotos": [
+    "https://cdn.shopify.com/s/files/1/0506/2121/8972/files/l4_63699c67-83b4-459d-a88b-cb2158b4abfe.jpg?v=1694736596"
+   ]
+  },
+  {
+   "loja": "www.dodoskin.com",
+   "titulo": "Lador Hydro LPP Treatment 530ml",
+   "variantes": [
+    "Default Title"
+   ],
+   "fotos": [
+    "https://cdn.shopify.com/s/files/1/0506/2121/8972/files/l13_682917d2-1087-4502-a5f2-2f3ca068b00a.jpg?v=1694478838"
+   ]
+  },
+  {
+   "loja": "www.dodoskin.com",
+   "titulo": "Lador Dermatical Hair-Loss Treatment 200ml",
+   "variantes": [
+    "200ml"
+   ],
+   "fotos": [
+    "https://cdn.shopify.com/s/files/1/0506/2121/8972/files/l12_b9c69945-5803-45ef-b9d4-6930d4fe389f.jpg?v=1694742387"
+   ]
+  },
+  {
+   "loja": "www.dodoskin.com",
+   "titulo": "Lador Perfumed Hair Care Mist 130ml",
+   "variantes": [
+    "Osmanthus",
+    "Fig Tea"
+   ],
+   "fotos": [
+    "https://cdn.shopify.com/s/files/1/0506/2121/8972/files/LadorPerfumedHairCareMist130ml-1.png?v=1731910177",
+    "https://cdn.shopify.com/s/files/1/0506/2121/8972/files/Osmanthus.png?v=1731910176",
+    "https://cdn.shopify.com/s/files/1/0506/2121/8972/files/LadorPerfumedHairCareMist130ml-2.jpg?v=1731910176",
+    "https://cdn.shopify.com/s/files/1/0506/2121/8972/files/LadorPerfumedHairCareMist130ml-3.jpg?v=1731910176",
+    "https://cdn.shopify.com/s/files/1/0506/2121/8972/files/LadorPerfumedHairCareMist130ml-4.jpg?v=1731910177",
+    "https://cdn.shopify.com/s/files/1/0506/2121/8972/files/LadorPerfumedHairCareMist130ml-5.jpg?v=1731910176",
+    "https://cdn.shopify.com/s/files/1/0506/2121/8972/files/FigTea.png?v=1731910176",
+    "https://cdn.shopify.com/s/files/1/0506/2121/8972/files/LadorPerfumedHairCareMist130ml-6.png?v=1731910177",
+    "https://cdn.shopify.com/s/files/1/0506/2121/8972/files/LadorPerfumedHairCareMist130ml-7.png?v=1731910177",
+    "https://cdn.shopify.com/s/files/1/0506/2121/8972/files/LadorPerfumedHairCareMist130ml-8.png?v=1731910177",
+    "https://cdn.shopify.com/s/files/1/0506/2121/8972/files/LadorPerfumedHairCareMist130ml-9.png?v=1731910176",
+    "https://cdn.shopify.com/s/files/1/0506/2121/8972/files/LadorPerfumedHairCareMist130ml-10.png?v=1731910176"
+   ]
+  },
   {
    "loja": "sokoglam.com",
    "titulo": "Real Complexion Hyaluron Exfoliating AHA Treatment",
@@ -430,6 +577,39 @@
     "https://cdn.shopify.com/s/files/1/0249/1218/files/Lador-Herbalism-Shampoo.jpg?v=1756219093",
     "https://cdn.shopify.com/s/files/1/0249/1218/files/Soko-Glam-PDP-Lador-Herbalism-Shampoo-02.png?v=1755739487",
     "https://cdn.shopify.com/s/files/1/0249/1218/files/Soko-Glam-PDP-Lador-Herbalism-Shampoo-05.png?v=1755739487"
+   ]
+  },
+  {
+   "loja": "ohlolly.com",
+   "titulo": "107 Hair & Scalp Hydrating Microbiome Treatment",
+   "variantes": [
+    "Default Title"
+   ],
+   "fotos": [
+    "https://cdn.shopify.com/s/files/1/0980/9700/files/Treatment00_1200x1500__F7F7F7_2_ad401085-26c0-4651-9f29-3b95d1fab23a.jpg?v=1746059941",
+    "https://cdn.shopify.com/s/files/1/0980/9700/files/107_Hair_Scalp_Hydrating_Microbiome_Treatment_2.jpg?v=1746063427",
+    "https://cdn.shopify.com/s/files/1/0980/9700/files/107_Hair_Scalp_Hydrating_Microbiome_Treatment_8.jpg?v=1746063427",
+    "https://cdn.shopify.com/s/files/1/0980/9700/files/107_Hair_Scalp_Hydrating_Microbiome_Treatment_7.jpg?v=1746063427",
+    "https://cdn.shopify.com/s/files/1/0980/9700/files/107_Hair_Scalp_Hydrating_Microbiome_Treatment_9.jpg?v=1746063427",
+    "https://cdn.shopify.com/s/files/1/0980/9700/files/107_Hair_Scalp_Hydrating_Microbiome_Treatment_12.jpg?v=1746063427",
+    "https://cdn.shopify.com/s/files/1/0980/9700/files/107_Hair_Scalp_Hydrating_Microbiome_Treatment_10.jpg?v=1746063427"
+   ]
+  },
+  {
+   "loja": "ohlolly.com",
+   "titulo": "Core by Urang ACV 1% Apple Honey 2% Gentle Cleanser",
+   "variantes": [
+    "Default Title"
+   ],
+   "fotos": [
+    "https://cdn.shopify.com/s/files/1/0980/9700/files/CoreACV1_AppleHoney2_GentleCleanser_9.jpg?v=1760563437",
+    "https://cdn.shopify.com/s/files/1/0980/9700/files/CoreACV1_AppleHoney2_GentleCleanser_8.jpg?v=1760563437",
+    "https://cdn.shopify.com/s/files/1/0980/9700/files/Core_ACV_1__Apple_Honey_2__Gentle_Cleanser_2.jpg?v=1760563437",
+    "https://cdn.shopify.com/s/files/1/0980/9700/files/Core_ACV_1__Apple_Honey_2__Gentle_Cleanser_3.jpg?v=1760563437",
+    "https://cdn.shopify.com/s/files/1/0980/9700/files/CoreACV1_AppleHoney2_GentleCleanser_6.jpg?v=1760563437",
+    "https://cdn.shopify.com/s/files/1/0980/9700/files/CoreACV1_AppleHoney2_GentleCleanser_7.jpg?v=1760563437",
+    "https://cdn.shopify.com/s/files/1/0980/9700/files/Core_ACV_1__Apple_Honey_2__Gentle_Cleanser_4.jpg?v=1760562860",
+    "https://cdn.shopify.com/s/files/1/0980/9700/files/Core_ACV_1__Apple_Honey_2__Gentle_Cleanser_5.jpg?v=1760562860"
    ]
   },
   {
@@ -527,14 +707,41 @@
   },
   {
    "loja": "koreanskincare.nl",
-   "titulo": "Moisture Balancing Shampoo",
+   "titulo": "Perfumed Hair Oil",
    "variantes": [
-    "100ml",
-    "530ml"
+    "Our Leaf (30ml)",
+    "Our Leaf (80ml)",
+    "Hinoki (30ml)",
+    "Hinoki (80ml)",
+    "La Pitta (30ml)",
+    "La Pitta (80ml)"
    ],
    "fotos": [
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Product-page-sizes-2_c53d5c4b-e3c4-45aa-9bd2-7a7cb876b8cf.jpg?v=1733408265",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Product-page-sizes_b94153db-c930-4369-88d6-d359ce51b24e.jpg?v=1733408264"
+    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_Perfumed_Hair_Oil_Our_leaf_80ml_Packshot.jpg?v=1768834794",
+    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_PerfumedHairOil_Photo1.jpg?v=1768835787",
+    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_PerfumedHairOil_Photo2.jpg?v=1768835787",
+    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_PerfumedHairOil_Photo6.jpg?v=1768835903",
+    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_PerfumedHairOil_Photo7.jpg?v=1768835903",
+    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_PerfumedHairOil_Photo3.jpg?v=1768835903",
+    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_PerfumedHairOil_Photo8.jpg?v=1768835903",
+    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_PerfumedHairOil_Photo9.jpg?v=1768835903",
+    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_PerfumedHairOil_Photo4.jpg?v=1768835903",
+    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_PerfumedHairOil_Photo5.jpg?v=1769004231",
+    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_PerfumedHairOil_Photo12.jpg?v=1769004231",
+    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_PerfumedHairOil_Photo13.jpg?v=1769004231"
+   ]
+  },
+  {
+   "loja": "kbeautystore.com",
+   "titulo": "Annurcatin Hair Vinegar",
+   "variantes": [
+    "Default Title"
+   ],
+   "fotos": [
+    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/1_39f2b849-aa4a-42f0-974e-c8acf6e0bd7d.png?v=1786102782",
+    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/2_b4514a16-9659-4c9a-a286-dd6117259447.png?v=1786102782",
+    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/3_7ffc5efe-e4f0-4dfd-ad7e-4ca126bb60d2.png?v=1786102782",
+    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/4_20352c78-d02f-4f05-9650-a4271a524c83.png?v=1786102784"
    ]
   },
   {
@@ -580,15 +787,14 @@
   },
   {
    "loja": "kbeautystore.com",
-   "titulo": "Annurcatin Hair Vinegar",
+   "titulo": "Reedle Shot Foot Peeling Mask",
    "variantes": [
     "Default Title"
    ],
    "fotos": [
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/1_39f2b849-aa4a-42f0-974e-c8acf6e0bd7d.png?v=1786102782",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/2_b4514a16-9659-4c9a-a286-dd6117259447.png?v=1786102782",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/3_7ffc5efe-e4f0-4dfd-ad7e-4ca126bb60d2.png?v=1786102782",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/4_20352c78-d02f-4f05-9650-a4271a524c83.png?v=1786102784"
+    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/16._Product_afbeeldingen_vierkant-142.png?v=1769174417",
+    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/VT-Cosmetics-Reedle-Shot-Foot-Peeling-Mask-4_jpg.webp?v=1769175021",
+    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/VT-Cosmetics-Reedle-Shot-Foot-Peeling-Mask-1_jpg.webp?v=1769175021"
    ]
   },
   {
@@ -614,682 +820,6 @@
     "https://cdn.shopify.com/s/files/1/0643/0628/2749/products/BA82BB8D-9F77-46A3-BF80-CD2981F61F50.jpg?v=1753695075",
     "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/374.png?v=1772105985",
     "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/375.png?v=1772106011"
-   ]
-  },
-  {
-   "loja": "kbeautystore.com",
-   "titulo": "Reedle Shot Foot Peeling Mask",
-   "variantes": [
-    "Default Title"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/16._Product_afbeeldingen_vierkant-142.png?v=1769174417",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/VT-Cosmetics-Reedle-Shot-Foot-Peeling-Mask-4_jpg.webp?v=1769175021",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/VT-Cosmetics-Reedle-Shot-Foot-Peeling-Mask-1_jpg.webp?v=1769175021"
-   ]
-  }
- ],
- "keratin-lpp-shampoo": [
-  {
-   "loja": "sokoglam.com",
-   "titulo": "Keratin LPP Shampoo",
-   "variantes": [
-    "Default Title"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/La_dor-KERATIN-LPP-SHAMPOO.jpg?v=1756221419",
-    "https://cdn.shopify.com/s/files/1/0249/1218/products/Soko-Glam-PDP-La_dor-KERATIN-LPP-SHAMPOO-lifestyle.png?v=1755565891"
-   ]
-  },
-  {
-   "loja": "sokoglam.com",
-   "titulo": "Hydro LPP Treatment",
-   "variantes": [
-    "Default Title"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/La_dor-HYDRO-LPP-TREATMENT.jpg?v=1756219978",
-    "https://cdn.shopify.com/s/files/1/0249/1218/products/Soko-Glam-PDP-La_dor-HYDRO-LPP-TREATMENT-texture.png?v=1755478515",
-    "https://cdn.shopify.com/s/files/1/0249/1218/products/Soko-Glam-PDP-La_dor-HYDRO-LPP-TREATMENT-lifestyle.png?v=1755478515"
-   ]
-  },
-  {
-   "loja": "sokoglam.com",
-   "titulo": "Herbalism Shampoo",
-   "variantes": [
-    "Default Title"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/Lador-Herbalism-Shampoo.jpg?v=1756219093",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/Soko-Glam-PDP-Lador-Herbalism-Shampoo-02.png?v=1755739487",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/Soko-Glam-PDP-Lador-Herbalism-Shampoo-05.png?v=1755739487"
-   ]
-  },
-  {
-   "loja": "sokoglam.com",
-   "titulo": "Wonder Balm",
-   "variantes": [
-    "Default Title"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/LaDor-Wonder-Balm.jpg?v=1756218996",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/lador0817_0302_Resized.jpg?v=1759805622",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/lador0817_0307_Resized.jpg?v=1759805048",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/lador0817_0092_Resized.jpg?v=1759805251",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/0528_LADOR0948_re_Resized.jpg?v=1759805839",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/lador2831_Resized.jpg?v=1759804979",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/0528_LADOR0966__Resized.jpg?v=1759805491",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/2_Resized_ca669c77-2378-42ef-a0d4-88015fc5e659.jpg?v=1759805498",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/4_Resized_a95a0195-03e8-467c-b3df-55e2d4f8171b.jpg?v=1759805304",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/5_Resized.jpg?v=1759805423",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/lador0611_0106_Resized.jpg?v=1759805668",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/WONDERBALM_1_Resized.jpg?v=1759805659"
-   ]
-  },
-  {
-   "loja": "sokoglam.com",
-   "titulo": "Keratin Power Glue",
-   "variantes": [
-    "Default Title"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/Lador-Keratin-Power-Glue.jpg?v=1756219671",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/LadorKeratinPowerGlue_lifestyle04_Resized.jpg?v=1759805724",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/LadorKeratinPowerGlue_texture01_Resized.jpg?v=1759805938",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/LadorKeratinPowerGlue_texture0201_Resized.jpg?v=1759805407",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/LadorKeratinPowerGlue_lifestyle12_Resized.jpg?v=1759805918",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/LadorKeratinPowerGlue_lifestyle13_Resized.jpg?v=1759805516",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/LadorKeratinPowerGlue_lifestyle15_Resized.jpg?v=1759805484",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/LadorKeratinPowerGlue_lifestyle01_Resized.jpg?v=1759805656",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/LadorKeratinPowerGlue_lifestyle10_Resized.jpg?v=1759805552",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/LadorKeratinPowerGlue_lifestyle11_Resized.jpg?v=1759805783",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/LadorKeratinPowerGlue_lifestyle18_Resized.jpg?v=1759805662",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/LadorKeratinPowerGlue_lifestyle05_Resized.jpg?v=1759805254"
-   ]
-  },
-  {
-   "loja": "sokoglam.com",
-   "titulo": "Lime Sunday Refresh Shampoo",
-   "variantes": [
-    "Default Title"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/Anillo-Lime-Sunday-Refresh-Shampoo.jpg?v=1752798466",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/Soko-Glam-PDP-Anillo-Lime-Sunday-Refresh-Shampoo-03.png?v=1752788160",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/Anillo7213_Resized.jpg?v=1758827504",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/Soko-Glam-PDP-Anillo-Lime-Sunday-Refresh-Shampoo-09.png?v=1758213494",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/Anillo0380___O__Resized.jpg?v=1758827957",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/Anillo0375_Resized.jpg?v=1758826983",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/Soko-Glam-PDP-Anillo-Lime-Sunday-Refresh-Shampoo-08.png?v=1758213494",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/Soko-Glam-PDP-Anillo-Lime-Sunday-Refresh-Shampoo-04.png?v=1758213494",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/IMG_1417_press__Resized.jpg?v=1758827855",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/Anillo_1221_1520-fix-1_press__Resized.jpg?v=1758826928"
-   ]
-  },
-  {
-   "loja": "www.kollab.com.br",
-   "titulo": "Shampoo Kerasys Hair Clinic Argan Oil 400ml",
-   "variantes": [
-    "Default Title"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0997/5152/6707/files/erp-ba2f4dcb9b2b616c9072a3be803da2b25c69497705c09a1e8cb883ef5d1609a0-604ed3cf.png?v=1789536349",
-    "https://cdn.shopify.com/s/files/1/0997/5152/6707/files/erp-d9d01bfd467f18ffb4caab5ed2dc1cc397620b1b3099331386d4e569f00afea6.png?v=1789149700"
-   ]
-  },
-  {
-   "loja": "www.kollab.com.br",
-   "titulo": "Shampoo Kerasys Hair Clinic Coconut Oil 400ml",
-   "variantes": [
-    "Default Title"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0997/5152/6707/files/erp-e9b69a7711bec8d99d2fa87d329ea47044f6a851aac41fe7f037b10d193aef8e-45f1ed55.png?v=1789536366"
-   ]
-  },
-  {
-   "loja": "www.kollab.com.br",
-   "titulo": "Shampoo Mise en Scène Perfect Serum Original 200ml",
-   "variantes": [
-    "Default Title"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0997/5152/6707/files/erp-9a2f9223c4371a03ae8c48598e4f6058a71c43c12c5bfceb6ac0d219cf914056-5bb99d1b.png?v=1789538330"
-   ]
-  },
-  {
-   "loja": "www.kollab.com.br",
-   "titulo": "Shampoo Mise en Scène Perfect Serum Magic Straight 530ml",
-   "variantes": [
-    "Default Title"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0997/5152/6707/files/erp-a9bffe2c9b364332558ed4ba0ddd14522bda5e191783068ab60da7882cd7bcca-d5fcd3b7.png?v=1789538663"
-   ]
-  },
-  {
-   "loja": "www.kollab.com.br",
-   "titulo": "Kit Mini Trio Mise en Scène Perfect Serum Magic Straight (Shampoo 140ml + Tratamento 30ml + Sérum 15ml)",
-   "variantes": [
-    "Default Title"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0997/5152/6707/files/erp-d9860c70ecf97eb58ddf952d77fca84316a50a4f26640264a1bff99c118ff433-d13107cf.png?v=1789536118",
-    "https://cdn.shopify.com/s/files/1/0997/5152/6707/files/erp-fba768866c22979cf1481d627d419c332ed44b00189e70bb6d707a6dcfe41be3-09743596.png?v=1789555848"
-   ]
-  },
-  {
-   "loja": "www.kollab.com.br",
-   "titulo": "Shampoo Mise en Scène Perfect Serum Original 530ml",
-   "variantes": [
-    "Default Title"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0997/5152/6707/files/erp-ae38d0857a280f3180259104e71be6fd1a4568022555cfe8594d43c68477fc6b-e21452dd.png?v=1789538328"
-   ]
-  },
-  {
-   "loja": "koreanskincare.nl",
-   "titulo": "Keratin LPP Shampoo",
-   "variantes": [
-    "150ml"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/products/image_8efc2174-5ac6-4494-98e8-b86b4aaa2f71.jpg?v=1625348396",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/products/image_1_fe34eb16-1d4a-4541-97a0-9f3b65afd8e7.jpg?v=1625348396",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/products/LadorKeratinLPPShampoo.jpg?v=1625348395",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/products/LadorKeratinLPPShampoo1.jpg?v=1625348396"
-   ]
-  },
-  {
-   "loja": "koreanskincare.nl",
-   "titulo": "Moisture Balancing Shampoo",
-   "variantes": [
-    "100ml",
-    "530ml"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Product-page-sizes-2_c53d5c4b-e3c4-45aa-9bd2-7a7cb876b8cf.jpg?v=1733408265",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Product-page-sizes_b94153db-c930-4369-88d6-d359ce51b24e.jpg?v=1733408264"
-   ]
-  },
-  {
-   "loja": "koreanskincare.nl",
-   "titulo": "Real Intensive Acid Shampoo",
-   "variantes": [
-    "900ml"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RealIntensiveAcidShampoo_Packshot.jpg?v=1768896160",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RealIntensiveAcidShampoo_Photo1.jpg?v=1768896159",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RealIntensiveAcidShampoo_Photo2.jpg?v=1768896159",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RealIntensiveAcidShampoo_Photo3.jpg?v=1768896160",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RealIntensiveAcidShampoo_Photo4.jpg?v=1768896159"
-   ]
-  },
-  {
-   "loja": "koreanskincare.nl",
-   "titulo": "Root Re-Boot Shampoo",
-   "variantes": [
-    "Ginger & Apple (Purifying)",
-    "Propolis & Citron (Vitalizing)",
-    "Red Ginseng & Beer (Awakening)"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_Root_Re-Boot_Shampoo_Cica_Tea_Tree_Packshot.jpg?v=1768904740",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RootRe-BootShampoo_Photo1.jpg?v=1768904872",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RootRe-BootShampoo_Photo15.jpg?v=1769004278",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RootRe-BootShampoo_Photo2.jpg?v=1769004278",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RootRe-BootShampoo_Photo3.jpg?v=1769004278",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RootRe-BootShampoo_Photo4.jpg?v=1769004278",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RootRe-BootShampoo_Photo5.jpg?v=1769004278",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RootRe-BootShampoo_Photo6.jpg?v=1769004278",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RootRe-BootShampoo_Photo7.jpg?v=1769004278",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RootRe-BootShampoo_Photo8.jpg?v=1769004278",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RootRe-BootShampoo_Photo9.jpg?v=1769004278",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RootRe-BootShampoo_Photo10.jpg?v=1769004278"
-   ]
-  },
-  {
-   "loja": "koreanskincare.nl",
-   "titulo": "Perfect Hair Fill-Up",
-   "variantes": [
-    "150ml"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/products/lador-perfect-hair-fill-up-ampoule-2.jpg?v=1626093472",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/products/8809500814030.jpg?v=1626093472"
-   ]
-  },
-  {
-   "loja": "koreanskincare.nl",
-   "titulo": "Ash Silver Shampoo",
-   "variantes": [
-    "300ml"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_AshSilverShampoo_Packshot.jpg?v=1761814345",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_AshSilverShampoo_Photo1.jpg?v=1761814345",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_AshSilverShampoo_Photo2.jpg?v=1761814345",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_AshSilverShampoo_Photo3.jpg?v=1761814346",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_AshSilverShampoo_Photo4.jpg?v=1761814345"
-   ]
-  },
-  {
-   "loja": "kbeautystore.com",
-   "titulo": "Salmon Pullkeratin Centella Hair Shampoo",
-   "variantes": [
-    "Default Title"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/HEVEBLUE-Salmon-Pullkeratin-Centella-Hair-Shampoo-500ml-PURESEOUL-UK-KBeauty-Shop_png.webp?v=1765812258",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/HEVEBLUE-SalmonFullKeratinCentellaHairTreatment14_2000x_jpg.webp?v=1765812258",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/9bbce86d4001e81b7e28e853ecbddd681060b070_original.jpg?v=1765812258",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/HEVEBLUE-SalmonPullKeratinCentellaHairShampoo4_2000x_jpg.webp?v=1765812258",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/HEVEBLUE-Salmon-Pullkeratin-Centella-Hair-Treatment-300ml-PURESEOUL-UK-KBeauty-Shop-1_1800x1800_png.webp?v=1765812258"
-   ]
-  },
-  {
-   "loja": "kbeautystore.com",
-   "titulo": "Honey & Macadamia Shampoo",
-   "variantes": [
-    "Baby Powder - 500ml",
-    "Cherry Blossom - 500ml",
-    "English Rose - 500ml",
-    "White Musk - 500ml",
-    "Amber Vanilla - 500ml",
-    "Amber Vanilla - 100ml"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/products/A5F41BB0-F17C-407A-AE15-C6D86CB86A68.jpg?v=1678789325",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/500-_-_-_-4.jpg?v=1753695017",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/products/6B37A430-453A-42FC-81DD-9716DE5BC44E.jpg?v=1753695017",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/products/95FEAC1F-528D-4C09-87B5-22672CE8983F.png?v=1753695017",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/products/C238CB95-C917-4BFB-991E-C154D1D042D2.webp?v=1753695017",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/products/593E067D-BFD1-4C02-952D-A2DD52D28EB3.png?v=1753695017",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/products/3776093F-3291-4191-A2ED-AF1D8F4108E4.webp?v=1753695017",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/kundal-honey-macadamia-nature-shampoo-amber-vanilla-63619266969983_jpg.webp?v=1753695017",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/373.png?v=1772104326",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/372_60a67c4c-1784-477c-92b9-873823e8d54c.png?v=1772104385"
-   ]
-  },
-  {
-   "loja": "kbeautystore.com",
-   "titulo": "Protein Bonding Care Shampoo",
-   "variantes": [
-    "Violet Muguet"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/16._Product_afbeeldingen_vierkant-206.png?v=1772704781",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/ProteinDamagecareShampookopie8_png.webp?v=1772704781",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/84410687_png.webp?v=1772704781",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/69_1cd52de0-007e-45cd-bc6b-15068b4de985_png.webp?v=1772704781",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/Protein_Bonding_Care_Treatment_2_png.webp?v=1773397149",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/protein-bonding-care-no-wash-treatment___250820_jpg.webp?v=1773397149",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/1200x1200_e58f1f12-8556-47c3-8258-eef0ec0f66d4.jpg?v=1772704781"
-   ]
-  },
-  {
-   "loja": "kbeautystore.com",
-   "titulo": "Rosemary PDRN Cooling Thickening Shampoo",
-   "variantes": [
-    "Default Title"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/1_9075d0f6-786d-41ff-b328-f07f3d5fa2f4.png?v=1784036261",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/2_13a089fb-7f6e-4cfa-9267-5e8b8faf56ed.png?v=1784036261",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/3_89a6738f-0b0a-4ca5-b46c-5bc4ec875638.png?v=1784036262",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/4_0f3449a0-00f7-4874-9970-b0e1ed1541ed.png?v=1784036261"
-   ]
-  },
-  {
-   "loja": "kbeautystore.com",
-   "titulo": "PEPTIDE-132 Ultra Perfect Hair Bonding Shampoo",
-   "variantes": [
-    "Default Title"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/Productafbeelding_vierkant_1080x1080-2.png?v=1753696866",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/716Hbl3V3jL.jpg?v=1753696886",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/Cosrx_Peptide-132_Ultra_Perfect_Hair_Bonding_Shampoo3_webp.jpg?v=1753696886",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/Peptide_132_00_Shampoo_webp.jpg?v=1753696886",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/peptide-132-ultra-perfect-hair-bonding-shampoo-2.jpg?v=1753696873",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/peptide-132-ultra-perfect-hair-bonding-shampoo.jpg?v=1753696873"
-   ]
-  },
-  {
-   "loja": "kbeautystore.com",
-   "titulo": "Caffeine Shampoo",
-   "variantes": [
-    "Cherry Blossom",
-    "White Musk",
-    "Baby Powder"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/Product-page-sizes_fbba03d4-69bd-4192-9b1e-feb1c57fbd94_jpg.webp?v=1753108502",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/6a0721fd-9fd6-4ba0-81ba-99d869e7d8a3_jpg.webp?v=1753694985",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/image-32.jpg?v=1753694985",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/221117__-_-ENG-05_950_895a6211-1672-438d-ad92-01c8de06adab_900x_jpg.webp?v=1753694985",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/kundal-caffeine-shampoo-white-musk-63619275030911_jpg.webp?v=1753694985",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/hikoco_Kundal_CaffeineHairLossReliefShampooBabyPowder_01_jpg.webp?v=1753694985"
-   ]
-  }
- ],
- "hydro-lpp-refill": [
-  {
-   "loja": "sokoglam.com",
-   "titulo": "Hydro LPP Treatment",
-   "variantes": [
-    "Default Title"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/La_dor-HYDRO-LPP-TREATMENT.jpg?v=1756219978",
-    "https://cdn.shopify.com/s/files/1/0249/1218/products/Soko-Glam-PDP-La_dor-HYDRO-LPP-TREATMENT-texture.png?v=1755478515",
-    "https://cdn.shopify.com/s/files/1/0249/1218/products/Soko-Glam-PDP-La_dor-HYDRO-LPP-TREATMENT-lifestyle.png?v=1755478515"
-   ]
-  },
-  {
-   "loja": "sokoglam.com",
-   "titulo": "Keratin LPP Shampoo",
-   "variantes": [
-    "Default Title"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/La_dor-KERATIN-LPP-SHAMPOO.jpg?v=1756221419",
-    "https://cdn.shopify.com/s/files/1/0249/1218/products/Soko-Glam-PDP-La_dor-KERATIN-LPP-SHAMPOO-lifestyle.png?v=1755565891"
-   ]
-  },
-  {
-   "loja": "sokoglam.com",
-   "titulo": "Wonder Balm",
-   "variantes": [
-    "Default Title"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/LaDor-Wonder-Balm.jpg?v=1756218996",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/lador0817_0302_Resized.jpg?v=1759805622",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/lador0817_0307_Resized.jpg?v=1759805048",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/lador0817_0092_Resized.jpg?v=1759805251",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/0528_LADOR0948_re_Resized.jpg?v=1759805839",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/lador2831_Resized.jpg?v=1759804979",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/0528_LADOR0966__Resized.jpg?v=1759805491",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/2_Resized_ca669c77-2378-42ef-a0d4-88015fc5e659.jpg?v=1759805498",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/4_Resized_a95a0195-03e8-467c-b3df-55e2d4f8171b.jpg?v=1759805304",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/5_Resized.jpg?v=1759805423",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/lador0611_0106_Resized.jpg?v=1759805668",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/WONDERBALM_1_Resized.jpg?v=1759805659"
-   ]
-  },
-  {
-   "loja": "koreanskincare.nl",
-   "titulo": "Perfect Hair Fill-Up",
-   "variantes": [
-    "150ml"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/products/lador-perfect-hair-fill-up-ampoule-2.jpg?v=1626093472",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/products/8809500814030.jpg?v=1626093472"
-   ]
-  },
-  {
-   "loja": "koreanskincare.nl",
-   "titulo": "Real Intensive Acid Conditioner",
-   "variantes": [
-    "900ml"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RealIntensiveAcidConditioner_Packshot.jpg?v=1768896096",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RealIntensiveAcidConditioner_Photo1.jpg?v=1768896095",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RealIntensiveAcidConditioner_Photo2.jpg?v=1768896094",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RealIntensiveAcidConditioner_Photo3.jpg?v=1768896095",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RealIntensiveAcidConditioner_Photo4.jpg?v=1768896096",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RealIntensiveAcidConditioner_Photo5.jpg?v=1768896095"
-   ]
-  },
-  {
-   "loja": "koreanskincare.nl",
-   "titulo": "Real Intensive Acid Shampoo",
-   "variantes": [
-    "900ml"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RealIntensiveAcidShampoo_Packshot.jpg?v=1768896160",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RealIntensiveAcidShampoo_Photo1.jpg?v=1768896159",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RealIntensiveAcidShampoo_Photo2.jpg?v=1768896159",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RealIntensiveAcidShampoo_Photo3.jpg?v=1768896160",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RealIntensiveAcidShampoo_Photo4.jpg?v=1768896159"
-   ]
-  },
-  {
-   "loja": "koreanskincare.nl",
-   "titulo": "Wonder Tear",
-   "variantes": [
-    "250ml"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/products/image_1_9610a6d4-5ccc-447a-a8c4-cdf2fc37e8ee.jpg?v=1643639218",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/products/Lador-Wonder-tear-200-ml.jpg?v=1643639218",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/products/4948250ddbb9202e05dffed84b624033.jpg?v=1643639218",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/products/82605331_1493618270791324_6427094735109750784_n.jpg?v=1643639218",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/products/82080996_1493618240791327_3947518812714172416_n.jpg?v=1643639212",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/products/e4ae778ea4201e62eddf9ba0ded332f4.jpg?v=1643639212"
-   ]
-  },
-  {
-   "loja": "koreanskincare.nl",
-   "titulo": "Moisture Balancing Shampoo",
-   "variantes": [
-    "100ml",
-    "530ml"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Product-page-sizes-2_c53d5c4b-e3c4-45aa-9bd2-7a7cb876b8cf.jpg?v=1733408265",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Product-page-sizes_b94153db-c930-4369-88d6-d359ce51b24e.jpg?v=1733408264"
-   ]
-  },
-  {
-   "loja": "koreanskincare.nl",
-   "titulo": "Keratin LPP Shampoo",
-   "variantes": [
-    "150ml"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/products/image_8efc2174-5ac6-4494-98e8-b86b4aaa2f71.jpg?v=1625348396",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/products/image_1_fe34eb16-1d4a-4541-97a0-9f3b65afd8e7.jpg?v=1625348396",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/products/LadorKeratinLPPShampoo.jpg?v=1625348395",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/products/LadorKeratinLPPShampoo1.jpg?v=1625348396"
-   ]
-  },
-  {
-   "loja": "kbeautystore.com",
-   "titulo": "Healer Turnover Ampoule Dual Effect",
-   "variantes": [
-    "Default Title"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/16._Product_afbeeldingen_vierkant-28_425d1621-56a3-4d1c-9e61-c65a3ce196be.png?v=1791281550",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/7_f422e646-75a8-4797-9ad6-e28ae2512dbf.png?v=1791201433",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/8_7d032440-4224-4d44-988b-8525f68715f0.png?v=1791201432",
-    "https://cdn.shopify.com/s/files/1/0643/0628/2749/files/9_233d32c2-6fe2-4cfe-b823-d4f7f2f242a4.png?v=1791201433"
-   ]
-  }
- ],
- "wonder-hair-oil": [
-  {
-   "loja": "sokoglam.com",
-   "titulo": "Wonder Hair Oil",
-   "variantes": [
-    "Default Title"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/Lador-Wonder-Hair-Oil.jpg?v=1756220844"
-   ]
-  },
-  {
-   "loja": "sokoglam.com",
-   "titulo": "Wonder Balm",
-   "variantes": [
-    "Default Title"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/LaDor-Wonder-Balm.jpg?v=1756218996",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/lador0817_0302_Resized.jpg?v=1759805622",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/lador0817_0307_Resized.jpg?v=1759805048",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/lador0817_0092_Resized.jpg?v=1759805251",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/0528_LADOR0948_re_Resized.jpg?v=1759805839",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/lador2831_Resized.jpg?v=1759804979",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/0528_LADOR0966__Resized.jpg?v=1759805491",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/2_Resized_ca669c77-2378-42ef-a0d4-88015fc5e659.jpg?v=1759805498",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/4_Resized_a95a0195-03e8-467c-b3df-55e2d4f8171b.jpg?v=1759805304",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/5_Resized.jpg?v=1759805423",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/lador0611_0106_Resized.jpg?v=1759805668",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/WONDERBALM_1_Resized.jpg?v=1759805659"
-   ]
-  },
-  {
-   "loja": "sokoglam.com",
-   "titulo": "Hydro LPP Treatment",
-   "variantes": [
-    "Default Title"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/La_dor-HYDRO-LPP-TREATMENT.jpg?v=1756219978",
-    "https://cdn.shopify.com/s/files/1/0249/1218/products/Soko-Glam-PDP-La_dor-HYDRO-LPP-TREATMENT-texture.png?v=1755478515",
-    "https://cdn.shopify.com/s/files/1/0249/1218/products/Soko-Glam-PDP-La_dor-HYDRO-LPP-TREATMENT-lifestyle.png?v=1755478515"
-   ]
-  },
-  {
-   "loja": "sokoglam.com",
-   "titulo": "Keratin LPP Shampoo",
-   "variantes": [
-    "Default Title"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/La_dor-KERATIN-LPP-SHAMPOO.jpg?v=1756221419",
-    "https://cdn.shopify.com/s/files/1/0249/1218/products/Soko-Glam-PDP-La_dor-KERATIN-LPP-SHAMPOO-lifestyle.png?v=1755565891"
-   ]
-  },
-  {
-   "loja": "sokoglam.com",
-   "titulo": "Herbalism Shampoo",
-   "variantes": [
-    "Default Title"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/Lador-Herbalism-Shampoo.jpg?v=1756219093",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/Soko-Glam-PDP-Lador-Herbalism-Shampoo-02.png?v=1755739487",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/Soko-Glam-PDP-Lador-Herbalism-Shampoo-05.png?v=1755739487"
-   ]
-  },
-  {
-   "loja": "sokoglam.com",
-   "titulo": "Keratin Power Glue",
-   "variantes": [
-    "Default Title"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/Lador-Keratin-Power-Glue.jpg?v=1756219671",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/LadorKeratinPowerGlue_lifestyle04_Resized.jpg?v=1759805724",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/LadorKeratinPowerGlue_texture01_Resized.jpg?v=1759805938",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/LadorKeratinPowerGlue_texture0201_Resized.jpg?v=1759805407",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/LadorKeratinPowerGlue_lifestyle12_Resized.jpg?v=1759805918",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/LadorKeratinPowerGlue_lifestyle13_Resized.jpg?v=1759805516",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/LadorKeratinPowerGlue_lifestyle15_Resized.jpg?v=1759805484",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/LadorKeratinPowerGlue_lifestyle01_Resized.jpg?v=1759805656",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/LadorKeratinPowerGlue_lifestyle10_Resized.jpg?v=1759805552",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/LadorKeratinPowerGlue_lifestyle11_Resized.jpg?v=1759805783",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/LadorKeratinPowerGlue_lifestyle18_Resized.jpg?v=1759805662",
-    "https://cdn.shopify.com/s/files/1/0249/1218/files/LadorKeratinPowerGlue_lifestyle05_Resized.jpg?v=1759805254"
-   ]
-  },
-  {
-   "loja": "koreanskincare.nl",
-   "titulo": "Perfumed Hair Oil",
-   "variantes": [
-    "Our Leaf (30ml)",
-    "Our Leaf (80ml)",
-    "Hinoki (30ml)",
-    "Hinoki (80ml)",
-    "La Pitta (30ml)",
-    "La Pitta (80ml)"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_Perfumed_Hair_Oil_Our_leaf_80ml_Packshot.jpg?v=1768834794",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_PerfumedHairOil_Photo1.jpg?v=1768835787",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_PerfumedHairOil_Photo2.jpg?v=1768835787",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_PerfumedHairOil_Photo6.jpg?v=1768835903",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_PerfumedHairOil_Photo7.jpg?v=1768835903",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_PerfumedHairOil_Photo3.jpg?v=1768835903",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_PerfumedHairOil_Photo8.jpg?v=1768835903",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_PerfumedHairOil_Photo9.jpg?v=1768835903",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_PerfumedHairOil_Photo4.jpg?v=1768835903",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_PerfumedHairOil_Photo5.jpg?v=1769004231",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_PerfumedHairOil_Photo12.jpg?v=1769004231",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_PerfumedHairOil_Photo13.jpg?v=1769004231"
-   ]
-  },
-  {
-   "loja": "koreanskincare.nl",
-   "titulo": "Wonder Tear",
-   "variantes": [
-    "250ml"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/products/image_1_9610a6d4-5ccc-447a-a8c4-cdf2fc37e8ee.jpg?v=1643639218",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/products/Lador-Wonder-tear-200-ml.jpg?v=1643639218",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/products/4948250ddbb9202e05dffed84b624033.jpg?v=1643639218",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/products/82605331_1493618270791324_6427094735109750784_n.jpg?v=1643639218",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/products/82080996_1493618240791327_3947518812714172416_n.jpg?v=1643639212",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/products/e4ae778ea4201e62eddf9ba0ded332f4.jpg?v=1643639212"
-   ]
-  },
-  {
-   "loja": "koreanskincare.nl",
-   "titulo": "Perfect Hair Fill-Up",
-   "variantes": [
-    "150ml"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/products/lador-perfect-hair-fill-up-ampoule-2.jpg?v=1626093472",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/products/8809500814030.jpg?v=1626093472"
-   ]
-  },
-  {
-   "loja": "koreanskincare.nl",
-   "titulo": "Real Intensive Acid Conditioner",
-   "variantes": [
-    "900ml"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RealIntensiveAcidConditioner_Packshot.jpg?v=1768896096",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RealIntensiveAcidConditioner_Photo1.jpg?v=1768896095",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RealIntensiveAcidConditioner_Photo2.jpg?v=1768896094",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RealIntensiveAcidConditioner_Photo3.jpg?v=1768896095",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RealIntensiveAcidConditioner_Photo4.jpg?v=1768896096",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Lador_RealIntensiveAcidConditioner_Photo5.jpg?v=1768896095"
-   ]
-  },
-  {
-   "loja": "koreanskincare.nl",
-   "titulo": "Moisture Balancing Conditioner",
-   "variantes": [
-    "530ml",
-    "100ml"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/products/image_21.jpg?v=1642157509"
-   ]
-  },
-  {
-   "loja": "koreanskincare.nl",
-   "titulo": "Moisture Balancing Shampoo",
-   "variantes": [
-    "100ml",
-    "530ml"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Product-page-sizes-2_c53d5c4b-e3c4-45aa-9bd2-7a7cb876b8cf.jpg?v=1733408265",
-    "https://cdn.shopify.com/s/files/1/0254/3022/9055/files/Product-page-sizes_b94153db-c930-4369-88d6-d359ce51b24e.jpg?v=1733408264"
    ]
   }
  ]
