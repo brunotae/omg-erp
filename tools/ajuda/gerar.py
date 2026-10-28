@@ -109,11 +109,13 @@ for slug, titulo, desc, qs in C.CATS:
 
 CSS = """
 .omg-ajuda{--chiclete:#F48FB1;--framboesa:#D9577F;--pri:#B83D66;--bebe:#FDE4EC;--creme:#FFF9F6;--ameixa:#4A2638;--menta:#9EDFC4;--linha:#F6E2E9;--muted:#7A5566;
- font-family:Poppins,"Helvetica Neue",Arial,sans-serif;color:var(--ameixa);background:var(--creme);max-width:1180px;margin:0 auto;padding:20px 16px 48px;line-height:1.55;font-size:14px}
+ font-family:Poppins,"Helvetica Neue",Arial,sans-serif;color:var(--ameixa);background:var(--creme);max-width:1180px;margin:0 auto;padding:20px 16px 48px;line-height:1.55;font-size:14px;
+ width:min(1180px,calc(100vw - 32px));position:relative;left:50%;transform:translateX(-50%);border-radius:18px}
 .omg-ajuda *{box-sizing:border-box}
 .omg-ajuda .topo{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:6px 0 16px;border-bottom:1px solid var(--linha);margin-bottom:18px}
 .omg-ajuda .topo h1{font-size:clamp(22px,3vw,28px);margin:0 0 4px;font-weight:800}
 .omg-ajuda .topo p{margin:0;color:var(--muted);font-size:13px}
+.omg-ajuda .topo p.intro{font-size:15px;color:var(--ameixa)}
 .omg-ajuda .busca{display:flex;gap:8px;align-items:center;background:#fff;border:1px solid var(--bebe);border-radius:999px;padding:8px 14px;flex:0 1 380px}
 .omg-ajuda .busca input{flex:1;border:0;outline:0;font:inherit;color:inherit;background:transparent;min-width:0}
 .omg-ajuda .grade{display:grid;grid-template-columns:240px minmax(0,1fr);gap:28px;align-items:start}
@@ -185,7 +187,7 @@ if(location.hash){var d=R.querySelector(location.hash);if(d&&d.tagName==='DETAIL
 opts = "".join(f'<option value="{slug}">{html.escape(titulo)}</option>' for slug, titulo, desc, qs in C.CATS)
 corpo = f"""<div class="omg-ajuda">
 <style>{CSS}</style>
-<div class="topo"><div><h1>Central de Ajuda</h1><p>Pedidos, impostos, entrega e skincare. Não achou? Fale com a gente. 💗</p></div>
+<div class="topo"><div><p class="intro">Pedidos, impostos, entrega e skincare. Não achou? Fale com a gente. 💗</p></div>
 <label class="busca"><span aria-hidden="true">🔍</span><input id="omg-busca" type="search" placeholder="Busque: prazo, imposto, CPF, devolução…" aria-label="Buscar na Central de Ajuda"></label></div>
 <div class="grade">
 <aside class="lado" aria-label="Categorias"><div class="tit">Categorias</div><button type="button" class="mi mi-inicio"><span>Início</span><small></small></button>{''.join(menu)}
