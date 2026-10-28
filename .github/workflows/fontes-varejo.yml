@@ -1,0 +1,16 @@
+name: Fotos - catálogos de varejistas e sites oficiais extras
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  v:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/fontes/varejo.py | tee varejo.log
+      - run: |
+          git config user.name "robo-omg"; git config user.email "robo@ohmygirl.com.br"
+          git add tools/fontes/catalogos_varejo
+          git commit -m "Fotos: catálogos de varejistas" && git pull --rebase && git push || echo nada
+          echo "::notice title=resultado::$(grep -v ' X ' varejo.log | tr '\n' ';')"
