@@ -73,7 +73,7 @@ const Q_PRODUTOS = `query($after: String) {
 // Troca as fotos de um produto: primeiro adiciona as oficiais, depois apaga as antigas
 // (assim o produto nunca fica sem foto se algo falhar no meio).
 async function trocarFotos(it: { handle: string; fotos: string[]; peso_g?: number | null }) {
-  const fotos = (it.fotos || []).filter((u) => /^https:\/\//.test(u)).slice(0, 8);
+  const fotos = (it.fotos || []).filter((u) => /^https:\/\//.test(u)).slice(0, 20);
   if (!it.handle || !fotos.length) throw new Error("sem handle ou sem fotos");
   const d: any = await gql(`query($q: String!) { products(first: 1, query: $q) { nodes {
       id title media(first: 50) { nodes { id } } variants(first: 100) { nodes { id } } } } }`, { q: "handle:" + it.handle });
@@ -142,6 +142,23 @@ Deno.serve(async (req) => {
       const st = b.ativo ? "active" : "draft";
       await admin.from("produtos").update({ ativo: !!b.ativo, site_status: st }).eq("shopify_product_id", String(b.produtoId));
       return resp(200, { ok: true, status: st });
+    }
+
+    if (b.acao === "marcas") {
+      // corrige a marca (vendor) de produtos cadastrados com marca errada: itens [{ handle, marca }]
+      const itens = (Array.isArray(b.itens) ? b.itens : []).slice(0, 40);
+      const resultados: any[] = [];
+      for (const it of itens) {
+        try {
+          const d: any = await gql(`query($q: String!) { products(first: 1, query: $q) { nodes { id vendor } } }`, { q: "handle:" + it.handle });
+          const p = d.products.nodes[0]; if (!p) throw new Error("produto não encontrado");
+          const u: any = await gql(`mutation($p: ProductUpdateInput!) { productUpdate(product: $p) { userErrors { message } } }`, { p: { id: p.id, vendor: String(it.marca) } });
+          if (u.productUpdate.userErrors.length) throw new Error(u.productUpdate.userErrors[0].message);
+          await admin.from("produtos").update({ marca: String(it.marca) }).eq("shopify_product_id", p.id.split("/").pop());
+          resultados.push({ handle: it.handle, ok: true, antes: p.vendor });
+        } catch (e) { resultados.push({ handle: it.handle, ok: false, erro: String((e as Error).message || e).slice(0, 160) }); }
+      }
+      return resp(200, { ok: true, resultados });
     }
 
     if (b.acao === "preco") {
@@ -323,7 +340,7 @@ Deno.serve(async (req) => {
         const f: any = porH.get(it.handle);
         try {
           if (it.ok) {
-            const fotos = (it.fotos || []).filter((u: string) => /^https:\/\//.test(u)).slice(0, 8);
+            const fotos = (it.fotos || []).filter((u: string) => /^https:\/\//.test(u)).slice(0, 20);
             const obs = "Confirmado: mesmo produto, mesmo tamanho e rótulo conferido na foto";
             const mesma = f && f.status === "aplicada" && JSON.stringify(f.fotos) === JSON.stringify(fotos);
             const row = { handle: it.handle, marca: it.marca ?? null, titulo: it.titulo ?? null, fonte_titulo: it.oficial ?? null, fonte_url: it.url ?? null,
