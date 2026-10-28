@@ -16,7 +16,7 @@
 //   SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET (app do Dev Dashboard; token pedido a cada 24 h por client credentials)
 //   ou, alternativa, SHOPIFY_ADMIN_TOKEN fixo.
 import { createClient } from "npm:@supabase/supabase-js@2";
-import { gravarProdutosLote, produtoParaLinhas } from "../_shared/produtos.js";
+import { gravarProdutos, gravarProdutosLote, produtoParaLinhas } from "../_shared/produtos.js";
 
 const URL_SB = Deno.env.get("SUPABASE_URL")!;
 const admin = createClient(URL_SB, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
@@ -203,6 +203,17 @@ Deno.serve(async (req) => {
       catch (_) { d = await gql(M, { d: { ...base, customerSelection: sel } }); }
       const e = d.discountCodeBasicCreate.userErrors; if (e.length) return resp(422, { erro: e.map((x: any) => x.message).join("; ") });
       return resp(200, { ok: true, codigo, id: d.discountCodeBasicCreate.codeDiscountNode.id, clientes: alvo.ids?.length ?? null, sem_cadastro: semCadastro });
+    }
+
+    if (b.acao === "teste_produtos") {
+      // Diagnóstico: passa produtos do Shopify pelo mesmo caminho do aviso products/update e mostra os erros.
+      const d: any = await gql(Q_PRODUTOS.replace("first: 50", "first: " + Math.min(Number(b.n) || 50, 50)), { after: b.after ?? null });
+      const erros: any[] = []; let ok = 0;
+      for (const p of d.products.nodes) {
+        try { await gravarProdutos(admin, produtoParaLinhas(p)); ok++; }
+        catch (e) { erros.push({ handle: p.handle, erro: JSON.stringify(e).slice(0, 300) }); }
+      }
+      return resp(200, { ok, erros, proximo: d.products.pageInfo.hasNextPage ? d.products.pageInfo.endCursor : null });
     }
 
     if (b.acao === "envio_sync") {
