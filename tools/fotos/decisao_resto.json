@@ -913,7 +913,7 @@
 "fotos_originais": []
 },
 "abib-heartleaf-sun-essence": {
-"ok": true,
+"ok": false,
 "origem": "loja (pelo endereço)",
 "titulo": "Espuma de Limpeza Profunda Sedum Hyaluron",
 "marca": "Abib",
@@ -925,7 +925,8 @@
 "https://cdn.shopify.com/s/files/1/0899/8862/8852/files/web_final_3_18c01f79-34f9-4471-b9f8-647271c9676d.jpg?v=1776266224",
 "https://cdn.shopify.com/s/files/1/0899/8862/8852/files/web_final_4_33b82367-9f36-4a7d-a06b-2404c5537114.jpg?v=1776266226"
 ],
-"fotos_originais": []
+"fotos_originais": [],
+"motivo": "conferência visual: foto é de outro produto (protetor Heartleaf Sun Essence)"
 },
 "abib-honey-fit": {
 "ok": false,
@@ -4271,7 +4272,7 @@
 ]
 },
 "ativador-de-raiz-de-alecrim-100ml-refil-100ml": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Rosemary Root Enhancer: tônico de alecrim para o couro cabeludo 100 ml + refil 100 ml",
 "marca": "AROMATICA",
@@ -4289,7 +4290,8 @@
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-02153615.png?v=1783017410",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-02153610.png?v=1783017410",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-02153631.png?v=1783017410"
-]
+],
+"motivo": "conferência visual: produto é frasco + refil; foto só do refil"
 },
 "azelaic-acid-cleansing-oil": {
 "ok": false,
@@ -4642,7 +4644,7 @@
 ]
 },
 "beplain-mung-bean-ph-balanced-cleansing-foam-160-ml-kit-duplo-2-unidades": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Mung Bean pH-Balanced Cleansing Foam: espuma de limpeza de feijão mungo 160 ml (kit com 2)",
 "marca": "beplain",
@@ -4658,7 +4660,8 @@
 "fotos_originais": [
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/1818_ba47555d-1084-4821-aa13-f28c51d14c3b.webp?v=1779839549",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/1818_21a72625-9241-4c77-8266-405968bcf0a9.webp?v=1779839549"
-]
+],
+"motivo": "conferência visual: produto é kit com 2; foto de 1 unidade"
 },
 "best-seller-essentials-kit-balsamo-de-limpeza-vitamina-c-e-345-relief-cream": {
 "ok": false,
@@ -7069,7 +7072,7 @@
 ]
 },
 "clio-copy-of-clio-kill-cover-airy-fit-concealer": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Kill Cover Founwear Concealer: corretivo líquido de alta cobertura 6 g",
 "marca": "CLIO",
@@ -7090,7 +7093,8 @@
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/3715f2d396920c8d2204bdb1c93ec0ac.jpg?v=1785841251",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/55377144f721592b500eaf448d66990e.jpg?v=1785841251",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/23fde38d61432f1b318ac21706723c7d.jpg?v=1785841251"
-]
+],
+"motivo": "conferência visual: foto é de paleta de corretivos, não do corretivo líquido"
 },
 "coeval-ampola-signature-mts-2ml-x-4": {
 "ok": false,
@@ -7375,7 +7379,7 @@
 ]
 },
 "collagen-reedle-shot-100-2-step-hydrogel-mask-4ea": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Collagen Reedle Shot 100: máscara de hidrogel firmadora em 2 passos, 4 unidades",
 "marca": "VT Cosmetics",
@@ -7395,7 +7399,8 @@
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/4_6e94e88d-f503-4900-8e0b-6d3a80ede879.jpg?v=1785765977",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/5_bd397586-780a-4201-83f8-3d07f6a9de80.png?v=1785765977",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/6_febc4b2b-538a-406c-a81c-5d16cf0497d1.jpg?v=1785765977"
-]
+],
+"motivo": "conferência visual: produto é máscara; foto é do sérum"
 },
 "collagen-reedle-shot-100-stick-pouch": {
 "ok": false,
@@ -8311,7 +8316,7 @@
 ]
 },
 "creme-hidratante": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Hydration Crème Water Tube: creme hidratante leve em bisnaga 75 ml",
 "marca": "Abib",
@@ -8324,7 +8329,8 @@
 ],
 "fotos_originais": [
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-06-11133940.png?v=1781196039"
-]
+],
+"motivo": "conferência visual: foto é do Hydration Gel (preto), não do Hydration Crème"
 },
 "creme-hidratante-de-betula-80ml": {
 "ok": false,
@@ -9619,7 +9625,7 @@
 ]
 },
 "dalba-dalba-white-truffle-serum-cream-modeling-mask-nutritive-hydrating": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Serum & Cream Modeling Mask: máscara modeladora nutritiva e hidratante",
 "marca": "d'Alba",
@@ -9640,7 +9646,8 @@
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/thumbnail-5_e096f8d9-f2f7-4e0a-8fe6-c5b4e3e07287.jpg?v=1785811698",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/thumbnail-6_17071bb6-97bd-4594-b919-d5dadfbc70f7.jpg?v=1785811698",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/thumbnail-7_e2a36351-99d4-4bb5-a9c8-3086d4247dd8.jpg?v=1785811698"
-]
+],
+"motivo": "conferência visual: embalagem da foto é de outra máscara"
 },
 "dalba-dalba-white-truffle-spray-serum-3-solutions-gift-set-1-7-fl-oz-x-3ea": {
 "ok": false,
@@ -10877,7 +10884,7 @@
 ]
 },
 "drg-dr-g-black-snail-cream": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Black Snail Cream: creme firmador com 20% de caracol negro 50 ml",
 "marca": "Dr.G",
@@ -10901,7 +10908,8 @@
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/dr-g-global-moisturizers-creams-dr-g-black-snail-cream-50ml-43778132410620.jpg?v=1785808496",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/dr-g-global-moisturizers-creams-dr-g-black-snail-cream-50ml-43778132443388.jpg?v=1785808497",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/dr-g-global-moisturizers-creams-dr-g-black-snail-cream-50ml-43778132312316.jpg?v=1785808496"
-]
+],
+"motivo": "conferência visual: foto é do Royal Black Snail Cream (outro produto)"
 },
 "drg-dr-g-black-snail-emulsion": {
 "ok": true,
@@ -12671,7 +12679,7 @@
 ]
 },
 "fortalecedor-de-raiz-com-alecrim-100-ml-rosemary-root-enhancer-100-ml": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Rosemary Root Enhancer: tônico de alecrim para o couro cabeludo 100 ml",
 "marca": "AROMATICA",
@@ -12691,10 +12699,11 @@
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-02115756.png?v=1783004306",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-02115751.png?v=1783004306",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-02115810.png?v=1783004307"
-]
+],
+"motivo": "conferência visual: produto é o frasco; foto só do refil"
 },
 "fortalecedor-de-raizes-de-alecrim-100ml-refil-100ml-x2": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Rosemary Root Enhancer: tônico de alecrim 100 ml + 2 refis de 100 ml",
 "marca": "AROMATICA",
@@ -12712,7 +12721,8 @@
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-07144308.png?v=1783446216",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-07144304.png?v=1783446216",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-07144321.png?v=1783446216"
-]
+],
+"motivo": "conferência visual: produto é frasco + refis; foto só do refil"
 },
 "fresh-calendula-cleanser-sabonete-facial-em-pasta-de-calendula-120-g": {
 "ok": false,
@@ -13058,7 +13068,7 @@
 ]
 },
 "gel-calmante-de-aloe-vera-500-ml": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Soothing Aloe Vera Gel: gel calmante de aloe vera para rosto e corpo 500 ml",
 "marca": "AROMATICA",
@@ -13076,10 +13086,11 @@
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-07125400.png?v=1783439663",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-07125357.png?v=1783439663",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-07125412.png?v=1783439663"
-]
+],
+"motivo": "conferência visual: produto é o frasco; foto só do refil"
 },
 "gel-calmante-de-aloe-vera-500ml-refil-500ml": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Soothing Aloe Vera Gel: gel calmante de aloe vera 500 ml + refil 500 ml",
 "marca": "AROMATICA",
@@ -13097,7 +13108,8 @@
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-07195926.png?v=1783465224",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-07195923.png?v=1783465223",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-07195935.png?v=1783465223"
-]
+],
+"motivo": "conferência visual: produto é frasco + refil; foto só do refil"
 },
 "gel-calmante-de-aloe-vera-refil-500-ml": {
 "ok": false,
@@ -15126,7 +15138,7 @@
 ]
 },
 "hyaluronate-essential-mask-mascara-em-folha-hidratante-com-acido-hialuronico": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Hyaluronate Essential Mask: máscara em folha hidratante com ácido hialurônico",
 "marca": "MEDIHEAL",
@@ -15146,7 +15158,8 @@
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/2_07bfd0cf-ac25-48eb-8a26-378c92482c9b.jpg?v=1792684061",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/3_3f923231-a0fe-41db-b098-4272f3182bb8.jpg?v=1792684061",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/5_f2016d6f-adfc-4096-bd39-4b7dd02d9dfb.jpg?v=1792684061"
-]
+],
+"motivo": "conferência visual: produto é 1 máscara; foto mostra pacote com 20"
 },
 "hyaluronate-hydrate-dewy-serum-serum-de-acido-hialuronico-40-ml": {
 "ok": false,
@@ -17282,7 +17295,7 @@
 ]
 },
 "ldr-keratin-power-glue-hair-ampoules-keratin-ampoule-15g-x-20ea-1box": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Keratin Power Glue: ampolas de queratina sem enxágue 20 x 15 g",
 "marca": "La'dor",
@@ -17302,10 +17315,11 @@
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/2ef076580c84c06ade6b4b9b1335c5ea.jpg?v=1785864857",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/bbe07ae16601eaa0ce0a82e700dfbc1d.jpg?v=1785864856",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/c9acc7e838ca2590d034cd3b7254e122.jpg?v=1785864856"
-]
+],
+"motivo": "conferência visual: produto é caixa com 20; foto de 1 unidade"
 },
 "ldr-keratin-power-glue-hair-ampoules-keratin-ampoule-15ml-x-4ea": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Keratin Power Glue: ampolas de queratina sem enxágue 4 x 15 ml",
 "marca": "La'dor",
@@ -17325,7 +17339,8 @@
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/673588eb1dc5ee77a80f74ad8006bd2d.jpg?v=1785864857",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/326b1ea0935c9292e86f58ee2c775652.jpg?v=1785864858",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/995e746c9d6a7bccc9269b77f1dbb0eb.jpg?v=1785864859"
-]
+],
+"motivo": "conferência visual: produto é 4 unidades; foto de 1 unidade"
 },
 "ldr-mens-grooming-fixing-spray-150ml": {
 "ok": false,
@@ -17768,7 +17783,7 @@
 ]
 },
 "luminous-ceramide-sleeping-pack-mascara-noturna-com-ceramida-100-ml": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Luminous Ceramide Sleeping Pack: máscara noturna com ceramida 100 ml",
 "marca": "PURITO SEOUL",
@@ -17782,7 +17797,8 @@
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/slide_02_b948ac4b-6708-46ab-9d0e-b0ac65d903b1.jpg?v=1792684427",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/slide_04-1.jpg?v=1792684428",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/slide_03_en-6.jpg?v=1792684428"
-]
+],
+"motivo": "conferência visual: foto é do Dermide Cica Barrier Sleeping Pack (outro produto)"
 },
 "luminous-moisture-shea-butter-body-lotion-locao-corporal-de-karite-300-ml": {
 "ok": false,
@@ -18558,7 +18574,7 @@
 ]
 },
 "mascara-facial-essencial-mediheal-kit-com-10-unidades-1-unidade-gratis-exclusivo-oy": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Madecassoside Essential Mask: máscara facial calmante 10 unidades + 1 de brinde",
 "marca": "MEDIHEAL",
@@ -18572,7 +18588,8 @@
 ],
 "fotos_originais": [
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/1814_6c573250-74a0-44af-816b-bccadc1876f5.webp?v=1779839548"
-]
+],
+"motivo": "conferência visual: produto é kit 10+1; foto de 1 máscara"
 },
 "mascara-facial-iluminadora-de-arroz-moido-e-mel": {
 "ok": false,
@@ -20100,7 +20117,7 @@
 ]
 },
 "numbuzin-no-1-pure-full-calming-herb-toner": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "No.1 Pure-Full Calming Herb Toner: tônico calmante de ervas 300 ml",
 "marca": "numbuzin",
@@ -20126,7 +20143,8 @@
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/04_2029fd7d-8d32-467a-8018-741aa57d10a4.jpg?v=1785845838",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/05_ad6a2d21-72d7-4c78-8448-75d898f69434.jpg?v=1785845839",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/06_21d0088d-b949-4e90-bfb8-f19800702136.jpg?v=1785845838"
-]
+],
+"motivo": "conferência visual: foto mostra 2 frascos (1+1)"
 },
 "numbuzin-no-1-sos-clear-skin-rescue-trio": {
 "ok": false,
@@ -21617,7 +21635,7 @@
 ]
 },
 "paleta-de-blush-de-bolso-pew-4-cores": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Pocket Cheek Palette: paleta de blush de bolso com 4 cores 9,6 g",
 "marca": "fwee",
@@ -21636,10 +21654,11 @@
 "fotos_originais": [
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-18203237.png?v=1784417601",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-18203312.png?v=1784417601"
-]
+],
+"motivo": "conferência visual: foto oficial anuncia brinde (GIFT)"
 },
 "paleta-de-sombras-pew-pocket-5-cores": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Pocket Eye Palette: paleta de sombras de bolso com 5 cores e chaveiro",
 "marca": "fwee",
@@ -21659,7 +21678,8 @@
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-18203437.png?v=1784417733",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-18203447.png?v=1784417733",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-18203454.png?v=1784417733"
-]
+],
+"motivo": "conferência visual: foto oficial anuncia brinde (GIFT)"
 },
 "paleta-de-sombras-puh-more-mood-6-cores-cores-vibrantes-e-intensas-com-um-amplo-espectro-que-abrange-diversos-tons-e-uma-formula-com-glitter-a-paleta-de-sombras-pue-eye-palette-permite-expressar-um-humor-diferente-a-cada-dia": {
 "ok": false,
@@ -21881,7 +21901,7 @@
 ]
 },
 "pdrn-cream-100": {
-"ok": true,
+"ok": false,
 "origem": "loja (pelo endereço)",
 "titulo": "PDRN Cream 100: creme com PDRN vegetal e cápsulas de azuleno 50 ml",
 "marca": "VT Cosmetics",
@@ -21900,10 +21920,11 @@
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/4_4e1771a6-1f52-49d1-8e54-49bbb2e0905a.jpg?v=1785765999",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/5_7121f99e-184d-4856-9613-443a3cee7fdd.png?v=1785765999",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/6.png?v=1785765999"
-]
+],
+"motivo": "conferência visual: foto é do PDRN Reedle Shot Cream (outro produto)"
 },
 "pdrn-essence-100": {
-"ok": true,
+"ok": false,
 "origem": "loja (pelo endereço)",
 "titulo": "PDRN Essence 100: essência leitosa com 100.000 ppm de PDRN vegetal 30 ml",
 "marca": "VT Cosmetics",
@@ -21925,7 +21946,8 @@
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/4.jpg?v=1785766000",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/5.jpg?v=1785766000",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/3.jpg?v=1785766000"
-]
+],
+"motivo": "conferência visual: foto é do PDRN Reedle Shot Essence (outro produto)"
 },
 "pdrn-glow-ampoule": {
 "ok": false,
@@ -23069,7 +23091,7 @@
 ]
 },
 "peri-peripera-speedy-skinny-brow-mascara": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Speedy Skinny Brow Mascara: máscara para sobrancelha com escova fina 3 g",
 "marca": "Peripera",
@@ -23095,7 +23117,8 @@
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/2darkbrown_2d34700b-1000-4029-957a-12220baee7cc.jpg?v=1785841286",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/3naturalbrown_95af8a3c-caba-43e9-bd8e-6ae9190c7f88.jpg?v=1785841286",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/4ashbrown.jpg?v=1785841287"
-]
+],
+"motivo": "conferência visual: produto é máscara de sobrancelha; foto mostra lápis"
 },
 "peri-peripera-sugar-twinkle-duo-eye-stick": {
 "ok": false,
@@ -25653,7 +25676,7 @@
 ]
 },
 "reti-a-reedle-shot-100-2-step-hydrogel-mask-4ea": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Reti-A Reedle Shot 100: máscara de hidrogel em 2 passos, 4 unidades",
 "marca": "VT Cosmetics",
@@ -25675,7 +25698,8 @@
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/4_86d7120d-eb3a-41b5-bf79-77ff7dc71dcd.jpg?v=1785766044",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/5_87dd6f3e-cb46-4834-8720-af1ca68a0535.png?v=1785766044",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/6_8c95b29c-2656-4533-baa0-f8a2adae8e9b.jpg?v=1785766044"
-]
+],
+"motivo": "conferência visual: produto é máscara; foto é do sérum"
 },
 "retinal-firming-booster-night-cream-creme-noturno-de-retinal-100-ml": {
 "ok": false,
@@ -28141,7 +28165,7 @@
 ]
 },
 "rose-pdrn-essential-mask-mascara-em-folha-de-pdrn-de-rosa-para-vico": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Rose PDRN Essential Mask: máscara em folha de PDRN de rosa para viço",
 "marca": "MEDIHEAL",
@@ -28161,7 +28185,8 @@
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/3_974d8527-05b9-49e2-aa6f-710208b02d29.png?v=1792684067",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/4_0adbec1c-0cda-40cf-b2ba-33d8b1893a9d.png?v=1792684067",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/5_07292242-c5be-457b-bb9b-4bfb9b3ed2e8.png?v=1792684067"
-]
+],
+"motivo": "conferência visual: produto é 1 máscara; foto mostra pacote com 20"
 },
 "rosehip-mild-ph-balancing-sabonete-facial-suave-em-pasta-de-rosa-mosqueta-150-g": {
 "ok": false,
@@ -28661,7 +28686,7 @@
 ]
 },
 "sabonete-liquido-corporal-serene-lavanda-manjerona-300-ml-refil-300-ml": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Serene Body Wash: sabonete corporal de lavanda e manjerona 300 ml + refil 300 ml",
 "marca": "AROMATICA",
@@ -28678,7 +28703,8 @@
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-07200236.png?v=1783465371",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-07200233.png?v=1783465371",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-07200246.png?v=1783465371"
-]
+],
+"motivo": "conferência visual: produto é frasco + refil; foto de 1 frasco"
 },
 "sabonete-liquido-hidratante-com-betula-150ml": {
 "ok": false,
@@ -28712,7 +28738,7 @@
 ]
 },
 "sabonete-liquido-para-as-maos-zesty-grapefruit-tangerine-300-ml-refil-300-ml": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Zesty Hand Soap: sabonete para as mãos de toranja e tangerina 300 ml + refil 300 ml",
 "marca": "AROMATICA",
@@ -28728,7 +28754,8 @@
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-07125211.png?v=1783439543",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-07125206.png?v=1783439543",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-07125218.png?v=1783439543"
-]
+],
+"motivo": "conferência visual: produto é frasco + refil; foto de 1 frasco"
 },
 "sabonete-liquido-suave-para-bebe-da-cabeca-aos-pes-300ml": {
 "ok": true,
@@ -28842,7 +28869,7 @@
 ]
 },
 "serum-calmante-abib-heartleaf-teca-capsule-calming-drop-50ml-duo-pack": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Heartleaf TECA Capsule Serum Calming Drop: sérum calmante, kit com 2 de 50 ml",
 "marca": "Abib",
@@ -28862,7 +28889,8 @@
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/2208_captura-de-tela-2026-05-18-155203-1.png?v=1779839546",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/2208_captura-de-tela-2026-05-18-155203.png?v=1779839545",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/2208_captura-de-tela-2026-05-18-155208.png?v=1779839545"
-]
+],
+"motivo": "conferência visual: produto é kit com 2; foto de 1"
 },
 "serum-calmante-para-a-barreira-cutanea": {
 "ok": false,
@@ -29091,7 +29119,7 @@
 ]
 },
 "serum-facial-abib-jericho-rose-bifida-serum-firming-drop-50ml-kit-especial-30ml": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Jericho Rose Bifida Serum Firming Drop: sérum firmador, kit 50 ml + 30 ml",
 "marca": "Abib",
@@ -29109,7 +29137,8 @@
 ],
 "fotos_originais": [
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/2225_captura-de-tela-2026-05-18-164122.png?v=1779839551"
-]
+],
+"motivo": "conferência visual: produto é kit 50 ml + 30 ml; foto de 1 frasco"
 },
 "serum-firmador-de-poros": {
 "ok": false,
@@ -29595,7 +29624,7 @@
 ]
 },
 "shampoo-esfoliante-para-couro-cabeludo-com-alecrim-400ml-refil-500ml": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Rosemary Scalp Scaling Shampoo: shampoo de alecrim 400 ml + refil 500 ml",
 "marca": "AROMATICA",
@@ -29611,7 +29640,8 @@
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-02155624.png?v=1783018664",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-02155620.png?v=1783018664",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-02155632.png?v=1783018664"
-]
+],
+"motivo": "conferência visual: tamanho diferente (foto é do de 1 litro)"
 },
 "shampoo-esfoliante-para-o-couro-cabeludo-com-alecrim-400-ml-rosemary-scalp-scaling-shampoo-400-ml": {
 "ok": true,
@@ -29634,7 +29664,7 @@
 ]
 },
 "shampoo-esfoliante-para-o-couro-cabeludo-com-alecrim-750-ml-rosemary-scalp-scaling-shampoo-750-ml": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Rosemary Scalp Scaling Shampoo: shampoo de alecrim para o couro cabeludo 750 ml",
 "marca": "AROMATICA",
@@ -29650,7 +29680,8 @@
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-02121247.png?v=1783005198",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-02121259.png?v=1783005198",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-02121254.png?v=1783005198"
-]
+],
+"motivo": "conferência visual: tamanho diferente (foto é do de 1 litro)"
 },
 "shampoo-espessante-folligen": {
 "ok": false,
@@ -31392,7 +31423,7 @@
 ]
 },
 "tonico-purificante-de-tea-tree-100ml": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Tea Tree Purifying Tonic: tônico refrescante de tea tree para o couro cabeludo 100 ml",
 "marca": "AROMATICA",
@@ -31408,10 +31439,11 @@
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-02151716.png?v=1783016251",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-02151712.png?v=1783016251",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-02151719.png?v=1783016252"
-]
+],
+"motivo": "conferência visual: produto é o frasco; foto só do refil"
 },
 "tonico-purificante-de-tea-tree-100ml-e-refil-100ml": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Tea Tree Purifying Tonic: tônico de tea tree para o couro cabeludo 100 ml + refil 100 ml",
 "marca": "AROMATICA",
@@ -31428,7 +31460,8 @@
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-07154403.png?v=1783449860",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-07154400.png?v=1783449860",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/Capturadetela2026-07-07154408.png?v=1783449860"
-]
+],
+"motivo": "conferência visual: produto é frasco + refil; foto só do refil"
 },
 "tonico-refrescante-green-plum-aha-bha": {
 "ok": false,
@@ -32944,7 +32977,7 @@
 ]
 },
 "wonder-releaf-centella-bb-cushion-cushion-bb-com-centella-fps-30-pa-15-g-refil": {
-"ok": true,
+"ok": false,
 "origem": "loja",
 "titulo": "Wonder Releaf Centella BB Cushion: cushion BB com centella FPS 30 PA+++ 15 g + refil",
 "marca": "PURITO SEOUL",
@@ -32961,7 +32994,8 @@
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/cusion-slide-03.jpg?v=1792684461",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/cusion-slide-04.jpg?v=1792684461",
 "https://cdn.shopify.com/s/files/1/1000/4067/1530/files/cusion-slide-02.jpg?v=1792684460"
-]
+],
+"motivo": "conferência visual: produto é cushion + refil; foto só do cushion"
 },
 "wonder-releaf-centella-cream-creme-calmante-de-centella-50-ml": {
 "ok": true,
