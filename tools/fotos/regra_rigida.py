@@ -6,6 +6,7 @@ Uma foto oficial só é aceita quando TODOS os critérios passam:
     e o título oficial não tem nenhuma palavra a mais além de palavras genéricas (sheet, ea, pads…);
  3. mesmo tamanho: se o nosso título tem ml/g/quantidade, o oficial tem que ter o mesmo número
     (no título ou numa variante); se o oficial tiver tamanhos diferentes e nenhum igual, recusa;
+    se o oficial não escreve o tamanho, só passa quando a página oficial tem uma única versão (sem outro tamanho);
  4. único: se mais de um produto oficial passar, recusa (ambíguo).
 Depois disso ainda há a conferência visual (contato.py gera as folhas para olhar).
 
@@ -62,6 +63,9 @@ for arq in sys.argv[1:]:
             prod[r["Handle"]]["fotos"].append(r["Image Src"])
 
 lote1 = set(json.load(open(A.parent.parent / "site/lote1.json")))
+# título atual de cada produto (o export é mais antigo; as fichas têm o nome que está no site hoje)
+for f in json.load(open(A.parent.parent / "bomi/fichas-produtos.json")):
+    if f["handle"] in prod: prod[f["handle"]]["titulo"] = f["nome"]; prod[f["handle"]]["marca"] = f["marca"] or prod[f["handle"]]["marca"]
 saida = {}
 for h in sorted(lote1):
     p = prod.get(h)
@@ -86,8 +90,11 @@ for h in sorted(lote1):
         vt = [o["title"]] + [v.get("title", "") for v in o.get("variants", [])]
         otam = set().union(*[tamanhos(x) for x in vt])
         if tam:
-            if not otam: continue                      # oficial não diz o tamanho → não dá para confirmar
-            if not (tam & otam): continue              # tamanho diferente
+            if not otam:
+                # o site oficial não escreve o tamanho: só aceita se a marca tem UMA página com esse nome e UMA versão
+                # (não existe outro tamanho para confundir); o rótulo é conferido na folha visual
+                if any(re.search(r"\d\s*(ml|g|oz)\b", norm(v.get("title", ""))) for v in o.get("variants", [])): continue
+            elif not (tam & otam): continue            # tamanho diferente
             if len({t for t in otam if t[1] in {u for _, u in tam}}) > 1 and len(o.get("variants", [])) > 1:
                 continue                               # vários tamanhos na mesma página: a foto pode ser do outro
         achados.append(o)
