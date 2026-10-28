@@ -1,53 +1,59 @@
 {
- "S430": [
-  {
-   "erro": "Expecting value: line 1 column 1 (char 0)"
-  }
- ],
  "S530": [
   {
-   "erro": "Expecting value: line 1 column 1 (char 0)"
+   "loja": "https://shop.soil911.com/products/lador-acv-vinegar-shampoo-530ml",
+   "titulo": "Lador ACV Vinegar Shampoo and Apple Extract",
+   "variantes": [
+    "Default Title"
+   ],
+   "fotos": [
+    "https://cdn.shopify.com/s/files/1/0621/5971/6548/files/lador-acv-vinegar-shampoo-530ml.jpg?v=1788951102",
+    "https://cdn.shopify.com/s/files/1/0621/5971/6548/files/lador-acv-vinegar-shampoo-530ml_2.jpg?v=1788951102",
+    "https://cdn.shopify.com/s/files/1/0621/5971/6548/files/lador-acv-vinegar-shampoo-530ml_3.jpg?v=1788951102"
+   ]
+  }
+ ],
+ "S530b": [
+  {
+   "loja": "https://www.mirai-skin.com/products/lador-acv-vinegar-shampoo-530ml",
+   "titulo": "LADOR ACV Vinegar Shampoo 530ml",
+   "variantes": [
+    "Default Title"
+   ],
+   "fotos": [
+    "https://cdn.shopify.com/s/files/1/0899/8862/8852/files/product_images_1783929828.51495060429453971_5775809191789030310_161e4bc6-085d-48f8-98bf-277d4537d27d.jpg?v=1789243422",
+    "https://cdn.shopify.com/s/files/1/0899/8862/8852/files/product_images_1783929828.2026-05-151401481789030310.jpg?v=1789243422"
+   ]
   }
  ],
  "T530": [
   {
+   "loja": "https://www.mirai-skin.com/products/lador-acv-vinegar-treatment-530ml",
+   "titulo": "LADOR ACV Vinegar Treatment 530ml",
+   "variantes": [
+    "Default Title"
+   ],
+   "fotos": [
+    "https://cdn.shopify.com/s/files/1/0899/8862/8852/files/product_images_1783929827.28457493427411799_13294539261789030310_4100e615-296f-4664-816a-dbcc98dff1bb.jpg?v=1789243417",
+    "https://cdn.shopify.com/s/files/1/0899/8862/8852/files/product_images_1783929827.2026-05-141728441789030310.jpg?v=1789243417"
+   ]
+  }
+ ],
+ "Ssoko": [
+  {
+   "loja": "https://sokoglam.com/products/lador-acv-vinegar-shampoo",
+   "titulo": "ACV Vinegar Shampoo",
+   "variantes": [
+    "Default Title"
+   ],
+   "fotos": [
+    "https://cdn.shopify.com/s/files/1/0249/1218/files/Lador-Revamped-AVC-Vinegar-Shampoo.jpg?v=1756220508"
+   ]
+  }
+ ],
+ "S430": [
+  {
    "erro": "Expecting value: line 1 column 1 (char 0)"
-  }
- ],
- "S150": [
-  {
-   "loja": "https://www.dodoskin.com/products/lador-acv-vinegar-shampoo-150ml",
-   "titulo": "Lador ACV Vinegar Shampoo 150ml",
-   "variantes": [
-    "150ml"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0506/2121/8972/files/l4_63699c67-83b4-459d-a88b-cb2158b4abfe.jpg?v=1694736596"
-   ]
-  }
- ],
- "T150": [
-  {
-   "loja": "https://www.dodoskin.com/products/lador-acv-vinegar-treatment-150ml",
-   "titulo": "Lador ACV Vinegar Treatment 150ml",
-   "variantes": [
-    "150ml"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0506/2121/8972/files/l18_d92d7eed-baff-44e2-8d28-7a16bdd58b46.jpg?v=1694744249"
-   ]
-  }
- ],
- "T430": [
-  {
-   "loja": "https://www.dodoskin.com/products/lador-acv-vinegar-treatment-430ml",
-   "titulo": "Lador ACV Vinegar Treatment 430ml",
-   "variantes": [
-    "430ml"
-   ],
-   "fotos": [
-    "https://cdn.shopify.com/s/files/1/0506/2121/8972/files/l20_6648dbd3-6d1a-4006-8958-bc7d300aa974.jpg?v=1694745184"
-   ]
   }
  ]
 }
