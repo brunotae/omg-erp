@@ -21,10 +21,10 @@ def folha(nome, titulo, urls):
         d.text((x + 6, y), f"{i + 1}", fill=(0, 0, 0), font=font)
         if im: f.paste(im, (x + 6, y + 18))
     f.save(OUT / f"{nome}.jpg", quality=72)
-P = json.loads((A / "galeria2_pedido.json").read_text()) if (A / "galeria2_pedido.json").exists() else {}
+P = {} if (A / "so_busca").exists() else json.loads((A / "galeria2_pedido.json").read_text()) if (A / "galeria2_pedido.json").exists() else {}
 for n, us in P.items(): folha(n, n, us)
 B = json.loads((A / "galeria2_busca.json").read_text()) if (A / "galeria2_busca.json").exists() else {}
-LOJAS = ["sokoglam.com", "ohlolly.com", "www.kollab.com.br", "beautyofjoseon.com", "www.stylevana.com", "koreanskincare.nl", "kbeautyaddiction.co.uk", "www.beautytap.com", "seoulbeautyclub.com", "kbeautystore.com"]
+LOJAS = ["www.dodoskin.com", "sokoglam.com", "ohlolly.com", "www.kollab.com.br", "beautyofjoseon.com", "www.stylevana.com", "koreanskincare.nl", "kbeautyaddiction.co.uk", "www.beautytap.com", "seoulbeautyclub.com", "kbeautystore.com"]
 achados = {}
 for n, q in B.items():
     achados[n] = []
