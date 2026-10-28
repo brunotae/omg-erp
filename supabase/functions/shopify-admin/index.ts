@@ -9,6 +9,8 @@
 //   { acao: "rodape", aplicar: false|true }              → troca links do rodapé das páginas antigas pela Central de Ajuda,
 //                                                          esconde as páginas antigas e cria redirecionamentos (aplicar:false só mostra o plano)
 //   { acao: "ativar", handles: [..], ativo: true|false } → ativa (ou pausa) produtos pelo handle, até 50 por vez
+//   { acao: "fotos_refazer", itens: [{ handle, ok, fotos?, oficial?, url?, motivo?, fotos_originais? }] }
+//        → refaz a fila de fotos com a regra rígida; quem não passa e já tinha foto nova volta para a original
 //   { acao: "pesos", itens: [{ sku, peso_g, dim: [c, l, a] (cm) }] } → grava peso (frete) e dimensões (metafield custom.dimensoes_cm), até 100 por vez
 // Segredos: SHOPIFY_SHOP (ex.: mundo-beleza-9571.myshopify.com), SHOPIFY_API_VERSION (opcional) e
 //   SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET (app do Dev Dashboard; token pedido a cada 24 h por client credentials)
@@ -308,6 +310,42 @@ Deno.serve(async (req) => {
         } catch (e) { resultados.push({ handle: h, ok: false, erro: String((e as Error).message || e).slice(0, 200) }); }
       };
       for (let i = 0; i < hs.length; i += 5) await Promise.all(hs.slice(i, i + 5).map(um));
+      return resp(200, { ok: true, resultados });
+    }
+
+    if (b.acao === "fotos_refazer") {
+      const itens = (Array.isArray(b.itens) ? b.itens : []).slice(0, 40);
+      const { data: filas } = await admin.from("fotos_fila").select("id,handle,status,fotos").in("handle", itens.map((i: any) => String(i.handle)));
+      const porH = new Map((filas || []).map((f: any) => [f.handle, f]));
+      const agora = new Date().toISOString();
+      const resultados: any[] = [];
+      const um = async (it: any) => {
+        const f: any = porH.get(it.handle);
+        try {
+          if (it.ok) {
+            const fotos = (it.fotos || []).filter((u: string) => /^https:\/\//.test(u)).slice(0, 8);
+            const obs = "Confirmado: mesmo produto, mesmo tamanho e rótulo conferido na foto";
+            const mesma = f && f.status === "aplicada" && JSON.stringify(f.fotos) === JSON.stringify(fotos);
+            const row = { handle: it.handle, marca: it.marca ?? null, titulo: it.titulo ?? null, fonte_titulo: it.oficial ?? null, fonte_url: it.url ?? null,
+              fotos, score: 1, obs, status: mesma ? "aplicada" : "pendente", decidido_por: null, decidido_em: null };
+            if (f) await admin.from("fotos_fila").update(row).eq("id", f.id); else await admin.from("fotos_fila").insert(row);
+            resultados.push({ handle: it.handle, ok: true });
+            return;
+          }
+          let obs = "Fora da fila: " + String(it.motivo || "não confirmado").slice(0, 200) + ". Continua com a foto atual.";
+          let restaurada = false, status = "rejeitada";
+          if (f && f.status === "aplicada") {
+            const orig = (it.fotos_originais || []).filter((u: string) => /^https:\/\//.test(u));
+            if (orig.length) {
+              try { await trocarFotos({ handle: it.handle, fotos: orig }); restaurada = true; obs = "Foto original restaurada. Motivo: " + String(it.motivo || "").slice(0, 200); }
+              catch (e) { status = "erro"; obs = "PRECISA RESTAURAR a foto original (" + String((e as Error).message || e).slice(0, 120) + "). Motivo: " + String(it.motivo || "").slice(0, 150); }
+            } else { status = "erro"; obs = "PRECISA RESTAURAR: não achei a foto original. Motivo: " + String(it.motivo || "").slice(0, 150); }
+          }
+          if (f) await admin.from("fotos_fila").update({ status, obs, decidido_por: "regra rígida", decidido_em: agora }).eq("id", f.id);
+          resultados.push({ handle: it.handle, ok: status !== "erro", restaurada });
+        } catch (e) { resultados.push({ handle: it.handle, ok: false, erro: String((e as Error).message || e).slice(0, 200) }); }
+      };
+      for (let i = 0; i < itens.length; i += 5) await Promise.all(itens.slice(i, i + 5).map(um));
       return resp(200, { ok: true, resultados });
     }
 

@@ -873,25 +873,25 @@ async function loadFotos(){
  catch(e){FT.missing=/fotos_fila|relation|schema cache|does not exist/i.test(String(e&&(e.message||e.code)))||e&&e.code==='42P01';FT.rows=[]}
  FT.loaded=true;FT.loading=false;if(S.view==='fotos')render();
 }
-const nivelF=r=>n(r.score)>=0.65?'forte':'provável';
+const confF=r=>/^Confirmado/.test(r.obs||'');
 const FT_ST=[['pendente','Pendentes'],['aprovada','Aprovadas'],['aplicada','Aplicadas no site'],['rejeitada','Rejeitadas'],['erro','Com erro'],['todas','Todas']];
 const FT_PILL={pendente:'Pendente',aprovada:'Aprovada',aplicada:'No site',rejeitada:'Rejeitada',erro:'Erro'};
-function fotosFiltradas(){return FT.rows.filter(r=>(FT.st==='todas'||r.status===FT.st)&&(!FT.marca||r.marca===FT.marca)&&(!FT.nivel||nivelF(r)===FT.nivel)&&(!S.q||(r.titulo+' '+r.marca+' '+r.handle).toLowerCase().includes(S.q.toLowerCase())))}
+function fotosFiltradas(){return FT.rows.filter(r=>(FT.st==='todas'||r.status===FT.st)&&(!FT.marca||r.marca===FT.marca)&&(!S.q||(r.titulo+' '+r.marca+' '+r.handle).toLowerCase().includes(S.q.toLowerCase())))}
 VIEWFN.fotos=()=>{
  if(!FT.loaded&&S.db)setTimeout(loadFotos,0);
  const cnt=k=>k==='todas'?FT.rows.length:FT.rows.filter(r=>r.status===k).length;
  const marcas=[...new Set(FT.rows.map(r=>r.marca).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
  const L=fotosFiltradas(), vis=L.slice(0,FT.lim), apr=cnt('aprovada');
- const fortesMarca=FT.marca?FT.rows.filter(r=>r.marca===FT.marca&&r.status==='pendente'&&nivelF(r)==='forte').length:0;
- const acts=(can()&&!FT.missing?(FT.marca&&fortesMarca?'<button class="btn sm" type="button" id="ft-aprmarca">Aprovar fortes de '+esc(FT.marca)+' ('+fortesMarca+')</button> ':'')+'<button class="btn pri sm" type="button" id="ft-aplicar"'+(apr&&!FT.busy?'':' disabled')+'>'+(FT.busy?'Aplicando…':'Aplicar aprovadas no site ('+apr+')')+'</button>':'');
- return '<div class="page wide"><div class="col">'+head('Fotos oficiais','Troca das fotos do site pelas fotos do site oficial de cada marca. Aprove aqui; depois "Aplicar" substitui as fotos no Shopify (entram as oficiais, saem as antigas) (o peso não muda: já foi enviado pelo botão 4 em Ajustes).',acts)+
+ const confPend=FT.rows.filter(r=>r.status==='pendente'&&confF(r)).length;
+ const acts=(can()&&!FT.missing?'<button class="btn sm" type="button" id="ft-refazer">Refazer fila (regra rígida)</button> '+(confPend?'<button class="btn sm" type="button" id="ft-aprconf">Aprovar todos os conferidos ('+confPend+')</button> ':'')+'<button class="btn pri sm" type="button" id="ft-aplicar"'+(apr&&!FT.busy?'':' disabled')+'>'+(FT.busy?'Aplicando…':'Aplicar aprovadas no site ('+apr+')')+'</button>':'');
+ return '<div class="page wide"><div class="col">'+head('Fotos oficiais','Só entram fotos conferidas: mesma marca, mesmo produto (nome e tipo), mesmo tamanho, e rótulo conferido olhando a foto. O que não passa continua com a foto atual. Aprove os conferidos e clique em Aplicar. O peso não muda aqui.',acts)+
  (FT.missing?'<div class="note"><span class="label">Falta rodar o SQL</span><p>Rode no Supabase (SQL Editor) o <b>20261024d_fotos_oficiais.sql</b> e depois os arquivos <b>fotos_fila_lote1_parte1…5.sql</b>.</p></div>':'')+
  '<div class="chips">'+FT_ST.map(([k,l])=>'<button type="button" class="chip'+(FT.st===k?' on':'')+'" data-ftst="'+k+'">'+l+' <span class="num">'+cnt(k)+'</span></button>').join('')+'</div>'+
  '<div class="chips"><select id="ft-marca" class="chip" aria-label="Marca"><option value="">Todas as marcas</option>'+marcas.map(m=>'<option'+(m===FT.marca?' selected':'')+'>'+esc(m)+'</option>').join('')+'</select>'+
- [['','Forte e provável'],['forte','Só fortes'],['provável','Só prováveis']].map(([k,l])=>'<button type="button" class="chip'+(FT.nivel===k?' on':'')+'" data-ftniv="'+k+'">'+l+'</button>').join('')+'<span class="muted" style="align-self:center;font-size:11.5px">'+L.length+' produtos</span></div>'+
+ '<span class="muted" style="align-self:center;font-size:11.5px">'+L.length+' produtos</span></div>'+
  (!FT.loaded?'<div class="card"><p class="muted">Carregando…</p></div>':!L.length?'<div class="card">'+empty(FT.missing?'Fila ainda não criada':'Nada neste filtro','Troque o filtro de status ou de marca.')+'</div>':
  '<div class="fgrid">'+vis.map(r=>{const f=r.fotos||[];
-  return '<div class="card fcard"><div class="fh"><div style="min-width:0"><b>'+esc(r.titulo)+'</b><small class="muted">'+esc(r.marca)+' · <span class="pill '+(nivelF(r)==='forte'?'p-ok':'p-warn')+'">'+nivelF(r)+' '+Math.round(n(r.score)*100)+'%</span>'+(has(r.pesoG)?' · '+r.pesoG+' g':'')+'</small></div>'+stPill(FT_PILL[r.status]||r.status)+'</div>'+
+  return '<div class="card fcard"><div class="fh"><div style="min-width:0"><b>'+esc(r.titulo)+'</b><small class="muted">'+esc(r.marca)+(confF(r)?' · <span class="pill p-ok">conferido ✓</span>':'')+(has(r.pesoG)?' · '+r.pesoG+' g':'')+'</small></div>'+stPill(FT_PILL[r.status]||r.status)+'</div>'+
   '<div class="thumbs">'+f.slice(0,5).map(u=>'<a href="'+esc(u)+'" target="_blank" rel="noopener"><img loading="lazy" src="'+esc(u)+'" alt=""></a>').join('')+(f.length>5?'<span class="more">+'+(f.length-5)+'</span>':'')+'</div>'+
   '<small class="muted fsrc">Oficial: <a href="'+esc(r.fonteUrl||'#')+'" target="_blank" rel="noopener">'+esc(r.fonteTitulo||r.fonteSite||'')+'</a> · <a href="https://admin.shopify.com/store/mundo-beleza-9571/products?query='+encodeURIComponent(r.handle)+'" target="_blank" rel="noopener">ver no Shopify</a></small>'+
   (r.obs?'<small style="color:var(--bad)">'+esc(r.obs)+'</small>':'')+
@@ -899,6 +899,19 @@ VIEWFN.fotos=()=>{
   '</div>'}).join('')+'</div>'+(L.length>vis.length?'<div style="text-align:center"><button class="btn" type="button" id="ft-mais">Mostrar mais ('+(L.length-vis.length)+')</button></div>':''))+
  '</div></div>';
 };
+async function refazerFotos(){
+ let D;try{D=await (await fetch('tools/fotos/decisao_final.json',{cache:'no-store'})).json()}catch(_){toast('A conferência ainda não terminou');return}
+ const itens=Object.entries(D).map(([handle,v])=>({handle,...v}));
+ const nOk=itens.filter(i=>i.ok).length;
+ if(!confirm('Refazer a fila: '+nOk+' produtos conferidos ficam para aprovar; os outros '+(itens.length-nOk)+' saem da fila e continuam com a foto atual. Se algum desses já tinha recebido foto nova, a foto original volta. Continuar?'))return;
+ FT.busy=true;render();let feitos=0,rest=0,err=0;
+ for(let i=0;i<itens.length;i+=40){
+  try{const {data,error}=await sb.functions.invoke('shopify-admin',{body:{acao:'fotos_refazer',itens:itens.slice(i,i+40)}});if(error)throw error;
+   (data.resultados||[]).forEach(r=>{feitos++;if(r.restaurada)rest++;if(!r.ok)err++});toast('Refazendo… '+Math.min(i+40,itens.length)+' de '+itens.length)}
+  catch(e){toast('Erro ao refazer: '+(e.message||e));break}
+ }
+ FT.busy=false;FT.loaded=false;await loadFotos();toast('Fila refeita: '+nOk+' conferidos · '+rest+' fotos originais restauradas'+(err?' · '+err+' com erro (veja "Com erro")':''));
+}
 async function decidirFotos(ids,status){
  const body={status,decidido_por:S.email||'',decidido_em:new Date().toISOString()};if(status!=='erro')body.obs='';
  for(let i=0;i<ids.length;i+=200){const {error}=await sb.from('fotos_fila').update(body).in('id',ids.slice(i,i+200));if(error){toast(errMsg(error));return false}}
@@ -1770,7 +1783,6 @@ document.addEventListener('click',e=>{
  if(t.dataset.adv){e.stopPropagation();advance(t.dataset.adv);return}
  if(t.dataset.cut){fecharLista(t.dataset.cut);return}
  if(t.dataset.ftst){FT.st=t.dataset.ftst;FT.lim=60;render();return}
- if(t.dataset.ftniv!==undefined){FT.nivel=t.dataset.ftniv;FT.lim=60;render();return}
  if(t.dataset.ftapr){decidirFotos([t.dataset.ftapr],'aprovada');return}
  if(t.dataset.ftrej){decidirFotos([t.dataset.ftrej],'rejeitada');return}
  if(t.id==='ft-mais'){FT.lim+=60;render();return}
@@ -1781,7 +1793,8 @@ document.addEventListener('click',e=>{
  if(t.dataset.avtog){mudarAviso(t.dataset.avtog,false);return}
  if(t.dataset.avdel){mudarAviso(t.dataset.avdel,true);return}
  if(t.id==='ft-aplicar'){aplicarFotos();return}
- if(t.id==='ft-aprmarca'){const ids=FT.rows.filter(r=>r.marca===FT.marca&&r.status==='pendente'&&nivelF(r)==='forte').map(r=>r.id);if(confirm('Aprovar '+ids.length+' produtos de '+FT.marca+'?'))decidirFotos(ids,'aprovada');return}
+ if(t.id==='ft-aprconf'){const ids=FT.rows.filter(r=>r.status==='pendente'&&confF(r)).map(r=>r.id);if(confirm('Aprovar os '+ids.length+' produtos conferidos (mesmo produto, mesmo tamanho e rótulo conferido)?'))decidirFotos(ids,'aprovada');return}
+ if(t.id==='ft-refazer'){refazerFotos();return}
  if(t.dataset.docf){S.f.doc=t.dataset.docf;render();return}
  if(t.dataset.docopen){abrirDoc(t.dataset.docopen);return}
  if(t.dataset.docdel){excluirDoc(t.dataset.docdel);return}
