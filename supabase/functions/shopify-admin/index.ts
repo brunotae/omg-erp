@@ -144,6 +144,79 @@ Deno.serve(async (req) => {
       return resp(200, { ok: true, status: st });
     }
 
+    if (b.acao === "cupom_criar") {
+      // Cria um cupom de verdade no Shopify (o checkout reconhece na hora).
+      // cupom: { codigo, tipo: "%"|"R$", valor, minimo?, publico: "todas"|"primeira"|"clientes", emails?: [], uma_vez?, limite_total?, inicio?, fim?, titulo? }
+      const c = b.cupom || {};
+      const codigo = String(c.codigo || "").toUpperCase().replace(/[^A-Z0-9_-]/g, "");
+      if (codigo.length < 3) return resp(400, { erro: "código precisa de ao menos 3 letras ou números" });
+      const valor = Number(c.valor);
+      if (!(valor > 0)) return resp(400, { erro: "valor do desconto inválido" });
+      if (c.tipo === "%" && valor > 100) return resp(400, { erro: "percentual acima de 100%" });
+      const ja: any = await gql(`query($c: String!) { codeDiscountNodeByCode(code: $c) { id } }`, { c: codigo });
+      if (ja.codeDiscountNodeByCode) return resp(409, { erro: "já existe um cupom com o código " + codigo + " no Shopify" });
+
+      let alvo: { tipo: string; ids?: string[] } = { tipo: "todas" };
+      const semCadastro: string[] = [];
+      if (c.publico === "clientes") {
+        const emails = [...new Set((Array.isArray(c.emails) ? c.emails : []).map((e: any) => String(e).trim().toLowerCase()).filter((e: string) => e.includes("@")))].slice(0, 200);
+        const ids: string[] = [];
+        for (const e of emails) {
+          const q: any = await gql(`query($q: String!) { customers(first: 1, query: $q) { nodes { id email } } }`, { q: "email:" + e });
+          const cl = q.customers.nodes.find((x: any) => String(x.email || "").toLowerCase() === e);
+          if (cl) ids.push(cl.id); else semCadastro.push(e);
+        }
+        if (!ids.length) return resp(400, { erro: "nenhuma das clientes tem cadastro no Shopify", sem_cadastro: semCadastro });
+        alvo = { tipo: "clientes", ids };
+      } else if (c.publico === "primeira") {
+        const s: any = await gql(`{ segments(first: 100) { nodes { id name query } } }`);
+        let seg = s.segments.nodes.find((x: any) => /number_of_orders\s*=\s*0/.test(String(x.query || "")));
+        if (!seg) {
+          const n: any = await gql(`mutation($n: String!, $q: String!) { segmentCreate(name: $n, query: $q) { segment { id } userErrors { message } } }`,
+            { n: "OMG · ainda não comprou", q: "number_of_orders = 0" });
+          if (n.segmentCreate.userErrors.length) throw new Error("não consegui criar o grupo 'primeira compra': " + n.segmentCreate.userErrors[0].message);
+          seg = n.segmentCreate.segment;
+        }
+        alvo = { tipo: "segmento", ids: [seg.id] };
+      }
+
+      const base: any = {
+        title: String(c.titulo || codigo).slice(0, 255),
+        code: codigo,
+        startsAt: c.inicio ? `${c.inicio}T00:00:00-03:00` : new Date().toISOString(),
+        endsAt: c.fim ? `${c.fim}T23:59:59-03:00` : null,
+        customerGets: {
+          value: c.tipo === "%" ? { percentage: Math.round(valor * 100) / 10000 } : { discountAmount: { amount: valor.toFixed(2), appliesOnEachItem: false } },
+          items: { all: true },
+        },
+        minimumRequirement: Number(c.minimo) > 0 ? { subtotal: { greaterThanOrEqualToSubtotal: Number(c.minimo).toFixed(2) } } : null,
+        usageLimit: Number(c.limite_total) > 0 ? Math.round(Number(c.limite_total)) : null,
+        appliesOncePerCustomer: !!c.uma_vez,
+        combinesWith: { orderDiscounts: false, productDiscounts: false, shippingDiscounts: true },
+      };
+      const M = `mutation($d: DiscountCodeBasicInput!) { discountCodeBasicCreate(basicCodeDiscount: $d) { codeDiscountNode { id } userErrors { field message } } }`;
+      // Versões novas da API usam "context"; as antigas, "customerSelection". Tenta a nova e cai para a antiga.
+      const ctx = alvo.tipo === "clientes" ? { customers: { add: alvo.ids } } : alvo.tipo === "segmento" ? { customerSegments: { add: alvo.ids } } : { all: "ALL" };
+      const sel = alvo.tipo === "clientes" ? { customers: { add: alvo.ids } } : alvo.tipo === "segmento" ? { customerSegments: { add: alvo.ids } } : { all: true };
+      let d: any;
+      try { d = await gql(M, { d: { ...base, context: ctx } }); }
+      catch (_) { d = await gql(M, { d: { ...base, customerSelection: sel } }); }
+      const e = d.discountCodeBasicCreate.userErrors; if (e.length) return resp(422, { erro: e.map((x: any) => x.message).join("; ") });
+      return resp(200, { ok: true, codigo, id: d.discountCodeBasicCreate.codeDiscountNode.id, clientes: alvo.ids?.length ?? null, sem_cadastro: semCadastro });
+    }
+
+    if (b.acao === "cupom_status") {
+      const id = String(b.id || "");
+      if (!id.startsWith("gid://shopify/DiscountCodeNode/")) return resp(400, { erro: "cupom sem ligação com o Shopify" });
+      const m = b.ativo
+        ? `mutation($id: ID!) { discountCodeActivate(id: $id) { userErrors { message } } }`
+        : `mutation($id: ID!) { discountCodeDeactivate(id: $id) { userErrors { message } } }`;
+      const d: any = await gql(m, { id });
+      const e = (b.ativo ? d.discountCodeActivate : d.discountCodeDeactivate).userErrors;
+      if (e.length) return resp(422, { erro: e[0].message });
+      return resp(200, { ok: true });
+    }
+
     if (b.acao === "marcas") {
       // corrige a marca (vendor) de produtos cadastrados com marca errada: itens [{ handle, marca }]
       const itens = (Array.isArray(b.itens) ? b.itens : []).slice(0, 40);
