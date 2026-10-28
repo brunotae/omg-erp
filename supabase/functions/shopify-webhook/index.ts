@@ -77,8 +77,13 @@ Deno.serve(async (req) => {
     }
 
     if (topico === "products/create" || topico === "products/update") {
-      const r = await gravarProdutos(sb, produtoParaLinhas(pedido));
-      return resp(200, `catálogo: ${r.novos} novos, ${r.atualizados} atualizados`);
+      // Responde na hora e grava em segundo plano: quando o Shopify manda centenas de avisos de uma vez
+      // (troca de fotos, ativação em massa), esperar a gravação estourava o tempo e o aviso contava como falha.
+      // Se algo falhar aqui, o botão "Sincronizar catálogo" do ERP acerta tudo.
+      const tarefa = gravarProdutos(sb, produtoParaLinhas(pedido)).catch((e) => console.error(topico, pedido?.handle, e));
+      // @ts-ignore EdgeRuntime existe no Supabase
+      if (typeof EdgeRuntime !== "undefined" && EdgeRuntime.waitUntil) EdgeRuntime.waitUntil(tarefa); else await tarefa;
+      return resp(200, "catálogo: recebido");
     }
 
     if (topico === "products/delete") {
