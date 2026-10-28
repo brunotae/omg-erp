@@ -32,16 +32,30 @@ export function produtoParaLinhas(p) {
 }
 
 // Grava as linhas: acha pelo id da variante; senão pelo SKU (ex.: veio do CSV); senão cria.
+// A coluna sku é única. Quando o Shopify tem o mesmo SKU em duas variantes, a segunda fica no ERP
+// como "SKU-idDaVariante" (ver gravarProdutosLote). Aqui nunca devolvemos o SKU repetido:
+// isso dava erro de duplicidade e o Shopify marcava o aviso products/update como falha.
 export async function gravarProdutos(sb, linhas) {
   let novos = 0, atualizados = 0;
-  for (const l of linhas) {
-    let { data: ex } = await sb.from("produtos").select("id").eq("shopify_variant_id", l.shopify_variant_id).maybeSingle();
-    if (!ex && l.sku) ({ data: ex } = await sb.from("produtos").select("id").eq("sku", l.sku).limit(1).maybeSingle());
+  for (const l0 of linhas) {
+    let l = { ...l0 };
+    let { data: ex } = await sb.from("produtos").select("id,sku").eq("shopify_variant_id", l.shopify_variant_id).maybeSingle();
+    if (!ex && l.sku) {
+      const { data: s } = await sb.from("produtos").select("id,sku,shopify_variant_id").eq("sku", l.sku).limit(1).maybeSingle();
+      if (s && !s.shopify_variant_id) ex = s; // linha do CSV ainda sem variante: é esta
+      else if (s) l.sku = l.sku + "-" + l.shopify_variant_id; // SKU já é de outra variante
+    }
     if (ex) {
-      const { error } = await sb.from("produtos").update({ ...l, atualizado_em: new Date().toISOString() }).eq("id", ex.id);
+      if (ex.sku && ex.sku !== l.sku && ex.sku.startsWith(l.sku + "-")) l.sku = ex.sku; // mantém o SKU com sufixo
+      let { error } = await sb.from("produtos").update({ ...l, atualizado_em: new Date().toISOString() }).eq("id", ex.id);
+      if (error && error.code === "23505") {
+        const { sku: _s, ...semSku } = l;
+        ({ error } = await sb.from("produtos").update({ ...semSku, atualizado_em: new Date().toISOString() }).eq("id", ex.id));
+      }
       if (error) throw error; atualizados++;
     } else {
-      const { error } = await sb.from("produtos").insert(l);
+      let { error } = await sb.from("produtos").insert(l);
+      if (error && error.code === "23505") ({ error } = await sb.from("produtos").insert({ ...l, sku: l.sku + "-" + l.shopify_variant_id }));
       if (error) throw error; novos++;
     }
   }
