@@ -231,7 +231,7 @@ Deno.serve(async (req) => {
         [/pre[cç]o/i, CA + "#o-preco-do-site-ja-inclui-impostos", "Central de Ajuda · Preços"],
         [/troca|devolu|reembolso/i, "/policies/refund-policy", "Política de Trocas e Devoluções"],
         [/sobre os produtos|original|autentic/i, CA + "#cat-autenticidade", "Central de Ajuda · Originalidade"],
-        [/pedido|conta/i, CA + "#cat-pedidos", "Central de Ajuda · Pedidos"],
+        [/pedido|\bconta\b/i, CA + "#cat-pedidos", "Central de Ajuda · Pedidos"],
         [/rastrei/i, CA + "#cat-rastreio", "Central de Ajuda · Rastreio"],
         [/faq|perguntas|d[uú]vidas|ajuda/i, CA, "Central de Ajuda"],
       ];
