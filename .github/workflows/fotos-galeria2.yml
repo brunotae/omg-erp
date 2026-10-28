@@ -1,0 +1,15 @@
+name: Fotos - galeria 2
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  g:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install requests pillow
+      - run: python3 tools/fotos/galeria2.py
+      - run: |
+          git config user.name "robo-omg"; git config user.email "robo@ohmygirl.com.br"
+          git add tools/fotos/galeria2 tools/fotos/galeria2_achados.json
+          git commit -m "Fotos: galeria 2" && git pull --rebase && git push || echo nada
