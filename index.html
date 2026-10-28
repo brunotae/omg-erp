@@ -884,7 +884,7 @@ VIEWFN.fotos=()=>{
  const L=fotosFiltradas(), vis=L.slice(0,FT.lim), apr=cnt('aprovada');
  const fortesMarca=FT.marca?FT.rows.filter(r=>r.marca===FT.marca&&r.status==='pendente'&&nivelF(r)==='forte').length:0;
  const acts=(can()&&!FT.missing?(FT.marca&&fortesMarca?'<button class="btn sm" type="button" id="ft-aprmarca">Aprovar fortes de '+esc(FT.marca)+' ('+fortesMarca+')</button> ':'')+'<button class="btn pri sm" type="button" id="ft-aplicar"'+(apr&&!FT.busy?'':' disabled')+'>'+(FT.busy?'Aplicando…':'Aplicar aprovadas no site ('+apr+')')+'</button>':'');
- return '<div class="page wide"><div class="col">'+head('Fotos oficiais','Troca das fotos do site pelas fotos do site oficial de cada marca. Aprove aqui; depois "Aplicar" substitui as fotos no Shopify (entram as oficiais, saem as antigas) e corrige o peso.',acts)+
+ return '<div class="page wide"><div class="col">'+head('Fotos oficiais','Troca das fotos do site pelas fotos do site oficial de cada marca. Aprove aqui; depois "Aplicar" substitui as fotos no Shopify (entram as oficiais, saem as antigas) (o peso não muda: já foi enviado pelo botão 4 em Ajustes).',acts)+
  (FT.missing?'<div class="note"><span class="label">Falta rodar o SQL</span><p>Rode no Supabase (SQL Editor) o <b>20261024d_fotos_oficiais.sql</b> e depois os arquivos <b>fotos_fila_lote1_parte1…5.sql</b>.</p></div>':'')+
  '<div class="chips">'+FT_ST.map(([k,l])=>'<button type="button" class="chip'+(FT.st===k?' on':'')+'" data-ftst="'+k+'">'+l+' <span class="num">'+cnt(k)+'</span></button>').join('')+'</div>'+
  '<div class="chips"><select id="ft-marca" class="chip" aria-label="Marca"><option value="">Todas as marcas</option>'+marcas.map(m=>'<option'+(m===FT.marca?' selected':'')+'>'+esc(m)+'</option>').join('')+'</select>'+
@@ -910,7 +910,7 @@ async function aplicarFotos(){
  FT.busy=true;render();let ok=0,err=0;
  for(let i=0;i<L.length;i+=20){
   const lote=L.slice(i,i+20);
-  const {data,error}=await sb.functions.invoke('shopify-admin',{body:{acao:'fotos',itens:lote.map(r=>({handle:r.handle,fotos:r.fotos,peso_g:r.pesoG}))}});
+  const {data,error}=await sb.functions.invoke('shopify-admin',{body:{acao:'fotos',itens:lote.map(r=>({handle:r.handle,fotos:r.fotos}))}});
   if(error){let st=error.context&&error.context.status,m='';try{m=(await error.context.json()).erro}catch(_){}
    toast(st===503?'Ligação com o Shopify ainda não ativa':(m||'Não foi possível falar com o Shopify'));break}
   for(const res of (data&&data.resultados)||[]){const r=lote.find(x=>x.handle===res.handle);if(!r)continue;
