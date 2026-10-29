@@ -264,3 +264,7 @@ drop policy if exists "editores registram importacao" on public.historico;
 create policy "editores registram importacao" on public.historico for insert to authenticated
   with check (public.eh_editor() and tabela = 'cupons' and acao = 'importado' and quem = public.meu_email());
 grant insert on public.historico to authenticated;
+
+-- ---------- v22 · cupom de frete grátis ----------
+alter table public.cupons drop constraint if exists cupons_tipo_check;
+alter table public.cupons add constraint cupons_tipo_check check (tipo = any (array['%','R$','frete']));

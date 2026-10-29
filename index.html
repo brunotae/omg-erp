@@ -702,7 +702,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v21 · 29/10/2026';
+const VERSAO='v22 · 29/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1317,7 +1317,7 @@ VIEWFN.clientes=()=>{
  return '<div class="page wide"><div class="col">'+head('Clientes e cupons','Clientes saem das vendas. Quem compra '+n(S.cfg.fielMin)+' vezes ou mais vira cliente fiel e pode receber cupom exclusivo. Cupons criados aqui já valem no site.','<button class="btn" type="button" id="cupom-imp"'+(can()?'':' disabled')+' title="Traz os cupons criados direto no Shopify e atualiza o status de todos">Trazer cupons do Shopify</button> <button class="btn pri" type="button" id="cupom-shop"'+(can()?'':' disabled')+'>+ Criar cupom no site</button>')+
  '<div class="kpis">'+kpi('Clientes',cl.length,'Com ao menos 1 compra')+kpi('Clientes fiéis',fiel.length,cl.length?pct(fiel.length/cl.length)+' da base':'—')+kpi('Cupons ativos',S.data.cupons.filter(c=>c.ativo).length,S.data.cupons.length+' cadastrados')+kpi('Desconto concedido',dm(S.data.vendas.filter(v=>!isCancel(v)).reduce((a,v)=>a+n(v.desconto),0)),'Todas as vendas')+'</div>'+
  '<div class="card"><div class="card-h"><h2>Cupons</h2></div>'+(S.data.cupons.length?'<div class="tblwrap"><table><thead><tr><th>Código</th><th>Desconto</th><th>Público</th><th>Validade</th><th class="r">Usos</th><th class="r">Desconto dado</th><th>Status</th></tr></thead><tbody>'+
-  S.data.cupons.filter(match).map(c=>{const u=uso(c.codigo);return '<tr data-edit="cupons" data-id="'+esc(c.id)+'"><td><b class="num">'+esc(c.codigo)+'</b></td><td>'+(c.tipo==='%'?n(c.valor)+'%':brl(c.valor))+'</td><td>'+esc(c.publico||'')+'</td><td class="num">'+fdate(c.validade)+'</td><td class="r num">'+u.length+(has(c.limite)?' / '+c.limite:'')+'</td><td class="r num">'+brl(u.reduce((a,v)=>a+n(v.desconto),0))+'</td><td>'+stPill(c.ativo&&(!c.validade||c.validade>=today())?'Ativo':'Inativo')+'</td></tr>'}).join('')+'</tbody></table></div>'
+  S.data.cupons.filter(match).map(c=>{const u=uso(c.codigo);return '<tr data-edit="cupons" data-id="'+esc(c.id)+'"><td><b class="num">'+esc(c.codigo)+'</b></td><td>'+(c.tipo==='frete'?'Frete grátis'+(has(c.valor)&&n(c.valor)>0?' (até '+brl(c.valor)+')':''):c.tipo==='%'?n(c.valor)+'%':brl(c.valor))+'</td><td>'+esc(c.publico||'')+'</td><td class="num">'+fdate(c.validade)+'</td><td class="r num">'+u.length+(has(c.limite)?' / '+c.limite:'')+'</td><td class="r num">'+brl(u.reduce((a,v)=>a+n(v.desconto),0))+'</td><td>'+stPill(c.ativo&&(!c.validade||c.validade>=today())?'Ativo':'Inativo')+'</td></tr>'}).join('')+'</tbody></table></div>'
   :empty('Nenhum cupom','Crie cupons para clientes fiéis, influencers ou campanhas. O uso é contado pelo código informado em cada venda.'))+'</div>'+
  '<div class="card"><div class="card-h"><h2>Clientes</h2></div>'+(cl.length?'<div class="tblwrap"><table><thead><tr><th>Cliente</th><th>Local</th><th class="r">Compras</th><th class="r">Total gasto</th><th>Última compra</th><th></th></tr></thead><tbody>'+
   cl.map(c=>'<tr><td><b>'+esc(c.nome)+'</b><small>'+esc(c.contato||'')+'</small></td><td>'+esc([c.cidade,c.uf].filter(Boolean).join(' / ')||'—')+'</td><td class="r num">'+c.n+'</td><td class="r num"><b>'+dm(c.total)+'</b></td><td class="num">'+fdate(c.ult)+'</td><td>'+(c.n>=n(S.cfg.fielMin)?stPill('Cliente fiel'):'')+'</td></tr>').join('')+'</tbody></table></div>'
@@ -1328,7 +1328,7 @@ VIEWFN.clientes=()=>{
 /* ---------- Criar cupom no Shopify ---------- */
 const num=v=>{const x=parseFloat(String(v??'').replace(',','.'));return isFinite(x)?x:0};
 function cupomResumo(c){
- const v=c.tipo==='%'?num(c.valor)+'% de desconto':brl(num(c.valor))+' de desconto';
+ const v=c.tipo==='frete'?'Frete grátis'+(num(c.teto)>0?' (quando o frete for até '+brl(num(c.teto))+')':' em qualquer região'):c.tipo==='%'?num(c.valor)+'% de desconto':brl(num(c.valor))+' de desconto';
  const quem=c.publico==='primeira'?'só na 1ª compra':c.publico==='clientes'?'só para as clientes da lista':'para todas as clientes';
  return v+(num(c.minimo)>0?' em compras a partir de '+brl(num(c.minimo)):'')+', '+quem+(c.uma_vez?', 1 vez por cliente':'')+(num(c.limite_total)>0?', até '+num(c.limite_total)+' usos no total':'')+(c.fim?', válido até '+fdate(c.fim):', sem data de fim')+'.';
 }
@@ -1344,14 +1344,16 @@ function emailsDaLista(txt){
  return {emails:[...new Set(emails)],semEmail};
 }
 function openCupomShopify(){
- const hoje=today(), cod='OMG'+Math.random().toString(36).slice(2,7).toUpperCase();
+ const hoje=today(), sorteio=k=>Array.from({length:k},()=>'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[Math.floor(Math.random()*32)]).join(''), cod='OMG'+sorteio(5);
  const fiel=clientes().filter(c=>c.n>=n(S.cfg.fielMin));
  shell('Criar cupom no site',
  '<div class="sec">'+
-  '<div class="f"><label for="cp-cod">Código do cupom</label><input id="cp-cod" name="codigo" type="text" value="'+cod+'" style="text-transform:uppercase"><span class="hint">É o que a cliente digita no carrinho. Só letras, números e hífen.</span></div>'+
+  '<div class="f"><label for="cp-pal">Palavra no meio do código (opcional)</label><input id="cp-pal" name="palavra" type="text" maxlength="14" placeholder="Ex.: Maria, BLACK, VIP" data-fav="" data-fav-key="cupom-palavra" autocomplete="off"><span class="hint">Monta o código sozinho: OMG-MARIA-7K. O final sorteado evita que alguém adivinhe.</span></div>'+
+  '<div class="f"><label for="cp-cod">Código do cupom</label><input id="cp-cod" name="codigo" type="text" value="'+cod+'" style="text-transform:uppercase"><span class="hint">É o que a cliente digita no carrinho. Pode editar. Só letras, números e hífen.</span></div>'+
+  '<div class="f"><label for="cp-tipo">Tipo de desconto</label><select id="cp-tipo" name="tipo"><option value="R$">Valor fixo (R$)</option><option value="%">Percentual (%)</option><option value="frete">Frete grátis</option></select></div>'+
+  '<div class="f" id="cp-val-box"><label for="cp-val">Valor do desconto</label><input id="cp-val" name="valor" type="number" step="any" min="0" value="20" data-fav="10,15,20" data-fav-key="cupom-valor"></div>'+
+  '<div class="f" id="cp-teto-box" hidden><label for="cp-teto">Teto do frete (R$, opcional)</label><input id="cp-teto" name="teto" type="number" step="any" min="0" placeholder="Sem teto" data-fav="" data-fav-key="cupom-teto"><span class="hint">Só vale se o frete for até este valor. Vazio = zera o frete de qualquer região. Imposto continua cobrado.</span></div>'+
   '<div class="f"><label for="cp-tit">Nome interno (opcional)</label><input id="cp-tit" name="titulo" type="text" placeholder="Ex.: Black Friday 2026"></div>'+
-  '<div class="f"><label for="cp-tipo">Tipo de desconto</label><select id="cp-tipo" name="tipo"><option value="R$">Valor fixo (R$)</option><option value="%">Percentual (%)</option></select></div>'+
-  '<div class="f"><label for="cp-val">Valor do desconto</label><input id="cp-val" name="valor" type="number" step="any" min="0" value="20" data-fav="10,15,20" data-fav-key="cupom-valor"></div>'+
   '<div class="f"><label for="cp-min">Compra mínima (R$)</label><input id="cp-min" name="minimo" type="number" step="any" min="0" value="150" data-fav="0,100,150,200" data-fav-key="cupom-minimo"><span class="hint">Soma dos produtos. Deixe 0 para qualquer valor.</span></div>'+
   '<div class="f"><label for="cp-pub">Quem pode usar</label><select id="cp-pub" name="publico"><option value="todas">Todas as clientes</option><option value="primeira">Só quem nunca comprou (1ª compra)</option><option value="clientes">Clientes específicas (CPF ou e-mail)</option></select></div>'+
   '<div class="f full" id="cp-lista-box" hidden><label for="cp-lista">CPFs ou e-mails (um por linha)</label><textarea id="cp-lista" name="lista" placeholder="123.456.789-00&#10;maria@email.com"></textarea>'+
@@ -1363,14 +1365,18 @@ function openCupomShopify(){
  '</div>'+
  '<div class="sec"><span class="label">Como a cliente vai ver</span><p id="cp-res" style="grid-column:1/-1;margin:0"></p></div>',null,false);
  const btn=document.querySelector('.mf .btn.pri');if(btn)btn.textContent='Criar no Shopify';
- const form=$('#mform'), le=()=>{const f=form.elements;return {codigo:f.codigo.value.trim().toUpperCase(),titulo:f.titulo.value.trim(),tipo:f.tipo.value,valor:f.valor.value,minimo:f.minimo.value,publico:f.publico.value,lista:f.lista.value,uma_vez:f.uma_vez.checked,limite_total:f.limite_total.value,inicio:f.inicio.value,fim:f.fim.value}};
- const atualiza=()=>{const c=le();$('#cp-lista-box').hidden=c.publico!=='clientes';$('#cp-res').textContent=(c.codigo||'—')+': '+cupomResumo(c)};
+ const form=$('#mform'), le=()=>{const f=form.elements;return {codigo:f.codigo.value.trim().toUpperCase(),titulo:f.titulo.value.trim(),tipo:f.tipo.value,valor:f.valor.value,teto:f.teto.value,minimo:f.minimo.value,publico:f.publico.value,lista:f.lista.value,uma_vez:f.uma_vez.checked,limite_total:f.limite_total.value,inicio:f.inicio.value,fim:f.fim.value}};
+ const atualiza=()=>{const c=le();$('#cp-lista-box').hidden=c.publico!=='clientes';$('#cp-val-box').hidden=c.tipo==='frete';$('#cp-teto-box').hidden=c.tipo!=='frete';$('#cp-res').textContent=(c.codigo||'—')+': '+cupomResumo(c)};
+ let codManual=false, fim2=sorteio(2);
+ form.addEventListener('input',e=>{if(e.target.name==='codigo')codManual=!!e.target.value.trim()});
+ const montaCod=()=>{if(codManual)return;const p=String(form.elements.palavra.value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/[^A-Z0-9]+/g,'').slice(0,14);form.elements.codigo.value=p?'OMG-'+p+'-'+fim2:cod;atualiza()};
+ form.elements.palavra.addEventListener('input',montaCod);form.elements.palavra.addEventListener('change',montaCod);
  form.addEventListener('input',atualiza);form.addEventListener('change',atualiza);atualiza();
  const fb=$('#cp-fieis');if(fb)fb.addEventListener('click',e=>{e.preventDefault();$('#cp-lista').value=fiel.map(c=>{const e=String(c.contato||'').split(/[·,;\s]+/).find(x=>x.includes('@'));return e||''}).filter(Boolean).join('\n');atualiza()});
  form.addEventListener('submit',async e=>{e.preventDefault();const b=document.querySelector('.mf .btn.pri'), err=$('#m-err');err.textContent='';
   const c=le();
   if(!/^[A-Z0-9_-]{3,}$/.test(c.codigo)){err.textContent='Código: use ao menos 3 letras ou números, sem espaço.';return}
-  if(!(num(c.valor)>0)){err.textContent='Preencha o valor do desconto.';return}
+  if(c.tipo!=='frete'&&!(num(c.valor)>0)){err.textContent='Preencha o valor do desconto.';return}
   if(c.tipo==='%'&&num(c.valor)>100){err.textContent='Percentual não pode passar de 100%.';return}
   if(c.fim&&c.inicio&&c.fim<c.inicio){err.textContent='A data de fim é antes do início.';return}
   let L={emails:[],semEmail:[]};
@@ -1378,9 +1384,9 @@ function openCupomShopify(){
   if(!confirm('Criar no Shopify?\n\n'+c.codigo+': '+cupomResumo(c)+(L.semEmail.length?'\n\nFicam de fora (sem e-mail): '+L.semEmail.join(', '):'')))return;
   b.disabled=true;b.textContent='Criando…';
   try{
-   const d=await chamarShop({acao:'cupom_criar',cupom:{codigo:c.codigo,titulo:c.titulo,tipo:c.tipo,valor:num(c.valor),minimo:num(c.minimo),publico:c.publico,emails:L.emails,uma_vez:c.uma_vez,limite_total:num(c.limite_total),inicio:c.inicio,fim:c.fim}});
+   const d=await chamarShop({acao:'cupom_criar',cupom:{codigo:c.codigo,titulo:c.titulo,tipo:c.tipo,valor:num(c.valor),teto:num(c.teto),minimo:num(c.minimo),publico:c.publico,emails:L.emails,uma_vez:c.uma_vez,limite_total:num(c.limite_total),inicio:c.inicio,fim:c.fim}});
    const pub={todas:'Todos',primeira:'Primeira compra',clientes:'Clientes específicas'}[c.publico];
-   await save('cupons',null,{codigo:d.codigo,tipo:c.tipo,valor:num(c.valor),publico:pub,validade:c.fim||null,limite:num(c.limite_total)||null,ativo:true,
+   await save('cupons',null,{codigo:d.codigo,tipo:c.tipo,valor:c.tipo==='frete'?(num(c.teto)||null):num(c.valor),publico:pub,validade:c.fim||null,limite:num(c.limite_total)||null,ativo:true,
     obs:cupomResumo(c)+' · Shopify: '+d.id+(d.clientes!=null?' · '+d.clientes+' clientes':'')+(d.sem_cadastro&&d.sem_cadastro.length?' · sem cadastro no site: '+d.sem_cadastro.join(', '):'')});
    close();loadAll();toast('Cupom '+d.codigo+' criado: já vale no site');
    if(d.sem_cadastro&&d.sem_cadastro.length)setTimeout(()=>toast(d.sem_cadastro.length+' e-mail(s) sem cadastro no site ficaram de fora'),2600);
@@ -1490,7 +1496,7 @@ const FORMS={
   {k:'dg',l:'Spray, aerossol ou perfume (bloqueado)',t:'bool'},{k:'ativo',l:'Ativo no site',t:'bool'}]]],
   def:()=>({marca:'Anua',categoria:'Sérum / Essência',ativo:true,dg:false})},
  cupons:{title:['Novo cupom','Cupom'],col:'cupons',secs:[['Cupom',[
-  {k:'codigo',l:'Código',req:1},{k:'tipo',l:'Tipo de desconto',t:'select',o:['%','R$']},{k:'valor',l:'Valor do desconto',t:'number',req:1},
+  {k:'codigo',l:'Código',req:1},{k:'tipo',l:'Tipo de desconto',t:'select',o:['%','R$','frete']},{k:'valor',l:'Valor do desconto (no frete grátis: teto do frete)',t:'number'},
   {k:'publico',l:'Para quem',t:'select',o:['Clientes fiéis','Todos','Influencer','Primeira compra','Campanha']},{k:'validade',l:'Válido até',t:'date'},
   {k:'limite',l:'Limite de usos',t:'number'},{k:'ativo',l:'Ativo',t:'bool'},{k:'obs',l:'Observações',full:1}]]],
   def:()=>({tipo:'%',publico:'Clientes fiéis',ativo:true})},
@@ -1686,7 +1692,7 @@ async function cuponsImportar(btn){
    if(ex){const mud={};if(!!ex.ativo!==ativo)mud.ativo=ativo;if(fim&&ex.validade!==fim)mud.validade=fim;if(!/DiscountCodeNode\//.test(ex.obs||''))mud.obs=(ex.obs?ex.obs+' · ':'')+'Shopify: '+c.id;
     if(Object.keys(mud).length){await save('cupons',ex,mud);atual++}continue}
    const resumo=c.valor_tipo==='frete'?'Frete grátis':c.valor_tipo==='%'?c.valor+'% de desconto':c.valor_tipo==='R$'?brl(c.valor)+' de desconto':(c.tipo_shopify||'').replace('DiscountCode','');
-   await save('cupons',null,{codigo:cod,tipo:c.valor_tipo==='%'?'%':'R$',valor:c.valor_tipo==='frete'?0:c.valor,publico:'Todos',validade:fim,limite:c.limite,ativo,
+   await save('cupons',null,{codigo:cod,tipo:c.valor_tipo==='%'?'%':c.valor_tipo==='frete'?'frete':'R$',valor:c.valor_tipo==='frete'?null:c.valor,publico:'Todos',validade:fim,limite:c.limite,ativo,
     obs:'Trazido do Shopify'+(c.titulo&&c.titulo!==c.codigo?' ("'+c.titulo+'")':'')+' · '+resumo+(c.minimo?' a partir de '+brl(c.minimo):'')+(c.uma_vez?' · 1 vez por cliente':'')+' · usos no Shopify: '+(c.usos??0)+' · Shopify: '+c.id});
    const {error}=await sb.from('historico').insert({tabela:'cupons',acao:'importado',registro:cod,quem:S.email});novos++;
   }
@@ -2301,6 +2307,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v22','29/10/2026',['Cupom de frete grátis: zera o frete em qualquer região do Brasil. Teto opcional (só vale se o frete for até R$ X). Imposto continua cobrado.','Palavra no meio do código: digite um nome ou palavra (ex.: Maria) e o código vira OMG-MARIA-7K. As palavras também viram botões favoritos.']],
  ['v21','29/10/2026',['Cupons: ao abrir um cupom aparecem os pedidos que usaram (pedido, data, cliente, total, desconto) e o histórico (criado, desativado, reativado, alterado), com data e pessoa.','Botão Trazer cupons do Shopify: importa os cupons criados direto no Shopify e atualiza o status de todos.','Cupom ligado ao Shopify não tem mais o botão Excluir (ele só sumia do ERP e continuava valendo no site). Use Desativar no site.']],
  ['v20','29/10/2026',['Um clique (regra 7): listas com poucas opções viraram botões, como Tipo de desconto (Valor fixo · Percentual).','Campos de número ganham botões favoritos: toque em + favorito para guardar o valor do campo (ex.: 12) e ✎ para tirar. Vale por pessoa e por aparelho.','Cupom já vem com sugestões: desconto 10, 15, 20 e compra mínima 0, 100, 150, 200.','Títulos das colunas das tabelas ficam sempre visíveis ao rolar (regra 6).']],
  ['v19','29/10/2026',['Marketing › Links e influenciadores: cadastro de influenciador com cupom, % e link curto (ohmygirl.com.br/a/código), que conta os cliques.','Gerador de links UTM para qualquer canal, com botões para copiar o link curto e o completo.','Origem das vendas: de onde veio cada pedido do site (UTM, cupom, outro site ou direto).','Comissões: pedidos de cada influenciador por mês, fechamento no dia 1º e marcar como pago com o comprovante do Pix.','Painel do influenciador (parceiro.html): ele entra com e-mail e senha e vê links, cliques, pedidos, comissões, pagamentos e preenche o Pix.']],

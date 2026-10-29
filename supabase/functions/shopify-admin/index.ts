@@ -149,12 +149,13 @@ Deno.serve(async (req) => {
 
     if (b.acao === "cupom_criar") {
       // Cria um cupom de verdade no Shopify (o checkout reconhece na hora).
-      // cupom: { codigo, tipo: "%"|"R$", valor, minimo?, publico: "todas"|"primeira"|"clientes", emails?: [], uma_vez?, limite_total?, inicio?, fim?, titulo? }
+      // cupom: { codigo, tipo: "%"|"R$"|"frete", valor, teto? (frete), minimo?, publico: "todas"|"primeira"|"clientes", emails?: [], uma_vez?, limite_total?, inicio?, fim?, titulo? }
       const c = b.cupom || {};
       const codigo = String(c.codigo || "").toUpperCase().replace(/[^A-Z0-9_-]/g, "");
       if (codigo.length < 3) return resp(400, { erro: "código precisa de ao menos 3 letras ou números" });
+      const frete = c.tipo === "frete";
       const valor = Number(c.valor);
-      if (!(valor > 0)) return resp(400, { erro: "valor do desconto inválido" });
+      if (!frete && !(valor > 0)) return resp(400, { erro: "valor do desconto inválido" });
       if (c.tipo === "%" && valor > 100) return resp(400, { erro: "percentual acima de 100%" });
       const ja: any = await gql(`query($c: String!) { codeDiscountNodeByCode(code: $c) { id } }`, { c: codigo });
       if (ja.codeDiscountNodeByCode) return resp(409, { erro: "já existe um cupom com o código " + codigo + " no Shopify" });
@@ -197,7 +198,16 @@ Deno.serve(async (req) => {
         appliesOncePerCustomer: !!c.uma_vez,
         combinesWith: { orderDiscounts: false, productDiscounts: false, shippingDiscounts: true },
       };
-      const M = `mutation($d: DiscountCodeBasicInput!) { discountCodeBasicCreate(basicCodeDiscount: $d) { codeDiscountNode { id } userErrors { field message } } }`;
+      if (frete) {
+        // Frete grátis: zera o frete em qualquer região (destino Brasil). Teto opcional: só vale se o frete for até c.teto.
+        delete base.customerGets;
+        base.destination = { countries: { add: ["BR"], includeRestOfWorld: false } };
+        if (Number(c.teto) > 0) base.maximumShippingPrice = Number(c.teto).toFixed(2);
+        base.combinesWith = { orderDiscounts: true, productDiscounts: true, shippingDiscounts: false };
+      }
+      const M = frete
+        ? `mutation($d: DiscountCodeFreeShippingInput!) { discountCodeBasicCreate: discountCodeFreeShippingCreate(freeShippingCodeDiscount: $d) { codeDiscountNode { id } userErrors { field message } } }`
+        : `mutation($d: DiscountCodeBasicInput!) { discountCodeBasicCreate(basicCodeDiscount: $d) { codeDiscountNode { id } userErrors { field message } } }`;
       // Versões novas da API usam "context"; as antigas, "customerSelection". Tenta a nova e cai para a antiga.
       const ctx = alvo.tipo === "clientes" ? { customers: { add: alvo.ids } } : alvo.tipo === "segmento" ? { customerSegments: { add: alvo.ids } } : { all: "ALL" };
       const sel = alvo.tipo === "clientes" ? { customers: { add: alvo.ids } } : alvo.tipo === "segmento" ? { customerSegments: { add: alvo.ids } } : { all: true };
@@ -381,6 +391,14 @@ Deno.serve(async (req) => {
         a = d.codeDiscountNodes.pageInfo.hasNextPage ? d.codeDiscountNodes.pageInfo.endCursor : null;
       } while (a);
       return resp(200, { ok: true, cupons: out });
+    }
+
+    if (b.acao === "cupom_apagar") {
+      const id = String(b.id || "");
+      if (!id.startsWith("gid://shopify/DiscountCodeNode/")) return resp(400, { erro: "cupom sem ligação com o Shopify" });
+      const d: any = await gql(`mutation($id: ID!) { discountCodeDelete(id: $id) { deletedCodeDiscountId userErrors { message } } }`, { id });
+      const e = d.discountCodeDelete.userErrors; if (e.length) return resp(422, { erro: e[0].message });
+      return resp(200, { ok: true });
     }
 
     if (b.acao === "cupom_status") {
