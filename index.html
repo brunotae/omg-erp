@@ -818,7 +818,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v31 · 29/10/2026';
+const VERSAO='v32 · 29/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1316,55 +1316,83 @@ async function rxAtualizar(){
 }
 function rxSkus(id){return S.data.produtos.filter(p=>String(p.shopify_product_id||'')===String(id))}
 /* ---------- Raio-X › Exportar listas (v26): marcas, produtos e SKUs para copiar ou baixar ---------- */
+const RX_CATS=[['cat-rosto','Rosto'],['cat-protetor-solar','Protetor solar'],['cat-maquiagem','Maquiagem'],['cat-cabelo','Cabelo'],['cat-corpo','Corpo e banho'],['','Sem categoria']];
+const RXH_PADRAO=['COSRX','Anua','SKIN1004','Beauty of Joseon','medicube','TIRTIR'];
+let RXH=null; // marcas hypadas (favoritas), guardadas no Supabase (config "hypadas") para valer para toda a equipe
+async function rxHypCarregar(){if(RXH)return RXH;try{const {data}=await sb.from('config').select('valor').eq('chave','hypadas');RXH=data&&data[0]&&Array.isArray(data[0].valor&&data[0].valor.marcas)?data[0].valor.marcas:RXH_PADRAO.slice()}catch(_){RXH=RXH_PADRAO.slice()}return RXH}
+async function rxHypSalvar(){const {error}=await sb.from('config').upsert({chave:'hypadas',valor:{marcas:RXH}});if(error)toast(errMsg(error))}
+const rxEhHyp=m=>(RXH||[]).some(x=>x.toLowerCase()===String(m).toLowerCase());
+const rxCatsDe=p=>{const c=RX_CATS.filter(([k])=>k&&p.tags.split('|').includes(k)).map(x=>x[1]);return c.length?c:['Sem categoria']};
 function rxExportDados(o){
- const P=RX.P.filter(p=>o.quem==='todos'||p.a);
+ let P=RX.P.filter(p=>o.quem==='todos'||p.a);
+ if(o.marcas==='hyp')P=P.filter(p=>rxEhHyp(p.m));
+ const est=m=>(rxEhHyp(m)?'★ ':'')+m;
+ const cmpM=(a,b)=>o.ordem==='az'?a.m.localeCompare(b.m,'pt-BR',{sensitivity:'base'}):o.ordem==='hyp'?(Number(rxEhHyp(b.m))-Number(rxEhHyp(a.m))||b.ar-a.ar||a.m.localeCompare(b.m)):(b.ar-a.ar||(b.ar+b.rasc)-(a.ar+a.rasc)||a.m.localeCompare(b.m));
+ const grupos=o.cat==='sim'?RX_CATS.map(([,nome])=>({nome,P:P.filter(p=>rxCatsDe(p).includes(nome))})).filter(g=>g.P.length):[{nome:'',P}];
+ const sec=(nome,linhas)=>(nome?nome.toUpperCase()+' ('+linhas.length+')\n':'')+linhas.join('\n');
  if(o.tipo==='marcas'){
-  const M={};P.forEach(p=>{const m=M[p.m]||(M[p.m]={m:p.m,ar:0,rasc:0,sku:0});p.a?m.ar++:m.rasc++;m.sku+=p.skus});
-  const L=Object.values(M).sort(o.ordem==='az'?(a,b)=>a.m.localeCompare(b.m,'pt-BR',{sensitivity:'base'}):(a,b)=>b.ar-a.ar||(b.ar+b.rasc)-(a.ar+a.rasc)||a.m.localeCompare(b.m));
-  return {txt:L.map(x=>x.m).join('\n'),n:L.length+' marcas',csv:csvOf(['Marca','Produtos no ar','Produtos em rascunho','SKUs'],L.map(x=>[x.m,x.ar,x.rasc,x.sku])),
-   cols:['Marca','No ar','Rasc.','SKUs'],num:[1,2,3],rows:L.map(x=>[x.m,x.ar,x.rasc,x.sku])};
+  const G=grupos.map(g=>{const M={};g.P.forEach(p=>{const m=M[p.m]||(M[p.m]={m:p.m,ar:0,rasc:0,sku:0});p.a?m.ar++:m.rasc++;m.sku+=p.skus});return {nome:g.nome,L:Object.values(M).sort(cmpM)}});
+  const tot=new Set(P.map(p=>p.m)).size;
+  return {txt:G.map(g=>sec(g.nome,g.L.map(x=>est(x.m)))).join('\n\n'),n:tot+' marcas'+(o.cat==='sim'?' em '+G.length+' categorias':''),
+   csv:csvOf([...(o.cat==='sim'?['Categoria']:[]),'Marca','Hypada','Produtos no ar','Produtos em rascunho','SKUs'],G.flatMap(g=>g.L.map(x=>[...(o.cat==='sim'?[g.nome]:[]),x.m,rxEhHyp(x.m)?'sim':'',x.ar,x.rasc,x.sku]))),
+   cols:['Marca','No ar','Rasc.','SKUs'],num:[1,2,3],grupos:G.map(g=>({nome:g.nome,rows:g.L.map(x=>[est(x.m),x.ar,x.rasc,x.sku])})),
+   tot:[['Marcas',tot],['Produtos no ar',P.filter(p=>p.a).length],['Produtos em rascunho',P.filter(p=>!p.a).length],['SKUs',P.reduce((a,p)=>a+p.skus,0)]]};
  }
- const L=P.slice().sort(o.ordem==='az'?(a,b)=>a.m.localeCompare(b.m,'pt-BR',{sensitivity:'base'})||a.t.localeCompare(b.t):(a,b)=>Number(b.a)-Number(a.a)||a.m.localeCompare(b.m)||a.t.localeCompare(b.t));
- if(o.tipo==='produtos')return {txt:L.map(p=>p.m+' · '+p.t).join('\n'),n:L.length+' produtos',
-  csv:csvOf(['Marca','Produto','Status','Preço mínimo','Preço máximo','SKUs','Fotos','Categorias','Link'],L.map(p=>[p.m,p.t,p.a?'no ar':'rascunho',String(p.pmin).replace('.',','),String(p.pmax).replace('.',','),p.skus,p.fotos,p.tags.split('|').filter(t=>/^cat[-:]/.test(t)).join(', '),'https://ohmygirl.com.br/products/'+p.h])),
-  cols:['Marca','Produto','Status','Preço (R$)','SKUs'],num:[3,4],rows:L.map(p=>[p.m,p.t,p.a?'no ar':'rascunho',p.pmax>p.pmin?brl(p.pmin).replace('R$','').trim()+'–'+brl(p.pmax).replace('R$','').trim():brl(p.pmin).replace('R$','').trim(),p.skus])};
- const R=[];L.forEach(p=>{const sk=rxSkus(p.id);if(!sk.length)R.push([p.m,p.t,'','',p.a?'no ar':'rascunho','','https://ohmygirl.com.br/products/'+p.h]);
-  sk.forEach(x=>R.push([p.m,p.t,x.sku||'',String(x.nome||'').split(' · ').slice(1).join(' · '),p.a?'no ar':'rascunho',has(x.preco)?String(x.preco).replace('.',','):'','https://ohmygirl.com.br/products/'+p.h]))});
- return {txt:R.map(r=>(r[2]||'(sem SKU)')+' · '+r[0]+' · '+r[1]+(r[3]?' · '+r[3]:'')).join('\n'),n:R.length+' SKUs',csv:csvOf(['Marca','Produto','SKU','Variação','Status','Preço','Link'],R),
-  cols:['SKU','Marca','Produto','Variação','Status','Preço (R$)'],num:[5],rows:R.map(r=>[r[2]||'—',r[0],r[1],r[3]||'',r[4],r[5]])};
+ const cmpP=(a,b)=>o.ordem==='az'?(a.m.localeCompare(b.m,'pt-BR',{sensitivity:'base'})||a.t.localeCompare(b.t)):o.ordem==='hyp'?(Number(rxEhHyp(b.m))-Number(rxEhHyp(a.m))||Number(b.a)-Number(a.a)||a.m.localeCompare(b.m)||a.t.localeCompare(b.t)):(Number(b.a)-Number(a.a)||a.m.localeCompare(b.m)||a.t.localeCompare(b.t));
+ const preco=p=>p.pmax>p.pmin?brl(p.pmin).replace('R$','').trim()+'–'+brl(p.pmax).replace('R$','').trim():brl(p.pmin).replace('R$','').trim();
+ const link=p=>'https://ohmygirl.com.br/products/'+p.h;
+ if(o.tipo==='produtos'){
+  const G=grupos.map(g=>({nome:g.nome,L:g.P.slice().sort(cmpP)}));
+  return {txt:G.map(g=>sec(g.nome,g.L.map(p=>est(p.m)+' · '+p.t))).join('\n\n'),n:P.length+' produtos',
+   csv:csvOf([...(o.cat==='sim'?['Categoria']:[]),'Marca','Hypada','Produto','Status','Preço mínimo','Preço máximo','SKUs','Fotos','Link'],G.flatMap(g=>g.L.map(p=>[...(o.cat==='sim'?[g.nome]:[]),p.m,rxEhHyp(p.m)?'sim':'',p.t,p.a?'no ar':'rascunho',String(p.pmin).replace('.',','),String(p.pmax).replace('.',','),p.skus,p.fotos,link(p)]))),
+   cols:['Marca','Produto','Status','Preço (R$)','SKUs'],num:[3,4],grupos:G.map(g=>({nome:g.nome,rows:g.L.map(p=>[est(p.m),p.t,p.a?'no ar':'rascunho',preco(p),p.skus])}))};
+ }
+ const G=grupos.map(g=>{const R=[];g.P.slice().sort(cmpP).forEach(p=>{const sk=rxSkus(p.id);if(!sk.length)R.push([p.m,p.t,'','',p.a?'no ar':'rascunho','',link(p)]);
+  sk.forEach(x=>R.push([p.m,p.t,x.sku||'',String(x.nome||'').split(' · ').slice(1).join(' · '),p.a?'no ar':'rascunho',has(x.preco)?String(x.preco).replace('.',','):'',link(p)]))});return {nome:g.nome,R}});
+ const n=G.reduce((a,g)=>a+g.R.length,0);
+ return {txt:G.map(g=>sec(g.nome,g.R.map(r=>(r[2]||'(sem SKU)')+' · '+est(r[0])+' · '+r[1]+(r[3]?' · '+r[3]:'')))).join('\n\n'),n:n+' SKUs',
+  csv:csvOf([...(o.cat==='sim'?['Categoria']:[]),'Marca','Hypada','Produto','SKU','Variação','Status','Preço','Link'],G.flatMap(g=>g.R.map(r=>[...(o.cat==='sim'?[g.nome]:[]),r[0],rxEhHyp(r[0])?'sim':'',r[1],r[2],r[3],r[4],r[5],r[6]]))),
+  cols:['SKU','Marca','Produto','Variação','Status','Preço (R$)'],num:[5],grupos:G.map(g=>({nome:g.nome,rows:g.R.map(r=>[r[2]||'—',est(r[0]),r[1],r[3]||'',r[4],r[5]])}))};
 }
-function rxExport(){
+async function rxExport(){
+ await rxHypCarregar();
+ const todasMarcas=[...new Set(RX.P.map(p=>p.m))].sort((a,b)=>{const ar=x=>RX.P.filter(p=>p.m===x&&p.a).length;return ar(b)-ar(a)||a.localeCompare(b)});
  shell('Exportar listas do catálogo','<div class="sec">'+
   '<div class="f"><label for="rxe-tipo">O que</label><select id="rxe-tipo"><option value="marcas">Marcas</option><option value="produtos">Produtos</option><option value="skus">SKUs</option></select></div>'+
   '<div class="f"><label for="rxe-quem">Quais</label><select id="rxe-quem"><option value="ar">Só no ar</option><option value="todos">Todos (com rascunho)</option></select></div>'+
-  '<div class="f"><label for="rxe-ordem">Ordem</label><select id="rxe-ordem"><option value="qtd">Mais produtos primeiro</option><option value="az">A–Z</option></select></div>'+
-  '<div class="f full"><label for="rxe-txt" id="rxe-n">Lista</label><textarea id="rxe-txt" readonly style="min-height:300px;font-family:inherit"></textarea>'+
+  '<div class="f"><label for="rxe-marcas">Marcas</label><select id="rxe-marcas"><option value="todas">Todas</option><option value="hyp">Só as hypadas ★</option></select></div>'+
+  '<div class="f"><label for="rxe-cat">Separar por categoria</label><select id="rxe-cat"><option value="nao">Não</option><option value="sim">Sim (Rosto, Protetor, Maquiagem…)</option></select></div>'+
+  '<div class="f full"><label for="rxe-ordem">Ordem</label><select id="rxe-ordem"><option value="hyp">Hypadas primeiro</option><option value="qtd">Mais produtos primeiro</option><option value="az">A–Z</option></select></div>'+
+  '<div class="f full"><span class="lb" style="font-size:12px;font-weight:600;color:var(--muted)">Marcas hypadas ★ <span style="font-weight:400">(toque para marcar ou tirar · vale para toda a equipe)</span></span><div class="acm-ch" id="rxe-hyp"></div></div>'+
+  '<div class="f full"><label for="rxe-txt" id="rxe-n">Lista</label><textarea id="rxe-txt" readonly style="min-height:280px;font-family:inherit"></textarea>'+
   '<span class="hint">Copie e cole onde quiser (WhatsApp, e-mail, planilha). A planilha traz também quantidades, preços e links. Dados do raio-x de '+new Date(RX.em).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})+'.</span></div>'+
   '<div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn pri" id="rxe-copiar">Copiar lista</button><button type="button" class="btn" id="rxe-pdf">Relatório em PDF</button><button type="button" class="btn" id="rxe-baixar">Baixar planilha (CSV)</button></div></div>',null,true);
- const o=()=>({tipo:$('#rxe-tipo').value,quem:$('#rxe-quem').value,ordem:$('#rxe-ordem').value});
+ const o=()=>({tipo:$('#rxe-tipo').value,quem:$('#rxe-quem').value,marcas:$('#rxe-marcas').value,cat:$('#rxe-cat').value,ordem:$('#rxe-ordem').value});
+ const hypBox=()=>{$('#rxe-hyp').innerHTML=todasMarcas.map(m=>'<button type="button" data-hyp="'+esc(m)+'" aria-pressed="'+rxEhHyp(m)+'"'+(can()?'':' disabled')+'>'+(rxEhHyp(m)?'★ ':'')+esc(m)+'</button>').join('')};
  let D=null;const atualiza=()=>{D=rxExportDados(o());$('#rxe-txt').value=D.txt;$('#rxe-n').textContent='Lista · '+D.n};
- ['rxe-tipo','rxe-quem','rxe-ordem'].forEach(id=>$('#'+id).addEventListener('change',atualiza));atualiza();
+ ['rxe-tipo','rxe-quem','rxe-marcas','rxe-cat','rxe-ordem'].forEach(id=>$('#'+id).addEventListener('change',atualiza));hypBox();atualiza();
+ $('#rxe-hyp').addEventListener('click',async e=>{const b=e.target.closest('[data-hyp]');if(!b||b.disabled)return;const m=b.dataset.hyp;
+  RXH=rxEhHyp(m)?RXH.filter(x=>x.toLowerCase()!==m.toLowerCase()):[...RXH,m];hypBox();atualiza();await rxHypSalvar()});
  $('#rxe-copiar').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(D.txt);toast('Lista copiada: '+D.n)}catch(_){$('#rxe-txt').select();toast('Selecionei a lista: copie com Ctrl+C')}});
  $('#rxe-pdf').addEventListener('click',()=>rxRelatorio(o(),D));
- $('#rxe-baixar').addEventListener('click',()=>{const x=o();baixar('omg-'+x.tipo+'-'+(x.quem==='ar'?'no-ar':'todos')+'-'+today()+'.csv',D.csv)});
+ $('#rxe-baixar').addEventListener('click',()=>{const x=o();baixar('omg-'+x.tipo+(x.marcas==='hyp'?'-hypadas':'')+(x.cat==='sim'?'-por-categoria':'')+'-'+(x.quem==='ar'?'no-ar':'todos')+'-'+today()+'.csv',D.csv)});
 }
-// Relatório em PDF: A4, letra pequena, visual de relatório corporativo. Marcas cabem numa página (em colunas).
+// Relatório em PDF: A4/Carta, letra pequena, visual de relatório corporativo. Marcas cabem numa página (em colunas).
 function rxRelatorio(o,D){
  const P=RX.P, A=P.filter(p=>p.a), marcasA=new Set(A.map(p=>p.m)).size, marcasT=new Set(P.map(p=>p.m)).size;
- const T={marcas:'Marcas',produtos:'Produtos',skus:'SKUs'}[o.tipo], Q=o.quem==='ar'?'somente no ar':'no ar e em rascunho', OR=o.ordem==='az'?'ordem alfabética':'por quantidade de produtos';
+ const T={marcas:'Marcas',produtos:'Produtos',skus:'SKUs'}[o.tipo];
+ const filtros=[o.quem==='ar'?'somente no ar':'no ar e em rascunho',o.marcas==='hyp'?'só marcas hypadas':'',o.cat==='sim'?'por categoria':'',{az:'ordem alfabética',qtd:'por quantidade de produtos',hyp:'hypadas primeiro'}[o.ordem]].filter(Boolean).join(' · ');
  const agora=new Date().toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'}), base=new Date(RX.em).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'});
  const th=D.cols.map((c,i)=>'<th'+(D.num.includes(i)?' class="r"':'')+'>'+esc(c)+'</th>').join('');
  const tr=r=>'<tr>'+r.map((c,i)=>'<td'+(D.num.includes(i)?' class="r"':'')+(i===0?' class="b"':'')+'>'+esc(c)+'</td>').join('')+'</tr>';
- let corpo;
- if(o.tipo==='marcas'){ // em 3 blocos lado a lado, para caber numa folha
-  const k=Math.ceil(D.rows.length/3);corpo='<div class="rel-3">'+[0,1,2].map(i=>D.rows.slice(i*k,(i+1)*k)).filter(x=>x.length).map(g=>'<table class="rel-t"><thead><tr>'+th+'</tr></thead><tbody>'+g.map(tr).join('')+'</tbody></table>').join('')+'</div>';
- } else corpo='<table class="rel-t"><thead><tr>'+th+'</tr></thead><tbody>'+D.rows.map(tr).join('')+'</tbody></table>';
- const tot=o.tipo==='marcas'?[['Marcas listadas',D.rows.length],['Produtos no ar',D.rows.reduce((a,r)=>a+r[1],0)],['Produtos em rascunho',D.rows.reduce((a,r)=>a+r[2],0)],['SKUs',D.rows.reduce((a,r)=>a+r[3],0)]]
-  :[[T+' listados',D.rows.length],['Marcas no ar',marcasA+' de '+marcasT],['Produtos no ar',A.length+' de '+P.length],['SKUs no ar',A.reduce((a,p)=>a+p.skus,0)]];
- const folha='<div class="sheet rel" id="sheet" data-fit="'+(o.tipo==='marcas'?1:0)+'"><header class="rel-h"><div><div class="rel-marca">OMG! <span>Oh My Girl</span></div><h1>Relatório do catálogo · '+T+'</h1><p>'+esc(Q)+' · '+esc(OR)+'</p></div>'+
+ const bloco=rows=>{if(o.tipo!=='marcas')return '<table class="rel-t"><thead><tr>'+th+'</tr></thead><tbody>'+rows.map(tr).join('')+'</tbody></table>';
+  const k=Math.ceil(rows.length/3);return '<div class="rel-3">'+[0,1,2].map(i=>rows.slice(i*k,(i+1)*k)).map(g=>g.length?'<table class="rel-t"><thead><tr>'+th+'</tr></thead><tbody>'+g.map(tr).join('')+'</tbody></table>':'<div></div>').join('')+'</div>'};
+ const corpo=D.grupos.map(g=>(g.nome?'<h2 class="rel-g">'+esc(g.nome)+' <span>'+g.rows.length+'</span></h2>':'')+bloco(g.rows)).join('');
+ const tot=D.tot||[[T+' listados',D.grupos.reduce((a,g)=>a+g.rows.length,0)],['Marcas no ar',marcasA+' de '+marcasT],['Produtos no ar',A.length+' de '+P.length],['SKUs no ar',A.reduce((a,p)=>a+p.skus,0)]];
+ const folha='<div class="sheet rel" id="sheet" data-fit="'+(o.tipo==='marcas'?1:0)+'"><header class="rel-h"><div><div class="rel-marca">OMG! <span>Oh My Girl</span></div><h1>Relatório do catálogo · '+T+'</h1><p>'+esc(filtros)+'</p></div>'+
   '<div class="rel-meta"><div><span>Gerado em</span><b>'+agora+'</b></div><div><span>Fonte</span><b>Shopify · raio-x de '+base+'</b></div></div></header>'+
   '<div class="rel-k">'+tot.map(([l,v])=>'<div><span>'+esc(l)+'</span><b class="num">'+(typeof v==='number'?v.toLocaleString('pt-BR'):esc(v))+'</b></div>').join('')+'</div>'+corpo+
-  '<footer class="rel-f"><span>OMG! Oh My Girl · ohmygirl.com.br</span><span>Documento interno · '+D.n+'</span></footer></div>';
+  '<footer class="rel-f"><span>OMG! Oh My Girl · ohmygirl.com.br'+(D.txt.includes('★')?' · ★ = marca hypada':'')+'</span><span>Documento interno · '+D.n+'</span></footer></div>';
  relAbrir('OMG · Relatório do catálogo · '+T+' · '+today(),folha);
 }
 // Abre o relatório numa aba nova, com escolha de papel (A4 ou Carta) e ajuste para caber na folha.
@@ -1382,6 +1410,7 @@ const REL_CSS=`*{box-sizing:border-box}html,body{margin:0}body{background:#e9e9e
 .rel-meta{display:flex;gap:6mm;text-align:right}.rel-meta span,.rel-k span{display:block;font-size:6.4pt;text-transform:uppercase;letter-spacing:.1em;color:#8a8a93}.rel-meta b{font-weight:600}
 .rel-k{display:grid;grid-template-columns:repeat(4,1fr);border:.6pt solid #d9d9de;border-radius:1.5mm}.rel-k div{padding:2.2mm 3mm;border-right:.6pt solid #d9d9de}.rel-k div:last-child{border-right:0}.rel-k b{font-size:12pt;font-weight:700}
 .rel-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4mm;align-items:start}
+.rel-g{font-size:8.5pt;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin:1.5mm 0 -1mm;padding-bottom:1mm;border-bottom:.6pt solid #d9d9de;break-after:avoid}.rel-g span{color:#8a8a93;font-weight:400;margin-left:1mm}
 table.rel-t{width:100%;border-collapse:collapse;font-size:7.4pt}
 .rel-3 .rel-t{table-layout:fixed}.rel-3 .rel-t th:first-child,.rel-3 .rel-t td:first-child{width:44%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .rel-t th{background:#f3f3f5;color:#4a4a52;font-size:6.3pt;font-weight:700;text-transform:uppercase;letter-spacing:.08em;text-align:left;padding:1.3mm 1.6mm;border-bottom:.8pt solid #1f1f24;white-space:nowrap}
@@ -2695,6 +2724,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v32','29/10/2026',['Exportar listas: marcas hypadas ★ (toque nas marcas para marcar; vale para toda a equipe). Começa com COSRX, Anua, SKIN1004, Beauty of Joseon, medicube e TIRTIR.','Filtros novos: só as hypadas, separar por categoria (Rosto, Protetor solar, Maquiagem, Cabelo, Corpo e banho) e ordem Hypadas primeiro. Vale para a lista, o PDF e a planilha.']],
  ['v31','29/10/2026',['Raio-X mais compacto: letras, números e quadros menores, cabe muito mais na tela.']],
  ['v30','29/10/2026',['Relatório em PDF abre numa aba nova (não precisa voltar).','Escolha do papel: A4 ou Carta (Letter). A lista de marcas se ajusta sozinha para caber em 1 página.']],
  ['v29','29/10/2026',['Relatório em PDF: correção da largura das colunas.']],
