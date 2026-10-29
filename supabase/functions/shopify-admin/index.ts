@@ -474,6 +474,26 @@ Deno.serve(async (req) => {
       return resp(200, { ok: true, resultados });
     }
 
+    if (b.acao === "menus_ler" || b.acao === "menu_titulos") {
+      // menus_ler: todos os menus + idiomas da loja. menu_titulos: { menu_id, trocas: { itemId: "Novo título" } }.
+      const ITEM = `id title type url resourceId tags`;
+      const mn: any = await gql(`{ menus(first: 25) { nodes { id handle title items { ${ITEM} items { ${ITEM} items { ${ITEM} } } } } } shopLocales { locale primary published } }`);
+      if (b.acao === "menus_ler") return resp(200, { ok: true, idiomas: mn.shopLocales, menus: mn.menus.nodes });
+      const m = mn.menus.nodes.find((x: any) => x.id === b.menu_id); if (!m) return resp(404, { erro: "menu não encontrado" });
+      const tr = b.trocas || {}; let n = 0;
+      const map = (it: any): any => {
+        const out: any = { id: it.id, title: tr[it.id] ?? it.title, type: it.type, tags: it.tags, items: (it.items || []).map(map) };
+        if (tr[it.id]) n++;
+        if (it.type === "HTTP") out.url = it.url; if (it.resourceId) out.resourceId = it.resourceId;
+        return out;
+      };
+      const items = m.items.map(map);
+      const d: any = await gql(`mutation($id: ID!, $t: String!, $h: String, $i: [MenuItemUpdateInput!]!) { menuUpdate(id: $id, title: $t, handle: $h, items: $i) { menu { id } userErrors { message } } }`,
+        { id: m.id, t: m.title, h: m.handle, i: items });
+      const e = d.menuUpdate.userErrors; if (e.length) return resp(422, { erro: e.map((x: any) => x.message).join("; ") });
+      return resp(200, { ok: true, trocados: n });
+    }
+
     if (b.acao === "rodape") {
       const CA = "/pages/central-de-ajuda";
       // título da página antiga → destino novo
