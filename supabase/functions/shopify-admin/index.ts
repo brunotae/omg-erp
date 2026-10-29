@@ -230,7 +230,7 @@ Deno.serve(async (req) => {
       const ant: any = await gql(`query($id: ID!, $f: [String!]) { theme(id: $id) { files(filenames: $f, first: 50) { nodes { filename body { ... on OnlineStoreThemeFileBodyText { content } } } } } }`, { id: tema.id, f: arqs.map((a: any) => a.nome) });
       const backup = ant.theme.files.nodes.map((f: any) => ({ nome: f.filename, conteudo: f.body?.content ?? null }));
       const d: any = await gql(`mutation($id: ID!, $f: [OnlineStoreThemeFilesUpsertFileInput!]!) { themeFilesUpsert(themeId: $id, files: $f) { upsertedThemeFiles { filename } userErrors { filename message } } }`,
-        { id: tema.id, f: arqs.map((a: any) => ({ filename: a.nome, body: { type: "TEXT", value: String(a.conteudo) } })) });
+        { id: tema.id, f: arqs.map((a: any) => ({ filename: a.nome, body: a.base64 ? { type: "BASE64", value: String(a.base64) } : { type: "TEXT", value: String(a.conteudo) } })) });
       const ue = d.themeFilesUpsert.userErrors; if (ue.length) return resp(422, { erro: ue.map((x: any) => x.filename + ": " + x.message).join("; "), backup });
       return resp(200, { ok: true, tema: tema.name, gravados: d.themeFilesUpsert.upsertedThemeFiles.map((x: any) => x.filename), backup });
     }
