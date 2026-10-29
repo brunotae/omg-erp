@@ -537,7 +537,9 @@ table.sh-t{width:100%;border-collapse:collapse;font-size:9.5pt}
 .rel-k{display:grid;grid-template-columns:repeat(4,1fr);border:.6pt solid #d9d9de;border-radius:1.5mm}
 .rel-k div{padding:2.2mm 3mm;border-right:.6pt solid #d9d9de}.rel-k div:last-child{border-right:0}
 .rel-k span{display:block;font-size:6.4pt;text-transform:uppercase;letter-spacing:.1em;color:#8a8a93}.rel-k b{font-size:12pt;font-weight:700}
-.rel-3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;align-items:start}
+.sheet.rel *{font-family:inherit}
+.rel-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4mm;align-items:start}
+.rel-3 .rel-t{table-layout:fixed}.rel-3 .rel-t th:first-child,.rel-3 .rel-t td:first-child{width:46%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 table.rel-t{width:100%;border-collapse:collapse;font-size:7.4pt}
 .rel-t th{position:static;background:#f3f3f5;color:#4a4a52;font-size:6.3pt;font-weight:700;text-transform:uppercase;letter-spacing:.08em;text-align:left;padding:1.3mm 1.6mm;border-bottom:.8pt solid #1f1f24;white-space:nowrap}
 .rel-t td{padding:.9mm 1.6mm;border-bottom:.4pt solid #e6e6ea;vertical-align:top}
@@ -800,7 +802,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v27 · 29/10/2026';
+const VERSAO='v28 · 29/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -2636,6 +2638,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v28','29/10/2026',['Relatório em PDF: lista de marcas em 3 colunas na mesma folha.']],
  ['v27','29/10/2026',['Raio-X › Exportar listas › Relatório em PDF: folha A4 com letra pequena e visual de relatório corporativo (cabeçalho, resumo em números e tabela). A lista de marcas cabe numa página só.']],
  ['v26','29/10/2026',['Raio-X › Exportar listas: lista de marcas, produtos ou SKUs (só no ar ou todos, por quantidade ou A–Z) para copiar com um toque ou baixar em planilha com quantidades, preços e links.']],
  ['v25','29/10/2026',['Um clique: o botão “Outro” e a opção “— nenhum —” agora aparecem nos botões; os botões acompanham quando o sistema muda o valor sozinho.','Cupom do influenciador usa o código inteiro (ex.: JENIKANG10).']],
