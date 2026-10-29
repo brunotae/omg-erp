@@ -509,6 +509,24 @@ Deno.serve(async (req) => {
       return resp(200, { ok: true, colecoes: out });
     }
 
+    if (b.acao === "status_lote") {
+      // Muda o status de vários produtos: { ids: [id numérico], status: "ACTIVE" | "DRAFT" | "ARCHIVED" } (até 50).
+      const st = String(b.status || "").toUpperCase();
+      if (!["ACTIVE", "DRAFT", "ARCHIVED"].includes(st)) return resp(400, { erro: "status inválido" });
+      const ids = (Array.isArray(b.ids) ? b.ids : []).map(String).filter((x: string) => /^\d+$/.test(x)).slice(0, 50);
+      const res: any[] = [];
+      const um = async (id: string) => {
+        try {
+          const d: any = await gql(`mutation($p: ProductUpdateInput!) { productUpdate(product: $p) { product { id status } userErrors { message } } }`, { p: { id: "gid://shopify/Product/" + id, status: st } });
+          const e = d.productUpdate.userErrors; if (e.length) throw new Error(e[0].message);
+          await admin.from("produtos").update({ ativo: st === "ACTIVE", site_status: st.toLowerCase() }).eq("shopify_product_id", id);
+          res.push({ id, ok: true });
+        } catch (e) { res.push({ id, ok: false, erro: String((e as Error).message || e).slice(0, 160) }); }
+      };
+      for (let i = 0; i < ids.length; i += 5) await Promise.all(ids.slice(i, i + 5).map(um));
+      return resp(200, { ok: true, status: st, res });
+    }
+
     if (b.acao === "catalogo") {
       // Raio-x do catálogo: todos os produtos (qualquer status), 250 por chamada (b.after).
       const d: any = await gql(`query($a: String) { products(first: 250, after: $a) { nodes { legacyResourceId handle title vendor status productType tags totalInventory

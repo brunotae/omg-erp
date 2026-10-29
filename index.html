@@ -442,6 +442,8 @@ select.chip{appearance:auto;cursor:pointer}
 .rx-det tr[data-edit]{cursor:pointer}
 @media (max-width:900px){.rx-flow{grid-template-columns:repeat(2,minmax(0,1fr))}.rx-step::after{display:none}.rx-ramos{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:520px){.rx-flow{grid-template-columns:minmax(0,1fr)}.rx-errs{grid-template-columns:repeat(2,minmax(0,1fr))}.rx-par{grid-template-columns:minmax(0,1fr)}}
+.rx-ck{width:30px}.rx-ck input{width:16px;height:16px;cursor:pointer;accent-color:var(--accent,#B83D66)}
+.rx-lote{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0 10px;padding:8px 10px;border:1px dashed var(--line);border-radius:10px;font-size:13px}
 </style>
 </head>
 <body>
@@ -695,7 +697,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v15 · 29/10/2026';
+const VERSAO='v16 · 29/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1166,10 +1168,10 @@ const RX_ERR={foto:['Foto','sem foto','p-bad'],provisorio:['Preço provisório',
 const RX_OKLOW=/sach|amostra|trial|1 unidade|\(1 un|pump|válvula|adesiv|patch|scrunchie|puff|esponja|pincel|brush|^bolsa|pouch|necessaire|nécessaire|clip|presilha|case|estojo/i;
 const RX_KIT=/^(kit|duo|conjunto|trio|set)\b/i, RX_MARCA_RUIM=['Mundo Beleza','VT','COEVAL Vegan'];
 let RX=(()=>{try{return JSON.parse(localStorage.getItem('omg-raiox')||'null')}catch(_){return null}})();
-const RXUI={f:'todas',err:'',m:'',q:'',carregando:false,prog:''};
+const RXUI={f:'todas',err:'',m:'',q:'',carregando:false,prog:'',sel:new Set(),acao:false};
 function rxTokens(s){const STOP=new Set('com para de da do das dos and the ml unidades un kit'.split(' '));return new Set(String(s).split('·')[0].toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').match(/[a-z0-9]+/g)?.filter(w=>w.length>2&&!STOP.has(w))||[])}
 function rxAnalisa(rows){
- const P=rows.map(r=>({h:r[0],t:r[1],m:r[2]||'(sem marca)',a:r[3]==='ACTIVE',tags:r[5]||'',fotos:r[6],skus:r[7],pmin:r[8],pmax:r[9],id:r[10]}));
+ const T=rows.map(r=>({h:r[0],t:r[1],m:r[2]||'(sem marca)',a:r[3]==='ACTIVE',st:r[3],tags:r[5]||'',fotos:r[6],skus:r[7],pmin:r[8],pmax:r[9],id:r[10]})), P=T.filter(p=>p.st!=='ARCHIVED'), arq=T.length-P.length;
  const A=P.filter(p=>p.a), dup={};
  A.forEach(a=>{if(a.t.includes(':')||RX_KIT.test(a.t))return;const ta=rxTokens(a.t);let best=null;
   A.forEach(b=>{if(b===a||b.m!==a.m||!b.t.includes(':')||RX_KIT.test(b.t))return;const tb=rxTokens(b.t);let k=0;ta.forEach(w=>{if(tb.has(w))k++});const s=k/Math.max(1,ta.size);if(s>=0.8&&(!best||s>best[0]))best=[s,b.t,b.pmin]});
@@ -1182,7 +1184,7 @@ function rxAnalisa(rows){
   if(!p.tags.split('|').some(t=>/^cat[-:]/.test(t)))f.push('categoria');
   if(RX_MARCA_RUIM.includes(p.m))f.push('marca');
   p.f=f;if(p.a&&dup[p.h]){p.par=dup[p.h][1];p.parpr=dup[p.h][2]}});
- return {em:new Date().toISOString(),P};
+ return {em:new Date().toISOString(),P,arq};
 }
 async function rxAtualizar(){
  if(RXUI.carregando)return;RXUI.carregando=true;RXUI.prog='Lendo o Shopify…';render();
@@ -1203,7 +1205,7 @@ VIEWFN.raiox=()=>{
  const lin=(a,b,c)=>'<div class="rx-l"><span>'+a+'</span><b class="num"'+(c?' style="color:var(--'+c+')"':'')+'>'+b+'</b></div>';
  const step=(nr,tit,big,cor,linhas,quem)=>'<div class="card rx-step"><div class="rx-sh"><span class="rx-b">'+nr+'</span><b>'+tit+'</b></div><div class="rx-big num"'+(cor?' style="color:var(--'+cor+')"':'')+'>'+big+'</div>'+linhas+'<div class="rx-quem">'+quem+'</div></div>';
  const fluxo='<div class="rx-flow">'+
-  step(1,'Cadastrado no Shopify',vnum(P.length),'',lin('No ar',vnum(A.length)+' · '+marcasA.size+' marcas','ok')+lin('Rascunho',vnum(P.length-A.length))+lin('SKUs (no ar / total)',vnum(skusA)+' / '+vnum(skus)),'Fonte: Shopify')+
+  step(1,'Cadastrado no Shopify',vnum(P.length),'',lin('No ar',vnum(A.length)+' · '+marcasA.size+' marcas','ok')+lin('Rascunho',vnum(P.length-A.length))+lin('SKUs (no ar / total)',vnum(skusA)+' / '+vnum(skus))+(RX.arq?lin('Arquivados (fora da conta)',vnum(RX.arq)):''),'Fonte: Shopify')+
   step(2,'Foto',vnum(t('foto'))+' sem foto','bad',lin('No ar',vnum(tot.Afoto||0),tot.Afoto?'bad':'')+lin('Rascunho',vnum(tot.Rfoto||0)),'Corrige: Janice (fotos)')+
   step(3,'Preço',vnum(t('provisorio')+t('suspeito'))+' a conferir','bad',lin('Provisório',vnum(t('provisorio')))+lin('Suspeito no ar',vnum(tot.Asuspeito||0),tot.Asuspeito?'bad':'')+lin('Suspeito em rascunho',vnum(tot.Rsuspeito||0)),'Corrige: Tae (preço)')+
   step(4,'Cadastro',vnum(t('duplicado')+t('categoria')+t('marca'))+' ajustes','warn',lin('Duplicado no ar',vnum(tot.Aduplicado||0),tot.Aduplicado?'bad':'')+lin('Duplicado em rascunho',vnum(tot.Rduplicado||0))+lin('Sem categoria · marca errada',vnum(t('categoria'))+' · '+vnum(t('marca'))),'Corrige: Claude / Diego')+'</div>'+
@@ -1223,8 +1225,8 @@ VIEWFN.raiox=()=>{
   '<div class="rx-bar"><i style="width:'+w(b.okA)+';background:var(--ok)"></i><i style="width:'+w(b.okR)+';background:var(--rx-azul,#5B7BC9)"></i><i style="width:'+w(pr)+';background:var(--bad)"></i></div>'+
   '<div class="chips">'+(Object.keys(RX_ERR).filter(k=>b.e[k]).map(k=>'<span class="pill '+RX_ERR[k][2]+'">'+RX_ERR[k][0].toLowerCase()+' '+b.e[k]+(b.eA[k]?' ('+b.eA[k]+' no ar)':'')+'</span>').join('')||'<span class="pill p-ok">sem problema</span>')+'</div></button>'};
  const det=m=>{const its=P.filter(p=>p.m===m&&(!RXUI.err||p.f.includes(RXUI.err))).sort((a,b)=>(b.f.length>0)-(a.f.length>0)||b.a-a.a||a.t.localeCompare(b.t));
-  return '<div class="card rx-det"><div class="rx-mt"><b>'+esc(m)+' · '+its.length+' produtos'+(RXUI.err?' com '+RX_ERR[RXUI.err][0].toLowerCase():'')+'</b><button type="button" class="btn sm" data-rx-m="'+esc(m)+'">Fechar</button></div><div class="tblwrap"><table><thead><tr><th>Produto</th><th>SKU</th><th>Status</th><th class="r">Preço</th><th>Situação</th></tr></thead><tbody>'+
-  its.map(p=>{const sk=rxSkus(p.id);return '<tr'+(sk[0]?' data-edit="produtos" data-id="'+esc(sk[0].id)+'" title="Abrir no catálogo"':'')+'><td><b>'+esc(p.t)+'</b><small>'+esc(p.h)+(p.par?' · versão completa: '+esc(p.par)+' ('+brl(p.parpr)+')':'')+'</small></td><td class="num">'+(sk.length?sk.slice(0,6).map(x=>esc(x.sku)).join('<br>')+(sk.length>6?'<br><small>+'+(sk.length-6)+' SKUs</small>':''):'<small>'+p.skus+' SKU'+(p.skus>1?'s':'')+'</small>')+'</td><td><span class="pill '+(p.a?'p-ok">no ar':'p-mute">rascunho')+'</span></td><td class="r num">'+brl(p.pmin)+(p.pmax>p.pmin?'<small>até '+brl(p.pmax)+'</small>':'')+'</td><td><div class="chips">'+(p.f.length?p.f.map(k=>'<span class="pill '+RX_ERR[k][2]+'">'+RX_ERR[k][0].toLowerCase()+'</span>').join(''):'<span class="pill p-ok">ok</span>')+'</div></td></tr>'}).join('')+'</tbody></table></div></div>'};
+  return '<div class="card rx-det"><div class="rx-mt"><b>'+esc(m)+' · '+its.length+' produtos'+(RXUI.err?' com '+RX_ERR[RXUI.err][0].toLowerCase():'')+'</b><button type="button" class="btn sm" data-rx-m="'+esc(m)+'">Fechar</button></div>'+rxBarraSel(its)+'<div class="tblwrap"><table><thead><tr><th class="rx-ck"><input type="checkbox" class="rx-sel-all" aria-label="Selecionar todos desta lista"'+(its.length&&its.every(p=>RXUI.sel.has(p.id))?' checked':'')+'></th><th>Produto</th><th>SKU</th><th>Status</th><th class="r">Preço</th><th>Situação</th></tr></thead><tbody>'+
+  its.map(p=>{const sk=rxSkus(p.id);return '<tr'+(sk[0]?' data-edit="produtos" data-id="'+esc(sk[0].id)+'" title="Abrir no catálogo"':'')+'><td class="rx-ck"><input type="checkbox" class="rx-sel" data-id="'+esc(p.id)+'" aria-label="Selecionar '+esc(p.t)+'"'+(RXUI.sel.has(p.id)?' checked':'')+'></td><td><b>'+esc(p.t)+'</b><small>'+esc(p.h)+(p.par?' · versão completa: '+esc(p.par)+' ('+brl(p.parpr)+')':'')+'</small></td><td class="num">'+(sk.length?sk.slice(0,6).map(x=>esc(x.sku)).join('<br>')+(sk.length>6?'<br><small>+'+(sk.length-6)+' SKUs</small>':''):'<small>'+p.skus+' SKU'+(p.skus>1?'s':'')+'</small>')+'</td><td><span class="pill '+(p.a?'p-ok">no ar':'p-mute">rascunho')+'</span></td><td class="r num">'+brl(p.pmin)+(p.pmax>p.pmin?'<small>até '+brl(p.pmax)+'</small>':'')+'</td><td><div class="chips">'+(p.f.length?p.f.map(k=>'<span class="pill '+RX_ERR[k][2]+'">'+RX_ERR[k][0].toLowerCase()+'</span>').join(''):'<span class="pill p-ok">ok</span>')+'</div></td></tr>'}).join('')+'</tbody></table></div></div>'};
  let grade='';L.forEach(b=>{grade+=card(b);if(RXUI.m===b.m)grade+=det(b.m)});
  const filtros=[['todas','Todas'],['ar','No ar'],['ras','Só rascunho'],['urg','Problema no ar'],['prob','Com problema']].map(([k,l])=>'<button type="button" class="btn sm rx-f" data-rx-f="'+k+'" aria-pressed="'+(RXUI.f===k)+'">'+l+'</button>').join('');
  return '<div class="page wide"><div class="col">'+head('Raio-X do catálogo',sub,btn)+(RXUI.carregando?'<p class="muted" id="rx-prog">'+esc(RXUI.prog)+'</p>':'')+fluxo+
@@ -1233,12 +1235,46 @@ VIEWFN.raiox=()=>{
   '<div class="rx-grade">'+(grade||'<p class="muted">Nenhuma marca com esse filtro.</p>')+'</div>'+
   '<p class="muted" style="font-size:12px;margin-top:14px">Regras: foto = nenhuma foto · preço provisório = R$ 0 ou 999,99 · preço suspeito = abaixo de R$ 15 sem ser sachê, amostra ou acessório · duplicado = no ar, nome curto antigo com versão de nome completo; em rascunho, marcado para revisar · categoria = fora de Rosto, Cabelo, Corpo, Protetor e Maquiagem · marca = nome errado (Mundo Beleza, VT, COEVAL Vegan).</p></div></div>';
 };
+function rxBarraSel(its){
+ const ids=new Set(its.map(p=>p.id)),n=[...RXUI.sel].filter(id=>ids.has(id)).length;
+ return '<div class="rx-lote"><span>'+(n?'<b>'+n+'</b> selecionado'+(n>1?'s':''):'Marque os produtos para mudar o status em lote')+'</span>'+
+  (n&&can()?'<button type="button" class="btn sm pri" data-rx-lote="ACTIVE"'+(RXUI.acao?' disabled':'')+'>Ativar no site</button><button type="button" class="btn sm" data-rx-lote="DRAFT"'+(RXUI.acao?' disabled':'')+'>Passar para rascunho</button><button type="button" class="btn sm" data-rx-lote="ARCHIVED"'+(RXUI.acao?' disabled':'')+'>Arquivar</button><button type="button" class="btn sm" data-rx-limpa="1">Limpar seleção</button>':'')+
+  (n&&!can()?'<span class="muted">Sem permissão de edição</span>':'')+'</div>';
+}
+async function rxLote(st){
+ const sel=RX.P.filter(p=>RXUI.sel.has(p.id)&&p.m===RXUI.m);if(!sel.length)return;
+ const NOME={ACTIVE:'Ativar no site',DRAFT:'Passar para rascunho',ARCHIVED:'Arquivar'}[st];
+ let alvo=sel.filter(p=>st==='ACTIVE'?!p.a:st==='DRAFT'?p.a:p.st!=='ARCHIVED');
+ if(!alvo.length){toast('Nada a mudar: os selecionados já estão nesse status');return}
+ if(!confirm(NOME+': '+alvo.length+' produto'+(alvo.length>1?'s':'')+' da '+RXUI.m+'?'))return;
+ if(st==='ACTIVE'){const pr=alvo.filter(p=>p.f.length);if(pr.length){
+   const lista=pr.slice(0,6).map(p=>'• '+p.t.slice(0,50)+' ('+p.f.map(k=>RX_ERR[k][0].toLowerCase()).join(', ')+')').join('\n');
+   if(!confirm(pr.length+' deles têm problema:\n'+lista+(pr.length>6?'\n…':'')+'\n\nOK = ativar mesmo assim · Cancelar = ativar só os '+(alvo.length-pr.length)+' sem problema'))alvo=alvo.filter(p=>!p.f.length);
+   if(!alvo.length){toast('Nenhum produto sem problema para ativar');return}}}
+ RXUI.acao=true;render();let ok=0;const falha=[];
+ for(let i=0;i<alvo.length;i+=50){
+  try{const d=await chamarShop({acao:'status_lote',status:st,ids:alvo.slice(i,i+50).map(p=>p.id)});
+   (d.res||[]).forEach(r=>{const p=alvo.find(x=>x.id===r.id);if(r.ok&&p){ok++;p.st=st;p.a=st==='ACTIVE'}else falha.push((p?p.t.slice(0,40):r.id)+': '+r.erro)});toast(NOME+'… '+Math.min(i+50,alvo.length)+' de '+alvo.length)}
+  catch(e){falha.push(e.message);break}}
+ if(st==='ARCHIVED'){const antes=RX.P.length;RX.P=RX.P.filter(p=>p.st!=='ARCHIVED');RX.arq=(RX.arq||0)+(antes-RX.P.length)}
+ try{localStorage.setItem('omg-raiox',JSON.stringify(RX))}catch(_){}
+ RXUI.sel.clear();RXUI.acao=false;render();
+ toast(NOME+': '+ok+' feito'+(ok!==1?'s':'')+(falha.length?' · '+falha.length+' com erro':''));if(falha.length)alert('Não deu certo em '+falha.length+':\n'+falha.slice(0,8).join('\n'));
+ try{await loadAll()}catch(_){}
+}
+document.addEventListener('click',e=>{
+ const ck=e.target.closest('.rx-sel,.rx-sel-all');if(!ck)return;e.stopImmediatePropagation();
+ if(ck.classList.contains('rx-sel')){ck.checked?RXUI.sel.add(ck.dataset.id):RXUI.sel.delete(ck.dataset.id)}
+ else{document.querySelectorAll('.rx-det .rx-sel').forEach(c=>{ck.checked?RXUI.sel.add(c.dataset.id):RXUI.sel.delete(c.dataset.id)})}
+ const y=scrollY;render();scrollTo(0,y);
+},true);
+document.addEventListener('click',e=>{const b=e.target.closest('[data-rx-lote],[data-rx-limpa]');if(!b)return;if(b.dataset.rxLimpa){RXUI.sel.clear();render();return}rxLote(b.dataset.rxLote)});
 document.addEventListener('click',e=>{
  const t=e.target.closest('#rx-atualizar,[data-rx-f],[data-rx-err],[data-rx-m]');if(!t)return;
  if(t.id==='rx-atualizar'){rxAtualizar();return}
  if(t.dataset.rxF){RXUI.f=t.dataset.rxF;RXUI.err='';render();return}
  if(t.dataset.rxErr!==undefined){RXUI.err=RXUI.err===t.dataset.rxErr?'':t.dataset.rxErr;RXUI.f='todas';RXUI.m='';render();return}
- if(t.dataset.rxM!==undefined){RXUI.m=RXUI.m===t.dataset.rxM?'':t.dataset.rxM;render();const el=document.querySelector('.rx-det');if(el&&RXUI.m)el.scrollIntoView({behavior:'smooth',block:'nearest'})}
+ if(t.dataset.rxM!==undefined){RXUI.m=RXUI.m===t.dataset.rxM?'':t.dataset.rxM;RXUI.sel.clear();render();const el=document.querySelector('.rx-det');if(el&&RXUI.m)el.scrollIntoView({behavior:'smooth',block:'nearest'})}
 });
 document.addEventListener('input',e=>{if(e.target.id==='rx-q'){RXUI.q=e.target.value;const pos=e.target.selectionStart;render();const i=document.getElementById('rx-q');if(i){i.focus();i.setSelectionRange(pos,pos)}}});
 
@@ -2038,6 +2074,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v16','29/10/2026',['Raio-X: marcar produtos e mudar o status em lote (Ativar no site, Passar para rascunho, Arquivar). Ao ativar produto com problema, o ERP pergunta antes.','Arquivados ficam fora da conta do Raio-X.']],
  ['v15','29/10/2026',['Raio-X do catálogo: lê todos os produtos do Shopify e mostra, por marca, o que está no ar, o que está pronto em rascunho e o que tem problema (foto, preço provisório ou suspeito, duplicado, categoria, marca).','Ao abrir uma marca aparecem os produtos com os números de SKU; clicar no produto abre a ficha no Catálogo.']],
  ['v14','28/10/2026',['Acompanhamento do pedido: ao avançar a etapa da venda, o ERP avisa o site. A cliente recebe os e-mails de pedido enviado, saiu para entrega e entregue.','Página Acompanhe seu pedido no site, com a linha do tempo em 6 etapas.']],
  ['v13','28/10/2026',['Clicar no logo volta para a página inicial.','Qualquer campo de arquivo aceita arrastar e soltar.','O número da versão abre esta lista de novidades.','Aviso de versão nova com botão Atualizar.','Botão 🎨 Cores com 7 combinações de cores (vale por pessoa e por aparelho).','Os quadros não fecham mais ao clicar fora.']],
