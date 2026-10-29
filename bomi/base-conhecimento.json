@@ -1946,10 +1946,10 @@
     "devolver produto usado",
     "produto aberto ou usado pode ser devlovido"
    ],
-   "resposta_chat": "O arrependimento em 7 dias vale mesmo se você abriu a embalagem pra conhecer o produto 😊 Só pedimos que devolva com todos os itens e, se possível, sem uso. Defeito ou produto errado: até 30 dias.",
-   "resposta_chat_alt": "Abriu pra ver? Ainda dá pra devolver nos 7 dias. Pedimos só que venha completo e, se der, sem uso.",
+   "resposta_chat": "Abriu só a caixa pra conhecer? O arrependimento em 7 dias continua valendo 😊 Mas, por higiene e segurança, produto usado (lacre de proteção rompido ou conteúdo usado) não é aceito de volta por arrependimento. Defeito ou produto errado: coberto em até 30 dias, mesmo usado.",
+   "resposta_chat_alt": "Aberto pra ver, sim; usado, não (por higiene). Se for defeito ou item errado, resolvemos em até 30 dias mesmo que já tenha usado.",
    "quando_escalar": "Cliente irritada após uma tentativa, ameaça de Procon/processo ou qualquer dúvida sem resposta na base: transferir.",
-   "notas_internas": "Fonte: Central de Ajuda (devolucoes-08). Fato oficial: Pelo Código de Defesa do Consumidor, o arrependimento em 7 dias vale mesmo que você tenha aberto a embalagem para conhecer o produto. Pedimos que devolva com todos os itens e, se possível, sem uso. Em caso de defeito, produto errado ou avaria, o prazo para reclamar é de 30 dias.",
+   "notas_internas": "Fonte: Central de Ajuda (devolucoes-08). Regra da OMG: abrir a caixa externa para conhecer não tira o arrependimento de 7 dias. Produto USADO (lacre de proteção rompido ou conteúdo utilizado) NÃO é aceito de volta por arrependimento, por higiene e segurança. Defeito, produto errado ou avaria: coberto em até 30 dias, mesmo usado. Se a cliente insistir ou ameaçar Procon: transferir para a equipe.",
    "links": []
   },
   {
@@ -7950,7 +7950,7 @@
    "resposta_chat": "Você tem 7 dias depois de receber pra desistir, com frete de devolução por nossa conta e reembolso total, inclusive impostos 💗 Quer ajuda pra escolher o produto certo?",
    "resposta_chat_alt": "Pelo direito de arrependimento, são 7 dias após receber, com devolução paga pela OMG e reembolso de tudo. Se for defeito ou item errado, são 30 dias.",
    "quando_escalar": "Pedido já recebido e cliente quer devolver, ou relato de reação/alergia: transferir com o número do pedido. Cliente irritada após uma tentativa, ameaça de Procon/processo ou qualquer dúvida sem resposta na base: transferir.",
-   "notas_internas": "Guia objecoes. Direito de arrependimento (CDC, art. 49): até 7 dias após o recebimento, com frete de devolução pago pela OMG e reembolso total, incluindo produtos, frete e impostos (a recuperação dos impostos na Receita é por conta da OMG). Vale mesmo que a embalagem tenha sido aberta para conhecer o produto; pedimos devolver com todos os itens e, se possível, sem uso. Defeito, avaria ou item errado: reclamar em até 30 dias. Não existe troca direta por outro produto que não esteja na base; não inventar. Se a cliente relatar reação ou alergia: parar de usar, procurar médico/dermatologista se for forte, e falar com a equipe. Dica para evitar: teste numa área pequena antes de usar produto novo.",
+   "notas_internas": "Guia objecoes. Direito de arrependimento (CDC, art. 49): até 7 dias após o recebimento, com frete de devolução pago pela OMG e reembolso total, incluindo produtos, frete e impostos (a recuperação dos impostos na Receita é por conta da OMG). Vale se a caixa foi aberta só para conhecer; produto USADO não é aceito de volta por arrependimento (higiene e segurança). Defeito, avaria ou item errado: reclamar em até 30 dias, mesmo usado. Não existe troca direta por outro produto que não esteja na base; não inventar. Se a cliente relatar reação ou alergia: parar de usar, procurar médico/dermatologista se for forte, e falar com a equipe. Dica para evitar: teste numa área pequena antes de usar produto novo.",
    "links": []
   },
   {
@@ -9932,10 +9932,10 @@
     "wrong shade return",
     "troca de tom de base"
    ],
-   "resposta_chat": "Poxa, entendo! Lacrado, você pode pedir o arrependimento em até 7 dias após receber. Se já abriu ou usou, me manda o número do pedido que a equipe avalia 💗",
+   "resposta_chat": "Poxa, entendo! Se não usou, você pode pedir o arrependimento em até 7 dias após receber. Produto usado não volta por arrependimento (higiene), mas me manda o número do pedido que a equipe te orienta 💗",
    "resposta_chat_alt": "Vamos resolver! Me passa o número do pedido e uma foto do produto. Se veio tom diferente do pedido, é item errado; senão, a equipe te orienta.",
    "quando_escalar": "Sempre que a cliente quiser trocar ou devolver por tom: coletar número do pedido, foto do produto (mostrando se está lacrado ou aberto) e o tom pedido x recebido, e transferir para a equipe. Não prometer aceite de produto aberto ou usado. Cliente irritada após uma tentativa, ameaça de Procon/processo ou qualquer dúvida sem resposta na base: transferir.",
-   "notas_internas": "Guia tons. Dois casos. (1) Item errado (veio um tom diferente do pedido): é erro de envio, coberto pela política de defeito/avaria/item errado em até 30 dias; coletar pedido e fotos e transferir. (2) A cliente escolheu o tom e não gostou: vale o direito de arrependimento em até 7 dias após receber, com frete de devolução pago pela OMG e reembolso total incluindo impostos. Cosmético aberto ou usado pode ter restrição por questão de higiene, então a Bomi não promete aceite: orienta falar com a equipe, que avalia caso a caso. A loja não faz troca direta de tom; o caminho é devolução e nova compra, mas quem confirma é a equipe. Sugerir, com cuidado, que ela pode tentar ajustar (misturar com hidratante, usar só na zona central) enquanto aguarda.",
+   "notas_internas": "Guia tons. Dois casos. (1) Item errado (veio um tom diferente do pedido): é erro de envio, coberto pela política de defeito/avaria/item errado em até 30 dias; coletar pedido e fotos e transferir. (2) A cliente escolheu o tom e não gostou: vale o direito de arrependimento em até 7 dias após receber, com frete de devolução pago pela OMG e reembolso total incluindo impostos. Regra: produto USADO não é aceito de volta por arrependimento (higiene e segurança); se só abriu a caixa, vale. Na dúvida, orientar falar com a equipe. A loja não faz troca direta de tom; o caminho é devolução e nova compra, mas quem confirma é a equipe. Sugerir, com cuidado, que ela pode tentar ajustar (misturar com hidratante, usar só na zona central) enquanto aguarda.",
    "links": []
   },
   {
