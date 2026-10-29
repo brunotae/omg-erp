@@ -194,7 +194,7 @@ function render(){
   return '<div class="lk"><div class="row" style="justify-content:space-between"><b>'+esc(l.nome||'Link')+'</b>'+(l.ativo?'<span class="pill p-ok">Ativo</span>':'<span class="pill p-mute">Pausado</span>')+'</div>'+
   '<div class="u">'+esc(curto.replace('https://',''))+'</div>'+
   '<div class="row"><button class="btn pri sm" type="button" data-copy="'+esc(curto)+'">Copiar link curto</button><button class="btn sm" type="button" data-copy="'+esc(comp)+'">Copiar link completo (UTM)</button></div>'+
-  '<small>'+n(l.cliques).toLocaleString('pt-BR')+' cliques · '+n(l.visitantes).toLocaleString('pt-BR')+' pessoas'+(l.fim?' · vale até '+fdate(l.fim):'')+(l.ativo?'':' · link pausado: pedidos por ele não contam')+'</small></div>'}).join('')
+  '<small>'+n(l.cliques).toLocaleString('pt-BR')+(n(l.cliques)===1?' clique · ':' cliques · ')+n(l.visitantes).toLocaleString('pt-BR')+(n(l.visitantes)===1?' pessoa':' pessoas')+(l.fim?' · vale até '+fdate(l.fim):'')+(l.ativo?'':' · link pausado: pedidos por ele não contam')+'</small></div>'}).join('')
   :'<p class="empty">Seu link ainda está sendo criado. Fale com a OMG.</p>')+'</div>'+
  (P.cupom?'<div class="cupom"><span>Seu cupom</span><b class="num">'+esc(P.cupom)+'</b><button class="btn sm" type="button" data-copy="'+esc(P.cupom)+'">Copiar</button><small style="flex-basis:100%;color:var(--muted)">Pedido com o seu cupom é seu, mesmo que a pessoa não tenha clicado no link.</small></div>':'')+'</div>'+
 
@@ -202,7 +202,7 @@ function render(){
  '<div class="meses">'+['todos',...meses].map(m=>'<button type="button" data-mes="'+m+'" aria-pressed="'+(MES===m)+'">'+(m==='todos'?'Tudo':mesNome(m)+(m===ma?' (até hoje)':''))+'</button>').join('')+'</div>'+
  '<div class="kpis"><div class="kpi"><span>Cliques</span><b class="num">'+cl.c.toLocaleString('pt-BR')+'</b></div><div class="kpi"><span>Pessoas</span><b class="num">'+cl.v.toLocaleString('pt-BR')+'</b></div><div class="kpi"><span>Pedidos</span><b class="num">'+ok.length+'</b></div>'+
  '<div class="kpi"><span>Conversão do link</span><b class="num">'+(cl.v?pct(viaLink/cl.v):'—')+'</b></div><div class="kpi"><span>Vendas (base)</span><b class="num">'+brl(ok.reduce((s,p)=>s+n(p.base),0))+'</b></div><div class="kpi hi"><span>Sua comissão</span><b class="num">'+brl(com)+'</b></div></div>'+
- '<div class="funil">'+cl.v.toLocaleString('pt-BR')+' pessoas clicaram <i>→</i> '+viaLink+' compraram pelo link <i>+</i> '+(ok.length-viaLink)+' pelo cupom</div></div>'+
+ '<div class="funil">'+cl.v.toLocaleString('pt-BR')+(cl.v===1?' pessoa clicou':' pessoas clicaram')+' <i>→</i> '+viaLink+(viaLink===1?' comprou':' compraram')+' pelo link <i>+</i> '+(ok.length-viaLink)+' pelo cupom</div></div>'+
 
  '<div class="card"><h2>Pedidos</h2><p class="sub">Por privacidade, não mostramos quem comprou: só o pedido, a data e os produtos. Base = produtos com desconto, sem frete e sem imposto.</p>'+
  (peds.length?'<div class="tblw"><table class="tbl"><thead><tr><th>Pedido</th><th>Produtos</th><th class="r">Base</th><th class="r">Comissão</th><th>Situação</th></tr></thead><tbody>'+
