@@ -484,6 +484,30 @@ Deno.serve(async (req) => {
       return resp(200, { ok: true, hits });
     }
 
+    if (b.acao === "tags_trocar") {
+      // b.itens: [{ handle, add: [..], remove: [..] }] (até 50)
+      const res: any[] = [];
+      for (const it of (Array.isArray(b.itens) ? b.itens : []).slice(0, 50)) {
+        try {
+          const q: any = await gql(`query($h: String!) { productByIdentifier(identifier: { handle: $h }) { id } }`, { h: String(it.handle) });
+          const id = q.productByIdentifier?.id; if (!id) throw new Error("não encontrado");
+          if (it.remove?.length) { const d: any = await gql(`mutation($id: ID!, $t: [String!]!) { tagsRemove(id: $id, tags: $t) { userErrors { message } } }`, { id, t: it.remove }); if (d.tagsRemove.userErrors.length) throw new Error(d.tagsRemove.userErrors[0].message); }
+          if (it.add?.length) { const d: any = await gql(`mutation($id: ID!, $t: [String!]!) { tagsAdd(id: $id, tags: $t) { userErrors { message } } }`, { id, t: it.add }); if (d.tagsAdd.userErrors.length) throw new Error(d.tagsAdd.userErrors[0].message); }
+          res.push({ handle: it.handle, ok: true });
+        } catch (e) { res.push({ handle: it.handle, ok: false, erro: String((e as Error).message || e).slice(0, 160) }); }
+      }
+      return resp(200, { ok: true, res });
+    }
+
+    if (b.acao === "colecao_regras") {
+      const out: any[] = [];
+      for (const h of (Array.isArray(b.handles) ? b.handles : []).slice(0, 20)) {
+        const d: any = await gql(`query($h: String!) { collectionByIdentifier(identifier: { handle: $h }) { handle title ruleSet { appliedDisjunctively rules { column relation condition } } } }`, { h: String(h) });
+        out.push(d.collectionByIdentifier);
+      }
+      return resp(200, { ok: true, colecoes: out });
+    }
+
     if (b.acao === "colecoes") {
       const out: any[] = []; let a: string | null = null;
       do {
