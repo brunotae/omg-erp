@@ -3,21 +3,21 @@
     "marcas": {
       "type": "omg-marcas",
       "blocks": {
+        "marca_mixsoon": {
+          "type": "marca",
+          "settings": {
+            "nome": "mixsoon",
+            "fornecedor": "mixsoon",
+            "arquivo": "mixsoon.webp",
+            "link": ""
+          }
+        },
         "marca_cosrx": {
           "type": "marca",
           "settings": {
             "nome": "COSRX",
             "fornecedor": "COSRX",
             "arquivo": "cosrx.webp",
-            "link": ""
-          }
-        },
-        "marca_abib": {
-          "type": "marca",
-          "settings": {
-            "nome": "Abib",
-            "fornecedor": "Abib",
-            "arquivo": "abib.webp",
             "link": ""
           }
         },
@@ -30,39 +30,12 @@
             "link": ""
           }
         },
-        "marca_mixsoon": {
+        "marca_medicube": {
           "type": "marca",
           "settings": {
-            "nome": "mixsoon",
-            "fornecedor": "mixsoon",
-            "arquivo": "mixsoon.webp",
-            "link": ""
-          }
-        },
-        "marca_anua": {
-          "type": "marca",
-          "settings": {
-            "nome": "Anua",
-            "fornecedor": "Anua",
-            "arquivo": "anua.webp",
-            "link": ""
-          }
-        },
-        "marca_centellian_24": {
-          "type": "marca",
-          "settings": {
-            "nome": "Centellian 24",
-            "fornecedor": "Centellian 24",
-            "arquivo": "centellian-24.webp",
-            "link": ""
-          }
-        },
-        "marca_beauty_of_joseon": {
-          "type": "marca",
-          "settings": {
-            "nome": "Beauty of Joseon",
-            "fornecedor": "Beauty of Joseon",
-            "arquivo": "beauty-of-joseon.webp",
+            "nome": "medicube",
+            "fornecedor": "medicube",
+            "arquivo": "medicube.webp",
             "link": ""
           }
         },
@@ -75,30 +48,12 @@
             "link": ""
           }
         },
-        "marca_medicube": {
+        "marca_anua": {
           "type": "marca",
           "settings": {
-            "nome": "medicube",
-            "fornecedor": "medicube",
-            "arquivo": "medicube.webp",
-            "link": ""
-          }
-        },
-        "marca_mediheal": {
-          "type": "marca",
-          "settings": {
-            "nome": "MEDIHEAL",
-            "fornecedor": "MEDIHEAL",
-            "arquivo": "mediheal.webp",
-            "link": ""
-          }
-        },
-        "marca_aromatica": {
-          "type": "marca",
-          "settings": {
-            "nome": "AROMATICA",
-            "fornecedor": "AROMATICA",
-            "arquivo": "aromatica.webp",
+            "nome": "Anua",
+            "fornecedor": "Anua",
+            "arquivo": "anua.webp",
             "link": ""
           }
         },
@@ -111,33 +66,6 @@
             "link": ""
           }
         },
-        "marca_numbuzin": {
-          "type": "marca",
-          "settings": {
-            "nome": "numbuzin",
-            "fornecedor": "numbuzin",
-            "arquivo": "numbuzin.webp",
-            "link": ""
-          }
-        },
-        "marca_vt_cosmetics": {
-          "type": "marca",
-          "settings": {
-            "nome": "VT Cosmetics",
-            "fornecedor": "VT Cosmetics",
-            "arquivo": "vt-cosmetics.webp",
-            "link": ""
-          }
-        },
-        "marca_gongskin": {
-          "type": "marca",
-          "settings": {
-            "nome": "GONGSKIN",
-            "fornecedor": "GONGSKIN",
-            "arquivo": "gongskin.webp",
-            "link": ""
-          }
-        },
         "marca_dr_melaxin": {
           "type": "marca",
           "settings": {
@@ -147,30 +75,12 @@
             "link": ""
           }
         },
-        "marca_cell_fusion_c": {
+        "marca_centellian_24": {
           "type": "marca",
           "settings": {
-            "nome": "Cell Fusion C",
-            "fornecedor": "Cell Fusion C",
-            "arquivo": "cell-fusion-c.webp",
-            "link": ""
-          }
-        },
-        "marca_lador": {
-          "type": "marca",
-          "settings": {
-            "nome": "La'dor",
-            "fornecedor": "La'dor",
-            "arquivo": "lador.webp",
-            "link": ""
-          }
-        },
-        "marca_some_by_mi": {
-          "type": "marca",
-          "settings": {
-            "nome": "SOME BY MI",
-            "fornecedor": "SOME BY MI",
-            "arquivo": "some-by-mi.webp",
+            "nome": "Centellian 24",
+            "fornecedor": "Centellian 24",
+            "arquivo": "centellian-24.webp",
             "link": ""
           }
         },
@@ -183,66 +93,12 @@
             "link": ""
           }
         },
-        "marca_sonatural": {
+        "marca_cell_fusion_c": {
           "type": "marca",
           "settings": {
-            "nome": "sonatural",
-            "fornecedor": "sonatural",
-            "arquivo": "sonatural.webp",
-            "link": ""
-          }
-        },
-        "marca_biodance": {
-          "type": "marca",
-          "settings": {
-            "nome": "BIODANCE",
-            "fornecedor": "BIODANCE",
-            "arquivo": "biodance.webp",
-            "link": ""
-          }
-        },
-        "marca_romand": {
-          "type": "marca",
-          "settings": {
-            "nome": "Rom&nd",
-            "fornecedor": "Rom&nd",
-            "arquivo": "romand.webp",
-            "link": ""
-          }
-        },
-        "marca_arencia": {
-          "type": "marca",
-          "settings": {
-            "nome": "ARENCIA",
-            "fornecedor": "ARENCIA",
-            "arquivo": "arencia.webp",
-            "link": ""
-          }
-        },
-        "marca_dalba": {
-          "type": "marca",
-          "settings": {
-            "nome": "d'Alba",
-            "fornecedor": "d'Alba",
-            "arquivo": "dalba.webp",
-            "link": ""
-          }
-        },
-        "marca_eqqualberry": {
-          "type": "marca",
-          "settings": {
-            "nome": "Eqqualberry",
-            "fornecedor": "Eqqualberry",
-            "arquivo": "eqqualberry.webp",
-            "link": ""
-          }
-        },
-        "marca_celimax": {
-          "type": "marca",
-          "settings": {
-            "nome": "celimax",
-            "fornecedor": "celimax",
-            "arquivo": "celimax.webp",
+            "nome": "Cell Fusion C",
+            "fornecedor": "Cell Fusion C",
+            "arquivo": "cell-fusion-c.webp",
             "link": ""
           }
         },
@@ -255,39 +111,48 @@
             "link": ""
           }
         },
-        "marca_dr_g": {
+        "marca_beauty_of_joseon": {
           "type": "marca",
           "settings": {
-            "nome": "Dr.G",
-            "fornecedor": "Dr.G",
-            "arquivo": "dr-g.webp",
+            "nome": "Beauty of Joseon",
+            "fornecedor": "Beauty of Joseon",
+            "arquivo": "beauty-of-joseon.webp",
             "link": ""
           }
         },
-        "marca_purito_seoul": {
+        "marca_biodance": {
           "type": "marca",
           "settings": {
-            "nome": "PURITO SEOUL",
-            "fornecedor": "PURITO SEOUL",
-            "arquivo": "purito-seoul.webp",
+            "nome": "BIODANCE",
+            "fornecedor": "BIODANCE",
+            "arquivo": "biodance.webp",
             "link": ""
           }
         },
-        "marca_dr_althea": {
+        "marca_celimax": {
           "type": "marca",
           "settings": {
-            "nome": "Dr. Althea",
-            "fornecedor": "Dr. Althea",
-            "arquivo": "dr-althea.webp",
+            "nome": "celimax",
+            "fornecedor": "celimax",
+            "arquivo": "celimax.webp",
             "link": ""
           }
         },
-        "marca_rejuran": {
+        "marca_arencia": {
           "type": "marca",
           "settings": {
-            "nome": "Rejuran",
-            "fornecedor": "Rejuran",
-            "arquivo": "rejuran.webp",
+            "nome": "ARENCIA",
+            "fornecedor": "ARENCIA",
+            "arquivo": "arencia.webp",
+            "link": ""
+          }
+        },
+        "marca_lador": {
+          "type": "marca",
+          "settings": {
+            "nome": "La'dor",
+            "fornecedor": "La'dor",
+            "arquivo": "lador.webp",
             "link": ""
           }
         },
@@ -299,339 +164,34 @@
             "arquivo": "apieu.webp",
             "link": ""
           }
-        },
-        "marca_mise_en_scene": {
-          "type": "marca",
-          "settings": {
-            "nome": "mise en scène",
-            "fornecedor": "mise en scène",
-            "arquivo": "mise-en-scene.webp",
-            "link": ""
-          }
-        },
-        "marca_manyo": {
-          "type": "marca",
-          "settings": {
-            "nome": "ma:nyo",
-            "fornecedor": "ma:nyo",
-            "arquivo": "manyo.webp",
-            "link": ""
-          }
-        },
-        "marca_sungboon_editor": {
-          "type": "marca",
-          "settings": {
-            "nome": "Sungboon Editor",
-            "fornecedor": "Sungboon Editor",
-            "arquivo": "sungboon-editor.webp",
-            "link": ""
-          }
-        },
-        "marca_another_face": {
-          "type": "marca",
-          "settings": {
-            "nome": "Another Face",
-            "fornecedor": "Another Face",
-            "arquivo": "another-face.webp",
-            "link": ""
-          }
-        },
-        "marca_aestura": {
-          "type": "marca",
-          "settings": {
-            "nome": "AESTURA",
-            "fornecedor": "AESTURA",
-            "arquivo": "aestura.webp",
-            "link": ""
-          }
-        },
-        "marca_beplain": {
-          "type": "marca",
-          "settings": {
-            "nome": "beplain",
-            "fornecedor": "beplain",
-            "arquivo": "beplain.webp",
-            "link": ""
-          }
-        },
-        "marca_kaine": {
-          "type": "marca",
-          "settings": {
-            "nome": "KAINE",
-            "fornecedor": "KAINE",
-            "arquivo": "kaine.webp",
-            "link": ""
-          }
-        },
-        "marca_ilso": {
-          "type": "marca",
-          "settings": {
-            "nome": "ILSO",
-            "fornecedor": "ILSO",
-            "arquivo": "ilso.webp",
-            "link": ""
-          }
-        },
-        "marca_wellage": {
-          "type": "marca",
-          "settings": {
-            "nome": "WELLAGE",
-            "fornecedor": "WELLAGE",
-            "arquivo": "wellage.webp",
-            "link": ""
-          }
-        },
-        "marca_clio": {
-          "type": "marca",
-          "settings": {
-            "nome": "CLIO",
-            "fornecedor": "CLIO",
-            "arquivo": "clio.webp",
-            "link": ""
-          }
-        },
-        "marca_peripera": {
-          "type": "marca",
-          "settings": {
-            "nome": "Peripera",
-            "fornecedor": "Peripera",
-            "arquivo": "peripera.webp",
-            "link": ""
-          }
-        },
-        "marca_ongredients": {
-          "type": "marca",
-          "settings": {
-            "nome": "òngredients",
-            "fornecedor": "òngredients",
-            "arquivo": "ongredients.webp",
-            "link": ""
-          }
-        },
-        "marca_purcell": {
-          "type": "marca",
-          "settings": {
-            "nome": "purcell",
-            "fornecedor": "purcell",
-            "arquivo": "purcell.webp",
-            "link": ""
-          }
-        },
-        "marca_dr_forhair": {
-          "type": "marca",
-          "settings": {
-            "nome": "DR.forHair",
-            "fornecedor": "DR.forHair",
-            "arquivo": "dr-forhair.webp",
-            "link": ""
-          }
-        },
-        "marca_fwee": {
-          "type": "marca",
-          "settings": {
-            "nome": "fwee",
-            "fornecedor": "fwee",
-            "arquivo": "fwee.webp",
-            "link": ""
-          }
-        },
-        "marca_growus": {
-          "type": "marca",
-          "settings": {
-            "nome": "Growus",
-            "fornecedor": "Growus",
-            "arquivo": "growus.webp",
-            "link": ""
-          }
-        },
-        "marca_hince": {
-          "type": "marca",
-          "settings": {
-            "nome": "Hince",
-            "fornecedor": "Hince",
-            "arquivo": "hince.webp",
-            "link": ""
-          }
-        },
-        "marca_banila_co": {
-          "type": "marca",
-          "settings": {
-            "nome": "BANILA CO",
-            "fornecedor": "BANILA CO",
-            "arquivo": "banila-co.webp",
-            "link": ""
-          }
-        },
-        "marca_dr_reju_all": {
-          "type": "marca",
-          "settings": {
-            "nome": "Dr. Reju-All",
-            "fornecedor": "Dr. Reju-All",
-            "arquivo": "dr-reju-all.webp",
-            "link": ""
-          }
-        },
-        "marca_coeval": {
-          "type": "marca",
-          "settings": {
-            "nome": "COEVAL",
-            "fornecedor": "COEVAL",
-            "arquivo": "coeval.webp",
-            "link": ""
-          }
-        },
-        "marca_unove": {
-          "type": "marca",
-          "settings": {
-            "nome": "UNOVE",
-            "fornecedor": "UNOVE",
-            "arquivo": "unove.webp",
-            "link": ""
-          }
-        },
-        "marca_lily_eve": {
-          "type": "marca",
-          "settings": {
-            "nome": "LILY EVE",
-            "fornecedor": "LILY EVE",
-            "arquivo": "lily-eve.webp",
-            "link": ""
-          }
-        },
-        "marca_addict": {
-          "type": "marca",
-          "settings": {
-            "nome": "A'ddict",
-            "fornecedor": "A'ddict",
-            "arquivo": "addict.webp",
-            "link": ""
-          }
-        },
-        "marca_ts_shampoo": {
-          "type": "marca",
-          "settings": {
-            "nome": "TS Shampoo",
-            "fornecedor": "TS Shampoo",
-            "arquivo": "ts-shampoo.webp",
-            "link": ""
-          }
-        },
-        "marca_freshian": {
-          "type": "marca",
-          "settings": {
-            "nome": "freshian",
-            "fornecedor": "freshian",
-            "arquivo": "freshian.webp",
-            "link": ""
-          }
-        },
-        "marca_for": {
-          "type": "marca",
-          "settings": {
-            "nome": "FOR",
-            "fornecedor": "FOR",
-            "arquivo": "for.webp",
-            "link": ""
-          }
-        },
-        "marca_gyeol_haus": {
-          "type": "marca",
-          "settings": {
-            "nome": "GYEOL HAUS",
-            "fornecedor": "GYEOL HAUS",
-            "arquivo": "gyeol-haus.webp",
-            "link": ""
-          }
-        },
-        "marca_arcanic": {
-          "type": "marca",
-          "settings": {
-            "nome": "ARCANIC",
-            "fornecedor": "ARCANIC",
-            "arquivo": "arcanic.webp",
-            "link": ""
-          }
-        },
-        "marca_the_kyeok": {
-          "type": "marca",
-          "settings": {
-            "nome": "THE KYEOK",
-            "fornecedor": "THE KYEOK",
-            "arquivo": "the-kyeok.webp",
-            "link": ""
-          }
         }
       },
       "block_order": [
-        "marca_cosrx",
-        "marca_abib",
-        "marca_round_lab",
         "marca_mixsoon",
-        "marca_anua",
-        "marca_centellian_24",
-        "marca_beauty_of_joseon",
-        "marca_skin1004",
+        "marca_cosrx",
+        "marca_round_lab",
         "marca_medicube",
-        "marca_mediheal",
-        "marca_aromatica",
+        "marca_skin1004",
+        "marca_anua",
         "marca_tirtir",
-        "marca_numbuzin",
-        "marca_vt_cosmetics",
-        "marca_gongskin",
         "marca_dr_melaxin",
-        "marca_cell_fusion_c",
-        "marca_lador",
-        "marca_some_by_mi",
+        "marca_centellian_24",
         "marca_dasique",
-        "marca_sonatural",
-        "marca_biodance",
-        "marca_romand",
-        "marca_arencia",
-        "marca_dalba",
-        "marca_eqqualberry",
-        "marca_celimax",
+        "marca_cell_fusion_c",
         "marca_torriden",
-        "marca_dr_g",
-        "marca_purito_seoul",
-        "marca_dr_althea",
-        "marca_rejuran",
-        "marca_apieu",
-        "marca_mise_en_scene",
-        "marca_manyo",
-        "marca_sungboon_editor",
-        "marca_another_face",
-        "marca_aestura",
-        "marca_beplain",
-        "marca_kaine",
-        "marca_ilso",
-        "marca_wellage",
-        "marca_clio",
-        "marca_peripera",
-        "marca_ongredients",
-        "marca_purcell",
-        "marca_dr_forhair",
-        "marca_fwee",
-        "marca_growus",
-        "marca_hince",
-        "marca_banila_co",
-        "marca_dr_reju_all",
-        "marca_coeval",
-        "marca_unove",
-        "marca_lily_eve",
-        "marca_addict",
-        "marca_ts_shampoo",
-        "marca_freshian",
-        "marca_for",
-        "marca_gyeol_haus",
-        "marca_arcanic",
-        "marca_the_kyeok"
+        "marca_beauty_of_joseon",
+        "marca_biodance",
+        "marca_celimax",
+        "marca_arencia",
+        "marca_lador",
+        "marca_apieu"
       ],
       "settings": {
         "subtitulo": "Direto da Coreia",
         "titulo": "Nossas marcas",
         "texto": "<p>Todas originais, do nosso estoque oficial na Coreia do Sul direto para você, com imposto já incluso.</p>",
         "busca": true,
-        "colunas": 6
+        "colunas": 4
       }
     }
   },
