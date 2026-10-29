@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Painel do parceiro · OMG!</title>
+<meta name="theme-color" content="#FFF9F6">
+<meta name="robots" content="noindex">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--pri:#B83D66;--fram:#D9577F;--rosa:#F48FB1;--bebe:#FDE4EC;--creme:#FFF9F6;--ameixa:#4A2638;--menta:#9EDFC4;--linha:#F3DCE4;--muted:#7A5566;--ok:#2E8B62;--okbg:#E3F5EC;--bad:#C0392B;--badbg:#FBE9E7;--warn:#B7791F;--warnbg:#FDF3E1;--card:#fff}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--creme);color:var(--ameixa);font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-size:14.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+a{color:var(--pri)}
+.num{font-variant-numeric:tabular-nums}
+.top{position:sticky;top:0;z-index:5;background:rgba(255,249,246,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--linha)}
+.top .in{max-width:980px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:12px}
+.logo{font-weight:800;font-size:22px;color:var(--fram);letter-spacing:-.02em;text-decoration:none}
+.top .t{font-size:13px;color:var(--muted);flex:1}
+.wrap{max-width:980px;margin:0 auto;padding:18px 16px 60px}
+.btn{border:1px solid var(--linha);background:#fff;border-radius:999px;padding:9px 16px;font-weight:600;font-size:13.5px;cursor:pointer;min-height:40px;display:inline-flex;align-items:center;gap:6px;justify-content:center}
+.btn:hover{border-color:var(--rosa)}
+.btn.pri{background:var(--pri);border-color:var(--pri);color:#fff}
+.btn.pri:hover{background:#a23258}
+.btn.sm{padding:6px 12px;min-height:34px;font-size:13px}
+.btn:disabled{opacity:.55;cursor:default}
+.btn.link{border:0;background:none;color:var(--pri);padding:6px 4px;min-height:0;text-decoration:underline}
+.card{background:var(--card);border:1px solid var(--linha);border-radius:16px;padding:18px;margin:0 0 14px}
+.card h2{font-size:16px;margin:0 0 4px}
+.card .sub{color:var(--muted);font-size:13px;margin:0 0 12px}
+.hello{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:flex-end;justify-content:space-between;margin:4px 0 16px}
+.hello h1{font-size:clamp(22px,4vw,28px);margin:0;line-height:1.2}
+.hello p{margin:2px 0 0;color:var(--muted);font-size:13.5px}
+.pill{display:inline-flex;align-items:center;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:600;white-space:nowrap}
+.p-ok{background:var(--okbg);color:var(--ok)}.p-bad{background:var(--badbg);color:var(--bad)}.p-warn{background:var(--warnbg);color:var(--warn)}.p-mute{background:#F2EDEF;color:var(--muted)}.p-rosa{background:var(--bebe);color:var(--pri)}
+.links{display:grid;gap:12px}
+.lk{border:1px solid var(--linha);border-radius:14px;padding:14px;display:grid;gap:8px;background:linear-gradient(180deg,#fff, #fffafb)}
+.lk .u{font-size:clamp(16px,3.6vw,20px);font-weight:700;word-break:break-all;color:var(--pri)}
+.lk .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.lk small{color:var(--muted);font-size:12px}
+.cupom{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--bebe);border-radius:14px;padding:12px 14px;margin-top:12px}
+.cupom b{font-size:18px;letter-spacing:.06em}
+.meses{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px;scrollbar-width:none}
+.meses button{flex:0 0 auto;border:1px solid var(--linha);background:#fff;border-radius:999px;padding:6px 12px;font-size:13px;cursor:pointer}
+.meses button[aria-pressed="true"]{background:var(--ameixa);border-color:var(--ameixa);color:#fff}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media(max-width:640px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpi{border:1px solid var(--linha);border-radius:14px;padding:12px 14px;background:#fff}
+.kpi span{display:block;font-size:12px;color:var(--muted)}
+.kpi b{display:block;font-size:22px;line-height:1.25;margin-top:2px}
+.kpi.hi{background:var(--ameixa);border-color:var(--ameixa);color:#fff}.kpi.hi span{color:#E9D5DE}
+.funil{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-top:12px}
+.funil i{font-style:normal;color:var(--rosa)}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.tbl th{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;text-align:left;padding:8px 8px;border-bottom:1px solid var(--linha)}
+.tbl td{padding:10px 8px;border-bottom:1px solid var(--linha);vertical-align:top}
+.tbl .r{text-align:right}
+.tbl small{display:block;color:var(--muted);font-size:12px}
+.tblw{overflow-x:auto;margin:0 -4px}
+.empty{color:var(--muted);font-size:13.5px;padding:8px 0}
+form.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media(max-width:640px){form.grid{grid-template-columns:minmax(0,1fr)}}
+label.f{display:grid;gap:4px;font-size:12.5px;font-weight:600;color:var(--muted)}
+label.f input,label.f select{border:1px solid var(--linha);border-radius:10px;padding:10px 12px;font-size:15px;font-weight:400;color:var(--ameixa);background:#fff;min-height:44px;width:100%}
+label.f input:focus,label.f select:focus{outline:2px solid var(--rosa);outline-offset:1px;border-color:var(--rosa)}
+.full{grid-column:1/-1}
+.msg{font-size:13px;min-height:18px;margin:0}
+.msg.err{color:var(--bad)}.msg.ok{color:var(--ok)}
+.gate{max-width:420px;margin:40px auto 0}
+.gate h1{font-size:24px;margin:0 0 6px}
+.gate p{color:var(--muted);margin:0 0 16px;font-size:14px}
+.gate form{display:grid;gap:12px}
+.gate .acts{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.regras{margin:0;padding-left:18px;font-size:13.5px}
+.regras li{margin:5px 0}
+.foot{text-align:center;color:var(--muted);font-size:12px;margin-top:22px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ameixa);color:#fff;border-radius:999px;padding:10px 18px;font-size:13.5px;z-index:50;box-shadow:0 8px 24px rgba(74,38,56,.25);max-width:calc(100vw - 32px)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header class="top"><div class="in"><a class="logo" href="https://ohmygirl.com.br" aria-label="OMG! loja">OMG!</a><span class="t">Painel do parceiro</span><button class="btn sm" type="button" id="sair" hidden>Sair</button></div></header>
+<main class="wrap" id="app">
+ <section class="gate" id="gate" hidden>
+  <h1 id="g-tit">Entrar</h1>
+  <p id="g-txt">Use o e-mail que você passou para a OMG.</p>
+  <form id="g-form" novalidate>
+   <label class="f">E-mail<input type="email" id="g-email" autocomplete="email" required></label>
+   <label class="f" id="g-senha-w">Senha<input type="password" id="g-senha" autocomplete="current-password" minlength="6" required></label>
+   <label class="f" id="g-senha2-w" hidden>Repita a senha<input type="password" id="g-senha2" autocomplete="new-password" minlength="6"></label>
+   <p class="msg" id="g-msg" role="status"></p>
+   <div class="acts"><button class="btn pri" type="submit" id="g-ok">Entrar</button><button class="btn link" type="button" id="g-modo">Primeiro acesso? Criar senha</button><button class="btn link" type="button" id="g-esqueci">Esqueci a senha</button></div>
+  </form>
+ </section>
+ <section id="painel" hidden></section>
+ <p class="foot">OMG! · Oh My Girl · <span id="versao"></span> · Dúvidas: <a href="https://wa.me/5511993049122" target="_blank" rel="noopener">WhatsApp</a></p>
+</main>
+<script>
+(function(){
+const VERSAO='v1 · 29/10/2026';
+const SB_URL='https://nzsiuniabovvptuqmkmi.supabase.co', SB_KEY='sb_publishable_9Nl_ZRXEmLMhDMBP8oKP_w_FuDXaYMq', SITE='https://ohmygirl.com.br';
+const sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,storageKey:'omg-erp-auth'}});
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const n=v=>Number(v)||0;
+const brl=v=>n(v).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const pct=v=>isFinite(v)?(v*100).toLocaleString('pt-BR',{maximumFractionDigits:1})+'%':'—';
+const fdate=d=>{if(!d)return '—';const p=String(d).slice(0,10).split('-');return p[2]+'/'+p[1]+'/'+p[0]};
+const MESES=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+const mesNome=m=>{const [a,b]=String(m).split('-');return MESES[+b-1]+' '+a};
+const hoje=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'America/Sao_Paulo'}).format(new Date());
+const mesAtual=()=>hoje().slice(0,7);
+function proximoFechamento(m){const [a,b]=m.split('-').map(Number);const d=new Date(a,b,1);return '01/'+String(d.getMonth()+1).padStart(2,'0')}
+function toast(t){const el=document.createElement('div');el.className='toast';el.textContent=t;document.body.appendChild(el);setTimeout(()=>el.remove(),2600)}
+const produto=p=>{const s=String(p||'').split(' · ');return (s.length>1&&/^[A-Z0-9][A-Z0-9-]{2,}$/.test(s[0])?s.slice(1):s).join(' · ')};
+$('#versao').textContent=VERSAO;
+
+let D=null, MES='todos', modo='entrar';
+
+// ---------- login ----------
+function gate(m){
+ modo=m||'entrar';$('#gate').hidden=false;$('#painel').hidden=true;$('#sair').hidden=modo!=='nova';
+ const T={entrar:['Entrar','Use o e-mail que você passou para a OMG.','Entrar'],criar:['Criar senha','Primeiro acesso: use o e-mail que você passou para a OMG e escolha uma senha (mínimo 6 caracteres).','Criar senha'],nova:['Nova senha','Escolha a nova senha.','Salvar senha']}[modo];
+ $('#g-tit').textContent=T[0];$('#g-txt').textContent=T[1];$('#g-ok').textContent=T[2];
+ $('#g-email').closest('label').hidden=modo==='nova';$('#g-senha2-w').hidden=modo==='entrar';
+ $('#g-senha').autocomplete=modo==='entrar'?'current-password':'new-password';
+ $('#g-modo').textContent=modo==='entrar'?'Primeiro acesso? Criar senha':'Já tenho senha';$('#g-modo').hidden=modo==='nova';$('#g-esqueci').hidden=modo!=='entrar';
+ msg('');
+}
+const msg=(t,ok)=>{const m=$('#g-msg');m.textContent=t||'';m.className='msg'+(t?(ok?' ok':' err'):'')};
+$('#g-modo').addEventListener('click',()=>gate(modo==='entrar'?'criar':'entrar'));
+$('#g-esqueci').addEventListener('click',async()=>{
+ const email=$('#g-email').value.trim();if(!email){msg('Escreva seu e-mail e toque de novo em Esqueci a senha.');return}
+ const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});
+ msg(error?'Não deu para enviar agora. Tente de novo em alguns minutos ou fale com a OMG.':'Enviamos um link para '+email+'. Abra o e-mail e toque no link para criar a nova senha.',!error);
+});
+$('#g-form').addEventListener('submit',async e=>{
+ e.preventDefault();msg('');
+ const email=$('#g-email').value.trim(),s1=$('#g-senha').value,s2=$('#g-senha2').value;
+ if(modo!=='nova'&&!email){msg('Preencha o e-mail.');return}
+ if(s1.length<6){msg('A senha precisa de pelo menos 6 caracteres.');return}
+ if(modo!=='entrar'&&s1!==s2){msg('As duas senhas não são iguais.');return}
+ $('#g-ok').disabled=true;
+ try{
+  if(modo==='entrar'){const {error}=await sb.auth.signInWithPassword({email,password:s1});
+   if(error)msg(/Invalid login/i.test(error.message)?'E-mail ou senha incorretos. Primeiro acesso? Toque em Criar senha.':/confirm/i.test(error.message)?'Confirme seu e-mail pelo link que chegou na sua caixa de entrada.':'Não deu para entrar agora. Tente de novo.')}
+  else if(modo==='criar'){const {data,error}=await sb.auth.signUp({email,password:s1,options:{emailRedirectTo:location.origin+location.pathname}});
+   if(error)msg(/registered|exists/i.test(error.message)?'Este e-mail já tem senha. Toque em Já tenho senha.':'Não deu para criar agora. Tente de novo.');
+   else if(!data.session)msg('Quase lá: enviamos um e-mail para '+email+'. Toque no link do e-mail e depois entre com sua senha.',true)}
+  else{const {error}=await sb.auth.updateUser({password:s1});if(error)msg('Não deu para salvar a senha. Peça um novo link.');else{modo='entrar';history.replaceState(null,'',location.pathname);toast('Senha salva');carregar()}}
+ }finally{$('#g-ok').disabled=false}
+});
+$('#sair').addEventListener('click',()=>sb.auth.signOut());
+
+// ---------- painel ----------
+async function carregar(){
+ const {data,error}=await sb.rpc('parceiro_painel');
+ $('#sair').hidden=false;$('#gate').hidden=true;$('#painel').hidden=false;
+ if(error){$('#painel').innerHTML='<div class="card"><h2>Não deu para abrir agora</h2><p class="sub">Verifique a internet e abra de novo. Se continuar, fale com a OMG.</p></div>';return}
+ if(!data.cadastrado){$('#painel').innerHTML='<div class="card"><h2>Seu e-mail ainda não está no programa</h2><p class="sub">Você entrou como <b>'+esc(data.email||'')+'</b>, mas este e-mail não está cadastrado como parceiro da OMG. Confira se é o mesmo e-mail que você passou para a gente ou fale com a OMG pelo WhatsApp.</p><button class="btn" type="button" data-sair>Sair e usar outro e-mail</button></div>';return}
+ D=data;render();
+}
+function comissaoDe(p){
+ for(const f of D.fechamentos){const v=(f.vendas||[]).find(x=>x.id===p.id);if(v)return {valor:n(v.comissao),st:f.status==='Pago'?'Pago':'Fechado, a pagar'}}
+ if(p.excluida)return {valor:0,st:'Cancelado ou devolvido'};
+ return {valor:Math.round(n(p.base)*n(D.perfil.comissao_pct))/100,st:'Em aberto'};
+}
+const PILL={'Pago':'p-ok','Fechado, a pagar':'p-warn','A pagar':'p-warn','Em aberto':'p-rosa','Cancelado ou devolvido':'p-mute'};
+function render(){
+ const P=D.perfil, ma=mesAtual();
+ const meses=[...new Set([ma,...D.pedidos.map(p=>p.mes),...Object.keys(D.cliques_mes||{}),...D.fechamentos.map(f=>f.mes)])].sort().reverse();
+ const noMes=x=>MES==='todos'||x===MES;
+ const peds=D.pedidos.filter(p=>noMes(p.mes)), ok=peds.filter(p=>!p.excluida);
+ const cl=Object.entries(D.cliques_mes||{}).filter(([m])=>noMes(m)).reduce((a,[,v])=>({c:a.c+n(v.cliques),v:a.v+n(v.visitantes)}),{c:0,v:0});
+ const viaLink=ok.filter(p=>p.via==='link').length;
+ const com=ok.reduce((s,p)=>s+comissaoDe(p).valor,0);
+ const recebido=D.fechamentos.filter(f=>f.status==='Pago').reduce((s,f)=>s+n(f.total),0);
+ const aPagar=D.fechamentos.filter(f=>f.status==='A pagar').reduce((s,f)=>s+n(f.total),0);
+ const aberto=D.pedidos.filter(p=>!p.excluida&&comissaoDe(p).st==='Em aberto').reduce((s,p)=>s+comissaoDe(p).valor,0);
+ const pix=P.pix_chave?'<span class="pill p-ok">Pix cadastrado</span>':'<span class="pill p-bad">Falta cadastrar o Pix</span>';
+ const h=
+ '<div class="hello"><div><h1>Oi, '+esc(String(P.nome).split(' ')[0])+'!</h1><p>'+esc(P.arroba||'')+(P.arroba?' · ':'')+'Comissão de <b>'+n(P.comissao_pct).toLocaleString('pt-BR')+'%</b> sobre os produtos</p></div>'+
+ '<div style="display:flex;gap:8px;flex-wrap:wrap">'+(P.ativo?'<span class="pill p-ok">Parceria ativa</span>':'<span class="pill p-mute">Parceria pausada</span>')+pix+'</div></div>'+
+
+ '<div class="card"><h2>Seus links</h2><p class="sub">Use o link curto nos posts, stories e bio. Cada clique conta e o pedido feito depois do clique é seu.</p><div class="links">'+
+ (D.links.length?D.links.map(l=>{const curto=SITE+'/a/'+l.slug, comp=completo(l);
+  return '<div class="lk"><div class="row" style="justify-content:space-between"><b>'+esc(l.nome||'Link')+'</b>'+(l.ativo?'<span class="pill p-ok">Ativo</span>':'<span class="pill p-mute">Pausado</span>')+'</div>'+
+  '<div class="u">'+esc(curto.replace('https://',''))+'</div>'+
+  '<div class="row"><button class="btn pri sm" type="button" data-copy="'+esc(curto)+'">Copiar link curto</button><button class="btn sm" type="button" data-copy="'+esc(comp)+'">Copiar link completo (UTM)</button></div>'+
+  '<small>'+n(l.cliques).toLocaleString('pt-BR')+' cliques · '+n(l.visitantes).toLocaleString('pt-BR')+' pessoas'+(l.fim?' · vale até '+fdate(l.fim):'')+(l.ativo?'':' · link pausado: pedidos por ele não contam')+'</small></div>'}).join('')
+  :'<p class="empty">Seu link ainda está sendo criado. Fale com a OMG.</p>')+'</div>'+
+ (P.cupom?'<div class="cupom"><span>Seu cupom</span><b class="num">'+esc(P.cupom)+'</b><button class="btn sm" type="button" data-copy="'+esc(P.cupom)+'">Copiar</button><small style="flex-basis:100%;color:var(--muted)">Pedido com o seu cupom é seu, mesmo que a pessoa não tenha clicado no link.</small></div>':'')+'</div>'+
+
+ '<div class="card"><h2>Resultados</h2><p class="sub">Quem clicou, quantos compraram e quanto isso rende para você.</p>'+
+ '<div class="meses">'+['todos',...meses].map(m=>'<button type="button" data-mes="'+m+'" aria-pressed="'+(MES===m)+'">'+(m==='todos'?'Tudo':mesNome(m)+(m===ma?' (até hoje)':''))+'</button>').join('')+'</div>'+
+ '<div class="kpis"><div class="kpi"><span>Cliques</span><b class="num">'+cl.c.toLocaleString('pt-BR')+'</b></div><div class="kpi"><span>Pessoas</span><b class="num">'+cl.v.toLocaleString('pt-BR')+'</b></div><div class="kpi"><span>Pedidos</span><b class="num">'+ok.length+'</b></div>'+
+ '<div class="kpi"><span>Conversão do link</span><b class="num">'+(cl.v?pct(viaLink/cl.v):'—')+'</b></div><div class="kpi"><span>Vendas (base)</span><b class="num">'+brl(ok.reduce((s,p)=>s+n(p.base),0))+'</b></div><div class="kpi hi"><span>Sua comissão</span><b class="num">'+brl(com)+'</b></div></div>'+
+ '<div class="funil">'+cl.v.toLocaleString('pt-BR')+' pessoas clicaram <i>→</i> '+viaLink+' compraram pelo link <i>+</i> '+(ok.length-viaLink)+' pelo cupom</div></div>'+
+
+ '<div class="card"><h2>Pedidos</h2><p class="sub">Por privacidade, não mostramos quem comprou: só o pedido, a data e os produtos. Base = produtos com desconto, sem frete e sem imposto.</p>'+
+ (peds.length?'<div class="tblw"><table class="tbl"><thead><tr><th>Pedido</th><th>Produtos</th><th class="r">Base</th><th class="r">Comissão</th><th>Situação</th></tr></thead><tbody>'+
+  peds.map(p=>{const c=comissaoDe(p);return '<tr><td><b class="num">'+esc(p.pedido)+'</b><small>'+fdate(p.data)+' · pelo '+(p.via==='cupom'?'cupom':'link')+'</small></td><td>'+(p.itens||[]).map(i=>esc((n(i.qtd)>1?n(i.qtd)+'× ':'')+produto(i.produto))).join('<br>')+'</td><td class="r num">'+brl(p.base)+'</td><td class="r num"><b>'+brl(c.valor)+'</b></td><td><span class="pill '+(PILL[c.st]||'p-mute')+'">'+esc(c.st)+'</span></td></tr>'}).join('')+
+  '</tbody></table></div>':'<p class="empty">'+(MES==='todos'?'Ainda não há pedidos com seu link ou cupom. Assim que alguém comprar, aparece aqui.':'Nenhum pedido em '+mesNome(MES)+'.')+'</p>')+'</div>'+
+
+ '<div class="card"><h2>Comissões e pagamentos</h2><p class="sub">Fechamos o mês no dia 1º e pagamos por Pix até o dia 10.</p>'+
+ '<div class="kpis" style="margin-bottom:12px"><div class="kpi"><span>Em aberto (fecha em '+proximoFechamento(ma)+')</span><b class="num">'+brl(aberto)+'</b></div><div class="kpi"><span>Fechado, a receber</span><b class="num">'+brl(aPagar)+'</b></div><div class="kpi hi"><span>Já recebido</span><b class="num">'+brl(recebido)+'</b></div></div>'+
+ (D.fechamentos.length?'<div class="tblw"><table class="tbl"><thead><tr><th>Mês</th><th class="r">Pedidos</th><th class="r">Comissão</th><th class="r">Ajuste</th><th class="r">Total</th><th>Situação</th></tr></thead><tbody>'+
+  D.fechamentos.map(f=>'<tr><td><b>'+mesNome(f.mes)+'</b><small>'+n(f.pct).toLocaleString('pt-BR')+'% sobre '+brl(f.base)+'</small></td><td class="r num">'+f.pedidos+'</td><td class="r num">'+brl(f.valor)+'</td><td class="r num">'+(n(f.ajuste)?brl(f.ajuste)+'<small>pedido devolvido</small>':'—')+'</td><td class="r num"><b>'+brl(f.total)+'</b></td><td><span class="pill '+(f.status==='Pago'?'p-ok':'p-warn')+'">'+(f.status==='Pago'?'Pago':'A pagar')+'</span>'+(f.pago_em?'<small>'+fdate(f.pago_em)+(f.forma?' · '+esc(f.forma):'')+'</small>':'')+'</td></tr>').join('')+
+  '</tbody></table></div>':'<p class="empty">Nenhum mês fechado ainda.</p>')+'</div>'+
+
+ '<div class="card"><h2>Dados para receber</h2><p class="sub">A conta precisa estar no seu nome (ou da sua empresa). Esses dados só a equipe financeira da OMG vê.'+(P.pagamento_atualizado?' Atualizado em '+fdate(P.pagamento_atualizado)+'.':'')+'</p>'+
+ '<form class="grid" id="pg" novalidate>'+
+ '<label class="f">Tipo da chave Pix<select name="pix_tipo">'+['','CPF','CNPJ','E-mail','Celular','Chave aleatória'].map(o=>'<option'+(o===P.pix_tipo?' selected':'')+' value="'+o+'">'+(o||'Escolha')+'</option>').join('')+'</select></label>'+
+ '<label class="f">Chave Pix<input name="pix_chave" value="'+esc(P.pix_chave)+'" autocomplete="off"></label>'+
+ '<label class="f">Nome do titular<input name="titular" value="'+esc(P.titular)+'" autocomplete="name"></label>'+
+ '<label class="f">CPF ou CNPJ do titular<input name="documento" value="'+esc(P.documento)+'" inputmode="numeric" autocomplete="off"></label>'+
+ '<label class="f">Banco (opcional)<input name="banco" value="'+esc(P.banco)+'"></label>'+
+ '<label class="f">Agência e conta (opcional)<input name="agconta" value="'+esc([P.agencia,P.conta].filter(Boolean).join(' / '))+'" placeholder="0001 / 12345-6"></label>'+
+ '<label class="f">WhatsApp<input name="telefone" value="'+esc(P.telefone)+'" inputmode="tel" autocomplete="tel"></label>'+
+ '<div class="full" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn pri" type="submit">Salvar dados</button><p class="msg" id="pg-msg"></p></div></form></div>'+
+
+ '<div class="card"><h2>Como funciona</h2><ul class="regras">'+
+ '<li>O pedido é seu quando a pessoa usa o seu <b>cupom</b> ou compra depois de clicar no seu <b>link</b>. Se usar o cupom de outra pessoa, o pedido é de quem tem o cupom.</li>'+
+ '<li>O link conta para a compra feita na mesma visita. Se a pessoa sair e voltar outro dia digitando o site, o pedido só é seu se ela usar o seu cupom.</li>'+
+ '<li>A comissão é de '+n(P.comissao_pct).toLocaleString('pt-BR')+'% sobre os produtos, já com desconto, sem frete e sem imposto.</li>'+
+ '<li>Pedido cancelado ou devolvido não gera comissão. Se for devolvido depois de pago, o valor sai do mês seguinte.</li>'+
+ '<li>Dia 1º fechamos o mês anterior e até o dia 10 pagamos por Pix na conta cadastrada aqui.</li></ul></div>';
+ $('#painel').innerHTML=h;
+}
+function completo(l){const u=new URL(l.destino||'/',SITE);['utm_source','utm_medium','utm_campaign','utm_content'].forEach(k=>{if(l[k])u.searchParams.set(k,l[k])});u.searchParams.set('ref',l.slug);return u.toString()}
+
+document.addEventListener('click',async e=>{
+ const c=e.target.closest('[data-copy]');if(c){try{await navigator.clipboard.writeText(c.dataset.copy);toast('Copiado!')}catch(_){prompt('Copie:',c.dataset.copy)}return}
+ const m=e.target.closest('[data-mes]');if(m){MES=m.dataset.mes;render();return}
+ if(e.target.closest('[data-sair]'))sb.auth.signOut();
+});
+document.addEventListener('submit',async e=>{
+ if(e.target.id!=='pg')return;e.preventDefault();
+ const f=e.target, g=k=>(f.elements[k].value||'').trim(), [ag,...ct]=g('agconta').split('/');
+ const d={pix_tipo:g('pix_tipo'),pix_chave:g('pix_chave'),titular:g('titular'),documento:g('documento'),banco:g('banco'),agencia:(ag||'').trim(),conta:ct.join('/').trim(),telefone:g('telefone')};
+ const m=$('#pg-msg');
+ if(!d.pix_chave||!d.titular){m.className='msg err';m.textContent='Preencha pelo menos a chave Pix e o nome do titular.';return}
+ const b=f.querySelector('button[type=submit]');b.disabled=true;
+ const {error}=await sb.rpc('parceiro_salvar_pagamento',{d});b.disabled=false;
+ if(error){m.className='msg err';m.textContent='Não deu para salvar. Tente de novo.';return}
+ m.className='msg ok';m.textContent='Dados salvos.';Object.assign(D.perfil,d,{pagamento_atualizado:new Date().toISOString()});
+});
+
+if(/type=recovery/.test(location.hash))modo='nova';
+sb.auth.onAuthStateChange((ev,session)=>{
+ if(ev==='PASSWORD_RECOVERY'||(modo==='nova'&&session&&ev!=='USER_UPDATED')){gate('nova');return}
+ if(ev==='SIGNED_IN'||ev==='INITIAL_SESSION'||ev==='SIGNED_OUT'){setTimeout(()=>session?carregar():gate('entrar'),0)}
+});
+})();
+</script>
+</body>
+</html>

@@ -527,11 +527,12 @@ function contasList(){
 const MOEDAS=['BRL','USD','KRW'];
 
 const S={db:null,canWrite:true,status:'connecting',view:'painel',q:'',
- data:{vendas:[],cortes:[],lotes:[],lancamentos:[],devolucoes:[],insumos:[],compras:[],produtos:[],cupons:[],fornecedores:[],metricas:[]},
+ data:{vendas:[],cortes:[],lotes:[],lancamentos:[],devolucoes:[],insumos:[],compras:[],produtos:[],cupons:[],fornecedores:[],metricas:[],influenciadores:[],links_utm:[],link_cliques_dia:[],comissoes_fechamentos:[]},
  loaded:{},missing:{},cfg:{krw:0.0039,usd:5.40,desc:12,markup:40,fielMin:2},
  f:{vendas:'abertas',fin:'mes',doc:'identidade'}};
 
 const ICONS={
+ links:'<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
  acoes:'<path d="M12 3c.6 4.2 2.3 5.9 6.5 6.5-4.2.6-5.9 2.3-6.5 6.5-.6-4.2-2.3-5.9-6.5-6.5C9.7 8.9 11.4 7.2 12 3z"/><path d="M19 15c.3 1.8 1 2.6 2.8 2.8-1.8.3-2.5 1-2.8 2.8-.3-1.8-1-2.5-2.8-2.8 1.8-.2 2.5-1 2.8-2.8z"/>',
  painel:'<path d="M4 13h6V4H4zM14 20h6v-9h-6zM4 20h6v-4H4zM14 8h6V4h-6z"/>',
  vendas:'<path d="M6 7h12l-1 13H7z"/><path d="M9 7a3 3 0 0 1 6 0"/>',
@@ -552,7 +553,7 @@ const ICONS={
  fornecedores:'<path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/>',
  config:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/>'
 };
-const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Lista do dia'],['','lotes','Embarques'],['','devolucoes','Devoluções'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','insumos','Embalagens'],['','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['Marketing','acoes','Ações de marketing'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
+const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Lista do dia'],['','lotes','Embarques'],['','devolucoes','Devoluções'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','insumos','Embalagens'],['','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
 
 /* ================= utilidades ================= */
 const $=s=>document.querySelector(s);
@@ -698,7 +699,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v18 · 29/10/2026';
+const VERSAO='v19 · 29/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1282,6 +1283,13 @@ async function rxPublicar(m){
  }catch(e){alert('Não deu para publicar '+m+': '+e.message)}
  RXUI.pub=false;render();
 }
+document.addEventListener('click',async e=>{const b=e.target.closest('[data-copy]');if(!b)return;e.preventDefault();e.stopImmediatePropagation();
+ try{await navigator.clipboard.writeText(b.dataset.copy);toast('Copiado: '+b.dataset.copy.slice(0,70))}catch(_){prompt('Copie:',b.dataset.copy)}},true);
+document.addEventListener('click',async e=>{const t=e.target.closest('[data-lk-tab],#lk-fechar');if(!t)return;
+ if(t.dataset.lkTab){LK.tab=t.dataset.lkTab;render();return}
+ if(!confirm('Fechar as comissões de '+mesNome(LK.mes)+'?\n\nO ERP soma os pedidos de cada influenciador no mês (sem cancelados e devolvidos), aplica o % e desconta pedidos de meses anteriores devolvidos depois. Quem já está como Pago não muda.'))return;
+ t.disabled=true;try{const {data,error}=await sb.rpc('comissoes_fechar',{p_mes:LK.mes});if(error)throw error;toast('Fechado: '+data.influenciadores+' influenciador(es)');await loadAll();lkCarregarAtr(true)}catch(err){alert('Não deu para fechar: '+errMsg(err));t.disabled=false}});
+document.addEventListener('change',e=>{if(e.target.id==='lk-mes'){LK.mes=e.target.value;render()}});
 document.addEventListener('click',e=>{const b=e.target.closest('[data-rx-pub]');if(!b)return;e.stopPropagation();rxPublicar(b.dataset.rxPub)},true);
 document.addEventListener('click',e=>{const b=e.target.closest('[data-rx-lote],[data-rx-limpa]');if(!b)return;if(b.dataset.rxLimpa){RXUI.sel.clear();render();return}rxLote(b.dataset.rxLote)});
 document.addEventListener('click',e=>{
@@ -1495,6 +1503,153 @@ const FORMS={
   def:()=>({semana:today()})}
 };
 
+/* ================= Links e influenciadores (UTM, cliques, comissão) ================= */
+const LK_SITE='https://ohmygirl.com.br', LK_PORTAL='https://brunotae.github.io/omg-erp/parceiro.html';
+const LK_SRC=['instagram','tiktok','youtube','whatsapp','email','meta-ads','google','kwai','site'];
+const LK_MED=['influencer','organico','pago','afiliado','email','bomi'];
+const LK_CAMP0=['parceria-omg','lancamento-out26','blackfriday-26'];
+const LK={tab:'inf',mes:'',atr:null,atrEm:0,atrCarregando:false,erro:''};
+const lkSlug=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40);
+const lkCurto=l=>LK_SITE+'/a/'+l.slug;
+function lkCompleto(l){const u=new URL(l.destino||'/',LK_SITE);['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(k=>{if(l[k])u.searchParams.set(k,l[k])});u.searchParams.set('ref',l.slug);return u.toString()}
+const lkAtivo=l=>{const h=today(),i=l.influenciador&&S.data.influenciadores.find(x=>x.id===l.influenciador);return !!l.ativo&&(!l.inicio||l.inicio<=h)&&(!l.fim||l.fim>=h)&&(!i||(i.ativo&&(!i.fim||i.fim>=h)))};
+const infAtivo=i=>!!i.ativo&&(!i.fim||i.fim>=today());
+const mesAtual=()=>today().slice(0,7);
+const mesNome=m=>{const [a,b]=String(m).split('-');return ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'][+b-1]+'/'+a};
+const lkCliques=(f)=>S.data.link_cliques_dia.filter(f).reduce((a,r)=>({c:a.c+n(r.cliques),v:a.v+n(r.visitantes)}),{c:0,v:0});
+async function lkCarregarAtr(forcar){
+ if(LK.atrCarregando||(!forcar&&LK.atr&&Date.now()-LK.atrEm<60000))return;
+ LK.atrCarregando=true;
+ try{const {data,error}=await sb.rpc('comissoes_atrib');if(error)throw error;LK.atr=data||[];LK.atrEm=Date.now();LK.erro=''}
+ catch(e){LK.erro='Não deu para ler as vendas atribuídas: '+(e.message||e)}
+ LK.atrCarregando=false;if(S.view==='links'&&!document.querySelector('#ov'))render();
+}
+// comissão de um pedido: % do fechamento, se já fechado; senão, % atual do influenciador
+function lkComissao(a){
+ const f=S.data.comissoes_fechamentos.find(x=>x.influenciador===a.influenciador&&(x.vendas||[]).some(v=>v.id===a.venda));
+ if(f){const v=f.vendas.find(v=>v.id===a.venda);return {valor:n(v.comissao),st:f.status==='Pago'?'Pago':'Fechado'}}
+ const i=S.data.influenciadores.find(x=>x.id===a.influenciador);return {valor:a.excluida?0:Math.round(n(a.base)*n(i&&i.comissao_pct))/100,st:a.excluida?'Cancelado/devolvido':'Em aberto'};
+}
+function lkCopia(txt,label){return '<button type="button" class="btn sm" data-copy="'+esc(txt)+'" title="'+esc(txt)+'">'+esc(label)+'</button>'}
+
+VIEWFN.links=()=>{
+ lkCarregarAtr();
+ const A=LK.atr||[], I=S.data.influenciadores, L=S.data.links_utm, F=S.data.comissoes_fechamentos, ma=mesAtual();
+ const cliMes=lkCliques(r=>String(r.dia).slice(0,7)===ma);
+ const atrMes=A.filter(a=>a.mes===ma&&!a.excluida);
+ const aPagar=F.filter(f=>f.status==='A pagar').reduce((s,f)=>s+n(f.total),0);
+ const acts=newBtn('influenciadores','Influenciador')+' '+newBtn('links_utm','Link');
+ const sub='Links rastreáveis (UTM) para qualquer canal, influenciadores com cupom e comissão, e o fechamento do mês. Cada influenciador acompanha os próprios números no <a href="'+LK_PORTAL+'" target="_blank" rel="noopener">painel do influenciador</a>.';
+ const tabs=[['inf','Influenciadores'],['links','Links'],['origem','Origem das vendas'],['com','Comissões']].map(([k,l])=>'<button type="button" class="btn sm rx-f" data-lk-tab="'+k+'" aria-pressed="'+(LK.tab===k)+'">'+l+'</button>').join('');
+ let corpo='';
+ if(LK.tab==='inf')corpo=lkTabInf(A,I);
+ else if(LK.tab==='links')corpo=lkTabLinks(L);
+ else if(LK.tab==='origem')corpo=lkTabOrigem();
+ else corpo=lkTabCom(A,I,F);
+ return '<div class="page wide"><div class="col">'+head('Links e influenciadores',sub,acts)+
+  '<div class="kpis">'+kpi('Cliques no mês',vnum(cliMes.c),vnum(cliMes.v)+' pessoas')+kpi('Pedidos de influenciadores',vnum(atrMes.length),mesNome(ma))+kpi('Vendas desses pedidos',brl(atrMes.reduce((s,a)=>s+n(a.base),0)),'Produtos, sem frete e imposto')+kpi('Comissão a pagar',brl(aPagar),F.filter(f=>f.status==='A pagar').length+' fechamento(s)',null,aPagar>0)+'</div>'+
+  (LK.erro?'<p class="err">'+esc(LK.erro)+'</p>':'')+
+  '<div class="chips" style="margin:6px 0 12px">'+tabs+(LK.atrCarregando?'<span class="muted" style="font-size:12px">Atualizando vendas…</span>':'')+'</div>'+corpo+'</div></div>';
+};
+function lkTabInf(A,I){
+ if(!I.length)return '<div class="card">'+empty('Nenhum influenciador','Cadastre o influenciador com e-mail, cupom e %. O ERP cria o link curto dele (ohmygirl.com.br/a/código) e ele acompanha tudo no painel.')+'</div>';
+ return '<div class="card"><div class="tblwrap"><table><thead><tr><th>Influenciador</th><th>Cupom · link</th><th class="r">%</th><th class="r">Cliques</th><th class="r">Pedidos</th><th class="r">Conversão</th><th class="r">Vendas</th><th class="r">Comissão em aberto</th><th class="r">Já pago</th><th>Situação</th></tr></thead><tbody>'+
+  I.filter(match).sort((a,b)=>Number(infAtivo(b))-Number(infAtivo(a))||String(a.nome).localeCompare(String(b.nome))).map(i=>{
+   const ls=S.data.links_utm.filter(l=>l.influenciador===i.id), ids=new Set(ls.map(l=>l.id));
+   const cl=lkCliques(r=>ids.has(r.link)), as=A.filter(a=>a.influenciador===i.id&&!a.excluida);
+   const aberto=as.filter(a=>lkComissao(a).st==='Em aberto').reduce((s,a)=>s+lkComissao(a).valor,0);
+   const pago=S.data.comissoes_fechamentos.filter(f=>f.influenciador===i.id&&f.status==='Pago').reduce((s,f)=>s+n(f.total),0);
+   const lp=ls.find(l=>l.slug===i.codigo)||ls[0];
+   return '<tr data-edit="influenciadores" data-id="'+esc(i.id)+'"><td><b>'+esc(i.nome)+'</b><small>'+esc([i.arroba,i.email].filter(Boolean).join(' · ')||'sem e-mail: não entra no painel')+'</small></td>'+
+    '<td><b class="num">'+esc(i.cupom||'sem cupom')+'</b><small>'+(lp?esc('/a/'+lp.slug)+' '+lkCopia(lkCurto(lp),'Copiar'):'sem link')+'</small></td>'+
+    '<td class="r num">'+n(i.comissao_pct)+'%</td><td class="r num">'+vnum(cl.c)+'<small>'+vnum(cl.v)+' pessoas</small></td><td class="r num">'+as.length+'</td>'+
+    '<td class="r num">'+(cl.v?pct(as.filter(a=>a.via==='link').length/cl.v):'—')+'</td><td class="r num">'+brl(as.reduce((s,a)=>s+n(a.base),0))+'</td>'+
+    '<td class="r num"><b>'+brl(aberto)+'</b></td><td class="r num">'+brl(pago)+'</td>'+
+    '<td>'+stPill(infAtivo(i)?'Ativo':'Inativo')+'<small>'+(i.pix_chave?'Pix '+esc(i.pix_tipo||'')+' ok':'sem Pix')+'</small></td></tr>'}).join('')+
+  '</tbody></table></div><p class="muted" style="font-size:12px;margin:10px 0 0">Conversão = pedidos que vieram pelo link ÷ pessoas que clicaram. Pedidos com o cupom contam mesmo sem clique.</p></div>';
+}
+function lkTabLinks(L){
+ if(!L.length)return '<div class="card">'+empty('Nenhum link','Crie links para posts, anúncios, e-mail, WhatsApp. Todo link vira ohmygirl.com.br/a/código e conta os cliques.')+'</div>';
+ const vend=S.data.vendas.filter(v=>!isCancel(v)&&v.dados_site&&v.dados_site.utm);
+ return '<div class="card"><div class="tblwrap"><table><thead><tr><th>Link</th><th>Influenciador</th><th>Origem · tipo · campanha · conteúdo</th><th class="r">Cliques</th><th class="r">Pedidos</th><th class="r">Faturado</th><th>Situação</th><th>Copiar</th></tr></thead><tbody>'+
+  L.filter(match).slice().sort((a,b)=>Number(lkAtivo(b))-Number(lkAtivo(a))||n(b.createdAt)-n(a.createdAt)).map(l=>{
+   const cl=lkCliques(r=>r.link===l.id), vs=vend.filter(v=>String(v.dados_site.utm.ref||'').toLowerCase()===l.slug), i=S.data.influenciadores.find(x=>x.id===l.influenciador);
+   return '<tr data-edit="links_utm" data-id="'+esc(l.id)+'"><td><b>'+esc(l.nome||l.slug)+'</b><small class="num">/a/'+esc(l.slug)+' → '+esc(l.destino||'/')+'</small></td><td>'+esc(i?i.nome:'—')+'</td>'+
+    '<td><small style="display:block">'+esc([l.utm_source,l.utm_medium,l.utm_campaign,l.utm_content].filter(Boolean).join(' · '))+'</small></td>'+
+    '<td class="r num">'+vnum(cl.c)+'<small>'+vnum(cl.v)+' pessoas</small></td><td class="r num">'+vs.length+(cl.v?'<small>'+pct(vs.length/cl.v)+'</small>':'')+'</td><td class="r num">'+brl(vs.reduce((s,v)=>s+calc(v).total,0))+'</td>'+
+    '<td>'+stPill(lkAtivo(l)?'Ativo':'Inativo')+(l.fim?'<small>até '+fdate(l.fim)+'</small>':'')+'</td><td style="white-space:nowrap">'+lkCopia(lkCurto(l),'Curto')+' '+lkCopia(lkCompleto(l),'Completo')+'</td></tr>'}).join('')+
+  '</tbody></table></div><p class="muted" style="font-size:12px;margin:10px 0 0">Link pausado ou vencido continua abrindo o site, mas sem a UTM: o pedido não conta para ninguém.</p></div>';
+}
+function lkTabOrigem(){
+ const vs=S.data.vendas.filter(v=>!isCancel(v)&&v.origem==='shopify'), M={};
+ vs.forEach(v=>{const u=(v.dados_site&&v.dados_site.utm)||{};const ref=v.dados_site&&v.dados_site.referring_site;
+  const k=u.utm_source||u.utm_campaign?[u.utm_source||'—',u.utm_medium||'—',u.utm_campaign||'—'].join(' · '):(v.cupom?'sem link · com cupom':ref?'sem link · veio de '+(()=>{try{return new URL(ref).hostname.replace(/^www\./,'')}catch(_){return 'outro site'}})():'direto (digitou ou favorito)');
+  const g=M[k]||(M[k]={k,n:0,t:0});g.n++;g.t+=calc(v).total});
+ const rows=Object.values(M).sort((a,b)=>b.t-a.t);
+ return '<div class="card"><div class="card-h"><h2>De onde vieram as vendas do site</h2><span class="muted" style="font-size:12px">Origem · tipo · campanha da UTM da visita que virou pedido</span></div>'+
+  (rows.length?'<div class="tblwrap"><table><thead><tr><th>Origem</th><th class="r">Pedidos</th><th class="r">Faturado</th><th class="r">%</th></tr></thead><tbody>'+
+  rows.map(r=>'<tr><td>'+esc(r.k)+'</td><td class="r num">'+r.n+'</td><td class="r num">'+brl(r.t)+'</td><td class="r num">'+pct(r.n/vs.length)+'</td></tr>').join('')+'</tbody></table></div>'
+  :empty('Ainda sem pedidos do site','Assim que entrarem pedidos, esta tabela mostra de onde cada um veio.'))+'</div>';
+}
+function lkTabCom(A,I,F){
+ const ma=mesAtual(), meses=[...new Set([ma,...A.map(a=>a.mes),...F.map(f=>f.mes)])].sort().reverse();
+ if(!LK.mes||!meses.includes(LK.mes))LK.mes=meses.find(m=>m<ma&&F.some(f=>f.mes===m&&f.status==='A pagar'))||meses[0];
+ const m=LK.mes, fechado=F.filter(f=>f.mes===m), podeFechar=m<ma&&can();
+ const linhas=I.map(i=>{const f=fechado.find(x=>x.influenciador===i.id);
+   if(f)return {i,f,ped:f.pedidos,base:n(f.base),val:n(f.valor),aj:n(f.ajuste),tot:n(f.total),pct:n(f.pct)};
+   const as=A.filter(a=>a.influenciador===i.id&&a.mes===m&&!a.excluida);if(!as.length)return null;
+   const val=as.reduce((s,a)=>s+Math.round(n(a.base)*n(i.comissao_pct))/100,0);
+   return {i,f:null,ped:as.length,base:as.reduce((s,a)=>s+n(a.base),0),val,aj:0,tot:val,pct:n(i.comissao_pct)}}).filter(Boolean);
+ const sel='<select id="lk-mes" aria-label="Mês">'+meses.map(x=>'<option value="'+x+'"'+(x===m?' selected':'')+'>'+mesNome(x)+(x===ma?' (em andamento)':'')+'</option>').join('')+'</select>';
+ const btn=podeFechar?'<button type="button" class="btn sm pri" id="lk-fechar">'+(fechado.length?'Refazer fechamento de ':'Fechar ')+mesNome(m)+'</button>':'';
+ return '<div class="card"><div class="card-h"><h2>Comissões · '+mesNome(m)+'</h2><span class="chips" style="align-items:center">'+sel+btn+'</span></div>'+
+  '<p class="muted" style="font-size:12px;margin:0 0 10px">'+(m===ma?'Mês em andamento: valores ainda podem mudar. O fechamento é no dia 1º e o pagamento por Pix até o dia 10.':fechado.length?'Fechado. Marque cada um como pago depois do Pix (abra a linha e anexe o comprovante).':'Mês terminado e ainda não fechado: toque em Fechar. Fechar de novo recalcula quem ainda não foi pago.')+'</p>'+
+  (linhas.length?'<div class="tblwrap"><table><thead><tr><th>Influenciador</th><th class="r">Pedidos</th><th class="r">Base</th><th class="r">%</th><th class="r">Comissão</th><th class="r">Ajuste</th><th class="r">Total</th><th>Situação</th><th>Pix</th></tr></thead><tbody>'+
+  linhas.map(r=>'<tr'+(r.f?' data-edit="comissoes_fechamentos" data-id="'+esc(r.f.id)+'"':'')+'><td><b>'+esc(r.i.nome)+'</b></td><td class="r num">'+r.ped+'</td><td class="r num">'+brl(r.base)+'</td><td class="r num">'+r.pct+'%</td><td class="r num">'+brl(r.val)+'</td><td class="r num">'+(r.aj?'<span style="color:var(--bad)">'+brl(r.aj)+'</span>':'—')+'</td><td class="r num"><b>'+brl(r.tot)+'</b></td>'+
+   '<td>'+stPill(r.f?(r.f.status==='Pago'?'Pago':'A pagar'):'Em aberto')+(r.f&&r.f.pago_em?'<small>'+fdate(r.f.pago_em)+'</small>':'')+'</td><td><small style="display:block">'+(r.i.pix_chave?esc((r.i.pix_tipo?r.i.pix_tipo+': ':'')+r.i.pix_chave)+(r.i.titular?'<br>'+esc(r.i.titular):''):'<span style="color:var(--bad)">falta o Pix</span>')+'</small></td></tr>').join('')+'</tbody></table></div>'
+  :empty('Nenhuma comissão em '+mesNome(m),'Aparece aqui quando houver pedido com cupom ou link de influenciador.'))+'</div>';
+}
+async function lkGarantirCurto(l){try{await chamarShop({acao:'link_curto',slug:l.slug});return true}catch(e){toast('Link salvo, mas o endereço curto falhou: '+e.message);return false}}
+FORMS.influenciadores={title:['Novo influenciador','Influenciador'],col:'influenciadores',secs:[
+ ['Influenciador',[{k:'nome',l:'Nome',req:1},{k:'arroba',l:'@ no Instagram / TikTok'},
+  {k:'codigo',l:'Código',req:1,hint:'Letras minúsculas, números e hífen. Vira o link ohmygirl.com.br/a/código e identifica as vendas dele.'},
+  {k:'email',l:'E-mail (login do painel)',hint:'Ele cria a senha no painel com este e-mail.'},{k:'telefone',l:'WhatsApp'},
+  {k:'cupom',l:'Cupom no site',hint:'Mesmo código do cupom criado em Clientes e cupons. Pedido com este cupom é dele.'},
+  {k:'comissao_pct',l:'Comissão (%)',t:'number',req:1,hint:'Sobre os produtos, já com desconto, sem frete e sem imposto.'},
+  {k:'inicio',l:'Início',t:'date'},{k:'fim',l:'Fim (opcional)',t:'date',hint:'Depois do fim, o link e o painel continuam, mas novos pedidos pelo link não contam.'},
+  {k:'ativo',l:'Ativo',t:'bool'},{k:'parceiro',l:'Parceiro no financeiro',t:'parc',none:'— nenhum —',hint:'Opcional: para os pagamentos entrarem no extrato dele.'}]],
+ ['Pagamento (o influenciador também pode preencher no painel)',[{k:'pix_tipo',l:'Tipo da chave Pix',t:'select',o:['','CPF','CNPJ','E-mail','Celular','Chave aleatória']},{k:'pix_chave',l:'Chave Pix'},
+  {k:'titular',l:'Titular da conta'},{k:'documento',l:'CPF ou CNPJ do titular'},{k:'banco',l:'Banco'},{k:'agencia',l:'Agência'},{k:'conta',l:'Conta'},{k:'obs',l:'Observações',t:'textarea',full:1}]]],
+ def:()=>({ativo:true,comissao_pct:10,inicio:today()}),
+ antes:v=>{v.codigo=lkSlug(v.codigo).slice(0,30);if(v.codigo.length<2)throw {field:{k:'codigo',l:'Código (mínimo 2 letras)'}};v.email=(v.email||'').trim().toLowerCase()||null;v.cupom=(v.cupom||'').trim().toUpperCase()},
+ depois:async(id,v,rec)=>{
+  if(S.data.links_utm.some(l=>l.influenciador===id))return;
+  const l={slug:v.codigo,nome:'Link principal · '+v.nome,influenciador:id,destino:'/',utm_source:'instagram',utm_medium:'influencer',utm_campaign:'parceria-omg',utm_content:v.codigo,ativo:true};
+  const {error}=await sb.from('links_utm').insert(toDb('links_utm',l));
+  if(error){toast('Influenciador salvo, mas o link não: '+errMsg(error));return}
+  if(await lkGarantirCurto(l))toast('Link criado: ohmygirl.com.br/a/'+l.slug);
+ }};
+FORMS.links_utm={title:['Novo link','Link'],col:'links_utm',secs:[
+ ['Link',[{k:'nome',l:'Nome do link',req:1,hint:'Ex.: Reels MEDIHEAL da Jeni, Stories Black Friday'},{k:'slug',l:'Código do link curto',req:1,hint:'ohmygirl.com.br/a/código · letras minúsculas, números e hífen'},
+  {k:'influenciador',l:'Influenciador',t:'inf',hint:'Escolha se a venda deste link gera comissão'},{k:'destino',l:'Página de destino',hint:'/ = página inicial · /products/… · /collections/… · /pages/marcas'},
+  {k:'utm_source',l:'Origem (utm_source)',t:'combo',o:LK_SRC,req:1},{k:'utm_medium',l:'Tipo (utm_medium)',t:'combo',o:LK_MED,req:1},
+  {k:'utm_campaign',l:'Campanha (utm_campaign)',t:'combo',o:()=>[...new Set([...LK_CAMP0,...S.data.links_utm.map(l=>l.utm_campaign).filter(Boolean)])],req:1},
+  {k:'utm_content',l:'Conteúdo (utm_content)',hint:'Quem ou qual peça. Ex.: jeni-reels1'},{k:'utm_term',l:'Termo (utm_term)',hint:'Opcional'},
+  {k:'inicio',l:'Vale a partir de',t:'date'},{k:'fim',l:'Vale até',t:'date'},{k:'ativo',l:'Ativo',t:'bool'},{k:'custo',l:'Custo (R$)',t:'number',hint:'Quanto pagamos por este post/anúncio, para ver o retorno'},{k:'obs',l:'Observações',t:'textarea',full:1}]]],
+ def:()=>({ativo:true,destino:'/',utm_source:'instagram',utm_medium:'influencer',utm_campaign:'parceria-omg'}),
+ antes:v=>{v.slug=lkSlug(v.slug);if(v.slug.length<2)throw {field:{k:'slug',l:'Código do link (mínimo 2 letras)'}};['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(k=>v[k]=lkSlug(v[k]));
+  if(!v.utm_content&&v.influenciador){const i=S.data.influenciadores.find(x=>x.id===v.influenciador);if(i)v.utm_content=i.codigo}
+  let d=String(v.destino||'/').trim();try{const u=new URL(d,LK_SITE);d=u.pathname+u.search}catch(_){d='/'}v.destino=d||'/'},
+ depois:async(id,v)=>{if(await lkGarantirCurto(v))toast('Link pronto: ohmygirl.com.br/a/'+v.slug)}};
+FORMS.comissoes_fechamentos={title:['Comissão','Comissão'],col:'comissoes_fechamentos',secs:[
+ ['Pagamento',[{k:'status',l:'Situação',t:'select',o:['A pagar','Pago']},{k:'pago_em',l:'Pago em',t:'date'},{k:'forma',l:'Forma',t:'select',o:['','Pix','Transferência','Outro']},{k:'obs',l:'Observações',t:'textarea',full:1}]]],
+ def:()=>({status:'A pagar'}),
+ pre:rec=>{const i=S.data.influenciadores.find(x=>x.id===rec.influenciador)||{};
+  return '<div class="sec"><span class="label">'+esc(i.nome||'')+' · '+mesNome(rec.mes)+'</span><p style="grid-column:1/-1;margin:0">'+rec.pedidos+' pedido(s) · base '+brl(n(rec.base))+' · '+n(rec.pct)+'% = '+brl(n(rec.valor))+(n(rec.ajuste)?' · ajuste '+brl(n(rec.ajuste))+' (pedido devolvido depois do fechamento)':'')+' · <b>total '+brl(n(rec.total))+'</b></p>'+
+  '<p class="muted" style="grid-column:1/-1;margin:0;font-size:12px">Pedidos: '+esc((rec.vendas||[]).map(v=>v.pedido+' ('+brl(n(v.comissao))+')').join(', ')||'—')+'</p>'+
+  '<p style="grid-column:1/-1;margin:0">Pix: '+(i.pix_chave?'<b>'+esc((i.pix_tipo?i.pix_tipo+' · ':'')+i.pix_chave)+'</b> '+lkCopia(i.pix_chave,'Copiar chave')+(i.titular?' · '+esc(i.titular):''):'<span style="color:var(--bad)">o influenciador ainda não informou</span>')+'</p></div>'},
+ antes:v=>{if(v.status==='Pago'&&!v.pago_em)v.pago_em=today();if(v.status==='Pago'&&!v.forma)v.forma='Pix'}};
+
 function fieldHTML(f,v,ro){
  const id='f-'+f.k, opts=typeof f.o==='function'?f.o():f.o;
  if(f.t==='bool')return '<label class="chk'+(f.full?' full':'')+'" style="padding-top:22px"><input type="checkbox" id="'+id+'" name="'+f.k+'"'+(v?' checked':'')+(ro?' disabled':'')+'> '+esc(f.l)+'</label>';
@@ -1503,6 +1658,9 @@ function fieldHTML(f,v,ro){
  else if(f.t==='parc'){
   const ps=S.data.fornecedores.slice().sort((a,b)=>String(a.codigo||'zzz').localeCompare(String(b.codigo||'zzz')));
   inp='<select id="'+id+'" name="'+f.k+'"'+(ro?' disabled':'')+'><option value="">'+esc(f.none||'—')+'</option>'+ps.map(p=>'<option value="'+esc(p.id)+'"'+(p.id===v?' selected':'')+'>'+esc(parcLabel(p))+'</option>').join('')+'</select>';
+ }
+ else if(f.t==='inf'){
+  inp='<select id="'+id+'" name="'+f.k+'"'+(ro?' disabled':'')+'><option value="">— nenhum (sem comissão) —</option>'+S.data.influenciadores.slice().sort((a,b)=>String(a.nome).localeCompare(String(b.nome))).map(p=>'<option value="'+esc(p.id)+'"'+(p.id===v?' selected':'')+'>'+esc(p.nome+(p.arroba?' ('+p.arroba+')':''))+'</option>').join('')+'</select>';
  }
  else if(f.t==='combo'){
   const val=v==null?'':String(v), known=val===''||opts.includes(val), sel=known?val:'__outra';
@@ -1519,7 +1677,7 @@ function readFields(form,fs){
  for(const f of fs){const el=form.elements[f.k];if(!el)continue;
   if(f.t==='bool')vals[f.k]=el.checked;
   else if(f.t==='number'){const x=el.value.trim();vals[f.k]=x===''?null:parseFloat(x.replace(',','.'))}
-  else if(f.t==='parc'){vals[f.k]=el.value||null}
+  else if(f.t==='parc'||f.t==='inf'){vals[f.k]=el.value||null}
   else if(f.t==='combo'){vals[f.k]=el.value==='__outra'?((form.elements[f.k+'__outra']||{}).value||'').trim():el.value.trim()}
   else vals[f.k]=el.value.trim();
   if(f.req&&(vals[f.k]===''||vals[f.k]==null))throw {field:f};
@@ -1550,13 +1708,13 @@ function openForm(key,id){
  const cpGid=key==='cupons'&&rec?(String(rec.obs||'').match(/gid:\/\/shopify\/DiscountCodeNode\/\d+/)||[])[0]:null;
  const preP=(key==='produtos'&&rec&&rec.shopify_variant_id)?'<div class="sec"><span class="label">No site (Shopify)</span><p style="grid-column:1/-1;margin:0">'+(rec.ativo?stPill('No site'):stPill('Fora do site'))+' <span class="muted">'+esc(({active:'ativo',draft:'rascunho',archived:'arquivado',excluido:'excluído do site'})[rec.site_status]||rec.site_status||'')+' · preço no site '+brl(rec.preco)+'</span></p>'+(can()?'<div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" type="button" id="sp-status">'+(rec.ativo?'Pausar no site':'Reativar no site')+'</button><button class="btn sm" type="button" id="sp-preco">Enviar preço do campo Venda ao site</button></div><p class="muted" style="grid-column:1/-1;margin:0;font-size:11px">Pausar deixa o produto como rascunho no Shopify: some do site, mas nada é apagado.</p>':'')+'</div>':'';
  const pre=(key==='fornecedores'&&rec)?(()=>{const L=ledger(rec);return '<div class="sec"><span class="label">Extrato · saldo '+esc(fmtM(L.saldo,L.M))+' · '+esc(saldoTxt(L.saldo))+'</span><div style="grid-column:1/-1;min-width:0">'+extratoHTML(L,false)+'</div></div>'})():'';
- shell(rec?F.title[1]+(rec.codigo?' '+rec.codigo:''):F.title[0],preP+pre+F.secs.map(([t,f])=>'<div class="sec">'+f.map(x=>fieldHTML(x,init[x.k],ro)).join('')+'</div>').join('')+anexosHTML(F.col,ro),rec,ro,cpGid?'<button class="btn" type="button" id="cp-onoff">'+(rec.ativo?'Desativar no site':'Reativar no site')+'</button>':'');
+ shell(rec?F.title[1]+(rec.codigo?' '+rec.codigo:''):F.title[0],preP+pre+(F.pre&&rec?F.pre(rec):'')+F.secs.map(([t,f])=>'<div class="sec">'+f.map(x=>fieldHTML(x,init[x.k],ro)).join('')+'</div>').join('')+anexosHTML(F.col,ro),rec,ro,cpGid?'<button class="btn" type="button" id="cp-onoff">'+(rec.ativo?'Desativar no site':'Reativar no site')+'</button>':'');
  wireDelete(F.col,rec);
  if(cpGid&&can())$('#cp-onoff').addEventListener('click',async()=>{const at=!rec.ativo;if(!confirm((at?'Reativar':'Desativar')+' o cupom '+rec.codigo+' no site?'))return;try{await chamarShop({acao:'cupom_status',id:cpGid,ativo:at});await save('cupons',rec,{ativo:at});close();loadAll();toast(at?'Cupom reativado no site':'Cupom desativado no site')}catch(e){$('#m-err').textContent=e.message}});
  wireAnexos(F.col,rec);
  if(preP&&can()){$('#sp-status').addEventListener('click',()=>acaoShopify({acao:'status',produtoId:rec.shopify_product_id,ativo:!rec.ativo},rec.ativo?'Produto pausado no site':'Produto ativo no site'));
   $('#sp-preco').addEventListener('click',()=>{const v=parseFloat((document.querySelector('#mform [name="preco"]')||{}).value);if(!(v>0)){toast('Preencha o preço de venda');return}if(confirm('Mudar o preço no site para '+brl(v)+'?'))acaoShopify({acao:'preco',produtoId:rec.shopify_product_id,varianteId:rec.shopify_variant_id,preco:v},'Preço atualizado no site')})}
- wireSubmit(async form=>{const vals=readFields(form,fs);const id=await save(F.col,rec,vals);await finishAnexos(F.col,id);toast(rec?'Alterações salvas':'Cadastrado')});
+ wireSubmit(async form=>{const vals=readFields(form,fs);if(F.antes)F.antes(vals);const id=await save(F.col,rec,vals);await finishAnexos(F.col,id);toast(rec?'Alterações salvas':'Cadastrado');if(F.depois)await F.depois(id,{...(rec||{}),...vals},rec)});
 }
 
 /* ---------- formulário de venda ---------- */
@@ -1804,9 +1962,13 @@ const COLS={
  produtos:['sku','marca','nome','categoria','fornecedor','custo_fab','custo_lb','preco_kr','preco_conc','preco','peso_g','estoque','dg','ativo'],
  cupons:['codigo','tipo','valor','publico','validade','limite','ativo','obs'],
  fornecedores:['codigo','nome','tipo','moeda','pais','contato','canal','obs'],
- metricas:['semana','visitas','carrinhos','checkouts','pedidos','fonte']
+ metricas:['semana','visitas','carrinhos','checkouts','pedidos','fonte'],
+ influenciadores:['codigo','nome','arroba','email','telefone','cupom','comissao_pct','ativo','inicio','fim','pix_tipo','pix_chave','titular','documento','banco','agencia','conta','parceiro','obs'],
+ links_utm:['slug','nome','influenciador','destino','utm_source','utm_medium','utm_campaign','utm_content','utm_term','ativo','inicio','fim','custo','obs'],
+ comissoes_fechamentos:['status','pago_em','forma','obs'],
+ link_cliques_dia:[]
 };
-const DATES=new Set(['data_compra','data','previsao','validade','semana']);
+const DATES=new Set(['data_compra','data','previsao','validade','semana','inicio','fim','pago_em']);
 const itemsTo=a=>(Array.isArray(a)?a:[]).map(i=>({produto:i.produto||'',qtd:i.qtd??null,preco:i.preco??null,custo_lb:i.custoLB??null,custo_fab:i.custoFab??null}));
 const itemsFrom=a=>(Array.isArray(a)?a:[]).map(i=>({produto:i.produto||'',qtd:i.qtd,preco:i.preco,custoLB:i.custo_lb??i.custoLB,custoFab:i.custo_fab??i.custoFab}));
 function toDb(col,o){
@@ -1815,10 +1977,10 @@ function toDb(col,o){
   const c=MAP[k]||k; if(!COLS[col].includes(c))continue;
   let x=v;
   if(DATES.has(c)&&!x)x=null;
-  if((c==='lote'||c==='corte'||c==='parceiro'||c==='parceiro_pagador'||c==='enviado_em'||c==='compra_em')&&!x)x=null;
+  if((c==='lote'||c==='corte'||c==='parceiro'||c==='influenciador'||c==='parceiro_pagador'||c==='enviado_em'||c==='compra_em')&&!x)x=null;
   if(col==='vendas'&&c==='itens')x=itemsTo(v);
   if(col==='insumos'&&(c==='estoque'||c==='minimo')&&x==null)x=0;
-  if(typeof x==='string'&&x===''&&['valor','qtd','venda'].includes(c))x=null;
+  if(typeof x==='string'&&x===''&&['valor','qtd','venda','custo','comissao_pct'].includes(c))x=null;
   out[c]=x;
  }
  return out;
@@ -1840,7 +2002,9 @@ const ANX={
  lancamentos:['Comprovante','Fatura / boleto','Recibo','Contrato','Outro'],
  devolucoes:['Foto do produto','Comprovante de reembolso','Conversa com cliente','Outro'],
  insumos:['Arte final','Prova de cor','Faca / gabarito','Foto','Outro'],
- fornecedores:['Contrato','Tabela de preços','Cadastro / documentos','Outro']
+ fornecedores:['Contrato','Tabela de preços','Cadastro / documentos','Outro'],
+ influenciadores:['Contrato','Documento','Outro'],
+ comissoes_fechamentos:['Comprovante do Pix','Recibo / nota','Outro']
 };
 const MAX_MB=20;
 let AX=null;
@@ -2090,6 +2254,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v19','29/10/2026',['Marketing › Links e influenciadores: cadastro de influenciador com cupom, % e link curto (ohmygirl.com.br/a/código), que conta os cliques.','Gerador de links UTM para qualquer canal, com botões para copiar o link curto e o completo.','Origem das vendas: de onde veio cada pedido do site (UTM, cupom, outro site ou direto).','Comissões: pedidos de cada influenciador por mês, fechamento no dia 1º e marcar como pago com o comprovante do Pix.','Painel do influenciador (parceiro.html): ele entra com e-mail e senha e vê links, cliques, pedidos, comissões, pagamentos e preenche o Pix.']],
  ['v18','29/10/2026',['Raio-X: botão Publicar marca no site, dentro da marca aberta. Depois de ativar os produtos de uma marca, ele põe a marca na página Marcas (com a imagem, quando existe) e ensina a Bomi os produtos dela.','A página Marcas passa a mostrar todas as marcas com produto no ar, na ordem de quantidade; marca sem produto no ar sai.']],
  ['v17','29/10/2026',['Raio-X: a marca aberta sobe para o topo, com a lista de produtos logo abaixo.','Cada SKU mostra a variação e o preço (ex.: MH0011-1 · 4 unidades · R$ 61,90).']],
  ['v16','29/10/2026',['Raio-X: marcar produtos e mudar o status em lote (Ativar no site, Passar para rascunho, Arquivar). Ao ativar produto com problema, o ERP pergunta antes.','Arquivados ficam fora da conta do Raio-X.']],
@@ -2197,6 +2362,7 @@ function doBackup(){
 }
 
 /* ================= conexão e login ================= */
+if(/type=recovery/.test(location.hash)){location.replace('parceiro.html'+location.hash);return}
 const sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,storageKey:'omg-erp-auth'}});
 const ORD={insumos:'codigo',fornecedores:'codigo',cupons:'codigo'};
 let loadingNow=false;
@@ -2237,7 +2403,8 @@ async function enter(session){
  const email=String(session.user.email||'').toLowerCase();
  const {data,error}=await sb.from('membros').select('papel,nome').eq('email',email);
  if(error){showGate('Não foi possível conferir seu acesso agora. Verifique a conexão e abra o app de novo.',true);return}
- if(!data||!data.length){showGate('Sua conta ('+email+') foi criada, mas ainda não tem acesso ao ERP. Peça ao Tae para liberar.',true);return}
+ if(!data||!data.length){try{const r=await sb.rpc('parceiro_painel');if(r.data&&r.data.cadastrado){location.replace('parceiro.html');return}}catch(_){}
+  showGate('Sua conta ('+email+') foi criada, mas ainda não tem acesso ao ERP. Peça ao Tae para liberar.',true);return}
  S.canWrite=data[0].papel==='editor';S.db=sb;S.email=email;
  $('#me-email').textContent=email+(S.canWrite?'':' · consulta');
  $('#gate').hidden=true;$('#app').hidden=false;

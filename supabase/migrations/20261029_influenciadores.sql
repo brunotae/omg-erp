@@ -242,3 +242,9 @@ grant execute on function public.comissoes_atrib(uuid) to authenticated;
 grant execute on function public.comissoes_fechar(text) to authenticated;
 grant execute on function public.parceiro_painel() to authenticated;
 grant execute on function public.parceiro_salvar_pagamento(jsonb) to authenticated;
+
+-- cliques por dia (para o ERP não baixar clique por clique)
+create or replace view public.link_cliques_dia with (security_invoker = on) as
+  select link, (em at time zone 'America/Sao_Paulo')::date as dia, count(*)::int as cliques, count(distinct visitante)::int as visitantes
+  from public.link_cliques group by 1, 2;
+grant select on public.link_cliques_dia to authenticated;
