@@ -7,7 +7,8 @@
 -%}
 <div class="omg-faixa" style="--omg-fb:{{ section.settings.cor_fundo }};--omg-ft:{{ section.settings.cor_texto }}" data-omg-faixa>
   <p class="omg-faixa__msg is-on">
-    {{ section.settings.texto_1 }}
+    <span class="omg-faixa__longo">{{ section.settings.texto_1 }}</span>
+    {%- if section.settings.texto_celular != blank -%}<span class="omg-faixa__curto">{{ section.settings.texto_celular }}</span>{%- endif -%}
     {%- if section.settings.cupom != blank -%}
       <button type="button" class="omg-faixa__cupom" data-omg-copiar="{{ section.settings.cupom | escape }}" title="Copiar cupom">{{ section.settings.cupom }}</button>
     {%- endif -%}
@@ -20,7 +21,8 @@
   .omg-faixa__msg.is-on{opacity:1;transform:none}
   .omg-faixa__cupom{font:inherit;font-weight:700;letter-spacing:.06em;border:1px dashed currentColor;background:transparent;color:inherit;border-radius:6px;padding:2px 8px;cursor:pointer}
   .omg-faixa__cupom.ok::after{content:" ✓ copiado"}
-  @media (max-width:749px){.omg-faixa{font-size:12px}}
+  .omg-faixa__curto{display:none}
+  @media (max-width:749px){.omg-faixa{font-size:12px}.omg-faixa__msg{white-space:normal;line-height:1.2}.omg-faixa__longo{display:none}.omg-faixa__curto{display:inline}}
   @media (prefers-reduced-motion:reduce){.omg-faixa__msg{transition:none}}
 </style>
 <script>
@@ -38,8 +40,9 @@
   "enabled_on": { "groups": ["header"] },
   "settings": [
     { "type": "text", "id": "texto_1", "label": "Mensagem 1", "default": "Inauguração OMG: 10% OFF na sua compra com o cupom" },
+    { "type": "text", "id": "texto_celular", "label": "Mensagem 1 no celular (curta)", "default": "10% OFF de inauguração:" },
     { "type": "text", "id": "cupom", "label": "Cupom (clicar copia)", "default": "INAUGURA10" },
-    { "type": "text", "id": "texto_2", "label": "Mensagem 2 (alterna a cada 5 s)", "default": "Skincare e maquiagem coreana original, do nosso estoque oficial na Coreia do Sul" },
+    { "type": "text", "id": "texto_2", "label": "Mensagem 2 (alterna a cada 5 s)", "default": "Skincare coreano original, do nosso estoque oficial na Coreia do Sul" },
     { "type": "color", "id": "cor_fundo", "label": "Fundo", "default": "#4A2638" },
     { "type": "color", "id": "cor_texto", "label": "Texto", "default": "#FFFFFF" }
   ],
