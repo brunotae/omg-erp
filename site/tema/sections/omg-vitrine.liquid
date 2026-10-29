@@ -12,7 +12,7 @@
   <div class="omg-vit__cab">
     <h2 class="omg-vit__tit">{{ section.settings.titulo }}</h2>
     {%- if section.settings.subtitulo != blank -%}<p class="omg-vit__sub">{{ section.settings.subtitulo }}</p>{%- endif -%}
-    <a class="omg-vit__ver" href="{{ col.url }}">Ver tudo →</a>
+    <a class="omg-vit__ver" href="{{ section.settings.link_ver | default: col.url }}">Ver tudo →</a>
   </div>
   <div class="omg-vit__wrap">
     <button type="button" class="omg-vit__seta omg-vit__seta--ant" data-ant aria-label="Anterior">‹</button>
@@ -104,6 +104,7 @@
     { "type": "text", "id": "titulo", "label": "Título", "default": "Mais pedidos" },
     { "type": "text", "id": "subtitulo", "label": "Subtítulo" },
     { "type": "collection", "id": "colecao", "label": "Coleção" },
+    { "type": "url", "id": "link_ver", "label": "Link do \"Ver tudo\" (se vazio, a própria coleção)" },
     { "type": "select", "id": "modo", "label": "Quais produtos", "default": "normal", "options": [
       { "value": "normal", "label": "Na ordem da coleção" },
       { "value": "uma_por_marca", "label": "Um de cada marca" },
