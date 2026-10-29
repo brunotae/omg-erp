@@ -94,3 +94,43 @@
   window.addEventListener('storage',function(e){ if(e.key===K) sync(); });
 })();
 </script>
+
+{%- comment -%} 3) Um botão só de ajuda: junta a Bomi e o WhatsApp (os botões originais ficam escondidos e são acionados por aqui). {%- endcomment -%}
+<style>
+  #bomi-botao,.omg-whats{display:none!important}
+  .omg-ajuda{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:65;font-family:inherit}
+  .omg-ajuda__bt{display:flex;align-items:center;gap:8px;border:0;cursor:pointer;background:#B83D66;color:#fff;font:inherit;font-size:15px;font-weight:700;padding:12px 18px 12px 12px;border-radius:999px;box-shadow:0 8px 24px rgba(74,38,56,.28)}
+  .omg-ajuda__bt .av{width:30px;height:30px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:17px}
+  .omg-ajuda__menu{position:absolute;right:0;bottom:calc(100% + 10px);width:270px;background:#fff;border-radius:16px;box-shadow:0 12px 40px rgba(43,21,32,.22);padding:8px;display:none}
+  .omg-ajuda.aberta .omg-ajuda__menu{display:block;animation:omg-aj .2s}
+  .omg-ajuda__op{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:0;background:none;font:inherit;color:#2b1520;text-decoration:none;padding:10px;border-radius:12px;cursor:pointer}
+  .omg-ajuda__op:hover{background:#FDEEF3}
+  .omg-ajuda__op .ic{flex:0 0 38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px}
+  .omg-ajuda__op b{display:block;font-size:14.5px}.omg-ajuda__op small{display:block;font-size:12px;color:#7a6470}
+  @keyframes omg-aj{from{opacity:0;transform:translateY(6px)}}
+  @media (max-width:749px){.omg-ajuda__bt{font-size:14px;padding:10px 14px 10px 10px}.omg-ajuda__bt .tx-l{display:none}}
+  @media (min-width:750px){.omg-ajuda__bt .tx-c{display:none}}
+</style>
+<script>
+(function(){
+  if(window.__omgAjuda) return; window.__omgAjuda=1;
+  function monta(){
+    if(document.querySelector('.omg-ajuda')) return;
+    var w=document.querySelector('.omg-whats'), bomi=document.getElementById('bomi-botao');
+    if(!w && !bomi) return;
+    var d=document.createElement('div'); d.className='omg-ajuda';
+    d.innerHTML='<div class="omg-ajuda__menu" role="menu">'+
+      (bomi?'<button type="button" class="omg-ajuda__op" data-bomi role="menuitem"><span class="ic" style="background:#FDEEF3">🌸</span><span><b>Conversar com a Bomi</b><small>Assistente virtual, responde na hora</small></span></button>':'')+
+      (w?'<a class="omg-ajuda__op" role="menuitem" target="_blank" rel="noopener" href="'+w.getAttribute('href')+'"><span class="ic" style="background:#25D366;color:#fff">'+(w.querySelector('svg')?w.querySelector('svg').outerHTML:'✆')+'</span><span><b>WhatsApp</b><small>Fale com a nossa equipe</small></span></a>':'')+
+      '</div><button type="button" class="omg-ajuda__bt" aria-expanded="false" aria-haspopup="true"><span class="av" aria-hidden="true">🌸</span><span class="tx-l">Dúvidas? Fale com a gente</span><span class="tx-c">Ajuda</span></button>';
+    document.body.appendChild(d);
+    var bt=d.querySelector('.omg-ajuda__bt');
+    function fecha(){ d.classList.remove('aberta'); bt.setAttribute('aria-expanded','false'); }
+    bt.addEventListener('click',function(e){ e.stopPropagation(); var a=d.classList.toggle('aberta'); bt.setAttribute('aria-expanded',a?'true':'false'); });
+    var ob=d.querySelector('[data-bomi]'); if(ob) ob.addEventListener('click',function(){ fecha(); var b=document.getElementById('bomi-botao'); if(b) b.click(); });
+    document.addEventListener('click',function(e){ if(!d.contains(e.target)) fecha(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') fecha(); });
+  }
+  var n=0, t=setInterval(function(){ monta(); if(document.querySelector('.omg-ajuda') || ++n>40) clearInterval(t); }, 250);
+})();
+</script>
