@@ -254,7 +254,7 @@ Deno.serve(async (req) => {
 
     if (b.acao === "desc_scan") {
       // Varre produtos ATIVOS (100 por chamada, b.after) e aponta descrições problemáticas.
-      const d: any = await gql(`query($a: String) { products(first: 100, after: $a, query: "status:active") { nodes { handle title vendor tags descriptionHtml media(first: 1) { nodes { id } } variants(first: 1) { nodes { price } } } pageInfo { hasNextPage endCursor } } }`, { a: b.after ?? null });
+      const d: any = await gql(`query($a: String) { products(first: 100, after: $a, query: "status:active") { nodes { handle title vendor productType tags descriptionHtml media(first: 1) { nodes { id } } variants(first: 1) { nodes { price } } } pageInfo { hasNextPage endCursor } } }`, { a: b.after ?? null });
       const achados: any[] = [];
       for (const p of d.products.nodes) {
         const h = String(p.descriptionHtml || ""); const txt = h.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
@@ -268,7 +268,7 @@ Deno.serve(async (req) => {
         if (h.length > 12000) f.push("longa:" + h.length);
         if ((p.tags || []).some((t: string) => /duplicata/i.test(t))) f.push("duplicata");
         if (!p.media.nodes.length) f.push("sem_foto");
-        if (f.length || b.todos) achados.push({ h: p.handle, t: p.title, v: p.vendor, pr: p.variants.nodes[0]?.price, f });
+        if (f.length || b.todos) achados.push({ h: p.handle, t: p.title, v: p.vendor, pr: p.variants.nodes[0]?.price, f, ...(b.todos ? { tipo: p.productType, tags: p.tags } : {}) });
       }
       return resp(200, { ok: true, n: d.products.nodes.length, achados, proximo: d.products.pageInfo.hasNextPage ? d.products.pageInfo.endCursor : null });
     }
