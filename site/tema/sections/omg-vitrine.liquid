@@ -17,61 +17,37 @@
   <div class="omg-vit__wrap">
     <button type="button" class="omg-vit__seta omg-vit__seta--ant" data-ant aria-label="Anterior">‹</button>
     <ul class="omg-vit__lista" data-lista>
-      {%- for p in col.products limit: section.settings.quantidade -%}
-        {%- liquid
-          assign pct = 0
-          if p.compare_at_price > p.price
-            assign dif = p.compare_at_price | minus: p.price | times: 100
-            assign pct = dif | divided_by: p.compare_at_price
-          endif
-          assign marca = p.vendor | downcase | strip
-          assign e_hyp = false
-          for h in hyp
-            assign hh = h | strip
-            if hh == marca
-              assign e_hyp = true
-            endif
-          endfor
-          assign criado = p.created_at | date: '%s' | plus: 0
-          assign dias = agora | minus: criado | divided_by: 86400
-          assign e_novo = false
-          if section.settings.selo_novidade == 'sempre'
-            assign e_novo = true
-          elsif section.settings.selo_novidade == 'recente' and dias <= 30
-            assign e_novo = true
-          endif
-          assign nome = p.title
-          assign partes = p.title | split: ': '
-          if partes.size > 1
-            assign nome = partes | last
-            assign nome_en = partes | first
-          else
-            assign nome_en = ''
-          endif
-        -%}
-        <li class="omg-cartao">
-          <a href="{{ p.url }}" class="omg-cartao__img" tabindex="-1" aria-hidden="true">
-            {%- if p.featured_image -%}
-              {{ p.featured_image | image_url: width: 480 | image_tag: loading: 'lazy', widths: '240,360,480', sizes: '(min-width: 990px) 220px, 44vw', alt: p.title }}
-            {%- endif -%}
-          </a>
-          <div class="omg-cartao__selos">
-            {%- if pct > 0 -%}<span class="omg-selo omg-selo--off">-{{ pct }}%</span>{%- endif -%}
-            {%- if e_novo -%}<span class="omg-selo omg-selo--novo">Novidade</span>{%- endif -%}
-            {%- if e_hyp -%}<span class="omg-selo omg-selo--hyp">Hypado</span>{%- endif -%}
-          </div>
-          <button type="button" class="omg-fav" data-omg-fav="{{ p.handle }}" aria-pressed="false" aria-label="Salvar {{ p.title | escape }} nos favoritos"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6h2c.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.8 4.3 7.2C19.5 16.4 12 21 12 21z"/></svg></button>
-          <a href="{{ p.url }}" class="omg-cartao__txt">
-            <span class="omg-cartao__marca">{{ p.vendor }}</span>
-            <span class="omg-cartao__nome">{{ nome | capitalize }}</span>
-            {%- if nome_en != blank -%}<span class="omg-cartao__en">{{ nome_en }}</span>{%- endif -%}
-          </a>
-          <div class="omg-cartao__preco">
-            {%- if pct > 0 -%}<s>{{ p.compare_at_price | money }}</s>{%- endif -%}
-            <strong>{% if p.price_varies %}a partir de {% endif %}{{ p.price | money }}</strong>
-          </div>
-        </li>
-      {%- endfor -%}
+      {%- liquid
+        # Quais produtos: normal (ordem da coleção), uma_por_marca (o 1º de cada marca), ordem_hypadas (o 1º de cada marca hypada, na ordem da lista)
+        assign modo = section.settings.modo
+        assign marcas_usadas = '|'
+        assign n = 0
+      -%}
+      {%- paginate col.products by 250 -%}
+        {%- if modo == 'ordem_hypadas' -%}
+          {%- for h in hyp -%}
+            {%- if n >= section.settings.quantidade -%}{%- break -%}{%- endif -%}
+            {%- assign hh = h | strip -%}
+            {%- for p in col.products -%}
+              {%- assign pv = p.vendor | downcase | strip -%}
+              {%- if pv == hh and p.featured_image -%}
+                {%- render 'omg-cartao', p: p, hyp: hyp, selo_novidade: section.settings.selo_novidade, agora: agora -%}
+                {%- assign n = n | plus: 1 -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endfor -%}
+        {%- else -%}
+          {%- for p in col.products -%}
+            {%- if n >= section.settings.quantidade -%}{%- break -%}{%- endif -%}
+            {%- assign chave = '|' | append: p.vendor | append: '|' -%}
+            {%- if modo == 'uma_por_marca' and marcas_usadas contains chave -%}{%- continue -%}{%- endif -%}
+            {%- assign marcas_usadas = marcas_usadas | append: p.vendor | append: '|' -%}
+            {%- render 'omg-cartao', p: p, hyp: hyp, selo_novidade: section.settings.selo_novidade, agora: agora -%}
+            {%- assign n = n | plus: 1 -%}
+          {%- endfor -%}
+        {%- endif -%}
+      {%- endpaginate -%}
     </ul>
     <button type="button" class="omg-vit__seta omg-vit__seta--prox" data-prox aria-label="Próximo">›</button>
   </div>
@@ -128,6 +104,10 @@
     { "type": "text", "id": "titulo", "label": "Título", "default": "Mais pedidos" },
     { "type": "text", "id": "subtitulo", "label": "Subtítulo" },
     { "type": "collection", "id": "colecao", "label": "Coleção" },
+    { "type": "select", "id": "modo", "label": "Quais produtos", "default": "normal", "options": [
+      { "value": "normal", "label": "Na ordem da coleção" },
+      { "value": "uma_por_marca", "label": "Um de cada marca" },
+      { "value": "ordem_hypadas", "label": "O principal de cada marca hypada" } ] },
     { "type": "range", "id": "quantidade", "label": "Quantos produtos", "min": 5, "max": 20, "step": 1, "default": 12 },
     { "type": "select", "id": "selo_novidade", "label": "Selo Novidade", "default": "recente", "options": [
       { "value": "recente", "label": "Produtos com até 30 dias" },
