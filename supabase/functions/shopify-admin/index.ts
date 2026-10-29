@@ -700,6 +700,22 @@ Deno.serve(async (req) => {
       return resp(200, { ok: true, path: r.urlRedirect.path, target: r.urlRedirect.target });
     }
 
+    if (b.acao === "colecao_imagem") {
+      // Troca a imagem de capa de coleções (cartões "Por onde você quer começar" da home). { itens: [{ handle, src, alt }] }
+      const res: any[] = [];
+      for (const it of (Array.isArray(b.itens) ? b.itens : []).slice(0, 20)) {
+        try {
+          const c: any = await gql(`query($h: String!) { collectionByIdentifier(identifier: { handle: $h }) { id title image { url } } }`, { h: String(it.handle) });
+          const col = c.collectionByIdentifier; if (!col) throw new Error("coleção não encontrada");
+          const d: any = await gql(`mutation($i: CollectionInput!) { collectionUpdate(input: $i) { collection { image { url } } userErrors { message } } }`,
+            { i: { id: col.id, image: { src: String(it.src), altText: String(it.alt || col.title).slice(0, 200) } } });
+          const e = d.collectionUpdate.userErrors; if (e.length) throw new Error(e[0].message);
+          res.push({ handle: it.handle, ok: true, antes: col.image?.url || null, depois: d.collectionUpdate.collection.image?.url || null });
+        } catch (e) { res.push({ handle: it.handle, ok: false, erro: String((e as Error).message || e).slice(0, 200) }); }
+      }
+      return resp(200, { ok: true, res });
+    }
+
     if (b.acao === "colecoes") {
       const out: any[] = []; let a: string | null = null;
       do {
