@@ -474,6 +474,16 @@ Deno.serve(async (req) => {
       return resp(200, { ok: true, resultados });
     }
 
+    if (b.acao === "colecoes") {
+      const out: any[] = []; let a: string | null = null;
+      do {
+        const d: any = await gql(`query($a: String) { collections(first: 250, after: $a) { nodes { handle title productsCount { count } image { url } } pageInfo { hasNextPage endCursor } } }`, { a });
+        out.push(...d.collections.nodes.map((c: any) => ({ h: c.handle, t: c.title, n: c.productsCount?.count, img: !!c.image })));
+        a = d.collections.pageInfo.hasNextPage ? d.collections.pageInfo.endCursor : null;
+      } while (a);
+      return resp(200, { ok: true, colecoes: out });
+    }
+
     if (b.acao === "menus_ler" || b.acao === "menu_titulos") {
       // menus_ler: todos os menus + idiomas da loja. menu_titulos: { menu_id, trocas: { itemId: "Novo título" } }.
       const ITEM = `id title type url resourceId tags`;
