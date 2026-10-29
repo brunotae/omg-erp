@@ -19,5 +19,11 @@ base = json.loads((R / "base-conhecimento.json").read_text())["entradas"]
 (D / "base.json").write_text(json.dumps([{k: e.get(k) for k in CAMPOS if e.get(k) is not None} for e in base], ensure_ascii=False))
 
 fichas = json.loads((R / "fichas-produtos.json").read_text())
+# Só produtos à venda no site: lote 1 menos os duplicados tirados do ar.
+_raiz = R.parent if (R.parent / "site").exists() else R.parent.parent
+_lote = set(json.loads((_raiz / "site" / "lote1.json").read_text()))
+for _f in sorted((_raiz / "site").glob("duplicados_rascunho_*.json")):
+    _lote -= {x["handle"] for x in json.loads(_f.read_text())["rascunho"]}
+fichas = [f for f in fichas if f.get("handle") in _lote]
 (D / "fichas.json").write_text(json.dumps(fichas, ensure_ascii=False))
 print("prompt:", len(prompt), "caracteres · base:", len(base), "entradas · fichas:", len(fichas), "produtos")
