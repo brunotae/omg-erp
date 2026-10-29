@@ -17,7 +17,7 @@
 - Menu da conta: "Orders" virou **Meus pedidos** e "Profile" virou **Meu perfil**.
 - Rodapé › Marcas: "Abib", sem nenhum produto à venda, deu lugar a **mixsoon**.
 - Home › carrossel de marcas: tinha marcas que não vendemos (aromatica, numbuzin, VT…). Agora mostra round-lab, centellian-24, biodance, dr-melaxin, celimax e arencia.
-- Página Marcas (A–Z): mostra só as 18 marcas com produto à venda. A lista fica em `sections/omg-marcas.liquid` e precisa ser atualizada quando entrar marca nova.
+- Página Marcas: mostra as marcas com produto à venda. Quando entrar marca nova, use ERP › Raio-X › (marca) › **Publicar marca no site** (v18): monta a página sozinha, copia a imagem de `site/marcas/cenas/` e gera as fichas da Bomi (tabela `bomi_fichas_extra`).
 - Banner "KAINE": era a demonstração do espaço de parceiro, já desligada em 28/10.
 
 ## Bomi

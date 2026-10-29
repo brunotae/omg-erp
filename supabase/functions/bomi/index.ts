@@ -23,8 +23,22 @@ const MAX_CONVERSAS_IP = 8;     // conversas novas por hora, por internet (IP)
 const HIST = 16;                // últimas mensagens que vão para o modelo
 
 const IDX_BASE = indexarBase(BASE as any[]);
-const IDX_FICHAS = indexarFichas(FICHAS as any[]);
-const POR_HANDLE: Record<string, any> = Object.fromEntries((FICHAS as any[]).map((f) => [f.handle, f]));
+let IDX_FICHAS = indexarFichas(FICHAS as any[]);
+let POR_HANDLE: Record<string, any> = Object.fromEntries((FICHAS as any[]).map((f) => [f.handle, f]));
+// Fichas de marcas publicadas pelo ERP (botão "Publicar marca"): tabela bomi_fichas_extra, recarregada a cada 10 min.
+let extrasEm = 0;
+async function carregarExtras() {
+  if (Date.now() - extrasEm < 600_000) return;
+  extrasEm = Date.now();
+  try {
+    const { data, error } = await sb.from("bomi_fichas_extra").select("ficha").limit(5000);
+    if (error || !data?.length) return;
+    const todas: Record<string, any> = Object.fromEntries((FICHAS as any[]).map((f) => [f.handle, f]));
+    for (const r of data) if (r.ficha?.handle) todas[r.ficha.handle] = r.ficha;
+    const lista = Object.values(todas);
+    IDX_FICHAS = indexarFichas(lista); POR_HANDLE = todas;
+  } catch (_) { /* fica com as fichas fixas */ }
+}
 
 const CORS = {
   "access-control-allow-origin": "*",
@@ -104,6 +118,7 @@ async function executar(nome: string, inp: any, conversaId: string) {
       data_compra: String(v.data_compra || "").split("-").reverse().join("/"),
       itens: (v.itens || []).map((i: any) => (i.qtd > 1 ? i.qtd + "× " : "") + nomeItem(i.produto)) };
   }
+  if (nome === "buscar_produto" || nome === "ver_produto") await carregarExtras();
   if (nome === "buscar_produto") {
     const r = buscarProdutos(IDX_FICHAS, inp.texto);
     return r.length ? r : { resultados: 0, aviso: "nada encontrado no catálogo" };

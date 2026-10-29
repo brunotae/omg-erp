@@ -11,6 +11,7 @@
 //   { acao: "ativar", handles: [..], ativo: true|false } → ativa (ou pausa) produtos pelo handle, até 50 por vez
 //   { acao: "fotos_refazer", itens: [{ handle, ok, fotos?, oficial?, url?, motivo?, fotos_originais? }] }
 //        → refaz a fila de fotos com a regra rígida; quem não passa e já tinha foto nova volta para a original
+//   { acao: "marca_publicar", marca?, aplicar? } → página Marcas com todas as marcas no ar (+ imagem) e fichas da Bomi da marca
 //   { acao: "pesos", itens: [{ sku, peso_g, dim: [c, l, a] (cm) }] } → grava peso (frete) e dimensões (metafield custom.dimensoes_cm), até 100 por vez
 // Segredos: SHOPIFY_SHOP (ex.: mundo-beleza-9571.myshopify.com), SHOPIFY_API_VERSION (opcional) e
 //   SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET (app do Dev Dashboard; token pedido a cada 24 h por client credentials)
@@ -535,6 +536,99 @@ Deno.serve(async (req) => {
         (p.tags || []).filter((t: string) => /^cat[-:]|duplicata/.test(t)).join("|"), p.mediaCount?.count ?? 0, p.variantsCount?.count ?? 0,
         Number(p.priceRangeV2?.minVariantPrice?.amount ?? 0), Number(p.priceRangeV2?.maxVariantPrice?.amount ?? 0), String(p.legacyResourceId)]);
       return resp(200, { ok: true, cols: ["handle","titulo","marca","status","tipo","tags","fotos","skus","preco_min","preco_max","id"], rows, proximo: d.products.pageInfo.hasNextPage ? d.products.pageInfo.endCursor : null });
+    }
+
+    if (b.acao === "marca_publicar") {
+      // Publica uma marca no site depois de ativar os produtos:
+      //   1) página Marcas (templates/page.marcas.json) passa a ter um cartão para cada marca com produto no ar, na ordem de quantidade;
+      //   2) imagem assets/marca-<slug>.webp: se faltar no tema, copia de site/marcas/cenas/<slug>.webp do repositório (se existir);
+      //   3) fichas da Bomi da marca (tabela bomi_fichas_extra), feitas da descrição dos produtos ativos.
+      // { acao: "marca_publicar", marca?: "MEDIHEAL", aplicar?: true }  (sem aplicar: só mostra o plano)
+      const IGNORAR = new Set(["mundo beleza"]);
+      const slug = (n: string) => n.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/['’]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+      // 1) contagem de ativos por marca
+      const cont: Record<string, number> = {}; let a: string | null = null;
+      do {
+        const d: any = await gql(`query($a: String) { products(first: 250, after: $a, query: "status:active") { nodes { vendor } pageInfo { hasNextPage endCursor } } }`, { a });
+        for (const p of d.products.nodes) { const v = String(p.vendor || "").trim(); if (v && !IGNORAR.has(v.toLowerCase())) cont[v] = (cont[v] || 0) + 1; }
+        a = d.products.pageInfo.hasNextPage ? d.products.pageInfo.endCursor : null;
+      } while (a);
+      const t: any = await gql(`{ themes(first: 1, roles: [MAIN]) { nodes { id name } } }`);
+      const tema = t.themes.nodes[0]; if (!tema) throw new Error("sem tema publicado");
+      const ARQ = "templates/page.marcas.json";
+      const lido: any = await gql(`query($id: ID!, $f: [String!]) { theme(id: $id) { files(filenames: $f, first: 1) { nodes { filename body { ... on OnlineStoreThemeFileBodyText { content } } } } } }`, { id: tema.id, f: [ARQ] });
+      const original = lido.theme.files.nodes[0]?.body?.content; if (!original) throw new Error("não achei " + ARQ);
+      const tpl = JSON.parse(original.replace(/^\s*\/\*[\s\S]*?\*\/\s*/, ""));
+      const sec = tpl.sections.marcas; if (!sec) throw new Error("seção marcas não encontrada no template");
+      const antes: Record<string, any> = {};
+      for (const id of sec.block_order || Object.keys(sec.blocks || {})) { const bl = sec.blocks[id]; if (bl) antes[String(bl.settings?.fornecedor || bl.settings?.nome || "").toLowerCase()] = { id, bl }; }
+      // imagens já no tema
+      const temImg = new Set<string>(); a = null;
+      do {
+        const d: any = await gql(`query($id: ID!, $a: String) { theme(id: $id) { files(first: 250, after: $a, filenames: ["assets/marca-*"]) { nodes { filename } pageInfo { hasNextPage endCursor } } } }`, { id: tema.id, a });
+        d.theme.files.nodes.forEach((f: any) => temImg.add(f.filename));
+        a = d.theme.files.pageInfo.hasNextPage ? d.theme.files.pageInfo.endCursor : null;
+      } while (a);
+      const marcas = Object.entries(cont).sort((x, y) => y[1] - x[1] || x[0].localeCompare(y[0]));
+      const blocks: Record<string, any> = {}, ordem: string[] = [], novas: string[] = [], imagensNovas: { nome: string; base64: string }[] = [], semImagem: string[] = [];
+      for (const [v] of marcas) {
+        const ex = antes[v.toLowerCase()];
+        const sl = slug(v);
+        let arquivo = ex?.bl.settings?.arquivo || "";
+        if (!ex?.bl.settings?.logo && (!arquivo || !temImg.has("assets/marca-" + arquivo))) {
+          arquivo = "";
+          if (temImg.has(`assets/marca-${sl}.webp`)) arquivo = sl + ".webp";
+          else {
+            const r = await fetch(`https://raw.githubusercontent.com/brunotae/omg-erp/main/site/marcas/cenas/${sl}.webp`);
+            if (r.ok) {
+              const buf = new Uint8Array(await r.arrayBuffer()); let bin = "";
+              for (let i = 0; i < buf.length; i += 0x8000) bin += String.fromCharCode(...buf.subarray(i, i + 0x8000));
+              imagensNovas.push({ nome: `assets/marca-${sl}.webp`, base64: btoa(bin) }); arquivo = sl + ".webp";
+            } else semImagem.push(v);
+          }
+        }
+        const id = ex?.id || "marca_" + sl.replace(/-/g, "_");
+        blocks[id] = { ...(ex?.bl || { type: "marca" }), settings: { ...(ex?.bl.settings || { nome: v, fornecedor: v, link: "" }), arquivo } };
+        ordem.push(id); if (!ex) novas.push(v);
+      }
+      const saem = Object.keys(antes).filter((k) => !marcas.some(([v]) => v.toLowerCase() === k));
+      // fichas da Bomi da marca escolhida
+      let fichas: any[] = [];
+      if (b.marca) {
+        const SECOES = ["Descrição", "O que vem", "O que vem no kit", "Benefícios", "Indicado para", "Como usar", "Ingredientes principais", "Ingredientes", "Textura", "Cuidados", "Dica"];
+        const ent = (x: string) => x.replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/&#(\d+);/g, (_, n) => String.fromCharCode(+n));
+        const texto = (h: string) => ent(String(h || "").replace(/<style[\s\S]*?<\/style>/gi, " ").replace(/<(br|\/p|\/li|\/h\d|\/summary|\/div)[^>]*>/gi, "\n").replace(/<li[^>]*>/gi, "\n• ").replace(/<[^>]+>/g, " "))
+          .replace(/[ \t\r\f\v]+/g, " ").replace(/\s*\n\s*/g, "\n").trim();
+        const brl = (v: number) => "R$ " + v.toFixed(2).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        a = null;
+        do {
+          const d: any = await gql(`query($a: String, $q: String) { products(first: 100, after: $a, query: $q) { nodes { handle title vendor productType tags descriptionHtml variants(first: 50) { nodes { price } } } pageInfo { hasNextPage endCursor } } }`,
+            { a, q: `status:active AND vendor:"${String(b.marca).replace(/"/g, "")}"` });
+          for (const p of d.products.nodes) {
+            if (p.vendor.toLowerCase() !== String(b.marca).toLowerCase()) continue;
+            const secoes: Record<string, string[]> = {}; let atual = "Descrição";
+            for (const l of texto(p.descriptionHtml).split("\n").map((x) => x.trim()).filter(Boolean)) { if (SECOES.includes(l)) { atual = l; continue; } (secoes[atual] ||= []).push(l); }
+            const pr = [...new Set(p.variants.nodes.map((x: any) => Number(x.price)))].sort((x: any, y: any) => x - y) as number[];
+            fichas.push({ handle: p.handle, nome: p.title, marca: p.vendor, tipo: p.productType || "", tags: (p.tags || []).join(", "),
+              preco: pr.length ? brl(pr[0]) : "", preco_max: pr.length > 1 ? brl(pr[pr.length - 1]) : "",
+              secoes: Object.fromEntries(Object.entries(secoes).map(([k, v]) => [k, v.join(" ").slice(0, 700)])) });
+          }
+          a = d.products.pageInfo.hasNextPage ? d.products.pageInfo.endCursor : null;
+        } while (a);
+      }
+      const plano = { marcas: marcas.length, ordem: marcas.map(([v, n]) => v + " (" + n + ")"), novas, saem, imagens_novas: imagensNovas.map((x) => x.nome), sem_imagem: semImagem, fichas: fichas.length };
+      if (!b.aplicar) return resp(200, { ok: true, aplicado: false, ...plano });
+      sec.blocks = blocks; sec.block_order = ordem;
+      const arqs = [...imagensNovas.map((x) => ({ filename: x.nome, body: { type: "BASE64", value: x.base64 } })), { filename: ARQ, body: { type: "TEXT", value: JSON.stringify(tpl, null, 2) } }];
+      await admin.from("tema_backup").insert({ arquivo: ARQ, conteudo: original });
+      const g: any = await gql(`mutation($id: ID!, $f: [OnlineStoreThemeFilesUpsertFileInput!]!) { themeFilesUpsert(themeId: $id, files: $f) { upsertedThemeFiles { filename } userErrors { filename message } } }`, { id: tema.id, f: arqs });
+      const ue = g.themeFilesUpsert.userErrors; if (ue.length) return resp(422, { erro: ue.map((x: any) => x.filename + ": " + x.message).join("; ") });
+      if (fichas.length) {
+        await admin.from("bomi_fichas_extra").delete().eq("marca", String(fichas[0].marca));
+        const { error } = await admin.from("bomi_fichas_extra").upsert(fichas.map((f) => ({ handle: f.handle, marca: f.marca, ficha: f, atualizado: new Date().toISOString() })));
+        if (error) return resp(500, { erro: "página ok, mas fichas da Bomi falharam: " + error.message, ...plano });
+      }
+      return resp(200, { ok: true, aplicado: true, ...plano });
     }
 
     if (b.acao === "colecoes") {

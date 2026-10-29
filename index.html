@@ -697,7 +697,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v17 · 29/10/2026';
+const VERSAO='v18 · 29/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1225,7 +1225,7 @@ VIEWFN.raiox=()=>{
   '<div class="rx-bar"><i style="width:'+w(b.okA)+';background:var(--ok)"></i><i style="width:'+w(b.okR)+';background:var(--rx-azul,#5B7BC9)"></i><i style="width:'+w(pr)+';background:var(--bad)"></i></div>'+
   '<div class="chips">'+(Object.keys(RX_ERR).filter(k=>b.e[k]).map(k=>'<span class="pill '+RX_ERR[k][2]+'">'+RX_ERR[k][0].toLowerCase()+' '+b.e[k]+(b.eA[k]?' ('+b.eA[k]+' no ar)':'')+'</span>').join('')||'<span class="pill p-ok">sem problema</span>')+'</div></button>'};
  const det=m=>{const its=P.filter(p=>p.m===m&&(!RXUI.err||p.f.includes(RXUI.err))).sort((a,b)=>(b.f.length>0)-(a.f.length>0)||b.a-a.a||a.t.localeCompare(b.t));
-  return '<div class="card rx-det"><div class="rx-mt"><b>'+esc(m)+' · '+its.length+' produtos'+(RXUI.err?' com '+RX_ERR[RXUI.err][0].toLowerCase():'')+'</b><button type="button" class="btn sm" data-rx-m="'+esc(m)+'">Fechar</button></div>'+rxBarraSel(its)+'<div class="tblwrap"><table><thead><tr><th class="rx-ck"><input type="checkbox" class="rx-sel-all" aria-label="Selecionar todos desta lista"'+(its.length&&its.every(p=>RXUI.sel.has(p.id))?' checked':'')+'></th><th>Produto</th><th>SKU</th><th>Status</th><th class="r">Preço</th><th>Situação</th></tr></thead><tbody>'+
+  return '<div class="card rx-det"><div class="rx-mt"><b>'+esc(m)+' · '+its.length+' produtos'+(RXUI.err?' com '+RX_ERR[RXUI.err][0].toLowerCase():'')+'</b><span class="chips">'+(can()&&P.some(p=>p.m===m&&p.a)?'<button type="button" class="btn sm pri" data-rx-pub="'+esc(m)+'"'+(RXUI.pub?' disabled':'')+' title="Põe a marca na página Marcas do site e ensina a Bomi os produtos dela">'+(RXUI.pub?'Publicando…':'Publicar marca no site')+'</button>':'')+'<button type="button" class="btn sm" data-rx-m="'+esc(m)+'">Fechar</button></span></div>'+rxBarraSel(its)+'<div class="tblwrap"><table><thead><tr><th class="rx-ck"><input type="checkbox" class="rx-sel-all" aria-label="Selecionar todos desta lista"'+(its.length&&its.every(p=>RXUI.sel.has(p.id))?' checked':'')+'></th><th>Produto</th><th>SKU</th><th>Status</th><th class="r">Preço</th><th>Situação</th></tr></thead><tbody>'+
   its.map(p=>{const sk=rxSkus(p.id);return '<tr'+(sk[0]?' data-edit="produtos" data-id="'+esc(sk[0].id)+'" title="Abrir no catálogo"':'')+'><td class="rx-ck"><input type="checkbox" class="rx-sel" data-id="'+esc(p.id)+'" aria-label="Selecionar '+esc(p.t)+'"'+(RXUI.sel.has(p.id)?' checked':'')+'></td><td><b>'+esc(p.t)+'</b><small>'+esc(p.h)+(p.par?' · versão completa: '+esc(p.par)+' ('+brl(p.parpr)+')':'')+'</small></td><td class="num">'+(sk.length?sk.slice(0,8).map(x=>{const v=String(x.nome||'').split(' · ').slice(1).join(' · ');return '<b>'+esc(x.sku)+'</b>'+(v||sk.length>1?' <small style="display:inline">'+esc(v||'')+(has(x.preco)?' · '+brl(x.preco):'')+'</small>':'')}).join('<br>')+(sk.length>8?'<br><small>+'+(sk.length-8)+' SKUs</small>':''):'<small>'+p.skus+' SKU'+(p.skus>1?'s':'')+'</small>')+'</td><td><span class="pill '+(p.a?'p-ok">no ar':'p-mute">rascunho')+'</span></td><td class="r num">'+(p.pmax>p.pmin?brl(p.pmin)+'<small>a '+brl(p.pmax)+' (varia por SKU)</small>':brl(p.pmin))+'</td><td><div class="chips">'+(p.f.length?p.f.map(k=>'<span class="pill '+RX_ERR[k][2]+'">'+RX_ERR[k][0].toLowerCase()+'</span>').join(''):'<span class="pill p-ok">ok</span>')+'</div></td></tr>'}).join('')+'</tbody></table></div></div>'};
  let grade='';const ab=L.find(b=>b.m===RXUI.m);if(ab)grade+=card(ab)+det(ab.m);L.forEach(b=>{if(b!==ab)grade+=card(b)});
  const filtros=[['todas','Todas'],['ar','No ar'],['ras','Só rascunho'],['urg','Problema no ar'],['prob','Com problema']].map(([k,l])=>'<button type="button" class="btn sm rx-f" data-rx-f="'+k+'" aria-pressed="'+(RXUI.f===k)+'">'+l+'</button>').join('');
@@ -1268,6 +1268,20 @@ document.addEventListener('click',e=>{
  else{document.querySelectorAll('.rx-det .rx-sel').forEach(c=>{ck.checked?RXUI.sel.add(c.dataset.id):RXUI.sel.delete(c.dataset.id)})}
  const y=scrollY;render();scrollTo(0,y);
 },true);
+async function rxPublicar(m){
+ if(RXUI.pub)return;RXUI.pub=true;render();
+ try{
+  const pl=await chamarShop({acao:'marca_publicar',marca:m});
+  const msg='Publicar '+m+' no site?\n\n• Página Marcas: '+pl.marcas+' marcas com produto no ar'+(pl.novas.length?'\n   entra: '+pl.novas.join(', '):'\n   '+m+' já está na página (só reordena)')+(pl.saem.length?'\n   sai (sem produto no ar): '+pl.saem.join(', '):'')+
+   (pl.imagens_novas.length?'\n• Imagem nova: '+pl.imagens_novas.map(x=>x.replace('assets/marca-','')).join(', '):'')+(pl.sem_imagem.length?'\n• Sem imagem (aparece só o nome): '+pl.sem_imagem.join(', '):'')+
+   '\n• Bomi: '+pl.fichas+' produtos da '+m+' para indicar';
+  if(!confirm(msg)){RXUI.pub=false;render();return}
+  const r=await chamarShop({acao:'marca_publicar',marca:m,aplicar:true});
+  toast(m+' publicada: página Marcas e Bomi ('+r.fichas+' produtos)');
+ }catch(e){alert('Não deu para publicar '+m+': '+e.message)}
+ RXUI.pub=false;render();
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-rx-pub]');if(!b)return;e.stopPropagation();rxPublicar(b.dataset.rxPub)},true);
 document.addEventListener('click',e=>{const b=e.target.closest('[data-rx-lote],[data-rx-limpa]');if(!b)return;if(b.dataset.rxLimpa){RXUI.sel.clear();render();return}rxLote(b.dataset.rxLote)});
 document.addEventListener('click',e=>{
  const t=e.target.closest('#rx-atualizar,[data-rx-f],[data-rx-err],[data-rx-m]');if(!t)return;
@@ -2074,6 +2088,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v18','29/10/2026',['Raio-X: botão Publicar marca no site, dentro da marca aberta. Depois de ativar os produtos de uma marca, ele põe a marca na página Marcas (com a imagem, quando existe) e ensina a Bomi os produtos dela.','A página Marcas passa a mostrar todas as marcas com produto no ar, na ordem de quantidade; marca sem produto no ar sai.']],
  ['v17','29/10/2026',['Raio-X: a marca aberta sobe para o topo, com a lista de produtos logo abaixo.','Cada SKU mostra a variação e o preço (ex.: MH0011-1 · 4 unidades · R$ 61,90).']],
  ['v16','29/10/2026',['Raio-X: marcar produtos e mudar o status em lote (Ativar no site, Passar para rascunho, Arquivar). Ao ativar produto com problema, o ERP pergunta antes.','Arquivados ficam fora da conta do Raio-X.']],
  ['v15','29/10/2026',['Raio-X do catálogo: lê todos os produtos do Shopify e mostra, por marca, o que está no ar, o que está pronto em rascunho e o que tem problema (foto, preço provisório ou suspeito, duplicado, categoria, marca).','Ao abrir uma marca aparecem os produtos com os números de SKU; clicar no produto abre a ficha no Catálogo.']],
