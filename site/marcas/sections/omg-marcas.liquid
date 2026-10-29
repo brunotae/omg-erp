@@ -1,6 +1,6 @@
 {%- comment -%}
   OMG · Página de marcas (cartões horizontais 16:9 com cena de produtos oficiais + logo; nome da marca embaixo)
-  Cada bloco = uma marca. Imagem: escolha no bloco OU informe o nome do arquivo enviado em Conteúdo → Arquivos (ex.: cosrx.webp, 1200×675).
+  Cada bloco = uma marca. Imagem: escolha no bloco OU informe o nome do arquivo do tema assets/marca-<nome>.webp (ex.: cosrx.webp, 1200×675).
   Link: por padrão abre os produtos da marca (/collections/vendors?q=Fornecedor).
 {%- endcomment -%}
 <section class="omg-marcas" id="omg-marcas-{{ section.id }}">
@@ -31,7 +31,7 @@
           {%- if block.settings.logo != blank -%}
             {{ block.settings.logo | image_url: width: 1200 | image_tag: loading: 'lazy', alt: nome, width: 1200, height: 675, sizes: '(min-width: 900px) 25vw, (min-width: 520px) 50vw, 100vw' }}
           {%- elsif block.settings.arquivo != blank -%}
-            <img src="{{ block.settings.arquivo | file_url }}" alt="{{ nome | escape }}" loading="lazy" decoding="async" width="1200" height="675">
+            <img src="{{ 'marca-' | append: block.settings.arquivo | asset_url }}" alt="{{ nome | escape }}" loading="lazy" decoding="async" width="1200" height="675">
           {%- else -%}
             <span class="omg-marcas__vazio-img">{{ nome }}</span>
           {%- endif -%}
@@ -98,7 +98,7 @@
         { "type": "text", "id": "nome", "label": "Nome da marca" },
         { "type": "text", "id": "fornecedor", "label": "Fornecedor no Shopify (se diferente do nome)" },
         { "type": "image_picker", "id": "logo", "label": "Imagem do cartão (opcional, 1200×675)" },
-        { "type": "text", "id": "arquivo", "label": "Arquivo do cartão em Conteúdo → Arquivos", "info": "Ex.: cosrx.webp" },
+        { "type": "text", "id": "arquivo", "label": "Arquivo do cartão (assets/marca-…)", "info": "Ex.: cosrx.webp" },
         { "type": "url", "id": "link", "label": "Link (opcional)", "info": "Em branco = produtos da marca" }
       ]
     }
