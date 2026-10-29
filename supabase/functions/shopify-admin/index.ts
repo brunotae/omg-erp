@@ -12,6 +12,7 @@
 //   { acao: "fotos_refazer", itens: [{ handle, ok, fotos?, oficial?, url?, motivo?, fotos_originais? }] }
 //        → refaz a fila de fotos com a regra rígida; quem não passa e já tinha foto nova volta para a original
 //   { acao: "marca_publicar", marca?, aplicar? } → página Marcas com todas as marcas no ar (+ imagem) e fichas da Bomi da marca
+//   { acao: "link_curto", slug, apagar? }   → ohmygirl.com.br/a/<slug> (link curto das parcerias, conta cliques)
 //   { acao: "pesos", itens: [{ sku, peso_g, dim: [c, l, a] (cm) }] } → grava peso (frete) e dimensões (metafield custom.dimensoes_cm), até 100 por vez
 // Segredos: SHOPIFY_SHOP (ex.: mundo-beleza-9571.myshopify.com), SHOPIFY_API_VERSION (opcional) e
 //   SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET (app do Dev Dashboard; token pedido a cada 24 h por client credentials)
@@ -629,6 +630,27 @@ Deno.serve(async (req) => {
         if (error) return resp(500, { erro: "página ok, mas fichas da Bomi falharam: " + error.message, ...plano });
       }
       return resp(200, { ok: true, aplicado: true, ...plano });
+    }
+
+    if (b.acao === "link_curto") {
+      // Link curto das parcerias: cria (ou apaga) o redirecionamento ohmygirl.com.br/a/<slug> → função "ir" (conta o clique e põe a UTM).
+      // { acao: "link_curto", slug, apagar?: true }
+      const slug = String(b.slug || "").toLowerCase();
+      if (!/^[a-z0-9-]{2,40}$/.test(slug)) return resp(400, { erro: "código do link inválido" });
+      const path = "/a/" + slug, alvo = URL_SB + "/functions/v1/ir?l=" + slug;
+      const d: any = await gql(`query($q: String) { urlRedirects(first: 5, query: $q) { nodes { id path target } } }`, { q: `path:${path}` });
+      const ex = d.urlRedirects.nodes.find((r: any) => r.path === path);
+      if (b.apagar) {
+        if (ex) await gql(`mutation($id: ID!) { urlRedirectDelete(id: $id) { userErrors { message } } }`, { id: ex.id });
+        return resp(200, { ok: true, apagado: !!ex });
+      }
+      if (ex && ex.target === alvo) return resp(200, { ok: true, path, ja_existia: true });
+      const m: any = ex
+        ? await gql(`mutation($id: ID!, $r: UrlRedirectInput!) { urlRedirectUpdate(id: $id, urlRedirect: $r) { urlRedirect { path target } userErrors { message } } }`, { id: ex.id, r: { path, target: alvo } })
+        : await gql(`mutation($r: UrlRedirectInput!) { urlRedirectCreate(urlRedirect: $r) { urlRedirect { path target } userErrors { message } } }`, { r: { path, target: alvo } });
+      const r = ex ? m.urlRedirectUpdate : m.urlRedirectCreate;
+      if (r.userErrors.length) return resp(422, { erro: r.userErrors.map((x: any) => x.message).join("; ") });
+      return resp(200, { ok: true, path: r.urlRedirect.path, target: r.urlRedirect.target });
     }
 
     if (b.acao === "colecoes") {

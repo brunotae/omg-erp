@@ -143,6 +143,10 @@ export function pedidoParaVenda(o) {
       referring_site: o.referring_site || null,
       source_name: o.source_name || null,
       utm: utmDe(o.landing_site),
+      // imposto que já está dentro do preço dos produtos (loja com "preços incluem impostos"): sai da base da comissão de influenciador
+      imposto_incluso: o.taxes_included
+        ? round2((o.tax_lines || []).reduce((t, x) => t + num(x.price_set?.shop_money?.amount ?? x.price), 0))
+        : 0,
       linhas: (o.line_items || []).map((l) => ({ sku: l.sku, title: l.title, qtd: l.quantity, price: l.price })),
     },
   };

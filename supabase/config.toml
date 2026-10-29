@@ -8,3 +8,6 @@ verify_jwt = true
 
 [functions.bomi]
 verify_jwt = false
+
+[functions.ir]
+verify_jwt = false
