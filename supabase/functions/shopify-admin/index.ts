@@ -205,6 +205,36 @@ Deno.serve(async (req) => {
       return resp(200, { ok: true, codigo, id: d.discountCodeBasicCreate.codeDiscountNode.id, clientes: alvo.ids?.length ?? null, sem_cadastro: semCadastro });
     }
 
+    if (b.acao === "tema_ler") {
+      // Lê arquivos do tema publicado (MAIN). b.arquivos: nomes exatos; ou b.busca: texto para filtrar nomes.
+      const t: any = await gql(`{ themes(first: 1, roles: [MAIN]) { nodes { id name } } }`);
+      const tema = t.themes.nodes[0]; if (!tema) throw new Error("sem tema publicado");
+      if (b.busca !== undefined) {
+        const nomes: string[] = []; let after: string | null = null;
+        do {
+          const d: any = await gql(`query($id: ID!, $a: String) { theme(id: $id) { files(first: 250, after: $a) { nodes { filename } pageInfo { hasNextPage endCursor } } } }`, { id: tema.id, a: after });
+          nomes.push(...d.theme.files.nodes.map((f: any) => f.filename));
+          after = d.theme.files.pageInfo.hasNextPage ? d.theme.files.pageInfo.endCursor : null;
+        } while (after);
+        return resp(200, { ok: true, tema: tema.name, arquivos: nomes.filter((n) => n.includes(String(b.busca))) });
+      }
+      const d: any = await gql(`query($id: ID!, $f: [String!]) { theme(id: $id) { files(filenames: $f, first: 50) { nodes { filename body { ... on OnlineStoreThemeFileBodyText { content } } } } } }`, { id: tema.id, f: b.arquivos });
+      return resp(200, { ok: true, tema: tema.name, id: tema.id, arquivos: d.theme.files.nodes.map((f: any) => ({ nome: f.filename, conteudo: f.body?.content ?? null })) });
+    }
+
+    if (b.acao === "tema_gravar") {
+      // Grava arquivos no tema publicado. b.arquivos: [{ nome, conteudo }]. Guarda cópia do original em tema_backup (Supabase).
+      const t: any = await gql(`{ themes(first: 1, roles: [MAIN]) { nodes { id name } } }`);
+      const tema = t.themes.nodes[0]; if (!tema) throw new Error("sem tema publicado");
+      const arqs = (Array.isArray(b.arquivos) ? b.arquivos : []).slice(0, 10);
+      const ant: any = await gql(`query($id: ID!, $f: [String!]) { theme(id: $id) { files(filenames: $f, first: 50) { nodes { filename body { ... on OnlineStoreThemeFileBodyText { content } } } } } }`, { id: tema.id, f: arqs.map((a: any) => a.nome) });
+      const backup = ant.theme.files.nodes.map((f: any) => ({ nome: f.filename, conteudo: f.body?.content ?? null }));
+      const d: any = await gql(`mutation($id: ID!, $f: [OnlineStoreThemeFilesUpsertFileInput!]!) { themeFilesUpsert(themeId: $id, files: $f) { upsertedThemeFiles { filename } userErrors { filename message } } }`,
+        { id: tema.id, f: arqs.map((a: any) => ({ filename: a.nome, body: { type: "TEXT", value: String(a.conteudo) } })) });
+      const ue = d.themeFilesUpsert.userErrors; if (ue.length) return resp(422, { erro: ue.map((x: any) => x.filename + ": " + x.message).join("; "), backup });
+      return resp(200, { ok: true, tema: tema.name, gravados: d.themeFilesUpsert.upsertedThemeFiles.map((x: any) => x.filename), backup });
+    }
+
     if (b.acao === "teste_produtos") {
       // Diagnóstico: passa produtos do Shopify pelo mesmo caminho do aviso products/update e mostra os erros.
       const d: any = await gql(Q_PRODUTOS.replace("first: 50", "first: " + Math.min(Number(b.n) || 50, 50)), { after: b.after ?? null });
