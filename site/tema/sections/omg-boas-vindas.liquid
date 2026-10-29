@@ -1,0 +1,80 @@
+{%- comment -%} OMG · pop-up de boas-vindas (quem é a OMG + cupom de inauguração). Aparece uma vez a cada X dias. {%- endcomment -%}
+{%- unless template.name == 'cart' or template.name == 'password' -%}
+<div class="omg-bv" data-omg-bv data-dias="{{ section.settings.dias }}" data-atraso="{{ section.settings.atraso }}" hidden>
+  <div class="omg-bv__fundo" data-fechar></div>
+  <div class="omg-bv__caixa" role="dialog" aria-modal="true" aria-labelledby="omg-bv-tit">
+    <button type="button" class="omg-bv__x" data-fechar aria-label="Fechar">×</button>
+    {%- if section.settings.imagem != blank -%}
+      <div class="omg-bv__img">{{ section.settings.imagem | image_url: width: 700 | image_tag: loading: 'lazy', alt: '' }}</div>
+    {%- endif -%}
+    <div class="omg-bv__txt">
+      <span class="omg-bv__eti">{{ section.settings.etiqueta }}</span>
+      <h2 id="omg-bv-tit" class="omg-bv__tit">{{ section.settings.titulo }}</h2>
+      <div class="omg-bv__p">{{ section.settings.texto }}</div>
+      {%- if section.settings.cupom != blank -%}
+        <div class="omg-bv__oferta">
+          <span>{{ section.settings.oferta }}</span>
+          <button type="button" class="omg-bv__cupom" data-omg-copiar="{{ section.settings.cupom | escape }}">{{ section.settings.cupom }}<small>toque para copiar</small></button>
+        </div>
+      {%- endif -%}
+      <a href="{{ section.settings.link | default: routes.all_products_collection_url }}" class="omg-bv__btn" data-fechar-ir>{{ section.settings.botao }}</a>
+      <p class="omg-bv__mini">{{ section.settings.rodape }}</p>
+    </div>
+  </div>
+</div>
+<style>
+  .omg-bv{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;padding:16px}
+  .omg-bv[hidden]{display:none}
+  .omg-bv__fundo{position:absolute;inset:0;background:rgba(43,21,32,.55);animation:omg-bv-f .25s}
+  .omg-bv__caixa{position:relative;display:grid;grid-template-columns:{% if section.settings.imagem != blank %}minmax(0,1fr) minmax(0,1.1fr){% else %}1fr{% endif %};width:min(760px,100%);max-height:calc(100vh - 32px);overflow:auto;background:#FFF9F6;border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.25);animation:omg-bv-c .3s}
+  .omg-bv__img img{width:100%;height:100%;object-fit:cover;display:block;min-height:100%}
+  .omg-bv__txt{padding:28px 26px 22px;color:#2b1520}
+  .omg-bv__x{position:absolute;top:8px;right:10px;z-index:1;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.9);font-size:24px;line-height:1;cursor:pointer;color:#4A2638}
+  .omg-bv__eti{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#B83D66;background:#FDEEF3;padding:5px 10px;border-radius:999px}
+  .omg-bv__tit{margin:12px 0 8px;font-size:clamp(22px,2.6vw,30px);line-height:1.15;font-weight:800;color:#2b1520}
+  .omg-bv__p{font-size:14.5px;line-height:1.5;color:#5d4652}
+  .omg-bv__p p{margin:0 0 8px}
+  .omg-bv__oferta{margin:14px 0;padding:12px;border-radius:12px;background:#fff;border:1px solid #F4C4D4;display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:600}
+  .omg-bv__cupom{font:inherit;display:flex;flex-direction:column;align-items:center;gap:2px;border:2px dashed #B83D66;background:#FDEEF3;color:#B83D66;border-radius:10px;padding:8px;font-size:22px;font-weight:800;letter-spacing:.12em;cursor:pointer}
+  .omg-bv__cupom small{font-size:11px;letter-spacing:0;font-weight:500;color:#8a7480}
+  .omg-bv__cupom.ok small::after{content:" · copiado ✓"}
+  .omg-bv__btn{display:block;text-align:center;background:#B83D66;color:#fff;text-decoration:none;font-weight:700;padding:13px 18px;border-radius:999px}
+  .omg-bv__mini{margin:10px 0 0;font-size:11.5px;color:#8a7480;text-align:center}
+  @keyframes omg-bv-f{from{opacity:0}}@keyframes omg-bv-c{from{opacity:0;transform:translateY(12px) scale(.98)}}
+  @media (max-width:749px){.omg-bv__caixa{grid-template-columns:1fr}.omg-bv__img{max-height:170px;overflow:hidden}.omg-bv__txt{padding:20px 18px 18px}}
+</style>
+<script>
+(function(){
+  var b=document.querySelector('[data-omg-bv]'); if(!b||b.__ok) return; b.__ok=1;
+  var K='omg-boas-vindas-visto', dias=+b.dataset.dias||7;
+  var forca=/[?&]bv=1/.test(location.search);
+  try{ var v=+localStorage.getItem(K)||0; if(!forca && Date.now()-v < dias*864e5) return; }catch(e){ if(!forca) return; }
+  function abre(){ b.hidden=false; document.documentElement.style.overflow='hidden'; var x=b.querySelector('.omg-bv__x'); x&&x.focus(); try{localStorage.setItem(K,String(Date.now()))}catch(e){} }
+  function fecha(){ b.hidden=true; document.documentElement.style.overflow=''; }
+  b.querySelectorAll('[data-fechar]').forEach(function(e){ e.addEventListener('click',fecha); });
+  b.querySelector('[data-fechar-ir]').addEventListener('click',fecha);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&!b.hidden) fecha(); });
+  setTimeout(abre,(+b.dataset.atraso||4)*1000);
+})();
+</script>
+{%- endunless -%}
+
+{% schema %}
+{
+  "name": "OMG · Pop-up de boas-vindas",
+  "settings": [
+    { "type": "image_picker", "id": "imagem", "label": "Imagem (lado esquerdo)" },
+    { "type": "text", "id": "etiqueta", "label": "Etiqueta", "default": "Inauguração" },
+    { "type": "text", "id": "titulo", "label": "Título", "default": "Bem-vinda à OMG!" },
+    { "type": "richtext", "id": "texto", "label": "Texto", "default": "<p>Somos uma loja de skincare e maquiagem coreana. Cada pedido sai do nosso estoque oficial na Coreia do Sul, com produtos originais das marcas que fazem sucesso por lá.</p>" },
+    { "type": "text", "id": "oferta", "label": "Oferta", "default": "Para comemorar a inauguração: 10% OFF na sua compra" },
+    { "type": "text", "id": "cupom", "label": "Cupom", "default": "INAUGURA10" },
+    { "type": "text", "id": "botao", "label": "Botão", "default": "Quero conhecer os produtos" },
+    { "type": "url", "id": "link", "label": "Link do botão" },
+    { "type": "text", "id": "rodape", "label": "Texto pequeno", "default": "Cupom válido uma vez por cliente. Use no fechamento do pedido." },
+    { "type": "range", "id": "atraso", "label": "Aparece depois de (segundos)", "min": 1, "max": 20, "step": 1, "default": 4 },
+    { "type": "range", "id": "dias", "label": "Não repete por (dias)", "min": 1, "max": 30, "step": 1, "default": 7 }
+  ],
+  "presets": [{ "name": "OMG · Pop-up de boas-vindas" }]
+}
+{% endschema %}

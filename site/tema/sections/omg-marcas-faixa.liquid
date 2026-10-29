@@ -1,0 +1,42 @@
+{%- comment -%} OMG · faixa de marcas passando (tipo letreiro da bolsa). Para quando o mouse passa por cima. {%- endcomment -%}
+{%- assign marcas = section.settings.marcas | newline_to_br | replace: '<br />', ',' | split: ',' -%}
+<div class="omg-tk" style="--omg-tk-bg:{{ section.settings.cor_fundo }};--omg-tk-fg:{{ section.settings.cor_texto }};--omg-tk-dur:{{ marcas.size | times: section.settings.segundos_por_marca }}s">
+  <div class="omg-tk__trilho">
+    {%- for rodada in (1..2) -%}
+      <ul class="omg-tk__lista"{% if rodada == 2 %} aria-hidden="true"{% endif %}>
+        {%- for m in marcas -%}
+          {%- assign nome = m | strip -%}
+          {%- if nome != blank -%}
+            <li><a href="{{ routes.collections_url }}/vendors?q={{ nome | url_encode }}"{% if rodada == 2 %} tabindex="-1"{% endif %}>{{ nome }}</a><span class="omg-tk__sep" aria-hidden="true">✦</span></li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- endfor -%}
+  </div>
+</div>
+<style>
+  .omg-tk{background:var(--omg-tk-bg);color:var(--omg-tk-fg);overflow:hidden;border-block:1px solid rgba(74,38,56,.08)}
+  .omg-tk__trilho{display:flex;width:max-content;animation:omg-tk var(--omg-tk-dur) linear infinite}
+  .omg-tk:hover .omg-tk__trilho,.omg-tk:focus-within .omg-tk__trilho{animation-play-state:paused}
+  .omg-tk__lista{display:flex;list-style:none;margin:0;padding:0}
+  .omg-tk__lista li{display:flex;align-items:center;white-space:nowrap}
+  .omg-tk__lista a{color:inherit;text-decoration:none;font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:13px;padding:12px 22px}
+  .omg-tk__lista a:hover{text-decoration:underline;text-underline-offset:4px}
+  .omg-tk__sep{opacity:.45;font-size:10px}
+  @keyframes omg-tk{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media (prefers-reduced-motion:reduce){.omg-tk__trilho{animation:none}.omg-tk{overflow-x:auto}}
+  @media (max-width:749px){.omg-tk__lista a{font-size:12px;padding:10px 16px}}
+</style>
+
+{% schema %}
+{
+  "name": "OMG · Faixa de marcas",
+  "settings": [
+    { "type": "textarea", "id": "marcas", "label": "Marcas (uma por linha ou separadas por vírgula)", "default": "COSRX, Anua, SKIN1004, medicube, TIRTIR, Beauty of Joseon, ROUND LAB, celimax" },
+    { "type": "range", "id": "segundos_por_marca", "label": "Velocidade (segundos por marca)", "min": 2, "max": 8, "step": 1, "default": 4 },
+    { "type": "color", "id": "cor_fundo", "label": "Fundo", "default": "#FDEEF3" },
+    { "type": "color", "id": "cor_texto", "label": "Texto", "default": "#4A2638" }
+  ],
+  "presets": [{ "name": "OMG · Faixa de marcas" }]
+}
+{% endschema %}

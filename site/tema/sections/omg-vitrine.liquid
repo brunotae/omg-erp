@@ -1,0 +1,141 @@
+{%- comment -%}
+  OMG · linha de produtos com selos (-X%, Novidade, Hypado) e coração de favoritos.
+  Selo "Hypado": marca está na lista de marcas hypadas (mesma lista do ERP).
+{%- endcomment -%}
+{%- liquid
+  assign col = section.settings.colecao
+  assign hyp = section.settings.hypadas | downcase | split: ','
+  assign agora = 'now' | date: '%s' | plus: 0
+-%}
+{%- if col != blank and col.products_count > 0 -%}
+<section class="omg-vit" data-omg-vit>
+  <div class="omg-vit__cab">
+    <h2 class="omg-vit__tit">{{ section.settings.titulo }}</h2>
+    {%- if section.settings.subtitulo != blank -%}<p class="omg-vit__sub">{{ section.settings.subtitulo }}</p>{%- endif -%}
+    <a class="omg-vit__ver" href="{{ col.url }}">Ver tudo →</a>
+  </div>
+  <div class="omg-vit__wrap">
+    <button type="button" class="omg-vit__seta omg-vit__seta--ant" data-ant aria-label="Anterior">‹</button>
+    <ul class="omg-vit__lista" data-lista>
+      {%- for p in col.products limit: section.settings.quantidade -%}
+        {%- liquid
+          assign pct = 0
+          if p.compare_at_price > p.price
+            assign dif = p.compare_at_price | minus: p.price | times: 100
+            assign pct = dif | divided_by: p.compare_at_price
+          endif
+          assign marca = p.vendor | downcase | strip
+          assign e_hyp = false
+          for h in hyp
+            assign hh = h | strip
+            if hh == marca
+              assign e_hyp = true
+            endif
+          endfor
+          assign criado = p.created_at | date: '%s' | plus: 0
+          assign dias = agora | minus: criado | divided_by: 86400
+          assign e_novo = false
+          if section.settings.selo_novidade == 'sempre'
+            assign e_novo = true
+          elsif section.settings.selo_novidade == 'recente' and dias <= 30
+            assign e_novo = true
+          endif
+          assign nome = p.title
+          assign partes = p.title | split: ': '
+          if partes.size > 1
+            assign nome = partes | last
+            assign nome_en = partes | first
+          else
+            assign nome_en = ''
+          endif
+        -%}
+        <li class="omg-cartao">
+          <a href="{{ p.url }}" class="omg-cartao__img" tabindex="-1" aria-hidden="true">
+            {%- if p.featured_image -%}
+              {{ p.featured_image | image_url: width: 480 | image_tag: loading: 'lazy', widths: '240,360,480', sizes: '(min-width: 990px) 220px, 44vw', alt: p.title }}
+            {%- endif -%}
+          </a>
+          <div class="omg-cartao__selos">
+            {%- if pct > 0 -%}<span class="omg-selo omg-selo--off">-{{ pct }}%</span>{%- endif -%}
+            {%- if e_novo -%}<span class="omg-selo omg-selo--novo">Novidade</span>{%- endif -%}
+            {%- if e_hyp -%}<span class="omg-selo omg-selo--hyp">Hypado</span>{%- endif -%}
+          </div>
+          <button type="button" class="omg-fav" data-omg-fav="{{ p.handle }}" aria-pressed="false" aria-label="Salvar {{ p.title | escape }} nos favoritos"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6h2c.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.8 4.3 7.2C19.5 16.4 12 21 12 21z"/></svg></button>
+          <a href="{{ p.url }}" class="omg-cartao__txt">
+            <span class="omg-cartao__marca">{{ p.vendor }}</span>
+            <span class="omg-cartao__nome">{{ nome | capitalize }}</span>
+            {%- if nome_en != blank -%}<span class="omg-cartao__en">{{ nome_en }}</span>{%- endif -%}
+          </a>
+          <div class="omg-cartao__preco">
+            {%- if pct > 0 -%}<s>{{ p.compare_at_price | money }}</s>{%- endif -%}
+            <strong>{% if p.price_varies %}a partir de {% endif %}{{ p.price | money }}</strong>
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+    <button type="button" class="omg-vit__seta omg-vit__seta--prox" data-prox aria-label="Próximo">›</button>
+  </div>
+</section>
+{%- endif -%}
+<style>
+  .omg-vit{max-width:var(--page-width,1400px);margin:0 auto;padding:{{ section.settings.espaco }}px var(--page-margin,16px)}
+  .omg-vit__cab{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;margin-bottom:14px}
+  .omg-vit__tit{margin:0;font-size:clamp(20px,2vw,26px);font-weight:800;letter-spacing:-.01em;color:#2b1520}
+  .omg-vit__sub{margin:0;color:#7a6470;font-size:14px;flex:1 1 auto}
+  .omg-vit__ver{margin-left:auto;color:#B83D66;font-weight:700;text-decoration:none;font-size:14px;white-space:nowrap}
+  .omg-vit__wrap{position:relative}
+  .omg-vit__lista{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 4*14px)/5);gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;list-style:none;margin:0;padding:2px 2px 8px;scrollbar-width:none}
+  .omg-vit__lista::-webkit-scrollbar{display:none}
+  .omg-vit__seta{position:absolute;top:34%;z-index:2;width:38px;height:38px;border-radius:50%;border:1px solid #eadde3;background:#fff;color:#4A2638;font-size:22px;line-height:1;cursor:pointer;box-shadow:0 2px 8px rgba(74,38,56,.1)}
+  .omg-vit__seta--ant{left:-14px}.omg-vit__seta--prox{right:-14px}
+  .omg-vit__seta[disabled]{opacity:0;pointer-events:none}
+  .omg-cartao{position:relative;scroll-snap-align:start;display:flex;flex-direction:column;gap:6px;min-width:0}
+  .omg-cartao__img{display:block;aspect-ratio:1;background:#fff;border:1px solid #f1e8ec;border-radius:10px;overflow:hidden}
+  .omg-cartao__img img{width:100%;height:100%;object-fit:contain;padding:8%;transition:transform .3s}
+  .omg-cartao:hover .omg-cartao__img img{transform:scale(1.04)}
+  .omg-cartao__selos{position:absolute;top:8px;left:8px;display:flex;flex-direction:column;align-items:flex-start;gap:4px;pointer-events:none}
+  .omg-selo{font-size:11px;font-weight:700;line-height:1;padding:5px 8px;border-radius:4px;letter-spacing:.02em}
+  .omg-selo--off{background:#D63A5E;color:#fff}
+  .omg-selo--novo{background:#2b1520;color:#fff}
+  .omg-selo--hyp{background:#FDEEF3;color:#B83D66;border:1px solid #F4C4D4}
+  .omg-cartao__txt{color:inherit;text-decoration:none;display:flex;flex-direction:column;gap:2px}
+  .omg-cartao__marca{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8a7480}
+  .omg-cartao__nome{font-size:14px;line-height:1.3;color:#2b1520;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .omg-cartao__en{font-size:11px;color:#a08f97;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .omg-cartao__preco{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap;font-size:15px}
+  .omg-cartao__preco s{color:#a08f97;font-size:12px}
+  .omg-cartao__preco strong{color:#2b1520}
+  @media (max-width:989px){.omg-vit__lista{grid-auto-columns:calc((100% - 2*12px)/2.6);gap:12px}.omg-vit__seta{display:none}}
+  @media (max-width:749px){.omg-vit__lista{grid-auto-columns:44%}.omg-vit__cab{margin-bottom:10px}}
+</style>
+<script>
+(function(){
+  document.querySelectorAll('[data-omg-vit]').forEach(function(v){
+    if(v.__ok) return; v.__ok=1;
+    var l=v.querySelector('[data-lista]'), a=v.querySelector('[data-ant]'), p=v.querySelector('[data-prox]');
+    function est(){ a.disabled=l.scrollLeft<8; p.disabled=l.scrollLeft+l.clientWidth>=l.scrollWidth-8; }
+    a.addEventListener('click',function(){ l.scrollBy({left:-l.clientWidth*.9,behavior:'smooth'}); });
+    p.addEventListener('click',function(){ l.scrollBy({left:l.clientWidth*.9,behavior:'smooth'}); });
+    l.addEventListener('scroll',est,{passive:true}); est();
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "OMG · Linha de produtos",
+  "settings": [
+    { "type": "text", "id": "titulo", "label": "Título", "default": "Mais pedidos" },
+    { "type": "text", "id": "subtitulo", "label": "Subtítulo" },
+    { "type": "collection", "id": "colecao", "label": "Coleção" },
+    { "type": "range", "id": "quantidade", "label": "Quantos produtos", "min": 5, "max": 20, "step": 1, "default": 12 },
+    { "type": "select", "id": "selo_novidade", "label": "Selo Novidade", "default": "recente", "options": [
+      { "value": "recente", "label": "Produtos com até 30 dias" },
+      { "value": "sempre", "label": "Todos desta linha" },
+      { "value": "nunca", "label": "Não mostrar" } ] },
+    { "type": "textarea", "id": "hypadas", "label": "Marcas hypadas (selo Hypado), separadas por vírgula", "default": "COSRX,Anua,SKIN1004,Beauty of Joseon,medicube,TIRTIR,ROUND LAB,celimax,BANILA CO,numbuzin,PURITO SEOUL,Rejuran,VT Cosmetics,VT" },
+    { "type": "range", "id": "espaco", "label": "Espaço em cima e embaixo", "min": 8, "max": 64, "step": 4, "default": 28 }
+  ],
+  "presets": [{ "name": "OMG · Linha de produtos" }]
+}
+{% endschema %}

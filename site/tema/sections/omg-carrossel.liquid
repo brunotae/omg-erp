@@ -1,0 +1,127 @@
+{%- comment -%}
+  OMG · banner em carrossel. Cada slide: foto inteira (estilo "foto") ou texto + imagem lado a lado (estilo "dividido").
+  Imagem: escolhida na biblioteca, ou um arquivo do tema (ex.: marca-anua.webp), ou 3 produtos de uma coleção.
+{%- endcomment -%}
+<section class="omg-car" data-omg-car aria-roledescription="carrossel" aria-label="Destaques">
+  <div class="omg-car__trilho" data-trilho tabindex="0">
+    {%- for block in section.blocks -%}
+      {%- assign s = block.settings -%}
+      <article class="omg-car__slide omg-car__slide--{{ s.estilo }}" style="--omg-sb:{{ s.fundo }};--omg-st:{{ s.cor_texto }}" aria-roledescription="slide" aria-label="{{ forloop.index }} de {{ forloop.length }}" {{ block.shopify_attributes }}>
+        <div class="omg-car__midia">
+          {%- liquid
+            assign carregar = 'lazy'
+            if forloop.first
+              assign carregar = 'eager'
+            endif
+            assign alt_txt = s.titulo | strip_html
+          -%}
+          {%- if s.imagem != blank -%}
+            {{ s.imagem | image_url: width: 1800 | image_tag: loading: carregar, widths: '600,900,1200,1800', sizes: '100vw', alt: alt_txt }}
+          {%- elsif s.arquivo_tema != blank -%}
+            <img src="{{ s.arquivo_tema | asset_url }}" alt="{{ s.titulo | strip_html | escape }}" loading="lazy" width="1200" height="675">
+          {%- elsif s.colecao != blank -%}
+            <div class="omg-car__prods">
+              {%- for p in s.colecao.products limit: 3 -%}
+                <a href="{{ p.url }}" class="omg-car__prod">{{ p.featured_image | image_url: width: 500 | image_tag: loading: 'lazy', alt: p.title }}</a>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+        </div>
+        <div class="omg-car__txt">
+          {%- if s.etiqueta != blank -%}<span class="omg-car__eti">{{ s.etiqueta }}</span>{%- endif -%}
+          <h2 class="omg-car__tit">{{ s.titulo }}</h2>
+          {%- if s.texto != blank -%}<p class="omg-car__p">{{ s.texto }}</p>{%- endif -%}
+          {%- if s.botao != blank -%}<a class="omg-car__btn" href="{{ s.link | default: routes.all_products_collection_url }}">{{ s.botao }}</a>{%- endif -%}
+        </div>
+      </article>
+    {%- endfor -%}
+  </div>
+  {%- if section.blocks.size > 1 -%}
+    <button type="button" class="omg-car__seta omg-car__seta--ant" data-ant aria-label="Anterior">‹</button>
+    <button type="button" class="omg-car__seta omg-car__seta--prox" data-prox aria-label="Próximo">›</button>
+    <div class="omg-car__pontos" data-pontos>
+      {%- for block in section.blocks -%}<button type="button" aria-label="Ir para o slide {{ forloop.index }}"{% if forloop.first %} aria-current="true"{% endif %}></button>{%- endfor -%}
+    </div>
+  {%- endif -%}
+</section>
+<style>
+  .omg-car{position:relative;max-width:var(--page-width,1400px);margin:12px auto 0;padding:0 var(--page-margin,16px)}
+  .omg-car__trilho{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:14px;outline:none}
+  .omg-car__trilho::-webkit-scrollbar{display:none}
+  .omg-car__slide{flex:0 0 100%;scroll-snap-align:start;position:relative;height:clamp(300px,34vw,440px);display:grid;background:var(--omg-sb);color:var(--omg-st);overflow:hidden}
+  .omg-car__midia img{width:100%;height:100%;object-fit:cover;display:block}
+  /* foto inteira, texto por cima */
+  .omg-car__slide--foto .omg-car__midia{position:absolute;inset:0}
+  .omg-car__slide--foto .omg-car__midia::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(40,16,28,.62),rgba(40,16,28,.15) 60%,transparent)}
+  .omg-car__slide--foto .omg-car__txt{position:relative;align-self:center;max-width:520px;padding:0 clamp(20px,5vw,64px)}
+  /* dividido: texto à esquerda, imagem à direita */
+  .omg-car__slide--dividido{grid-template-columns:minmax(0,5fr) minmax(0,7fr)}
+  .omg-car__slide--dividido .omg-car__txt{grid-column:1;grid-row:1;align-self:center;padding:0 clamp(20px,4vw,56px)}
+  .omg-car__slide--dividido .omg-car__midia{grid-column:2;grid-row:1;min-height:0}
+  .omg-car__prods{height:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-items:center;padding:24px}
+  .omg-car__prod{background:#fff;border-radius:12px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 6px 20px rgba(74,38,56,.08)}
+  .omg-car__prod img{width:88%;height:88%;object-fit:contain}
+  .omg-car__eti{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.9);color:#B83D66;margin-bottom:12px}
+  .omg-car__tit{margin:0 0 10px;font-size:clamp(24px,3.2vw,42px);line-height:1.1;font-weight:800;color:inherit}
+  .omg-car__p{margin:0 0 18px;font-size:clamp(14px,1.2vw,17px);line-height:1.45;opacity:.92}
+  .omg-car__btn{display:inline-block;background:#B83D66;color:#fff;text-decoration:none;font-weight:700;padding:12px 22px;border-radius:999px;font-size:15px}
+  .omg-car__btn:hover{background:#9c2f55}
+  .omg-car__seta{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;border:0;background:rgba(255,255,255,.85);color:#4A2638;font-size:26px;line-height:1;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+  .omg-car__seta--ant{left:calc(var(--page-margin,16px) + 10px)}.omg-car__seta--prox{right:calc(var(--page-margin,16px) + 10px)}
+  .omg-car__pontos{display:flex;justify-content:center;gap:8px;padding:10px 0 0}
+  .omg-car__pontos button{width:8px;height:8px;border-radius:999px;border:0;background:#E6D9DF;padding:0;cursor:pointer;transition:width .2s}
+  .omg-car__pontos button[aria-current="true"]{width:22px;background:#B83D66}
+  @media (max-width:749px){
+    .omg-car{padding:0 12px;margin-top:8px}
+    .omg-car__slide{height:auto;min-height:0}
+    .omg-car__slide--foto{height:340px}
+    .omg-car__slide--dividido{grid-template-columns:1fr;grid-template-rows:auto auto}
+    .omg-car__slide--dividido .omg-car__midia{grid-column:1;grid-row:1;aspect-ratio:16/9}
+    .omg-car__slide--dividido .omg-car__txt{grid-column:1;grid-row:2;padding:16px 18px 20px}
+    .omg-car__prods{padding:12px;gap:8px}
+    .omg-car__seta{display:none}
+  }
+</style>
+<script>
+(function(){
+  var r=document.querySelectorAll('[data-omg-car]'); r=r[r.length-1]; if(!r||r.__ok) return; r.__ok=1;
+  var t=r.querySelector('[data-trilho]'), sl=t.children, pts=r.querySelectorAll('[data-pontos] button'), n=sl.length, i=0, tm;
+  if(n<2) return;
+  function ir(k){ i=(k+n)%n; t.scrollTo({left:t.clientWidth*i,behavior:'smooth'}); }
+  function marca(){ i=Math.round(t.scrollLeft/t.clientWidth); pts.forEach(function(b,j){ b.setAttribute('aria-current', j===i?'true':'false'); }); }
+  function auto(){ clearInterval(tm); if(!matchMedia('(prefers-reduced-motion: reduce)').matches) tm=setInterval(function(){ if(!r.matches(':hover') && !document.hidden) ir(i+1); }, 6000); }
+  t.addEventListener('scroll', function(){ clearTimeout(t.__s); t.__s=setTimeout(marca,80); }, {passive:true});
+  r.querySelector('[data-ant]').addEventListener('click', function(){ ir(i-1); auto(); });
+  r.querySelector('[data-prox]').addEventListener('click', function(){ ir(i+1); auto(); });
+  pts.forEach(function(b,j){ b.addEventListener('click', function(){ ir(j); auto(); }); });
+  t.addEventListener('pointerdown', auto); auto();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "OMG · Banner carrossel",
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        { "type": "select", "id": "estilo", "label": "Estilo", "default": "dividido", "options": [
+          { "value": "foto", "label": "Foto inteira com texto por cima" },
+          { "value": "dividido", "label": "Texto e imagem lado a lado" } ] },
+        { "type": "image_picker", "id": "imagem", "label": "Imagem" },
+        { "type": "text", "id": "arquivo_tema", "label": "Ou arquivo do tema (ex.: marca-anua.webp)" },
+        { "type": "collection", "id": "colecao", "label": "Ou 3 produtos desta coleção" },
+        { "type": "text", "id": "etiqueta", "label": "Etiqueta" },
+        { "type": "text", "id": "titulo", "label": "Título", "default": "Título" },
+        { "type": "textarea", "id": "texto", "label": "Texto" },
+        { "type": "text", "id": "botao", "label": "Botão", "default": "Ver produtos" },
+        { "type": "url", "id": "link", "label": "Link do botão" },
+        { "type": "color", "id": "fundo", "label": "Fundo", "default": "#FDEEF3" },
+        { "type": "color", "id": "cor_texto", "label": "Cor do texto", "default": "#4A2638" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "OMG · Banner carrossel" }]
+}
+{% endschema %}

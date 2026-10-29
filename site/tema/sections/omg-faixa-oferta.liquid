@@ -1,0 +1,48 @@
+{%- comment -%} OMG · faixa de oferta no topo (cupom de inauguração). Fica no grupo do cabeçalho. {%- endcomment -%}
+{%- liquid
+  assign msgs = ''
+  if section.settings.texto_2 != blank
+    assign tem2 = true
+  endif
+-%}
+<div class="omg-faixa" style="--omg-fb:{{ section.settings.cor_fundo }};--omg-ft:{{ section.settings.cor_texto }}" data-omg-faixa>
+  <p class="omg-faixa__msg is-on">
+    {{ section.settings.texto_1 }}
+    {%- if section.settings.cupom != blank -%}
+      <button type="button" class="omg-faixa__cupom" data-omg-copiar="{{ section.settings.cupom | escape }}" title="Copiar cupom">{{ section.settings.cupom }}</button>
+    {%- endif -%}
+  </p>
+  {%- if tem2 -%}<p class="omg-faixa__msg">{{ section.settings.texto_2 }}</p>{%- endif -%}
+</div>
+<style>
+  .omg-faixa{background:var(--omg-fb);color:var(--omg-ft);position:relative;height:36px;overflow:hidden;font-size:13px;letter-spacing:.02em}
+  .omg-faixa__msg{position:absolute;inset:0;margin:0;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 12px;text-align:center;opacity:0;transform:translateY(6px);transition:opacity .5s,transform .5s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .omg-faixa__msg.is-on{opacity:1;transform:none}
+  .omg-faixa__cupom{font:inherit;font-weight:700;letter-spacing:.06em;border:1px dashed currentColor;background:transparent;color:inherit;border-radius:6px;padding:2px 8px;cursor:pointer}
+  .omg-faixa__cupom.ok::after{content:" ✓ copiado"}
+  @media (max-width:749px){.omg-faixa{font-size:12px}}
+  @media (prefers-reduced-motion:reduce){.omg-faixa__msg{transition:none}}
+</style>
+<script>
+(function(){
+  var f=document.currentScript.previousElementSibling.previousElementSibling; if(!f||!f.matches('[data-omg-faixa]')) f=document.querySelector('[data-omg-faixa]');
+  var m=f.querySelectorAll('.omg-faixa__msg'), i=0;
+  if(m.length>1) setInterval(function(){ if(f.matches(':hover')) return; m[i].classList.remove('is-on'); i=(i+1)%m.length; m[i].classList.add('is-on'); }, 5000);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "OMG · Faixa de oferta",
+  "class": "omg-faixa-sec",
+  "enabled_on": { "groups": ["header"] },
+  "settings": [
+    { "type": "text", "id": "texto_1", "label": "Mensagem 1", "default": "Inauguração OMG: 10% OFF na sua compra com o cupom" },
+    { "type": "text", "id": "cupom", "label": "Cupom (clicar copia)", "default": "INAUGURA10" },
+    { "type": "text", "id": "texto_2", "label": "Mensagem 2 (alterna a cada 5 s)", "default": "Skincare e maquiagem coreana original, do nosso estoque oficial na Coreia do Sul" },
+    { "type": "color", "id": "cor_fundo", "label": "Fundo", "default": "#4A2638" },
+    { "type": "color", "id": "cor_texto", "label": "Texto", "default": "#FFFFFF" }
+  ],
+  "presets": [{ "name": "OMG · Faixa de oferta" }]
+}
+{% endschema %}

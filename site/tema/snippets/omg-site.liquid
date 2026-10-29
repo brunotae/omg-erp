@@ -1,0 +1,96 @@
+{%- comment -%}
+  OMG · recursos do site inteiro (incluído no layout/theme.liquid antes de </body>):
+  1) copiar cupom: qualquer botão com data-omg-copiar="CODIGO"
+  2) favoritos (coração): guardados neste aparelho (localStorage "omg-favs"); coração nos cartões e na página do produto,
+     atalho no cabeçalho e lista em /pages/favoritos (div #omg-favoritos-lista).
+{%- endcomment -%}
+<style>
+  .omg-fav{position:absolute;top:8px;right:8px;z-index:3;width:34px;height:34px;border-radius:50%;border:0;background:rgba(255,255,255,.92);box-shadow:0 1px 6px rgba(74,38,56,.14);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;transition:transform .15s}
+  .omg-fav svg{width:18px;height:18px;fill:none;stroke:#4A2638;stroke-width:1.8}
+  .omg-fav[aria-pressed="true"] svg{fill:#D63A5E;stroke:#D63A5E}
+  .omg-fav:active{transform:scale(.9)}
+  product-card{position:relative}
+  .omg-fav-pdp{display:inline-flex;align-items:center;gap:8px;margin-top:10px;font:inherit;font-size:14px;font-weight:600;background:#fff;color:#4A2638;border:1px solid #E6D9DF;border-radius:999px;padding:9px 16px;cursor:pointer}
+  .omg-fav-pdp svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8}
+  .omg-fav-pdp[aria-pressed="true"]{border-color:#D63A5E;color:#D63A5E}
+  .omg-fav-pdp[aria-pressed="true"] svg{fill:#D63A5E;stroke:#D63A5E}
+  .omg-fav-topo{position:relative;display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;color:inherit}
+  .omg-fav-topo svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7}
+  .omg-fav-topo b{position:absolute;top:3px;right:1px;min-width:17px;height:17px;border-radius:999px;background:#D63A5E;color:#fff;font-size:10px;line-height:17px;text-align:center;padding:0 4px}
+  .omg-fav-topo b:empty{display:none}
+  .omg-favs-grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;list-style:none;padding:0;margin:16px 0}
+  .omg-favs-vazio{padding:28px;border:1px dashed #E6D9DF;border-radius:14px;text-align:center;color:#7a6470}
+  .omg-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:2147483001;background:#2b1520;color:#fff;padding:10px 16px;border-radius:999px;font-size:14px;box-shadow:0 6px 20px rgba(0,0,0,.2);opacity:0;transition:opacity .25s;pointer-events:none}
+  .omg-toast.on{opacity:1}
+</style>
+<script>
+(function(){
+  if(window.__omgSite) return; window.__omgSite=1;
+  var K='omg-favs', SVG='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6h2c.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.8 4.3 7.2C19.5 16.4 12 21 12 21z"/></svg>';
+  function ler(){ try{ return JSON.parse(localStorage.getItem(K)||'[]'); }catch(e){ return []; } }
+  function gravar(l){ try{ localStorage.setItem(K,JSON.stringify(l)); }catch(e){} }
+  function toast(t){ var e=document.querySelector('.omg-toast'); if(!e){ e=document.createElement('div'); e.className='omg-toast'; e.setAttribute('role','status'); document.body.appendChild(e); } e.textContent=t; e.classList.add('on'); clearTimeout(e.__t); e.__t=setTimeout(function(){ e.classList.remove('on'); },1800); }
+  function sync(){ var l=ler(); document.querySelectorAll('[data-omg-fav]').forEach(function(b){ b.setAttribute('aria-pressed', l.indexOf(b.dataset.omgFav)>-1?'true':'false'); var t=b.querySelector('[data-rot]'); if(t) t.textContent=l.indexOf(b.dataset.omgFav)>-1?'Nos seus favoritos':'Salvar nos favoritos'; }); document.querySelectorAll('.omg-fav-topo b').forEach(function(b){ b.textContent=l.length||''; }); }
+  window.omgFavSync=sync;
+
+  // cliques: favoritar e copiar cupom
+  document.addEventListener('click',function(e){
+    var f=e.target.closest('[data-omg-fav]');
+    if(f){ e.preventDefault(); e.stopPropagation(); var h=f.dataset.omgFav, l=ler(), i=l.indexOf(h);
+      if(i>-1){ l.splice(i,1); toast('Tirado dos favoritos'); } else { l.unshift(h); toast('Salvo nos favoritos ♥'); }
+      gravar(l.slice(0,200)); sync(); if(document.getElementById('omg-favoritos-lista') && i>-1) lista(); return; }
+    var c=e.target.closest('[data-omg-copiar]');
+    if(c){ var code=c.dataset.omgCopiar; var ok=function(){ c.classList.add('ok'); toast('Cupom '+code+' copiado'); setTimeout(function(){ c.classList.remove('ok'); },2500); };
+      if(navigator.clipboard) navigator.clipboard.writeText(code).then(ok,ok); else ok(); }
+  }, true);
+
+  // coração nos cartões do tema (páginas de coleção, busca)
+  function handleDe(a){ var m=(a.getAttribute('href')||'').match(/\/products\/([^/?#]+)/); return m?decodeURIComponent(m[1]):''; }
+  function cartoes(raiz){
+    (raiz||document).querySelectorAll('product-card:not([data-omg-f])').forEach(function(pc){
+      pc.setAttribute('data-omg-f','1'); var a=pc.querySelector('a[href*="/products/"]'); if(!a) return; var h=handleDe(a); if(!h) return;
+      var b=document.createElement('button'); b.type='button'; b.className='omg-fav'; b.dataset.omgFav=h; b.setAttribute('aria-label','Salvar nos favoritos'); b.innerHTML=SVG; pc.appendChild(b);
+    });
+  }
+  // página do produto: botão abaixo do "Adicionar ao carrinho"
+  function pdp(){
+    if(!/\/products\//.test(location.pathname) || document.querySelector('.omg-fav-pdp')) return;
+    var form=document.querySelector('main form[action*="/cart/add"]'); if(!form) return;
+    var h=decodeURIComponent(location.pathname.split('/products/')[1].split(/[/?#]/)[0]);
+    var b=document.createElement('button'); b.type='button'; b.className='omg-fav-pdp'; b.dataset.omgFav=h; b.innerHTML=SVG+'<span data-rot>Salvar nos favoritos</span>';
+    form.insertAdjacentElement('afterend',b);
+  }
+  // atalho no cabeçalho, ao lado do carrinho
+  function topo(){
+    if(document.querySelector('.omg-fav-topo')) return;
+    var cart=document.querySelector('header a[href$="/cart"], header cart-icon, header [href*="/cart"]'); if(!cart) return;
+    var alvo=cart.closest('cart-drawer-component, .header-actions__cart-icon, li') || cart;
+    var a=document.createElement('a'); a.href='/pages/favoritos'; a.className='omg-fav-topo'; a.setAttribute('aria-label','Meus favoritos'); a.innerHTML=SVG+'<b></b>';
+    alvo.parentNode.insertBefore(a,alvo);
+  }
+  // lista em /pages/favoritos
+  function preco(c){ return (c/100).toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); }
+  function esc(s){ return String(s||'').replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function lista(){
+    var box=document.getElementById('omg-favoritos-lista'); if(!box) return; var l=ler();
+    if(!l.length){ box.innerHTML='<div class="omg-favs-vazio"><p><strong>Você ainda não salvou nenhum produto.</strong></p><p>Toque no coração ♡ dos produtos para guardar aqui e comparar depois.</p><p><a href="/collections/all">Ver produtos</a></p></div>'; return; }
+    box.innerHTML='<p>Carregando seus favoritos…</p>';
+    Promise.all(l.map(function(h){ return fetch('/products/'+encodeURIComponent(h)+'.js').then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; }); })).then(function(ps){
+      ps=ps.filter(Boolean);
+      box.innerHTML='<p>'+ps.length+(ps.length===1?' produto salvo':' produtos salvos')+' neste aparelho.</p><ul class="omg-favs-grade">'+ps.map(function(p){
+        var img=p.featured_image?(p.featured_image.indexOf('?')>-1?p.featured_image+'&width=400':p.featured_image+'?width=400'):'';
+        var nome=p.title.split(': '); nome=nome.length>1?nome.slice(1).join(': '):p.title;
+        var off=p.compare_at_price>p.price?'<s style="color:#a08f97;font-size:12px">'+preco(p.compare_at_price)+'</s> ':'';
+        return '<li class="omg-cartao"><a class="omg-cartao__img" href="'+esc(p.url)+'">'+(img?'<img src="'+esc(img)+'" alt="'+esc(p.title)+'" loading="lazy">':'')+'</a><button type="button" class="omg-fav" data-omg-fav="'+esc(p.handle)+'" aria-pressed="true" aria-label="Tirar dos favoritos">'+SVG+'</button><a class="omg-cartao__txt" href="'+esc(p.url)+'"><span class="omg-cartao__marca">'+esc(p.vendor)+'</span><span class="omg-cartao__nome">'+esc(nome)+'</span></a><div class="omg-cartao__preco">'+off+'<strong>'+preco(p.price)+'</strong></div></li>';
+      }).join('')+'</ul>';
+    });
+  }
+  // estilo do cartão (para a página de favoritos, que não tem a seção da vitrine)
+  if(!document.querySelector('[data-omg-vit]')){ var st=document.createElement('style'); st.textContent='.omg-cartao{position:relative;display:flex;flex-direction:column;gap:6px}.omg-cartao__img{display:block;aspect-ratio:1;background:#fff;border:1px solid #f1e8ec;border-radius:10px;overflow:hidden}.omg-cartao__img img{width:100%;height:100%;object-fit:contain;padding:8%}.omg-cartao__txt{color:inherit;text-decoration:none;display:flex;flex-direction:column;gap:2px}.omg-cartao__marca{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8a7480}.omg-cartao__nome{font-size:14px;line-height:1.3}.omg-cartao__preco{font-size:15px}'; document.head.appendChild(st); }
+
+  function tudo(){ cartoes(); pdp(); topo(); sync(); }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){ tudo(); lista(); }); else { tudo(); lista(); }
+  new MutationObserver(function(ms){ for(var i=0;i<ms.length;i++){ if(ms[i].addedNodes.length){ clearTimeout(window.__omgMo); window.__omgMo=setTimeout(tudo,150); break; } } }).observe(document.documentElement,{childList:true,subtree:true});
+  window.addEventListener('storage',function(e){ if(e.key===K) sync(); });
+})();
+</script>
