@@ -1680,7 +1680,7 @@ async function cuponsImportar(btn){
  try{
   const d=await chamarShop({acao:'cupons_listar'});const lista=d.cupons||[];let novos=0,atual=0;
   for(const c of lista){
-   const cod=String(c.codigo).toUpperCase(), ativo=c.status==='ACTIVE', fim=c.fim?String(c.fim).slice(0,10):null;
+   const cod=String(c.codigo).toUpperCase(), ativo=c.status==='ACTIVE', fim=c.fim?new Intl.DateTimeFormat('en-CA',{timeZone:'America/Sao_Paulo'}).format(new Date(c.fim)):null;
    const ex=S.data.cupons.find(x=>String(x.codigo).toUpperCase()===cod);
    if(ex){const mud={};if(!!ex.ativo!==ativo)mud.ativo=ativo;if(fim&&ex.validade!==fim)mud.validade=fim;if(!/DiscountCodeNode\//.test(ex.obs||''))mud.obs=(ex.obs?ex.obs+' · ':'')+'Shopify: '+c.id;
     if(Object.keys(mud).length){await save('cupons',ex,mud);atual++}continue}
