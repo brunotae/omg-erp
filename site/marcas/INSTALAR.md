@@ -35,3 +35,7 @@ Marca nova: gere o cartão com `python3 tools/marcas/compor_cenas.py nome-da-mar
 
 - **Fotos dos produtos:** vêm só dos sites oficiais das marcas (lista em `fontes_fundos.csv`), escolhidas à mão: só fotos de produto, sem pessoas, preços ou selos de outras lojas. O fundo foi removido automaticamente (GitHub Action *recortar-fundos*). Para refazer: `python3 tools/marcas/compor_cenas.py` e depois `python3 tools/marcas/gerar_preview.py`.
 - **A melhorar:** recortes um pouco inclinados em Torriden, ROUND LAB (pote) e ma:nyo; logos finos/pequenos em Beauty of Joseon e SKIN1004. As 30 cenas decorativas mudam só de cor.
+
+## Instalado em 29/10/2026
+- Instalado pelo ERP (sem upload manual): os cartões estão no **tema** como `assets/marca-<nome>.webp` (não em Conteúdo → Arquivos), e a seção usa `asset_url`.
+- Só as **18 marcas com produto à venda**, em ordem de nº de produtos. Marca nova: subir `assets/marca-<nome>.webp` no tema e adicionar um bloco *Marca* com `arquivo` = `<nome>.webp`.
