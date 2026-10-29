@@ -14,6 +14,7 @@
 //   { acao: "marca_publicar", marca?, aplicar? } → página Marcas com todas as marcas no ar (+ imagem) e fichas da Bomi da marca
 //   { acao: "link_curto", slug, apagar? }   → ohmygirl.com.br/a/<slug> (link curto das parcerias, conta cliques)
 //   { acao: "cupons_listar" }               → todos os cupons de código do Shopify (para importar no ERP)
+//   { acao: "tema_duplicar" | "tema_copiar" | "colecao_criar" | "menu_arvore" } → ver cada bloco abaixo
 //   { acao: "pesos", itens: [{ sku, peso_g, dim: [c, l, a] (cm) }] } → grava peso (frete) e dimensões (metafield custom.dimensoes_cm), até 100 por vez
 // Segredos: SHOPIFY_SHOP (ex.: mundo-beleza-9571.myshopify.com), SHOPIFY_API_VERSION (opcional) e
 //   SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET (app do Dev Dashboard; token pedido a cada 24 h por client credentials)
@@ -235,6 +236,66 @@ Deno.serve(async (req) => {
       return resp(200, { ok: true, tema: tema.name, id: tema.id, arquivos: d.theme.files.nodes.map((f: any) => ({ nome: f.filename, conteudo: f.body?.content ?? null })) });
     }
 
+    if (b.acao === "tema_duplicar") {
+      // Cópia de segurança do tema publicado inteiro (fica em Loja virtual › Temas, não publicada). { nome? }
+      const t: any = await gql(`{ themes(first: 1, roles: [MAIN]) { nodes { id name } } }`);
+      const tema = t.themes.nodes[0]; if (!tema) throw new Error("sem tema publicado");
+      const d: any = await gql(`mutation($id: ID!, $n: String) { themeDuplicate(id: $id, name: $n) { newTheme { id name } userErrors { message } } }`,
+        { id: tema.id, n: String(b.nome || ("Cópia " + tema.name)).slice(0, 50) });
+      const e = d.themeDuplicate.userErrors; if (e.length) return resp(422, { erro: e[0].message });
+      return resp(200, { ok: true, copia: d.themeDuplicate.newTheme });
+    }
+
+    if (b.acao === "tema_copiar") {
+      // Guarda arquivos do tema publicado na tabela tema_backup (para consulta). { arquivos: [..] }
+      const t: any = await gql(`{ themes(first: 1, roles: [MAIN]) { nodes { id name } } }`);
+      const tema = t.themes.nodes[0]; if (!tema) throw new Error("sem tema publicado");
+      const d: any = await gql(`query($id: ID!, $f: [String!]) { theme(id: $id) { files(filenames: $f, first: 50) { nodes { filename body { ... on OnlineStoreThemeFileBodyText { content } } } } } }`, { id: tema.id, f: b.arquivos });
+      const rows = d.theme.files.nodes.map((f: any) => ({ arquivo: f.filename, conteudo: f.body?.content ?? null }));
+      if (rows.length) await admin.from("tema_backup").insert(rows);
+      return resp(200, { ok: true, copiados: rows.map((r: any) => r.arquivo) });
+    }
+
+    if (b.acao === "colecao_criar") {
+      // Cria (ou atualiza) coleção automática por regra e publica na loja.
+      // { handle, titulo, descricao?, ou?: true, regras: [{ column: "TITLE"|"TAG"|"VENDOR"|"TYPE"|"VARIANT_PRICE"…, relation: "CONTAINS"|"EQUALS"…, condition }], ordem?: "BEST_SELLING"|"CREATED_DESC"… }
+      const ruleSet = { appliedDisjunctively: !!b.ou, rules: (b.regras || []).map((r: any) => ({ column: r.column, relation: r.relation, condition: String(r.condition) })) };
+      const q: any = await gql(`query($h: String!) { collectionByIdentifier(identifier: { handle: $h }) { id } }`, { h: String(b.handle) });
+      const ex = q.collectionByIdentifier;
+      const input: any = { title: String(b.titulo), handle: String(b.handle), ruleSet, sortOrder: b.ordem || "BEST_SELLING" };
+      if (b.descricao !== undefined) input.descriptionHtml = String(b.descricao);
+      let id: string;
+      if (ex) {
+        const d: any = await gql(`mutation($i: CollectionInput!) { collectionUpdate(input: $i) { collection { id } userErrors { message } } }`, { i: { ...input, id: ex.id } });
+        if (d.collectionUpdate.userErrors.length) return resp(422, { erro: d.collectionUpdate.userErrors[0].message });
+        id = ex.id;
+      } else {
+        const d: any = await gql(`mutation($i: CollectionInput!) { collectionCreate(input: $i) { collection { id } userErrors { message } } }`, { i: input });
+        if (d.collectionCreate.userErrors.length) return resp(422, { erro: d.collectionCreate.userErrors[0].message });
+        id = d.collectionCreate.collection.id;
+      }
+      // publica em todos os canais (loja virtual incluída)
+      const pubs: any = await gql(`{ publications(first: 20) { nodes { id name } } }`);
+      await gql(`mutation($id: ID!, $p: [PublicationInput!]!) { publishablePublish(id: $id, input: $p) { userErrors { message } } }`,
+        { id, p: pubs.publications.nodes.map((p: any) => ({ publicationId: p.id })) });
+      const c: any = await gql(`query($id: ID!) { collection(id: $id) { handle productsCount { count } } }`, { id });
+      return resp(200, { ok: true, criada: !ex, handle: c.collection.handle, produtos: c.collection.productsCount?.count ?? null });
+    }
+
+    if (b.acao === "menu_arvore") {
+      // Cria ou substitui um menu com subitens: { handle, titulo, itens: [{ titulo, url, itens?: [{ titulo, url, itens? }] }] }
+      const conv = (i: any): any => ({ title: String(i.titulo), type: "HTTP", url: String(i.url), items: (Array.isArray(i.itens) ? i.itens : []).map(conv) });
+      const itens = (Array.isArray(b.itens) ? b.itens : []).map(conv);
+      const q: any = await gql(`{ menus(first: 50) { nodes { id handle } } }`);
+      const ex = q.menus.nodes.find((m: any) => m.handle === b.handle);
+      const d: any = ex
+        ? await gql(`mutation($id: ID!, $t: String!, $h: String, $i: [MenuItemUpdateInput!]!) { menuUpdate(id: $id, title: $t, handle: $h, items: $i) { menu { id handle } userErrors { message } } }`, { id: ex.id, t: String(b.titulo), h: b.handle, i: itens })
+        : await gql(`mutation($t: String!, $h: String!, $i: [MenuItemCreateInput!]!) { menuCreate(title: $t, handle: $h, items: $i) { menu { id handle } userErrors { message } } }`, { t: String(b.titulo), h: String(b.handle), i: itens });
+      const r = d.menuUpdate || d.menuCreate;
+      if (r.userErrors.length) return resp(422, { erro: r.userErrors.map((x: any) => x.message).join("; ") });
+      return resp(200, { ok: true, menu: r.menu, criado: !ex });
+    }
+
     if (b.acao === "tema_gravar") {
       // Grava arquivos no tema publicado. b.arquivos: [{ nome, conteudo }]. Guarda cópia do original em tema_backup (Supabase).
       const t: any = await gql(`{ themes(first: 1, roles: [MAIN]) { nodes { id name } } }`);
@@ -242,6 +303,7 @@ Deno.serve(async (req) => {
       const arqs = (Array.isArray(b.arquivos) ? b.arquivos : []).slice(0, 10);
       const ant: any = await gql(`query($id: ID!, $f: [String!]) { theme(id: $id) { files(filenames: $f, first: 50) { nodes { filename body { ... on OnlineStoreThemeFileBodyText { content } } } } } }`, { id: tema.id, f: arqs.map((a: any) => a.nome) });
       const backup = ant.theme.files.nodes.map((f: any) => ({ nome: f.filename, conteudo: f.body?.content ?? null }));
+      if (backup.length) await admin.from("tema_backup").insert(backup.map((x: any) => ({ arquivo: x.nome, conteudo: x.conteudo })));
       const d: any = await gql(`mutation($id: ID!, $f: [OnlineStoreThemeFilesUpsertFileInput!]!) { themeFilesUpsert(themeId: $id, files: $f) { upsertedThemeFiles { filename } userErrors { filename message } } }`,
         { id: tema.id, f: arqs.map((a: any) => ({ filename: a.nome, body: a.base64 ? { type: "BASE64", value: String(a.base64) } : { type: "TEXT", value: String(a.conteudo) } })) });
       const ue = d.themeFilesUpsert.userErrors; if (ue.length) return resp(422, { erro: ue.map((x: any) => x.filename + ": " + x.message).join("; "), backup });
