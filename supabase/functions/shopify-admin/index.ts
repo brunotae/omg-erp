@@ -434,11 +434,11 @@ Deno.serve(async (req) => {
         [/pre[cç]o/i, CA + "#o-preco-do-site-ja-inclui-impostos", "Central de Ajuda · Preços"],
         [/troca|devolu|reembolso/i, "/policies/refund-policy", "Política de Trocas e Devoluções"],
         [/sobre os produtos|original|autentic/i, CA + "#cat-autenticidade", "Central de Ajuda · Originalidade"],
+        [/rastrei|acompanh/i, "/pages/acompanhe-seu-pedido", "Acompanhe seu pedido"],
         [/pedido|\bconta\b/i, CA + "#cat-pedidos", "Central de Ajuda · Pedidos"],
-        [/rastrei/i, CA + "#cat-rastreio", "Central de Ajuda · Rastreio"],
         [/faq|perguntas|d[uú]vidas|ajuda/i, CA, "Central de Ajuda"],
       ];
-      const NOSSAS = new Set(["central-de-ajuda", "cookies", "contact", "contato"]);
+      const NOSSAS = new Set(["central-de-ajuda", "cookies", "contact", "contato", "acompanhe-seu-pedido"]);
       const pg: any = await gql(`{ pages(first: 100) { nodes { id handle title isPublished } } }`);
       const antigas = new Map<string, any>();
       for (const p of pg.pages.nodes) {
@@ -467,6 +467,9 @@ Deno.serve(async (req) => {
         const temAntiga = plano.some((p) => p.menu === x.m.title);
         const jaTem = JSON.stringify(x.items).includes(CA + '"') || x.items.some((i: any) => /central de ajuda/i.test(i.title));
         if (temAntiga && !jaTem) { x.items.unshift({ title: "Central de Ajuda", type: "HTTP", url: CA, items: [] }); plano.push({ menu: x.m.title, item: "Central de Ajuda", de: "(novo)", para: CA }); }
+        const AP = "/pages/acompanhe-seu-pedido";
+        const temAcomp = JSON.stringify(x.items).includes(AP) || x.items.some((i: any) => /acompanhe/i.test(i.title));
+        if ((temAntiga || jaTem) && !temAcomp) { x.items.splice(1, 0, { title: "Acompanhe seu pedido", type: "HTTP", url: AP, items: [] }); plano.push({ menu: x.m.title, item: "Acompanhe seu pedido", de: "(novo)", para: AP }); }
       }
       const paginas = [...antigas.values()].map((p) => ({ pagina: p.title, url: "/pages/" + p.handle, publicada: p.isPublished, redireciona_para: p.destino }));
       if (!b.aplicar) return resp(200, { ok: true, aplicado: false, links: plano, paginas_antigas: paginas });
