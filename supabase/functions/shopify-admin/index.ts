@@ -519,6 +519,19 @@ Deno.serve(async (req) => {
       return resp(200, { ok: true, colecoes: out });
     }
 
+    if (b.acao === "menu_salvar") {
+      // Cria ou substitui um menu inteiro: { handle, titulo, itens: [{ titulo, url }] } (links HTTP).
+      const itens = (Array.isArray(b.itens) ? b.itens : []).map((i: any) => ({ title: String(i.titulo), type: "HTTP", url: String(i.url), items: [] }));
+      const q: any = await gql(`{ menus(first: 50) { nodes { id handle } } }`);
+      const ex = q.menus.nodes.find((m: any) => m.handle === b.handle);
+      const d: any = ex
+        ? await gql(`mutation($id: ID!, $t: String!, $h: String, $i: [MenuItemUpdateInput!]!) { menuUpdate(id: $id, title: $t, handle: $h, items: $i) { menu { id handle } userErrors { message } } }`, { id: ex.id, t: String(b.titulo), h: b.handle, i: itens })
+        : await gql(`mutation($t: String!, $h: String!, $i: [MenuItemCreateInput!]!) { menuCreate(title: $t, handle: $h, items: $i) { menu { id handle } userErrors { message } } }`, { t: String(b.titulo), h: String(b.handle), i: itens });
+      const r = d.menuUpdate || d.menuCreate;
+      if (r.userErrors.length) return resp(422, { erro: r.userErrors.map((x: any) => x.message).join("; ") });
+      return resp(200, { ok: true, menu: r.menu, criado: !ex });
+    }
+
     if (b.acao === "menus_ler" || b.acao === "menu_titulos") {
       // menus_ler: todos os menus + idiomas da loja. menu_titulos: { menu_id, trocas: { itemId: "Novo título" } }.
       const ITEM = `id title type url resourceId tags`;
