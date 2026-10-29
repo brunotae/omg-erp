@@ -781,7 +781,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v24 · 29/10/2026';
+const VERSAO='v25 · 29/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -2560,6 +2560,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v25','29/10/2026',['Um clique: o botão “Outro” e a opção “— nenhum —” agora aparecem nos botões; os botões acompanham quando o sistema muda o valor sozinho.','Cupom do influenciador usa o código inteiro (ex.: JENIKANG10).']],
  ['v24','29/10/2026',['Novo influenciador mais rápido: o código do link sai do @, a rede vira botões (Instagram, TikTok…), comissão com botões 10/15/20% e o cupom de desconto é criado no site na hora (ex.: JENI10).','Depois de salvar, aparece a mensagem de boas-vindas pronta para copiar ou abrir no WhatsApp (link, cupom, comissão e painel).','Novo link: o código curto já vem pronto, com 4 letras e números.','Um clique: listas com até 10 opções curtas viram botões (ex.: Origem: instagram, tiktok…); listas maiores ganham botões favoritos.']],
  ['v23','29/10/2026',['Ações de marketing agora fica dentro do ERP (Marketing › Ações de marketing), com o menu lateral, cores, versão e os botões de um clique.','Cada ação pode ter um cupom e um link: o cartão e a folha mostram quantos pedidos, quanto faturou e quantos cliques ela trouxe.','O endereço antigo acoes.html abre esta mesma tela.']],
  ['v22','29/10/2026',['Cupom de frete grátis: zera o frete em qualquer região do Brasil. Teto opcional (só vale se o frete for até R$ X). Imposto continua cobrado.','Palavra no meio do código: digite um nome ou palavra (ex.: Maria) e o código vira OMG-MARIA-7K. As palavras também viram botões favoritos.']],
@@ -2799,22 +2800,34 @@ setInterval(()=>{if(!document.hidden)loadAll()},60000);
   const mostra = (v, un) => un === 'R$' ? 'R$ ' + String(v).replace('.', ',') : un === '%' ? String(v).replace('.', ',') + '%' : String(v);
 
   // ---------- select → botões ----------
+  // valor trocado por código (sel.value = …, sem evento) também atualiza os botões
+  if (!window.__ucValor) {
+    window.__ucValor = true;
+    for (const prop of ['value', 'selectedIndex']) {
+      const d = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, prop);
+      if (d && d.set) Object.defineProperty(HTMLSelectElement.prototype, prop, { configurable: true, enumerable: d.enumerable, get() { return d.get.call(this); }, set(v) { d.set.call(this, v); if (this.__ucSync) this.__ucSync(); } });
+    }
+  }
   function botoes(sel) {
     // opção vazia só vira botão se tiver nome (ex.: "— nenhum —"); "Outra…" do campo livre vira botão próprio no fim
-    const ops = [...sel.options].filter(o => o.value !== '__outra' && (o.value !== '' || !/^[—–-]*$/.test(o.text.trim())));
+    const opcoes = () => [...sel.options].filter(o => o.value !== '__outra' && (o.value !== '' || !/^[—–-]*$/.test(o.text.trim())));
+    const ops0 = opcoes();
     const forca = sel.dataset['1c'];
     if (forca === 'lista') return false;
     // poucas opções curtas (até 10, somando até ~90 letras: cabem em duas linhas) viram botões
-    const letras = ops.reduce((t, o) => t + o.text.trim().length, 0);
-    if (forca !== 'botoes' && (ops.length < 2 || ops.length > 10 || letras > 90 || ops.some(o => o.text.trim().length > 40) || sel.multiple)) return false;
-    const temOutra = [...sel.options].some(o => o.value === '__outra');
+    const letras = ops0.reduce((t, o) => t + o.text.trim().length, 0);
+    if (forca !== 'botoes' && (ops0.length < 2 || ops0.length > 10 || letras > 90 || ops0.some(o => o.text.trim().length > 40) || sel.multiple)) return false;
     const box = document.createElement('div'); box.className = 'uc-seg'; box.setAttribute('role', 'group');
     const nome = rotulo(sel); if (nome) box.setAttribute('aria-label', nome);
     const desenha = () => {
+      const ops = opcoes(), temOutra = [...sel.options].some(o => o.value === '__outra');
       box.innerHTML = ops.map(o => '<button type="button" data-v="' + esc(o.value) + '" aria-pressed="' + (sel.value === o.value) + '"' + (sel.disabled ? ' disabled' : '') + '>' + esc(o.text.trim()) + '</button>').join('') +
         (temOutra ? '<button type="button" data-v="__outra" aria-pressed="' + (sel.value === '__outra') + '"' + (sel.disabled ? ' disabled' : '') + '>Outra…</button>' : '');
     };
     desenha();
+    sel.__ucSync = desenha;
+    // opções trocadas por código (lista refeita) → botões refeitos
+    new MutationObserver(desenha).observe(sel, { childList: true, subtree: true, attributes: true, attributeFilter: ['disabled', 'selected'] });
     box.addEventListener('click', e => { const b = e.target.closest('button'); if (!b || b.disabled) return; setVal(sel, b.dataset.v); desenha(); if (b.dataset.v === '__outra') { const o = sel.parentNode.querySelector('input[type="text"]'); o && o.focus(); } });
     sel.addEventListener('change', desenha);
     sel.classList.add('uc-hid'); sel.tabIndex = -1; sel.setAttribute('aria-hidden', 'true');

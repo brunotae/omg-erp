@@ -48,22 +48,34 @@
   const mostra = (v, un) => un === 'R$' ? 'R$ ' + String(v).replace('.', ',') : un === '%' ? String(v).replace('.', ',') + '%' : String(v);
 
   // ---------- select → botões ----------
+  // valor trocado por código (sel.value = …, sem evento) também atualiza os botões
+  if (!window.__ucValor) {
+    window.__ucValor = true;
+    for (const prop of ['value', 'selectedIndex']) {
+      const d = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, prop);
+      if (d && d.set) Object.defineProperty(HTMLSelectElement.prototype, prop, { configurable: true, enumerable: d.enumerable, get() { return d.get.call(this); }, set(v) { d.set.call(this, v); if (this.__ucSync) this.__ucSync(); } });
+    }
+  }
   function botoes(sel) {
     // opção vazia só vira botão se tiver nome (ex.: "— nenhum —"); "Outra…" do campo livre vira botão próprio no fim
-    const ops = [...sel.options].filter(o => o.value !== '__outra' && (o.value !== '' || !/^[—–-]*$/.test(o.text.trim())));
+    const opcoes = () => [...sel.options].filter(o => o.value !== '__outra' && (o.value !== '' || !/^[—–-]*$/.test(o.text.trim())));
+    const ops0 = opcoes();
     const forca = sel.dataset['1c'];
     if (forca === 'lista') return false;
     // poucas opções curtas (até 10, somando até ~90 letras: cabem em duas linhas) viram botões
-    const letras = ops.reduce((t, o) => t + o.text.trim().length, 0);
-    if (forca !== 'botoes' && (ops.length < 2 || ops.length > 10 || letras > 90 || ops.some(o => o.text.trim().length > 40) || sel.multiple)) return false;
-    const temOutra = [...sel.options].some(o => o.value === '__outra');
+    const letras = ops0.reduce((t, o) => t + o.text.trim().length, 0);
+    if (forca !== 'botoes' && (ops0.length < 2 || ops0.length > 10 || letras > 90 || ops0.some(o => o.text.trim().length > 40) || sel.multiple)) return false;
     const box = document.createElement('div'); box.className = 'uc-seg'; box.setAttribute('role', 'group');
     const nome = rotulo(sel); if (nome) box.setAttribute('aria-label', nome);
     const desenha = () => {
+      const ops = opcoes(), temOutra = [...sel.options].some(o => o.value === '__outra');
       box.innerHTML = ops.map(o => '<button type="button" data-v="' + esc(o.value) + '" aria-pressed="' + (sel.value === o.value) + '"' + (sel.disabled ? ' disabled' : '') + '>' + esc(o.text.trim()) + '</button>').join('') +
         (temOutra ? '<button type="button" data-v="__outra" aria-pressed="' + (sel.value === '__outra') + '"' + (sel.disabled ? ' disabled' : '') + '>Outra…</button>' : '');
     };
     desenha();
+    sel.__ucSync = desenha;
+    // opções trocadas por código (lista refeita) → botões refeitos
+    new MutationObserver(desenha).observe(sel, { childList: true, subtree: true, attributes: true, attributeFilter: ['disabled', 'selected'] });
     box.addEventListener('click', e => { const b = e.target.closest('button'); if (!b || b.disabled) return; setVal(sel, b.dataset.v); desenha(); if (b.dataset.v === '__outra') { const o = sel.parentNode.querySelector('input[type="text"]'); o && o.focus(); } });
     sel.addEventListener('change', desenha);
     sel.classList.add('uc-hid'); sel.tabIndex = -1; sel.setAttribute('aria-hidden', 'true');
