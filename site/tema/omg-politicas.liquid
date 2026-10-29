@@ -1,12 +1,12 @@
 {%- comment -%}
   Políticas (/policies/*) e página de Cookies no mesmo visual da Central de Ajuda.
   O Shopify não aceita <style> dentro das políticas; por isso o visual vem daqui (tema).
-  Incluído em layout/theme.liquid. v1 · 29/10/2026
+  Incluído em layout/theme.liquid. v2 · 29/10/2026
 {%- endcomment -%}
 <style>
   .omg-pg{--pri:#B83D66;--fram:#D9577F;--bebe:#FDE4EC;--creme:#FFF9F6;--ameixa:#4A2638;--menta:#9EDFC4;--linha:#F6E2E9;--muted:#7A5566;
     font-family:Poppins,"Helvetica Neue",Arial,sans-serif;color:var(--ameixa);background:var(--creme);line-height:1.6;font-size:14.5px;
-    width:min(1180px,calc(100vw - 32px));margin:20px auto 48px;padding:20px 16px 32px;border-radius:18px;box-sizing:border-box}
+    width:min(1180px,calc(100vw - 32px));margin:20px 0 48px;position:relative;left:50%;transform:translateX(-50%);padding:20px 16px 32px;border-radius:18px;box-sizing:border-box}
   .omg-pg *{box-sizing:border-box}
   .omg-pg .topo{padding:6px 0 16px;border-bottom:1px solid var(--linha);margin-bottom:18px}
   .omg-pg .topo h1{font-size:clamp(22px,3vw,28px);line-height:1.2;margin:0 0 4px;font-weight:800;color:var(--ameixa)}
@@ -54,6 +54,13 @@
     var src = pol ? (pol.querySelector('.shopify-policy__body .rte') || pol.querySelector('.shopify-policy__body')) : document.querySelector('.omg-pol');
     if (!src || src.getAttribute('data-omg') === '1') return;
     var h1 = (pol && pol.querySelector('.shopify-policy__title h1')) || src.querySelector('h1');
+    var TITULOS = {
+      '/policies/refund-policy': 'Trocas e devoluções',
+      '/policies/shipping-policy': 'Entrega e frete',
+      '/policies/privacy-policy': 'Política de Privacidade',
+      '/policies/terms-of-service': 'Termos de uso',
+      '/policies/contact-information': 'Informações da empresa'
+    };
     var titulo = h1 ? h1.textContent.trim() : document.title;
     // título repetido do tema (páginas comuns, como Cookies)
     Array.prototype.forEach.call(document.querySelectorAll('h1'), function (h) { if (!src.contains(h) && h.textContent.trim() === titulo) h.style.display = 'none'; });
@@ -62,14 +69,14 @@
 
     var pg = document.createElement('div'); pg.className = 'omg-pg';
     var topo = document.createElement('div'); topo.className = 'topo';
-    topo.innerHTML = '<h1></h1>'; topo.firstChild.textContent = titulo;
+    topo.innerHTML = '<h1></h1>'; topo.firstChild.textContent = TITULOS[location.pathname.replace(/\/$/, '')] || titulo;
     var grade = document.createElement('div'); grade.className = 'grade';
     var lado = document.createElement('aside'); lado.className = 'lado';
     var conteudo = document.createElement('div');
     var chips = document.createElement('nav'); chips.className = 'chips';
     var aqui = location.pathname.replace(/\/$/, '');
 
-    var card = null, sumario = [], contatoTxt = null, n = 0;
+    var card = null, sumario = [], contatoTxt = null, n = 0, pularLista = false;
     function novoCard() { card = document.createElement('section'); card.className = 'card'; conteudo.appendChild(card); }
     nos.forEach(function (no) {
       if (no.nodeType === 3 && !no.textContent.trim()) return;
@@ -77,6 +84,11 @@
       var tag = no.tagName;
       if (tag === 'STYLE' || tag === 'H1') return;
       if (tag === 'NAV') return; // sumário antigo: vira a coluna lateral
+      var t0 = no.textContent.trim();
+      if (/^Nesta página/i.test(t0) && no.querySelector('ol,ul')) return; // sumário antigo em bloco
+      if (/^Nesta página$/i.test(t0)) { pularLista = true; return; }        // sumário antigo solto
+      if (pularLista && (tag === 'OL' || tag === 'UL')) { pularLista = false; return; }
+      pularLista = false;
       var txt = no.textContent.trim();
       if (tag === 'P' && /^Última atualização/i.test(txt)) { var p = document.createElement('p'); p.textContent = txt; topo.appendChild(p); return; }
       if (tag === 'P' && /^Dúvidas\? Fale com a gente/i.test(txt)) { contatoTxt = no.innerHTML; return; }
