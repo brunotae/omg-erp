@@ -8,7 +8,7 @@
 - **Categorias** (etiquetas `cat-*`, que alimentam os menus):
   - 166 kits de skincare estavam em `cat-maquiagem`. Foram para `cat-rosto`; os 4 kits Peptide-132 de cabelo foram para `cat-cabelo`.
   - Ficaram em Maquiagem só os kits de maquiagem: Kit Glow Base, Lip Trio, Cushion Trial Kits, Waterism Tint Set, Prism Highlighter e Perfect Setting Duo.
-  - Os protetores solares (avulsos e kits) ganharam também `cat-protetor-solar`. Antes, o menu Protetor Solar tinha só 15 produtos.
+  - Os protetores solares (avulsos e kits) ganharam também `cat-protetor-solar`: o menu Protetor Solar passou de 15 para 71 produtos. A etiqueta antiga `cat:protetor-solar` impedia o Shopify de aceitar a nova, por isso foi trocada.
   - Os produtos sem categoria ganharam uma. Acessórios como nécessaires, bolsa e adesivos continuam só em "Todos os produtos".
 - 1 produto com a marca "Biodance" virou "BIODANCE".
 
