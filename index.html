@@ -702,7 +702,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v20 · 29/10/2026';
+const VERSAO='v21 · 29/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1313,8 +1313,8 @@ function clientes(){
 }
 VIEWFN.clientes=()=>{
  const cl=clientes().filter(match), fiel=cl.filter(c=>c.n>=n(S.cfg.fielMin));
- const uso=code=>S.data.vendas.filter(v=>!isCancel(v)&&String(v.cupom||'').toUpperCase()===String(code).toUpperCase());
- return '<div class="page wide"><div class="col">'+head('Clientes e cupons','Clientes saem das vendas. Quem compra '+n(S.cfg.fielMin)+' vezes ou mais vira cliente fiel e pode receber cupom exclusivo. Cupons criados aqui já valem no site.','<button class="btn pri" type="button" id="cupom-shop"'+(can()?'':' disabled')+'>+ Criar cupom no site</button>')+
+ const uso=cupomUsos;
+ return '<div class="page wide"><div class="col">'+head('Clientes e cupons','Clientes saem das vendas. Quem compra '+n(S.cfg.fielMin)+' vezes ou mais vira cliente fiel e pode receber cupom exclusivo. Cupons criados aqui já valem no site.','<button class="btn" type="button" id="cupom-imp"'+(can()?'':' disabled')+' title="Traz os cupons criados direto no Shopify e atualiza o status de todos">Trazer cupons do Shopify</button> <button class="btn pri" type="button" id="cupom-shop"'+(can()?'':' disabled')+'>+ Criar cupom no site</button>')+
  '<div class="kpis">'+kpi('Clientes',cl.length,'Com ao menos 1 compra')+kpi('Clientes fiéis',fiel.length,cl.length?pct(fiel.length/cl.length)+' da base':'—')+kpi('Cupons ativos',S.data.cupons.filter(c=>c.ativo).length,S.data.cupons.length+' cadastrados')+kpi('Desconto concedido',dm(S.data.vendas.filter(v=>!isCancel(v)).reduce((a,v)=>a+n(v.desconto),0)),'Todas as vendas')+'</div>'+
  '<div class="card"><div class="card-h"><h2>Cupons</h2></div>'+(S.data.cupons.length?'<div class="tblwrap"><table><thead><tr><th>Código</th><th>Desconto</th><th>Público</th><th>Validade</th><th class="r">Usos</th><th class="r">Desconto dado</th><th>Status</th></tr></thead><tbody>'+
   S.data.cupons.filter(match).map(c=>{const u=uso(c.codigo);return '<tr data-edit="cupons" data-id="'+esc(c.id)+'"><td><b class="num">'+esc(c.codigo)+'</b></td><td>'+(c.tipo==='%'?n(c.valor)+'%':brl(c.valor))+'</td><td>'+esc(c.publico||'')+'</td><td class="num">'+fdate(c.validade)+'</td><td class="r num">'+u.length+(has(c.limite)?' / '+c.limite:'')+'</td><td class="r num">'+brl(u.reduce((a,v)=>a+n(v.desconto),0))+'</td><td>'+stPill(c.ativo&&(!c.validade||c.validade>=today())?'Ativo':'Inativo')+'</td></tr>'}).join('')+'</tbody></table></div>'
@@ -1653,6 +1653,48 @@ FORMS.comissoes_fechamentos={title:['Comissão','Comissão'],col:'comissoes_fech
   '<p style="grid-column:1/-1;margin:0">Pix: '+(i.pix_chave?'<b>'+esc((i.pix_tipo?i.pix_tipo+' · ':'')+i.pix_chave)+'</b> '+lkCopia(i.pix_chave,'Copiar chave')+(i.titular?' · '+esc(i.titular):''):'<span style="color:var(--bad)">o influenciador ainda não informou</span>')+'</p></div>'},
  antes:v=>{if(v.status==='Pago'&&!v.pago_em)v.pago_em=today();if(v.status==='Pago'&&!v.forma)v.forma='Pix'}};
 
+/* ---------- histórico dos cupons (v21) ---------- */
+function cupomUsos(code){const c=String(code||'').toUpperCase().replace(/\s/g,'');return S.data.vendas.filter(v=>!isCancel(v)&&String(v.cupom||'').toUpperCase().replace(/\s/g,'').split(',').includes(c))}
+const CP_EV={insert:'Criado no ERP',update:'Alterado',delete:'Excluído do ERP',desativado:'Desativado',reativado:'Reativado',importado:'Trazido do Shopify'};
+async function cupomHistorico(codigo){
+ const el=document.getElementById('cp-hist');if(!el)return;
+ const {data,error}=await sb.from('historico').select('em,quem,acao').eq('tabela','cupons').eq('registro',codigo).order('em',{ascending:false}).limit(60);
+ if(!document.getElementById('cp-hist'))return;
+ if(error){el.innerHTML='<p class="muted" style="margin:0">Não deu para ler o histórico agora.</p>';return}
+ // "Alterado" no mesmo minuto de um desativar/reativar é o mesmo acontecimento
+ const rows=(data||[]).filter((h,i,a)=>!(h.acao==='update'&&a.some(x=>x!==h&&['desativado','reativado'].includes(x.acao)&&Math.abs(Date.parse(x.em)-Date.parse(h.em))<60000)));
+ el.innerHTML=rows.length?'<div class="tblwrap"><table><thead><tr><th>Quando</th><th>O que</th><th>Quem</th></tr></thead><tbody>'+rows.map(h=>'<tr><td class="num">'+new Date(h.em).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})+'</td><td>'+esc(CP_EV[h.acao]||h.acao)+'</td><td>'+esc(h.quem||'sistema')+'</td></tr>').join('')+'</tbody></table></div>'
+  :'<p class="muted" style="margin:0">Sem registros ainda.</p>';
+}
+FORMS.cupons.pre=rec=>{
+ const us=cupomUsos(rec.codigo).sort((a,b)=>String(b.dataCompra).localeCompare(String(a.dataCompra)));
+ setTimeout(()=>cupomHistorico(rec.codigo),0);
+ return '<div class="sec"><span class="label">Pedidos que usaram · '+us.length+(us.length?' · desconto dado '+brl(us.reduce((a,v)=>a+n(v.desconto),0)):'')+'</span><div style="grid-column:1/-1;min-width:0">'+
+  (us.length?'<div class="tblwrap"><table><thead><tr><th>Pedido</th><th>Data</th><th>Cliente</th><th class="r">Total</th><th class="r">Desconto</th></tr></thead><tbody>'+
+   us.map(v=>'<tr><td><b class="num">'+esc(v.pedidoSite||vnum(v.numero))+'</b></td><td class="num">'+fdate(v.dataCompra)+'</td><td>'+esc(v.cliente||'')+'</td><td class="r num">'+brl(calc(v).total)+'</td><td class="r num">'+brl(n(v.desconto))+'</td></tr>').join('')+'</tbody></table></div>'
+   :'<p class="muted" style="margin:0">Nenhum pedido usou este cupom ainda.</p>')+'</div></div>'+
+  '<div class="sec"><span class="label">Histórico do cupom</span><div style="grid-column:1/-1;min-width:0" id="cp-hist"><p class="muted" style="margin:0">Carregando…</p></div></div>';
+};
+async function cuponsImportar(btn){
+ btn.disabled=true;const t=btn.textContent;btn.textContent='Lendo o Shopify…';
+ try{
+  const d=await chamarShop({acao:'cupons_listar'});const lista=d.cupons||[];let novos=0,atual=0;
+  for(const c of lista){
+   const cod=String(c.codigo).toUpperCase(), ativo=c.status==='ACTIVE', fim=c.fim?String(c.fim).slice(0,10):null;
+   const ex=S.data.cupons.find(x=>String(x.codigo).toUpperCase()===cod);
+   if(ex){const mud={};if(!!ex.ativo!==ativo)mud.ativo=ativo;if(fim&&ex.validade!==fim)mud.validade=fim;if(!/DiscountCodeNode\//.test(ex.obs||''))mud.obs=(ex.obs?ex.obs+' · ':'')+'Shopify: '+c.id;
+    if(Object.keys(mud).length){await save('cupons',ex,mud);atual++}continue}
+   const resumo=c.valor_tipo==='frete'?'Frete grátis':c.valor_tipo==='%'?c.valor+'% de desconto':c.valor_tipo==='R$'?brl(c.valor)+' de desconto':(c.tipo_shopify||'').replace('DiscountCode','');
+   await save('cupons',null,{codigo:cod,tipo:c.valor_tipo==='%'?'%':'R$',valor:c.valor_tipo==='frete'?0:c.valor,publico:'Todos',validade:fim,limite:c.limite,ativo,
+    obs:'Trazido do Shopify'+(c.titulo&&c.titulo!==c.codigo?' ("'+c.titulo+'")':'')+' · '+resumo+(c.minimo?' a partir de '+brl(c.minimo):'')+(c.uma_vez?' · 1 vez por cliente':'')+' · usos no Shopify: '+(c.usos??0)+' · Shopify: '+c.id});
+   const {error}=await sb.from('historico').insert({tabela:'cupons',acao:'importado',registro:cod,quem:S.email});novos++;
+  }
+  toast(lista.length+' cupons no Shopify · '+novos+' novos no ERP · '+atual+' atualizados');await loadAll();
+ }catch(e){alert('Não deu para trazer os cupons: '+e.message)}
+ btn.disabled=false;btn.textContent=t;
+}
+document.addEventListener('click',e=>{const b=e.target.closest('#cupom-imp');if(b)cuponsImportar(b)});
+
 function fieldHTML(f,v,ro){
  const id='f-'+f.k, opts=typeof f.o==='function'?f.o():f.o;
  if(f.t==='bool')return '<label class="chk'+(f.full?' full':'')+'" style="padding-top:22px"><input type="checkbox" id="'+id+'" name="'+f.k+'"'+(v?' checked':'')+(ro?' disabled':'')+'> '+esc(f.l)+'</label>';
@@ -1712,6 +1754,7 @@ function openForm(key,id){
  const preP=(key==='produtos'&&rec&&rec.shopify_variant_id)?'<div class="sec"><span class="label">No site (Shopify)</span><p style="grid-column:1/-1;margin:0">'+(rec.ativo?stPill('No site'):stPill('Fora do site'))+' <span class="muted">'+esc(({active:'ativo',draft:'rascunho',archived:'arquivado',excluido:'excluído do site'})[rec.site_status]||rec.site_status||'')+' · preço no site '+brl(rec.preco)+'</span></p>'+(can()?'<div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" type="button" id="sp-status">'+(rec.ativo?'Pausar no site':'Reativar no site')+'</button><button class="btn sm" type="button" id="sp-preco">Enviar preço do campo Venda ao site</button></div><p class="muted" style="grid-column:1/-1;margin:0;font-size:11px">Pausar deixa o produto como rascunho no Shopify: some do site, mas nada é apagado.</p>':'')+'</div>':'';
  const pre=(key==='fornecedores'&&rec)?(()=>{const L=ledger(rec);return '<div class="sec"><span class="label">Extrato · saldo '+esc(fmtM(L.saldo,L.M))+' · '+esc(saldoTxt(L.saldo))+'</span><div style="grid-column:1/-1;min-width:0">'+extratoHTML(L,false)+'</div></div>'})():'';
  shell(rec?F.title[1]+(rec.codigo?' '+rec.codigo:''):F.title[0],preP+pre+(F.pre&&rec?F.pre(rec):'')+F.secs.map(([t,f])=>'<div class="sec">'+f.map(x=>fieldHTML(x,init[x.k],ro)).join('')+'</div>').join('')+anexosHTML(F.col,ro),rec,ro,cpGid?'<button class="btn" type="button" id="cp-onoff">'+(rec.ativo?'Desativar no site':'Reativar no site')+'</button>':'');
+ if(cpGid){const d=$('#m-del');if(d)d.remove()}
  wireDelete(F.col,rec);
  if(cpGid&&can())$('#cp-onoff').addEventListener('click',async()=>{const at=!rec.ativo;if(!confirm((at?'Reativar':'Desativar')+' o cupom '+rec.codigo+' no site?'))return;try{await chamarShop({acao:'cupom_status',id:cpGid,ativo:at});await save('cupons',rec,{ativo:at});close();loadAll();toast(at?'Cupom reativado no site':'Cupom desativado no site')}catch(e){$('#m-err').textContent=e.message}});
  wireAnexos(F.col,rec);
@@ -2257,6 +2300,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v21','29/10/2026',['Cupons: ao abrir um cupom aparecem os pedidos que usaram (pedido, data, cliente, total, desconto) e o histórico (criado, desativado, reativado, alterado), com data e pessoa.','Botão Trazer cupons do Shopify: importa os cupons criados direto no Shopify e atualiza o status de todos.','Cupom ligado ao Shopify não tem mais o botão Excluir (ele só sumia do ERP e continuava valendo no site). Use Desativar no site.']],
  ['v20','29/10/2026',['Um clique (regra 7): listas com poucas opções viraram botões, como Tipo de desconto (Valor fixo · Percentual).','Campos de número ganham botões favoritos: toque em + favorito para guardar o valor do campo (ex.: 12) e ✎ para tirar. Vale por pessoa e por aparelho.','Cupom já vem com sugestões: desconto 10, 15, 20 e compra mínima 0, 100, 150, 200.','Títulos das colunas das tabelas ficam sempre visíveis ao rolar (regra 6).']],
  ['v19','29/10/2026',['Marketing › Links e influenciadores: cadastro de influenciador com cupom, % e link curto (ohmygirl.com.br/a/código), que conta os cliques.','Gerador de links UTM para qualquer canal, com botões para copiar o link curto e o completo.','Origem das vendas: de onde veio cada pedido do site (UTM, cupom, outro site ou direto).','Comissões: pedidos de cada influenciador por mês, fechamento no dia 1º e marcar como pago com o comprovante do Pix.','Painel do influenciador (parceiro.html): ele entra com e-mail e senha e vê links, cliques, pedidos, comissões, pagamentos e preenche o Pix.']],
  ['v18','29/10/2026',['Raio-X: botão Publicar marca no site, dentro da marca aberta. Depois de ativar os produtos de uma marca, ele põe a marca na página Marcas (com a imagem, quando existe) e ensina a Bomi os produtos dela.','A página Marcas passa a mostrar todas as marcas com produto no ar, na ordem de quantidade; marca sem produto no ar sai.']],

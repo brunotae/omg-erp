@@ -13,6 +13,7 @@
 //        → refaz a fila de fotos com a regra rígida; quem não passa e já tinha foto nova volta para a original
 //   { acao: "marca_publicar", marca?, aplicar? } → página Marcas com todas as marcas no ar (+ imagem) e fichas da Bomi da marca
 //   { acao: "link_curto", slug, apagar? }   → ohmygirl.com.br/a/<slug> (link curto das parcerias, conta cliques)
+//   { acao: "cupons_listar" }               → todos os cupons de código do Shopify (para importar no ERP)
 //   { acao: "pesos", itens: [{ sku, peso_g, dim: [c, l, a] (cm) }] } → grava peso (frete) e dimensões (metafield custom.dimensoes_cm), até 100 por vez
 // Segredos: SHOPIFY_SHOP (ex.: mundo-beleza-9571.myshopify.com), SHOPIFY_API_VERSION (opcional) e
 //   SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET (app do Dev Dashboard; token pedido a cada 24 h por client credentials)
@@ -353,6 +354,33 @@ Deno.serve(async (req) => {
         resultados.push(r);
       }
       return resp(200, { ok: true, resultados });
+    }
+
+    if (b.acao === "cupons_listar") {
+      // Todos os cupons com código do Shopify (inclusive os criados direto no admin): para o ERP importar e sincronizar o status.
+      const out: any[] = []; let a: string | null = null;
+      do {
+        const d: any = await gql(`query($a: String) { codeDiscountNodes(first: 100, after: $a) { nodes { id codeDiscount {
+            __typename
+            ... on DiscountCodeBasic { title status startsAt endsAt usageLimit appliesOncePerCustomer asyncUsageCount codes(first: 3) { nodes { code } }
+              customerGets { value { ... on DiscountAmount { amount { amount } } ... on DiscountPercentage { percentage } } }
+              minimumRequirement { ... on DiscountMinimumSubtotal { greaterThanOrEqualToSubtotal { amount } } } }
+            ... on DiscountCodeFreeShipping { title status startsAt endsAt usageLimit appliesOncePerCustomer asyncUsageCount codes(first: 3) { nodes { code } } }
+            ... on DiscountCodeBxgy { title status startsAt endsAt usageLimit appliesOncePerCustomer asyncUsageCount codes(first: 3) { nodes { code } } }
+          } } pageInfo { hasNextPage endCursor } } }`, { a });
+        for (const n of d.codeDiscountNodes.nodes) {
+          const c = n.codeDiscount || {}; const v = c.customerGets?.value || {};
+          for (const cd of c.codes?.nodes || []) out.push({
+            id: n.id, codigo: cd.code, titulo: c.title, tipo_shopify: c.__typename, status: c.status,
+            inicio: c.startsAt, fim: c.endsAt, limite: c.usageLimit, uma_vez: c.appliesOncePerCustomer, usos: c.asyncUsageCount,
+            valor_tipo: v.percentage != null ? "%" : v.amount ? "R$" : c.__typename === "DiscountCodeFreeShipping" ? "frete" : "",
+            valor: v.percentage != null ? Math.round(Number(v.percentage) * 10000) / 100 : v.amount ? Number(v.amount.amount) : null,
+            minimo: c.minimumRequirement?.greaterThanOrEqualToSubtotal ? Number(c.minimumRequirement.greaterThanOrEqualToSubtotal.amount) : null,
+          });
+        }
+        a = d.codeDiscountNodes.pageInfo.hasNextPage ? d.codeDiscountNodes.pageInfo.endCursor : null;
+      } while (a);
+      return resp(200, { ok: true, cupons: out });
     }
 
     if (b.acao === "cupom_status") {

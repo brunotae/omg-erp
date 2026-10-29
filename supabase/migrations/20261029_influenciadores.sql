@@ -248,3 +248,19 @@ create or replace view public.link_cliques_dia with (security_invoker = on) as
   select link, (em at time zone 'America/Sao_Paulo')::date as dia, count(*)::int as cliques, count(distinct visitante)::int as visitantes
   from public.link_cliques group by 1, 2;
 grant select on public.link_cliques_dia to authenticated;
+
+-- ---------- v21 · histórico dos cupons ----------
+create or replace function public.cupons_evento() returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  if old.ativo is distinct from new.ativo then
+    insert into public.historico (quem, tabela, acao, registro)
+    values (public.meu_email(), 'cupons', case when new.ativo then 'reativado' else 'desativado' end, new.codigo);
+  end if;
+  return new;
+end $$;
+drop trigger if exists cupons_evento on public.cupons;
+create trigger cupons_evento after update on public.cupons for each row execute function public.cupons_evento();
+drop policy if exists "editores registram importacao" on public.historico;
+create policy "editores registram importacao" on public.historico for insert to authenticated
+  with check (public.eh_editor() and tabela = 'cupons' and acao = 'importado' and quem = public.meu_email());
+grant insert on public.historico to authenticated;
