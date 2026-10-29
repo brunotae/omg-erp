@@ -781,7 +781,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v25 · 29/10/2026';
+const VERSAO='v26 · 29/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1278,8 +1278,39 @@ async function rxAtualizar(){
  RXUI.carregando=false;render();
 }
 function rxSkus(id){return S.data.produtos.filter(p=>String(p.shopify_product_id||'')===String(id))}
+/* ---------- Raio-X › Exportar listas (v26): marcas, produtos e SKUs para copiar ou baixar ---------- */
+function rxExportDados(o){
+ const P=RX.P.filter(p=>o.quem==='todos'||p.a);
+ if(o.tipo==='marcas'){
+  const M={};P.forEach(p=>{const m=M[p.m]||(M[p.m]={m:p.m,ar:0,rasc:0,sku:0});p.a?m.ar++:m.rasc++;m.sku+=p.skus});
+  const L=Object.values(M).sort(o.ordem==='az'?(a,b)=>a.m.localeCompare(b.m,'pt-BR',{sensitivity:'base'}):(a,b)=>b.ar-a.ar||(b.ar+b.rasc)-(a.ar+a.rasc)||a.m.localeCompare(b.m));
+  return {txt:L.map(x=>x.m).join('\n'),n:L.length+' marcas',csv:csvOf(['Marca','Produtos no ar','Produtos em rascunho','SKUs'],L.map(x=>[x.m,x.ar,x.rasc,x.sku]))};
+ }
+ const L=P.slice().sort(o.ordem==='az'?(a,b)=>a.m.localeCompare(b.m,'pt-BR',{sensitivity:'base'})||a.t.localeCompare(b.t):(a,b)=>Number(b.a)-Number(a.a)||a.m.localeCompare(b.m)||a.t.localeCompare(b.t));
+ if(o.tipo==='produtos')return {txt:L.map(p=>p.m+' · '+p.t).join('\n'),n:L.length+' produtos',
+  csv:csvOf(['Marca','Produto','Status','Preço mínimo','Preço máximo','SKUs','Fotos','Categorias','Link'],L.map(p=>[p.m,p.t,p.a?'no ar':'rascunho',String(p.pmin).replace('.',','),String(p.pmax).replace('.',','),p.skus,p.fotos,p.tags.split('|').filter(t=>/^cat[-:]/.test(t)).join(', '),'https://ohmygirl.com.br/products/'+p.h]))};
+ const R=[];L.forEach(p=>{const sk=rxSkus(p.id);if(!sk.length)R.push([p.m,p.t,'','',p.a?'no ar':'rascunho','','https://ohmygirl.com.br/products/'+p.h]);
+  sk.forEach(x=>R.push([p.m,p.t,x.sku||'',String(x.nome||'').split(' · ').slice(1).join(' · '),p.a?'no ar':'rascunho',has(x.preco)?String(x.preco).replace('.',','):'','https://ohmygirl.com.br/products/'+p.h]))});
+ return {txt:R.map(r=>(r[2]||'(sem SKU)')+' · '+r[0]+' · '+r[1]+(r[3]?' · '+r[3]:'')).join('\n'),n:R.length+' SKUs',csv:csvOf(['Marca','Produto','SKU','Variação','Status','Preço','Link'],R)};
+}
+function rxExport(){
+ shell('Exportar listas do catálogo','<div class="sec">'+
+  '<div class="f"><label for="rxe-tipo">O que</label><select id="rxe-tipo"><option value="marcas">Marcas</option><option value="produtos">Produtos</option><option value="skus">SKUs</option></select></div>'+
+  '<div class="f"><label for="rxe-quem">Quais</label><select id="rxe-quem"><option value="ar">Só no ar</option><option value="todos">Todos (com rascunho)</option></select></div>'+
+  '<div class="f"><label for="rxe-ordem">Ordem</label><select id="rxe-ordem"><option value="qtd">Mais produtos primeiro</option><option value="az">A–Z</option></select></div>'+
+  '<div class="f full"><label for="rxe-txt" id="rxe-n">Lista</label><textarea id="rxe-txt" readonly style="min-height:300px;font-family:inherit"></textarea>'+
+  '<span class="hint">Copie e cole onde quiser (WhatsApp, e-mail, planilha). A planilha traz também quantidades, preços e links. Dados do raio-x de '+new Date(RX.em).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})+'.</span></div>'+
+  '<div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn pri" id="rxe-copiar">Copiar lista</button><button type="button" class="btn" id="rxe-baixar">Baixar planilha (CSV)</button></div></div>',null,true);
+ const o=()=>({tipo:$('#rxe-tipo').value,quem:$('#rxe-quem').value,ordem:$('#rxe-ordem').value});
+ let D=null;const atualiza=()=>{D=rxExportDados(o());$('#rxe-txt').value=D.txt;$('#rxe-n').textContent='Lista · '+D.n};
+ ['rxe-tipo','rxe-quem','rxe-ordem'].forEach(id=>$('#'+id).addEventListener('change',atualiza));atualiza();
+ $('#rxe-copiar').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(D.txt);toast('Lista copiada: '+D.n)}catch(_){$('#rxe-txt').select();toast('Selecionei a lista: copie com Ctrl+C')}});
+ $('#rxe-baixar').addEventListener('click',()=>{const x=o();baixar('omg-'+x.tipo+'-'+(x.quem==='ar'?'no-ar':'todos')+'-'+today()+'.csv',D.csv)});
+}
+document.addEventListener('click',e=>{if(e.target.closest('#rx-export'))rxExport()});
+
 VIEWFN.raiox=()=>{
- const btn='<button class="btn sm pri" type="button" id="rx-atualizar"'+(RXUI.carregando?' disabled':'')+'>'+(RXUI.carregando?'Atualizando…':'Atualizar raio-x')+'</button>';
+ const btn=(RX?'<button class="btn sm" type="button" id="rx-export">Exportar listas</button> ':'')+'<button class="btn sm pri" type="button" id="rx-atualizar"'+(RXUI.carregando?' disabled':'')+'>'+(RXUI.carregando?'Atualizando…':'Atualizar raio-x')+'</button>';
  const sub=RX?'Situação de cada produto no Shopify em '+new Date(RX.em).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})+'. Clique numa marca para ver os produtos e os SKUs.':'Lê todos os produtos do Shopify (no ar e rascunho) e aponta foto, preço e cadastro com problema.';
  if(!RX)return '<div class="page wide"><div class="col">'+head('Raio-X do catálogo',sub,btn)+'<div class="card">'+(RXUI.carregando?'<p class="muted" id="rx-prog">'+esc(RXUI.prog)+'</p>':empty('Ainda sem raio-x','Clique em Atualizar raio-x. Leva uns 30 segundos.'))+'</div></div></div>';
  const P=RX.P, A=P.filter(p=>p.a), tot={}; P.forEach(p=>p.f.forEach(k=>{tot[(p.a?'A':'R')+k]=(tot[(p.a?'A':'R')+k]||0)+1}));
@@ -2560,6 +2591,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v26','29/10/2026',['Raio-X › Exportar listas: lista de marcas, produtos ou SKUs (só no ar ou todos, por quantidade ou A–Z) para copiar com um toque ou baixar em planilha com quantidades, preços e links.']],
  ['v25','29/10/2026',['Um clique: o botão “Outro” e a opção “— nenhum —” agora aparecem nos botões; os botões acompanham quando o sistema muda o valor sozinho.','Cupom do influenciador usa o código inteiro (ex.: JENIKANG10).']],
  ['v24','29/10/2026',['Novo influenciador mais rápido: o código do link sai do @, a rede vira botões (Instagram, TikTok…), comissão com botões 10/15/20% e o cupom de desconto é criado no site na hora (ex.: JENI10).','Depois de salvar, aparece a mensagem de boas-vindas pronta para copiar ou abrir no WhatsApp (link, cupom, comissão e painel).','Novo link: o código curto já vem pronto, com 4 letras e números.','Um clique: listas com até 10 opções curtas viram botões (ex.: Origem: instagram, tiktok…); listas maiores ganham botões favoritos.']],
  ['v23','29/10/2026',['Ações de marketing agora fica dentro do ERP (Marketing › Ações de marketing), com o menu lateral, cores, versão e os botões de um clique.','Cada ação pode ter um cupom e um link: o cartão e a folha mostram quantos pedidos, quanto faturou e quantos cliques ela trouxe.','O endereço antigo acoes.html abre esta mesma tela.']],
