@@ -375,7 +375,8 @@ Deno.serve(async (req) => {
             ... on DiscountCodeBasic { title status startsAt endsAt usageLimit appliesOncePerCustomer asyncUsageCount codes(first: 3) { nodes { code } }
               customerGets { value { ... on DiscountAmount { amount { amount } } ... on DiscountPercentage { percentage } } }
               minimumRequirement { ... on DiscountMinimumSubtotal { greaterThanOrEqualToSubtotal { amount } } } }
-            ... on DiscountCodeFreeShipping { title status startsAt endsAt usageLimit appliesOncePerCustomer asyncUsageCount codes(first: 3) { nodes { code } } }
+            ... on DiscountCodeFreeShipping { title status startsAt endsAt usageLimit appliesOncePerCustomer asyncUsageCount codes(first: 3) { nodes { code } }
+              maximumShippingPrice { amount } minimumRequirement { ... on DiscountMinimumSubtotal { greaterThanOrEqualToSubtotal { amount } } } }
             ... on DiscountCodeBxgy { title status startsAt endsAt usageLimit appliesOncePerCustomer asyncUsageCount codes(first: 3) { nodes { code } } }
           } } pageInfo { hasNextPage endCursor } } }`, { a });
         for (const n of d.codeDiscountNodes.nodes) {
@@ -384,7 +385,7 @@ Deno.serve(async (req) => {
             id: n.id, codigo: cd.code, titulo: c.title, tipo_shopify: c.__typename, status: c.status,
             inicio: c.startsAt, fim: c.endsAt, limite: c.usageLimit, uma_vez: c.appliesOncePerCustomer, usos: c.asyncUsageCount,
             valor_tipo: v.percentage != null ? "%" : v.amount ? "R$" : c.__typename === "DiscountCodeFreeShipping" ? "frete" : "",
-            valor: v.percentage != null ? Math.round(Number(v.percentage) * 10000) / 100 : v.amount ? Number(v.amount.amount) : null,
+            valor: v.percentage != null ? Math.round(Number(v.percentage) * 10000) / 100 : v.amount ? Number(v.amount.amount) : c.maximumShippingPrice ? Number(c.maximumShippingPrice.amount) : null,
             minimo: c.minimumRequirement?.greaterThanOrEqualToSubtotal ? Number(c.minimumRequirement.greaterThanOrEqualToSubtotal.amount) : null,
           });
         }

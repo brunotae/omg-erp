@@ -1691,8 +1691,8 @@ async function cuponsImportar(btn){
    const ex=S.data.cupons.find(x=>String(x.codigo).toUpperCase()===cod);
    if(ex){const mud={};if(!!ex.ativo!==ativo)mud.ativo=ativo;if(fim&&ex.validade!==fim)mud.validade=fim;if(!/DiscountCodeNode\//.test(ex.obs||''))mud.obs=(ex.obs?ex.obs+' · ':'')+'Shopify: '+c.id;
     if(Object.keys(mud).length){await save('cupons',ex,mud);atual++}continue}
-   const resumo=c.valor_tipo==='frete'?'Frete grátis':c.valor_tipo==='%'?c.valor+'% de desconto':c.valor_tipo==='R$'?brl(c.valor)+' de desconto':(c.tipo_shopify||'').replace('DiscountCode','');
-   await save('cupons',null,{codigo:cod,tipo:c.valor_tipo==='%'?'%':c.valor_tipo==='frete'?'frete':'R$',valor:c.valor_tipo==='frete'?null:c.valor,publico:'Todos',validade:fim,limite:c.limite,ativo,
+   const resumo=c.valor_tipo==='frete'?'Frete grátis'+(c.valor?' (frete até '+brl(c.valor)+')':''):c.valor_tipo==='%'?c.valor+'% de desconto':c.valor_tipo==='R$'?brl(c.valor)+' de desconto':(c.tipo_shopify||'').replace('DiscountCode','');
+   await save('cupons',null,{codigo:cod,tipo:c.valor_tipo==='%'?'%':c.valor_tipo==='frete'?'frete':'R$',valor:c.valor,publico:'Todos',validade:fim,limite:c.limite,ativo,
     obs:'Trazido do Shopify'+(c.titulo&&c.titulo!==c.codigo?' ("'+c.titulo+'")':'')+' · '+resumo+(c.minimo?' a partir de '+brl(c.minimo):'')+(c.uma_vez?' · 1 vez por cliente':'')+' · usos no Shopify: '+(c.usos??0)+' · Shopify: '+c.id});
    const {error}=await sb.from('historico').insert({tabela:'cupons',acao:'importado',registro:cod,quem:S.email});novos++;
   }
