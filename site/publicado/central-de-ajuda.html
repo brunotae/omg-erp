@@ -754,7 +754,8 @@ R.querySelector('.mi-inicio').addEventListener('click',function(){abre('')});
 if(sel)sel.addEventListener('change',function(){abre(sel.value)});
 [].forEach.call(R.querySelectorAll('.pt'),function(b){b.addEventListener('click',function(){abre(b.dataset.cat)})});
 [].forEach.call(R.querySelectorAll('[data-ir]'),function(a){a.addEventListener('click',function(e){e.preventDefault();abre(a.dataset.c);var d=document.getElementById(a.dataset.ir);if(d){d.open=true;d.scrollIntoView({behavior:'smooth',block:'center'})}})});
-if(location.hash){var d=R.querySelector(location.hash);if(d&&d.tagName==='DETAILS'){abre(d.closest('section').dataset.cat);d.open=true}}
+function irHash(){if(!location.hash)return;var d=document.getElementById(decodeURIComponent(location.hash.slice(1)));if(!d||!R.contains(d))return;if(d.tagName==='DETAILS'){abre(d.closest('section').dataset.cat);d.open=true;setTimeout(function(){d.scrollIntoView({block:'center'})},50)}else if(d.dataset&&d.dataset.cat){abre(d.dataset.cat);setTimeout(function(){R.scrollIntoView({block:'start'})},50)}}
+irHash();window.addEventListener('hashchange',irHash);
 })();
 </script>
 </div>
