@@ -539,7 +539,7 @@ table.sh-t{width:100%;border-collapse:collapse;font-size:9.5pt}
 .rel-k span{display:block;font-size:6.4pt;text-transform:uppercase;letter-spacing:.1em;color:#8a8a93}.rel-k b{font-size:12pt;font-weight:700}
 .sheet.rel *{font-family:inherit}
 .rel-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4mm;align-items:start}
-.rel-3 .rel-t{table-layout:fixed}.rel-3 .rel-t th:first-child,.rel-3 .rel-t td:first-child{width:46%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rel-3 .rel-t{table-layout:fixed}.rel-3 .rel-t th:first-child,.rel-3 .rel-t td:first-child{width:44%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 table.rel-t,table.sh-t{min-width:0}
 table.rel-t{width:100%;border-collapse:collapse;font-size:7.4pt}
 .rel-t th{position:static;background:#f3f3f5;color:#4a4a52;font-size:6.3pt;font-weight:700;text-transform:uppercase;letter-spacing:.08em;text-align:left;padding:1.3mm 1.6mm;border-bottom:.8pt solid #1f1f24;white-space:nowrap}
@@ -1307,7 +1307,7 @@ function rxExportDados(o){
   const M={};P.forEach(p=>{const m=M[p.m]||(M[p.m]={m:p.m,ar:0,rasc:0,sku:0});p.a?m.ar++:m.rasc++;m.sku+=p.skus});
   const L=Object.values(M).sort(o.ordem==='az'?(a,b)=>a.m.localeCompare(b.m,'pt-BR',{sensitivity:'base'}):(a,b)=>b.ar-a.ar||(b.ar+b.rasc)-(a.ar+a.rasc)||a.m.localeCompare(b.m));
   return {txt:L.map(x=>x.m).join('\n'),n:L.length+' marcas',csv:csvOf(['Marca','Produtos no ar','Produtos em rascunho','SKUs'],L.map(x=>[x.m,x.ar,x.rasc,x.sku])),
-   cols:['Marca','No ar','Rascunho','SKUs'],num:[1,2,3],rows:L.map(x=>[x.m,x.ar,x.rasc,x.sku])};
+   cols:['Marca','No ar','Rasc.','SKUs'],num:[1,2,3],rows:L.map(x=>[x.m,x.ar,x.rasc,x.sku])};
  }
  const L=P.slice().sort(o.ordem==='az'?(a,b)=>a.m.localeCompare(b.m,'pt-BR',{sensitivity:'base'})||a.t.localeCompare(b.t):(a,b)=>Number(b.a)-Number(a.a)||a.m.localeCompare(b.m)||a.t.localeCompare(b.t));
  if(o.tipo==='produtos')return {txt:L.map(p=>p.m+' · '+p.t).join('\n'),n:L.length+' produtos',
