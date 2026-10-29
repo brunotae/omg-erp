@@ -1386,7 +1386,7 @@ function openCupomShopify(){
   try{
    const d=await chamarShop({acao:'cupom_criar',cupom:{codigo:c.codigo,titulo:c.titulo,tipo:c.tipo,valor:num(c.valor),teto:num(c.teto),minimo:num(c.minimo),publico:c.publico,emails:L.emails,uma_vez:c.uma_vez,limite_total:num(c.limite_total),inicio:c.inicio,fim:c.fim}});
    const pub={todas:'Todos',primeira:'Primeira compra',clientes:'Clientes específicas'}[c.publico];
-   await save('cupons',null,{codigo:d.codigo,tipo:c.tipo,valor:c.tipo==='frete'?(num(c.teto)||null):num(c.valor),publico:pub,validade:c.fim||null,limite:num(c.limite_total)||null,ativo:true,
+   await save('cupons',null,{codigo:d.codigo,tipo:c.tipo,valor:c.tipo==='frete'?num(c.teto):num(c.valor),publico:pub,validade:c.fim||null,limite:num(c.limite_total)||null,ativo:true,
     obs:cupomResumo(c)+' · Shopify: '+d.id+(d.clientes!=null?' · '+d.clientes+' clientes':'')+(d.sem_cadastro&&d.sem_cadastro.length?' · sem cadastro no site: '+d.sem_cadastro.join(', '):'')});
    close();loadAll();toast('Cupom '+d.codigo+' criado: já vale no site');
    if(d.sem_cadastro&&d.sem_cadastro.length)setTimeout(()=>toast(d.sem_cadastro.length+' e-mail(s) sem cadastro no site ficaram de fora'),2600);
@@ -1692,7 +1692,7 @@ async function cuponsImportar(btn){
    if(ex){const mud={};if(!!ex.ativo!==ativo)mud.ativo=ativo;if(fim&&ex.validade!==fim)mud.validade=fim;if(!/DiscountCodeNode\//.test(ex.obs||''))mud.obs=(ex.obs?ex.obs+' · ':'')+'Shopify: '+c.id;
     if(Object.keys(mud).length){await save('cupons',ex,mud);atual++}continue}
    const resumo=c.valor_tipo==='frete'?'Frete grátis'+(c.valor?' (frete até '+brl(c.valor)+')':''):c.valor_tipo==='%'?c.valor+'% de desconto':c.valor_tipo==='R$'?brl(c.valor)+' de desconto':(c.tipo_shopify||'').replace('DiscountCode','');
-   await save('cupons',null,{codigo:cod,tipo:c.valor_tipo==='%'?'%':c.valor_tipo==='frete'?'frete':'R$',valor:c.valor,publico:'Todos',validade:fim,limite:c.limite,ativo,
+   await save('cupons',null,{codigo:cod,tipo:c.valor_tipo==='%'?'%':c.valor_tipo==='frete'?'frete':'R$',valor:c.valor??0,publico:'Todos',validade:fim,limite:c.limite,ativo,
     obs:'Trazido do Shopify'+(c.titulo&&c.titulo!==c.codigo?' ("'+c.titulo+'")':'')+' · '+resumo+(c.minimo?' a partir de '+brl(c.minimo):'')+(c.uma_vez?' · 1 vez por cliente':'')+' · usos no Shopify: '+(c.usos??0)+' · Shopify: '+c.id});
    const {error}=await sb.from('historico').insert({tabela:'cupons',acao:'importado',registro:cod,quem:S.email});novos++;
   }
