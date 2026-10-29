@@ -1662,7 +1662,8 @@ async function cupomHistorico(codigo){
  if(!document.getElementById('cp-hist'))return;
  if(error){el.innerHTML='<p class="muted" style="margin:0">Não deu para ler o histórico agora.</p>';return}
  // "Alterado" no mesmo minuto de um desativar/reativar é o mesmo acontecimento
- const rows=(data||[]).filter((h,i,a)=>!(h.acao==='update'&&a.some(x=>x!==h&&['desativado','reativado'].includes(x.acao)&&Math.abs(Date.parse(x.em)-Date.parse(h.em))<60000)));
+ const perto=(h,a,tipos)=>a.some(x=>x!==h&&tipos.includes(x.acao)&&Math.abs(Date.parse(x.em)-Date.parse(h.em))<60000);
+ const rows=(data||[]).filter((h,i,a)=>!(h.acao==='update'&&perto(h,a,['desativado','reativado','importado']))&&!(h.acao==='insert'&&perto(h,a,['importado'])));
  el.innerHTML=rows.length?'<div class="tblwrap"><table><thead><tr><th>Quando</th><th>O que</th><th>Quem</th></tr></thead><tbody>'+rows.map(h=>'<tr><td class="num">'+new Date(h.em).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})+'</td><td>'+esc(CP_EV[h.acao]||h.acao)+'</td><td>'+esc(h.quem||'sistema')+'</td></tr>').join('')+'</tbody></table></div>'
   :'<p class="muted" style="margin:0">Sem registros ainda.</p>';
 }
