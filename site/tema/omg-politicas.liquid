@@ -1,0 +1,119 @@
+{%- comment -%}
+  Políticas (/policies/*) e página de Cookies no mesmo visual da Central de Ajuda.
+  O Shopify não aceita <style> dentro das políticas; por isso o visual vem daqui (tema).
+  Incluído em layout/theme.liquid. v1 · 29/10/2026
+{%- endcomment -%}
+<style>
+  .omg-pg{--pri:#B83D66;--fram:#D9577F;--bebe:#FDE4EC;--creme:#FFF9F6;--ameixa:#4A2638;--menta:#9EDFC4;--linha:#F6E2E9;--muted:#7A5566;
+    font-family:Poppins,"Helvetica Neue",Arial,sans-serif;color:var(--ameixa);background:var(--creme);line-height:1.6;font-size:14.5px;
+    width:min(1180px,calc(100vw - 32px));margin:20px auto 48px;padding:20px 16px 32px;border-radius:18px;box-sizing:border-box}
+  .omg-pg *{box-sizing:border-box}
+  .omg-pg .topo{padding:6px 0 16px;border-bottom:1px solid var(--linha);margin-bottom:18px}
+  .omg-pg .topo h1{font-size:clamp(22px,3vw,28px);line-height:1.2;margin:0 0 4px;font-weight:800;color:var(--ameixa)}
+  .omg-pg .topo p{margin:0;color:var(--muted);font-size:13px}
+  .omg-pg .grade{display:grid;grid-template-columns:240px minmax(0,1fr);gap:28px;align-items:start}
+  .omg-pg .lado{position:sticky;top:16px;background:#fff;border:1px solid var(--linha);border-radius:14px;padding:8px}
+  .omg-pg .lado .tit{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:8px 10px 6px}
+  .omg-pg .lado a{display:block;font-size:13.5px;color:var(--ameixa);padding:7px 10px;border-radius:9px;text-decoration:none;line-height:1.35}
+  .omg-pg .lado a:hover{background:var(--creme);color:var(--pri)}
+  .omg-pg .lado a.on{background:var(--bebe);color:var(--pri);font-weight:600}
+  .omg-pg .lado hr{border:0;border-top:1px solid var(--linha);margin:8px 6px}
+  .omg-pg .chips{display:none;gap:8px;overflow-x:auto;padding:0 0 12px;margin-bottom:6px;scrollbar-width:none}
+  .omg-pg .chips a{flex:0 0 auto;background:#fff;border:1px solid var(--linha);border-radius:999px;padding:7px 12px;font-size:13px;color:var(--ameixa);text-decoration:none;white-space:nowrap}
+  .omg-pg .chips a.on{background:var(--bebe);border-color:var(--bebe);color:var(--pri);font-weight:600}
+  .omg-pg .card{background:#fff;border:1px solid var(--linha);border-radius:14px;padding:14px 18px;margin:0 0 12px;scroll-margin-top:90px}
+  .omg-pg .card h2{font-size:16.5px;line-height:1.3;margin:2px 0 8px;font-weight:700;color:var(--ameixa);border:0;padding:0}
+  .omg-pg .card h3{font-size:15px;margin:12px 0 6px}
+  .omg-pg .card p{margin:8px 0}
+  .omg-pg .card ul,.omg-pg .card ol{margin:8px 0;padding-left:22px}
+  .omg-pg .card li{margin:4px 0}
+  .omg-pg .card a{color:var(--pri)}
+  .omg-pg .card table{border-collapse:collapse;width:100%;font-size:13.5px;margin:8px 0;border-radius:10px;overflow:hidden}
+  .omg-pg .card th,.omg-pg .card td{border-bottom:1px solid var(--linha);padding:8px 10px;text-align:left;vertical-align:top}
+  .omg-pg .card th{background:var(--bebe);font-weight:700}
+  .omg-pg .card .tbl,.omg-pg .card div[style*="overflow"]{overflow-x:auto}
+  .omg-pg .contato{background:var(--pri);color:#fff;border-radius:14px;padding:14px 18px;margin-top:6px;font-size:13.5px}
+  .omg-pg .contato a{color:#fff;font-weight:700}
+  @media (max-width:820px){.omg-pg .grade{grid-template-columns:minmax(0,1fr)}.omg-pg .lado{display:none}.omg-pg .chips{display:flex}.omg-pg{padding:16px 12px 24px}.omg-pg .card{padding:12px 14px}}
+  .shopify-policy__container{max-width:none!important;padding:0!important;margin:0!important}
+  .omg-pg-pronto .shopify-policy__title{display:none}
+</style>
+<script>
+(function () {
+  var LINKS = [
+    ['Central de Ajuda', '/pages/central-de-ajuda'],
+    ['Trocas e devoluções', '/policies/refund-policy'],
+    ['Entrega e frete', '/policies/shipping-policy'],
+    ['Privacidade', '/policies/privacy-policy'],
+    ['Termos de uso', '/policies/terms-of-service'],
+    ['Cookies', '/pages/cookies'],
+    ['Empresa e contato', '/policies/contact-information']
+  ];
+  function montar() {
+    var pol = document.querySelector('.shopify-policy__container');
+    var src = pol ? (pol.querySelector('.shopify-policy__body .rte') || pol.querySelector('.shopify-policy__body')) : document.querySelector('.omg-pol');
+    if (!src || src.getAttribute('data-omg') === '1') return;
+    var h1 = (pol && pol.querySelector('.shopify-policy__title h1')) || src.querySelector('h1');
+    var titulo = h1 ? h1.textContent.trim() : document.title;
+    // título repetido do tema (páginas comuns, como Cookies)
+    Array.prototype.forEach.call(document.querySelectorAll('h1'), function (h) { if (!src.contains(h) && h.textContent.trim() === titulo) h.style.display = 'none'; });
+    var raiz = src.querySelector(':scope > div') && src.children.length === 1 ? src.querySelector(':scope > div') : src;
+    var nos = Array.prototype.slice.call(raiz.childNodes);
+
+    var pg = document.createElement('div'); pg.className = 'omg-pg';
+    var topo = document.createElement('div'); topo.className = 'topo';
+    topo.innerHTML = '<h1></h1>'; topo.firstChild.textContent = titulo;
+    var grade = document.createElement('div'); grade.className = 'grade';
+    var lado = document.createElement('aside'); lado.className = 'lado';
+    var conteudo = document.createElement('div');
+    var chips = document.createElement('nav'); chips.className = 'chips';
+    var aqui = location.pathname.replace(/\/$/, '');
+
+    var card = null, sumario = [], contatoTxt = null, n = 0;
+    function novoCard() { card = document.createElement('section'); card.className = 'card'; conteudo.appendChild(card); }
+    nos.forEach(function (no) {
+      if (no.nodeType === 3 && !no.textContent.trim()) return;
+      if (no.nodeType !== 1) { if (!card) novoCard(); card.appendChild(no); return; }
+      var tag = no.tagName;
+      if (tag === 'STYLE' || tag === 'H1') return;
+      if (tag === 'NAV') return; // sumário antigo: vira a coluna lateral
+      var txt = no.textContent.trim();
+      if (tag === 'P' && /^Última atualização/i.test(txt)) { var p = document.createElement('p'); p.textContent = txt; topo.appendChild(p); return; }
+      if (tag === 'P' && /^Dúvidas\? Fale com a gente/i.test(txt)) { contatoTxt = no.innerHTML; return; }
+      if (tag === 'H2') {
+        novoCard(); n++;
+        if (!no.id) no.id = 'secao-' + n;
+        sumario.push([txt.replace(/^\d+\.\s*/, ''), no.id]);
+      } else if (!card) novoCard();
+      card.appendChild(no);
+    });
+
+    if (sumario.length) {
+      lado.insertAdjacentHTML('beforeend', '<div class="tit">Nesta página</div>');
+      sumario.forEach(function (s) { var a = document.createElement('a'); a.href = '#' + s[1]; a.textContent = s[0]; lado.appendChild(a); });
+      lado.insertAdjacentHTML('beforeend', '<hr>');
+    }
+    lado.insertAdjacentHTML('beforeend', '<div class="tit">Ajuda e políticas</div>');
+    LINKS.forEach(function (l) {
+      var on = aqui === l[1];
+      var a = document.createElement('a'); a.href = l[1]; a.textContent = l[0]; if (on) a.className = 'on'; lado.appendChild(a);
+      var c = document.createElement('a'); c.href = l[1]; c.textContent = l[0]; if (on) c.className = 'on'; chips.appendChild(c);
+    });
+
+    var ct = document.createElement('div'); ct.className = 'contato';
+    ct.innerHTML = contatoTxt || 'Ainda com dúvida? WhatsApp <a href="https://wa.me/5511993049122">+55 11 99304-9122</a> · <a href="mailto:info.br@ohmygirl.com.br">info.br@ohmygirl.com.br</a>';
+    conteudo.appendChild(ct);
+
+    grade.appendChild(lado); grade.appendChild(conteudo);
+    pg.appendChild(topo); pg.appendChild(chips); pg.appendChild(grade);
+
+    var alvo = pol || src;
+    alvo.parentNode.insertBefore(pg, alvo);
+    alvo.style.display = 'none';
+    src.setAttribute('data-omg', '1');
+    document.documentElement.classList.add('omg-pg-pronto');
+    if (location.hash) { var el = document.getElementById(decodeURIComponent(location.hash.slice(1))); if (el) el.scrollIntoView(); }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', montar); else montar();
+})();
+</script>
