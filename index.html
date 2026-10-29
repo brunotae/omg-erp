@@ -781,7 +781,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v23 · 29/10/2026';
+const VERSAO='v24 · 29/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1699,32 +1699,66 @@ function lkTabCom(A,I,F){
 }
 async function lkGarantirCurto(l){try{await chamarShop({acao:'link_curto',slug:l.slug});return true}catch(e){toast('Link salvo, mas o endereço curto falhou: '+e.message);return false}}
 FORMS.influenciadores={title:['Novo influenciador','Influenciador'],col:'influenciadores',secs:[
- ['Influenciador',[{k:'nome',l:'Nome',req:1},{k:'arroba',l:'@ no Instagram / TikTok'},
-  {k:'codigo',l:'Código',req:1,hint:'Letras minúsculas, números e hífen. Vira o link ohmygirl.com.br/a/código e identifica as vendas dele.'},
-  {k:'email',l:'E-mail (login do painel)',hint:'Ele cria a senha no painel com este e-mail.'},{k:'telefone',l:'WhatsApp'},
-  {k:'cupom',l:'Cupom no site',hint:'Mesmo código do cupom criado em Clientes e cupons. Pedido com este cupom é dele.'},
-  {k:'comissao_pct',l:'Comissão (%)',t:'number',req:1,hint:'Sobre os produtos, já com desconto, sem frete e sem imposto.'},
-  {k:'inicio',l:'Início',t:'date'},{k:'fim',l:'Fim (opcional)',t:'date',hint:'Depois do fim, o link e o painel continuam, mas novos pedidos pelo link não contam.'},
-  {k:'ativo',l:'Ativo',t:'bool'},{k:'parceiro',l:'Parceiro no financeiro',t:'parc',none:'— nenhum —',hint:'Opcional: para os pagamentos entrarem no extrato dele.'}]],
- ['Pagamento (o influenciador também pode preencher no painel)',[{k:'pix_tipo',l:'Tipo da chave Pix',t:'select',o:['','CPF','CNPJ','E-mail','Celular','Chave aleatória']},{k:'pix_chave',l:'Chave Pix'},
+ ['Quem é',[{k:'nome',l:'Nome',req:1},{k:'arroba',l:'@ (Instagram / TikTok)',hint:'Ex.: @jenikang. O código do link sai daqui sozinho.'},
+  {k:'rede',l:'Onde ele mais posta',t:'select',o:['instagram','tiktok','youtube','kwai','facebook'],hint:'Vira a origem do link principal dele.'},
+  {k:'email',l:'E-mail (login do painel)',hint:'Ele cria a senha no painel com este e-mail.'},{k:'telefone',l:'WhatsApp'}]],
+ ['Comissão e cupom',[{k:'comissao_pct',l:'Comissão (%)',t:'number',req:1,fav:'10,15,20',un:'%',hint:'Sobre os produtos, já com desconto, sem frete e sem imposto.'},
+  {k:'cupom_novo',l:'Cupom de desconto para os seguidores',t:'select',o:['Não criar','5%','10%','15%','20%'],hint:'Cria o cupom no site na hora (ex.: JENI10), 1 uso por cliente. Pedido com ele é do influenciador.'},
+  {k:'cupom',l:'Ou use um cupom que já existe',hint:'Código de um cupom já criado em Clientes e cupons.'},
+  {k:'codigo',l:'Código do link',req:1,hint:'Automático a partir do @ ou do nome. Vira ohmygirl.com.br/a/código.'}]],
+ ['Período',[{k:'inicio',l:'Início',t:'date'},{k:'fim',l:'Fim (opcional)',t:'date',hint:'Depois do fim, pedidos novos pelo link não contam.'},
+  {k:'ativo',l:'Ativo',t:'bool'},{k:'parceiro',l:'Parceiro no financeiro (opcional)',t:'parc',none:'— nenhum —',hint:'Para os pagamentos entrarem no extrato dele.'}]],
+ ['Pagamento (opcional: o influenciador preenche no painel)',[{k:'pix_tipo',l:'Tipo da chave Pix',t:'select',o:['','CPF','CNPJ','E-mail','Celular','Chave aleatória']},{k:'pix_chave',l:'Chave Pix'},
   {k:'titular',l:'Titular da conta'},{k:'documento',l:'CPF ou CNPJ do titular'},{k:'banco',l:'Banco'},{k:'agencia',l:'Agência'},{k:'conta',l:'Conta'},{k:'obs',l:'Observações',t:'textarea',full:1}]]],
- def:()=>({ativo:true,comissao_pct:10,inicio:today()}),
- antes:v=>{v.codigo=lkSlug(v.codigo).slice(0,30);if(v.codigo.length<2)throw {field:{k:'codigo',l:'Código (mínimo 2 letras)'}};v.email=(v.email||'').trim().toLowerCase()||null;v.cupom=(v.cupom||'').trim().toUpperCase()},
+ def:()=>({ativo:true,comissao_pct:10,inicio:today(),rede:'instagram',cupom_novo:'10%'}),
+ wire:(form,rec)=>{
+  // código do link sai do @ (ou do nome) enquanto ninguém mexer nele à mão
+  let mexeu=!!rec;
+  const cod=form.elements.codigo, gera=()=>{if(mexeu)return;const a=String(form.elements.arroba.value||'').replace(/^@/,'').split(/[\s/]/)[0];cod.value=lkSlug(a||form.elements.nome.value).slice(0,30)};
+  cod.addEventListener('input',()=>{mexeu=true});form.elements.nome.addEventListener('input',gera);form.elements.arroba.addEventListener('input',gera);
+  const cn=form.elements.cupom_novo;if(rec&&cn){cn.value='Não criar';cn.dispatchEvent(new Event('change',{bubbles:true}))}
+ },
+ antes:v=>{v.codigo=lkSlug(v.codigo).slice(0,30);if(v.codigo.length<2)throw {field:{k:'codigo',l:'Código do link (mínimo 2 letras)'}};
+  if(S.data.influenciadores.some(i=>i.codigo===v.codigo&&i.id!==v.id)||S.data.links_utm.some(l=>l.slug===v.codigo&&!(l.influenciador&&l.influenciador===v.id)))throw {field:{k:'codigo',l:'Código do link (este já está em uso)'}};
+  v.email=(v.email||'').trim().toLowerCase()||null;v.cupom=(v.cupom||'').trim().toUpperCase();
+  const pct=parseFloat(String(v.cupom_novo||'').replace('%',''));
+  if(pct>0&&!v.cupom){v.cupom=v.codigo.replace(/-/g,'').toUpperCase().slice(0,12)+pct;v._criarCupom=pct}
+  else if(pct>0&&v.cupom&&!S.data.cupons.some(c=>String(c.codigo).toUpperCase()===v.cupom))v._criarCupom=pct;
+ },
  depois:async(id,v,rec)=>{
-  if(S.data.links_utm.some(l=>l.influenciador===id))return;
-  const l={slug:v.codigo,nome:'Link principal · '+v.nome,influenciador:id,destino:'/',utm_source:'instagram',utm_medium:'influencer',utm_campaign:'parceria-omg',utm_content:v.codigo,ativo:true};
-  const {error}=await sb.from('links_utm').insert(toDb('links_utm',l));
-  if(error){toast('Influenciador salvo, mas o link não: '+errMsg(error));return}
-  if(await lkGarantirCurto(l))toast('Link criado: ohmygirl.com.br/a/'+l.slug);
+  const msgs=[];
+  if(v._criarCupom){
+   try{const c={codigo:v.cupom,titulo:'Influenciador · '+v.nome,tipo:'%',valor:v._criarCupom,minimo:0,publico:'todas',uma_vez:true,inicio:today(),fim:v.fim||''};
+    const d=await chamarShop({acao:'cupom_criar',cupom:c});
+    await save('cupons',null,{codigo:d.codigo,tipo:'%',valor:v._criarCupom,publico:'Influencer',validade:v.fim||null,ativo:true,obs:cupomResumo(c)+' · '+v.nome+' · Shopify: '+d.id});
+    msgs.push('cupom '+d.codigo+' criado no site')}
+   catch(e){toast('Influenciador salvo, mas o cupom não foi criado: '+e.message)}
+  }
+  if(!S.data.links_utm.some(l=>l.influenciador===id)){
+   const l={slug:v.codigo,nome:'Link principal · '+v.nome,influenciador:id,destino:'/',utm_source:v.rede||'instagram',utm_medium:'influencer',utm_campaign:'parceria-omg',utm_content:v.codigo,ativo:true};
+   const {error}=await sb.from('links_utm').insert(toDb('links_utm',l));
+   if(error)toast('Influenciador salvo, mas o link não: '+errMsg(error));else if(await lkGarantirCurto(l))msgs.push('link ohmygirl.com.br/a/'+l.slug+' pronto');
+  }
+  if(msgs.length)toast(msgs.join(' · '));
+  if(!rec)setTimeout(()=>lkBoasVindas(v),400);
  }};
+function lkBoasVindas(v){
+ const txt='Oi, '+String(v.nome).split(' ')[0]+'! Seu acesso ao programa de parceiros da OMG está pronto ✨\n\n'+
+  'Seu link: ohmygirl.com.br/a/'+v.codigo+'\n'+(v.cupom?'Seu cupom: '+v.cupom+(v._criarCupom?' ('+v._criarCupom+'% de desconto para quem comprar)':'')+'\n':'')+
+  'Sua comissão: '+n(v.comissao_pct)+'% sobre os produtos (sem frete e sem imposto)\n\n'+
+  'No seu painel você vê cliques, pedidos, comissões e cadastra o Pix:\n'+LK_PORTAL+'\n'+(v.email?'Entre com o e-mail '+v.email+' e toque em "Primeiro acesso? Criar senha".':'')+'\n\nQualquer dúvida, fala com a gente por aqui 💗';
+ shell('Mensagem de boas-vindas','<div class="sec"><p class="muted" style="grid-column:1/-1;margin:0">Copie e mande para '+esc(v.nome)+' pelo WhatsApp ou direct.</p><div class="f full"><textarea id="lk-bv" readonly style="min-height:260px">'+esc(txt)+'</textarea></div>'+
+  '<div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap">'+lkCopia(txt,'Copiar mensagem')+(v.telefone?'<a class="btn" target="_blank" rel="noopener" href="https://wa.me/'+String(v.telefone).replace(/\D/g,'').replace(/^(?!55)/,'55')+'?text='+encodeURIComponent(txt)+'">Abrir no WhatsApp</a>':'')+'</div></div>',null,true);
+}
+
 FORMS.links_utm={title:['Novo link','Link'],col:'links_utm',secs:[
- ['Link',[{k:'nome',l:'Nome do link',req:1,hint:'Ex.: Reels MEDIHEAL da Jeni, Stories Black Friday'},{k:'slug',l:'Código do link curto',req:1,hint:'ohmygirl.com.br/a/código · letras minúsculas, números e hífen'},
+ ['Link',[{k:'nome',l:'Nome do link',req:1,hint:'Ex.: Reels MEDIHEAL da Jeni, Stories Black Friday'},{k:'slug',l:'Código do link curto',req:1,hint:'Gerado sozinho (4 letras e números). Pode trocar por um nome, ex.: jeni-reels1.'},
   {k:'influenciador',l:'Influenciador',t:'inf',hint:'Escolha se a venda deste link gera comissão'},{k:'destino',l:'Página de destino',hint:'/ = página inicial · /products/… · /collections/… · /pages/marcas'},
   {k:'utm_source',l:'Origem (utm_source)',t:'combo',o:LK_SRC,req:1},{k:'utm_medium',l:'Tipo (utm_medium)',t:'combo',o:LK_MED,req:1},
   {k:'utm_campaign',l:'Campanha (utm_campaign)',t:'combo',o:()=>[...new Set([...LK_CAMP0,...S.data.links_utm.map(l=>l.utm_campaign).filter(Boolean)])],req:1},
   {k:'utm_content',l:'Conteúdo (utm_content)',hint:'Quem ou qual peça. Ex.: jeni-reels1'},{k:'utm_term',l:'Termo (utm_term)',hint:'Opcional'},
-  {k:'inicio',l:'Vale a partir de',t:'date'},{k:'fim',l:'Vale até',t:'date'},{k:'ativo',l:'Ativo',t:'bool'},{k:'custo',l:'Custo (R$)',t:'number',hint:'Quanto pagamos por este post/anúncio, para ver o retorno'},{k:'obs',l:'Observações',t:'textarea',full:1}]]],
- def:()=>({ativo:true,destino:'/',utm_source:'instagram',utm_medium:'influencer',utm_campaign:'parceria-omg'}),
+  {k:'inicio',l:'Vale a partir de',t:'date'},{k:'fim',l:'Vale até',t:'date'},{k:'ativo',l:'Ativo',t:'bool'},{k:'custo',l:'Custo (R$, opcional)',t:'number',hint:'Quanto gastamos com este link: cachê do post, valor do anúncio, produto enviado. O ERP compara com o que ele vendeu.'},{k:'obs',l:'Observações',t:'textarea',full:1}]]],
+ def:()=>{let c;do{c=Array.from({length:4},()=>'abcdefghjkmnpqrstuvwxyz23456789'[Math.floor(Math.random()*31)]).join('')}while(S.data.links_utm.some(l=>l.slug===c));return {ativo:true,destino:'/',slug:c,utm_source:'instagram',utm_medium:'influencer',utm_campaign:'parceria-omg'}},
  antes:v=>{v.slug=lkSlug(v.slug);if(v.slug.length<2)throw {field:{k:'slug',l:'Código do link (mínimo 2 letras)'}};['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(k=>v[k]=lkSlug(v[k]));
   if(!v.utm_content&&v.influenciador){const i=S.data.influenciadores.find(x=>x.id===v.influenciador);if(i)v.utm_content=i.codigo}
   let d=String(v.destino||'/').trim();try{const u=new URL(d,LK_SITE);d=u.pathname+u.search}catch(_){d='/'}v.destino=d||'/'},
@@ -1939,7 +1973,7 @@ function fieldHTML(f,v,ro){
    '<input id="'+id+'-outra" name="'+f.k+'__outra" type="text" aria-label="'+esc(f.l)+': outra" placeholder="Escreva o nome" value="'+esc(known?'':val)+'"'+(sel==='__outra'?'':' hidden')+(ro?' readonly':'')+' style="margin-top:6px">';
  }
  else if(f.t==='textarea')inp='<textarea id="'+id+'" name="'+f.k+'"'+(ro?' readonly':'')+'>'+esc(v)+'</textarea>';
- else inp='<input id="'+id+'" name="'+f.k+'" type="'+(f.t==='number'?'number':f.t==='date'?'date':'text')+'"'+(f.t==='number'?' step="any"':'')+' value="'+esc(v??'')+'"'+(ro||f.ro?' readonly':'')+(f.list?' list="'+f.list+'"':'')+'>';
+ else inp='<input id="'+id+'" name="'+f.k+'" type="'+(f.t==='number'?'number':f.t==='date'?'date':'text')+'"'+(f.t==='number'?' step="any"':'')+' value="'+esc(v??'')+'"'+(ro||f.ro?' readonly':'')+(f.list?' list="'+f.list+'"':'')+(f.fav!=null?' data-fav="'+esc(f.fav)+'" data-fav-key="'+esc(f.favKey||f.k)+'"':'')+(f.un?' data-fav-un="'+esc(f.un)+'"':'')+'>';
  return '<div class="f'+(f.full?' full':'')+'"><label for="'+id+'">'+esc(f.l)+'</label>'+inp+(f.hint?'<span class="hint">'+esc(f.hint)+'</span>':'')+'</div>';
 }
 function readFields(form,fs){
@@ -1985,7 +2019,8 @@ function openForm(key,id){
  wireAnexos(F.col,rec);
  if(preP&&can()){$('#sp-status').addEventListener('click',()=>acaoShopify({acao:'status',produtoId:rec.shopify_product_id,ativo:!rec.ativo},rec.ativo?'Produto pausado no site':'Produto ativo no site'));
   $('#sp-preco').addEventListener('click',()=>{const v=parseFloat((document.querySelector('#mform [name="preco"]')||{}).value);if(!(v>0)){toast('Preencha o preço de venda');return}if(confirm('Mudar o preço no site para '+brl(v)+'?'))acaoShopify({acao:'preco',produtoId:rec.shopify_product_id,varianteId:rec.shopify_variant_id,preco:v},'Preço atualizado no site')})}
- wireSubmit(async form=>{const vals=readFields(form,fs);if(F.antes)F.antes(vals);const id=await save(F.col,rec,vals);await finishAnexos(F.col,id);toast(rec?'Alterações salvas':'Cadastrado');if(F.depois)await F.depois(id,{...(rec||{}),...vals},rec)});
+ if(F.wire)F.wire($('#mform'),rec);
+ wireSubmit(async form=>{const vals=readFields(form,fs);if(rec)vals.id=rec.id;if(F.antes)F.antes(vals);const id=await save(F.col,rec,vals);await finishAnexos(F.col,id);toast(rec?'Alterações salvas':'Cadastrado');if(F.depois)await F.depois(id,{...(rec||{}),...vals},rec)});
 }
 
 /* ---------- formulário de venda ---------- */
@@ -2525,6 +2560,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v24','29/10/2026',['Novo influenciador mais rápido: o código do link sai do @, a rede vira botões (Instagram, TikTok…), comissão com botões 10/15/20% e o cupom de desconto é criado no site na hora (ex.: JENI10).','Depois de salvar, aparece a mensagem de boas-vindas pronta para copiar ou abrir no WhatsApp (link, cupom, comissão e painel).','Novo link: o código curto já vem pronto, com 4 letras e números.','Um clique: listas com até 10 opções curtas viram botões (ex.: Origem: instagram, tiktok…); listas maiores ganham botões favoritos.']],
  ['v23','29/10/2026',['Ações de marketing agora fica dentro do ERP (Marketing › Ações de marketing), com o menu lateral, cores, versão e os botões de um clique.','Cada ação pode ter um cupom e um link: o cartão e a folha mostram quantos pedidos, quanto faturou e quantos cliques ela trouxe.','O endereço antigo acoes.html abre esta mesma tela.']],
  ['v22','29/10/2026',['Cupom de frete grátis: zera o frete em qualquer região do Brasil. Teto opcional (só vale se o frete for até R$ X). Imposto continua cobrado.','Palavra no meio do código: digite um nome ou palavra (ex.: Maria) e o código vira OMG-MARIA-7K. As palavras também viram botões favoritos.']],
  ['v21','29/10/2026',['Cupons: ao abrir um cupom aparecem os pedidos que usaram (pedido, data, cliente, total, desconto) e o histórico (criado, desativado, reativado, alterado), com data e pessoa.','Botão Trazer cupons do Shopify: importa os cupons criados direto no Shopify e atualiza o status de todos.','Cupom ligado ao Shopify não tem mais o botão Excluir (ele só sumia do ERP e continuava valendo no site). Use Desativar no site.']],
@@ -2716,8 +2752,8 @@ setInterval(()=>{if(!document.hidden)loadAll()},60000);
 /* ===== Regra 7 · Um clique: opções favoritas + campo livre (Tae · 29/10/2026) =====
    Módulo genérico, sem dependências. Cole antes de </body> (ou dentro do script principal).
    O que faz, sozinho, em qualquer tela (MutationObserver):
-   1) <select> com até 6 opções curtas  → vira botões lado a lado (1 clique). O select continua no formulário, escondido.
-   2) <select> maior                      → ganha os favoritos dele em botões acima da lista.
+   1) <select> com até 10 opções curtas → vira botões lado a lado (1 clique). O select continua no formulário, escondido.
+   2) <select> maior                      → ganha botões favoritos abaixo da lista (exceto data-1c="lista").
    3) <input type=number> com rótulo      → ganha a linha de favoritos: [12%] [15%] [20%] [+ favorito] [✎]
       e campos de texto marcados com data-fav também.
    Favoritos: "+ favorito" guarda o valor que está no campo; "✎" mostra o × para tirar. Valem por pessoa e por aparelho.
@@ -2767,7 +2803,9 @@ setInterval(()=>{if(!document.hidden)loadAll()},60000);
     const ops = [...sel.options].filter(o => o.value !== '' && !/^outr[ao]…?$/i.test(o.text.trim()) && o.value !== '__outra');
     const forca = sel.dataset['1c'];
     if (forca === 'lista') return false;
-    if (forca !== 'botoes' && (ops.length < 2 || ops.length > 6 || ops.some(o => o.text.trim().length > 40) || sel.multiple)) return false;
+    // poucas opções curtas (até 10, somando até ~90 letras: cabem em duas linhas) viram botões
+    const letras = ops.reduce((t, o) => t + o.text.trim().length, 0);
+    if (forca !== 'botoes' && (ops.length < 2 || ops.length > 10 || letras > 90 || ops.some(o => o.text.trim().length > 40) || sel.multiple)) return false;
     const temOutra = [...sel.options].some(o => o.value === '__outra');
     const box = document.createElement('div'); box.className = 'uc-seg'; box.setAttribute('role', 'group');
     const nome = rotulo(sel); if (nome) box.setAttribute('aria-label', nome);
@@ -2824,7 +2862,8 @@ setInterval(()=>{if(!document.hidden)loadAll()},60000);
       if (off(el) || el.type === 'hidden' || el.closest('.uc-seg,.uc-fav')) return;
       // só em formulários e quadros (filtros de barra ficam como estão, a não ser com data-1c="botoes")
       if (!el.closest('form,[role="dialog"],.modal,[data-1c="on"]') && el.dataset['1c'] !== 'botoes' && el.dataset.fav === undefined) return;
-      if (el.tagName === 'SELECT') { if (!botoes(el) && el.dataset.fav !== undefined) favoritos(el); return; }
+      // lista grande: ganha favoritos (menos as marcadas data-1c="lista", que o próprio sistema preenche)
+      if (el.tagName === 'SELECT') { if (!botoes(el) && (el.dataset.fav !== undefined || el.dataset['1c'] !== 'lista')) favoritos(el); return; }
       const temRotulo = !!rotulo(el) && !!((el.id && document.querySelector('label[for="' + CSS.escape(el.id) + '"]')) || el.closest('label'));
       if ((el.type === 'number' && temRotulo) || el.dataset.fav !== undefined) favoritos(el);
     });

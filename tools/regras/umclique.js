@@ -1,8 +1,8 @@
 /* ===== Regra 7 · Um clique: opções favoritas + campo livre (Tae · 29/10/2026) =====
    Módulo genérico, sem dependências. Cole antes de </body> (ou dentro do script principal).
    O que faz, sozinho, em qualquer tela (MutationObserver):
-   1) <select> com até 6 opções curtas  → vira botões lado a lado (1 clique). O select continua no formulário, escondido.
-   2) <select> maior                      → ganha os favoritos dele em botões acima da lista.
+   1) <select> com até 10 opções curtas → vira botões lado a lado (1 clique). O select continua no formulário, escondido.
+   2) <select> maior                      → ganha botões favoritos abaixo da lista (exceto data-1c="lista").
    3) <input type=number> com rótulo      → ganha a linha de favoritos: [12%] [15%] [20%] [+ favorito] [✎]
       e campos de texto marcados com data-fav também.
    Favoritos: "+ favorito" guarda o valor que está no campo; "✎" mostra o × para tirar. Valem por pessoa e por aparelho.
@@ -52,7 +52,9 @@
     const ops = [...sel.options].filter(o => o.value !== '' && !/^outr[ao]…?$/i.test(o.text.trim()) && o.value !== '__outra');
     const forca = sel.dataset['1c'];
     if (forca === 'lista') return false;
-    if (forca !== 'botoes' && (ops.length < 2 || ops.length > 6 || ops.some(o => o.text.trim().length > 40) || sel.multiple)) return false;
+    // poucas opções curtas (até 10, somando até ~90 letras: cabem em duas linhas) viram botões
+    const letras = ops.reduce((t, o) => t + o.text.trim().length, 0);
+    if (forca !== 'botoes' && (ops.length < 2 || ops.length > 10 || letras > 90 || ops.some(o => o.text.trim().length > 40) || sel.multiple)) return false;
     const temOutra = [...sel.options].some(o => o.value === '__outra');
     const box = document.createElement('div'); box.className = 'uc-seg'; box.setAttribute('role', 'group');
     const nome = rotulo(sel); if (nome) box.setAttribute('aria-label', nome);
@@ -109,7 +111,8 @@
       if (off(el) || el.type === 'hidden' || el.closest('.uc-seg,.uc-fav')) return;
       // só em formulários e quadros (filtros de barra ficam como estão, a não ser com data-1c="botoes")
       if (!el.closest('form,[role="dialog"],.modal,[data-1c="on"]') && el.dataset['1c'] !== 'botoes' && el.dataset.fav === undefined) return;
-      if (el.tagName === 'SELECT') { if (!botoes(el) && el.dataset.fav !== undefined) favoritos(el); return; }
+      // lista grande: ganha favoritos (menos as marcadas data-1c="lista", que o próprio sistema preenche)
+      if (el.tagName === 'SELECT') { if (!botoes(el) && (el.dataset.fav !== undefined || el.dataset['1c'] !== 'lista')) favoritos(el); return; }
       const temRotulo = !!rotulo(el) && !!((el.id && document.querySelector('label[for="' + CSS.escape(el.id) + '"]')) || el.closest('label'));
       if ((el.type === 'number' && temRotulo) || el.dataset.fav !== undefined) favoritos(el);
     });
