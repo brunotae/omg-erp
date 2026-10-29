@@ -252,6 +252,27 @@ Deno.serve(async (req) => {
       return resp(200, { ok: true, produtos: out });
     }
 
+    if (b.acao === "desc_scan") {
+      // Varre produtos ATIVOS (100 por chamada, b.after) e aponta descrições problemáticas.
+      const d: any = await gql(`query($a: String) { products(first: 100, after: $a, query: "status:active") { nodes { handle title tags descriptionHtml media(first: 1) { nodes { id } } } pageInfo { hasNextPage endCursor } } }`, { a: b.after ?? null });
+      const achados: any[] = [];
+      for (const p of d.products.nodes) {
+        const h = String(p.descriptionHtml || ""); const txt = h.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+        const f: string[] = [];
+        if (/shopify-section|BrickSection|data-section-id|<section/i.test(h)) f.push("secao_copiada");
+        if (/<(script|style|iframe|form)\b/i.test(h)) f.push("tag_perigosa");
+        const ext = [...h.matchAll(/(?:href|src)="(?:https?:)?\/\/([^/"]+)/gi)].map((m) => m[1].toLowerCase()).filter((x) => !/cdn\.shopify\.com|ohmygirl\.com\.br|myshopify\.com/.test(x));
+        if (ext.length) f.push("link_externo:" + [...new Set(ext)].slice(0, 3).join(","));
+        if (/proveniente do exterior/i.test(txt) && txt.length < 260) f.push("so_aviso");
+        else if (txt.length < 40) f.push("sem_descricao");
+        if (h.length > 12000) f.push("longa:" + h.length);
+        if ((p.tags || []).some((t: string) => /duplicata/i.test(t))) f.push("duplicata");
+        if (!p.media.nodes.length) f.push("sem_foto");
+        if (f.length) achados.push({ h: p.handle, t: p.title, f });
+      }
+      return resp(200, { ok: true, n: d.products.nodes.length, achados, proximo: d.products.pageInfo.hasNextPage ? d.products.pageInfo.endCursor : null });
+    }
+
     if (b.acao === "produto_desc") {
       // Corrige a descrição (HTML) de produtos: b.itens = [{ id, html }] (até 20).
       const res: any[] = [];
