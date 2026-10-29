@@ -2494,7 +2494,7 @@ setInterval(()=>{if(!document.hidden)loadAll()},60000);
     const ops = [...sel.options].filter(o => o.value !== '' && !/^outr[ao]…?$/i.test(o.text.trim()) && o.value !== '__outra');
     const forca = sel.dataset['1c'];
     if (forca === 'lista') return false;
-    if (forca !== 'botoes' && (ops.length < 2 || ops.length > 6 || ops.some(o => o.text.trim().length > 26) || sel.multiple)) return false;
+    if (forca !== 'botoes' && (ops.length < 2 || ops.length > 6 || ops.some(o => o.text.trim().length > 40) || sel.multiple)) return false;
     const temOutra = [...sel.options].some(o => o.value === '__outra');
     const box = document.createElement('div'); box.className = 'uc-seg'; box.setAttribute('role', 'group');
     const nome = rotulo(sel); if (nome) box.setAttribute('aria-label', nome);
