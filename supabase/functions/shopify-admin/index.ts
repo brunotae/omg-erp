@@ -495,6 +495,7 @@ Deno.serve(async (req) => {
         const out: any = { id: it.id, title: tr[it.id] ?? it.title, type: it.type, tags: it.tags, items: (it.items || []).map(map) };
         if (tr[it.id]) n++;
         if (it.type === "HTTP") out.url = it.url; if (it.resourceId) out.resourceId = it.resourceId;
+        if (b.urls?.[it.id]) { out.type = "HTTP"; out.url = String(b.urls[it.id]); delete out.resourceId; n++; }
         return out;
       };
       const items = m.items.map(map);
