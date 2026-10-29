@@ -114,9 +114,10 @@
 <script>
 (function(){
   if(window.__omgAjuda) return; window.__omgAjuda=1;
-  function monta(){
+  function monta(forca){
     if(document.querySelector('.omg-ajuda')) return;
     var w=document.querySelector('.omg-whats'), bomi=document.getElementById('bomi-botao');
+    if(!bomi && !forca) return; // a Bomi carrega depois da página; espera ela (até ~10 s)
     if(!w && !bomi) return;
     var d=document.createElement('div'); d.className='omg-ajuda';
     d.innerHTML='<div class="omg-ajuda__menu" role="menu">'+
@@ -131,6 +132,6 @@
     document.addEventListener('click',function(e){ if(!d.contains(e.target)) fecha(); });
     document.addEventListener('keydown',function(e){ if(e.key==='Escape') fecha(); });
   }
-  var n=0, t=setInterval(function(){ monta(); if(document.querySelector('.omg-ajuda') || ++n>40) clearInterval(t); }, 250);
+  var n=0, t=setInterval(function(){ n++; monta(n>40); if(document.querySelector('.omg-ajuda') || n>41) clearInterval(t); }, 250);
 })();
 </script>
