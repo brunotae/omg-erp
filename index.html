@@ -410,6 +410,38 @@ select.chip{appearance:auto;cursor:pointer}
 :root[data-tema="areia"]{--bg:#FBF7F1;--surface:#FFFFFF;--surface2:#F5EDE2;--ink:#3A2A1E;--muted:#7A6655;--line:#EBDDCC;--chiclete:#E08A5B;--framboesa:#B8572F;--rasp:#B8572F;--bebe:#F8E3D3;--pri:#9A4220;--accent:#9A4220;--info:#9A4220;--soft:#F8E3D3;--baby:#FCF1E8;--info-bg:#FCF1E8;--mute-bg:#F5EDE2;--shade:rgba(0,0,0,.35)}
 :root[data-tema="lavanda"]{--bg:#F8F6FC;--surface:#FFFFFF;--surface2:#EFEAF9;--ink:#2C1F47;--muted:#685C82;--line:#E3DCF2;--chiclete:#B39DDB;--framboesa:#7E57C2;--rasp:#7E57C2;--bebe:#EAE2F8;--pri:#5B3A9E;--accent:#5B3A9E;--info:#5B3A9E;--soft:#EAE2F8;--baby:#F4F0FB;--info-bg:#F4F0FB;--mute-bg:#EFEAF9;--shade:rgba(0,0,0,.35)}
 :root[data-tema="noite"]{--bg:#141018;--surface:#1E1823;--surface2:#271F2D;--ink:#F4E9EF;--muted:#B9A3AF;--line:#3A2F40;--chiclete:#F48FB1;--framboesa:#F06292;--rasp:#F06292;--bebe:#3A2232;--pri:#F06292;--accent:#F06292;--info:#F06292;--soft:#3A2232;--baby:#2A1C26;--info-bg:#2A1C26;--mute-bg:#271F2D;--shade:rgba(0,0,0,.35);--on-pri:#1B0F15;color-scheme:dark}
+.rx-flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;margin-top:6px}
+.rx-step{position:relative;display:flex;flex-direction:column;gap:6px;padding:14px}
+.rx-step:not(:last-child)::after{content:"→";position:absolute;right:-18px;top:44%;color:var(--muted);font-weight:700}
+.rx-sh{display:flex;align-items:center;gap:8px}.rx-sh b{font-size:13.5px}
+.rx-b{width:24px;height:24px;border-radius:50%;background:var(--accent,var(--pri,#B83D66));color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700;flex:none}
+.rx-big{font-size:22px;font-weight:800;line-height:1.1}
+.rx-l{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;border-top:1px dashed var(--line);padding-top:4px}
+.rx-quem{margin-top:auto;font-size:11.5px;color:var(--muted);background:var(--mute-bg);border-radius:8px;padding:4px 8px;text-align:center}
+.rx-dec{display:flex;justify-content:center;margin:16px 0 10px}.rx-dec span{background:var(--accent,var(--pri,#B83D66));color:#fff;font-weight:700;padding:8px 18px;border-radius:999px;font-size:13px}
+.rx-ramos{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:14px}
+.rx-sim{border-color:var(--ok)}.rx-nao{border-color:var(--bad)}
+.rx-rh{display:flex;align-items:center;gap:8px;font-weight:700;margin-bottom:10px}
+.rx-par{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.rx-par>div{border:1px solid var(--line);border-radius:10px;padding:8px 10px;display:flex;flex-direction:column}
+.rx-par>div.hot{border-color:var(--bad)}.rx-par>div.hot b{color:var(--bad)}
+.rx-par b{font-size:22px;font-weight:800}.rx-par span{font-size:12px;color:var(--muted)}
+.rx-errs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+.rx-err{border:1px dashed var(--line);border-radius:10px;padding:7px 9px;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer;display:flex;flex-direction:column}
+.rx-err[aria-pressed="true"],.rx-err:hover{border-color:var(--bad)}
+.rx-err small{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--bad)}.rx-err b{font-size:18px}.rx-err span{font-size:11px;color:var(--muted)}.rx-err em{font-style:normal;color:var(--bad);font-weight:600}
+.rx-f[aria-pressed="true"]{background:var(--accent,var(--pri,#B83D66));color:#fff;border-color:transparent}
+.rx-q{border:1px solid var(--line);border-radius:999px;padding:6px 12px;font:inherit;font-size:13px;background:var(--surface);color:var(--ink,inherit);min-width:0;flex:1 1 160px;max-width:240px}
+.rx-grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.rx-mc{text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:7px;font:inherit;color:inherit;padding:12px 14px}
+.rx-mc.urg{border-color:var(--bad)}.rx-mc.on{outline:2px solid var(--accent,var(--pri,#B83D66))}
+.rx-mt{display:flex;justify-content:space-between;align-items:center;gap:8px}.rx-mt b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rx-n{font-size:12px;color:var(--muted)}.rx-n b{color:inherit}
+.rx-bar{display:flex;height:9px;border-radius:999px;overflow:hidden;background:var(--line)}.rx-bar i{display:block;height:100%}
+.rx-det{grid-column:1/-1;border-color:var(--accent,var(--pri,#B83D66))}
+.rx-det tr[data-edit]{cursor:pointer}
+@media (max-width:900px){.rx-flow{grid-template-columns:repeat(2,minmax(0,1fr))}.rx-step::after{display:none}.rx-ramos{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:520px){.rx-flow{grid-template-columns:minmax(0,1fr)}.rx-errs{grid-template-columns:repeat(2,minmax(0,1fr))}.rx-par{grid-template-columns:minmax(0,1fr)}}
 </style>
 </head>
 <body>
@@ -509,7 +541,7 @@ const ICONS={
  devolucoes:'<path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/>',
  insumos:'<path d="m3 8 9-5 9 5-9 5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/>',
  compras:'<path d="M5 4h14v16l-3-2-2 2-2-2-2 2-2-2-3 2z"/><path d="M9 9h6M9 13h6"/>',
- produtos:'<rect x="8" y="3" width="8" height="5" rx="1"/><path d="M7 8h10v12a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1z"/>',
+ raiox:'<circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5M8.5 11h5M11 8.5v5"/>',produtos:'<rect x="8" y="3" width="8" height="5" rx="1"/><path d="M7 8h10v12a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1z"/>',
  clientes:'<circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0"/><path d="M16 11h5M18.5 8.5v5"/>',
  analises:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
  atendimentos:'<path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/>',
@@ -517,7 +549,7 @@ const ICONS={
  fornecedores:'<path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/>',
  config:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/>'
 };
-const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Lista do dia'],['','lotes','Embarques'],['','devolucoes','Devoluções'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','insumos','Embalagens'],['','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['Clientes','clientes','Clientes e cupons'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
+const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Lista do dia'],['','lotes','Embarques'],['','devolucoes','Devoluções'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','insumos','Embalagens'],['','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
 
 /* ================= utilidades ================= */
 const $=s=>document.querySelector(s);
@@ -663,7 +695,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v14 · 28/10/2026';
+const VERSAO='v15 · 29/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1128,6 +1160,87 @@ VIEWFN.produtos=()=>{
  :empty('Catálogo vazio','No Shopify, vá em Produtos → Exportar → Todos os produtos → CSV. Depois clique em Importar do Shopify (CSV) aqui. Vêm também os produtos em rascunho.'))+'</div></div>'+
  '<aside class="rail"><div class="note"><span class="label">Regra de preço OMG</span><p>1. Se KS ou Jini vendem: '+n(S.cfg.desc)+'% abaixo, preço final com frete e impostos.</p><p>2. Se não: site oficial coreano +'+n(S.cfg.markup)+'%.</p><p class="muted">Sprays, aerossóis, perfumes e removedor de esmalte não podem ser vendidos (DG aéreo).</p></div></aside></div>';
 };
+
+/* ---------- Raio-X do catálogo (Shopify) · v15 ---------- */
+const RX_ERR={foto:['Foto','sem foto','p-bad'],provisorio:['Preço provisório','R$ 0 ou 999,99','p-bad'],suspeito:['Preço suspeito','barato demais','p-bad'],duplicado:['Duplicado','mesmo produto 2x','p-warn'],categoria:['Categoria','fora dos menus','p-warn'],marca:['Marca','nome errado','p-warn']};
+const RX_OKLOW=/sach|amostra|trial|1 unidade|\(1 un|pump|válvula|adesiv|patch|scrunchie|puff|esponja|pincel|brush|^bolsa|pouch|necessaire|nécessaire|clip|presilha|case|estojo/i;
+const RX_KIT=/^(kit|duo|conjunto|trio|set)\b/i, RX_MARCA_RUIM=['Mundo Beleza','VT','COEVAL Vegan'];
+let RX=(()=>{try{return JSON.parse(localStorage.getItem('omg-raiox')||'null')}catch(_){return null}})();
+const RXUI={f:'todas',err:'',m:'',q:'',carregando:false,prog:''};
+function rxTokens(s){const STOP=new Set('com para de da do das dos and the ml unidades un kit'.split(' '));return new Set(String(s).split('·')[0].toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').match(/[a-z0-9]+/g)?.filter(w=>w.length>2&&!STOP.has(w))||[])}
+function rxAnalisa(rows){
+ const P=rows.map(r=>({h:r[0],t:r[1],m:r[2]||'(sem marca)',a:r[3]==='ACTIVE',tags:r[5]||'',fotos:r[6],skus:r[7],pmin:r[8],pmax:r[9],id:r[10]}));
+ const A=P.filter(p=>p.a), dup={};
+ A.forEach(a=>{if(a.t.includes(':')||RX_KIT.test(a.t))return;const ta=rxTokens(a.t);let best=null;
+  A.forEach(b=>{if(b===a||b.m!==a.m||!b.t.includes(':')||RX_KIT.test(b.t))return;const tb=rxTokens(b.t);let k=0;ta.forEach(w=>{if(tb.has(w))k++});const s=k/Math.max(1,ta.size);if(s>=0.8&&(!best||s>best[0]))best=[s,b.t,b.pmin]});
+  if(best)dup[a.h]=best});
+ P.forEach(p=>{const f=[];
+  if(!p.fotos)f.push('foto');
+  if(p.pmin<=0||Math.abs(p.pmin-999.99)<.01||Math.abs(p.pmax-999.99)<.01)f.push('provisorio');
+  else if(p.pmin<15&&p.pmax<3*Math.max(p.pmin,1)&&!RX_OKLOW.test(p.t))f.push('suspeito');
+  if((p.a&&dup[p.h])||(!p.a&&/duplicata/.test(p.tags)))f.push('duplicado');
+  if(!p.tags.split('|').some(t=>/^cat[-:]/.test(t)))f.push('categoria');
+  if(RX_MARCA_RUIM.includes(p.m))f.push('marca');
+  p.f=f;if(p.a&&dup[p.h]){p.par=dup[p.h][1];p.parpr=dup[p.h][2]}});
+ return {em:new Date().toISOString(),P};
+}
+async function rxAtualizar(){
+ if(RXUI.carregando)return;RXUI.carregando=true;RXUI.prog='Lendo o Shopify…';render();
+ try{let rows=[],after=null,pag=0;do{const d=await chamarShop({acao:'catalogo',after});rows=rows.concat(d.rows||[]);after=d.proximo;pag++;RXUI.prog='Lendo o Shopify… '+rows.length+' produtos';const el=document.getElementById('rx-prog');if(el)el.textContent=RXUI.prog}while(after&&pag<40);
+  RX=rxAnalisa(rows);try{localStorage.setItem('omg-raiox',JSON.stringify(RX))}catch(_){} toast('Raio-X atualizado: '+rows.length+' produtos')}
+ catch(e){toast('Erro no raio-x: '+e.message)}
+ RXUI.carregando=false;render();
+}
+function rxSkus(id){return S.data.produtos.filter(p=>String(p.shopify_product_id||'')===String(id))}
+VIEWFN.raiox=()=>{
+ const btn='<button class="btn sm pri" type="button" id="rx-atualizar"'+(RXUI.carregando?' disabled':'')+'>'+(RXUI.carregando?'Atualizando…':'Atualizar raio-x')+'</button>';
+ const sub=RX?'Situação de cada produto no Shopify em '+new Date(RX.em).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})+'. Clique numa marca para ver os produtos e os SKUs.':'Lê todos os produtos do Shopify (no ar e rascunho) e aponta foto, preço e cadastro com problema.';
+ if(!RX)return '<div class="page wide"><div class="col">'+head('Raio-X do catálogo',sub,btn)+'<div class="card">'+(RXUI.carregando?'<p class="muted" id="rx-prog">'+esc(RXUI.prog)+'</p>':empty('Ainda sem raio-x','Clique em Atualizar raio-x. Leva uns 30 segundos.'))+'</div></div></div>';
+ const P=RX.P, A=P.filter(p=>p.a), tot={}; P.forEach(p=>p.f.forEach(k=>{tot[(p.a?'A':'R')+k]=(tot[(p.a?'A':'R')+k]||0)+1}));
+ const t=k=>(tot['A'+k]||0)+(tot['R'+k]||0), skus=P.reduce((a,p)=>a+p.skus,0), skusA=A.reduce((a,p)=>a+p.skus,0);
+ const marcasT=new Set(P.map(p=>p.m)), marcasA=new Set(A.map(p=>p.m));
+ const okA=A.filter(p=>!p.f.length).length, okR=P.filter(p=>!p.a&&!p.f.length).length, prA=A.length-okA, prR=P.length-A.length-okR;
+ const lin=(a,b,c)=>'<div class="rx-l"><span>'+a+'</span><b class="num"'+(c?' style="color:var(--'+c+')"':'')+'>'+b+'</b></div>';
+ const step=(nr,tit,big,cor,linhas,quem)=>'<div class="card rx-step"><div class="rx-sh"><span class="rx-b">'+nr+'</span><b>'+tit+'</b></div><div class="rx-big num"'+(cor?' style="color:var(--'+cor+')"':'')+'>'+big+'</div>'+linhas+'<div class="rx-quem">'+quem+'</div></div>';
+ const fluxo='<div class="rx-flow">'+
+  step(1,'Cadastrado no Shopify',vnum(P.length),'',lin('No ar',vnum(A.length)+' · '+marcasA.size+' marcas','ok')+lin('Rascunho',vnum(P.length-A.length))+lin('SKUs (no ar / total)',vnum(skusA)+' / '+vnum(skus)),'Fonte: Shopify')+
+  step(2,'Foto',vnum(t('foto'))+' sem foto','bad',lin('No ar',vnum(tot.Afoto||0),tot.Afoto?'bad':'')+lin('Rascunho',vnum(tot.Rfoto||0)),'Corrige: Janice (fotos)')+
+  step(3,'Preço',vnum(t('provisorio')+t('suspeito'))+' a conferir','bad',lin('Provisório',vnum(t('provisorio')))+lin('Suspeito no ar',vnum(tot.Asuspeito||0),tot.Asuspeito?'bad':'')+lin('Suspeito em rascunho',vnum(tot.Rsuspeito||0)),'Corrige: Tae (preço)')+
+  step(4,'Cadastro',vnum(t('duplicado')+t('categoria')+t('marca'))+' ajustes','warn',lin('Duplicado no ar',vnum(tot.Aduplicado||0),tot.Aduplicado?'bad':'')+lin('Duplicado em rascunho',vnum(tot.Rduplicado||0))+lin('Sem categoria · marca errada',vnum(t('categoria'))+' · '+vnum(t('marca'))),'Corrige: Claude / Diego')+'</div>'+
+  '<div class="rx-dec"><span>5 · Está tudo certo?</span></div>'+
+  '<div class="rx-ramos"><div class="card rx-sim"><div class="rx-rh"><span class="pill p-ok">SIM</span> Pronto</div><div class="rx-par"><div><b class="num">'+vnum(okA)+'</b><span>no ar e sem problema</span></div><div><b class="num">'+vnum(okR)+'</b><span>prontos em rascunho: podem ir ao ar</span></div></div></div>'+
+  '<div class="card rx-nao"><div class="rx-rh"><span class="pill p-bad">NÃO</span> Corrigir</div><div class="rx-par"><div class="hot"><b class="num">'+vnum(prA)+'</b><span>no ar: o cliente já vê</span></div><div><b class="num">'+vnum(prR)+'</b><span>em rascunho</span></div></div>'+
+  '<div class="rx-errs">'+Object.keys(RX_ERR).map(k=>'<button type="button" class="rx-err" data-rx-err="'+k+'" aria-pressed="'+(RXUI.err===k)+'"><small>'+RX_ERR[k][0]+'</small><b class="num">'+vnum(t(k))+'</b><span>'+RX_ERR[k][1]+(tot['A'+k]?' · <em>'+tot['A'+k]+' no ar</em>':'')+'</span></button>').join('')+'</div></div></div>';
+ // marcas
+ const M={};P.forEach(p=>{const b=M[p.m]||(M[p.m]={m:p.m,ativo:0,rasc:0,sku:0,okA:0,okR:0,e:{},eA:{}});b[p.a?'ativo':'rasc']++;b.sku+=p.skus;if(!p.f.length)b[p.a?'okA':'okR']++;p.f.forEach(k=>{b.e[k]=(b.e[k]||0)+1;if(p.a)b.eA[k]=(b.eA[k]||0)+1})});
+ const q=RXUI.q.toLowerCase();
+ const L=Object.values(M).sort((a,b)=>b.ativo-a.ativo||(b.ativo+b.rasc)-(a.ativo+a.rasc)).filter(b=>{const tt=b.ativo+b.rasc,pr=tt-b.okA-b.okR,urg=Object.keys(b.eA).length>0;
+  if(q&&!b.m.toLowerCase().includes(q))return false;if(RXUI.err&&!b.e[RXUI.err])return false;
+  return RXUI.f==='todas'||(RXUI.f==='ar'&&b.ativo)||(RXUI.f==='ras'&&!b.ativo)||(RXUI.f==='urg'&&urg)||(RXUI.f==='prob'&&pr>0)});
+ const card=b=>{const tt=b.ativo+b.rasc,pr=tt-b.okA-b.okR,w=x=>(100*x/Math.max(tt,1)).toFixed(2)+'%',urg=Object.keys(b.eA).length>0;
+  return '<button type="button" class="card rx-mc'+(urg?' urg':'')+(RXUI.m===b.m?' on':'')+'" data-rx-m="'+esc(b.m)+'"><div class="rx-mt"><b>'+esc(b.m)+'</b><span class="pill '+(b.ativo?'p-ok">NO AR':'p-mute">RASCUNHO')+'</span></div>'+
+  '<div class="rx-n num">no ar <b>'+vnum(b.ativo)+'</b> · rascunho <b>'+vnum(b.rasc)+'</b> · SKUs <b>'+vnum(b.sku)+'</b></div>'+
+  '<div class="rx-bar"><i style="width:'+w(b.okA)+';background:var(--ok)"></i><i style="width:'+w(b.okR)+';background:var(--rx-azul,#5B7BC9)"></i><i style="width:'+w(pr)+';background:var(--bad)"></i></div>'+
+  '<div class="chips">'+(Object.keys(RX_ERR).filter(k=>b.e[k]).map(k=>'<span class="pill '+RX_ERR[k][2]+'">'+RX_ERR[k][0].toLowerCase()+' '+b.e[k]+(b.eA[k]?' ('+b.eA[k]+' no ar)':'')+'</span>').join('')||'<span class="pill p-ok">sem problema</span>')+'</div></button>'};
+ const det=m=>{const its=P.filter(p=>p.m===m&&(!RXUI.err||p.f.includes(RXUI.err))).sort((a,b)=>(b.f.length>0)-(a.f.length>0)||b.a-a.a||a.t.localeCompare(b.t));
+  return '<div class="card rx-det"><div class="rx-mt"><b>'+esc(m)+' · '+its.length+' produtos'+(RXUI.err?' com '+RX_ERR[RXUI.err][0].toLowerCase():'')+'</b><button type="button" class="btn sm" data-rx-m="'+esc(m)+'">Fechar</button></div><div class="tblwrap"><table><thead><tr><th>Produto</th><th>SKU</th><th>Status</th><th class="r">Preço</th><th>Situação</th></tr></thead><tbody>'+
+  its.map(p=>{const sk=rxSkus(p.id);return '<tr'+(sk[0]?' data-edit="produtos" data-id="'+esc(sk[0].id)+'" title="Abrir no catálogo"':'')+'><td><b>'+esc(p.t)+'</b><small>'+esc(p.h)+(p.par?' · versão completa: '+esc(p.par)+' ('+brl(p.parpr)+')':'')+'</small></td><td class="num">'+(sk.length?sk.slice(0,6).map(x=>esc(x.sku)).join('<br>')+(sk.length>6?'<br><small>+'+(sk.length-6)+' SKUs</small>':''):'<small>'+p.skus+' SKU'+(p.skus>1?'s':'')+'</small>')+'</td><td><span class="pill '+(p.a?'p-ok">no ar':'p-mute">rascunho')+'</span></td><td class="r num">'+brl(p.pmin)+(p.pmax>p.pmin?'<small>até '+brl(p.pmax)+'</small>':'')+'</td><td><div class="chips">'+(p.f.length?p.f.map(k=>'<span class="pill '+RX_ERR[k][2]+'">'+RX_ERR[k][0].toLowerCase()+'</span>').join(''):'<span class="pill p-ok">ok</span>')+'</div></td></tr>'}).join('')+'</tbody></table></div></div>'};
+ let grade='';L.forEach(b=>{grade+=card(b);if(RXUI.m===b.m)grade+=det(b.m)});
+ const filtros=[['todas','Todas'],['ar','No ar'],['ras','Só rascunho'],['urg','Problema no ar'],['prob','Com problema']].map(([k,l])=>'<button type="button" class="btn sm rx-f" data-rx-f="'+k+'" aria-pressed="'+(RXUI.f===k)+'">'+l+'</button>').join('');
+ return '<div class="page wide"><div class="col">'+head('Raio-X do catálogo',sub,btn)+(RXUI.carregando?'<p class="muted" id="rx-prog">'+esc(RXUI.prog)+'</p>':'')+fluxo+
+  '<div class="head" style="margin-top:22px"><div><h1 style="font-size:20px">Por marca</h1><p>Verde = no ar e certo · azul = pronto em rascunho · vermelho = com problema. '+marcasT.size+' marcas.</p></div></div>'+
+  '<div class="chips" style="margin-bottom:12px;align-items:center">'+filtros+'<input type="search" id="rx-q" class="rx-q" placeholder="Buscar marca" value="'+esc(RXUI.q)+'" aria-label="Buscar marca">'+(RXUI.err?'<button type="button" class="btn sm" data-rx-err="'+RXUI.err+'">Tirar filtro: '+RX_ERR[RXUI.err][0].toLowerCase()+' ✕</button>':'')+'</div>'+
+  '<div class="rx-grade">'+(grade||'<p class="muted">Nenhuma marca com esse filtro.</p>')+'</div>'+
+  '<p class="muted" style="font-size:12px;margin-top:14px">Regras: foto = nenhuma foto · preço provisório = R$ 0 ou 999,99 · preço suspeito = abaixo de R$ 15 sem ser sachê, amostra ou acessório · duplicado = no ar, nome curto antigo com versão de nome completo; em rascunho, marcado para revisar · categoria = fora de Rosto, Cabelo, Corpo, Protetor e Maquiagem · marca = nome errado (Mundo Beleza, VT, COEVAL Vegan).</p></div></div>';
+};
+document.addEventListener('click',e=>{
+ const t=e.target.closest('#rx-atualizar,[data-rx-f],[data-rx-err],[data-rx-m]');if(!t)return;
+ if(t.id==='rx-atualizar'){rxAtualizar();return}
+ if(t.dataset.rxF){RXUI.f=t.dataset.rxF;RXUI.err='';render();return}
+ if(t.dataset.rxErr!==undefined){RXUI.err=RXUI.err===t.dataset.rxErr?'':t.dataset.rxErr;RXUI.f='todas';RXUI.m='';render();return}
+ if(t.dataset.rxM!==undefined){RXUI.m=RXUI.m===t.dataset.rxM?'':t.dataset.rxM;render();const el=document.querySelector('.rx-det');if(el&&RXUI.m)el.scrollIntoView({behavior:'smooth',block:'nearest'})}
+});
+document.addEventListener('input',e=>{if(e.target.id==='rx-q'){RXUI.q=e.target.value;const pos=e.target.selectionStart;render();const i=document.getElementById('rx-q');if(i){i.focus();i.setSelectionRange(pos,pos)}}});
 
 /* ---------- Clientes e cupons ---------- */
 function clientes(){
@@ -1925,6 +2038,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v15','29/10/2026',['Raio-X do catálogo: lê todos os produtos do Shopify e mostra, por marca, o que está no ar, o que está pronto em rascunho e o que tem problema (foto, preço provisório ou suspeito, duplicado, categoria, marca).','Ao abrir uma marca aparecem os produtos com os números de SKU; clicar no produto abre a ficha no Catálogo.']],
  ['v14','28/10/2026',['Acompanhamento do pedido: ao avançar a etapa da venda, o ERP avisa o site. A cliente recebe os e-mails de pedido enviado, saiu para entrega e entregue.','Página Acompanhe seu pedido no site, com a linha do tempo em 6 etapas.']],
  ['v13','28/10/2026',['Clicar no logo volta para a página inicial.','Qualquer campo de arquivo aceita arrastar e soltar.','O número da versão abre esta lista de novidades.','Aviso de versão nova com botão Atualizar.','Botão 🎨 Cores com 7 combinações de cores (vale por pessoa e por aparelho).','Os quadros não fecham mais ao clicar fora.']],
  ['v12','28/10/2026',['Criar cupom direto no site (Shopify): todas, só 1ª compra ou clientes por CPF/e-mail; R$ ou %; compra mínima, usos e validade.','Desativar e reativar o cupom no site pelo ERP.']],

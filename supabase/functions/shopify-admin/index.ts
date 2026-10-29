@@ -511,12 +511,12 @@ Deno.serve(async (req) => {
 
     if (b.acao === "catalogo") {
       // Raio-x do catálogo: todos os produtos (qualquer status), 250 por chamada (b.after).
-      const d: any = await gql(`query($a: String) { products(first: 250, after: $a) { nodes { handle title vendor status productType tags totalInventory
+      const d: any = await gql(`query($a: String) { products(first: 250, after: $a) { nodes { legacyResourceId handle title vendor status productType tags totalInventory
           mediaCount { count } variantsCount { count } priceRangeV2 { minVariantPrice { amount } maxVariantPrice { amount } } } pageInfo { hasNextPage endCursor } } }`, { a: b.after ?? null });
       const rows = d.products.nodes.map((p: any) => [p.handle, p.title, p.vendor, p.status, p.productType,
         (p.tags || []).filter((t: string) => /^cat[-:]|duplicata/.test(t)).join("|"), p.mediaCount?.count ?? 0, p.variantsCount?.count ?? 0,
-        Number(p.priceRangeV2?.minVariantPrice?.amount ?? 0), Number(p.priceRangeV2?.maxVariantPrice?.amount ?? 0)]);
-      return resp(200, { ok: true, cols: ["handle","titulo","marca","status","tipo","tags","fotos","skus","preco_min","preco_max"], rows, proximo: d.products.pageInfo.hasNextPage ? d.products.pageInfo.endCursor : null });
+        Number(p.priceRangeV2?.minVariantPrice?.amount ?? 0), Number(p.priceRangeV2?.maxVariantPrice?.amount ?? 0), String(p.legacyResourceId)]);
+      return resp(200, { ok: true, cols: ["handle","titulo","marca","status","tipo","tags","fotos","skus","preco_min","preco_max","id"], rows, proximo: d.products.pageInfo.hasNextPage ? d.products.pageInfo.endCursor : null });
     }
 
     if (b.acao === "colecoes") {
