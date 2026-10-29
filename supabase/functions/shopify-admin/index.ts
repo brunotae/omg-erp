@@ -275,11 +275,15 @@ Deno.serve(async (req) => {
         id = d.collectionCreate.collection.id;
       }
       // publica em todos os canais (loja virtual incluída)
-      const pubs: any = await gql(`{ publications(first: 20) { nodes { id name } } }`);
-      await gql(`mutation($id: ID!, $p: [PublicationInput!]!) { publishablePublish(id: $id, input: $p) { userErrors { message } } }`,
-        { id, p: pubs.publications.nodes.map((p: any) => ({ publicationId: p.id })) });
+      let publicada = "nao_tentou";
+      try {
+        const pubs: any = await gql(`{ publications(first: 20) { nodes { id name } } }`);
+        await gql(`mutation($id: ID!, $p: [PublicationInput!]!) { publishablePublish(id: $id, input: $p) { userErrors { message } } }`,
+          { id, p: pubs.publications.nodes.map((p: any) => ({ publicationId: p.id })) });
+        publicada = "sim";
+      } catch (e) { publicada = "sem permissão (" + String((e as Error).message || e).slice(0, 80) + ")"; }
       const c: any = await gql(`query($id: ID!) { collection(id: $id) { handle productsCount { count } } }`, { id });
-      return resp(200, { ok: true, criada: !ex, handle: c.collection.handle, produtos: c.collection.productsCount?.count ?? null });
+      return resp(200, { ok: true, criada: !ex, publicada, handle: c.collection.handle, produtos: c.collection.productsCount?.count ?? null });
     }
 
     if (b.acao === "menu_arvore") {
