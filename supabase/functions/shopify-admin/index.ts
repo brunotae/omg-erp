@@ -477,8 +477,8 @@ Deno.serve(async (req) => {
     if (b.acao === "menus_ler" || b.acao === "menu_titulos") {
       // menus_ler: todos os menus + idiomas da loja. menu_titulos: { menu_id, trocas: { itemId: "Novo título" } }.
       const ITEM = `id title type url resourceId tags`;
-      const mn: any = await gql(`{ menus(first: 25) { nodes { id handle title items { ${ITEM} items { ${ITEM} items { ${ITEM} } } } } } shopLocales { locale primary published } }`);
-      if (b.acao === "menus_ler") return resp(200, { ok: true, idiomas: mn.shopLocales, menus: mn.menus.nodes });
+      const mn: any = await gql(`{ menus(first: 25) { nodes { id handle title items { ${ITEM} items { ${ITEM} items { ${ITEM} } } } } } }`);
+      if (b.acao === "menus_ler") return resp(200, { ok: true, menus: mn.menus.nodes });
       const m = mn.menus.nodes.find((x: any) => x.id === b.menu_id); if (!m) return resp(404, { erro: "menu não encontrado" });
       const tr = b.trocas || {}; let n = 0;
       const map = (it: any): any => {
