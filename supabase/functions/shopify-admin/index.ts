@@ -235,6 +235,34 @@ Deno.serve(async (req) => {
       return resp(200, { ok: true, tema: tema.name, gravados: d.themeFilesUpsert.upsertedThemeFiles.map((x: any) => x.filename), backup });
     }
 
+    if (b.acao === "produto_ler") {
+      // Diagnóstico de página de produto: b.handles (até 20) ou b.busca (texto livre do Shopify, até 50 resultados, só resumo).
+      const CAMPOS = `id handle title status vendor productType templateSuffix tags descriptionHtml onlineStoreUrl
+        media(first: 20) { nodes { mediaContentType alt preview { image { url width height } } } }
+        variants(first: 20) { nodes { id title sku price availableForSale inventoryQuantity } }`;
+      if (b.busca) {
+        const d: any = await gql(`query($q: String) { products(first: 50, query: $q) { nodes { handle title status templateSuffix } } }`, { q: String(b.busca) });
+        return resp(200, { ok: true, produtos: d.products.nodes });
+      }
+      const out: any[] = [];
+      for (const h of (Array.isArray(b.handles) ? b.handles : []).slice(0, 20)) {
+        const d: any = await gql(`query($h: String!) { productByIdentifier(identifier: { handle: $h }) { ${CAMPOS} } }`, { h: String(h) });
+        out.push(d.productByIdentifier ?? { handle: h, erro: "não encontrado" });
+      }
+      return resp(200, { ok: true, produtos: out });
+    }
+
+    if (b.acao === "produto_desc") {
+      // Corrige a descrição (HTML) de produtos: b.itens = [{ id, html }] (até 20).
+      const res: any[] = [];
+      for (const it of (Array.isArray(b.itens) ? b.itens : []).slice(0, 20)) {
+        const d: any = await gql(`mutation($p: ProductUpdateInput!) { productUpdate(product: $p) { product { handle } userErrors { message } } }`, { p: { id: String(it.id), descriptionHtml: String(it.html) } });
+        const e = d.productUpdate.userErrors;
+        res.push(e.length ? { id: it.id, erro: e.map((x: any) => x.message).join("; ") } : { id: it.id, ok: d.productUpdate.product.handle });
+      }
+      return resp(200, { ok: true, res });
+    }
+
     if (b.acao === "teste_produtos") {
       // Diagnóstico: passa produtos do Shopify pelo mesmo caminho do aviso products/update e mostra os erros.
       const d: any = await gql(Q_PRODUTOS.replace("first: 50", "first: " + Math.min(Number(b.n) || 50, 50)), { after: b.after ?? null });
