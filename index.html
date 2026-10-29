@@ -2800,7 +2800,8 @@ setInterval(()=>{if(!document.hidden)loadAll()},60000);
 
   // ---------- select → botões ----------
   function botoes(sel) {
-    const ops = [...sel.options].filter(o => o.value !== '' && !/^outr[ao]…?$/i.test(o.text.trim()) && o.value !== '__outra');
+    // opção vazia só vira botão se tiver nome (ex.: "— nenhum —"); "Outra…" do campo livre vira botão próprio no fim
+    const ops = [...sel.options].filter(o => o.value !== '__outra' && (o.value !== '' || !/^[—–-]*$/.test(o.text.trim())));
     const forca = sel.dataset['1c'];
     if (forca === 'lista') return false;
     // poucas opções curtas (até 10, somando até ~90 letras: cabem em duas linhas) viram botões
