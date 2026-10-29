@@ -1722,7 +1722,7 @@ FORMS.influenciadores={title:['Novo influenciador','Influenciador'],col:'influen
   if(S.data.influenciadores.some(i=>i.codigo===v.codigo&&i.id!==v.id)||S.data.links_utm.some(l=>l.slug===v.codigo&&!(l.influenciador&&l.influenciador===v.id)))throw {field:{k:'codigo',l:'Código do link (este já está em uso)'}};
   v.email=(v.email||'').trim().toLowerCase()||null;v.cupom=(v.cupom||'').trim().toUpperCase();
   const pct=parseFloat(String(v.cupom_novo||'').replace('%',''));
-  if(pct>0&&!v.cupom){v.cupom=v.codigo.replace(/-/g,'').toUpperCase().slice(0,12)+pct;v._criarCupom=pct}
+  if(pct>0&&!v.cupom){v.cupom=v.codigo.replace(/-/g,'').toUpperCase().slice(0,16)+pct;v._criarCupom=pct}
   else if(pct>0&&v.cupom&&!S.data.cupons.some(c=>String(c.codigo).toUpperCase()===v.cupom))v._criarCupom=pct;
  },
  depois:async(id,v,rec)=>{
