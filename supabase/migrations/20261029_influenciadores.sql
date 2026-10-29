@@ -268,3 +268,7 @@ grant insert on public.historico to authenticated;
 -- ---------- v22 · cupom de frete grátis ----------
 alter table public.cupons drop constraint if exists cupons_tipo_check;
 alter table public.cupons add constraint cupons_tipo_check check (tipo = any (array['%','R$','frete']));
+
+-- ---------- v23 · ação de marketing ligada a cupom e link ----------
+alter table public.acoes_mkt add column if not exists cupom text not null default '';
+alter table public.acoes_mkt add column if not exists link_slug text not null default '';
