@@ -818,7 +818,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v32 · 29/10/2026';
+const VERSAO='v33 · 29/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1428,14 +1428,14 @@ function papel(n){var d=P[n];pg.textContent='@page{size:'+(n==='A4'?'A4':'letter
   var z=alt>disp?Math.max(.6,disp/alt):1;sh.style.zoom=z;sh.style.minHeight=(d[1]/z)+'mm';document.getElementById('aj').textContent=z<1?'Ajustado para caber em 1 página ('+Math.round(z*100)+'%)':''}
  try{localStorage.setItem('omg-papel',n)}catch(e){}}
 document.querySelectorAll('[data-p]').forEach(function(b){b.onclick=function(){papel(b.dataset.p)}});
-document.getElementById('imp').onclick=function(){window.print()};
+document.getElementById('imp').onclick=function(){window.print()};document.getElementById('fechar').onclick=function(){window.close();setTimeout(function(){if(!window.closed)document.getElementById('aj').textContent='Feche esta aba pelo X do navegador.'},300)};
 var n='A4';try{n=localStorage.getItem('omg-papel')||'A4'}catch(e){}papel(P[n]?n:'A4');})();`;
 function relAbrir(titulo,folha){
  const w=window.open('','_blank');
  if(!w){toast('O navegador bloqueou a aba nova. Libere pop-ups para este site e tente de novo.');return}
  w.document.open();
  w.document.write('<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(titulo)+'</title><style id="pg">@page{size:A4 portrait;margin:10mm}</style><style>'+REL_CSS+'</style></head><body>'+
-  '<div class="bar"><div class="g"><span>Papel:</span><button type="button" data-p="A4">A4</button><button type="button" data-p="Carta">Carta (Letter)</button><p id="aj"></p></div><div class="g"><p>Imprimir → Salvar como PDF</p><button type="button" class="pri" id="imp">Imprimir / PDF</button></div></div>'+
+  '<div class="bar"><div class="g"><button type="button" id="fechar" title="Fecha esta aba e volta ao ERP">✕ Fechar aba</button><span style="margin-left:6px">Papel:</span><button type="button" data-p="A4">A4</button><button type="button" data-p="Carta">Carta (Letter)</button><p id="aj"></p></div><div class="g"><p>Imprimir → Salvar como PDF</p><button type="button" class="pri" id="imp">Imprimir / PDF</button></div></div>'+
   '<div class="wrap">'+folha+'</div><script>'+REL_JS+'<\/script></body></html>');
  w.document.close();
 }
@@ -2724,6 +2724,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v33','29/10/2026',['Regra 8: o relatório em PDF, que abre em aba nova, tem o botão ✕ Fechar aba no topo.']],
  ['v32','29/10/2026',['Exportar listas: marcas hypadas ★ (toque nas marcas para marcar; vale para toda a equipe). Começa com COSRX, Anua, SKIN1004, Beauty of Joseon, medicube e TIRTIR.','Filtros novos: só as hypadas, separar por categoria (Rosto, Protetor solar, Maquiagem, Cabelo, Corpo e banho) e ordem Hypadas primeiro. Vale para a lista, o PDF e a planilha.']],
  ['v31','29/10/2026',['Raio-X mais compacto: letras, números e quadros menores, cabe muito mais na tela.']],
  ['v30','29/10/2026',['Relatório em PDF abre numa aba nova (não precisa voltar).','Escolha do papel: A4 ou Carta (Letter). A lista de marcas se ajusta sozinha para caber em 1 página.']],
