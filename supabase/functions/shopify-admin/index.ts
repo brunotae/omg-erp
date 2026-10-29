@@ -474,6 +474,16 @@ Deno.serve(async (req) => {
       return resp(200, { ok: true, resultados });
     }
 
+    if (b.acao === "pagina_ler") {
+      // b.busca: texto a procurar no corpo de todas as páginas e políticas; ou b.handle: corpo de uma página.
+      const pg: any = await gql(`{ pages(first: 100) { nodes { id handle title body } } shop { shopPolicies { type body } } }`);
+      if (b.handle) return resp(200, { ok: true, pagina: pg.pages.nodes.find((x: any) => x.handle === b.handle) ?? null });
+      const re = new RegExp(String(b.busca || "."), "i");
+      const hits = [...pg.pages.nodes.map((x: any) => ({ nome: "page:" + x.handle, body: x.body })), ...pg.shop.shopPolicies.map((x: any) => ({ nome: "policy:" + x.type, body: x.body }))]
+        .filter((x) => re.test(x.body || "")).map((x) => ({ nome: x.nome, trechos: [...String(x.body).matchAll(new RegExp(".{0,80}(" + String(b.busca) + ").{0,80}", "gi"))].map((m) => m[0]).slice(0, 5) }));
+      return resp(200, { ok: true, hits });
+    }
+
     if (b.acao === "colecoes") {
       const out: any[] = []; let a: string | null = null;
       do {
