@@ -34,7 +34,7 @@
   {
    "id": "sobre-02",
    "categoria": "Sobre a OMG",
-   "pergunta": "Quem vende os produtos? Por que aparece MPOEMA INC?",
+   "pergunta": "Quem vende os produtos? Que nome aparece na fatura?",
    "status": "ok",
    "escalar_humano": false,
    "gatilhos": [
@@ -50,10 +50,10 @@
     "mpoema inc é golpe?",
     "quem vende os produtos? pq aparece mpoema inc"
    ],
-   "resposta_chat": "A MPOEMA INC é a nossa empresa vendedora, com sede nos EUA e certificada pela Receita Federal no Remessa Conforme. Por isso esse nome aparece na fatura ou no recibo. Pode ficar tranquila, não é golpe 😉",
-   "resposta_chat_alt": "Esse nome é da nossa empresa mesmo! A MPOEMA INC é quem vende oficialmente pela OMG, certificada no Remessa Conforme. É normal aparecer na fatura do cartão.",
-   "quando_escalar": "Se pedirem o endereço da empresa: MPOEMA INC, Los Angeles, Califórnia, EUA. Não informar rua nem número de registro fiscal (EIN/TIN). Cliente irritada após uma tentativa, ameaça de Procon/processo ou qualquer dúvida sem resposta na base: transferir.",
-   "notas_internas": "Fonte: Central de Ajuda (sobre-02). Fato oficial: A vendedora oficial da OMG é a MPOEMA INC, empresa dos Estados Unidos certificada pela Receita Federal no Programa Remessa Conforme. Por isso esse nome pode aparecer no seu comprovante ou na fatura do cartão. Não é golpe: é a nossa empresa.",
+   "resposta_chat": "Quem vende é a OMG, pelo Programa Remessa Conforme da Receita Federal. A empresa responsável pela OMG fica nos EUA, e o nome empresarial dela pode aparecer na fatura ou no recibo. É a mesma compra, pode ficar tranquila, não é golpe 😉 Os dados da empresa estão em https://ohmygirl.com.br/policies/contact-information",
+   "resposta_chat_alt": "Esse nome na fatura é da empresa responsável pela OMG, nos EUA, certificada no Remessa Conforme. É normal aparecer assim no cartão 😉 Dados da empresa: https://ohmygirl.com.br/policies/contact-information",
+   "quando_escalar": "Se pedirem o endereço da empresa: indicar https://ohmygirl.com.br/policies/contact-information. Nunca informar número de registro fiscal (EIN/TIN). Cliente irritada após uma tentativa, ameaça de Procon/processo ou qualquer dúvida sem resposta na base: transferir.",
+   "notas_internas": "Fonte: Central de Ajuda (sobre-02). A OMG vende pelo Programa Remessa Conforme; a empresa responsável fica nos EUA e o nome empresarial dela (o que a cliente vê na fatura, ex.: MPOEMA) aparece no comprovante, na fatura e na Declaração de Importação. Regra: dizer sempre só \"OMG\"; não escrever o nome empresarial por conta própria; se a cliente citar o nome, confirmar que é a empresa da OMG e mandar o link https://ohmygirl.com.br/policies/contact-information.",
    "links": []
   },
   {
@@ -420,10 +420,10 @@
     "comprovante pra reembolso empresa",
     "comprovante p reembolso empresa"
    ],
-   "resposta_chat": "Como a vendedora é a MPOEMA INC (empresa dos EUA), não tem NF-e brasileira. Você recebe por e-mail o recibo (invoice) e a encomenda tem a Declaração de Importação registrada na Receita 😉",
-   "resposta_chat_alt": "Nota fiscal brasileira não tem, porque a venda é de empresa estrangeira. Mas você recebe o recibo (invoice) da MPOEMA INC por e-mail.",
+   "resposta_chat": "Como a OMG vende a partir dos EUA, não tem NF-e brasileira. Você recebe por e-mail o recibo (invoice) do pedido, e a encomenda tem a Declaração de Importação registrada na Receita 😉",
+   "resposta_chat_alt": "Nota fiscal brasileira não tem, porque a venda é feita do exterior. Mas você recebe o recibo (invoice) do pedido por e-mail.",
    "quando_escalar": "Cliente irritada após uma tentativa, ameaça de Procon/processo ou qualquer dúvida sem resposta na base: transferir.",
-   "notas_internas": "Fonte: Central de Ajuda (remessa-conforme-10). Fato oficial: Como a vendedora é a MPOEMA INC (empresa dos EUA), não há NF-e brasileira. Você recebe por e-mail o recibo (invoice) da MPOEMA INC, e a encomenda tem a Declaração de Importação registrada na Receita Federal.",
+   "notas_internas": "Fonte: Central de Ajuda (remessa-conforme-10). Fato oficial: Como a OMG vende a partir dos EUA, não há NF-e brasileira. Você recebe por e-mail o recibo (invoice) do pedido, e a encomenda tem a Declaração de Importação registrada na Receita Federal.",
    "links": []
   },
   {
@@ -1052,10 +1052,10 @@
     "qnd o valor e cobrado no cartao",
     "qnd cai a cobranca"
    ],
-   "resposta_chat": "É cobrado quando você conclui o pedido. Na fatura pode aparecer como MPOEMA INC ou com o nome da loja 😊",
-   "resposta_chat_alt": "A cobrança acontece na hora da compra e pode vir como MPOEMA INC na fatura.",
+   "resposta_chat": "É cobrado quando você conclui o pedido. Na fatura pode aparecer o nome empresarial da OMG, que é da nossa empresa nos EUA 😊",
+   "resposta_chat_alt": "A cobrança acontece na hora da compra. Na fatura pode vir o nome empresarial da OMG (dados em https://ohmygirl.com.br/policies/contact-information).",
    "quando_escalar": "Cobrança em duplicidade, estorno ou contestação: transferir. Cliente irritada após uma tentativa, ameaça de Procon/processo ou qualquer dúvida sem resposta na base: transferir.",
-   "notas_internas": "Fonte: Central de Ajuda (pagamento-03). Fato oficial: O valor é cobrado quando você conclui o pedido. Pode aparecer na fatura como MPOEMA INC ou com o nome da loja.",
+   "notas_internas": "Fonte: Central de Ajuda (pagamento-03). Fato oficial: O valor é cobrado quando você conclui o pedido. Na fatura pode aparecer o nome empresarial da OMG (ver https://ohmygirl.com.br/policies/contact-information).",
    "links": []
   },
   {
@@ -5145,8 +5145,8 @@
     "oi, comprar pela empresa",
     "gente, comprar pela empresa"
    ],
-   "resposta_chat": "Como a vendedora é a MPOEMA INC (empresa dos EUA), não tem NF-e brasileira 😕 Você recebe o recibo (invoice) da MPOEMA INC por e-mail, e a compra pelo site é pra uso pessoal.",
-   "resposta_chat_alt": "Não tem NF-e brasileira: você recebe o recibo (invoice) da MPOEMA INC por e-mail.",
+   "resposta_chat": "Como a OMG vende a partir dos EUA, não tem NF-e brasileira 😕 Você recebe o recibo (invoice) do pedido por e-mail, e a compra pelo site é pra uso pessoal.",
+   "resposta_chat_alt": "Não tem NF-e brasileira: você recebe o recibo (invoice) do pedido por e-mail.",
    "quando_escalar": "Se a cliente precisar de documento para empresa, transferir. Cliente irritada após uma tentativa, ameaça de Procon/processo ou qualquer dúvida sem resposta na base: transferir.",
    "notas_internas": "Intenção só do chat. Pedidos pelo site são para uso pessoal; compra empresarial é assunto comercial.",
    "links": []
@@ -7758,7 +7758,7 @@
    "resposta_chat": "Porque toda compra internacional paga imposto por lei 😕 Pelo Remessa Conforme, ele é calculado e pago no checkout, então nada é cobrado na entrega. Quer que eu explique como fica?",
    "resposta_chat_alt": "É regra da Receita pra compras de fora: até US$ 50 o Imposto de Importação é zero e o ICMS do estado continua. Tudo pago no checkout, sem surpresa depois.",
    "quando_escalar": "Cliente irritada após uma tentativa, ameaça de Procon/processo ou qualquer dúvida sem resposta na base: transferir.",
-   "notas_internas": "Guia objecoes. Toda importação paga tributos por lei, inclusive compras de pessoa física para uso pessoal. A OMG vende pelo Programa Remessa Conforme (vendedora MPOEMA INC, empresa dos EUA certificada): o Imposto de Importação (federal) e o ICMS (estadual) são calculados no checkout pelo CEP e pagos junto com o pedido. Até US$ 50 o Imposto de Importação é zero; acima disso, 60% com desconto de US$ 30. O ICMS é 17% na maioria dos estados (20% em alguns). Não existe forma legal de comprar sem imposto, e a Bomi nunca sugere declarar valor menor ou dividir dados para escapar de tributo. A vantagem do Remessa Conforme é não haver cobrança surpresa nem taxa na entrega.",
+   "notas_internas": "Guia objecoes. Toda importação paga tributos por lei, inclusive compras de pessoa física para uso pessoal. A OMG vende pelo Programa Remessa Conforme (empresa responsável nos EUA, certificada): o Imposto de Importação (federal) e o ICMS (estadual) são calculados no checkout pelo CEP e pagos junto com o pedido. Até US$ 50 o Imposto de Importação é zero; acima disso, 60% com desconto de US$ 30. O ICMS é 17% na maioria dos estados (20% em alguns). Não existe forma legal de comprar sem imposto, e a Bomi nunca sugere declarar valor menor ou dividir dados para escapar de tributo. A vantagem do Remessa Conforme é não haver cobrança surpresa nem taxa na entrega.",
    "links": []
   },
   {
@@ -7830,7 +7830,7 @@
    "resposta_chat": "Pode ficar tranquila 💗 Somos certificados no Remessa Conforme, o pagamento é pelo checkout seguro do Shopify e todo pedido tem rastreio. Ficou alguma dúvida específica?",
    "resposta_chat_alt": "É seguro sim! Imposto pago no checkout, pagamento protegido pelo Shopify, rastreio por e-mail e 7 dias pra desistir depois de receber.",
    "quando_escalar": "Cliente irritada após uma tentativa, ameaça de Procon/processo ou qualquer dúvida sem resposta na base: transferir.",
-   "notas_internas": "Guia objecoes. A vendedora é a MPOEMA INC, empresa dos EUA certificada pela Receita Federal no Programa Remessa Conforme. O pagamento é processado pelo checkout do Shopify (a OMG não vê os dados do cartão). Todo pedido tem rastreio por e-mail. A cliente tem os direitos do Código de Defesa do Consumidor: arrependimento em 7 dias após receber (frete de devolução pago pela OMG e reembolso total, inclusive impostos) e defeito, avaria ou item errado em até 30 dias. Como a vendedora é dos EUA, o banco pode tratar a compra como internacional e cobrar IOF conforme as regras do cartão; não prometer que não haverá IOF.",
+   "notas_internas": "Guia objecoes. A OMG vende por uma empresa dos EUA certificada pela Receita Federal no Programa Remessa Conforme. O pagamento é processado pelo checkout do Shopify (a OMG não vê os dados do cartão). Todo pedido tem rastreio por e-mail. A cliente tem os direitos do Código de Defesa do Consumidor: arrependimento em 7 dias após receber (frete de devolução pago pela OMG e reembolso total, inclusive impostos) e defeito, avaria ou item errado em até 30 dias. Como a vendedora é dos EUA, o banco pode tratar a compra como internacional e cobrar IOF conforme as regras do cartão; não prometer que não haverá IOF.",
    "links": []
   },
   {
@@ -7854,7 +7854,7 @@
    "resposta_chat": "Super entendo o receio! Somos certificados no Remessa Conforme, o pagamento é pelo Shopify e o único site oficial é ohmygirl.com.br. E a gente nunca pede Pix por mensagem 💗",
    "resposta_chat_alt": "Pode perguntar o que quiser 😊 O site oficial é ohmygirl.com.br, o pagamento é só no checkout seguro e todo pedido tem rastreio.",
    "quando_escalar": "Cliente que já pagou fora do site ou recebeu cobrança/contato suspeito em nome da OMG: transferir com print. Cliente irritada após uma tentativa, ameaça de Procon/processo ou qualquer dúvida sem resposta na base: transferir.",
-   "notas_internas": "Guia objecoes. Sinais de confiança verdadeiros: certificação no Programa Remessa Conforme (vendedora MPOEMA INC, EUA, nome que pode aparecer na fatura do cartão); pagamento só no checkout do Shopify; rastreio de todo pedido; direitos do CDC (7 dias de arrependimento após receber, 30 dias para defeito/avaria/item errado). O único site oficial é ohmygirl.com.br; desconfiar de domínios parecidos e perfis falsos. A OMG não pede pagamento por Pix por mensagem nem cobra taxa para liberar encomenda. Se a cliente recebeu contato suspeito ou já pagou fora do site, transferir para a equipe com print.",
+   "notas_internas": "Guia objecoes. Sinais de confiança verdadeiros: certificação no Programa Remessa Conforme (empresa responsável nos EUA; o nome empresarial pode aparecer na fatura); pagamento só no checkout do Shopify; rastreio de todo pedido; direitos do CDC (7 dias de arrependimento após receber, 30 dias para defeito/avaria/item errado). O único site oficial é ohmygirl.com.br; desconfiar de domínios parecidos e perfis falsos. A OMG não pede pagamento por Pix por mensagem nem cobra taxa para liberar encomenda. Se a cliente recebeu contato suspeito ou já pagou fora do site, transferir para a equipe com print.",
    "links": []
   },
   {
@@ -7878,7 +7878,7 @@
    "resposta_chat": "Prazer! 💗 A OMG é uma loja online de cosméticos coreanos originais, que saem do nosso estoque oficial na Coreia direto pro Brasil, com imposto já no checkout. Quer conhecer alguma marca?",
    "resposta_chat_alt": "Somos a OMG (Oh My Girl): K-beauty original, da Coreia pra sua casa. Dá uma olhada no nosso Instagram @omg_ohmygirlbr pra conhecer a gente!",
    "quando_escalar": "Cliente irritada após uma tentativa, ameaça de Procon/processo ou qualquer dúvida sem resposta na base: transferir.",
-   "notas_internas": "Guia objecoes. A OMG (Oh My Girl) é uma loja online de cosméticos coreanos originais que vende para o Brasil pelo Programa Remessa Conforme. A vendedora é a MPOEMA INC, empresa dos EUA certificada pela Receita Federal. Os produtos saem do nosso estoque oficial na Coreia do Sul, abastecido por marcas e distribuidores oficiais. Site oficial: ohmygirl.com.br; Instagram: @omg_ohmygirlbr; atendimento humano pelo WhatsApp +55 11 99304-9122 e info.br@ohmygirl.com.br, seg–sex 9h–18h. Não inventar data de fundação, número de clientes ou avaliações.",
+   "notas_internas": "Guia objecoes. A OMG (Oh My Girl) é uma loja online de cosméticos coreanos originais que vende para o Brasil pelo Programa Remessa Conforme. A OMG vende por uma empresa dos EUA certificada pela Receita Federal. Os produtos saem do nosso estoque oficial na Coreia do Sul, abastecido por marcas e distribuidores oficiais. Site oficial: ohmygirl.com.br; Instagram: @omg_ohmygirlbr; atendimento humano pelo WhatsApp +55 11 99304-9122 e info.br@ohmygirl.com.br, seg–sex 9h–18h. Não inventar data de fundação, número de clientes ou avaliações.",
    "links": []
   },
   {
@@ -8022,7 +8022,7 @@
    "resposta_chat": "Não temos loja física: a OMG é 100% online e os pedidos saem da Coreia, então não tem retirada no Brasil. Mas tô aqui pra te ajudar a escolher 😊",
    "resposta_chat_alt": "Somos só online! Atendemos pelo site, WhatsApp e e-mail, e o pedido vai direto pra sua casa.",
    "quando_escalar": "Cliente irritada após uma tentativa, ameaça de Procon/processo ou qualquer dúvida sem resposta na base: transferir.",
-   "notas_internas": "Guia objecoes. A OMG é 100% online; não há loja física, showroom nem ponto de retirada no Brasil, porque os pedidos saem do nosso estoque na Coreia do Sul. Atendimento: site ohmygirl.com.br, WhatsApp +55 11 99304-9122 e info.br@ohmygirl.com.br, seg–sex 9h–18h. Não informar endereço da empresa vendedora além de 'MPOEMA INC, Los Angeles, Califórnia, EUA' se perguntarem.",
+   "notas_internas": "Guia objecoes. A OMG é 100% online; não há loja física, showroom nem ponto de retirada no Brasil, porque os pedidos saem do nosso estoque na Coreia do Sul. Atendimento: site ohmygirl.com.br, WhatsApp +55 11 99304-9122 e info.br@ohmygirl.com.br, seg–sex 9h–18h. Se perguntarem o endereço da empresa, indicar https://ohmygirl.com.br/policies/contact-information.",
    "links": []
   },
   {
@@ -8046,7 +8046,7 @@
    "resposta_chat": "Por sermos loja internacional (Remessa Conforme), por enquanto é só cartão de crédito à vista 💳 Pix ainda não. E atenção: a OMG nunca pede Pix por mensagem.",
    "resposta_chat_alt": "Por ser compra internacional, hoje aceitamos só cartão de crédito à vista. Pix e boleto ainda não.",
    "quando_escalar": "Cliente irritada após uma tentativa, ameaça de Procon/processo ou qualquer dúvida sem resposta na base: transferir.",
-   "notas_internas": "Guia objecoes. No momento, somente cartão de crédito à vista pelo checkout do Shopify; sem Pix, boleto, débito ou parcelamento, por ser uma compra internacional pelo Remessa Conforme (vendedora MPOEMA INC, EUA). Pode dizer 'quem sabe no futuro', sem prometer data. Importante: a OMG não pede pagamento por Pix por mensagem; qualquer pedido de Pix em nome da OMG é golpe e deve ser reportado com print. Se a cliente não tem cartão de crédito, ser honesta: hoje não há outra forma de pagamento.",
+   "notas_internas": "Guia objecoes. No momento, somente cartão de crédito à vista pelo checkout do Shopify; sem Pix, boleto, débito ou parcelamento, por ser uma compra internacional pelo Remessa Conforme (venda feita dos EUA). Pode dizer 'quem sabe no futuro', sem prometer data. Importante: a OMG não pede pagamento por Pix por mensagem; qualquer pedido de Pix em nome da OMG é golpe e deve ser reportado com print. Se a cliente não tem cartão de crédito, ser honesta: hoje não há outra forma de pagamento.",
    "links": []
   },
   {
@@ -10395,7 +10395,7 @@
    "resposta_chat": "Pode sim: é uma compra internacional pro seu uso pessoal pelo Remessa Conforme, então o produto vem com o rótulo original. Eu te passo ingredientes e modo de uso pelo chat 😊",
    "resposta_chat_alt": "Como você está importando pra uso pessoal, o produto chega com a embalagem original da Coreia. Os detalhes em português ficam na página do produto e aqui comigo!",
    "quando_escalar": "Cliente irritada após uma tentativa, ameaça de Procon/processo ou qualquer dúvida sem resposta na base: transferir.",
-   "notas_internas": "Guia validade. A compra na OMG é uma importação para uso pessoal pelo Programa Remessa Conforme: a cliente compra de uma vendedora no exterior (MPOEMA INC, EUA) e o produto sai do nosso estoque na Coreia do Sul. Nesse modelo, o produto chega com o rótulo original do país de origem; não é um produto colocado à venda em loja no Brasil, por isso não vem com rótulo em português. A OMG explica em português, na página do produto e pelo chat, modo de uso e principais ingredientes. Manter o tom do autenticidade-04: produto fabricado seguindo normas coreanas e internacionais, comprado como numa visita à Coreia. Não entrar em detalhes regulatórios nem citar normas específicas; se a cliente insistir em questão legal, transferir.",
+   "notas_internas": "Guia validade. A compra na OMG é uma importação para uso pessoal pelo Programa Remessa Conforme: a cliente compra de uma vendedora no exterior (nos EUA) e o produto sai do nosso estoque na Coreia do Sul. Nesse modelo, o produto chega com o rótulo original do país de origem; não é um produto colocado à venda em loja no Brasil, por isso não vem com rótulo em português. A OMG explica em português, na página do produto e pelo chat, modo de uso e principais ingredientes. Manter o tom do autenticidade-04: produto fabricado seguindo normas coreanas e internacionais, comprado como numa visita à Coreia. Não entrar em detalhes regulatórios nem citar normas específicas; se a cliente insistir em questão legal, transferir.",
    "links": []
   },
   {
