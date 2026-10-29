@@ -1,0 +1,500 @@
+{
+ "data": "2026-10-29",
+ "motivo": "duplicados ativos no site (mesmo produto, 2 páginas); ficou o de nome completo. Para desfazer: ativar com ativo:true.",
+ "rascunho": [
+  {
+   "handle": "anua-pdrn-100-hyaluronic-acid-hydrating-capsule-mist-100ml",
+   "titulo": "Sérum Facial em Spray PDRN Collagen Glow",
+   "fica": "spray-serum-facial-pdrn-colageno-glow-pdrn-collagen-glow-facial-serum-spray"
+  },
+  {
+   "handle": "mini-spray-serum-facial-pdrn-colageno-glow-pdrn-collagen-glow-facial-serum-spray-mini",
+   "titulo": "Mini Spray Sérum Facial PDRN Colágeno Glow",
+   "fica": "anua-pdrn-collagen-glow-facial-serum-spray-mini"
+  },
+  {
+   "handle": "anua-pdrn-glow-boost-full-routine-set",
+   "titulo": "Kit Rotina Completa PDRN Glow Boost",
+   "fica": "kit-completo-pdrn-glow-boost-pdrn-glow-boost-full-routine-set"
+  },
+  {
+   "handle": "creme-revitalizante-para-a-area-dos-olhos-com-retinol-0-1-e-cafeina",
+   "titulo": "Revitalizing Eye Cream with 0.1% Retinol and Caffeine",
+   "fica": "anua-retinol-0-1-caffeine-revitalizing-eye-cream"
+  },
+  {
+   "handle": "anua-azelaic-acid-cica-skin-soothing-moisturizer",
+   "titulo": "Soothing Moisturizer with Azelaic Acid and CICA",
+   "fica": "hidratante-calmante-azelaic-acid-cica-para-a-pele-azelaic-acid-cica-skin-soothing-moisturizer"
+  },
+  {
+   "handle": "anua-golden-honmoon-barrier-collagen-mask-4ea",
+   "titulo": "Máscara de Colágeno Golden Honmoon Barrier (4 unidades)",
+   "fica": "mascara-de-colageno-golden-honmoon-barrier-4-unidades-1"
+  },
+  {
+   "handle": "anua-rice-70-glow-collagen-mask",
+   "titulo": "Máscara de Colágeno Rice 70 Glow",
+   "fica": "mascara-de-colageno-iluminadora-rice-70-glow-collagen-mask"
+  },
+  {
+   "handle": "anua-rice-70-glow-milky-toner",
+   "titulo": "Tônico Leitoso Rice 70 Glow",
+   "fica": "tonico-leitoso-iluminador-rice-70-rice-70-glow-milky-toner"
+  },
+  {
+   "handle": "anua-peach-70-niacinamide-serum-30ml",
+   "titulo": "Sérum Peach 70% Niacinamida",
+   "fica": "serum-de-niacinamida-70-com-pessego-peach-70-niacinamide-serum"
+  },
+  {
+   "handle": "anua-heartleaf-70-intense-calming-cream",
+   "titulo": "Heartleaf 70% Creme Calmante Intenso",
+   "fica": "creme-calmante-intenso-com-70-de-heartleaf-heartleaf-70-intense-calming-cream"
+  },
+  {
+   "handle": "boj-revive-ritual-eye-duo-global",
+   "titulo": "Duo Ritual Revive para a Área dos Olhos",
+   "fica": "duo-ritual-revive-para-os-olhos"
+  },
+  {
+   "handle": "discos-tonicos-tre-ac-pore-tox",
+   "titulo": "Discos Tônicos TRE.AC Pore Tox",
+   "fica": "cfc-cellfusionc-pore-tox-pad-60-pads"
+  },
+  {
+   "handle": "pomada-em-gel-hidratante-tre-ac",
+   "titulo": "Pomada em Gel Hidratante TRE.AC",
+   "fica": "cfc-cellfusionc-moisture-gel-oint-100ml"
+  },
+  {
+   "handle": "ampola-toning-c-vita-shot",
+   "titulo": "Ampola Toning C Vita Shot",
+   "fica": "cfc-cellfusionc-toning-c-vita-shot-ampoule-20g"
+  },
+  {
+   "handle": "protetor-solar-mineral-derma-uv-otc",
+   "titulo": "Protetor solar mineral Derma UV (OTC)",
+   "fica": "cfc-cell-fusion-c-derma-uv-mineral-sunscreen-spf50-pa-50ml-otc"
+  },
+  {
+   "handle": "cfc-red-ultimate-eye-cream",
+   "titulo": "Creme para Olhos Red Ultimate",
+   "fica": "creme-para-olhos-red-ultimate-8"
+  },
+  {
+   "handle": "cfc-pha-enzyme-pore-cleansing-oil",
+   "titulo": "PHA Enzymatic Pore Cleansing Oil",
+   "fica": "oleo-de-limpeza-de-poros-com-enzima-pha"
+  },
+  {
+   "handle": "kit-de-laser-de-rejuvenescimento-de-alta-potencia",
+   "titulo": "High Power Rejuvenation Laser Kit",
+   "fica": "cfc-high-potency-rejuvenation-laser-set"
+  },
+  {
+   "handle": "cfc-toning-c-vita-retinal-eye-cream",
+   "titulo": "Creme para os Olhos Toning C Vita Retinal",
+   "fica": "creme-para-olhos-tonificante-c-vita-retinal"
+  },
+  {
+   "handle": "creme-madeca-time-reverse-50-ml",
+   "titulo": "Creme Madeca Time Reverse 50 ml",
+   "fica": "c24-centellian24-madeca-cream-time-reverse-season-7-50ml"
+  },
+  {
+   "handle": "serum-ativo-pdrn-360º-shot-50-ml",
+   "titulo": "Sérum Ativo PDRN 360º Shot 50 ml",
+   "fica": "c24-centellian24-360-shot-pdrn-active-serum-50ml"
+  },
+  {
+   "handle": "c24-centellian24-madeca-powder-tea-tree-ac-6g",
+   "titulo": "Pó Madeca Tea Tree AC 6 g",
+   "fica": "po-para-tratamento-da-acne-com-tea-tree-madeca-6-g"
+  },
+  {
+   "handle": "protetor-solar-tone-up-derma-shield-safe-madeca-50-ml",
+   "titulo": "Protetor Solar Tone-Up Derma Shield Safe Madeca – 50 ml",
+   "fica": "c24-centellian24-madeca-derma-shield-safe-tone-up-sun-cream-50ml"
+  },
+  {
+   "handle": "creme-madeca-time-reverse-zero-80-ml",
+   "titulo": "Creme Madeca Time Reverse Zero – 80 ml",
+   "fica": "c24-centellian24-madeca-cream-time-reverse-zero-80ml"
+  },
+  {
+   "handle": "c24-centellian24-pdrn-firming-boosting-ampoule-30ml",
+   "titulo": "Ampola PDRN Firming Boosting 30 ml",
+   "fica": "ampola-firmadora-pdrn-boosting-30-ml"
+  },
+  {
+   "handle": "c24-centellian24-madeca-vital-capsule-serum-50ml",
+   "titulo": "Sérum Madeca Vital Capsule 50 ml",
+   "fica": "serum-de-capsulas-vital-madeca-50-ml"
+  },
+  {
+   "handle": "c24-centellian24-lifting-peptide-serum-30ml",
+   "titulo": "Sérum Lifting Peptide 30 ml",
+   "fica": "serum-peptidico-lifting-30-ml"
+  },
+  {
+   "handle": "c24-centellian24-lifting-peptide-eye-cream-15ml",
+   "titulo": "Creme para Olhos Lifting Peptide 15 ml",
+   "fica": "creme-para-olhos-peptidico-lifting-15-ml"
+  },
+  {
+   "handle": "c24-centellian24-madeca-cream-power-boosting-formula-50ml",
+   "titulo": "Creme Madeca Power Boosting Formula 50 ml",
+   "fica": "creme-madeca-formula-power-boosting-50-ml"
+  },
+  {
+   "handle": "creme-expert-madeca-radiance-50-ml",
+   "titulo": "Creme Expert Madeca Radiance – 50 ml",
+   "fica": "c24-centellian24-expert-madeca-cream-radience-50ml"
+  },
+  {
+   "handle": "mascara-em-gel-iluminadora-hyal-waterfull-madeca-lab-1-unidade",
+   "titulo": "Máscara em Gel Iluminadora Hyal Waterfull Madeca Lab – 1 Unidade",
+   "fica": "c24-centellian24-madeca-lab-hyal-waterfull-glow-gel-mask-1ea"
+  },
+  {
+   "handle": "creme-em-capsulas-com-ampola-mela-capture-madeca-55-ml",
+   "titulo": "Creme em Cápsulas com Ampola Mela Capture Madeca – 55 ml",
+   "fica": "c24-centellian24-madeca-mela-capture-ampoule-capsule-cream-55ml"
+  },
+  {
+   "handle": "c24-centellian24-madeca-matcha-toning-peeling-gel-150ml",
+   "titulo": "Gel Esfoliante Tonificante Madeca Matcha 150 ml",
+   "fica": "gel-esfoliante-tonificante-de-matcha-madeca-150-ml"
+  },
+  {
+   "handle": "c24-centellian24-expert-madeca-cream-active-renew-pdrn-50ml",
+   "titulo": "Creme Expert Madeca Active Renew PDRN 50 ml",
+   "fica": "creme-expert-madeca-active-renew-pdrn-50-ml"
+  },
+  {
+   "handle": "c24-centellian24-360-shot-pdrn-lifting-eye-cream-30ml",
+   "titulo": "Creme para Olhos Lifting 360º Shot PDRN 30 ml",
+   "fica": "creme-para-olhos-lifting-pdrn-360º-shot-30-ml"
+  },
+  {
+   "handle": "c24-madeca-cream-best-duo",
+   "titulo": "Duo Madeca Cream Melhor",
+   "fica": "kit-duo-madeca-cream"
+  },
+  {
+   "handle": "ampola-expert-madeca-mela-capture-max-30-ml",
+   "titulo": "Ampola Expert Madeca Mela Capture Max – 30 ml",
+   "fica": "c24-expert-madeca-mela-capture-ampoule-max-30ml"
+  },
+  {
+   "handle": "c24-madeca-derma-shield-vital-capsule-sun-essence-otc-40ml",
+   "titulo": "Essência Solar Madeca Derma Shield Vital Cápsula 40 ml",
+   "fica": "essencia-solar-em-capsulas-vital-derma-shield-madeca-40-ml"
+  },
+  {
+   "handle": "protetor-solar-derma-shield-vital-dewy-madeca-50-ml",
+   "titulo": "Protetor Solar Derma Shield Vital Dewy Madeca – 50 ml",
+   "fica": "c24-madeca-derma-shield-vital-dewy-sun-cream-otc-50ml"
+  },
+  {
+   "handle": "c24-madeca-vitamin-15-glowing-serum-30ml",
+   "titulo": "Sérum Iluminador Madeca Vitamin 15+ 30 ml",
+   "fica": "serum-iluminador-com-vitamina-15-madeca-30-ml"
+  },
+  {
+   "handle": "c24-centellian24-madeca-teca-retinolsom-0-2-firming-serum-30ml",
+   "titulo": "Sérum Firmador Madeca TECA Retinolsom 0.2 30 ml",
+   "fica": "serum-firmador-madeca-teca-retinolsom-0-2-30-ml"
+  },
+  {
+   "handle": "kit-premium-de-renovacao-total-com-pdrn",
+   "titulo": "Premium Total Renewal Kit with PDRN",
+   "fica": "c24-centellian24-premium-pdrn-total-renewal-kit"
+  },
+  {
+   "handle": "kit-intensivo-peptide-time-lifting",
+   "titulo": "Kit Intensivo Peptide Time Lifting",
+   "fica": "c24-centellian24-peptide-time-lifting-intensive-set"
+  },
+  {
+   "handle": "cosrx-acne-pimple-master-patch",
+   "titulo": "Adesivos Para Espinhas Pimple Master Patch",
+   "fica": "adesivo-para-acne-clear-fit-master-patch"
+  },
+  {
+   "handle": "cosrx-comfort-ceramide-soft-cream-sheet-mask",
+   "titulo": "Máscara Balancium Comfort Ceramide Soft Cream",
+   "fica": "mascara-facial-em-tecido-balancium-comfort-ceramide-soft-cream"
+  },
+  {
+   "handle": "cosrx-full-fit-propolis-synergy-toner",
+   "titulo": "Tônico Full Fit Própolis Synergy",
+   "fica": "tonico-full-fit-propolis-synergy"
+  },
+  {
+   "handle": "creme-intensivo-pure-fit-cica",
+   "titulo": "Creme Intensivo Pure Fit Cica",
+   "fica": "cosrx-pure-fit-cica-cream-intensive"
+  },
+  {
+   "handle": "cosrx-hydrium-moisture-power-enriched-cream",
+   "titulo": "Creme Hydrium Moisture Power Enriched",
+   "fica": "creme-hidratante-intensivo-hydrium-moisture-power"
+  },
+  {
+   "handle": "cosrx-advanced-snail-hydrogel-eye-patch",
+   "titulo": "Advanced Snail Hydrogel Eye Patches",
+   "fica": "adesivos-de-hidrogel-para-a-area-dos-olhos-advanced-snail"
+  },
+  {
+   "handle": "cosrx-one-step-original-clear-pad",
+   "titulo": "Discos One Step Clear Originais",
+   "fica": "discos-tonicos-one-step-original-clear-purificantes"
+  },
+  {
+   "handle": "cosrx-ac-collection-acne-patch",
+   "titulo": "Adesivos para Acne AC Collection",
+   "fica": "adesivo-para-acne-ac-collection"
+  },
+  {
+   "handle": "cosrx-pure-fit-cica-clear-cleansing-oil",
+   "titulo": "Óleo de Limpeza Pure Fit Cica Clear",
+   "fica": "oleo-de-limpeza-purificante-pure-fit-cica-clear"
+  },
+  {
+   "handle": "mascara-cosrx-pdrn-exosome-skinplaning-glaze",
+   "titulo": "Máscara COSRX PDRN EXOSOME Skinplaning Glaze",
+   "fica": "cosrx-cosrx-pdrn-exosome-skinplaning-glaze-mask"
+  },
+  {
+   "handle": "cosrx-balancium-comfort-ceramide-cream",
+   "titulo": "Creme Balancium Comfort Ceramide",
+   "fica": "creme-de-ceramida-balancium-comfort"
+  },
+  {
+   "handle": "cosrx-advanced-snail-radiance-dual-essence",
+   "titulo": "Essência Dupla Advanced Snail Radiance",
+   "fica": "essencia-dupla-advanced-snail-radiance"
+  },
+  {
+   "handle": "cosrx-lip-sleep-balancium-ceramide-lip-butter-sleeping-mask",
+   "titulo": "Máscara Labial Noturna Balancium Ceramide Lip Butter",
+   "fica": "mascara-labial-noturna-balancium-ceramide-lip-butter"
+  },
+  {
+   "handle": "cosrx-lip-plump-refresh-aha-bha-viamin-c-lip-plumper",
+   "titulo": "Volumizador Labial Lip Plump Refresh AHA BHA Vitamina C",
+   "fica": "volumizador-labial-refresh-com-aha-bha-e-vitamina-c"
+  },
+  {
+   "handle": "cosrx-cosrx-centella-blemish-cream-30ml",
+   "titulo": "Creme COSRX Centella Blemish 30 ml",
+   "fica": "creme-para-imperfeicoes-com-centella"
+  },
+  {
+   "handle": "cosrx-cosrx-airy-light-clear-sunscreen-stick",
+   "titulo": "Protetor Solar em Bastão COSRX Airy-Light Oil Control FPS 50",
+   "fica": "bastao-protetor-solar-transparente-airy-light-oil-control-cosrx-fps-50"
+  },
+  {
+   "handle": "cosrx-triple-hyaluronic-water-wave-sheet-mask",
+   "titulo": "Máscara Hydrium Triple Hyaluronic Water Wave",
+   "fica": "mascara-facial-em-tecido-hydrium-triple-hyaluronic-water-wave"
+  },
+  {
+   "handle": "cosrx-the-aha-bha-pha-lha-35-peel",
+   "titulo": "Peeling O AHA BHA PHA LHA 35",
+   "fica": "o-peeling-aha-bha-pha-lha-35"
+  },
+  {
+   "handle": "kit-de-rotina-diaria-com-pdrn",
+   "titulo": "Daily Routine Kit with PDRN",
+   "fica": "cosrx-pdrn-daily-routine-kit"
+  },
+  {
+   "handle": "serum-de-vitamina-c-13",
+   "titulo": "Sérum de Vitamina C 13",
+   "fica": "cosrx-the-vitamin-c-13-serum"
+  },
+  {
+   "handle": "serum-de-niacinamida-15",
+   "titulo": "Sérum de Niacinamida 15",
+   "fica": "cosrx-the-niacinamide-15-serum"
+  },
+  {
+   "handle": "oleo-de-retinol-0-5",
+   "titulo": "Óleo de Retinol 0,5",
+   "fica": "cosrx-the-retinol-0-5-oil"
+  },
+  {
+   "handle": "cosrx-pure-fit-cica-cream",
+   "titulo": "Creme Pure Fit Cica",
+   "fica": "cosrx-pure-fit-cica-cream-intensive"
+  },
+  {
+   "handle": "cosrx-clear-fit-master-patch",
+   "titulo": "Adesivos Clear Fit Master Patch",
+   "fica": "adesivo-para-acne-clear-fit-master-patch"
+  },
+  {
+   "handle": "cosrx-pure-fit-cica-calming-true-sheet-mask",
+   "titulo": "Máscara calmante Pure Fit Cica True",
+   "fica": "mascara-facial-em-tecido-pure-fit-cica-calmante"
+  },
+  {
+   "handle": "cosrx-pure-fit-cica-creamy-foam-cleanser",
+   "titulo": "Pure Fit Cica Espuma de Limpeza Cremosa",
+   "fica": "espuma-de-limpeza-cremosa-pure-fit-cica"
+  },
+  {
+   "handle": "protetor-solar-em-bastao-hidratante-de-betula-19g",
+   "titulo": "Birch Moisturizing Sun Stick 19g",
+   "fica": "roundlab-birch-moisturizing-sun-stick"
+  },
+  {
+   "handle": "sk1004-pdrn-1-5-cream",
+   "titulo": "Creme PDRN 1.5",
+   "fica": "creme-pdrn-1-5"
+  },
+  {
+   "handle": "sk1004-centella-teca-ampoule",
+   "titulo": "Ampola Centella Teca",
+   "fica": "ampola-de-centella-teca"
+  },
+  {
+   "handle": "sk1004-centella-teca-cream",
+   "titulo": "Creme Centella Teca",
+   "fica": "creme-de-centella-teca"
+  },
+  {
+   "handle": "sk1004-retinol-0-2-boosting-shot-ampoule",
+   "titulo": "Ampola Retinol 0.2 Boosting Shot",
+   "fica": "ampola-de-retinol-0-2-boosting-shot"
+  },
+  {
+   "handle": "creme-de-centella",
+   "titulo": "Creme de Centella",
+   "fica": "sk1004-skin1004-madagascar-centella-cream"
+  },
+  {
+   "handle": "tonico-clareador-hyalu-cica",
+   "titulo": "Tônico Clareador Hyalu-Cica",
+   "fica": "sk1004-skin1004-madagascar-centella-hyalu-cica-brightening-toner"
+  },
+  {
+   "handle": "tonico-purificante-tea-trica",
+   "titulo": "Tônico Purificante Tea-Trica",
+   "fica": "sk1004-tea-trica-purifying-toner"
+  },
+  {
+   "handle": "sk1004-azelaic-acid-glass-skin-essential-set",
+   "titulo": "Glass Skin Azelaic Acid Essential Kit",
+   "fica": "sk1004-azelaic-acid-glass-skin-essential-set-2"
+  },
+  {
+   "handle": "sk1004-centella-teca-intensive-soothing-routine-set-1",
+   "titulo": "Kit Rotina Centella Teca Calmante",
+   "fica": "sk1004-centella-teca-intensive-soothing-routine-set"
+  },
+  {
+   "handle": "boj-relief-sun-duo-original-aqua-fresh",
+   "titulo": "Duo Relief Sun: Original + Aqua-Fresh",
+   "fica": "duo-de-protecao-solar-relief-original-aqua-fresh"
+  },
+  {
+   "handle": "1025-dokdo-cleanser-150ml-conjunto-com-2-unidades",
+   "titulo": "1025 Dokdo Cleanser 150ml Conjunto com 2 unidades",
+   "fica": "1025-dokdo-cleanser-150-ml-kit-com-2-unidades"
+  },
+  {
+   "handle": "protetor-solar-relief-sun-aqua-fresh-arroz-b5-fps-50-pa-1",
+   "titulo": "Relief Sun Aqua-Fresh Sunscreen: Rice + B5 (SPF 50+ PA++++)",
+   "fica": "protetor-solar-relief-sun-aqua-fresh-arroz-b5-fps-50-pa"
+  },
+  {
+   "handle": "conjunto-completo-de-rotina-pdrn-glow-boost",
+   "motivo": "versão antiga sem descrição/preço divergente"
+  },
+  {
+   "handle": "espuma-de-limpeza-hidratante-com-acido-hialuronico-pdrn",
+   "motivo": "versão antiga sem descrição/preço divergente"
+  },
+  {
+   "handle": "mascara-rejuvenescedora-caviar-pdrn-real-deep",
+   "motivo": "versão antiga sem descrição/preço divergente"
+  },
+  {
+   "handle": "conjunto-bb-cream-e-esponja",
+   "motivo": "versão antiga sem descrição/preço divergente"
+  },
+  {
+   "handle": "sabonete-liquido-corporal-calmante-de-pinheiro-e-cica-400ml",
+   "motivo": "versão antiga sem descrição/preço divergente"
+  },
+  {
+   "handle": "round-lab-sonamu-cica-deep-pore-clay-pack-cleanser-150-ml",
+   "motivo": "versão antiga sem descrição/preço divergente"
+  },
+  {
+   "handle": "discos-de-limpeza-hidratantes-de-betula-60-discos",
+   "motivo": "versão antiga sem descrição/preço divergente"
+  },
+  {
+   "handle": "anua-heartleaf-70-daily-lotion",
+   "motivo": "versão antiga sem descrição/preço divergente"
+  },
+  {
+   "handle": "anua-heartleaf-lha-moisture-peeling-gel",
+   "motivo": "versão antiga sem descrição/preço divergente"
+  },
+  {
+   "handle": "cosrx-pdrn-premium-routine-kit",
+   "motivo": "versão antiga sem descrição/preço divergente"
+  },
+  {
+   "handle": "anua-8-hyaluronic-acid-moisturizing-gentle-gel-cleanser",
+   "motivo": "versão antiga sem descrição/preço divergente"
+  },
+  {
+   "handle": "mascara-de-resfriamento-pos-alfa-5-unidades",
+   "motivo": "versão antiga sem descrição/preço divergente"
+  },
+  {
+   "handle": "serum-pos-alfa-refrescante-para-a-pele",
+   "motivo": "versão antiga sem descrição/preço divergente"
+  },
+  {
+   "handle": "dupla-de-envelhecimento-lento",
+   "motivo": "versão antiga sem descrição/preço divergente"
+  },
+  {
+   "handle": "conjunto-de-2-toners-dokdo-1025-200ml-500ml",
+   "motivo": "versão antiga sem descrição/preço divergente"
+  },
+  {
+   "handle": "1025-dokdo-cleanser-150-ml-kit-com-2-unidades",
+   "motivo": "versão antiga sem descrição/preço divergente"
+  },
+  {
+   "handle": "creme-dokdo-1025-80ml",
+   "motivo": "versão antiga sem descrição/preço divergente"
+  },
+  {
+   "handle": "1025-dokdo-limpador-150ml",
+   "motivo": "versão antiga sem descrição/preço divergente"
+  },
+  {
+   "handle": "1025-dokdo-gel-esfoliante-120ml",
+   "motivo": "versão antiga sem descrição/preço divergente"
+  },
+  {
+   "handle": "oleo-de-limpeza-dokdo-1025-200ml",
+   "motivo": "versão antiga sem descrição/preço divergente"
+  },
+  {
+   "handle": "1025-dokdo-toner-200ml",
+   "motivo": "versão antiga sem descrição/preço divergente"
+  }
+ ]
+}
