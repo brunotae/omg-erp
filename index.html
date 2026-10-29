@@ -526,6 +526,25 @@ table.sh-t{width:100%;border-collapse:collapse;font-size:9.5pt}
  .sh-foot{margin-top:6mm}
  .sheet *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
+
+/* Relatório do catálogo (PDF corporativo) */
+.sheet.rel{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:7.6pt;color:#1f1f24;padding:11mm 11mm 9mm;gap:4mm;line-height:1.3}
+.rel-h{display:flex;justify-content:space-between;align-items:flex-end;gap:8mm;border-bottom:1.5pt solid #1f1f24;padding-bottom:3mm}
+.rel-marca{font-size:9pt;font-weight:800;letter-spacing:.02em;color:#B83D66}.rel-marca span{font-weight:400;color:#6b6b73;letter-spacing:.08em;text-transform:uppercase;font-size:6.8pt;margin-left:1.5mm}
+.rel-h h1{font-size:14pt;font-weight:700;margin:1.5mm 0 .5mm;letter-spacing:-.01em;color:#1f1f24}
+.rel-h p{margin:0;color:#6b6b73;font-size:7.6pt}
+.rel-meta{display:flex;gap:6mm;text-align:right}.rel-meta span{display:block;font-size:6.4pt;text-transform:uppercase;letter-spacing:.1em;color:#8a8a93}.rel-meta b{font-size:7.6pt;font-weight:600}
+.rel-k{display:grid;grid-template-columns:repeat(4,1fr);border:.6pt solid #d9d9de;border-radius:1.5mm}
+.rel-k div{padding:2.2mm 3mm;border-right:.6pt solid #d9d9de}.rel-k div:last-child{border-right:0}
+.rel-k span{display:block;font-size:6.4pt;text-transform:uppercase;letter-spacing:.1em;color:#8a8a93}.rel-k b{font-size:12pt;font-weight:700}
+.rel-3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;align-items:start}
+table.rel-t{width:100%;border-collapse:collapse;font-size:7.4pt}
+.rel-t th{position:static;background:#f3f3f5;color:#4a4a52;font-size:6.3pt;font-weight:700;text-transform:uppercase;letter-spacing:.08em;text-align:left;padding:1.3mm 1.6mm;border-bottom:.8pt solid #1f1f24;white-space:nowrap}
+.rel-t td{padding:.9mm 1.6mm;border-bottom:.4pt solid #e6e6ea;vertical-align:top}
+.rel-t tr:nth-child(even) td{background:#fafafb}
+.rel-t .r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.rel-t .b{font-weight:600}
+.rel-f{margin-top:auto;display:flex;justify-content:space-between;font-size:6.4pt;color:#8a8a93;border-top:.6pt solid #d9d9de;padding-top:2mm}
+@media print{.sheet.rel{padding:0 11mm}.rel-t thead{display:table-header-group}.rel-t tr{break-inside:avoid}.rel-k,.rel-h{break-inside:avoid}}
 </style>
 </head>
 <body>
@@ -781,7 +800,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v26 · 29/10/2026';
+const VERSAO='v27 · 29/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1284,14 +1303,17 @@ function rxExportDados(o){
  if(o.tipo==='marcas'){
   const M={};P.forEach(p=>{const m=M[p.m]||(M[p.m]={m:p.m,ar:0,rasc:0,sku:0});p.a?m.ar++:m.rasc++;m.sku+=p.skus});
   const L=Object.values(M).sort(o.ordem==='az'?(a,b)=>a.m.localeCompare(b.m,'pt-BR',{sensitivity:'base'}):(a,b)=>b.ar-a.ar||(b.ar+b.rasc)-(a.ar+a.rasc)||a.m.localeCompare(b.m));
-  return {txt:L.map(x=>x.m).join('\n'),n:L.length+' marcas',csv:csvOf(['Marca','Produtos no ar','Produtos em rascunho','SKUs'],L.map(x=>[x.m,x.ar,x.rasc,x.sku]))};
+  return {txt:L.map(x=>x.m).join('\n'),n:L.length+' marcas',csv:csvOf(['Marca','Produtos no ar','Produtos em rascunho','SKUs'],L.map(x=>[x.m,x.ar,x.rasc,x.sku])),
+   cols:['Marca','No ar','Rascunho','SKUs'],num:[1,2,3],rows:L.map(x=>[x.m,x.ar,x.rasc,x.sku])};
  }
  const L=P.slice().sort(o.ordem==='az'?(a,b)=>a.m.localeCompare(b.m,'pt-BR',{sensitivity:'base'})||a.t.localeCompare(b.t):(a,b)=>Number(b.a)-Number(a.a)||a.m.localeCompare(b.m)||a.t.localeCompare(b.t));
  if(o.tipo==='produtos')return {txt:L.map(p=>p.m+' · '+p.t).join('\n'),n:L.length+' produtos',
-  csv:csvOf(['Marca','Produto','Status','Preço mínimo','Preço máximo','SKUs','Fotos','Categorias','Link'],L.map(p=>[p.m,p.t,p.a?'no ar':'rascunho',String(p.pmin).replace('.',','),String(p.pmax).replace('.',','),p.skus,p.fotos,p.tags.split('|').filter(t=>/^cat[-:]/.test(t)).join(', '),'https://ohmygirl.com.br/products/'+p.h]))};
+  csv:csvOf(['Marca','Produto','Status','Preço mínimo','Preço máximo','SKUs','Fotos','Categorias','Link'],L.map(p=>[p.m,p.t,p.a?'no ar':'rascunho',String(p.pmin).replace('.',','),String(p.pmax).replace('.',','),p.skus,p.fotos,p.tags.split('|').filter(t=>/^cat[-:]/.test(t)).join(', '),'https://ohmygirl.com.br/products/'+p.h])),
+  cols:['Marca','Produto','Status','Preço (R$)','SKUs'],num:[3,4],rows:L.map(p=>[p.m,p.t,p.a?'no ar':'rascunho',p.pmax>p.pmin?brl(p.pmin).replace('R$','').trim()+'–'+brl(p.pmax).replace('R$','').trim():brl(p.pmin).replace('R$','').trim(),p.skus])};
  const R=[];L.forEach(p=>{const sk=rxSkus(p.id);if(!sk.length)R.push([p.m,p.t,'','',p.a?'no ar':'rascunho','','https://ohmygirl.com.br/products/'+p.h]);
   sk.forEach(x=>R.push([p.m,p.t,x.sku||'',String(x.nome||'').split(' · ').slice(1).join(' · '),p.a?'no ar':'rascunho',has(x.preco)?String(x.preco).replace('.',','):'','https://ohmygirl.com.br/products/'+p.h]))});
- return {txt:R.map(r=>(r[2]||'(sem SKU)')+' · '+r[0]+' · '+r[1]+(r[3]?' · '+r[3]:'')).join('\n'),n:R.length+' SKUs',csv:csvOf(['Marca','Produto','SKU','Variação','Status','Preço','Link'],R)};
+ return {txt:R.map(r=>(r[2]||'(sem SKU)')+' · '+r[0]+' · '+r[1]+(r[3]?' · '+r[3]:'')).join('\n'),n:R.length+' SKUs',csv:csvOf(['Marca','Produto','SKU','Variação','Status','Preço','Link'],R),
+  cols:['SKU','Marca','Produto','Variação','Status','Preço (R$)'],num:[5],rows:R.map(r=>[r[2]||'—',r[0],r[1],r[3]||'',r[4],r[5]])};
 }
 function rxExport(){
  shell('Exportar listas do catálogo','<div class="sec">'+
@@ -1300,13 +1322,36 @@ function rxExport(){
   '<div class="f"><label for="rxe-ordem">Ordem</label><select id="rxe-ordem"><option value="qtd">Mais produtos primeiro</option><option value="az">A–Z</option></select></div>'+
   '<div class="f full"><label for="rxe-txt" id="rxe-n">Lista</label><textarea id="rxe-txt" readonly style="min-height:300px;font-family:inherit"></textarea>'+
   '<span class="hint">Copie e cole onde quiser (WhatsApp, e-mail, planilha). A planilha traz também quantidades, preços e links. Dados do raio-x de '+new Date(RX.em).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})+'.</span></div>'+
-  '<div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn pri" id="rxe-copiar">Copiar lista</button><button type="button" class="btn" id="rxe-baixar">Baixar planilha (CSV)</button></div></div>',null,true);
+  '<div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn pri" id="rxe-copiar">Copiar lista</button><button type="button" class="btn" id="rxe-pdf">Relatório em PDF</button><button type="button" class="btn" id="rxe-baixar">Baixar planilha (CSV)</button></div></div>',null,true);
  const o=()=>({tipo:$('#rxe-tipo').value,quem:$('#rxe-quem').value,ordem:$('#rxe-ordem').value});
  let D=null;const atualiza=()=>{D=rxExportDados(o());$('#rxe-txt').value=D.txt;$('#rxe-n').textContent='Lista · '+D.n};
  ['rxe-tipo','rxe-quem','rxe-ordem'].forEach(id=>$('#'+id).addEventListener('change',atualiza));atualiza();
  $('#rxe-copiar').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(D.txt);toast('Lista copiada: '+D.n)}catch(_){$('#rxe-txt').select();toast('Selecionei a lista: copie com Ctrl+C')}});
+ $('#rxe-pdf').addEventListener('click',()=>rxRelatorio(o(),D));
  $('#rxe-baixar').addEventListener('click',()=>{const x=o();baixar('omg-'+x.tipo+'-'+(x.quem==='ar'?'no-ar':'todos')+'-'+today()+'.csv',D.csv)});
 }
+// Relatório em PDF: A4, letra pequena, visual de relatório corporativo. Marcas cabem numa página (em colunas).
+function rxRelatorio(o,D){
+ close();const P=RX.P, A=P.filter(p=>p.a), marcasA=new Set(A.map(p=>p.m)).size, marcasT=new Set(P.map(p=>p.m)).size;
+ const T={marcas:'Marcas',produtos:'Produtos',skus:'SKUs'}[o.tipo], Q=o.quem==='ar'?'somente no ar':'no ar e em rascunho', OR=o.ordem==='az'?'ordem alfabética':'por quantidade de produtos';
+ const agora=new Date().toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'}), base=new Date(RX.em).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'});
+ const th=D.cols.map((c,i)=>'<th'+(D.num.includes(i)?' class="r"':'')+'>'+esc(c)+'</th>').join('');
+ const tr=r=>'<tr>'+r.map((c,i)=>'<td'+(D.num.includes(i)?' class="r"':'')+(i===0?' class="b"':'')+'>'+esc(c)+'</td>').join('')+'</tr>';
+ let corpo;
+ if(o.tipo==='marcas'){ // em 3 blocos lado a lado, para caber numa folha
+  const k=Math.ceil(D.rows.length/3);corpo='<div class="rel-3">'+[0,1,2].map(i=>D.rows.slice(i*k,(i+1)*k)).filter(x=>x.length).map(g=>'<table class="rel-t"><thead><tr>'+th+'</tr></thead><tbody>'+g.map(tr).join('')+'</tbody></table>').join('')+'</div>';
+ } else corpo='<table class="rel-t"><thead><tr>'+th+'</tr></thead><tbody>'+D.rows.map(tr).join('')+'</tbody></table>';
+ const tot=o.tipo==='marcas'?[['Marcas listadas',D.rows.length],['Produtos no ar',D.rows.reduce((a,r)=>a+r[1],0)],['Produtos em rascunho',D.rows.reduce((a,r)=>a+r[2],0)],['SKUs',D.rows.reduce((a,r)=>a+r[3],0)]]
+  :[[T+' listados',D.rows.length],['Marcas no ar',marcasA+' de '+marcasT],['Produtos no ar',A.length+' de '+P.length],['SKUs no ar',A.reduce((a,p)=>a+p.skus,0)]];
+ const el=document.createElement('div');el.className='sheet-ov';el.id='sheet-ov';
+ el.innerHTML='<div class="sheet-bar"><button class="btn sm" type="button" data-ac-sheet-close>← Voltar</button><p>Para PDF: Imprimir → Salvar como PDF (A4, retrato).</p><button class="btn sm pri" type="button" data-ac-print>Imprimir / PDF</button></div>'+
+  '<div class="sheet rel" id="sheet"><header class="rel-h"><div><div class="rel-marca">OMG! <span>Oh My Girl</span></div><h1>Relatório do catálogo · '+T+'</h1><p>'+esc(Q)+' · '+esc(OR)+'</p></div>'+
+  '<div class="rel-meta"><div><span>Gerado em</span><b>'+agora+'</b></div><div><span>Fonte</span><b>Shopify · raio-x de '+base+'</b></div></div></header>'+
+  '<div class="rel-k">'+tot.map(([l,v])=>'<div><span>'+esc(l)+'</span><b class="num">'+(typeof v==='number'?v.toLocaleString('pt-BR'):esc(v))+'</b></div>').join('')+'</div>'+corpo+
+  '<footer class="rel-f"><span>OMG! Oh My Girl · ohmygirl.com.br</span><span>Documento interno · '+D.n+'</span></footer></div>';
+ document.body.appendChild(el);acFitSheet();document.title='OMG · Relatório do catálogo · '+T+' · '+today();
+}
+
 document.addEventListener('click',e=>{if(e.target.closest('#rx-export'))rxExport()});
 
 VIEWFN.raiox=()=>{
@@ -2591,6 +2636,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v27','29/10/2026',['Raio-X › Exportar listas › Relatório em PDF: folha A4 com letra pequena e visual de relatório corporativo (cabeçalho, resumo em números e tabela). A lista de marcas cabe numa página só.']],
  ['v26','29/10/2026',['Raio-X › Exportar listas: lista de marcas, produtos ou SKUs (só no ar ou todos, por quantidade ou A–Z) para copiar com um toque ou baixar em planilha com quantidades, preços e links.']],
  ['v25','29/10/2026',['Um clique: o botão “Outro” e a opção “— nenhum —” agora aparecem nos botões; os botões acompanham quando o sistema muda o valor sozinho.','Cupom do influenciador usa o código inteiro (ex.: JENIKANG10).']],
  ['v24','29/10/2026',['Novo influenciador mais rápido: o código do link sai do @, a rede vira botões (Instagram, TikTok…), comissão com botões 10/15/20% e o cupom de desconto é criado no site na hora (ex.: JENI10).','Depois de salvar, aparece a mensagem de boas-vindas pronta para copiar ou abrir no WhatsApp (link, cupom, comissão e painel).','Novo link: o código curto já vem pronto, com 4 letras e números.','Um clique: listas com até 10 opções curtas viram botões (ex.: Origem: instagram, tiktok…); listas maiores ganham botões favoritos.']],
