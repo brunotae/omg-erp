@@ -2,12 +2,12 @@
 <section class="omg-nc">
   <div class="omg-nc__cab"><h2>{{ section.settings.titulo }}</h2>{%- if section.settings.subtitulo != blank -%}<p>{{ section.settings.subtitulo }}</p>{%- endif -%}</div>
   {%- assign usados = '|' -%}
-  <ul class="omg-nc__lista">
+  <ul class="omg-nc__lista" style="--omg-nc-col:{{ section.settings.colunas }}">
     {%- for block in section.blocks -%}
       {%- liquid
         assign c = block.settings.colecao
-        assign img = blank
-        if c != blank
+        assign img = block.settings.imagem
+        if img == blank and c != blank
           for p in c.products limit: 30
             assign t = p.title | downcase
             if t contains 'kit' or t contains ' set' or t contains 'duo' or t contains 'conjunto' or t contains ' + ' or t contains '1+1' or t contains 'trio' or t contains 'caixa' or t contains 'itens' or t contains 'pacote' or t contains 'unidades'
@@ -29,9 +29,9 @@
         endif
       -%}
       <li {{ block.shopify_attributes }}>
-        <a class="omg-nc__q" href="{{ c.url }}" style="--omg-nc:{{ block.settings.cor }}">
+        <a class="omg-nc__q" href="{{ block.settings.link | default: c.url }}" style="--omg-nc:{{ block.settings.cor }}">
           <span class="omg-nc__tx"><b>{{ block.settings.titulo }}</b><small>{{ block.settings.texto }}</small><i>Ver produtos →</i></span>
-          <span class="omg-nc__img">{%- if img -%}{{ img | image_url: width: 300 | image_tag: loading: 'lazy', alt: '' }}{%- endif -%}</span>
+          <span class="omg-nc__img">{%- if img -%}{{ img | image_url: width: 400 | image_tag: loading: 'lazy', alt: block.settings.legenda }}{%- endif -%}{%- if block.settings.legenda != blank -%}<em>{{ block.settings.legenda }}</em>{%- endif -%}</span>
         </a>
       </li>
     {%- endfor -%}
@@ -42,25 +42,30 @@
   .omg-nc__cab{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;margin-bottom:14px}
   .omg-nc__cab h2{margin:0;font-size:clamp(20px,2vw,26px);font-weight:800;color:#2b1520}
   .omg-nc__cab p{margin:0;color:#7a6470;font-size:14px}
-  .omg-nc__lista{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  .omg-nc__lista{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(var(--omg-nc-col,3),minmax(0,1fr));gap:14px}
   .omg-nc__q{display:grid;grid-template-columns:1fr 38%;align-items:center;gap:8px;min-height:150px;padding:18px;border-radius:14px;background:var(--omg-nc);text-decoration:none;color:#2b1520;transition:transform .2s,box-shadow .2s}
   .omg-nc__q:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(74,38,56,.1)}
   .omg-nc__tx b{display:block;font-size:18px;margin-bottom:4px}
   .omg-nc__tx small{display:block;font-size:13px;line-height:1.4;color:#5d4652}
   .omg-nc__tx i{display:inline-block;margin-top:10px;font-style:normal;font-weight:700;font-size:13px;color:#B83D66}
-  .omg-nc__img{aspect-ratio:1;background:#fff;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center}
-  .omg-nc__img img{width:86%;height:86%;object-fit:contain}
+  .omg-nc__img{position:relative;aspect-ratio:1;background:#fff;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+  .omg-nc__img em{position:absolute;left:6px;right:6px;bottom:6px;font-style:normal;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#4A2638;background:rgba(255,255,255,.92);border-radius:999px;padding:3px 6px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .omg-nc__img img{width:86%;height:86%;object-fit:contain;margin-bottom:8%}
   @media (max-width:989px){.omg-nc__lista{grid-template-columns:repeat(2,minmax(0,1fr))}}
   @media (max-width:600px){.omg-nc__lista{grid-template-columns:1fr 1fr;gap:10px}.omg-nc__q{grid-template-columns:1fr;padding:12px;min-height:0}.omg-nc__img{order:-1}.omg-nc__tx b{font-size:15px}.omg-nc__tx small{display:none}}
 </style>
 {% schema %}
 {
-  "name": "OMG · Por necessidade",
+  "name": "OMG · Quadros",
   "settings": [
     { "type": "text", "id": "titulo", "label": "Título", "default": "Compre pelo que sua pele precisa" },
-    { "type": "text", "id": "subtitulo", "label": "Subtítulo" } ],
+    { "type": "text", "id": "subtitulo", "label": "Subtítulo" },
+    { "type": "select", "id": "colunas", "label": "Quadros por linha (computador)", "default": "3", "options": [ { "value": "2", "label": "2" }, { "value": "3", "label": "3" }, { "value": "4", "label": "4" } ] } ],
   "blocks": [{ "type": "necessidade", "name": "Necessidade", "settings": [
     { "type": "collection", "id": "colecao", "label": "Coleção" },
+    { "type": "url", "id": "link", "label": "Ou link (se vazio, vai para a coleção)" },
+    { "type": "image_picker", "id": "imagem", "label": "Foto do produto (se vazio, pega um produto único da coleção)" },
+    { "type": "text", "id": "legenda", "label": "Marca/produto na foto (ex.: Anua · Heartleaf 77)" },
     { "type": "text", "id": "titulo", "label": "Título" },
     { "type": "text", "id": "texto", "label": "Texto curto" },
     { "type": "color", "id": "cor", "label": "Cor do quadro", "default": "#FDEEF3" } ] }],
