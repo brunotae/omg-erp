@@ -255,3 +255,33 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', agenda); else agenda();
 })();
 </script>
+
+<script>
+// Busca por SKU parcial: "3232", "mb3232" ou "MB 3232" vira "MB003232" (só se esse SKU existir).
+(() => {
+  const conv = q => {
+    const t = String(q || '').trim();
+    let m = t.match(/^mb\s*0*(\d{1,6})(-[a-z]+)?$/i) || t.match(/^0*(\d{4,6})(-[a-z]+)?$/i);
+    return m ? 'MB' + m[1].padStart(6, '0') + (m[2] || '').toUpperCase() : null;
+  };
+  const existe = async sku => {
+    try {
+      const r = await (await fetch('/search/suggest.json?q=' + encodeURIComponent(sku) + '&resources[type]=product&resources[limit]=1')).json();
+      return (r.resources.results.products || []).length > 0;
+    } catch (e) { return false; }
+  };
+  document.addEventListener('submit', async e => {
+    const f = e.target;
+    if (!f.matches || !f.matches('form[action*="/search"]') || f.dataset.omgSku) return;
+    const i = f.querySelector('[name="q"]'); const c = conv(i && i.value);
+    if (!c || c === i.value.trim().toUpperCase()) return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    if (await existe(c)) i.value = c;
+    f.dataset.omgSku = '1'; f.submit();
+  }, true);
+  if (/\/search\/?$/.test(location.pathname)) {
+    const u = new URL(location.href), q = u.searchParams.get('q'), c = conv(q);
+    if (c && c !== String(q).trim().toUpperCase()) existe(c).then(ok => { if (ok) { u.searchParams.set('q', c); location.replace(u); } });
+  }
+})();
+</script>
