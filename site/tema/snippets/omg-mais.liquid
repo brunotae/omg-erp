@@ -270,6 +270,25 @@
       return (r.resources.results.products || []).length > 0;
     } catch (e) { return false; }
   };
+  // Busca instantânea (caixa de pesquisa): troca o número pelo SKU completo antes de pedir as sugestões
+  const cache = {};
+  const fetch0 = window.fetch.bind(window);
+  window.fetch = async (input, init) => {
+    try {
+      const url = typeof input === 'string' ? input : input && input.url;
+      if (url && url.includes('/search/suggest') && !url.includes('omgsku=1')) {
+        const u = new URL(url, location.origin), q = u.searchParams.get('q'), c = conv(q);
+        if (c && c !== String(q).trim().toUpperCase()) {
+          if (!(c in cache)) {
+            const r = await (await fetch0('/search/suggest.json?omgsku=1&q=' + encodeURIComponent(c) + '&resources[type]=product&resources[limit]=1')).json();
+            cache[c] = (r.resources.results.products || []).length > 0;
+          }
+          if (cache[c]) { u.searchParams.set('q', c); return fetch0(u.toString(), init); }
+        }
+      }
+    } catch (e) {}
+    return fetch0(input, init);
+  };
   document.addEventListener('submit', async e => {
     const f = e.target;
     if (!f.matches || !f.matches('form[action*="/search"]') || f.dataset.omgSku) return;
