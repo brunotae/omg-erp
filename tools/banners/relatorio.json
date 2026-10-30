@@ -1,0 +1,470 @@
+{
+ "thekyeok": {
+  "imagens": [
+   {
+    "arq": "e6f7dac2cf.png",
+    "url": "https://cdn.imweb.me/thumbnail/20260503/68dd4549e6c13.png",
+    "w": 1919,
+    "h": 926
+   }
+  ]
+ },
+ "meesang": {
+  "imagens": [
+   {
+    "arq": "b0846f2273.jpg",
+    "url": "https://cdn-optimized.imweb.me/upload/S202407043a274ac0cd101/1e1ed68780eb9.jpg?w=800",
+    "w": 1080,
+    "h": 1080
+   },
+   {
+    "arq": "63fa54bdac.jpg",
+    "url": "https://cdn-optimized.imweb.me/upload/S202407043a274ac0cd101/2bd32d386df6f.jpg?w=800",
+    "w": 3781,
+    "h": 3470
+   },
+   {
+    "arq": "f580a68fff.jpg",
+    "url": "https://cdn-optimized.imweb.me/upload/S202407043a274ac0cd101/7e6e083171568.jpg?w=800",
+    "w": 4500,
+    "h": 4500
+   },
+   {
+    "arq": "e3303a40e8.jpg",
+    "url": "https://cdn-optimized.imweb.me/upload/S202407043a274ac0cd101/8c166560cc5e3.jpg?w=800",
+    "w": 1080,
+    "h": 1080
+   },
+   {
+    "arq": "1a2bad1c3c.jpg",
+    "url": "https://cdn-optimized.imweb.me/upload/S202407043a274ac0cd101/a9a3e1fc5f96b.jpg?w=800",
+    "w": 3648,
+    "h": 4152
+   },
+   {
+    "arq": "fba88e12a9.jpg",
+    "url": "https://cdn-optimized.imweb.me/upload/S202407043a274ac0cd101/b06c164f601ad.jpg?w=800",
+    "w": 1000,
+    "h": 1000
+   },
+   {
+    "arq": "efa329c452.jpg",
+    "url": "https://cdn-optimized.imweb.me/upload/S202407043a274ac0cd101/b3e0ab4352678.jpg?w=800",
+    "w": 3542,
+    "h": 3633
+   },
+   {
+    "arq": "65f8ea4dd8.jpg",
+    "url": "https://cdn-optimized.imweb.me/upload/S202407043a274ac0cd101/b4a93b6369c2d.jpg?w=800",
+    "w": 3299,
+    "h": 3355
+   },
+   {
+    "arq": "a4a5fb4950.jpg",
+    "url": "https://cdn-optimized.imweb.me/upload/S202407043a274ac0cd101/cbd93a7a9604a.jpg?w=800",
+    "w": 4500,
+    "h": 4500
+   },
+   {
+    "arq": "b4bbe79f8f.jpg",
+    "url": "https://cdn-optimized.imweb.me/upload/S202407043a274ac0cd101/ee076aaff05d0.jpg?w=800",
+    "w": 1080,
+    "h": 1080
+   },
+   {
+    "arq": "73e3241be0.webp",
+    "url": "https://cdn-optimized.imweb.me/upload/S202407043a274ac0cd101/ef4d77dcdfb5b.jpg?w=800",
+    "w": 4500,
+    "h": 4500
+   },
+   {
+    "arq": "78229d25cc.png",
+    "url": "https://cdn-optimized.imweb.me/upload/S202407043a274ac0cd101/fa26fa3d47d43.png?w=800",
+    "w": 2250,
+    "h": 2250
+   },
+   {
+    "arq": "f23f9eac01.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161013/57ff2b64b8fc5.jpg",
+    "w": 1000,
+    "h": 749
+   },
+   {
+    "arq": "e59dfa4d75.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161013/57ff2b6c41985.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "393e0ee56b.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161013/57ff2b6c7eff0.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "912bdd9164.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161013/57ff2b6fa1ceb.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "7bc9e77bf0.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161013/57ff2b749470a.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "3de227b3d2.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161013/57ff2b8927d40.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "eeaef2abd6.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161013/57ff2b896dc88.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "dba5cc52b8.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161013/57ff2b89bbce4.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "03d352aac9.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161013/57ff2b8a04d29.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "24f37c2630.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161013/57ff2b8a407ef.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "578274b3de.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161013/57ff2bae08ba7.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "834c2f9a9e.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161013/57ff2bae5a30a.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "b108d51a3f.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161013/57ff2c261da61.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "d5756e0c67.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161013/57ff2c2668eb1.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "c376738ff1.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161013/57ff2c26cb1ce.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "db1700a1c4.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161013/57ff2c272ee8a.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "55445cf019.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161013/57ff2d2d2335a.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "37b295a367.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161013/57ff2d2da851e.jpg",
+    "w": 1000,
+    "h": 752
+   },
+   {
+    "arq": "8bb9b5ddf6.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161013/57ff2d2de41cc.jpg",
+    "w": 1000,
+    "h": 667
+   },
+   {
+    "arq": "4e465a345c.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161013/57ff2d2e4b1d0.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "c9a7bed595.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161122/5833a46f477f8.jpg",
+    "w": 700,
+    "h": 524
+   },
+   {
+    "arq": "46329cbd48.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161122/5833a46f6615b.jpg",
+    "w": 700,
+    "h": 525
+   },
+   {
+    "arq": "3abacf1ad3.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161122/5833a46fa9da6.jpg",
+    "w": 700,
+    "h": 525
+   },
+   {
+    "arq": "9a186fd695.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161122/5833a46fdffb7.jpg",
+    "w": 700,
+    "h": 525
+   },
+   {
+    "arq": "ba669f4433.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161122/5833a4701ca54.jpg",
+    "w": 700,
+    "h": 525
+   },
+   {
+    "arq": "1d06ec43f3.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161122/5833a4703ddd2.jpg",
+    "w": 700,
+    "h": 525
+   },
+   {
+    "arq": "da3bde7ae7.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161122/5833a47058578.jpg",
+    "w": 700,
+    "h": 525
+   },
+   {
+    "arq": "dfec38566f.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161122/5833a47074b8a.jpg",
+    "w": 700,
+    "h": 525
+   },
+   {
+    "arq": "65294b8256.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161122/5833a974c1f1e.jpg",
+    "w": 1000,
+    "h": 749
+   },
+   {
+    "arq": "d46c1d7131.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161122/5833a97514ec6.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "a87c1fd265.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161122/5833a9754b679.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "eda4cc287b.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161122/5833a9756e124.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "fe8a22355f.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161122/5833a975a8280.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "206b902ff9.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161122/5833a975e42d4.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "23aba01616.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161122/5833aa7be874c.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "59861503e1.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161122/5833aa7c32db5.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "aa4584f970.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161122/5833aa7c5d1fe.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "7643c03717.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161122/5833ae15b7532.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "4eb3eff84d.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161122/5833ae16049bb.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "4db28e62a9.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161122/5833ae1635c9c.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "046e446653.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161122/5833d3f87db83.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "d0560fe805.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161122/5833d3f8b193d.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "23d817d221.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161122/5833d3f913c60.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "758e31b0cf.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161122/5833d3f945ecb.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "928b0cae99.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161122/5833d3f96bf31.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "9231f46630.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161122/5833d3f9a65f7.jpg",
+    "w": 1000,
+    "h": 752
+   },
+   {
+    "arq": "6d0d0655c0.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161122/5833d3f9cef13.jpg",
+    "w": 1000,
+    "h": 667
+   },
+   {
+    "arq": "122e4a3568.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20161122/5833d3f9f1d54.jpg",
+    "w": 1000,
+    "h": 750
+   },
+   {
+    "arq": "222cdeb0d0.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20240302/34747abc7af28.jpg",
+    "w": 1826,
+    "h": 3204
+   },
+   {
+    "arq": "a709db7cdb.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20240304/26d55fe0505b1.jpg",
+    "w": 1728,
+    "h": 2160
+   },
+   {
+    "arq": "ad0cc35765.png",
+    "url": "https://cdn.imweb.me/thumbnail/20240321/07768e8fb0e09.png",
+    "w": 1920,
+    "h": 427
+   },
+   {
+    "arq": "f62e8d59b2.png",
+    "url": "https://cdn.imweb.me/thumbnail/20240321/666bbeb030819.png",
+    "w": 1920,
+    "h": 1319
+   },
+   {
+    "arq": "f662ab21d4.png",
+    "url": "https://cdn.imweb.me/thumbnail/20240322/42e4454cb8eec.png",
+    "w": 1920,
+    "h": 528
+   },
+   {
+    "arq": "5d87bcfbb5.png",
+    "url": "https://cdn.imweb.me/thumbnail/20240322/7e23d42ffa858.png",
+    "w": 1920,
+    "h": 1319
+   },
+   {
+    "arq": "990586b118.png",
+    "url": "https://cdn.imweb.me/thumbnail/20240322/7e72fffb6c34e.png",
+    "w": 926,
+    "h": 982
+   },
+   {
+    "arq": "b32677b44d.png",
+    "url": "https://cdn.imweb.me/thumbnail/20240322/c06d593888f72.png",
+    "w": 1110,
+    "h": 1278
+   },
+   {
+    "arq": "872b0add5b.png",
+    "url": "https://cdn.imweb.me/thumbnail/20240322/c3894b4b7d85b.png",
+    "w": 1110,
+    "h": 491
+   },
+   {
+    "arq": "c0f09d643f.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20240704/80891f03d0665.jpg",
+    "w": 1920,
+    "h": 1190
+   },
+   {
+    "arq": "458f814da0.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20240704/a8d6129dc35fc.jpg",
+    "w": 1920,
+    "h": 1190
+   },
+   {
+    "arq": "1fd3b4bfde.jpg",
+    "url": "https://cdn.imweb.me/thumbnail/20240704/f851fa7171b10.jpg",
+    "w": 1028,
+    "h": 1144
+   }
+  ]
+ },
+ "medicube": {
+  "imagens": [
+   {
+    "arq": "570c2aae72.webp",
+    "url": "https://medicube.global/images/products/medicube-pdrn-pink-glow-set.webp",
+    "w": 1080,
+    "h": 1080
+   },
+   {
+    "arq": "fd729105c3.webp",
+    "url": "https://medicube.global/images/products/pink-gold-ultimate-care-set.webp",
+    "w": 1946,
+    "h": 1946
+   },
+   {
+    "arq": "1b71af6136.webp",
+    "url": "https://medicube.global/images/products/skin-renewal-ensemble-duo.webp",
+    "w": 1500,
+    "h": 1500
+   }
+  ]
+ }
+}
