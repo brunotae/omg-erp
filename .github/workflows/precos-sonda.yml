@@ -1,0 +1,19 @@
+name: Precos - sondar concorrentes
+on:
+  push:
+    branches: [main]
+    paths: ['tools/precos/sonda.py']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  sondar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/precos/sonda.py
+      - run: |
+          git config user.name "omg-bot"; git config user.email "bot@ohmygirl.com.br"
+          git add tools/precos/sonda
+          git commit -m "Sonda de preços dos concorrentes" || true
+          git pull --rebase origin main && git push
