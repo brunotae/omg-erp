@@ -1,0 +1,60 @@
+{%- comment -%} OMG · compre por necessidade (quadros coloridos com 1 produto único da coleção). {%- endcomment -%}
+<section class="omg-nc">
+  <div class="omg-nc__cab"><h2>{{ section.settings.titulo }}</h2>{%- if section.settings.subtitulo != blank -%}<p>{{ section.settings.subtitulo }}</p>{%- endif -%}</div>
+  <ul class="omg-nc__lista">
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign c = block.settings.colecao
+        assign img = blank
+        if c != blank
+          for p in c.products limit: 30
+            assign t = p.title | downcase
+            if t contains 'kit' or t contains ' set' or t contains 'duo' or t contains 'conjunto' or t contains ' + ' or t contains '1+1' or t contains 'trio' or t contains 'caixa' or t contains 'itens' or t contains 'pacote' or t contains 'unidades'
+              continue
+            endif
+            if p.featured_image
+              assign img = p.featured_image
+              break
+            endif
+          endfor
+        endif
+      -%}
+      <li {{ block.shopify_attributes }}>
+        <a class="omg-nc__q" href="{{ c.url }}" style="--omg-nc:{{ block.settings.cor }}">
+          <span class="omg-nc__tx"><b>{{ block.settings.titulo }}</b><small>{{ block.settings.texto }}</small><i>Ver produtos →</i></span>
+          <span class="omg-nc__img">{%- if img -%}{{ img | image_url: width: 300 | image_tag: loading: 'lazy', alt: '' }}{%- endif -%}</span>
+        </a>
+      </li>
+    {%- endfor -%}
+  </ul>
+</section>
+<style>
+  .omg-nc{max-width:var(--page-width,1400px);margin:0 auto;padding:28px var(--page-margin,16px)}
+  .omg-nc__cab{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;margin-bottom:14px}
+  .omg-nc__cab h2{margin:0;font-size:clamp(20px,2vw,26px);font-weight:800;color:#2b1520}
+  .omg-nc__cab p{margin:0;color:#7a6470;font-size:14px}
+  .omg-nc__lista{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  .omg-nc__q{display:grid;grid-template-columns:1fr 38%;align-items:center;gap:8px;min-height:150px;padding:18px;border-radius:14px;background:var(--omg-nc);text-decoration:none;color:#2b1520;transition:transform .2s,box-shadow .2s}
+  .omg-nc__q:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(74,38,56,.1)}
+  .omg-nc__tx b{display:block;font-size:18px;margin-bottom:4px}
+  .omg-nc__tx small{display:block;font-size:13px;line-height:1.4;color:#5d4652}
+  .omg-nc__tx i{display:inline-block;margin-top:10px;font-style:normal;font-weight:700;font-size:13px;color:#B83D66}
+  .omg-nc__img{aspect-ratio:1;background:#fff;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+  .omg-nc__img img{width:86%;height:86%;object-fit:contain}
+  @media (max-width:989px){.omg-nc__lista{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media (max-width:600px){.omg-nc__lista{grid-template-columns:1fr 1fr;gap:10px}.omg-nc__q{grid-template-columns:1fr;padding:12px;min-height:0}.omg-nc__img{order:-1}.omg-nc__tx b{font-size:15px}.omg-nc__tx small{display:none}}
+</style>
+{% schema %}
+{
+  "name": "OMG · Por necessidade",
+  "settings": [
+    { "type": "text", "id": "titulo", "label": "Título", "default": "Compre pelo que sua pele precisa" },
+    { "type": "text", "id": "subtitulo", "label": "Subtítulo" } ],
+  "blocks": [{ "type": "necessidade", "name": "Necessidade", "settings": [
+    { "type": "collection", "id": "colecao", "label": "Coleção" },
+    { "type": "text", "id": "titulo", "label": "Título" },
+    { "type": "text", "id": "texto", "label": "Texto curto" },
+    { "type": "color", "id": "cor", "label": "Cor do quadro", "default": "#FDEEF3" } ] }],
+  "presets": [{ "name": "OMG · Por necessidade" }]
+}
+{% endschema %}

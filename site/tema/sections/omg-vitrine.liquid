@@ -40,6 +40,7 @@
         {%- else -%}
           {%- for p in col.products -%}
             {%- if n >= section.settings.quantidade -%}{%- break -%}{%- endif -%}
+            {%- if section.settings.sem_kits -%}{%- assign tk = p.title | downcase -%}{%- if tk contains 'kit' or tk contains ' set' or tk contains 'duo' or tk contains 'conjunto' or tk contains ' + ' or tk contains '1+1' or tk contains 'trio' or tk contains 'caixa' or tk contains 'itens' or tk contains 'pacote' or tk contains 'unidades' -%}{%- continue -%}{%- endif -%}{%- endif -%}
             {%- assign chave = '|' | append: p.vendor | append: '|' -%}
             {%- if modo == 'uma_por_marca' and marcas_usadas contains chave -%}{%- continue -%}{%- endif -%}
             {%- assign marcas_usadas = marcas_usadas | append: p.vendor | append: '|' -%}
@@ -109,6 +110,7 @@
       { "value": "normal", "label": "Na ordem da coleção" },
       { "value": "uma_por_marca", "label": "Um de cada marca" },
       { "value": "ordem_hypadas", "label": "O principal de cada marca hypada" } ] },
+    { "type": "checkbox", "id": "sem_kits", "label": "Só produtos únicos (sem kits)", "default": true },
     { "type": "range", "id": "quantidade", "label": "Quantos produtos", "min": 5, "max": 20, "step": 1, "default": 12 },
     { "type": "select", "id": "selo_novidade", "label": "Selo Novidade", "default": "recente", "options": [
       { "value": "recente", "label": "Produtos com até 30 dias" },

@@ -1,0 +1,42 @@
+{%- comment -%} OMG · cadastro de e-mail (vira cliente com aceite de marketing no Shopify). {%- endcomment -%}
+<section class="omg-cd">
+  <div class="omg-cd__caixa">
+    <div><h2>{{ section.settings.titulo }}</h2><p>{{ section.settings.texto }}</p></div>
+    {%- form 'customer', class: 'omg-cd__form' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter,site-cadastro">
+      {%- if form.posted_successfully? -%}
+        <p class="omg-cd__ok" role="status">Pronto! Você vai receber nossas novidades e cupons. ♥</p>
+      {%- else -%}
+        <label class="visually-hidden" for="omg-cd-email">E-mail</label>
+        <input id="omg-cd-email" type="email" name="contact[email]" required placeholder="Seu melhor e-mail" autocomplete="email">
+        <button type="submit">{{ section.settings.botao }}</button>
+        {%- if form.errors -%}<p class="omg-cd__erro">{{ form.errors.translated_fields.email | default: 'E-mail' }} {{ form.errors.messages.email }}</p>{%- endif -%}
+      {%- endif -%}
+    {%- endform -%}
+    <p class="omg-cd__mini">{{ section.settings.aviso }} <a href="/policies/privacy-policy">Privacidade</a>.</p>
+  </div>
+</section>
+<style>
+  .omg-cd{max-width:var(--page-width,1400px);margin:0 auto;padding:28px var(--page-margin,16px) 40px}
+  .omg-cd__caixa{display:grid;grid-template-columns:1fr minmax(0,460px);gap:8px 28px;align-items:center;padding:28px clamp(20px,4vw,48px);border-radius:16px;background:#FDEEF3}
+  .omg-cd h2{margin:0 0 4px;font-size:clamp(20px,2.2vw,28px);font-weight:800;color:#2b1520}
+  .omg-cd p{margin:0;color:#5d4652}
+  .omg-cd__form{display:flex;gap:8px;flex-wrap:wrap}
+  .omg-cd__form input[type=email]{flex:1 1 220px;min-width:0;font:inherit;padding:13px 16px;border:1px solid #E6D9DF;border-radius:999px;background:#fff}
+  .omg-cd__form button{font:inherit;font-weight:700;border:0;border-radius:999px;padding:13px 22px;background:#B83D66;color:#fff;cursor:pointer}
+  .omg-cd__ok{font-weight:700;color:#B83D66!important}
+  .omg-cd__erro{width:100%;color:#c0392b!important;font-size:13px}
+  .omg-cd__mini{grid-column:1/-1;font-size:12px;color:#8a7480!important}
+  @media (max-width:749px){.omg-cd__caixa{grid-template-columns:1fr}}
+</style>
+{% schema %}
+{
+  "name": "OMG · Cadastro",
+  "settings": [
+    { "type": "text", "id": "titulo", "label": "Título", "default": "Receba lançamentos e cupons" },
+    { "type": "text", "id": "texto", "label": "Texto", "default": "Novidades da Coreia, dicas de rotina e ofertas só para quem está na lista." },
+    { "type": "text", "id": "botao", "label": "Botão", "default": "Quero receber" },
+    { "type": "text", "id": "aviso", "label": "Aviso", "default": "Ao se cadastrar, você aceita receber e-mails da OMG. Pode sair quando quiser." } ],
+  "presets": [{ "name": "OMG · Cadastro" }]
+}
+{% endschema %}
