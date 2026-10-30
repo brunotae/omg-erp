@@ -937,6 +937,7 @@ Deno.serve(async (req) => {
         return out;
       };
       const items = m.items.map(map);
+      for (const ad of (Array.isArray(b.adicionar) ? b.adicionar : [])) { if (!items.some((x: any) => x.title === ad.titulo)) { items.push({ title: String(ad.titulo), type: "HTTP", url: String(ad.url), items: [] }); n++; } }
       const d: any = await gql(`mutation($id: ID!, $t: String!, $h: String, $i: [MenuItemUpdateInput!]!) { menuUpdate(id: $id, title: $t, handle: $h, items: $i) { menu { id } userErrors { message } } }`,
         { id: m.id, t: m.title, h: m.handle, i: items });
       const e = d.menuUpdate.userErrors; if (e.length) return resp(422, { erro: e.map((x: any) => x.message).join("; ") });
