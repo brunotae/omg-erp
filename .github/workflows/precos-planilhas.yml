@@ -1,0 +1,21 @@
+name: Precos - planilhas por marca (site oficial)
+on:
+  push:
+    branches: [main]
+    paths: ['tools/precos/planilhas_marcas.py']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  gerar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install openpyxl
+      - run: python3 tools/precos/planilhas_marcas.py
+      - run: |
+          git config user.name "omg-bot"; git config user.email "bot@ohmygirl.com.br"
+          git add tools/precos/planilhas
+          git commit -m "Planilhas de preço oficial por marca" || true
+          git pull --rebase origin main && git push
