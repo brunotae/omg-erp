@@ -16,7 +16,7 @@ export function produtoParaLinhas(p) {
   const unica = variantes.length <= 1;
   return variantes.map((v) => {
     const opc = v.title && v.title !== "Default Title" ? v.title : "";
-    return {
+    const linha = {
       sku: String(v.sku || "").trim() || (p.handle || gid(p.id)) + (unica ? "" : "-" + gid(v.id)),
       nome: (p.title || "") + (opc && !unica ? " · " + opc : ""),
       marca: p.vendor || "",
@@ -28,6 +28,10 @@ export function produtoParaLinhas(p) {
       shopify_product_id: gid(p.id),
       shopify_variant_id: gid(v.id),
     };
+    // O aviso products/update do Shopify não traz mais o peso da variante (foi para o inventoryItem).
+    // Sem peso no aviso, mantém o peso que já está no ERP em vez de apagar.
+    if (linha.peso_g == null || !(linha.peso_g > 0)) delete linha.peso_g;
+    return linha;
   });
 }
 
