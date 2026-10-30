@@ -1,0 +1,6 @@
+{
+  "sections": {
+    "main": { "type": "omg-perfil", "settings": {} }
+  },
+  "order": ["main"]
+}
