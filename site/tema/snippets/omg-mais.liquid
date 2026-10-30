@@ -34,6 +34,7 @@
   .omg-pp{position:relative}
   .omg-marca{position:absolute!important;right:0;left:auto!important;width:auto!important;display:inline-block!important;margin:0!important;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#7a6470;text-decoration:none;border:1px solid #E6D9DF;border-radius:999px;padding:4px 10px;background:#fff;max-width:45%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .omg-marca:hover{color:#D63A5E;border-color:#D63A5E}
+  .cart-drawer__items .omg-cm-wrap{padding:8px 0 4px}
   main .omg-cm-wrap{max-width:var(--page-width,1200px);margin:0 auto 24px;padding:0 max(16px,var(--page-margin,16px))}
   .omg-cm{margin:12px 0 4px;padding:12px;border-radius:12px;background:#FDEEF3}
   .omg-cm + .omg-cm{margin-top:8px}
@@ -208,16 +209,17 @@
       r = r.slice(0, 6);
       const bar = await barP;
       const usados = new Set(r.map(p => p.id));
-      const b = bar.filter(p => p.a && p.p >= 2000 && p.p <= 5900 && !noCarrinho.has(p.id) && !usados.has(p.id)).slice(0, 8);
+      const b = bar.filter(p => p.a && p.p >= 2000 && p.p <= 5900 && !noCarrinho.has(p.id) && !usados.has(p.id)).sort((x, y) => (x.n === 1 ? 0 : 1) - (y.n === 1 ? 0 : 1)).slice(0, 8);
       const html = (r.length ? `<div class="omg-cm" data-omg-cm><p class="omg-cm__tit">Quem comprou também levou</p><div class="omg-cm__lista">${r.map(mini).join('')}</div></div>` : '')
         + (b.length ? `<div class="omg-cm" data-omg-cm><p class="omg-cm__tit">Aproveite e leve junto · até R$ 59</p><div class="omg-cm__lista">${b.map(mini).join('')}</div></div>` : '');
       for (const alvo of alvos) {
-        const ja = alvo.parentElement.querySelector(':scope > .omg-cm-wrap');
+        const dentro = alvo.matches('.cart-drawer__items');
+        const ja = dentro ? alvo.querySelector(':scope > .omg-cm-wrap') : alvo.parentElement.querySelector(':scope > .omg-cm-wrap');
         if (ja && ja.dataset.chave === chave) continue;
         if (ja) ja.remove();
         const w = document.createElement('div');
         w.className = 'omg-cm-wrap'; w.dataset.chave = chave; w.innerHTML = html;
-        alvo.after(w);
+        if (dentro) alvo.appendChild(w); else alvo.after(w);
       }
       ultimaChave = chave;
     } catch (e) {} finally { montando = false; }
@@ -230,7 +232,7 @@
   const agenda = () => { if (t) return; t = setTimeout(() => { t = null; montarCarrinho(); }, 250); };
   document.addEventListener('cart:update', agenda);
   new MutationObserver(() => {
-    const precisa = [...document.querySelectorAll('.cart-drawer__items, .cart-page cart-items-component, main cart-items-component')].some(el => !el.closest('template') && !el.parentElement.querySelector(':scope > .omg-cm-wrap'));
+    const precisa = [...document.querySelectorAll('.cart-drawer__items, .cart-page cart-items-component, main cart-items-component')].some(el => !el.closest('template') && !(el.matches('.cart-drawer__items') ? el.querySelector(':scope > .omg-cm-wrap') : el.parentElement.querySelector(':scope > .omg-cm-wrap')));
     if (precisa) agenda();
   }).observe(document.documentElement, { childList: true, subtree: true });
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', agenda); else agenda();
