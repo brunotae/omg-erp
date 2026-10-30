@@ -21,7 +21,7 @@ export async function lerPagina(url: string) {
   const t = await r.text();
   const prods: any[] = [];
   for (const m of t.matchAll(/<script[^>]+application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi)) {
-    let j: any; try { j = JSON.parse(m[1].trim()); } catch { continue; }
+    let j: any; try { j = JSON.parse(m[1].trim().replace(/[\u0000-\u001F]+/g, " ")); } catch { continue; }
     const pilha = Array.isArray(j) ? [...j] : [j];
     while (pilha.length) { const o = pilha.pop(); if (o && typeof o === "object") { if (o["@type"] === "Product") prods.push(o); if (Array.isArray(o["@graph"])) pilha.push(...o["@graph"]); } }
   }

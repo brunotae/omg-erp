@@ -19,8 +19,10 @@ jobs:
               R=$(curl -sS -m 150 -X POST https://nzsiuniabovvptuqmkmi.supabase.co/functions/v1/conc-semanal \
                 -H 'content-type: application/json' -d "{\"loja\":\"$LOJA\",\"de\":$DE,\"qtd\":40,\"inicio\":\"$INICIO\"}")
               echo "$R" | head -c 600; echo
-              FIM=$(echo "$R" | jq -r '.fim // "erro"')
-              [ "$FIM" = "erro" ] && { echo "::error::$LOJA parou em $DE"; break; }
+              FIM=$(echo "$R" | jq -r 'if has("fim") then (.fim|tostring) else "erro" end' 2>/dev/null || echo erro)
+              NE=$(echo "$R" | jq -r '(.erros // [])|length' 2>/dev/null || echo 0)
+              [ "$NE" != "0" ] && echo "::warning::$LOJA de $DE: $NE sem preço · $(echo "$R" | jq -r '(.erros // [])[0:2]|join(" | ")')"
+              [ "$FIM" = "erro" ] && { echo "::error::$LOJA parou em $DE: $(echo "$R" | head -c 300)"; break; }
               [ "$FIM" = "true" ] && { echo "::notice::$LOJA: $(echo "$R" | jq -r .total) páginas"; break; }
               DE=$((DE+40))
             done
