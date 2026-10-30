@@ -21,8 +21,15 @@
             <img src="{{ s.arquivo_tema | asset_url }}" alt="{{ s.titulo | strip_html | escape }}" loading="lazy" width="1200" height="675">
           {%- elsif s.colecao != blank -%}
             <div class="omg-car__prods">
-              {%- for p in s.colecao.products limit: 3 -%}
+              {%- assign mostrados = 0 -%}
+              {%- for p in s.colecao.products -%}
+                {%- if mostrados >= 3 -%}{%- break -%}{%- endif -%}
+                {%- comment -%} só produto único: pula kits, sets, duos e pacotes {%- endcomment -%}
+                {%- assign t = p.title | downcase -%}
+                {%- if t contains 'kit' or t contains ' set' or t contains 'duo' or t contains 'conjunto' or t contains ' + ' or t contains '1+1' or t contains 'trio' -%}{%- continue -%}{%- endif -%}
+                {%- if p.featured_image == blank -%}{%- continue -%}{%- endif -%}
                 <a href="{{ p.url }}" class="omg-car__prod">{{ p.featured_image | image_url: width: 500 | image_tag: loading: 'lazy', alt: p.title }}</a>
+                {%- assign mostrados = mostrados | plus: 1 -%}
               {%- endfor -%}
             </div>
           {%- endif -%}

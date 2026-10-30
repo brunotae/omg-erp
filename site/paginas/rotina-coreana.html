@@ -1,30 +1,42 @@
 <style>
-.omg-rt{max-width:860px;margin:0 auto;color:#2b1520}
-.omg-rt__intro{font-size:16px;line-height:1.6;color:#5d4652}
-.omg-rt__passos{list-style:none;padding:0;margin:24px 0;display:grid;gap:12px;counter-reset:p}
-.omg-rt__passo{display:grid;grid-template-columns:52px 1fr;gap:14px;align-items:start;background:#fff;border:1px solid #F1E3E9;border-radius:14px;padding:16px}
-.omg-rt__n{width:44px;height:44px;border-radius:50%;background:#FDEEF3;color:#B83D66;font-weight:800;font-size:18px;display:flex;align-items:center;justify-content:center}
-.omg-rt__passo h3{margin:0 0 4px;font-size:18px}
-.omg-rt__passo p{margin:0 0 8px;line-height:1.5;color:#5d4652}
-.omg-rt__quando{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8a7480;margin-bottom:4px}
-.omg-rt__link{font-weight:700;color:#B83D66;text-decoration:none}
-.omg-rt__caixa{background:#FFF4F7;border-radius:14px;padding:18px 20px;margin:24px 0}
+.omg-rt{--omg-larg:min(1180px,calc(100vw - 48px));width:var(--omg-larg);position:relative;left:50%;transform:translateX(-50%);color:#2b1520}
+.omg-rt__intro{max-width:760px;font-size:17px;line-height:1.6;color:#5d4652;margin:0 0 8px}
+.omg-rt__passos{list-style:none;padding:0;margin:28px 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.omg-rt__passo{display:flex;flex-direction:column;background:#fff;border:1px solid #F1E3E9;border-radius:16px;overflow:hidden}
+.omg-rt__video{display:none;aspect-ratio:9/16;max-height:420px;background:#FDEEF3}
+.omg-rt__video:has(iframe,video,img){display:block}
+.omg-rt__video iframe,.omg-rt__video video,.omg-rt__video img{width:100%;height:100%;border:0;object-fit:cover;display:block}
+.omg-rt__corpo{padding:18px 18px 20px;display:flex;flex-direction:column;gap:6px;flex:1}
+.omg-rt__topo{display:flex;align-items:center;gap:12px}
+.omg-rt__n{flex:0 0 40px;height:40px;border-radius:50%;background:#FDEEF3;color:#B83D66;font-weight:800;font-size:17px;display:flex;align-items:center;justify-content:center}
+.omg-rt__quando{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8a7480}
+.omg-rt__passo h3{margin:0;font-size:19px;line-height:1.25}
+.omg-rt__passo p{margin:0;line-height:1.5;color:#5d4652;font-size:15px;flex:1}
+.omg-rt__links{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.omg-rt__link{display:inline-block;font-weight:700;font-size:14px;color:#B83D66;text-decoration:none;border:1px solid #F4C4D4;border-radius:999px;padding:7px 14px;background:#FFF9FB}
+.omg-rt__link:hover{background:#B83D66;color:#fff;border-color:#B83D66}
+.omg-rt__caixa{background:#FFF4F7;border-radius:16px;padding:20px 22px;margin:28px 0}
 .omg-rt__caixa h3{margin:0 0 8px}
-.omg-rt__grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:12px 0}
-.omg-rt__pele{background:#fff;border:1px solid #F1E3E9;border-radius:12px;padding:14px}
-.omg-rt__pele strong{display:block;margin-bottom:4px}
+.omg-rt__caixa p{margin:0;line-height:1.6}
+.omg-rt__grade{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:14px 0 28px}
+.omg-rt__pele{background:#fff;border:1px solid #F1E3E9;border-radius:14px;padding:16px}
+.omg-rt__pele strong{display:block;margin-bottom:6px;font-size:16px}
 .omg-rt__pele p{margin:0;font-size:14px;line-height:1.5;color:#5d4652}
+.omg-rt__ing{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 8px}
+.omg-rt h2{margin:36px 0 6px;font-size:26px}
+@media (max-width:989px){.omg-rt__passos{grid-template-columns:repeat(2,minmax(0,1fr))}.omg-rt__grade{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){.omg-rt__passos,.omg-rt__grade{grid-template-columns:1fr}.omg-rt__video{max-height:none}}
 </style>
 <div class="omg-rt">
 <p class="omg-rt__intro">A rotina coreana é famosa pelos "10 passos", mas ninguém precisa de todos. O segredo é a ordem: do produto mais leve para o mais denso, e protetor solar todo dia de manhã. Comece pelo básico (passos 2, 5 e 6) e vá acrescentando.</p>
 
 <ol class="omg-rt__passos">
-<li class="omg-rt__passo"><span class="omg-rt__n">1</span><div><span class="omg-rt__quando">À noite</span><h3>Óleo ou bálsamo de limpeza</h3><p>Primeira limpeza: dissolve protetor solar, maquiagem e oleosidade. Massageie no rosto seco e enxágue.</p><a class="omg-rt__link" href="/collections/limpeza-facial">Ver limpeza facial →</a></div></li>
-<li class="omg-rt__passo"><span class="omg-rt__n">2</span><div><span class="omg-rt__quando">Manhã e noite</span><h3>Sabonete facial</h3><p>Segunda limpeza, à base de água. Prefira fórmulas suaves, que não deixam a pele repuxando.</p><a class="omg-rt__link" href="/collections/limpeza-facial">Ver sabonetes faciais →</a></div></li>
-<li class="omg-rt__passo"><span class="omg-rt__n">3</span><div><span class="omg-rt__quando">Manhã e noite</span><h3>Tônico ou toner pad</h3><p>Equilibra e prepara a pele para os próximos passos. O toner pad já vem embebido no disco: é só passar.</p><a class="omg-rt__link" href="/collections/tonicos">Ver tônicos →</a> · <a class="omg-rt__link" href="/collections/toner-pads">Ver toner pads →</a></div></li>
-<li class="omg-rt__passo"><span class="omg-rt__n">4</span><div><span class="omg-rt__quando">Manhã e noite</span><h3>Sérum ou ampola</h3><p>O passo do tratamento: hidratação, manchas, firmeza, poros. Escolha pelo ingrediente (veja abaixo).</p><a class="omg-rt__link" href="/collections/seruns-e-ampolas">Ver séruns e ampolas →</a></div></li>
-<li class="omg-rt__passo"><span class="omg-rt__n">5</span><div><span class="omg-rt__quando">Manhã e noite</span><h3>Hidratante</h3><p>Fecha a rotina e segura a hidratação. Gel para pele oleosa, creme para pele seca.</p><a class="omg-rt__link" href="/collections/hidratantes">Ver hidratantes →</a></div></li>
-<li class="omg-rt__passo"><span class="omg-rt__n">6</span><div><span class="omg-rt__quando">Toda manhã</span><h3>Protetor solar</h3><p>O passo que mais faz diferença. Os protetores coreanos são leves e não deixam a pele branca. Reaplique ao longo do dia.</p><a class="omg-rt__link" href="/collections/protetor-solar-coreano">Ver protetores solares →</a></div></li>
+<li class="omg-rt__passo"><div class="omg-rt__video" data-passo="1"></div><div class="omg-rt__corpo"><div class="omg-rt__topo"><span class="omg-rt__n">1</span><div><span class="omg-rt__quando">À noite</span><h3>Óleo ou bálsamo de limpeza</h3></div></div><p>Primeira limpeza: dissolve protetor solar, maquiagem e oleosidade. Massageie no rosto seco e enxágue.</p><div class="omg-rt__links"><a class="omg-rt__link" href="/collections/limpeza-facial">Ver limpeza facial →</a></div></div></li>
+<li class="omg-rt__passo"><div class="omg-rt__video" data-passo="2"></div><div class="omg-rt__corpo"><div class="omg-rt__topo"><span class="omg-rt__n">2</span><div><span class="omg-rt__quando">Manhã e noite</span><h3>Sabonete facial</h3></div></div><p>Segunda limpeza, à base de água. Prefira fórmulas suaves, que não deixam a pele repuxando.</p><div class="omg-rt__links"><a class="omg-rt__link" href="/collections/limpeza-facial">Ver sabonetes faciais →</a></div></div></li>
+<li class="omg-rt__passo"><div class="omg-rt__video" data-passo="3"></div><div class="omg-rt__corpo"><div class="omg-rt__topo"><span class="omg-rt__n">3</span><div><span class="omg-rt__quando">Manhã e noite</span><h3>Tônico ou toner pad</h3></div></div><p>Equilibra e prepara a pele para os próximos passos. O toner pad já vem embebido no disco: é só passar.</p><div class="omg-rt__links"><a class="omg-rt__link" href="/collections/tonicos">Ver tônicos →</a><a class="omg-rt__link" href="/collections/toner-pads">Ver toner pads →</a></div></div></li>
+<li class="omg-rt__passo"><div class="omg-rt__video" data-passo="4"></div><div class="omg-rt__corpo"><div class="omg-rt__topo"><span class="omg-rt__n">4</span><div><span class="omg-rt__quando">Manhã e noite</span><h3>Sérum ou ampola</h3></div></div><p>O passo do tratamento: hidratação, manchas, firmeza, poros. Escolha pelo ingrediente (veja abaixo).</p><div class="omg-rt__links"><a class="omg-rt__link" href="/collections/seruns-e-ampolas">Ver séruns e ampolas →</a></div></div></li>
+<li class="omg-rt__passo"><div class="omg-rt__video" data-passo="5"></div><div class="omg-rt__corpo"><div class="omg-rt__topo"><span class="omg-rt__n">5</span><div><span class="omg-rt__quando">Manhã e noite</span><h3>Hidratante</h3></div></div><p>Fecha a rotina e segura a hidratação. Gel para pele oleosa, creme para pele seca.</p><div class="omg-rt__links"><a class="omg-rt__link" href="/collections/hidratantes">Ver hidratantes →</a></div></div></li>
+<li class="omg-rt__passo"><div class="omg-rt__video" data-passo="6"></div><div class="omg-rt__corpo"><div class="omg-rt__topo"><span class="omg-rt__n">6</span><div><span class="omg-rt__quando">Toda manhã</span><h3>Protetor solar</h3></div></div><p>O passo que mais faz diferença. Os protetores coreanos são leves e não deixam a pele branca. Reaplique ao longo do dia.</p><div class="omg-rt__links"><a class="omg-rt__link" href="/collections/protetor-solar-coreano">Ver protetores solares →</a></div></div></li>
 </ol>
 
 <div class="omg-rt__caixa"><h3>Extras para 2 ou 3 vezes por semana</h3>
@@ -39,7 +51,7 @@
 </div>
 
 <h2>Por ingrediente</h2>
-<p><a class="omg-rt__link" href="/collections/ingrediente-centella">Centella e cica</a> (acalma) · <a class="omg-rt__link" href="/collections/ingrediente-pdrn">PDRN</a> (renovação) · <a class="omg-rt__link" href="/collections/ingrediente-colageno">Colágeno</a> (firmeza) · <a class="omg-rt__link" href="/collections/ingrediente-niacinamida">Niacinamida</a> (poros e uniformidade) · <a class="omg-rt__link" href="/collections/ingrediente-acido-hialuronico">Ácido hialurônico</a> (hidratação) · <a class="omg-rt__link" href="/collections/ingrediente-peptideos">Peptídeos</a> (firmeza) · <a class="omg-rt__link" href="/collections/ingrediente-vitamina-c">Vitamina C</a> (viço e manchas) · <a class="omg-rt__link" href="/collections/ingrediente-retinol">Retinol</a> (só à noite, comece devagar).</p>
+<p class="omg-rt__ing"><a class="omg-rt__link" href="/collections/ingrediente-centella">Centella e cica · acalma</a><a class="omg-rt__link" href="/collections/ingrediente-pdrn">PDRN · renovação</a><a class="omg-rt__link" href="/collections/ingrediente-colageno">Colágeno · firmeza</a><a class="omg-rt__link" href="/collections/ingrediente-niacinamida">Niacinamida · poros e uniformidade</a><a class="omg-rt__link" href="/collections/ingrediente-acido-hialuronico">Ácido hialurônico · hidratação</a><a class="omg-rt__link" href="/collections/ingrediente-peptideos">Peptídeos · firmeza</a><a class="omg-rt__link" href="/collections/ingrediente-vitamina-c">Vitamina C · viço e manchas</a><a class="omg-rt__link" href="/collections/ingrediente-retinol">Retinol · só à noite</a></p>
 
 <div class="omg-rt__caixa"><h3>Ficou com dúvida?</h3><p>Fale com a Bomi, nossa assistente, no botão do canto da tela. Ela ajuda a montar a rotina para a sua pele.</p></div>
 </div>
