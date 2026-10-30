@@ -821,7 +821,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v35 · 30/10/2026';
+const VERSAO='v36 · 30/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1578,7 +1578,7 @@ async function rxExport(){
   '<div class="f"><label for="rxe-marcas">Marcas</label><select id="rxe-marcas"><option value="todas">Todas</option><option value="hyp">Só as hypadas ★</option></select></div>'+
   '<div class="f"><label for="rxe-cat">Separar por categoria</label><select id="rxe-cat"><option value="nao">Não</option><option value="sim">Sim (Rosto, Protetor, Maquiagem…)</option></select></div>'+
   '<div class="f full"><label for="rxe-ordem">Ordem</label><select id="rxe-ordem"><option value="hyp">Hypadas primeiro</option><option value="qtd">Mais produtos primeiro</option><option value="az">A–Z</option></select></div>'+
-  '<div class="f full"><span class="lb" style="font-size:12px;font-weight:600;color:var(--muted)">Marcas hypadas ★ <span style="font-weight:400">(toque para marcar ou tirar · vale para toda a equipe)</span></span><div class="acm-ch" id="rxe-hyp"></div></div>'+
+  '<div class="f full"><span class="lb" style="font-size:12px;font-weight:600;color:var(--muted)">Marcas hypadas ★ <span style="font-weight:400">(toque para marcar ou tirar · vale para toda a equipe)</span>'+(can()?' <button type="button" class="btn sm" id="rxe-hyp-limpa" style="margin-left:6px">Desmarcar todas</button>':'')+'</span><div class="acm-ch" id="rxe-hyp"></div></div>'+
   '<div class="f full"><label for="rxe-txt" id="rxe-n">Lista</label><textarea id="rxe-txt" readonly style="min-height:280px;font-family:inherit"></textarea>'+
   '<span class="hint">Copie e cole onde quiser (WhatsApp, e-mail, planilha). A planilha traz também quantidades, preços e links. Dados do raio-x de '+new Date(RX.em).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})+'.</span></div>'+
   '<div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn pri" id="rxe-copiar">Copiar lista</button><button type="button" class="btn" id="rxe-pdf">Relatório em PDF</button><button type="button" class="btn" id="rxe-baixar">Baixar planilha (CSV)</button></div></div>',null,true);
@@ -1588,6 +1588,7 @@ async function rxExport(){
  ['rxe-tipo','rxe-quem','rxe-marcas','rxe-cat','rxe-ordem'].forEach(id=>$('#'+id).addEventListener('change',atualiza));hypBox();atualiza();
  $('#rxe-hyp').addEventListener('click',async e=>{const b=e.target.closest('[data-hyp]');if(!b||b.disabled)return;const m=b.dataset.hyp;
   RXH=rxEhHyp(m)?RXH.filter(x=>x.toLowerCase()!==m.toLowerCase()):[...RXH,m];hypBox();atualiza();await rxHypSalvar()});
+ const lp=$('#rxe-hyp-limpa');if(lp)lp.addEventListener('click',async()=>{if(!RXH.length){toast('Nenhuma marca marcada');return}if(!confirm('Desmarcar as '+RXH.length+' marcas hypadas? Vale para toda a equipe e para o selo Hypado do site.'))return;RXH=[];hypBox();atualiza();await rxHypSalvar();toast('Hypadas desmarcadas')});
  $('#rxe-copiar').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(D.txt);toast('Lista copiada: '+D.n)}catch(_){$('#rxe-txt').select();toast('Selecionei a lista: copie com Ctrl+C')}});
  $('#rxe-pdf').addEventListener('click',()=>rxRelatorio(o(),D));
  $('#rxe-baixar').addEventListener('click',()=>{const x=o();baixar('omg-'+x.tipo+(x.marcas==='hyp'?'-hypadas':'')+(x.cat==='sim'?'-por-categoria':'')+'-'+(x.quem==='ar'?'no-ar':'todos')+'-'+today()+'.csv',D.csv)});
@@ -1656,6 +1657,18 @@ function relAbrir(titulo,folha){
 }
 
 document.addEventListener('click',e=>{if(e.target.closest('#rx-export'))rxExport()});
+// Imprimir a lista de produtos de uma marca (detalhe do Raio-X) · v36
+document.addEventListener('click',e=>{const b=e.target.closest('[data-rx-imp]');if(!b)return;const m=b.dataset.rxImp,its=RXUI.lista||[];
+ const agora=new Date().toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'}),ar=its.filter(p=>p.a).length;
+ const linhas=its.map(p=>{const sk=rxSkus(p.id);const pr=has(p.pmin)?(p.pmin===p.pmax?brl(p.pmin):brl(p.pmin)+' a '+brl(p.pmax)):'';
+  const prob=(p.f||[]).map(k=>(RX_ERR[k]||[k])[0]).join(', ');
+  return '<tr><td class="b">'+esc(p.t)+'</td><td>'+esc(sk.map(x=>x.sku).slice(0,4).join(', ')+(sk.length>4?' +'+(sk.length-4):''))+'</td><td>'+(p.a?'no ar':'rascunho')+'</td><td class="r">'+pr+'</td><td>'+esc(prob)+'</td></tr>'}).join('');
+ const folha='<div class="sheet rel" id="sheet" data-fit="0"><header class="rel-h"><div><div class="rel-marca">OMG! <span>Oh My Girl</span></div><h1>'+esc(m)+' · lista de produtos</h1><p>'+(RXUI.err?'só com '+esc(RX_ERR[RXUI.err][0].toLowerCase()):'todos os produtos da marca')+'</p></div>'+
+  '<div class="rel-meta"><div><span>Gerado em</span><b>'+agora+'</b></div><div><span>Fonte</span><b>Shopify · raio-x</b></div></div></header>'+
+  '<div class="rel-k"><div><span>Produtos</span><b class="num">'+its.length+'</b></div><div><span>No ar</span><b class="num">'+ar+'</b></div><div><span>Rascunho</span><b class="num">'+(its.length-ar)+'</b></div><div><span>Com problema</span><b class="num">'+its.filter(p=>(p.f||[]).length).length+'</b></div></div>'+
+  '<table class="rel-t"><thead><tr><th>Produto</th><th>SKU</th><th>Status</th><th class="r">Preço</th><th>Situação</th></tr></thead><tbody>'+linhas+'</tbody></table>'+
+  '<footer class="rel-f"><span>OMG! Oh My Girl · ohmygirl.com.br</span><span>Documento interno</span></footer></div>';
+ relAbrir('OMG · '+m+' · produtos',folha)});
 
 VIEWFN.raiox=()=>{
  const btn=(RX?'<button class="btn sm" type="button" id="rx-export">Exportar listas</button> ':'')+'<button class="btn sm pri" type="button" id="rx-atualizar"'+(RXUI.carregando?' disabled':'')+'>'+(RXUI.carregando?'Atualizando…':'Atualizar raio-x')+'</button>';
@@ -1688,7 +1701,7 @@ VIEWFN.raiox=()=>{
   '<div class="rx-bar"><i style="width:'+w(b.okA)+';background:var(--ok)"></i><i style="width:'+w(b.okR)+';background:var(--rx-azul,#5B7BC9)"></i><i style="width:'+w(pr)+';background:var(--bad)"></i></div>'+
   '<div class="chips">'+(Object.keys(RX_ERR).filter(k=>b.e[k]).map(k=>'<span class="pill '+RX_ERR[k][2]+'">'+RX_ERR[k][0].toLowerCase()+' '+b.e[k]+(b.eA[k]?' ('+b.eA[k]+' no ar)':'')+'</span>').join('')||'<span class="pill p-ok">sem problema</span>')+'</div></button>'};
  const det=m=>{const its=P.filter(p=>p.m===m&&(!RXUI.err||p.f.includes(RXUI.err))).sort((a,b)=>(b.f.length>0)-(a.f.length>0)||b.a-a.a||a.t.localeCompare(b.t));
-  return '<div class="card rx-det"><div class="rx-mt"><b>'+esc(m)+' · '+its.length+' produtos'+(RXUI.err?' com '+RX_ERR[RXUI.err][0].toLowerCase():'')+'</b><span class="chips">'+(can()&&P.some(p=>p.m===m&&p.a)?'<button type="button" class="btn sm pri" data-rx-pub="'+esc(m)+'"'+(RXUI.pub?' disabled':'')+' title="Põe a marca na página Marcas do site e ensina a Bomi os produtos dela">'+(RXUI.pub?'Publicando…':'Publicar marca no site')+'</button>':'')+'<button type="button" class="btn sm" data-rx-m="'+esc(m)+'">Fechar</button></span></div>'+rxBarraSel(its)+'<div class="tblwrap"><table><thead><tr><th class="rx-ck"><input type="checkbox" class="rx-sel-all" aria-label="Selecionar todos desta lista"'+(its.length&&its.every(p=>RXUI.sel.has(p.id))?' checked':'')+'></th><th>Produto</th><th>SKU</th><th>Status</th><th class="r">Preço</th><th>Situação</th></tr></thead><tbody>'+
+  return '<div class="card rx-det"><div class="rx-mt"><b>'+esc(m)+' · '+its.length+' produtos'+(RXUI.err?' com '+RX_ERR[RXUI.err][0].toLowerCase():'')+'</b><span class="chips">'+(can()&&P.some(p=>p.m===m&&p.a)?'<button type="button" class="btn sm pri" data-rx-pub="'+esc(m)+'"'+(RXUI.pub?' disabled':'')+' title="Põe a marca na página Marcas do site e ensina a Bomi os produtos dela">'+(RXUI.pub?'Publicando…':'Publicar marca no site')+'</button>':'')+'<button type="button" class="btn sm" data-rx-imp="'+esc(m)+'" title="Abre a lista em aba nova para imprimir ou salvar em PDF">Imprimir lista</button><button type="button" class="btn sm" data-rx-m="'+esc(m)+'">Fechar</button></span></div>'+(RXUI.lista=its,'')+rxBarraSel(its)+'<div class="tblwrap"><table><thead><tr><th class="rx-ck"><input type="checkbox" class="rx-sel-all" aria-label="Selecionar todos desta lista"'+(its.length&&its.every(p=>RXUI.sel.has(p.id))?' checked':'')+'></th><th>Produto</th><th>SKU</th><th>Status</th><th class="r">Preço</th><th>Situação</th></tr></thead><tbody>'+
   its.map(p=>{const sk=rxSkus(p.id);return '<tr'+(sk[0]?' data-edit="produtos" data-id="'+esc(sk[0].id)+'" title="Abrir no catálogo"':'')+'><td class="rx-ck"><input type="checkbox" class="rx-sel" data-id="'+esc(p.id)+'" aria-label="Selecionar '+esc(p.t)+'"'+(RXUI.sel.has(p.id)?' checked':'')+'></td><td><b>'+esc(p.t)+'</b><small>'+esc(p.h)+(p.par?' · versão completa: '+esc(p.par)+' ('+brl(p.parpr)+')':'')+'</small></td><td class="num">'+(sk.length?sk.slice(0,8).map(x=>{const v=String(x.nome||'').split(' · ').slice(1).join(' · ');return '<b>'+esc(x.sku)+'</b>'+(v||sk.length>1?' <small style="display:inline">'+esc(v||'')+(has(x.preco)?' · '+brl(x.preco):'')+'</small>':'')}).join('<br>')+(sk.length>8?'<br><small>+'+(sk.length-8)+' SKUs</small>':''):'<small>'+p.skus+' SKU'+(p.skus>1?'s':'')+'</small>')+'</td><td><span class="pill '+(p.a?'p-ok">no ar':'p-mute">rascunho')+'</span></td><td class="r num">'+(p.pmax>p.pmin?brl(p.pmin)+'<small>a '+brl(p.pmax)+' (varia por SKU)</small>':brl(p.pmin))+'</td><td><div class="chips">'+(p.f.length?p.f.map(k=>'<span class="pill '+RX_ERR[k][2]+'">'+RX_ERR[k][0].toLowerCase()+'</span>').join(''):'<span class="pill p-ok">ok</span>')+'</div></td></tr>'}).join('')+'</tbody></table></div></div>'};
  let grade='';const ab=L.find(b=>b.m===RXUI.m);if(ab)grade+=card(ab)+det(ab.m);L.forEach(b=>{if(b!==ab)grade+=card(b)});
  const filtros=[['todas','Todas'],['ar','No ar'],['ras','Só rascunho'],['urg','Problema no ar'],['prob','Com problema']].map(([k,l])=>'<button type="button" class="btn sm rx-f" data-rx-f="'+k+'" aria-pressed="'+(RXUI.f===k)+'">'+l+'</button>').join('');
@@ -2945,6 +2958,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v36','30/10/2026',['Raio-X: botão Imprimir lista no quadro de cada marca. Abre um relatório simples em aba nova (imprimir ou salvar em PDF).','Exportar listas: botão Desmarcar todas nas marcas hypadas.']],
  ['v35','30/10/2026',['Links: botão "+ Cadastrar novo influenciador" dentro do formulário do link. Depois de salvar o influenciador, o link volta já com ele escolhido.']],
  ['v34','30/10/2026',['Ligar os certeiros: o ERP liga sozinho o concorrente quando marca, nome, tipo e tamanho batem (filtro Ligados sozinhos, botão Confere).','Sem peso cadastrado: o frete usa um peso estimado pelo tamanho (1,3 × ml + 60 g), marcado como estimado.','Nova tela Precificação (em Estoque e compras): preço sugerido pela regra do Guia de precificação para cada produto do site, com a conta aberta.','Concorrentes válidos (KS e Jini) lidos sozinhos toda segunda de manhã. O ERP sugere o produto parecido; você confirma com "É este" ou "Não é", ou cola o link.','Sem concorrente: informe o preço no exterior em US$ e o ERP aplica +20%.','Alerta quando o preço do site sai da regra mais que 3%. Aprovar muda o preço no site, um ou vários de uma vez, e guarda o histórico.','Botão Regras: desconto, ICMS, câmbio, capitais de referência e quanto do frete passa para o preço.']],
  ['v33','29/10/2026',['Regra 8: o relatório em PDF, que abre em aba nova, tem o botão ✕ Fechar aba no topo.']],
