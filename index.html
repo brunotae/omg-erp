@@ -1409,7 +1409,7 @@ VIEWFN.precos=()=>{
 function prAbrir(id){
  const p=S.data.produtos.find(x=>x.id===id);if(!p)return;const c=prCalc(p),s=prSugestoes(p),H=PR.hist.filter(h=>h.produto_id===id).slice(0,10),C=prCfg();
  const rej=prRefs(p).filter(r=>r.status==='rejeitado');
- const conta=c.linhas.length?'<table class="pr-conta">'+c.linhas.map(([l,v,t])=>'<tr><td>'+esc(l)+'</td><td class="r num">'+(t?esc(t):v==null?'':(v<0?'− '+brl(-v):brl(v)))+'</td></tr>').join('')+'</table>':'<p class="muted" style="margin:0">'+(c.erro?esc(c.erro):'Sem referência: ligue um concorrente (KS ou Jini) ou informe o preço no exterior em US$.')+'</p>';
+ const conta=c.linhas.length?'<table class="pr-conta">'+c.linhas.map(([l,v,t])=>'<tr><td>'+esc(l)+'</td><td class="r num">'+(t?esc(t):v==null?'':(v<-0.004?'− '+brl(-v):brl(Math.abs(v))))+'</td></tr>').join('')+'</table>':'<p class="muted" style="margin:0">'+(c.erro?esc(c.erro):'Sem referência: ligue um concorrente (KS ou Jini) ou informe o preço no exterior em US$.')+'</p>';
  const body='<div class="sec"><span class="label">'+esc(p.marca||'')+' · '+esc(p.sku)+(c.peso?' · '+Math.round(c.peso.g)+' g'+(c.peso.de?' ('+esc(c.peso.de)+')':''):' · sem peso')+'</span>'+
   '<div style="grid-column:1/-1">'+conta+(c.erro&&c.linhas.length?'<p class="pill p-warn" style="margin-top:8px">'+esc(c.erro)+'</p>':'')+'</div>'+
   '<p style="grid-column:1/-1;margin:0">No site hoje: <b>'+brl(c.atual)+'</b>'+(c.site>0?' · sugerido <b>'+brl(c.site)+'</b> '+prDif(c):'')+'</p>'+
