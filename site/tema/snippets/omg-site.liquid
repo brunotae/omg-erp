@@ -25,7 +25,10 @@
   /* submenu do cabeçalho: mesmo tamanho de letra do menu principal */
   .mega-menu__link{font-size:14px!important;line-height:1.35!important}
   /* fotos dos cartões do tema sempre inteiras dentro do quadrado */
-  product-card .product-media img,product-card slideshow-slide img{object-fit:contain!important}
+  product-card img{object-fit:contain!important;background:#fff}
+  /* capas de coleção/marca: produto inteiro, centralizado, mesmo tamanho em todos os quadros */
+  .collection-card__image{background:#fff;border:1px solid #f1e8ec;border-radius:10px;overflow:hidden}
+  .collection-card__image .resource-image__image{object-fit:contain!important;padding:9%;background:#fff}
 </style>
 <script>
 (function(){
