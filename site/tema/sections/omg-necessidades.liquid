@@ -1,6 +1,7 @@
 {%- comment -%} OMG · compre por necessidade (quadros coloridos com 1 produto único da coleção). {%- endcomment -%}
 <section class="omg-nc">
   <div class="omg-nc__cab"><h2>{{ section.settings.titulo }}</h2>{%- if section.settings.subtitulo != blank -%}<p>{{ section.settings.subtitulo }}</p>{%- endif -%}</div>
+  {%- assign usados = '|' -%}
   <ul class="omg-nc__lista">
     {%- for block in section.blocks -%}
       {%- liquid
@@ -12,8 +13,16 @@
             if t contains 'kit' or t contains ' set' or t contains 'duo' or t contains 'conjunto' or t contains ' + ' or t contains '1+1' or t contains 'trio' or t contains 'caixa' or t contains 'itens' or t contains 'pacote' or t contains 'unidades'
               continue
             endif
+            if t contains 'mask' or t contains 'máscara'
+              continue
+            endif
+            assign chave = '|' | append: p.handle | append: '|'
+            if usados contains chave
+              continue
+            endif
             if p.featured_image
               assign img = p.featured_image
+              assign usados = usados | append: p.handle | append: '|'
               break
             endif
           endfor
