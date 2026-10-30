@@ -821,7 +821,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v34 · 30/10/2026';
+const VERSAO='v35 · 30/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -2119,6 +2119,10 @@ FORMS.influenciadores={title:['Novo influenciador','Influenciador'],col:'influen
    if(error)toast('Influenciador salvo, mas o link não: '+errMsg(error));else if(await lkGarantirCurto(l))msgs.push('link ohmygirl.com.br/a/'+l.slug+' pronto');
   }
   if(msgs.length)toast(msgs.join(' · '));
+  if(!rec&&window.LK_RASCUNHO){ // veio do formulário de link: volta para ele com o influenciador novo escolhido
+   const r=window.LK_RASCUNHO;window.LK_RASCUNHO=null;
+   if(!S.data.influenciadores.some(i=>i.id===id))S.data.influenciadores.push({...v,id});
+   window.LK_PREFILL={...r,influenciador:id};setTimeout(()=>{openForm('links_utm');toast(v.nome+' cadastrado. Termine o link.')},350);return}
   if(!rec)setTimeout(()=>lkBoasVindas(v),400);
  }};
 function lkBoasVindas(v){
@@ -2137,7 +2141,7 @@ FORMS.links_utm={title:['Novo link','Link'],col:'links_utm',secs:[
   {k:'utm_campaign',l:'Campanha (utm_campaign)',t:'combo',o:()=>[...new Set([...LK_CAMP0,...S.data.links_utm.map(l=>l.utm_campaign).filter(Boolean)])],req:1},
   {k:'utm_content',l:'Conteúdo (utm_content)',hint:'Quem ou qual peça. Ex.: jeni-reels1'},{k:'utm_term',l:'Termo (utm_term)',hint:'Opcional'},
   {k:'inicio',l:'Vale a partir de',t:'date'},{k:'fim',l:'Vale até',t:'date'},{k:'ativo',l:'Ativo',t:'bool'},{k:'custo',l:'Custo (R$, opcional)',t:'number',hint:'Quanto gastamos com este link: cachê do post, valor do anúncio, produto enviado. O ERP compara com o que ele vendeu.'},{k:'obs',l:'Observações',t:'textarea',full:1}]]],
- def:()=>{let c;do{c=Array.from({length:4},()=>'abcdefghjkmnpqrstuvwxyz23456789'[Math.floor(Math.random()*31)]).join('')}while(S.data.links_utm.some(l=>l.slug===c));return {ativo:true,destino:'/',slug:c,utm_source:'instagram',utm_medium:'influencer',utm_campaign:'parceria-omg'}},
+ def:()=>{const pre=window.LK_PREFILL;window.LK_PREFILL=null;if(pre)return pre;let c;do{c=Array.from({length:4},()=>'abcdefghjkmnpqrstuvwxyz23456789'[Math.floor(Math.random()*31)]).join('')}while(S.data.links_utm.some(l=>l.slug===c));return {ativo:true,destino:'/',slug:c,utm_source:'instagram',utm_medium:'influencer',utm_campaign:'parceria-omg'}},
  antes:v=>{v.slug=lkSlug(v.slug);if(v.slug.length<2)throw {field:{k:'slug',l:'Código do link (mínimo 2 letras)'}};['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(k=>v[k]=lkSlug(v[k]));
   if(!v.utm_content&&v.influenciador){const i=S.data.influenciadores.find(x=>x.id===v.influenciador);if(i)v.utm_content=i.codigo}
   let d=String(v.destino||'/').trim();try{const u=new URL(d,LK_SITE);d=u.pathname+u.search}catch(_){d='/'}v.destino=d||'/'},
@@ -2343,7 +2347,7 @@ function fieldHTML(f,v,ro){
   inp='<select id="'+id+'" name="'+f.k+'"'+(ro?' disabled':'')+'><option value="">'+esc(f.none||'—')+'</option>'+ps.map(p=>'<option value="'+esc(p.id)+'"'+(p.id===v?' selected':'')+'>'+esc(parcLabel(p))+'</option>').join('')+'</select>';
  }
  else if(f.t==='inf'){
-  inp='<select id="'+id+'" name="'+f.k+'"'+(ro?' disabled':'')+'><option value="">— nenhum (sem comissão) —</option>'+S.data.influenciadores.slice().sort((a,b)=>String(a.nome).localeCompare(String(b.nome))).map(p=>'<option value="'+esc(p.id)+'"'+(p.id===v?' selected':'')+'>'+esc(p.nome+(p.arroba?' ('+p.arroba+')':''))+'</option>').join('')+'</select>';
+  inp='<select id="'+id+'" name="'+f.k+'"'+(ro?' disabled':'')+'><option value="">— nenhum (sem comissão) —</option>'+S.data.influenciadores.slice().sort((a,b)=>String(a.nome).localeCompare(String(b.nome))).map(p=>'<option value="'+esc(p.id)+'"'+(p.id===v?' selected':'')+'>'+esc(p.nome+(p.arroba?' ('+p.arroba+')':''))+'</option>').join('')+'</select>'+(ro?'':'<button type="button" class="btn sm" data-lk-novoinf style="margin-top:6px;align-self:flex-start">+ Cadastrar novo influenciador</button>');
  }
  else if(f.t==='combo'){
   const val=v==null?'':String(v), known=val===''||opts.includes(val), sel=known?val:'__outra';
@@ -2920,6 +2924,8 @@ document.addEventListener('click',e=>{
  if(t.dataset.view){S.view=t.dataset.view;S.q='';$('#q').value='';render();window.scrollTo(0,0);return}
  if(t.dataset.fv){S.f.vendas=t.dataset.fv;render();return}
  if(t.dataset.ff){S.f.fin=t.dataset.ff;render();return}
+ if(t.matches('[data-lk-novoinf]')){const f=$('#mform');const d={};if(f)for(const el of f.elements){if(!el.name)continue;if(el.type==='checkbox')d[el.name]=el.checked;else if(el.value!=='')d[el.name]=el.type==='number'?parseFloat(el.value):el.value}
+  window.LK_RASCUNHO={ativo:true,...d};openForm('influenciadores');return}
  if(t.dataset.new){openForm(t.dataset.new);return}
  if(t.dataset.edit&&!t.closest('#modal-root')){openForm(t.dataset.edit,t.dataset.id);return}
  if(t.id==='backup'){doBackup();return}
@@ -2939,6 +2945,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v35','30/10/2026',['Links: botão "+ Cadastrar novo influenciador" dentro do formulário do link. Depois de salvar o influenciador, o link volta já com ele escolhido.']],
  ['v34','30/10/2026',['Ligar os certeiros: o ERP liga sozinho o concorrente quando marca, nome, tipo e tamanho batem (filtro Ligados sozinhos, botão Confere).','Sem peso cadastrado: o frete usa um peso estimado pelo tamanho (1,3 × ml + 60 g), marcado como estimado.','Nova tela Precificação (em Estoque e compras): preço sugerido pela regra do Guia de precificação para cada produto do site, com a conta aberta.','Concorrentes válidos (KS e Jini) lidos sozinhos toda segunda de manhã. O ERP sugere o produto parecido; você confirma com "É este" ou "Não é", ou cola o link.','Sem concorrente: informe o preço no exterior em US$ e o ERP aplica +20%.','Alerta quando o preço do site sai da regra mais que 3%. Aprovar muda o preço no site, um ou vários de uma vez, e guarda o histórico.','Botão Regras: desconto, ICMS, câmbio, capitais de referência e quanto do frete passa para o preço.']],
  ['v33','29/10/2026',['Regra 8: o relatório em PDF, que abre em aba nova, tem o botão ✕ Fechar aba no topo.']],
  ['v32','29/10/2026',['Exportar listas: marcas hypadas ★ (toque nas marcas para marcar; vale para toda a equipe). Começa com COSRX, Anua, SKIN1004, Beauty of Joseon, medicube e TIRTIR.','Filtros novos: só as hypadas, separar por categoria (Rosto, Protetor solar, Maquiagem, Cabelo, Corpo e banho) e ordem Hypadas primeiro. Vale para a lista, o PDF e a planilha.']],
