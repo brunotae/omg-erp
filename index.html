@@ -851,7 +851,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v42 · 30/10/2026';
+const VERSAO='v43 · 30/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1526,9 +1526,9 @@ document.addEventListener('click',async e=>{const t=e.target.closest('button,a,i
 });
 
 /* ---------- Pricing · v40 (Guia de precificação OMG v2, 30/10/2026) ----------
-   Preço final em Fortaleza = mercadoria + frete exibido + ICMS 20% (por dentro) = referência Pix × (1 − d%).
+   Preço final (v43: frete de São Paulo capital) = mercadoria + frete + ICMS 20% (por dentro) = referência Pix × (1 − d%). O Final mostrado usa o ICMS de SP (17%), igual à calculadora do site.
    Referência = menor preço no Pix entre KS e Jini (ligados ao produto, conferidos por uma pessoa, com estoque).
-   Frete = calculadora do site (Shipsmart) para Fortaleza pelo peso do Shopify; a calculadora soma 1% do valor do produto.
+   Frete = calculadora do site (Shipsmart) para São Paulo capital pelo peso do Shopify; a calculadora soma 1% do valor do produto.
    % frete exibido (p): quanto do frete aparece como frete. O resto vai no preço; o final não muda.
      mercadoria = (ref × (1 − d) × 0,80 − p × frete_base) ÷ (1 + p × 1%), arredondada para baixo em ,90.
    Sem concorrente: maior varejo oficial entre YesStyle, Olive Young Global, Jolse e Sephora Global (US$) + 15%, câmbio do dia.
@@ -1536,7 +1536,9 @@ document.addEventListener('click',async e=>{const t=e.target.closest('button,a,i
    Fluxo: editar % → Calcular (OK) → Transmitir ao Shopify. Cada transmissão vira um lote que pode ser revertido. */
 const PX={loaded:false,loading:false,itens:new Map(),cfg:null,lotes:[],sel:new Set(),f:{},st:'',sort:['marca',1],lim:200,busy:'',aberto:null};
 const pxHoje=()=>new Date().toLocaleDateString('en-CA',{timeZone:'America/Sao_Paulo'});
-const PX_CFG0={desc:5,frete:100,icms:20,ext:15,seguro:1,cep:'60115-170',usd:null,cambio:null,fretes:{},freteEm:null};
+const PX_CFG0={desc:5,frete:100,icms:20,icmsRef:17,ext:15,seguro:1,cep:'01532-001',usd:null,cambio:null,fretes:{},freteEm:null,v:2};
+// v43: referência de frete = São Paulo capital (CEP 01532-001). % frete travado em 100 até a Shipsmart cobrar só parte do frete no checkout.
+const PX_TRAVA_FRETE=true;
 const PX_SITES=[['yesstyle','YesStyle','YS','https://www.yesstyle.com/'],['oliveyoung','Olive Young Global','OY','https://global.oliveyoung.com/'],['jolse','Jolse','JO','https://jolse.com/'],['sephora','Sephora Global','SE','https://www.sephora.com/']];
 const pxCfg=()=>({...PX_CFG0,...(PX.cfg||{})});
 const pxCambio=()=>{const C=pxCfg();return Number(C.usd)>0?Number(C.usd):Number(C.cambio)>0?Number(C.cambio):null};
@@ -1550,6 +1552,7 @@ async function pxLoad(){
   PX.itens=new Map(all.map(r=>[r.produto_id,r]));
   const {data:c,error:e2}=await sb.from('config').select('chave,valor').in('chave',['pricing','pricing_lotes']);if(e2)throw e2;
   (c||[]).forEach(r=>{if(r.chave==='pricing')PX.cfg=r.valor;else PX.lotes=Array.isArray(r.valor)?r.valor:[]});
+  if(PX.cfg&&PX.cfg.v!==2){PX.cfg={...PX.cfg,cep:'01532-001',icmsRef:17,fretes:{},freteEm:null,v:2};if(can())try{await pxSalvarCfg(PX.cfg)}catch(_){}}
  }catch(e){toast(errMsg(e))}
  PX.loaded=true;PX.loading=false;
  if(can()&&pxFaltaFrete().length)pxCotarFrete(true);
@@ -1562,7 +1565,7 @@ async function pxCotarFrete(soFaltando){
  if(!pesos.length){if(!soFaltando)toast('Nenhum peso para cotar');return}
  PX.busy='frete';render();const fretes={...(soFaltando?C.fretes:{})};let cambio=C.cambio,err=0;
  try{for(let i=0;i<pesos.length;i+=60){const r=await chamarShop({acao:'frete_cotar',cep:C.cep,pesos:pesos.slice(i,i+60)});Object.assign(fretes,r.fretes||{});err+=Object.keys(r.erros||{}).length;if(r.cambio)cambio=r.cambio;if(pesos.length>60)toast('Frete: '+Math.min(i+60,pesos.length)+' de '+pesos.length+' pesos…')}
-  await pxSalvarCfg({...C,fretes,cambio,freteEm:new Date().toISOString()});toast('Frete de Fortaleza cotado para '+pesos.length+' pesos'+(err?' · '+err+' sem resposta':''))}
+  await pxSalvarCfg({...C,fretes,cambio,freteEm:new Date().toISOString()});toast('Frete de SP cotado para '+pesos.length+' pesos'+(err?' · '+err+' sem resposta':''))}
  catch(e){toast('Frete: '+errMsg(e))}
  PX.busy='';render()}
 async function pxLerConc(){
@@ -1578,8 +1581,8 @@ function pxExt(it){const S0=(it&&it.ext_sites)||{};let best=null;
  PX_SITES.forEach(([k,nome,cod])=>{const x=S0[k];const u=x&&pxNum(x.usd);if(u>0&&(!best||u>best.usd))best={k,nome,cod,usd:u,url:x.url||''}});return best}
 function pxCalc(p){
  const C=pxCfg(),it=PX.itens.get(p.id)||{};
- const d=pxNum(it.desc_pct)??n(C.desc),fp=pxNum(it.frete_pct)??n(C.frete),pp=fp/100,icms=n(C.icms)/100,seg=n(C.seguro)/100,cam=pxCambio();
- const o={p,it,d,fp,dPad:pxNum(it.desc_pct)==null,fpPad:pxNum(it.frete_pct)==null,atual:pxNum(p.preco),peso:Number(p.pesoG)>0?Math.round(Number(p.pesoG)):null,flags:[],refs:pxConcs(p)};
+ const d=pxNum(it.desc_pct)??n(C.desc),fp=PX_TRAVA_FRETE?100:(pxNum(it.frete_pct)??n(C.frete)),pp=fp/100,icms=n(C.icms)/100,seg=n(C.seguro)/100,cam=pxCambio();
+ const o={p,it,d,fp,dPad:pxNum(it.desc_pct)==null,fpPad:PX_TRAVA_FRETE||pxNum(it.frete_pct)==null,atual:pxNum(p.preco),peso:Number(p.pesoG)>0?Math.round(Number(p.pesoG)):null,flags:[],refs:pxConcs(p)};
  o.base=o.peso?pxNum((C.fretes||{})[String(o.peso)]):null;
  const val=o.refs.filter(r=>r.ativo&&!r.esgotado&&r.preco>0&&!r.auto).sort((a,b)=>a.pix-b.pix);
  if(val.length){const r=val[0];o.tipo='conc';o.ref={cod:r.cod,nome:PR_LOJA[r.loja],url:r.url,normal:r.preco,pix:r.pix,pixLido:r.pixLido,pixPct:r.pixPct,lido:r.lido,outro:val[1]||null};
@@ -1591,8 +1594,8 @@ function pxCalc(p){
  if(o.base==null){o.erro='frete não cotado';return o}
  if(o.tipo==='conc'){o.alvo=o.ref.pix*(1-d/100);const s=(o.alvo*(1-icms)-pp*o.base)/(1+pp*seg);if(!(s>0)){o.erro='frete e ICMS passam da referência';return o}o.novo=pr90(s)}
  else{if(!cam){o.erro='sem câmbio';return o}o.merc=o.ref.usd*(1+n(C.ext)/100)*cam;o.novo=pr90((o.merc+(1-pp)*o.base)/(1-(1-pp)*seg))}
- o.freteCheio=o.base+seg*o.novo;o.freteExib=pp*o.freteCheio;o.final=(o.novo+o.freteExib)/(1-icms);
- if(o.tipo==='conc'){o.abaixo=(1-o.final/o.ref.pix)*100;if(o.final>o.ref.pix+0.005)o.flags.push('final acima da referência')}
+ o.freteCheio=o.base+seg*o.novo;o.freteExib=pp*o.freteCheio;o.final20=(o.novo+o.freteExib)/(1-icms);o.final=(o.novo+o.freteExib)/(1-n(C.icmsRef)/100);
+ if(o.tipo==='conc'){o.abaixo=(1-o.final/o.ref.pix)*100;if(o.final20>o.ref.pix+0.005)o.flags.push('final acima da referência')}
  if(cam&&(o.novo+o.freteCheio)/cam>50)o.flags.push('acima de US$ 50: imposto de importação fica fora da conta');
  if(has(o.atual)&&o.atual>0){o.dif=(o.novo-o.atual)/o.atual*100;if(o.dif<=-35)o.flags.push('queda de mais de 35%: conferir a referência');if(o.dif>=35)o.flags.push('alta de mais de 35%: conferir')}
  o.muda=has(o.atual)&&Math.abs(o.novo-o.atual)>=0.01;
@@ -1604,7 +1607,7 @@ const PX_COLS=[
  ['ref','Referência',x=>x.ref?(x.tipo==='ext'?x.ref.usd:x.ref.pix):null,'n',x=>x.ref?x.ref.cod+' '+x.ref.nome:'—','ref'],
  ['d','% abaixo',x=>x.d,'n',null,'edit'],['fp','% frete',x=>x.fp,'n',null,'edit'],
  ['atual','Hoje',x=>x.atual,'n',null,'hoje'],
- ['novo','Novo',x=>x.novo,'n',x=>has(x.dif)?String(x.dif):'','res'],['frete','Frete',x=>x.freteExib,'n',null,'res'],['final','Final CE',x=>x.final,'n',null,'res'],
+ ['novo','Novo',x=>x.novo,'n',x=>has(x.dif)?String(x.dif):'','res'],['frete','Frete',x=>x.freteExib,'n',null,'res'],['final','Final SP',x=>x.final,'n',null,'res'],
  ['st','Status',x=>pxStatus(x)[1]+(x.flags.length?' · '+x.flags.join(' · '):''),'t',null,'st']];
 const PX_GR={prod:'Produto',ref:'Concorrente',edit:'Você ajusta',hoje:'Site hoje',res:'Preço novo',st:'Situação'};
 function pxGrupos(){const o=[];PX_COLS.forEach(c=>{const g=c[5],u=o[o.length-1];if(u&&u.g===g)u.n++;else o.push({g,n:1})});return o.map(x=>'<th colspan="'+x.n+'" class="px-g-'+x.g+'">'+PX_GR[x.g]+'</th>').join('')}
@@ -1639,11 +1642,11 @@ VIEWFN.pricing=()=>{
  const ultC=PR.cat.reduce((m,c)=>c.lido_em>m?c.lido_em:m,'');
  const info='<p class="muted" style="margin:-6px 0 0;font-size:11.5px">'+A.length+' produtos no site · '+A.filter(x=>x.tipo==='conc').length+' com KS/Jini · '+A.filter(x=>x.tipo==='ext').length+' com preço do exterior · '+A.filter(x=>x.tipo==='sem').length+' sem referência<br>'+
   'Padrão: '+n(C.desc)+'% abaixo da referência Pix · frete exibido '+n(C.frete)+'% · ICMS '+n(C.icms)+'% · exterior +'+n(C.ext)+'% · câmbio '+(cam?'R$ '+cam.toFixed(4).replace('.',','):'—')+(Number(C.usd)>0?' (manual)':' (calculadora do site)')+
-  ' · frete de Fortaleza cotado '+(C.freteEm?new Date(C.freteEm).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'}):'—')+' · concorrentes lidos '+(ultC?new Date(ultC).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'}):'—')+'</p>';
+  ' · frete de SP capital cotado '+(C.freteEm?new Date(C.freteEm).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'}):'—')+' · concorrentes lidos '+(ultC?new Date(ultC).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'}):'—')+'</p>';
  const chips='<div class="chips">'+[['','Todos',A.length],['muda','A calcular',cont('muda')],['ok','OK · prontos',cont('ok')],['velho','Recalcular',cont('velho')],['igual','Iguais ao site',cont('igual')],['erro','Pendência',cont('erro')],['aviso','Com aviso',A.filter(x=>x.flags.length).length]].map(([v,l,c])=>'<button type="button" class="chip'+(PX.st===v?' on':'')+'" data-pxst="'+esc(v)+'">'+l+' · '+c+'</button>').join('')+
   (Object.values(PX.f).some(Boolean)||PX.st?'<button type="button" class="chip" id="px-limpa">Limpar filtros</button>':'')+'</div>';
  const lote=can()?'<div class="card px-lote"><div class="px-lote-in"><b>'+sel.length+' selecionado'+(sel.length===1?'':'s')+'</b>'+
-  '<span>% abaixo <input type="number" step="0.5" id="px-bd" placeholder="'+n(C.desc)+'" data-1c="off"></span><span>% frete exibido <input type="number" step="5" min="0" max="100" id="px-bf" placeholder="'+n(C.frete)+'" data-1c="off"></span>'+
+  '<span>% abaixo <input type="number" step="0.5" id="px-bd" placeholder="'+n(C.desc)+'" data-1c="off"></span>'+(PX_TRAVA_FRETE?'<span class="muted" title="O checkout ainda cobra o frete inteiro">% frete travado em 100 🔒</span>':'<span>% frete exibido <input type="number" step="5" min="0" max="100" id="px-bf" placeholder="'+n(C.frete)+'" data-1c="off"></span>')+''+
   '<button class="btn sm" type="button" id="px-aplica"'+(sel.length&&!PX.busy?'':' disabled')+'>Aplicar % aos selecionados</button>'+
   '<button class="btn sm" type="button" id="px-padrao"'+(sel.length&&!PX.busy?'':' disabled')+' title="Volta os selecionados para o % padrão">Voltar ao padrão</button>'+
   '<span class="sp"></span><button class="btn sm" type="button" id="px-sel-nada"'+(sel.length?'':' disabled')+'>Limpar seleção</button>'+
@@ -1658,7 +1661,7 @@ VIEWFN.pricing=()=>{
   '<td class="num">'+esc(x.p.sku)+'</td><td class="px-nome"><a href="#" data-pxabre="'+esc(x.p.id)+'" title="'+esc(x.p.nome)+'">'+esc(String(x.p.nome).split(':')[0])+'</a></td><td class="px-marca" title="'+esc(x.p.marca||'')+'">'+esc(x.p.marca||'')+'</td><td class="r num">'+(x.peso?x.peso+'g':'<span class="muted">—</span>')+'</td>'+
   '<td class="r num">'+(r?(r.url?'<a href="'+esc(r.url)+'" target="_blank" rel="noopener" title="'+esc(r.nome)+'"><b>'+r.cod+'</b></a> ':'<b>'+r.cod+'</b> ')+(x.tipo==='ext'?'<b>US$ '+r.usd.toFixed(2).replace('.',',')+'</b>':'<b>'+brl(r.pix)+'</b><small>'+(r.pixLido?(r.pixPct?'Pix −'+pxPct(r.pixPct)+' · normal '+brl(r.normal):'Pix = normal'):'Pix não lido')+'</small>'):'<span class="muted">—</span>')+'</td>'+
   '<td class="r">'+(can()?'<input class="px-in'+(x.dPad?' pad':'')+'" type="number" step="0.5" data-pxd="'+esc(x.p.id)+'" value="'+x.d+'" aria-label="% abaixo" data-1c="off">':pxPct(x.d))+'</td>'+
-  '<td class="r">'+(can()?'<input class="px-in'+(x.fpPad?' pad':'')+'" type="number" step="5" min="0" max="100" data-pxfp="'+esc(x.p.id)+'" value="'+x.fp+'" aria-label="% frete exibido" data-1c="off">':pxPct(x.fp))+'</td>'+
+  '<td class="r">'+(can()&&!PX_TRAVA_FRETE?'<input class="px-in'+(x.fpPad?' pad':'')+'" type="number" step="5" min="0" max="100" data-pxfp="'+esc(x.p.id)+'" value="'+x.fp+'" aria-label="% frete exibido" data-1c="off">':'<span class="muted" title="Travado em 100% até a Shipsmart cobrar só parte do frete no checkout">100 🔒</span>')+'</td>'+
   '<td class="r num">'+cel(x.atual)+'</td><td class="r num">'+cel(x.novo,true)+dif+'</td>'+
   '<td class="r num">'+cel(x.freteExib)+(has(x.freteCheio)&&Math.abs(x.freteCheio-x.freteExib)>0.005?'<small>de '+brl(x.freteCheio)+'</small>':'')+'</td>'+
   '<td class="r num">'+cel(x.final)+(x.tipo==='conc'&&has(x.abaixo)?'<small>'+pxPct(x.abaixo)+' abaixo</small>':'')+'</td>'+
@@ -1675,10 +1678,10 @@ function pxAbrir(id){
  const p=S.data.produtos.find(x=>x.id===id);if(!p)return;PX.aberto=id;const x=pxCalc(p),C=pxCfg(),cam=pxCambio(),it=x.it,es=it.ext_sites||{};
  const L=[];
  if(x.tipo==='conc'){L.push(['Referência: '+x.ref.nome+' no Pix'+(x.ref.pixLido?(x.ref.pixPct?' ('+pxPct(x.ref.pixPct)+' de desconto)':' (sem desconto no Pix)'):' (Pix não lido)'),brl(x.ref.pix)]);
-  if(has(x.alvo)){L.push(['Preço final alvo em Fortaleza (−'+pxPct(x.d)+')',brl(x.alvo)]);L.push(['Sem ICMS '+n(C.icms)+'% (por dentro)','− '+brl(x.alvo*n(C.icms)/100)])}}
+  if(has(x.alvo)){L.push(['Preço final alvo (−'+pxPct(x.d)+')',brl(x.alvo)]);L.push(['Sem ICMS '+n(C.icms)+'% (por dentro)','− '+brl(x.alvo*n(C.icms)/100)])}}
  if(x.tipo==='ext'){L.push(['Referência: '+x.ref.nome+' (maior varejo oficial)','US$ '+x.ref.usd.toFixed(2)]);if(has(x.merc))L.push(['+'+n(C.ext)+'% × câmbio '+(cam||0).toFixed(4),brl(x.merc)])}
- if(has(x.novo)){L.push(['Frete Fortaleza · '+x.peso+' g (calculadora do site, com 1% do valor)',brl(x.freteCheio)]);L.push(['Frete exibido à cliente ('+pxPct(x.fp)+')',(x.tipo==='conc'?'− ':'')+brl(x.freteExib)]);
-  L.push(['Mercadoria (arredondada para baixo em ,90)',brl(x.novo)]);L.push(['Final em Fortaleza = (mercadoria + frete exibido) ÷ '+(1-n(C.icms)/100).toFixed(2).replace('.',','),brl(x.final)])}
+ if(has(x.novo)){L.push(['Frete SP capital · '+x.peso+' g (calculadora do site, com 1% do valor)',brl(x.freteCheio)]);L.push(['Frete exibido à cliente ('+pxPct(x.fp)+')',(x.tipo==='conc'?'− ':'')+brl(x.freteExib)]);
+  L.push(['Mercadoria (arredondada para baixo em ,90)',brl(x.novo)]);L.push(['Final com ICMS '+n(C.icms)+'% (conta da regra) = (mercadoria + frete) ÷ '+(1-n(C.icms)/100).toFixed(2).replace('.',','),brl(x.final20)]);L.push(['Final que a cliente de SP paga (ICMS '+n(C.icmsRef)+'%, igual à calculadora do site)',brl(x.final)])}
  const conta=L.length?'<table class="pr-conta">'+L.map(([a,b])=>'<tr><td>'+esc(a)+'</td><td class="r num">'+b+'</td></tr>').join('')+'</table>':'';
  const concs=x.refs.length?x.refs.map(r=>'<div class="pr-ref"><span><b>'+r.cod+'</b> · '+(r.preco?brl(r.preco)+' · Pix '+brl(r.pix)+(r.pixLido?'':' (não lido)'):'sem preço')+(r.esgotado?' · <b>esgotado</b>':'')+(r.auto?' · <span class="pill p-info">automático, conferir</span>':'')+' · <a href="'+esc(r.url)+'" target="_blank" rel="noopener">'+esc(r.nome||r.url.replace(/^https?:\/\//,''))+'</a>'+(r.lido?' <small class="muted">lido '+new Date(r.lido).toLocaleDateString('pt-BR')+'</small>':'')+'</span></div>').join(''):'<p class="muted" style="margin:0">Nenhum concorrente ligado.</p>';
  const ext=PX_SITES.map(([k,nome,cod,site])=>{const v=es[k]||{};return '<div class="f"><label for="pxe-'+k+'">'+nome+' (US$)</label><input id="pxe-'+k+'" name="u_'+k+'" type="number" step="0.01" min="0" value="'+esc(v.usd??'')+'" data-1c="off"'+(can()?'':' disabled')+'></div><div class="f"><label for="pxl-'+k+'">Link '+cod+'</label><input id="pxl-'+k+'" name="l_'+k+'" type="url" value="'+esc(v.url||'')+'" placeholder="'+site+'…" data-1c="off"'+(can()?'':' disabled')+'></div>'}).join('');
@@ -1747,11 +1750,11 @@ function pxVerLote(id){const l=PX.lotes.find(x=>x.id===id);if(!l)return;
   l.itens.map(i=>'<tr><td class="num">'+esc(i.sku)+'</td><td>'+esc(i.nome)+'</td><td class="r num">'+brl(i.antes)+'</td><td class="r num"><b>'+brl(i.depois)+'</b></td></tr>').join('')+'</tbody></table></div></div>',null,true)}
 function pxRegras(){
  const C=pxCfg(),f=(k,l,h,step)=>'<div class="f"><label for="pxc-'+k+'">'+l+'</label><input id="pxc-'+k+'" name="'+k+'" type="'+(k==='cep'?'text':'number')+'" step="'+(step||'0.5')+'" value="'+esc(C[k]??'')+'" data-1c="off"'+(can()?'':' disabled')+'>'+(h?'<span class="hint">'+h+'</span>':'')+'</div>';
- shell('Regras do Pricing','<div class="sec"><span class="label">Padrões (cada produto pode ter o seu)</span>'+f('desc','% abaixo da referência Pix','Preço final em Fortaleza fica este % abaixo do menor Pix entre KS e Jini.')+f('frete','% do frete exibido','100 = a cliente vê o frete inteiro. 0 = frete todo dentro do preço. O final não muda.',5)+'</div>'+
+ shell('Regras do Pricing','<div class="sec"><span class="label">Padrões (cada produto pode ter o seu)</span>'+f('desc','% abaixo da referência Pix','Preço final fica este % abaixo do menor Pix entre KS e Jini.')+f('frete','% do frete exibido','100 = a cliente vê o frete inteiro. 0 = frete todo dentro do preço. O final não muda.',5)+'</div>'+
   '<div class="sec"><span class="label">Conta</span>'+f('icms','ICMS (%)','Por dentro.')+f('ext','Sobre o varejo do exterior (%)','Produto sem KS/Jini: maior varejo oficial em US$ + este %.')+f('usd','Câmbio manual (R$ por US$)','Vazio = câmbio do dia da calculadora do site ('+(Number(C.cambio)>0?Number(C.cambio).toFixed(4).replace('.',','):'—')+').',0.0001)+'</div>'+
-  '<div class="sec"><span class="label">Frete</span>'+f('cep','CEP de referência','Fortaleza (CE).')+f('seguro','Parte do frete sobre o valor (%)','A calculadora soma este % do valor do produto ao frete.',0.1)+'</div>',null,!can());
+  '<div class="sec"><span class="label">Frete</span>'+f('cep','CEP de referência','São Paulo capital.')+f('icmsRef','ICMS de SP para mostrar o final (%)','A conta usa o ICMS de cima (20%); o Final mostra o que a cliente de SP paga.')+f('seguro','Parte do frete sobre o valor (%)','A calculadora soma este % do valor do produto ao frete.',0.1)+'</div>',null,!can());
  if(!can())return;
- wireSubmit(async form=>{const v={...pxCfg()};['desc','frete','icms','ext','seguro'].forEach(k=>{const x=parseFloat(form.elements[k].value);if(isFinite(x))v[k]=x});
+ wireSubmit(async form=>{const v={...pxCfg()};['desc','frete','icms','icmsRef','ext','seguro'].forEach(k=>{const x=parseFloat(form.elements[k].value);if(isFinite(x))v[k]=x});
   const u=parseFloat(form.elements.usd.value);v.usd=isFinite(u)&&u>0?u:null;const cep=String(form.elements.cep.value||'').trim();
   if(v.frete<0||v.frete>100)throw new Error('% do frete exibido vai de 0 a 100.');
   const mudouCep=cep&&cep!==v.cep;if(cep)v.cep=cep;if(mudouCep)v.fretes={};
@@ -1782,7 +1785,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('button,a,th[data
   case 'px-sel-nada':PX.sel.clear();render();return;
   case 'px-calc':pxCalcular();return;
   case 'px-tx':pxTransmitir();return;
-  case 'px-aplica':{const d=($('#px-bd')||{}).value,f=($('#px-bf')||{}).value,ids=[...PX.sel];if(!ids.length)return;
+  case 'px-aplica':{const d=($('#px-bd')||{}).value,f=($('#px-bf')||{}).value||'',ids=[...PX.sel];if(!ids.length)return;
    const dv=String(d).trim()===''?undefined:parseFloat(String(d).replace(',','.')),fv=String(f).trim()===''?undefined:parseFloat(String(f).replace(',','.'));
    if(dv===undefined&&fv===undefined){toast('Preencha % abaixo ou % frete');return}
    if(fv!==undefined&&(!(fv>=0)||fv>100)){toast('% do frete vai de 0 a 100');return}
@@ -3253,6 +3256,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v43','30/10/2026',['Pricing: o frete de referência agora é o de São Paulo capital (CEP 01532-001), cotado na calculadora do site. A conta continua com ICMS 20% (Guia); a coluna Final SP mostra o que a cliente de SP paga (ICMS 17%), igual à calculadora do site.','% do frete travado em 100: o checkout ainda cobra o frete inteiro, então colocar parte do frete no preço fazia a cliente pagar essa parte duas vezes. Destrava quando a Shipsmart permitir cobrar só parte do frete.']],
  ['v42','30/10/2026',['Pricing: colunas separadas por linhas e agrupadas por cor, com faixa de título em cima: Produto, Concorrente (azul), Você ajusta (amarelo), Site hoje (cinza), Preço novo (verde) e Situação. Hoje aparece antes do Novo.']],
  ['v41','30/10/2026',['Pricing: tabela mais estreita para caber numa tela. Referência junta fonte, Pix e preço normal; o frete mostra o exibido (e o cheio embaixo quando for diferente); a diferença aparece embaixo do preço novo. Filtro da Referência aceita a fonte (ks, jn) ou valor (>100).']],
  ['v40','30/10/2026',['Novo setor Pricing (no lugar de Campanhas de preço), pelo Guia de precificação v2: tabela com todos os produtos do site, filtro em cada coluna, ordenar clicando no título, seleção em lote.','Referência = menor preço no Pix entre KS (KS) e Jini (JN), só concorrentes conferidos e com estoque. O ERP agora lê o desconto do Pix nas duas lojas.','Preço final em Fortaleza = mercadoria + frete exibido + ICMS 20%, pelo menos 5% abaixo da referência. % abaixo e % do frete exibido editáveis por produto ou em lote; o preço final não muda com o % do frete.','Frete = calculadora do site para Fortaleza pelo peso do Shopify (botão Cotar frete Fortaleza). Imposto de importação fora da conta, com aviso acima de US$ 50.','Sem KS/Jini: maior varejo oficial entre YesStyle, Olive Young Global, Jolse e Sephora Global (US$) + 15%, câmbio do dia. Os preços entram na ficha do produto (clique no nome).','Fluxo: Calcular (OK) → Transmitir ao Shopify. Cada transmissão fica guardada e pode ser revertida.','Precificação virou Concorrentes: ligar e conferir KS/Jini de cada produto. Os preços agora só saem do Pricing.','Catálogo: peso de 1.922 produtos preenchido com o peso já enviado ao Shopify.']],
