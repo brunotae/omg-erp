@@ -9,7 +9,16 @@
         assign nome = block.settings.nome | default: c.title
         assign img = block.settings.imagem | default: c.image
         if img == blank and c != blank
-          assign img = c.products.first.featured_image
+          for p in c.products limit: 30
+            assign t = p.title | downcase
+            if t contains 'kit' or t contains ' set' or t contains 'duo' or t contains 'conjunto' or t contains ' + ' or t contains '1+1' or t contains 'trio'
+              continue
+            endif
+            if p.featured_image
+              assign img = p.featured_image
+              break
+            endif
+          endfor
         endif
       -%}
       <li {{ block.shopify_attributes }}>
