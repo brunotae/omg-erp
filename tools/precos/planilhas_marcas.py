@@ -48,7 +48,7 @@ def norm(s):
 
 
 STOP = set('com para de da do das dos and the with a o e em no na ml g un unidade unidades caixa x kit set pack of in for by new edition version ver'.split())
-GEN = set('facial rosto pele korean skincare skin care k beauty best seller exclusive deal amazon s 1 no'.split())
+GEN = set('facial rosto pele korean skincare skin care k beauty best seller exclusive deal amazon s 1 no fl oz ea us only new'.split())
 TIPOS = {'serum': 'serum', 'ampoule': 'ampola', 'ampule': 'ampola', 'essence': 'essencia', 'cream': 'creme', 'toner': 'tonico', 'pad': 'pad', 'pads': 'pad',
          'mask': 'mascara', 'masks': 'mascara', 'oil': 'oleo', 'foam': 'espuma', 'gel': 'gel', 'mist': 'bruma', 'cushion': 'cushion', 'sunscreen': 'solar',
          'sun': 'solar', 'balm': 'balm', 'lotion': 'locao', 'emulsion': 'locao', 'shampoo': 'shampoo', 'tint': 'tint', 'patch': 'patch', 'patches': 'patch',
@@ -63,9 +63,21 @@ def toks(s):
     return [w for w in re.findall(r'[a-z0-9]+', norm(s)) if len(w) > 1 and w not in STOP]
 
 
+PT2EN = {'bastao': 'stick', 'solar': 'sun', 'protetor': 'sun', 'artemisia': 'mugwort', 'camelia': 'camellia', 'arroz': 'rice', 'adesivo': 'patch',
+         'adesivos': 'patch', 'olhos': 'eye', 'agua': 'water', 'oleo': 'oil', 'limpeza': 'cleansing', 'espuma': 'foam', 'tonico': 'toner', 'creme': 'cream',
+         'mascara': 'mask', 'serum': 'serum', 'labial': 'lip', 'fps': 'spf', 'diario': 'daily', 'alivio': 'relief', 'orvalho': 'dew', 'ampola': 'ampoule',
+         'essencia': 'essence', 'locao': 'lotion', 'gel': 'gel', 'po': 'powder', 'base': 'foundation', 'corretivo': 'concealer', 'discos': 'pad', 'bruma': 'mist',
+         'balsamo': 'balm', 'chiclete': 'gum', 'verde': 'green', 'vermelho': 'red', 'rosa': 'rose', 'mel': 'honey', 'propolis': 'propolis', 'centella': 'centella',
+         'calmante': 'calming', 'hidratante': 'moisturizing', 'matte': 'matte', 'brilho': 'glow', 'iluminador': 'glow'}
+
+
+def toks_en(s):
+    return [PT2EN.get(w, w) for w in toks(s)]
+
+
 def tam(s):
     t = norm(s).replace(',', '.')
-    m = re.search(r'(\d+(?:\.\d+)?)\s*(ml|g|oz)\b', t)
+    m = re.search(r'(\d+(?:\.\d+)?)\s*(ml|g)\b', t) or re.search(r'(\d+(?:\.\d+)?)\s*(?:fl\.?\s*)?(oz)\b', t)
     q = None
     if m:
         q = float(m.group(1)) * (29.57 if m.group(2) == 'oz' else 1)
@@ -106,9 +118,16 @@ def catalogo(dominio):
 
 
 def casa(p, cat, marca):
-    en = str(p['nome']).split(':')[0]
+    nome = str(p['nome'])
+    base = nome.split('·')[0]
+    en = base.split(':')[0]
+    var = nome.split('·')[1] if '·' in nome else ''
     mb = set(toks(marca))
     A = [w for w in toks(en) if w not in mb and w not in GEN]
+    if any(w in PT2EN and PT2EN[w] != w for w in toks(en)):  # nome principal em português: traduz e usa o nome todo
+        A = [w for w in toks_en(base) if w not in mb and w not in GEN]
+    A = list(dict.fromkeys(A))
+    V = set(w for w in toks(var) if not w.isdigit() or len(w) > 1) - {'pack', 'single', 'un'}
     if not A:
         return None, 0, 'Sem par'
     ta, ua = tam(p['nome'])
@@ -127,9 +146,12 @@ def casa(p, cat, marca):
         if tA and tB and not (tA & tB):
             continue
         tb, ub = tam(c['nome'])
-        conflito = (ta and tb and abs(ta - tb) / ta > 0.06) or (ua and ub and ua != ub) or (kit_nosso != c['kit'])
-        extras = len([w for w in B if w not in A and w not in GEN and w not in TIPOS and not w[0].isdigit()])
-        sc = s - 0.04 * extras - (0.5 if conflito else 0) + (0.15 if ta and tb and not conflito else 0)
+        mini_n, mini_c = 'mini' in toks(base), 'mini' in toks(c['nome'])
+        conflito = (ta and tb and abs(ta - tb) / ta > 0.06) or (ua and ub and ua != ub) or (kit_nosso != c['kit']) or (mini_n != mini_c)
+        extras = len([w for w in set(toks(c['produto'])) - mb if w not in A and w not in GEN and w not in TIPOS and not w[0].isdigit()])
+        vb = set(toks(c['variante']))
+        bonus_var = 0.12 * (len(V & vb) / len(V)) if V else 0
+        sc = s - 0.04 * extras - (0.5 if conflito else 0) + (0.15 if ta and tb and not conflito else 0) + bonus_var
         best.append((sc, s, extras, conflito, bool(ta and tb), c))
     if not best:
         return None, 0, 'Sem par'
