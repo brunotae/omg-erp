@@ -15,8 +15,8 @@
   .omg-mais__tit{font-size:18px;font-weight:700;color:#4A2638;margin:0 0 4px}
   .omg-mais__sub{font-size:13px;color:#7a6470;margin:0 0 14px}
   .omg-cj{display:flex;align-items:stretch;gap:8px;overflow-x:auto;padding-bottom:4px}
-  .omg-cj__item{flex:1 1 0;min-width:140px;max-width:240px;display:flex;flex-direction:column;gap:6px;position:relative}
-  .omg-cj__item img{width:100%;aspect-ratio:1;object-fit:contain;border-radius:12px;background:#f1e8ec}
+  .omg-cj__item{flex:1 1 0;min-width:130px;display:flex;flex-direction:column;gap:6px;position:relative}
+  .omg-cj__item img{width:100%;height:clamp(140px,16vw,240px);object-fit:contain;border-radius:12px;background:#fff;border:1px solid #f1e8ec;box-sizing:border-box}
   .omg-cj__item label{position:absolute;top:6px;left:6px;background:#fff;border-radius:6px;padding:2px;display:flex}
   .omg-cj__item input{width:18px;height:18px;accent-color:#D63A5E;margin:0}
   .omg-cj__item.is-off{opacity:.45}
@@ -33,7 +33,7 @@
   .omg-rot{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px}
   .omg-rot__passo{flex:1 1 0;min-width:140px;display:flex;flex-direction:column;gap:6px}
   .omg-rot__num{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#B83D66}
-  .omg-rot__passo img{width:100%;aspect-ratio:1;max-height:230px;object-fit:contain;border-radius:12px;background:#f1e8ec}
+  .omg-rot__passo img{width:100%;height:clamp(140px,14vw,220px);object-fit:contain;border-radius:12px;background:#fff;border:1px solid #f1e8ec;box-sizing:border-box}
   .omg-rot__passo.is-atual img{outline:2px solid #D63A5E;outline-offset:-2px}
   .omg-rot__atual{font-size:12px;color:#D63A5E;font-weight:700}
   .omg-pp{position:relative}
@@ -121,7 +121,14 @@
   const card = (p, extra = '') => `<img src="${esc(p.i)}" alt="" loading="lazy" width="150" height="150"><a class="omg-n" href="${esc(p.u)}">${esc(p.t)}</a><span class="omg-p">${BRL(p.p)}${p.c > p.p ? `<s>${BRL(p.c)}</s>` : ''}</span>${extra}`;
 
   async function compreJunto(alvo) {
-    const recs = (await reco(ATUAL.id, 8)).filter(p => p.a && p.id !== ATUAL.id && p.n === 1 && p.p > 0).slice(0, 2);
+    // Nunca deixar espaço vago: quantidade conforme a largura e completa com outras listas se faltar
+    const quer = innerWidth >= 1200 ? 4 : innerWidth >= 750 ? 3 : 2;
+    const usados = new Set([ATUAL.id]);
+    const recs = [];
+    const pega = l => { for (const p of l) { if (recs.length >= quer) break; if (p.a && p.n === 1 && p.p > 0 && !usados.has(p.id)) { usados.add(p.id); recs.push(p); } } };
+    pega(await reco(ATUAL.id, 10));
+    if (recs.length < quer && ATUAL.m) pega(await daMarca(ATUAL.m));
+    if (recs.length < quer) pega(await baratos());
     if (!ATUAL.a || recs.length < 1) return;
     const itens = [{ ...ATUAL, v: varAtual(), p: ATUAL.precos[varAtual()], c: 0, atual: true }, ...recs];
     const box = document.createElement('div');
