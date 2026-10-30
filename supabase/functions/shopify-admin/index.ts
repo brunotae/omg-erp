@@ -286,6 +286,18 @@ Deno.serve(async (req) => {
       return resp(200, { ok: true, criada: !ex, publicada, handle: c.collection.handle, produtos: c.collection.productsCount?.count ?? null });
     }
 
+    if (b.acao === "colecao_titulo") {
+      // Só troca o título de coleções (manuais ou automáticas). { itens: [{ handle, titulo }] }
+      const res: any[] = [];
+      for (const it of (Array.isArray(b.itens) ? b.itens : []).slice(0, 30)) {
+        const q: any = await gql(`query($h: String!) { collectionByIdentifier(identifier: { handle: $h }) { id } }`, { h: String(it.handle) });
+        const id = q.collectionByIdentifier?.id; if (!id) { res.push({ handle: it.handle, ok: false, erro: "não encontrada" }); continue; }
+        const d: any = await gql(`mutation($i: CollectionInput!) { collectionUpdate(input: $i) { userErrors { message } } }`, { i: { id, title: String(it.titulo) } });
+        const e = d.collectionUpdate.userErrors; res.push({ handle: it.handle, ok: !e.length, erro: e[0]?.message });
+      }
+      return resp(200, { ok: true, res });
+    }
+
     if (b.acao === "menu_arvore") {
       // Cria ou substitui um menu com subitens: { handle, titulo, itens: [{ titulo, url, itens?: [{ titulo, url, itens? }] }] }
       const conv = (i: any): any => ({ title: String(i.titulo), type: "HTTP", url: String(i.url), items: (Array.isArray(i.itens) ? i.itens : []).map(conv) });
