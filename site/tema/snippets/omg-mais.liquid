@@ -197,8 +197,15 @@
       const chave = cart.items.map(i => i.variant_id + 'x' + i.quantity).join(',');
       if (!cart.item_count) { document.querySelectorAll('.omg-cm').forEach(e => e.remove()); return; }
       const noCarrinho = new Set(cart.items.map(i => i.product_id));
-      const [recs, bar] = await Promise.all([reco(cart.items[0].product_id, 10), baratos()]);
-      const r = recs.filter(p => p.a && p.p > 0 && !noCarrinho.has(p.id)).slice(0, 6);
+      const barP = baratos();
+      let r = [];
+      for (const it of cart.items.slice(0, 3)) {
+        r = (await reco(it.product_id, 10)).filter(p => p.a && p.p > 0 && !noCarrinho.has(p.id));
+        if (r.length >= 2) break;
+      }
+      if (r.length < 2 && cart.items[0].vendor) r = (await daMarca(cart.items[0].vendor)).filter(p => p.a && p.p > 0 && !noCarrinho.has(p.id));
+      r = r.slice(0, 6);
+      const bar = await barP;
       const usados = new Set(r.map(p => p.id));
       const b = bar.filter(p => p.a && p.p >= 2000 && p.p <= 5900 && !noCarrinho.has(p.id) && !usados.has(p.id)).slice(0, 8);
       const html = (r.length ? `<div class="omg-cm" data-omg-cm><p class="omg-cm__tit">Quem comprou também levou</p><div class="omg-cm__lista">${r.map(mini).join('')}</div></div>` : '')
