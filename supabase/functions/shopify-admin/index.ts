@@ -15,6 +15,7 @@
 //   { acao: "link_curto", slug, apagar? }   → ohmygirl.com.br/a/<slug> (link curto das parcerias, conta cliques)
 //   { acao: "cupons_listar" }               → todos os cupons de código do Shopify (para importar no ERP)
 //   { acao: "tema_duplicar" | "tema_copiar" | "colecao_criar" | "menu_arvore" } → ver cada bloco abaixo
+//   { acao: "conc_ler", urls: [..] }                 → lê preço da KS/Jini (até 20 links) e grava em conc_catalogo
 //   { acao: "pesos", itens: [{ sku, peso_g, dim: [c, l, a] (cm) }] } → grava peso (frete) e dimensões (metafield custom.dimensoes_cm), até 100 por vez
 // Segredos: SHOPIFY_SHOP (ex.: mundo-beleza-9571.myshopify.com), SHOPIFY_API_VERSION (opcional) e
 //   SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET (app do Dev Dashboard; token pedido a cada 24 h por client credentials)
@@ -505,6 +506,53 @@ Deno.serve(async (req) => {
           await admin.from("produtos").update({ marca: String(it.marca) }).eq("shopify_product_id", p.id.split("/").pop());
           resultados.push({ handle: it.handle, ok: true, antes: p.vendor });
         } catch (e) { resultados.push({ handle: it.handle, ok: false, erro: String((e as Error).message || e).slice(0, 160) }); }
+      }
+      return resp(200, { ok: true, resultados });
+    }
+
+    if (b.acao === "conc_ler") {
+      // Lê o preço de páginas da KS e da Jini (link colado na Precificação) e grava em conc_catalogo.
+      const urls: string[] = (Array.isArray(b.urls) ? b.urls : []).map((u: string) => String(u).trim().replace(/[?#].*$/, ""))
+        .filter((u: string) => /^https:\/\/(kscosmeticos|jinicosmeticos)\.com\.br\/(produtos|kits)\//i.test(u)).slice(0, 20);
+      const norm = (u: string) => String(u || "").replace(/[?#].*$/, "").replace(/\/+$/, "").toLowerCase();
+      const num = (v: unknown) => { const x = parseFloat(String(v ?? "").replace(",", ".")); return x > 0 ? x : null; };
+      const resultados = [];
+      for (const url of urls) {
+        try {
+          const loja = /kscosmeticos/i.test(url) ? "ks" : "jini";
+          const r = await fetch(url, { headers: { "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129 Safari/537.36", "accept-language": "pt-BR" } });
+          if (!r.ok) throw new Error("página respondeu " + r.status);
+          const t = await r.text();
+          const prods: any[] = [];
+          for (const m of t.matchAll(/<script[^>]+application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi)) {
+            let j: any; try { j = JSON.parse(m[1].trim()); } catch { continue; }
+            const pilha = Array.isArray(j) ? [...j] : [j];
+            while (pilha.length) { const o = pilha.pop(); if (o && typeof o === "object") { if (o["@type"] === "Product") prods.push(o); if (Array.isArray(o["@graph"])) pilha.push(...o["@graph"]); } }
+          }
+          const ofr = (o: any) => Array.isArray(o?.offers) ? o.offers[0] || {} : o?.offers || {};
+          let p = prods.find((o) => [ofr(o).url, o?.mainEntityOfPage?.["@id"], o?.url].some((x) => x && norm(x) === norm(url)));
+          if (!p && loja === "ks") p = prods[0];
+          let nome = p?.name ?? null, marca = typeof p?.brand === "object" ? p?.brand?.name : p?.brand ?? null;
+          let preco = num(ofr(p).price ?? ofr(p).lowPrice), de: number | null = null;
+          let esgotado = /OutOfStock/.test(String(ofr(p).availability ?? ""));
+          if (loja === "jini") {
+            const mp = t.match(/<meta property="nuvemshop:price" content="([\d.,]+)"/); if (!preco && mp) preco = num(mp[1]);
+            const mc = t.match(/"compare_at_price_number":\s*([\d.]+)/); if (mc) de = num(mc[1]);
+            if (!nome) { const mt = t.match(/<meta property="og:title" content="([^"]+)"/); nome = mt ? mt[1] : null; }
+            if (!marca && nome && nome.includes(" - ")) marca = nome.split(" - ")[0].trim();
+          } else {
+            const ml = t.match(/line-through[^>]*>\s*R\$\s*([\d.]+,\d{2})/); if (ml) de = num(ml[1].replace(/\./g, "").replace(",", "."));
+          }
+          if (de && preco && de <= preco) de = null;
+          if (!preco) throw new Error("preço não encontrado na página");
+          const { data: ant } = await admin.from("conc_catalogo").select("preco").eq("url", url).maybeSingle();
+          const mudou = ant && Number(ant.preco) !== preco;
+          const row: Record<string, unknown> = { url, loja, nome, marca, preco, preco_de: de, esgotado, ativo: true, lido_em: new Date().toISOString() };
+          if (mudou) { row.preco_ant = Number(ant!.preco); row.mudou_em = new Date().toISOString(); }
+          const { error } = await admin.from("conc_catalogo").upsert(row, { onConflict: "url" });
+          if (error) throw new Error(error.message);
+          resultados.push({ url, ok: true, preco, nome });
+        } catch (e) { resultados.push({ url, ok: false, erro: String((e as Error).message || e).slice(0, 160) }); }
       }
       return resp(200, { ok: true, resultados });
     }

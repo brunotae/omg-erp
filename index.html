@@ -201,6 +201,8 @@ pre.code{background:var(--surface2);border:1px solid var(--line);border-radius:v
 .modal .mh{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:18px 20px;border-bottom:1px solid var(--line)}
 .modal form{display:flex;flex-direction:column;gap:18px;padding:18px 20px}
 .sec{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 14px}
+.pr-conta{width:100%;border-collapse:collapse;font-size:13px}.pr-conta td{padding:4px 0;border-bottom:1px dashed var(--line)}.pr-conta tr:last-child td{font-weight:700;border-bottom:0}
+.pr-ref{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--line);font-size:13px}.pr-ref a{color:var(--accent)}
 .sec>.label{grid-column:1/-1;padding-top:4px;border-top:1px solid var(--line);padding-top:14px}
 .sec:first-child>.label{border-top:0;padding-top:0}
 .f{display:flex;flex-direction:column;gap:5px;min-width:0}
@@ -664,6 +666,7 @@ const ICONS={
  devolucoes:'<path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/>',
  insumos:'<path d="m3 8 9-5 9 5-9 5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/>',
  compras:'<path d="M5 4h14v16l-3-2-2 2-2-2-2 2-2-2-3 2z"/><path d="M9 9h6M9 13h6"/>',
+ precos:'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="7.5" r="1.5"/>',
  raiox:'<circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5M8.5 11h5M11 8.5v5"/>',produtos:'<rect x="8" y="3" width="8" height="5" rx="1"/><path d="M7 8h10v12a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1z"/>',
  clientes:'<circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0"/><path d="M16 11h5M18.5 8.5v5"/>',
  analises:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
@@ -672,7 +675,7 @@ const ICONS={
  fornecedores:'<path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/>',
  config:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/>'
 };
-const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Lista do dia'],['','lotes','Embarques'],['','devolucoes','Devoluções'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','insumos','Embalagens'],['','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
+const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Lista do dia'],['','lotes','Embarques'],['','devolucoes','Devoluções'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','insumos','Embalagens'],['','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['','precos','Precificação'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
 
 /* ================= utilidades ================= */
 const $=s=>document.querySelector(s);
@@ -818,7 +821,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v33 · 29/10/2026';
+const VERSAO='v34 · 30/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1283,6 +1286,191 @@ VIEWFN.produtos=()=>{
  :empty('Catálogo vazio','No Shopify, vá em Produtos → Exportar → Todos os produtos → CSV. Depois clique em Importar do Shopify (CSV) aqui. Vêm também os produtos em rascunho.'))+'</div></div>'+
  '<aside class="rail"><div class="note"><span class="label">Regra de preço OMG</span><p>1. Se KS ou Jini vendem: '+n(S.cfg.desc)+'% abaixo, preço final com frete e impostos.</p><p>2. Se não: site oficial coreano +'+n(S.cfg.markup)+'%.</p><p class="muted">Sprays, aerossóis, perfumes e removedor de esmalte não podem ser vendidos (DG aéreo).</p></div></aside></div>';
 };
+
+/* ---------- Precificação · v34 ----------
+   Regra (Guia de precificação OMG):
+   1) Com concorrente válido (KS/Jini): preço final alvo = concorrente − desc%. Tira ICMS (por dentro), imposto de importação
+      (acima de US$ 50: 60% − US$ 30) e o frete real da capital mais cara do grupo → mercadoria.
+   2) Sem concorrente: varejo no exterior em US$ + ext%, convertido → mercadoria (frete e impostos vão no checkout).
+   Depois: parte do frete passa para o preço (freteParte = % do frete que continua como frete; 100 = nada muda).
+   Arredonda para ,90 para baixo. Alerta quando o preço no site difere do sugerido mais que alerta%. */
+const PR={ref:[],cat:[],hist:[],cfg:null,loaded:false,loading:false,missing:false,f:'alerta',lim:80,sel:new Set(),busy:false,marca:'',sug:null};
+const PR_CFG0={desc:10,ext:20,icms:17,alerta:3,freteParte:100,ufs:'SP,RJ,MG,PR,SC,RS,DF,GO,BA,PE,CE',usd:5.40,limiteUsd:50,iiPct:60,iiDescUsd:30};
+const PR_PESOS=[100,250,500,1000,2000];
+// Frete da calculadora do site (R$, produto de R$ 99,90) por peso: 100 g, 250 g, 500 g, 1 kg, 2 kg.
+const PR_FRETE={SP:[15.35,25.00,41.62,75.47,142.37],RJ:[17.96,27.61,44.50,78.58,147.28],MG:[17.30,26.95,43.50,77.05,144.19],PR:[18.23,27.88,44.96,79.48,148.74],
+ SC:[17.35,27.00,44.46,79.73,147.31],RS:[17.68,27.33,44.81,80.83,149.04],DF:[18.31,27.96,44.82,79.70,147.61],GO:[22.08,31.73,49.04,84.35,154.46],BA:[19.91,29.56,47.88,85.13,154.53],
+ PE:[17.88,27.53,45.90,83.05,152.32],CE:[20.93,30.58,50.84,91.98,164.99],PA:[23.59,33.24,51.28,91.28,163.24],AM:[44.97,54.62,82.62,148.08,271.97]};
+const PR_LOJA={ks:'KS',jini:'Jini',exterior:'Exterior'};
+const prCfg=()=>({...PR_CFG0,...(PR.cfg||{})});
+function prFreteUF(uf,g){const t=PR_FRETE[uf],P=PR_PESOS;if(!t||!(g>0))return null;if(g<=P[0])return t[0];
+ for(let i=1;i<P.length;i++)if(g<=P[i])return t[i-1]+(t[i]-t[i-1])*(g-P[i-1])/(P[i]-P[i-1]);
+ const k=P.length-1;return t[k]+(t[k]-t[k-1])*(g-P[k])/(P[k]-P[k-1])}
+function prFreteRef(g){let best=null;String(prCfg().ufs).split(/[\s,;]+/).map(s=>s.trim().toUpperCase()).filter(Boolean).forEach(uf=>{const v=prFreteUF(uf,g);if(v!=null&&(!best||v>best.v))best={uf,v}});return best}
+const pr90=v=>Math.round((Math.floor(v+0.10)-0.10)*100)/100;
+const prNB=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]/g,'');
+const PR_STOP=new Set('com para de da do das dos and the with a o e em no na ml g un unidade unidades caixa x kit set'.split(' '));
+function prTok(s){return (String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').match(/[a-z0-9]+/g)||[]).filter(w=>w.length>1&&!PR_STOP.has(w))}
+function prTam(s){const t=String(s||'').toLowerCase().replace(',','.');const m=t.match(/(\d+(?:\.\d+)?)\s*(ml|g)\b/);const u=t.match(/(\d+)\s*(?:un\b|unid|unidades|pcs|sheets|folhas|ea\b)/)||t.match(/caixa com (\d+)/)||t.match(/x\s?(\d+)\s?un/);
+ return {q:m?parseFloat(m[1]):null,un:u?parseInt(u[1]):null}}
+function prRefs(p){return PR.ref.filter(r=>r.produto_id===p.id)}
+function prPeso(p,concs){if(has(p.pesoG)&&p.pesoG>0)return {g:p.pesoG,de:''};const c=(concs||[]).find(c=>c.peso_g>0);return c?{g:c.peso_g,de:'peso da '+PR_LOJA[c.loja]}:null}
+function prCalc(p){
+ const C=prCfg(),refs=prRefs(p).filter(r=>r.status==='ok'),cat=PR.catUrl||new Map();
+ const concs=refs.filter(r=>r.loja!=='exterior'&&r.url).map(r=>{const c=cat.get(r.url);return {loja:r.loja,url:r.url,refId:r.id,...(c||{}),preco:c&&c.ativo!==false?Number(c.preco):null}});
+ const comPreco=concs.filter(c=>c.preco>0).sort((a,b)=>a.preco-b.preco);
+ const ext=refs.find(r=>r.loja==='exterior'&&Number(r.usd)>0);
+ const o={concs,ext,atual:has(p.preco)?p.preco:null,linhas:[]};
+ const peso=prPeso(p,concs);o.peso=peso;
+ const fr=peso?prFreteRef(peso.g):null;o.frete=fr;
+ const ajuste=fr?fr.v*(1-n(C.freteParte)/100):0;
+ if(comPreco.length){const c=comPreco[0];o.tipo='conc';o.conc=c;
+  if(!fr){o.erro='Sem peso: cadastre o peso para calcular o frete';return o}
+  const alvo=c.preco*(1-n(C.desc)/100), x=alvo*(1-n(C.icms)/100), lim=n(C.limiteUsd)*n(C.usd);
+  const base=x<=lim?x:(x+n(C.iiDescUsd)*n(C.usd))/(1+n(C.iiPct)/100), ii=x-base, merc=base-fr.v;
+  o.linhas=[['Concorrente ('+PR_LOJA[c.loja]+(c.esgotado?', esgotado':'')+')',c.preco],['Preço final alvo (−'+n(C.desc)+'%)',alvo],['Sem ICMS ('+n(C.icms)+'%, por dentro)',-(alvo-x)],['Imposto de importação'+(ii>0.004?' (acima de US$ '+n(C.limiteUsd)+')':' (zero até US$ '+n(C.limiteUsd)+')'),-ii],['Frete real '+fr.uf+' · '+Math.round(peso.g)+' g'+(peso.de?' ('+peso.de+')':''),-fr.v],['Mercadoria',merc]];
+  if(merc<=0){o.erro='O frete e os impostos passam do preço do concorrente';return o}
+  if(ajuste>0.004)o.linhas.push(['Parte do frete que vai para o preço ('+(100-n(C.freteParte))+'%)',ajuste]);
+  o.site=pr90(merc+ajuste);o.regra=PR_LOJA[c.loja]+' −'+n(C.desc)+'%';
+ }else if(ext){o.tipo='ext';const merc=Number(ext.usd)*(1+n(C.ext)/100)*n(C.usd);
+  o.linhas=[['Varejo no exterior',null,'US$ '+Number(ext.usd).toFixed(2)],['+ '+n(C.ext)+'% e câmbio '+n(C.usd).toFixed(2),merc]];
+  if(ajuste>0.004)o.linhas.push(['Parte do frete que vai para o preço ('+(100-n(C.freteParte))+'%)',ajuste]);
+  o.site=pr90(merc+ajuste);o.regra='Exterior +'+n(C.ext)+'%';
+ }else{o.tipo='sem';return o}
+ o.linhas.push(['Arredondado para ,90',o.site]);
+ if(has(o.atual)&&o.site>0){o.dif=(o.atual-o.site)/o.site*100;o.alerta=Math.abs(o.dif)>=n(C.alerta)}
+ return o;
+}
+function prFinal(c){const C=prCfg(),aj=c.frete.v*(1-n(C.freteParte)/100),base=c.site-aj+c.frete.v,lim=n(C.limiteUsd)*n(C.usd);
+ const ii=base>lim?Math.max(0,base*n(C.iiPct)/100-n(C.iiDescUsd)*n(C.usd)):0;return (base+ii)/(1-n(C.icms)/100)}
+function prSugestoes(p){
+ if(!PR.sug)PR.sug=new Map();if(PR.sug.has(p.id))return PR.sug.get(p.id);
+ const ligados=new Set(prRefs(p).map(r=>r.url)),mb=prNB(p.marca),out=[];
+ if(mb.length>=2){const en=String(p.nome||'').split(':')[0],A=new Set(prTok(en).filter(w=>!prNB(p.marca).includes(w)||w.length<3)),ta=prTam(p.nome);
+  if(A.size)for(const c of PR.cat){if(c.ativo===false||ligados.has(c.url))continue;
+   if(prNB(c.marca)!==mb&&!prNB(c.nome).includes(mb))continue;
+   const B=new Set(prTok(c.nome));let k=0;A.forEach(w=>{if(B.has(w))k++});const s=k/A.size;if(s<0.6)continue;
+   const tb=prTam(c.nome);if(ta.q&&tb.q&&Math.abs(ta.q-tb.q)/ta.q>0.06)continue;if(ta.un&&tb.un&&ta.un!==tb.un)continue;
+   out.push({...c,score:s+(ta.q&&tb.q?0.2:0)})}}
+ out.sort((a,b)=>b.score-a.score);const r=out.slice(0,3);PR.sug.set(p.id,r);return r}
+async function loadPrecos(){
+ if(PR.loading)return;PR.loading=true;
+ try{const all=async(t,ord,asc)=>{let a=[],de=0;for(;;){const {data,error}=await sb.from(t).select('*').order(ord,{ascending:asc}).range(de,de+999);if(error)throw error;a=a.concat(data||[]);if(!data||data.length<1000||t==='precos_hist')break;de+=1000}return a};
+  const [ref,cat,hist,cfg]=await Promise.all([all('precos_ref','criado_em',true),all('conc_catalogo','url',true),all('precos_hist','em',false),sb.from('config').select('*').eq('chave','precos')]);
+  PR.ref=ref;PR.cat=cat;PR.hist=hist;PR.cfg=cfg.data&&cfg.data[0]?cfg.data[0].valor:null;PR.catUrl=new Map(cat.map(c=>[c.url,c]));PR.sug=null;PR.missing=false}
+ catch(e){PR.missing=/conc_catalogo|precos_ref|precos_hist|relation|schema cache|does not exist/i.test(String(e&&(e.message||e.code)))||e&&e.code==='42P01'}
+ PR.loaded=true;PR.loading=false;if(S.view==='precos'&&!document.querySelector('#ov'))render();
+}
+function prLista(){return S.data.produtos.filter(p=>p.ativo&&p.shopify_variant_id)}
+function prLinhas(){
+ const L=prLista().map(p=>({p,c:prCalc(p)}));
+ L.forEach(x=>{x.s=(x.c.tipo==='sem'||x.c.tipo==='ext')&&!x.c.concs.length?prSugestoes(x.p):[]});
+ return L;
+}
+const PR_F=[['alerta','Preço fora da regra'],['conferir','Conferir concorrente'],['conc','Com concorrente'],['ext','Preço do exterior'],['erro','Falta dado'],['sem','Sem referência'],['todos','Todos']];
+const prNoFiltro=(x,f)=>f==='todos'||(f==='alerta'?x.c.alerta:f==='conferir'?x.s.length>0:f==='conc'?x.c.tipo==='conc':f==='ext'?x.c.tipo==='ext':f==='erro'?!!x.c.erro:f==='sem'?x.c.tipo==='sem'&&!x.s.length:false);
+const prDif=c=>!has(c.dif)?'<span class="muted">—</span>':'<span class="pill '+(c.alerta?(c.dif>0?'p-bad':'p-warn'):'p-ok')+'">'+(c.dif>0?'+':'')+c.dif.toFixed(1).replace('.',',')+'%</span>';
+function prRefTxt(c,s){
+ if(c.conc)return '<b>'+brl(c.conc.preco)+'</b><small>'+PR_LOJA[c.conc.loja]+(c.conc.esgotado?' · esgotado':'')+(c.conc.preco_ant&&c.conc.preco_ant!=c.conc.preco?' · era '+brl(Number(c.conc.preco_ant)):'')+'</small>';
+ if(c.concs.length)return '<span class="muted">aguardando leitura</span>';
+ if(c.ext)return '<b>US$ '+Number(c.ext.usd).toFixed(2)+'</b><small>Exterior</small>';
+ if(s.length)return '<span class="pill p-info">'+s.length+' possível'+(s.length>1?'is':'')+'</span>';
+ return '<span class="muted">—</span>';
+}
+VIEWFN.precos=()=>{
+ if(!PR.loaded&&S.db)setTimeout(loadPrecos,0);
+ if(PR.missing)return '<div class="page"><div class="col">'+head('Precificação','Falta criar as tabelas no Supabase.')+'<div class="card">'+empty('Tabelas ainda não criadas','Rode supabase/migrations/20261030_precificacao.sql no Supabase (SQL Editor) e recarregue.')+'</div></div></div>';
+ const C=prCfg(),A=PR.loaded?prLinhas():[];
+ const marcas=[...new Set(A.map(x=>x.p.marca).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+ const q=(S.q||'').toLowerCase();
+ const F=A.filter(x=>prNoFiltro(x,PR.f)&&(!PR.marca||x.p.marca===PR.marca)&&(!q||(x.p.nome+' '+x.p.marca+' '+x.p.sku).toLowerCase().includes(q)));
+ F.sort((a,b)=>PR.f==='alerta'?Math.abs(n(b.c.dif))-Math.abs(n(a.c.dif)):String(a.p.marca).localeCompare(String(b.p.marca))||String(a.p.nome).localeCompare(String(b.p.nome)));
+ const vis=F.slice(0,PR.lim),aprov=[...PR.sel].map(id=>A.find(x=>x.p.id===id)).filter(x=>x&&x.c.site>0);
+ const lidoKS=PR.cat.filter(c=>c.loja==='ks'&&c.ativo!==false),lidoJ=PR.cat.filter(c=>c.loja==='jini'&&c.ativo!==false);
+ const ult=PR.cat.reduce((m,c)=>c.lido_em>m?c.lido_em:m,'');
+ const cnt=k=>A.filter(x=>prNoFiltro(x,k)).length;
+ return '<div class="page wide"><div class="col">'+head('Precificação','Preço sugerido pela regra do Guia de precificação OMG. Nada muda no site sem você aprovar. Concorrentes lidos sozinhos toda segunda de manhã.',
+  '<button class="btn sm" type="button" id="pr-regras">Regras</button> <button class="btn sm" type="button" id="pr-recarregar">Recarregar</button>'+(can()?' <button class="btn pri sm" type="button" id="pr-aprovar"'+(aprov.length&&!PR.busy?'':' disabled')+'>'+(PR.busy?'Aprovando…':'Aprovar selecionados ('+aprov.length+')')+'</button>':''))+
+ '<p class="muted" style="margin:-6px 0 0;font-size:11.5px">'+(ult?'Concorrentes lidos em '+new Date(ult).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})+' · KS '+lidoKS.length+' produtos · Jini '+lidoJ.length+' produtos':'Concorrentes ainda não lidos')+' · desconto '+n(C.desc)+'% · exterior +'+n(C.ext)+'% · ICMS '+n(C.icms)+'% · US$ '+n(C.usd).toFixed(2)+' · frete que fica no frete '+n(C.freteParte)+'% · alerta a partir de '+n(C.alerta)+'%</p>'+
+ '<div class="chips">'+PR_F.map(([k,l])=>'<button type="button" class="chip'+(PR.f===k?' on':'')+'" data-prf="'+k+'">'+l+(PR.loaded?' · '+cnt(k):'')+'</button>').join('')+
+ '<select id="pr-marca" class="chip" aria-label="Marca" data-1c="off"><option value="">Todas as marcas</option>'+marcas.map(m=>'<option'+(m===PR.marca?' selected':'')+'>'+esc(m)+'</option>').join('')+'</select></div>'+
+ '<div class="card">'+(!PR.loaded?'<p class="muted">Carregando…</p>':F.length?'<div class="tblwrap"><table><thead><tr><th class="rx-ck"><input type="checkbox" id="pr-sel-all" aria-label="Selecionar todos com preço sugerido"'+(vis.some(x=>x.c.site>0)&&vis.filter(x=>x.c.site>0).every(x=>PR.sel.has(x.p.id))?' checked':'')+'></th><th>Produto</th><th class="r">Referência</th><th class="r">Sugerido</th><th class="r">No site</th><th class="r">Diferença</th><th></th></tr></thead><tbody>'+
+  vis.map(({p,c,s})=>'<tr data-pr="'+esc(p.id)+'" style="cursor:pointer"><td class="rx-ck">'+(c.site>0?'<input type="checkbox" data-prsel="'+esc(p.id)+'" aria-label="Selecionar"'+(PR.sel.has(p.id)?' checked':'')+'>':'')+'</td><td><b>'+esc(p.nome)+'</b><small>'+esc(p.marca||'')+' · '+esc(p.sku)+(c.peso?' · '+Math.round(c.peso.g)+' g':' · sem peso')+'</small></td><td class="r num">'+prRefTxt(c,s)+'</td><td class="r num">'+(c.site>0?'<b>'+brl(c.site)+'</b><small>'+esc(c.regra)+'</small>':c.erro?'<span class="pill p-warn" title="'+esc(c.erro)+'">'+esc(c.erro.split(':')[0])+'</span>':'<span class="muted">—</span>')+'</td><td class="r num">'+brl(c.atual)+'</td><td class="r">'+prDif(c)+'</td><td class="r">'+(can()&&c.site>0&&c.site!==c.atual?'<button class="btn sm" type="button" data-prok="'+esc(p.id)+'">Aprovar</button>':'')+'</td></tr>').join('')+'</tbody></table></div>'+
+  (F.length>vis.length?'<p style="text-align:center;margin:10px 0 0"><button class="btn sm" type="button" id="pr-mais">Mostrar mais ('+(F.length-vis.length)+')</button></p>':'')
+  :empty('Nada aqui',PR.f==='alerta'?'Nenhum preço fora da regra. Ligue concorrentes em "Conferir concorrente" ou "Sem referência".':'Troque o filtro acima.'))+'</div>'+
+ (PR.hist.length?'<div class="card"><div class="card-h"><h2>Últimos preços aprovados</h2></div><div class="tblwrap"><table><thead><tr><th>Quando</th><th>Produto</th><th class="r">Antes</th><th class="r">Depois</th><th>Regra</th><th>Quem</th></tr></thead><tbody>'+
+  PR.hist.slice(0,30).map(h=>'<tr><td class="num">'+new Date(h.em).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})+'</td><td>'+esc(h.nome||h.sku)+'<small>'+esc(h.sku||'')+'</small></td><td class="r num">'+brl(Number(h.antes))+'</td><td class="r num"><b>'+brl(Number(h.depois))+'</b></td><td>'+esc(h.regra||'')+'</td><td>'+esc(h.quem||'')+'</td></tr>').join('')+'</tbody></table></div></div>':'')+
+ '</div></div>';
+};
+function prAbrir(id){
+ const p=S.data.produtos.find(x=>x.id===id);if(!p)return;const c=prCalc(p),s=prSugestoes(p),H=PR.hist.filter(h=>h.produto_id===id).slice(0,10),C=prCfg();
+ const rej=prRefs(p).filter(r=>r.status==='rejeitado');
+ const conta=c.linhas.length?'<table class="pr-conta">'+c.linhas.map(([l,v,t])=>'<tr><td>'+esc(l)+'</td><td class="r num">'+(t?esc(t):v==null?'':(v<0?'− '+brl(-v):brl(v)))+'</td></tr>').join('')+'</table>':'<p class="muted" style="margin:0">'+(c.erro?esc(c.erro):'Sem referência: ligue um concorrente (KS ou Jini) ou informe o preço no exterior em US$.')+'</p>';
+ const body='<div class="sec"><span class="label">'+esc(p.marca||'')+' · '+esc(p.sku)+(c.peso?' · '+Math.round(c.peso.g)+' g'+(c.peso.de?' ('+esc(c.peso.de)+')':''):' · sem peso')+'</span>'+
+  '<div style="grid-column:1/-1">'+conta+(c.erro&&c.linhas.length?'<p class="pill p-warn" style="margin-top:8px">'+esc(c.erro)+'</p>':'')+'</div>'+
+  '<p style="grid-column:1/-1;margin:0">No site hoje: <b>'+brl(c.atual)+'</b>'+(c.site>0?' · sugerido <b>'+brl(c.site)+'</b> '+prDif(c):'')+'</p>'+
+  (c.tipo==='conc'&&c.frete&&c.site>0?'<p class="muted" style="grid-column:1/-1;margin:0;font-size:11.5px">Conferência: em '+c.frete.uf+' (capital mais cara do grupo) a cliente paga cerca de <b>'+brl(prFinal(c))+'</b> com frete e impostos. Concorrente: '+brl(c.conc.preco)+'.</p>':'')+
+  (can()&&c.site>0&&c.site!==c.atual?'<div style="grid-column:1/-1"><button class="btn pri sm" type="button" data-prok="'+esc(p.id)+'">Aprovar '+brl(c.site)+' no site</button></div>':'')+'</div>'+
+  '<div class="sec"><span class="label">Concorrentes ligados</span><div style="grid-column:1/-1">'+(c.concs.length?c.concs.map(x=>'<div class="pr-ref"><span><b>'+PR_LOJA[x.loja]+'</b> · '+(x.preco>0?brl(x.preco)+(x.esgotado?' (esgotado)':''):'<span class="muted">aguardando leitura</span>')+' · <a href="'+esc(x.url)+'" target="_blank" rel="noopener">'+esc(x.nome||x.url.replace(/^https?:\/\//,''))+'</a></span>'+(can()?'<button class="btn sm" type="button" data-prdes="'+esc(x.refId)+'">Desligar</button>':'')+'</div>').join(''):'<p class="muted" style="margin:0">Nenhum.</p>')+'</div>'+
+  (s.length?'<span class="label" style="margin-top:6px">Parecidos na KS e na Jini · confira o tamanho</span><div style="grid-column:1/-1">'+s.map(x=>'<div class="pr-ref"><span><b>'+PR_LOJA[x.loja]+'</b> · '+brl(Number(x.preco))+(x.esgotado?' (esgotado)':'')+' · <a href="'+esc(x.url)+'" target="_blank" rel="noopener">'+esc(x.nome)+'</a></span>'+(can()?'<span><button class="btn sm pri" type="button" data-prliga="'+esc(p.id)+'" data-url="'+esc(x.url)+'" data-loja="'+esc(x.loja)+'">É este</button> <button class="btn sm" type="button" data-prrej="'+esc(p.id)+'" data-url="'+esc(x.url)+'" data-loja="'+esc(x.loja)+'">Não é</button></span>':'')+'</div>').join('')+'</div>':'')+
+  (can()?'<div class="f full"><label for="pr-url">Colar link da KS ou da Jini</label><div style="display:flex;gap:6px"><input id="pr-url" type="url" placeholder="https://jinicosmeticos.com.br/produtos/…" data-1c="off"><button class="btn sm" type="button" data-prcola="'+esc(p.id)+'">Ligar</button></div><span class="hint">O preço é lido na hora.</span></div>':'')+'</div>'+
+  '<div class="sec"><span class="label">Sem concorrente: preço no exterior</span>'+
+  (can()?'<div class="f"><label for="pr-usd">Preço no varejo do exterior (US$)</label><input id="pr-usd" type="number" step="0.01" min="0" value="'+(c.ext?esc(c.ext.usd):'')+'" data-1c="off"></div><div class="f"><label for="pr-extu">Link (opcional)</label><input id="pr-extu" type="url" value="'+(c.ext?esc(c.ext.url||''):'')+'" placeholder="https://www.yesstyle.com/…" data-1c="off"></div><div style="grid-column:1/-1"><button class="btn sm" type="button" data-prext="'+esc(p.id)+'">Salvar preço do exterior</button> <span class="muted" style="font-size:11.5px">Só vale quando não há concorrente ligado.</span></div>':(c.ext?'<p>US$ '+esc(c.ext.usd)+'</p>':'<p class="muted">—</p>'))+'</div>'+
+  (H.length?'<div class="sec"><span class="label">Histórico</span><div style="grid-column:1/-1">'+H.map(h=>'<div class="muted" style="font-size:12px">'+new Date(h.em).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})+' · '+brl(Number(h.antes))+' → <b>'+brl(Number(h.depois))+'</b> · '+esc(h.regra||'')+' · '+esc(h.quem||'')+'</div>').join('')+'</div></div>':'')+
+  (rej.length&&can()?'<div class="sec"><span class="label">Marcados como "não é"</span><div style="grid-column:1/-1">'+rej.map(r=>'<div class="pr-ref"><span class="muted">'+PR_LOJA[r.loja]+' · '+esc(((PR.catUrl.get(r.url)||{}).nome)||r.url)+'</span><button class="btn sm" type="button" data-prdes="'+esc(r.id)+'">Desfazer</button></div>').join('')+'</div></div>':'');
+ shell(p.nome,body,null,true);PR.aberto=id;
+}
+function prRegras(){
+ const C=prCfg(),f=(k,l,h,step)=>'<div class="f"><label for="prc-'+k+'">'+l+'</label><input id="prc-'+k+'" name="'+k+'" type="number" step="'+(step||'0.1')+'" value="'+esc(C[k])+'" data-1c="off">'+(h?'<span class="hint">'+h+'</span>':'')+'</div>';
+ shell('Regras de precificação','<div class="sec"><span class="label">Regra</span>'+f('desc','Abaixo do concorrente (%)','Preço final da OMG fica este % abaixo da KS/Jini.')+f('ext','Sobre o preço do exterior (%)','Produto sem concorrente: varejo em US$ + este %.')+f('alerta','Alerta a partir de (%)','Diferença entre o preço no site e o sugerido.')+f('usd','Câmbio US$ → R$','',0.01)+'</div>'+
+  '<div class="sec"><span class="label">Impostos (Remessa Conforme)</span>'+f('icms','ICMS (%)','Por dentro.')+f('limiteUsd','Imposto zero até (US$)','')+f('iiPct','Imposto acima do limite (%)','')+f('iiDescUsd','Desconto do imposto (US$)','')+'</div>'+
+  '<div class="sec"><span class="label">Frete</span><div class="f full"><label for="prc-ufs">Capitais de referência (usa a mais cara)</label><input id="prc-ufs" name="ufs" value="'+esc(C.ufs)+'" data-1c="off"><span class="hint">Siglas separadas por vírgula. Tabela disponível: '+Object.keys(PR_FRETE).join(', ')+'.</span></div>'+
+  f('freteParte','Parte do frete cobrada como frete (%)','100 = nada muda. 50 = metade do frete passa para o preço do produto. Só baixe quando o frete do checkout já cobrar a parte menor.',1)+'</div>');
+ wireSubmit(async form=>{const v={...prCfg()};['desc','ext','alerta','usd','icms','limiteUsd','iiPct','iiDescUsd','freteParte'].forEach(k=>{const x=parseFloat(form.elements[k].value);if(isFinite(x))v[k]=x});v.ufs=String(form.elements.ufs.value||'').toUpperCase();
+  const {error}=await sb.from('config').upsert({chave:'precos',valor:v});if(error)throw error;PR.cfg=v;toast('Regras salvas')});
+}
+async function prLigar(pid,url,loja,status){
+ url=String(url||'').trim().replace(/[?#].*$/,'');
+ if(!loja)loja=/kscosmeticos\.com\.br/i.test(url)?'ks':/jinicosmeticos\.com\.br/i.test(url)?'jini':'';
+ if(!loja){toast('Use um link da KS (kscosmeticos.com.br) ou da Jini (jinicosmeticos.com.br)');return}
+ const {error}=await sb.from('precos_ref').insert({produto_id:pid,loja,url,status:status||'ok',quem:S.email||''});
+ if(error&&!/duplicate/i.test(error.message)){toast(errMsg(error));return}
+ if((status||'ok')==='ok'&&!(PR.catUrl&&PR.catUrl.get(url))){try{toast('Lendo o preço…');await chamarShop({acao:'conc_ler',urls:[url]})}catch(e){toast('Ligado. O preço entra na próxima leitura ('+(e.message||'erro')+')')}}
+ await loadPrecos();prAbrir(pid);toast(status==='rejeitado'?'Marcado como diferente':'Concorrente ligado');
+}
+async function prAprovar(ids){
+ const L=ids.map(id=>S.data.produtos.find(p=>p.id===id)).filter(Boolean).map(p=>({p,c:prCalc(p)})).filter(x=>x.c.site>0&&x.c.site!==x.c.atual);
+ if(!L.length){toast('Nada para aprovar');return}
+ if(!confirm(L.length===1?'Mudar o preço no site de '+brl(L[0].c.atual)+' para '+brl(L[0].c.site)+'?':'Mudar o preço no site de '+L.length+' produtos?'))return;
+ PR.busy=true;render();let ok=0,err=0;
+ for(const {p,c} of L){try{await chamarShop({acao:'preco',produtoId:p.shopify_product_id,varianteId:p.shopify_variant_id,preco:c.site});
+   await sb.from('precos_hist').insert({produto_id:p.id,sku:p.sku,nome:p.nome,antes:c.atual,depois:c.site,regra:c.regra,quem:S.email||''});
+   p.preco=c.site;PR.sel.delete(p.id);ok++;if(L.length>1&&ok%5===0)toast(ok+' de '+L.length+'…')}catch(e){err++}}
+ PR.busy=false;toast(ok+' preço'+(ok===1?'':'s')+' atualizado'+(ok===1?'':'s')+' no site'+(err?' · '+err+' com erro':''));
+ await loadPrecos();if(PR.aberto&&document.querySelector('#ov'))prAbrir(PR.aberto);else render();
+}
+document.addEventListener('change',e=>{const t=e.target;
+ if(t.id==='pr-marca'){PR.marca=t.value;PR.lim=80;render();return}
+ if(t.dataset&&t.dataset.prsel){t.checked?PR.sel.add(t.dataset.prsel):PR.sel.delete(t.dataset.prsel);render();return}
+ if(t.id==='pr-sel-all'){document.querySelectorAll('[data-prsel]').forEach(c=>{t.checked?PR.sel.add(c.dataset.prsel):PR.sel.delete(c.dataset.prsel)});render();return}
+});
+document.addEventListener('click',async e=>{const t=e.target.closest('button,a,input,tr[data-pr]');if(!t)return;
+ if(t.dataset.prf){PR.f=t.dataset.prf;PR.lim=80;render();return}
+ if(t.id==='pr-mais'){PR.lim+=200;render();return}
+ if(t.id==='pr-recarregar'){PR.loaded=false;loadPrecos();toast('Recarregando…');return}
+ if(t.id==='pr-regras'){prRegras();return}
+ if(t.id==='pr-aprovar'){prAprovar([...PR.sel]);return}
+ if(t.dataset.prok){e.stopPropagation();prAprovar([t.dataset.prok]);return}
+ if(t.dataset.prliga){prLigar(t.dataset.prliga,t.dataset.url,t.dataset.loja);return}
+ if(t.dataset.prrej){prLigar(t.dataset.prrej,t.dataset.url,t.dataset.loja,'rejeitado');return}
+ if(t.dataset.prcola){prLigar(t.dataset.prcola,($('#pr-url')||{}).value);return}
+ if(t.dataset.prdes){const r=PR.ref.find(x=>x.id===t.dataset.prdes);const {error}=await sb.from('precos_ref').delete().eq('id',t.dataset.prdes);if(error){toast(errMsg(error));return}await loadPrecos();if(r)prAbrir(r.produto_id);return}
+ if(t.dataset.prext){const pid=t.dataset.prext,u=parseFloat(($('#pr-usd')||{}).value),link=(($('#pr-extu')||{}).value||'').trim();
+  await sb.from('precos_ref').delete().eq('produto_id',pid).eq('loja','exterior');
+  if(u>0){const {error}=await sb.from('precos_ref').insert({produto_id:pid,loja:'exterior',url:link||null,usd:u,quem:S.email||''});if(error){toast(errMsg(error));return}}
+  await loadPrecos();prAbrir(pid);toast(u>0?'Preço do exterior salvo':'Preço do exterior removido');return}
+ if(t.matches('tr[data-pr]')&&!e.target.closest('input,button,a')){prAbrir(t.dataset.pr);return}
+});
 
 /* ---------- Raio-X do catálogo (Shopify) · v15 ---------- */
 const RX_ERR={foto:['Foto','sem foto','p-bad'],provisorio:['Preço provisório','R$ 0 ou 999,99','p-bad'],suspeito:['Preço suspeito','barato demais','p-bad'],duplicado:['Duplicado','mesmo produto 2x','p-warn'],categoria:['Categoria','fora dos menus','p-warn'],marca:['Marca','nome errado','p-warn']};
@@ -2724,6 +2912,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v34','30/10/2026',['Nova tela Precificação (em Estoque e compras): preço sugerido pela regra do Guia de precificação para cada produto do site, com a conta aberta.','Concorrentes válidos (KS e Jini) lidos sozinhos toda segunda de manhã. O ERP sugere o produto parecido; você confirma com "É este" ou "Não é", ou cola o link.','Sem concorrente: informe o preço no exterior em US$ e o ERP aplica +20%.','Alerta quando o preço do site sai da regra mais que 3%. Aprovar muda o preço no site, um ou vários de uma vez, e guarda o histórico.','Botão Regras: desconto, ICMS, câmbio, capitais de referência e quanto do frete passa para o preço.']],
  ['v33','29/10/2026',['Regra 8: o relatório em PDF, que abre em aba nova, tem o botão ✕ Fechar aba no topo.']],
  ['v32','29/10/2026',['Exportar listas: marcas hypadas ★ (toque nas marcas para marcar; vale para toda a equipe). Começa com COSRX, Anua, SKIN1004, Beauty of Joseon, medicube e TIRTIR.','Filtros novos: só as hypadas, separar por categoria (Rosto, Protetor solar, Maquiagem, Cabelo, Corpo e banho) e ordem Hypadas primeiro. Vale para a lista, o PDF e a planilha.']],
  ['v31','29/10/2026',['Raio-X mais compacto: letras, números e quadros menores, cabe muito mais na tela.']],
