@@ -6,11 +6,11 @@
   "itens_oficiais": 290,
   "nossos": 300,
   "arquivo": "tools/precos/planilhas/precos-oficiais-COSRX.xlsx",
-  "Certeiro": 118,
-  "Provável — conferir": 87,
-  "Conferir (tamanho/kit diferente)": 2,
-  "Fraco — conferir": 38,
-  "Sem par": 55
+  "Certeiro": 169,
+  "Provável — conferir": 53,
+  "Conferir (tamanho/kit diferente)": 3,
+  "Fraco — conferir": 36,
+  "Sem par": 39
  },
  {
   "marca": "Anua",
@@ -19,11 +19,11 @@
   "itens_oficiais": 132,
   "nossos": 162,
   "arquivo": "tools/precos/planilhas/precos-oficiais-Anua.xlsx",
-  "Certeiro": 74,
-  "Provável — conferir": 23,
-  "Conferir (tamanho/kit diferente)": 9,
-  "Fraco — conferir": 18,
-  "Sem par": 38
+  "Certeiro": 78,
+  "Provável — conferir": 24,
+  "Conferir (tamanho/kit diferente)": 10,
+  "Fraco — conferir": 25,
+  "Sem par": 25
  },
  {
   "marca": "SKIN1004",
@@ -32,11 +32,11 @@
   "itens_oficiais": 118,
   "nossos": 150,
   "arquivo": "tools/precos/planilhas/precos-oficiais-SKIN1004.xlsx",
-  "Certeiro": 89,
-  "Provável — conferir": 17,
+  "Certeiro": 92,
+  "Provável — conferir": 27,
   "Conferir (tamanho/kit diferente)": 3,
-  "Fraco — conferir": 19,
-  "Sem par": 22
+  "Fraco — conferir": 14,
+  "Sem par": 14
  },
  {
   "marca": "Beauty of Joseon",
@@ -45,11 +45,11 @@
   "itens_oficiais": 198,
   "nossos": 197,
   "arquivo": "tools/precos/planilhas/precos-oficiais-Beauty-of-Joseon.xlsx",
-  "Certeiro": 6,
-  "Provável — conferir": 45,
-  "Conferir (tamanho/kit diferente)": 4,
-  "Fraco — conferir": 33,
-  "Sem par": 109
+  "Certeiro": 20,
+  "Provável — conferir": 54,
+  "Conferir (tamanho/kit diferente)": 9,
+  "Fraco — conferir": 36,
+  "Sem par": 78
  },
  {
   "marca": "medicube",
@@ -58,10 +58,10 @@
   "itens_oficiais": 418,
   "nossos": 111,
   "arquivo": "tools/precos/planilhas/precos-oficiais-medicube.xlsx",
-  "Certeiro": 78,
+  "Certeiro": 82,
   "Provável — conferir": 20,
-  "Fraco — conferir": 7,
-  "Sem par": 6
+  "Fraco — conferir": 4,
+  "Sem par": 5
  },
  {
   "marca": "TIRTIR",
@@ -70,11 +70,11 @@
   "itens_oficiais": 906,
   "nossos": 577,
   "arquivo": "tools/precos/planilhas/precos-oficiais-TIRTIR.xlsx",
-  "Certeiro": 184,
-  "Provável — conferir": 317,
-  "Conferir (tamanho/kit diferente)": 26,
-  "Fraco — conferir": 19,
-  "Sem par": 31
+  "Certeiro": 393,
+  "Provável — conferir": 60,
+  "Conferir (tamanho/kit diferente)": 27,
+  "Fraco — conferir": 55,
+  "Sem par": 42
  },
  {
   "marca": "ROUND LAB",
@@ -83,11 +83,11 @@
   "itens_oficiais": 144,
   "nossos": 214,
   "arquivo": "tools/precos/planilhas/precos-oficiais-ROUND-LAB.xlsx",
-  "Certeiro": 73,
-  "Provável — conferir": 37,
-  "Conferir (tamanho/kit diferente)": 4,
-  "Fraco — conferir": 26,
-  "Sem par": 74
+  "Certeiro": 78,
+  "Provável — conferir": 42,
+  "Conferir (tamanho/kit diferente)": 3,
+  "Fraco — conferir": 45,
+  "Sem par": 46
  },
  {
   "marca": "celimax",
@@ -110,9 +110,9 @@
   "arquivo": "tools/precos/planilhas/precos-oficiais-BANILA-CO.xlsx",
   "Certeiro": 4,
   "Provável — conferir": 1,
-  "Conferir (tamanho/kit diferente)": 1,
-  "Fraco — conferir": 2,
-  "Sem par": 5
+  "Conferir (tamanho/kit diferente)": 3,
+  "Fraco — conferir": 1,
+  "Sem par": 4
  },
  {
   "marca": "numbuzin",
@@ -122,10 +122,10 @@
   "nossos": 93,
   "arquivo": "tools/precos/planilhas/precos-oficiais-numbuzin.xlsx",
   "Certeiro": 52,
-  "Provável — conferir": 9,
-  "Conferir (tamanho/kit diferente)": 4,
-  "Fraco — conferir": 3,
-  "Sem par": 25
+  "Provável — conferir": 10,
+  "Conferir (tamanho/kit diferente)": 6,
+  "Fraco — conferir": 4,
+  "Sem par": 21
  },
  {
   "marca": "PURITO SEOUL",
@@ -140,8 +140,8 @@
   "itens_oficiais": 47,
   "nossos": 40,
   "arquivo": "tools/precos/planilhas/precos-oficiais-Rejuran.xlsx",
-  "Certeiro": 8,
-  "Provável — conferir": 21,
+  "Certeiro": 23,
+  "Provável — conferir": 6,
   "Conferir (tamanho/kit diferente)": 8,
   "Sem par": 3
  },
@@ -153,9 +153,8 @@
   "nossos": 89,
   "arquivo": "tools/precos/planilhas/precos-oficiais-VT-Cosmetics.xlsx",
   "Certeiro": 59,
-  "Provável — conferir": 14,
+  "Provável — conferir": 15,
   "Conferir (tamanho/kit diferente)": 14,
-  "Fraco — conferir": 1,
   "Sem par": 1
  }
 ]
