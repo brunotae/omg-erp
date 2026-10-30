@@ -88,15 +88,15 @@
       <p class="omg-pf__d">Ajuda a gente a indicar os produtos certos.</p>
       <p class="omg-pf__sub">Tipo de pele</p>
       <div class="omg-pf__chips" data-um="tipo_pele">
-        {%- for o in 'Oleosa,Mista,Normal,Seca,Não sei' | split: ',' -%}<label><input type="radio" name="tipo_pele" value="{{ o }}"><span>{{ o }}</span></label>{%- endfor -%}
+        {%- assign lst = 'Oleosa,Mista,Normal,Seca,Não sei' | split: ',' -%}{%- for o in lst -%}<label><input type="radio" name="tipo_pele" value="{{ o }}"><span>{{ o }}</span></label>{%- endfor -%}
       </div>
       <p class="omg-pf__sub">Sua pele é sensível?</p>
       <div class="omg-pf__chips">
-        {%- for o in 'Sim,Às vezes,Não' | split: ',' -%}<label><input type="radio" name="sensibilidade" value="{{ o }}"><span>{{ o }}</span></label>{%- endfor -%}
+        {%- assign lst = 'Sim,Às vezes,Não' | split: ',' -%}{%- for o in lst -%}<label><input type="radio" name="sensibilidade" value="{{ o }}"><span>{{ o }}</span></label>{%- endfor -%}
       </div>
       <p class="omg-pf__sub">O que você quer melhorar? <small>(pode marcar várias)</small></p>
       <div class="omg-pf__chips">
-        {%- for o in 'Acne e cravos,Poros,Oleosidade,Manchas,Linhas finas,Firmeza,Ressecamento,Vermelhidão,Olheiras,Textura,Viço e luminosidade,Barreira da pele' | split: ',' -%}<label><input type="checkbox" name="preocupacoes" value="{{ o }}"><span>{{ o }}</span></label>{%- endfor -%}
+        {%- assign lst = 'Acne e cravos,Poros,Oleosidade,Manchas,Linhas finas,Firmeza,Ressecamento,Vermelhidão,Olheiras,Textura,Viço e luminosidade,Barreira da pele' | split: ',' -%}{%- for o in lst -%}<label><input type="checkbox" name="preocupacoes" value="{{ o }}"><span>{{ o }}</span></label>{%- endfor -%}
       </div>
     </div>
 
@@ -104,11 +104,11 @@
       <h2>Sua rotina e seus gostos</h2>
       <p class="omg-pf__sub" style="margin-top:0">Como é sua rotina de skincare hoje?</p>
       <div class="omg-pf__chips">
-        {%- for o in 'Ainda não tenho,Básica (1 a 3 passos),Completa (4 passos ou mais)' | split: ',' -%}<label><input type="radio" name="rotina" value="{{ o }}"><span>{{ o }}</span></label>{%- endfor -%}
+        {%- assign lst = 'Ainda não tenho,Básica (1 a 3 passos),Completa (4 passos ou mais)' | split: ',' -%}{%- for o in lst -%}<label><input type="radio" name="rotina" value="{{ o }}"><span>{{ o }}</span></label>{%- endfor -%}
       </div>
       <p class="omg-pf__sub">Do que você mais gosta?</p>
       <div class="omg-pf__chips">
-        {%- for o in 'Skincare,Maquiagem,Protetor solar,Cabelo,Corpo e banho,Máscaras,Kits,Lançamentos' | split: ',' -%}<label><input type="checkbox" name="interesses" value="{{ o }}"><span>{{ o }}</span></label>{%- endfor -%}
+        {%- assign lst = 'Skincare,Maquiagem,Protetor solar,Cabelo,Corpo e banho,Máscaras,Kits,Lançamentos' | split: ',' -%}{%- for o in lst -%}<label><input type="checkbox" name="interesses" value="{{ o }}"><span>{{ o }}</span></label>{%- endfor -%}
       </div>
       <div class="omg-pf__g" style="margin-top:14px">
         <label class="c w2">Marcas favoritas <small style="font-weight:400">(separe por vírgula)</small>
@@ -117,7 +117,7 @@
         <datalist id="omg-pf-marcas">{%- for v in shop.vendors -%}<option value="{{ v | escape }}">{%- endfor -%}</datalist>
         <label class="c w2">Como você conheceu a OMG?
           <select name="como_conheceu"><option value="">Escolha</option>
-            {%- for o in 'Instagram,TikTok,Influenciadora,Indicação de amiga,Google,YouTube,Outro' | split: ',' -%}<option>{{ o }}</option>{%- endfor -%}
+            {%- assign lst = 'Instagram,TikTok,Influenciadora,Indicação de amiga,Google,YouTube,Outro' | split: ',' -%}{%- for o in lst -%}<option>{{ o }}</option>{%- endfor -%}
           </select>
         </label>
       </div>

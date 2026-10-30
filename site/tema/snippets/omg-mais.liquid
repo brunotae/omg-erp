@@ -5,12 +5,17 @@
   Dados vêm da seção sections/omg-lista.liquid via Section Rendering API.
 {%- endcomment -%}
 <style>
-  .omg-mais{max-width:var(--page-width,1200px);margin:0 auto;padding:8px max(16px,var(--page-margin,16px))}
+  .omg-mais{max-width:none;margin:0;padding:8px max(16px,var(--page-margin,28px))}
+  .omg-cj-wrap{display:flex;gap:28px;align-items:stretch}
+  .omg-cj-wrap .omg-cj{flex:1 1 auto}
+  .omg-cj-wrap .omg-cj__rodape{flex:0 0 260px;flex-direction:column;align-items:stretch;justify-content:center;margin:0;padding:0 0 0 28px;border-top:0;border-left:1px solid #f1e8ec}
+  .omg-cj-wrap .omg-btn{width:100%}
+  @media(max-width:749px){.omg-cj-wrap{flex-direction:column;gap:0}.omg-cj-wrap .omg-cj__rodape{flex:auto;flex-direction:row;padding:14px 0 0;margin-top:14px;border-left:0;border-top:1px solid #f1e8ec}.omg-cj-wrap .omg-btn{width:auto}}
   .omg-mais__box{border:1px solid #E6D9DF;border-radius:16px;padding:18px;margin:18px 0;background:#fff}
   .omg-mais__tit{font-size:18px;font-weight:700;color:#4A2638;margin:0 0 4px}
   .omg-mais__sub{font-size:13px;color:#7a6470;margin:0 0 14px}
   .omg-cj{display:flex;align-items:stretch;gap:8px;overflow-x:auto;padding-bottom:4px}
-  .omg-cj__item{flex:0 0 150px;display:flex;flex-direction:column;gap:6px;position:relative}
+  .omg-cj__item{flex:1 1 0;min-width:140px;max-width:240px;display:flex;flex-direction:column;gap:6px;position:relative}
   .omg-cj__item img{width:100%;aspect-ratio:1;object-fit:contain;border-radius:12px;background:#f1e8ec}
   .omg-cj__item label{position:absolute;top:6px;left:6px;background:#fff;border-radius:6px;padding:2px;display:flex}
   .omg-cj__item input{width:18px;height:18px;accent-color:#D63A5E;margin:0}
@@ -26,12 +31,14 @@
   .omg-btn[disabled]{opacity:.6;cursor:default}
   .omg-btn--leve{background:#fff;color:#D63A5E;border:1px solid #D63A5E;padding:6px 12px;font-size:12px}
   .omg-rot{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px}
-  .omg-rot__passo{flex:0 0 150px;display:flex;flex-direction:column;gap:6px}
+  .omg-rot__passo{flex:1 1 0;min-width:140px;display:flex;flex-direction:column;gap:6px}
   .omg-rot__num{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#B83D66}
-  .omg-rot__passo img{width:100%;aspect-ratio:1;object-fit:contain;border-radius:12px;background:#f1e8ec}
+  .omg-rot__passo img{width:100%;aspect-ratio:1;max-height:230px;object-fit:contain;border-radius:12px;background:#f1e8ec}
   .omg-rot__passo.is-atual img{outline:2px solid #D63A5E;outline-offset:-2px}
   .omg-rot__atual{font-size:12px;color:#D63A5E;font-weight:700}
   .omg-pp{position:relative}
+  .omg-marca img{display:block;height:20px;width:auto;max-width:120px;object-fit:contain}
+  .omg-marca.tem-logo{border:0;padding:0;background:none}
   .omg-marca{position:absolute!important;right:0;left:auto!important;width:auto!important;display:inline-block!important;margin:0!important;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#7a6470;text-decoration:none;border:1px solid #E6D9DF;border-radius:999px;padding:4px 10px;background:#fff;max-width:45%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .omg-marca:hover{color:#D63A5E;border-color:#D63A5E}
   .cart-drawer__items .omg-cm-wrap{padding:8px 0 4px}
@@ -120,8 +127,8 @@
     const box = document.createElement('div');
     box.className = 'omg-mais__box';
     box.innerHTML = `<p class="omg-mais__tit">Compre junto</p><p class="omg-mais__sub">Quem leva este produto costuma combinar com estes.</p>
-      <div class="omg-cj">${itens.map((p, k) => `${k ? '<span class="omg-cj__mais">+</span>' : ''}<div class="omg-cj__item" data-k="${k}"><label><input type="checkbox" checked aria-label="Incluir ${esc(p.t)}"></label>${card(p, p.atual ? '<span class="omg-rot__atual">Este produto</span>' : '')}</div>`).join('')}</div>
-      <div class="omg-cj__rodape"><span class="omg-cj__total"></span><button type="button" class="omg-btn"></button></div>`;
+      <div class="omg-cj-wrap"><div class="omg-cj">${itens.map((p, k) => `${k ? '<span class="omg-cj__mais">+</span>' : ''}<div class="omg-cj__item" data-k="${k}"><label><input type="checkbox" checked aria-label="Incluir ${esc(p.t)}"></label>${card(p, p.atual ? '<span class="omg-rot__atual">Este produto</span>' : '')}</div>`).join('')}</div>
+      <div class="omg-cj__rodape"><span class="omg-cj__total"></span><button type="button" class="omg-btn"></button></div></div>`;
     alvo.appendChild(box);
     const total = box.querySelector('.omg-cj__total'), btn = box.querySelector('.omg-btn');
     const marcados = () => [...box.querySelectorAll('.omg-cj__item')].filter(el => el.querySelector('input').checked).map(el => itens[el.dataset.k]);
@@ -162,6 +169,7 @@
 
   /* Marca pequena à direita, na altura do preço */
   {% assign omg_mh = product.vendor | handleize %}{% assign omg_mc = collections[omg_mh] %}
+  const MARCA_LOGO = {% assign omg_logos = ',abib,aestura,another-face,anua,arencia,banila-co,beauty-of-joseon,beplain,biodance,celimax,cell-fusion-c,centellian-24,clio,cosrx,dasique,dr-forhair,dr-melaxin,dr-reju-all,eqqualberry,freshian,fwee,gongskin,hince,kaine,lador,manyo,medicube,mediheal,mise-en-scene,mixsoon,numbuzin,ongredients,purcell,purito-seoul,rejuran,round-lab,skin1004,some-by-mi,sonatural,tirtir,torriden,vt-cosmetics,' %}{% assign omg_busca = ',' | append: omg_mh | append: ',' %}{% if omg_logos contains omg_busca %}{{ 'omg-logo-' | append: omg_mh | append: '.png' | asset_url | json }}{% else %}null{% endif %};
   const MARCA_URL = {% if omg_mc and omg_mc.products_count > 0 %}{{ omg_mc.url | json }}{% else %}{{ product.vendor | url_for_vendor | json }}{% endif %};
   function marca() {
     if (!ATUAL.m) return;
@@ -169,7 +177,9 @@
     if (!pp || pp.querySelector('.omg-marca')) return;
     pp.classList.add('omg-pp');
     const a = document.createElement('a');
-    a.className = 'omg-marca'; a.href = MARCA_URL; a.textContent = ATUAL.m; a.title = 'Ver todos os produtos ' + ATUAL.m;
+    a.className = 'omg-marca'; a.href = MARCA_URL; a.title = 'Ver todos os produtos ' + ATUAL.m;
+    if (MARCA_LOGO) { a.classList.add('tem-logo'); const im = new Image(); im.src = MARCA_LOGO; im.alt = ATUAL.m; im.onerror = () => { a.classList.remove('tem-logo'); a.textContent = ATUAL.m; }; a.appendChild(im); }
+    else a.textContent = ATUAL.m;
     pp.appendChild(a);
   }
   new MutationObserver(marca).observe(document.documentElement, { childList: true, subtree: true });
