@@ -1343,13 +1343,17 @@ function prCalc(p){
 }
 function prFinal(c){const C=prCfg(),aj=c.frete.v*(1-n(C.freteParte)/100),base=c.site-aj+c.frete.v,lim=n(C.limiteUsd)*n(C.usd);
  const ii=base>lim?Math.max(0,base*n(C.iiPct)/100-n(C.iiDescUsd)*n(C.usd)):0;return (base+ii)/(1-n(C.icms)/100)}
+const PR_TIPO={serum:'serum',sérum:'serum',serum_:'serum',ampoule:'ampola',ampola:'ampola',essence:'essencia',essencia:'essencia',cream:'creme',creme:'creme',toner:'tonico',tonico:'tonico',pad:'pad',pads:'pad',discos:'pad',mask:'mascara',mascara:'mascara',oil:'oleo',oleo:'oleo',foam:'espuma',espuma:'espuma',gel:'gel',mist:'bruma',bruma:'bruma',cushion:'cushion',sunscreen:'solar',sun:'solar',solar:'solar',protetor:'solar',balm:'balm',lotion:'locao',locao:'locao',shampoo:'shampoo',tint:'tint',patch:'patch',adesivo:'patch',eye:'olhos',olhos:'olhos',cleanser:'limpeza',cleansing:'limpeza',limpeza:'limpeza'};
+function prTipos(T){const o=new Set();T.forEach(w=>{if(PR_TIPO[w])o.add(PR_TIPO[w])});return o}
 function prSugestoes(p){
  if(!PR.sug)PR.sug=new Map();if(PR.sug.has(p.id))return PR.sug.get(p.id);
  const ligados=new Set(prRefs(p).map(r=>r.url)),mb=prNB(p.marca),out=[];
  if(mb.length>=2){const en=String(p.nome||'').split(':')[0],A=new Set(prTok(en).filter(w=>!prNB(p.marca).includes(w)||w.length<3)),ta=prTam(p.nome);
   if(A.size)for(const c of PR.cat){if(c.ativo===false||ligados.has(c.url))continue;
    if(prNB(c.marca)!==mb&&!prNB(c.nome).includes(mb))continue;
-   const B=new Set(prTok(c.nome));let k=0;A.forEach(w=>{if(B.has(w))k++});const s=k/A.size;if(s<0.6)continue;
+   if(/\bkit\b/i.test(c.nome)&&!/\bkit\b/i.test(p.nome))continue;
+   const B=new Set(prTok(c.nome));let k=0;A.forEach(w=>{if(B.has(w))k++});const s=k/A.size;if(s<0.67)continue;
+   const tA=prTipos(A),tB=prTipos(B);if(tA.size&&tB.size&&![...tA].some(x=>tB.has(x)))continue;
    const tb=prTam(c.nome);if(ta.q&&tb.q&&Math.abs(ta.q-tb.q)/ta.q>0.06)continue;if(ta.un&&tb.un&&ta.un!==tb.un)continue;
    out.push({...c,score:s+(ta.q&&tb.q?0.2:0)})}}
  out.sort((a,b)=>b.score-a.score);const r=out.slice(0,3);PR.sug.set(p.id,r);return r}
