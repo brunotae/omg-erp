@@ -1,0 +1,15 @@
+200 https://kscosmeticos.com.br/robots.txt
+User-agent: *
+Allow: /
+Disallow: /checkout
+Disallow: /conta
+Disallow: /pedidos
+Disallow: /favoritos
+Disallow: /login
+Disallow: /cadastro
+Disallow: /perfil
+Disallow: /customer
+Disallow: /payment-links
+Disallow: /api/
+
+Sitemap: https://kscosmeticos.com.br/sitemap.xml
