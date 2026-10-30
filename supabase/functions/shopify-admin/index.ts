@@ -401,13 +401,25 @@ Deno.serve(async (req) => {
         ...(i.img ? { mediaSrc: [String(i.img)] } : {}),
       }));
       if (!b.aplicar) return resp(200, { ok: true, plano: true, produto: p.title, atual: v0, variants, imagens: imgs.length });
+      // 1) cria a opção; a versão atual vira a 1ª da lista (mantém id, SKU e histórico)
+      const o: any = await gql(`mutation($pid: ID!, $o: [OptionCreateInput!]!) { productOptionsCreate(productId: $pid, options: $o, variantStrategy: LEAVE_AS_IS) { userErrors { field message } } }`,
+        { pid: p.id, o: [{ name: opcao, values: itens.map((i: any) => ({ name: String(i.nome) })) }] });
+      let ue = o.productOptionsCreate.userErrors;
+      if (ue.length) return resp(200, { ok: false, etapa: "opção", erro: ue.map((e: any) => e.message).join(" | ") });
+      const media = imgs.map((u) => ({ originalSource: u, mediaContentType: "IMAGE", alt: p.title }));
+      // 2) demais versões
       const r: any = await gql(`mutation($pid: ID!, $v: [ProductVariantsBulkInput!]!, $m: [CreateMediaInput!]) {
-          productVariantsBulkCreate(productId: $pid, variants: $v, media: $m, strategy: REMOVE_STANDALONE_VARIANT) {
-            productVariants { id title sku price } userErrors { field message } } }`,
-        { pid: p.id, v: variants, m: imgs.map((u) => ({ originalSource: u, mediaContentType: "IMAGE", alt: p.title })) });
-      const ue = r.productVariantsBulkCreate.userErrors;
-      if (ue.length) return resp(200, { ok: false, erro: ue.map((e: any) => (e.field || []).join(".") + ": " + e.message).join(" | ") });
-      return resp(200, { ok: true, produto: p.title, variantes: r.productVariantsBulkCreate.productVariants });
+          productVariantsBulkCreate(productId: $pid, variants: $v, media: $m) { productVariants { id title sku price } userErrors { field message } } }`,
+        { pid: p.id, v: variants.slice(1), m: media });
+      ue = r.productVariantsBulkCreate.userErrors;
+      if (ue.length) return resp(200, { ok: false, etapa: "versões", erro: ue.map((e: any) => (e.field || []).join(".") + ": " + e.message).join(" | ") });
+      // 3) acerta a 1ª (atual): preço, SKU e foto
+      const v1: any = { id: v0.id, price: variants[0].price, inventoryItem: { sku: variants[0].inventoryItem.sku } };
+      if (variants[0].mediaSrc) v1.mediaSrc = variants[0].mediaSrc;
+      const u: any = await gql(`mutation($pid: ID!, $v: [ProductVariantsBulkInput!]!) { productVariantsBulkUpdate(productId: $pid, variants: $v) { userErrors { field message } } }`, { pid: p.id, v: [v1] });
+      const ue2 = u.productVariantsBulkUpdate.userErrors;
+      return resp(200, { ok: true, produto: p.title, variantes: r.productVariantsBulkCreate.productVariants, aviso_primeira: ue2.length ? ue2.map((e: any) => e.message).join(" | ") : null });
+
     }
 
     if (b.acao === "produto_desc") {
