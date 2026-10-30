@@ -1453,7 +1453,7 @@ function prCerteiros(){const out=[];PR.sug=null;
  for(const p of prLista()){if(prRefs(p).length)continue;const sg=prSugestoes(p);if(!sg.length)continue;
   const porLoja={};sg.forEach(x=>{(porLoja[x.loja]=porLoja[x.loja]||[]).push(x)});
   for(const [loja,L] of Object.entries(porLoja)){const t=L[0],ta=prTam(p.nome),tb=prTam(t.nome);
-   if(t.score>=1.0&&ta.q&&tb.q&&prExtras(p,t)<=2&&prTok(String(p.nome).split(':')[0]).length>=2&&(L.length===1||L[1].score<t.score-0.15))out.push({produto_id:p.id,loja,url:t.url,status:'ok',quem:'automático'})}}
+   if(t.score>=1.0&&ta.q&&tb.q&&prExtras(p,t)<=1&&prTok(String(p.nome).split(':')[0]).length>=2&&(L.length===1||L[1].score<t.score-0.15))out.push({produto_id:p.id,loja,url:t.url,status:'ok',quem:'automático'})}}
  return out}
 async function prLigarCerteiros(){
  // refaz as ligações automáticas ainda não conferidas
