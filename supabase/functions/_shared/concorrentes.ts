@@ -1,7 +1,7 @@
 // Leitura de páginas de produto dos concorrentes válidos (KS · UpZero, Jini · Nuvemshop).
 export const LOJAS: Record<string, { sitemap: string; padrao: RegExp }> = {
-  ks: { sitemap: "https://kscosmeticos.com.br/sitemap.xml", padrao: /https:\/\/kscosmeticos\.com\.br\/(?:produtos|kits)\/[^<\s]+/g },
-  jini: { sitemap: "https://jinicosmeticos.com.br/sitemap.xml", padrao: /https:\/\/jinicosmeticos\.com\.br\/produtos\/[^<\s]+/g },
+  ks: { sitemap: "https://kscosmeticos.com.br/sitemap.xml", padrao: /https:\/\/kscosmeticos\.com\.br\/(?:produtos|kits)\/[^<\s"']+/g },
+  jini: { sitemap: "https://jinicosmeticos.com.br/sitemap.xml", padrao: /https:\/\/jinicosmeticos\.com\.br\/produtos\/[^<\s"']+/g },
 };
 const UA = { "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129 Safari/537.36", "accept-language": "pt-BR" };
 const norm = (u: string) => String(u || "").replace(/[?#].*$/, "").replace(/\/+$/, "").toLowerCase();
@@ -11,7 +11,7 @@ const desc = (s: string) => s.replace(/&amp;/g, "&").replace(/&#39;/g, "'").repl
 export async function urlsDaLoja(loja: string): Promise<string[]> {
   const r = await fetch(LOJAS[loja].sitemap, { headers: UA });
   const t = await r.text();
-  return [...new Set((t.match(LOJAS[loja].padrao) || []).map(desc))].sort();
+  return [...new Set((t.match(LOJAS[loja].padrao) || []).map(desc))].filter((u) => !/\/(produtos|kits)\/?$/.test(u)).sort();
 }
 
 export async function lerPagina(url: string) {
