@@ -218,8 +218,13 @@ pre.code{background:var(--surface2);border:1px solid var(--line);border-radius:v
 .px-wrap{max-height:calc(100dvh - 250px)}.px-t{font-size:11.5px;width:100%;table-layout:auto}.px-t th,.px-t td{white-space:nowrap;padding:4px 5px}.px-t th{font-size:10px;letter-spacing:.02em}
 .px-t td.px-nome{white-space:normal;min-width:150px;max-width:230px;line-height:1.25}.px-t td.px-nome a{color:var(--ink,#2b1520);text-decoration:none}.px-t td.px-nome a:hover{color:var(--accent);text-decoration:underline}
 .px-t td.px-marca{max-width:90px;overflow:hidden;text-overflow:ellipsis}.px-t td.px-st{white-space:normal;min-width:90px;max-width:150px}.px-t td.px-st .pill{font-size:10.5px;padding:2px 7px}
-.px-t thead tr:first-child th{position:sticky;top:0;background:var(--surface,#fff);z-index:2}.px-t .px-frow th{position:sticky;top:25px;background:var(--surface,#fff);z-index:2;padding:2px 3px}.px-th{cursor:pointer;user-select:none}
+.px-t thead th{position:sticky;top:0;background:var(--surface,#fff);z-index:2}.px-t .px-frow th{position:sticky;top:25px;background:var(--surface,#fff);z-index:2;padding:2px 3px}.px-th{cursor:pointer;user-select:none}
 .px-fi input{width:100%;min-width:34px;padding:2px 4px;font-size:10.5px;border:1px solid var(--line);border-radius:5px}.px-in{width:44px;padding:2px 3px;font-size:11.5px;text-align:right;border:1px solid var(--line);border-radius:5px;-moz-appearance:textfield}.px-in::-webkit-inner-spin-button,.px-in::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}.px-in.pad{color:var(--muted)}
+.px-t{border-collapse:collapse}.px-t td,.px-t thead tr:not(.px-grow) th{border-left:1px solid rgba(0,0,0,.06)}.px-t tbody tr{border-bottom:1px solid var(--line)}.px-t tbody tr:hover td{background:rgba(0,0,0,.025)}
+.px-c-ref{background:#EEF4FB}.px-c-edit{background:#FFF8E1}.px-c-res{background:#EEF8F1}.px-c-hoje{background:#F6F4F5}.px-c-ini{border-left:2px solid rgba(0,0,0,.18)}
+.px-grow th{position:sticky;top:0;z-index:3;font-size:10px;text-align:center;padding:3px 4px;border-left:2px solid #fff;color:#4a3a40;letter-spacing:.04em}
+.px-t .px-grow th.px-g-prod{background:#F3EEF0}.px-t .px-grow th.px-g-ref{background:#D9E7F7}.px-t .px-grow th.px-g-edit{background:#FCEBB6}.px-t .px-grow th.px-g-hoje{background:#E9E4E6}.px-t .px-grow th.px-g-res{background:#D3EEDC}.px-t .px-grow th.px-g-st{background:#F3EEF0}
+.px-t thead tr:nth-child(2) th{top:21px!important}.px-t .px-frow th{top:46px!important}
 .px-t tr.px-on td{background:var(--soft,#fbeff4)}.px-t td small{display:block;font-size:10.5px;color:var(--muted)}
 .pr-ref{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--line);font-size:13px}.pr-ref a{color:var(--accent)}
 .sec>.label{grid-column:1/-1;padding-top:4px;border-top:1px solid var(--line);padding-top:14px}
@@ -846,7 +851,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v41 · 30/10/2026';
+const VERSAO='v42 · 30/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1595,10 +1600,15 @@ function pxCalc(p){
  return o}
 function pxStatus(x){if(x.erro)return ['erro',x.erro];if(!x.muda)return ['igual','igual ao site'];if(x.ok)return ['ok','OK · pronto'];if(x.okVelho)return ['velho','recalcular'];return ['muda','a calcular']}
 const PX_COLS=[
- ['sku','SKU',x=>x.p.sku,'t'],['nome','Produto',x=>x.p.nome,'t'],['marca','Marca',x=>x.p.marca,'t'],['peso','Peso',x=>x.peso,'n'],
- ['ref','Referência',x=>x.ref?(x.tipo==='ext'?x.ref.usd:x.ref.pix):null,'n',x=>x.ref?x.ref.cod+' '+x.ref.nome:'—'],
- ['d','% abaixo',x=>x.d,'n'],['fp','% frete',x=>x.fp,'n'],['frete','Frete',x=>x.freteExib,'n'],
- ['novo','Novo',x=>x.novo,'n',x=>has(x.dif)?String(x.dif):''],['atual','Hoje',x=>x.atual,'n'],['final','Final CE',x=>x.final,'n'],['st','Status',x=>pxStatus(x)[1]+(x.flags.length?' · '+x.flags.join(' · '):''),'t']];
+ ['sku','SKU',x=>x.p.sku,'t',null,'prod'],['nome','Produto',x=>x.p.nome,'t',null,'prod'],['marca','Marca',x=>x.p.marca,'t',null,'prod'],['peso','Peso',x=>x.peso,'n',null,'prod'],
+ ['ref','Referência',x=>x.ref?(x.tipo==='ext'?x.ref.usd:x.ref.pix):null,'n',x=>x.ref?x.ref.cod+' '+x.ref.nome:'—','ref'],
+ ['d','% abaixo',x=>x.d,'n',null,'edit'],['fp','% frete',x=>x.fp,'n',null,'edit'],
+ ['atual','Hoje',x=>x.atual,'n',null,'hoje'],
+ ['novo','Novo',x=>x.novo,'n',x=>has(x.dif)?String(x.dif):'','res'],['frete','Frete',x=>x.freteExib,'n',null,'res'],['final','Final CE',x=>x.final,'n',null,'res'],
+ ['st','Status',x=>pxStatus(x)[1]+(x.flags.length?' · '+x.flags.join(' · '):''),'t',null,'st']];
+const PX_GR={prod:'Produto',ref:'Concorrente',edit:'Você ajusta',hoje:'Site hoje',res:'Preço novo',st:'Situação'};
+function pxGrupos(){const o=[];PX_COLS.forEach(c=>{const g=c[5],u=o[o.length-1];if(u&&u.g===g)u.n++;else o.push({g,n:1})});return o.map(x=>'<th colspan="'+x.n+'" class="px-g-'+x.g+'">'+PX_GR[x.g]+'</th>').join('')}
+function pxColgroup(){return '<colgroup><col>'+PX_COLS.map((c,i)=>'<col class="px-c-'+c[5]+((i===0||PX_COLS[i-1][5]!==c[5])?' px-c-ini':'')+'">').join('')+'</colgroup>'}
 const pxNorm=s=>String(s==null?'':s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
 function pxMatch(v,f,tipo){f=String(f||'').trim();if(!f)return true;
  if(tipo==='n'){const x=pxNum(v),g=f.replace(/\s/g,'').replace(',','.');let m;
@@ -1649,11 +1659,11 @@ VIEWFN.pricing=()=>{
   '<td class="r num">'+(r?(r.url?'<a href="'+esc(r.url)+'" target="_blank" rel="noopener" title="'+esc(r.nome)+'"><b>'+r.cod+'</b></a> ':'<b>'+r.cod+'</b> ')+(x.tipo==='ext'?'<b>US$ '+r.usd.toFixed(2).replace('.',',')+'</b>':'<b>'+brl(r.pix)+'</b><small>'+(r.pixLido?(r.pixPct?'Pix −'+pxPct(r.pixPct)+' · normal '+brl(r.normal):'Pix = normal'):'Pix não lido')+'</small>'):'<span class="muted">—</span>')+'</td>'+
   '<td class="r">'+(can()?'<input class="px-in'+(x.dPad?' pad':'')+'" type="number" step="0.5" data-pxd="'+esc(x.p.id)+'" value="'+x.d+'" aria-label="% abaixo" data-1c="off">':pxPct(x.d))+'</td>'+
   '<td class="r">'+(can()?'<input class="px-in'+(x.fpPad?' pad':'')+'" type="number" step="5" min="0" max="100" data-pxfp="'+esc(x.p.id)+'" value="'+x.fp+'" aria-label="% frete exibido" data-1c="off">':pxPct(x.fp))+'</td>'+
+  '<td class="r num">'+cel(x.atual)+'</td><td class="r num">'+cel(x.novo,true)+dif+'</td>'+
   '<td class="r num">'+cel(x.freteExib)+(has(x.freteCheio)&&Math.abs(x.freteCheio-x.freteExib)>0.005?'<small>de '+brl(x.freteCheio)+'</small>':'')+'</td>'+
-  '<td class="r num">'+cel(x.novo,true)+dif+'</td><td class="r num">'+cel(x.atual)+'</td>'+
   '<td class="r num">'+cel(x.final)+(x.tipo==='conc'&&has(x.abaixo)?'<small>'+pxPct(x.abaixo)+' abaixo</small>':'')+'</td>'+
   '<td class="px-st"><span class="pill '+PX_ST_PILL[st[0]]+'">'+esc(st[1])+'</span>'+(x.flags.length?'<small style="color:#B3261E" title="'+esc(x.flags.join(' · '))+'">'+esc(x.flags.join(' · '))+'</small>':'')+'</td></tr>'};
- const tabela='<div class="card"><div class="tblwrap px-wrap"><table class="px-t"><thead><tr><th class="rx-ck"><input type="checkbox" id="px-sel-all"'+(allOn?' checked':'')+' aria-label="Selecionar todos os filtrados" title="Seleciona todos os '+L.length+' filtrados"></th>'+th+'</tr><tr class="px-frow"><th></th>'+tf+'</tr></thead><tbody>'+
+ const tabela='<div class="card"><div class="tblwrap px-wrap"><table class="px-t">'+pxColgroup()+'<thead><tr class="px-grow"><th class="rx-ck"></th>'+pxGrupos()+'</tr><tr><th class="rx-ck"><input type="checkbox" id="px-sel-all"'+(allOn?' checked':'')+' aria-label="Selecionar todos os filtrados" title="Seleciona todos os '+L.length+' filtrados"></th>'+th+'</tr><tr class="px-frow"><th></th>'+tf+'</tr></thead><tbody>'+
   (vis.length?vis.map(row).join(''):'<tr><td colspan="'+(PX_COLS.length+1)+'" class="muted" style="text-align:center;padding:20px">Nenhum produto com esses filtros.</td></tr>')+'</tbody></table></div>'+
   '<p class="muted" style="margin:8px 0 0;font-size:11.5px">'+L.length+' de '+A.length+' produtos'+(L.length>vis.length?' · mostrando '+vis.length+' <button class="btn sm" type="button" id="px-mais">Mostrar mais 300</button>':'')+
   ' · Filtros: texto ("medicube", "ks|jn", "!kit"); números ("&gt;100", "&lt;50", "20-60", "vazio"). Clique no título da coluna para ordenar. % em cinza = padrão.</p></div>';
@@ -3243,6 +3253,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v42','30/10/2026',['Pricing: colunas separadas por linhas e agrupadas por cor, com faixa de título em cima: Produto, Concorrente (azul), Você ajusta (amarelo), Site hoje (cinza), Preço novo (verde) e Situação. Hoje aparece antes do Novo.']],
  ['v41','30/10/2026',['Pricing: tabela mais estreita para caber numa tela. Referência junta fonte, Pix e preço normal; o frete mostra o exibido (e o cheio embaixo quando for diferente); a diferença aparece embaixo do preço novo. Filtro da Referência aceita a fonte (ks, jn) ou valor (>100).']],
  ['v40','30/10/2026',['Novo setor Pricing (no lugar de Campanhas de preço), pelo Guia de precificação v2: tabela com todos os produtos do site, filtro em cada coluna, ordenar clicando no título, seleção em lote.','Referência = menor preço no Pix entre KS (KS) e Jini (JN), só concorrentes conferidos e com estoque. O ERP agora lê o desconto do Pix nas duas lojas.','Preço final em Fortaleza = mercadoria + frete exibido + ICMS 20%, pelo menos 5% abaixo da referência. % abaixo e % do frete exibido editáveis por produto ou em lote; o preço final não muda com o % do frete.','Frete = calculadora do site para Fortaleza pelo peso do Shopify (botão Cotar frete Fortaleza). Imposto de importação fora da conta, com aviso acima de US$ 50.','Sem KS/Jini: maior varejo oficial entre YesStyle, Olive Young Global, Jolse e Sephora Global (US$) + 15%, câmbio do dia. Os preços entram na ficha do produto (clique no nome).','Fluxo: Calcular (OK) → Transmitir ao Shopify. Cada transmissão fica guardada e pode ser revertida.','Precificação virou Concorrentes: ligar e conferir KS/Jini de cada produto. Os preços agora só saem do Pricing.','Catálogo: peso de 1.922 produtos preenchido com o peso já enviado ao Shopify.']],
  ['v39','30/10/2026',['Campanhas de preço: lista de marcas organizada em colunas, em ordem alfabética, com o número de produtos no site e (em verde) quantos têm concorrente válido. Botões Marcar todas e Limpar.']],
