@@ -11,7 +11,7 @@
         if img == blank and c != blank
           for p in c.products limit: 30
             assign t = p.title | downcase
-            if t contains 'kit' or t contains ' set' or t contains 'duo' or t contains 'conjunto' or t contains ' + ' or t contains '1+1' or t contains 'trio'
+            if t contains 'kit' or t contains ' set' or t contains 'duo' or t contains 'conjunto' or t contains ' + ' or t contains '1+1' or t contains 'trio' or t contains 'caixa' or t contains 'itens' or t contains 'pacote' or t contains 'unidades'
               continue
             endif
             if p.featured_image

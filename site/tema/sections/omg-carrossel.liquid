@@ -26,7 +26,7 @@
                 {%- if mostrados >= 3 -%}{%- break -%}{%- endif -%}
                 {%- comment -%} só produto único: pula kits, sets, duos e pacotes {%- endcomment -%}
                 {%- assign t = p.title | downcase -%}
-                {%- if t contains 'kit' or t contains ' set' or t contains 'duo' or t contains 'conjunto' or t contains ' + ' or t contains '1+1' or t contains 'trio' -%}{%- continue -%}{%- endif -%}
+                {%- if t contains 'kit' or t contains ' set' or t contains 'duo' or t contains 'conjunto' or t contains ' + ' or t contains '1+1' or t contains 'trio' or t contains 'caixa' or t contains 'itens' or t contains 'pacote' or t contains 'unidades' -%}{%- continue -%}{%- endif -%}
                 {%- if p.featured_image == blank -%}{%- continue -%}{%- endif -%}
                 <a href="{{ p.url }}" class="omg-car__prod">{{ p.featured_image | image_url: width: 500 | image_tag: loading: 'lazy', alt: p.title }}</a>
                 {%- assign mostrados = mostrados | plus: 1 -%}
