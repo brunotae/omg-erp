@@ -69,6 +69,12 @@ h3{font-size:13px;font-weight:700}
 .brand small{font-size:11px;color:var(--muted)}
 .nav{display:flex;flex-direction:column;gap:2px}
 .nav .grp{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:10px 10px 4px}
+.cm-marcas{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:2px 10px;max-height:240px;overflow:auto;border:1px solid var(--line,#e5e5e5);border-radius:8px;padding:8px}
+.cm-marcas label{display:flex;align-items:center;gap:8px;font-weight:400;padding:5px 6px;border-radius:6px;cursor:pointer;min-width:0}
+.cm-marcas label:hover{background:rgba(0,0,0,.04)}
+.cm-marcas .nm{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cm-marcas .ct{font-size:11.5px;color:var(--muted);white-space:nowrap}
+.cm-marcas .ct b{color:#1D7A4F}
 .nav button.grp{display:flex;align-items:center;gap:6px;width:100%;background:none;border:0;cursor:pointer;font-family:inherit;text-align:left}
 .nav button.grp>span:first-child{flex:1}
 .nav button.grp svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.2;flex:0 0 auto}
@@ -832,7 +838,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v38 · 30/10/2026';
+const VERSAO='v39 · 30/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1590,13 +1596,15 @@ function cmPrevHTML(cm){
   '<p class="muted" style="margin:0 0 8px;font-size:12px">Total da cliente = preço + frete da campanha ('+(cm.frete==='gratis'?'grátis':brl(n(cm.freteValor)))+') + impostos, com ICMS de '+n(cm.icms)+'% (pior caso); embaixo, o mesmo total em SP (17%). Itens em vermelho ficam desmarcados: confira antes de incluir.'+(aplicada?' <b>Campanha no ar: para mudar, reverta primeiro.</b>':'')+'</p>'+
   '<div class="tblwrap"><table><thead><tr><th class="rx-ck">'+(!aplicada&&can()?'<input type="checkbox" id="cm-sel-all" aria-label="Selecionar todos"'+(muda.length&&muda.every(x=>CM.sel.has(x.p.id))?' checked':'')+'>':'')+'</th><th>SKU</th><th>Produto</th><th class="r">Concorrente</th><th class="r">Hoje</th><th class="r">Novo</th><th class="r">Dif.</th><th class="r">Total da cliente</th></tr></thead><tbody>'+L.map(row).join('')+'</tbody></table></div></div>'}
 function cmForm(id){
- const cm=id?{...cmGet(id)}:CM_DEF(),marcas=[...new Set(prLista().map(p=>p.marca).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+ const cm=id?{...cmGet(id)}:CM_DEF(),marcas=[...new Set(prLista().map(p=>p.marca).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR',{sensitivity:'base'}));
  const inp=(k,l,t,v,h,x)=>'<div class="f'+(x||'')+'"><label for="cmf-'+k+'">'+l+'</label><input id="cmf-'+k+'" name="'+k+'" type="'+t+'" value="'+esc(v==null?'':v)+'" data-1c="off"'+(t==='number'?' step="0.01"':'')+'>'+(h?'<span class="hint">'+h+'</span>':'')+'</div>';
  const sel=(k,l,ops,v,h)=>'<div class="f"><label for="cmf-'+k+'">'+l+'</label><select id="cmf-'+k+'" name="'+k+'" data-1c="off">'+ops.map(([a,b])=>'<option value="'+a+'"'+(String(v)===String(a)?' selected':'')+'>'+b+'</option>').join('')+'</select>'+(h?'<span class="hint">'+h+'</span>':'')+'</div>';
  shell(id?'Editar campanha':'Nova campanha',
   '<div class="sec"><span class="label">Campanha</span>'+inp('nome','Nome','text',cm.nome,'Ex.: Frete grátis de novembro',' full')+inp('inicio','Início','date',cm.inicio)+inp('fim','Fim','date',cm.fim,'O ERP avisa no dia de aplicar e de reverter.')+'</div>'+
-  '<div class="sec"><span class="label">Quais produtos</span><div class="f full"><label>Marcas <span class="hint">(nenhuma marcada = todas)</span></label><div style="display:flex;flex-wrap:wrap;gap:4px 12px;max-height:150px;overflow:auto;border:1px solid var(--line,#e5e5e5);border-radius:8px;padding:8px">'+
-   marcas.map(m=>'<label style="font-weight:400;display:flex;gap:4px;align-items:center"><input type="checkbox" name="marcas" value="'+esc(m)+'"'+(cm.marcas.includes(m)?' checked':'')+'>'+esc(m)+'</label>').join('')+'</div></div>'+
+  '<div class="sec"><span class="label">Quais produtos</span><div class="f full"><label>Marcas <span class="hint">(nenhuma marcada = todas) · número de produtos no site e quantos têm concorrente válido</span></label>'+
+   '<div style="display:flex;gap:6px;margin:2px 0 6px"><button class="btn sm" type="button" id="cmf-todas">Marcar todas</button><button class="btn sm" type="button" id="cmf-nenhuma">Limpar</button></div>'+
+   '<div class="cm-marcas">'+marcas.map(m=>{const ps=prLista().filter(p=>p.marca===m),cc=ps.filter(p=>cmConc(p,{soConferidos:true}).length).length;
+    return '<label><input type="checkbox" name="marcas" value="'+esc(m)+'"'+(cm.marcas.includes(m)?' checked':'')+'><span class="nm">'+esc(m)+'</span><span class="ct num">'+ps.length+(cc?' · <b>'+cc+'</b>':'')+'</span></label>'}).join('')+'</div></div>'+
    inp('skus','SKUs (opcional)','text',cm.skus,'Separados por vírgula. Aceita começo do código: MB0032 pega todos que começam assim.',' full')+inp('pmin','Preço de hoje a partir de (R$)','number',cm.pmin)+inp('pmax','Preço de hoje até (R$)','number',cm.pmax)+'</div>'+
   '<div class="sec"><span class="label">Regra</span>'+inp('desc','Total da cliente abaixo do concorrente','number',cm.desc)+sel('descTipo','Em',[['%','%'],['R$','R$']],cm.descTipo)+
    inp('icms','ICMS de referência (%)','number',cm.icms,'Use o maior ICMS dos estados (pior caso). Assim em nenhum estado a cliente paga mais que o limite.')+
@@ -1643,6 +1651,7 @@ document.addEventListener('change',e=>{const t=e.target;
  if(t.id==='cm-sel-all'){const cm=cmGet(CM.prev);if(!cm)return;cmLinhas(cm).filter(x=>x.muda).forEach(x=>{t.checked?CM.sel.add(x.p.id):CM.sel.delete(x.p.id)});render();return}});
 document.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;
  if(t.id==='cm-nova'){cmForm(null);return}
+ if(t.id==='cmf-todas'||t.id==='cmf-nenhuma'){document.querySelectorAll('#mform input[name=marcas]').forEach(i=>i.checked=t.id==='cmf-todas');return}
  if(t.dataset.cmedit){cmForm(t.dataset.cmedit);return}
  if(t.dataset.cmprev){CM.prev=t.dataset.cmprev;CM.selDe=null;render();window.scrollTo(0,0);return}
  if(t.id==='cm-fechar'){CM.prev=null;render();return}
@@ -3110,6 +3119,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v39','30/10/2026',['Campanhas de preço: lista de marcas organizada em colunas, em ordem alfabética, com o número de produtos no site e (em verde) quantos têm concorrente válido. Botões Marcar todas e Limpar.']],
  ['v38','30/10/2026',['Menu: clique no nome de um grupo (Operação, Dinheiro, Estoque e compras…) para recolher ou abrir. O ERP lembra neste aparelho. Grupo recolhido mostra a soma dos avisos; a tela aberta sempre aparece.']],
  ['v37','30/10/2026',['Nova tela Campanhas de preço (menu Estoque e compras): escolha marcas, SKUs, faixa de preço e período; o preço é calculado de trás para frente a partir do total que a cliente paga (com frete e impostos), abaixo do concorrente válido.','Frete da campanha: grátis ou fixo. ICMS de referência pelo pior caso (20%), para nenhum estado passar do limite.','Prévia com SKU, concorrente (link), preço de hoje, novo e total da cliente; trava contra quedas grandes; imprimir; aplicar só os selecionados; reverter volta os preços de antes.','Medicube: 43 concorrentes da KS e da Jini conferidos e ligados aos produtos.']],
  ['v36','30/10/2026',['Raio-X: botão Imprimir lista no quadro de cada marca. Abre um relatório simples em aba nova (imprimir ou salvar em PDF).','Exportar listas: botão Desmarcar todas nas marcas hypadas.']],
