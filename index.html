@@ -1314,10 +1314,12 @@ function prTok(s){return (String(s||'').toLowerCase().normalize('NFD').replace(/
 function prTam(s){const t=String(s||'').toLowerCase().replace(',','.');const m=t.match(/(\d+(?:\.\d+)?)\s*(ml|g)\b/);const u=t.match(/(\d+)\s*(?:un\b|unid|unidades|pcs|sheets|folhas|ea\b)/)||t.match(/caixa com (\d+)/)||t.match(/x\s?(\d+)\s?un/);
  return {q:m?parseFloat(m[1]):null,un:u?parseInt(u[1]):null}}
 function prRefs(p){return PR.ref.filter(r=>r.produto_id===p.id)}
-function prPeso(p,concs){if(has(p.pesoG)&&p.pesoG>0)return {g:p.pesoG,de:''};const c=(concs||[]).find(c=>c.peso_g>0);return c?{g:c.peso_g,de:'peso da '+PR_LOJA[c.loja]}:null}
+function prPeso(p,concs){if(has(p.pesoG)&&p.pesoG>0)return {g:p.pesoG,de:''};const c=(concs||[]).find(c=>c.peso_g>0);if(c)return {g:c.peso_g,de:'peso da '+PR_LOJA[c.loja]};
+ // estimativa pelo tamanho (média dos produtos com peso cadastrado: 1,3 × ml/g + 60 g de frasco e caixa)
+ const t=prTam(p.nome);if(t.q&&t.q<=1000&&!(t.un>1))return {g:Math.round(1.3*t.q+60),de:'estimado pelo tamanho',est:true};return null}
 function prCalc(p){
  const C=prCfg(),refs=prRefs(p).filter(r=>r.status==='ok'),cat=PR.catUrl||new Map();
- const concs=refs.filter(r=>r.loja!=='exterior'&&r.url).map(r=>{const c=cat.get(r.url);return {loja:r.loja,url:r.url,refId:r.id,...(c||{}),preco:c&&c.ativo!==false?Number(c.preco):null}});
+ const concs=refs.filter(r=>r.loja!=='exterior'&&r.url).map(r=>{const c=cat.get(r.url);return {loja:r.loja,url:r.url,refId:r.id,auto:r.quem==='automático',...(c||{}),preco:c&&c.ativo!==false?Number(c.preco):null}});
  const comPreco=concs.filter(c=>c.preco>0).sort((a,b)=>a.preco-b.preco);
  const ext=refs.find(r=>r.loja==='exterior'&&Number(r.usd)>0);
  const o={concs,ext,atual:has(p.preco)?p.preco:null,linhas:[]};
@@ -1371,11 +1373,11 @@ function prLinhas(){
  L.forEach(x=>{x.s=(x.c.tipo==='sem'||x.c.tipo==='ext')&&!x.c.concs.length?prSugestoes(x.p):[]});
  return L;
 }
-const PR_F=[['alerta','Preço fora da regra'],['conferir','Conferir concorrente'],['conc','Com concorrente'],['ext','Preço do exterior'],['erro','Falta dado'],['sem','Sem referência'],['todos','Todos']];
-const prNoFiltro=(x,f)=>f==='todos'||(f==='alerta'?x.c.alerta:f==='conferir'?x.s.length>0:f==='conc'?x.c.tipo==='conc':f==='ext'?x.c.tipo==='ext':f==='erro'?!!x.c.erro:f==='sem'?x.c.tipo==='sem'&&!x.s.length:false);
+const PR_F=[['alerta','Preço fora da regra'],['conferir','Conferir concorrente'],['conc','Com concorrente'],['auto','Ligados sozinhos'],['ext','Preço do exterior'],['erro','Falta dado'],['sem','Sem referência'],['todos','Todos']];
+const prNoFiltro=(x,f)=>f==='todos'||(f==='alerta'?x.c.alerta:f==='conferir'?x.s.length>0:f==='conc'?x.c.tipo==='conc':f==='auto'?x.c.concs.some(k=>k.auto):f==='ext'?x.c.tipo==='ext':f==='erro'?!!x.c.erro:f==='sem'?x.c.tipo==='sem'&&!x.s.length:false);
 const prDif=c=>!has(c.dif)?'<span class="muted">—</span>':'<span class="pill '+(c.alerta?(c.dif>0?'p-bad':'p-warn'):'p-ok')+'">'+(c.dif>0?'+':'')+c.dif.toFixed(1).replace('.',',')+'%</span>';
 function prRefTxt(c,s){
- if(c.conc)return '<b>'+brl(c.conc.preco)+'</b><small>'+PR_LOJA[c.conc.loja]+(c.conc.esgotado?' · esgotado':'')+(c.conc.preco_ant&&c.conc.preco_ant!=c.conc.preco?' · era '+brl(Number(c.conc.preco_ant)):'')+'</small>';
+ if(c.conc)return '<b>'+brl(c.conc.preco)+'</b><small>'+PR_LOJA[c.conc.loja]+(c.conc.auto?' · automático':'')+(c.conc.esgotado?' · esgotado':'')+(c.conc.preco_ant&&c.conc.preco_ant!=c.conc.preco?' · era '+brl(Number(c.conc.preco_ant)):'')+'</small>';
  if(c.concs.length)return '<span class="muted">aguardando leitura</span>';
  if(c.ext)return '<b>US$ '+Number(c.ext.usd).toFixed(2)+'</b><small>Exterior</small>';
  if(s.length)return '<span class="pill p-info">'+s.length+' possível'+(s.length>1?'is':'')+'</span>';
@@ -1394,12 +1396,12 @@ VIEWFN.precos=()=>{
  const ult=PR.cat.reduce((m,c)=>c.lido_em>m?c.lido_em:m,'');
  const cnt=k=>A.filter(x=>prNoFiltro(x,k)).length;
  return '<div class="page wide"><div class="col">'+head('Precificação','Preço sugerido pela regra do Guia de precificação OMG. Nada muda no site sem você aprovar. Concorrentes lidos sozinhos toda segunda de manhã.',
-  '<button class="btn sm" type="button" id="pr-regras">Regras</button> <button class="btn sm" type="button" id="pr-recarregar">Recarregar</button>'+(can()?' <button class="btn pri sm" type="button" id="pr-aprovar"'+(aprov.length&&!PR.busy?'':' disabled')+'>'+(PR.busy?'Aprovando…':'Aprovar selecionados ('+aprov.length+')')+'</button>':''))+
+  '<button class="btn sm" type="button" id="pr-regras">Regras</button> <button class="btn sm" type="button" id="pr-recarregar">Recarregar</button>'+(can()&&PR.loaded?' <button class="btn sm" type="button" id="pr-auto" title="Liga ao concorrente quando marca, nome, tipo e tamanho batem">Ligar os certeiros</button>':'')+(can()?' <button class="btn pri sm" type="button" id="pr-aprovar"'+(aprov.length&&!PR.busy?'':' disabled')+'>'+(PR.busy?'Aprovando…':'Aprovar selecionados ('+aprov.length+')')+'</button>':''))+
  '<p class="muted" style="margin:-6px 0 0;font-size:11.5px">'+(ult?'Concorrentes lidos em '+new Date(ult).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})+' · KS '+lidoKS.length+' produtos · Jini '+lidoJ.length+' produtos':'Concorrentes ainda não lidos')+' · desconto '+n(C.desc)+'% · exterior +'+n(C.ext)+'% · ICMS '+n(C.icms)+'% · US$ '+n(C.usd).toFixed(2)+' · frete que fica no frete '+n(C.freteParte)+'% · alerta a partir de '+n(C.alerta)+'%</p>'+
  '<div class="chips">'+PR_F.map(([k,l])=>'<button type="button" class="chip'+(PR.f===k?' on':'')+'" data-prf="'+k+'">'+l+(PR.loaded?' · '+cnt(k):'')+'</button>').join('')+
  '<select id="pr-marca" class="chip" aria-label="Marca" data-1c="off"><option value="">Todas as marcas</option>'+marcas.map(m=>'<option'+(m===PR.marca?' selected':'')+'>'+esc(m)+'</option>').join('')+'</select></div>'+
  '<div class="card">'+(!PR.loaded?'<p class="muted">Carregando…</p>':F.length?'<div class="tblwrap"><table><thead><tr><th class="rx-ck"><input type="checkbox" id="pr-sel-all" aria-label="Selecionar todos com preço sugerido"'+(vis.some(x=>x.c.site>0)&&vis.filter(x=>x.c.site>0).every(x=>PR.sel.has(x.p.id))?' checked':'')+'></th><th>Produto</th><th class="r">Referência</th><th class="r">Sugerido</th><th class="r">No site</th><th class="r">Diferença</th><th></th></tr></thead><tbody>'+
-  vis.map(({p,c,s})=>'<tr data-pr="'+esc(p.id)+'" style="cursor:pointer"><td class="rx-ck">'+(c.site>0?'<input type="checkbox" data-prsel="'+esc(p.id)+'" aria-label="Selecionar"'+(PR.sel.has(p.id)?' checked':'')+'>':'')+'</td><td><b>'+esc(p.nome)+'</b><small>'+esc(p.marca||'')+' · '+esc(p.sku)+(c.peso?' · '+Math.round(c.peso.g)+' g':' · sem peso')+'</small></td><td class="r num">'+prRefTxt(c,s)+'</td><td class="r num">'+(c.site>0?'<b>'+brl(c.site)+'</b><small>'+esc(c.regra)+'</small>':c.erro?'<span class="pill p-warn" title="'+esc(c.erro)+'">'+esc(c.erro.split(':')[0])+'</span>':'<span class="muted">—</span>')+'</td><td class="r num">'+brl(c.atual)+'</td><td class="r">'+prDif(c)+'</td><td class="r">'+(can()&&c.site>0&&c.site!==c.atual?'<button class="btn sm" type="button" data-prok="'+esc(p.id)+'">Aprovar</button>':'')+'</td></tr>').join('')+'</tbody></table></div>'+
+  vis.map(({p,c,s})=>'<tr data-pr="'+esc(p.id)+'" style="cursor:pointer"><td class="rx-ck">'+(c.site>0?'<input type="checkbox" data-prsel="'+esc(p.id)+'" aria-label="Selecionar"'+(PR.sel.has(p.id)?' checked':'')+'>':'')+'</td><td><b>'+esc(p.nome)+'</b><small>'+esc(p.marca||'')+' · '+esc(p.sku)+(c.peso?' · '+Math.round(c.peso.g)+' g'+(c.peso.est?' (estimado)':''):' · sem peso')+'</small></td><td class="r num">'+prRefTxt(c,s)+'</td><td class="r num">'+(c.site>0?'<b>'+brl(c.site)+'</b><small>'+esc(c.regra)+'</small>':c.erro?'<span class="pill p-warn" title="'+esc(c.erro)+'">'+esc(c.erro.split(':')[0])+'</span>':'<span class="muted">—</span>')+'</td><td class="r num">'+brl(c.atual)+'</td><td class="r">'+prDif(c)+'</td><td class="r">'+(can()&&c.site>0&&c.site!==c.atual?'<button class="btn sm" type="button" data-prok="'+esc(p.id)+'">Aprovar</button>':'')+'</td></tr>').join('')+'</tbody></table></div>'+
   (F.length>vis.length?'<p style="text-align:center;margin:10px 0 0"><button class="btn sm" type="button" id="pr-mais">Mostrar mais ('+(F.length-vis.length)+')</button></p>':'')
   :empty('Nada aqui',PR.f==='alerta'?'Nenhum preço fora da regra. Ligue concorrentes em "Conferir concorrente" ou "Sem referência".':'Troque o filtro acima.'))+'</div>'+
  (PR.hist.length?'<div class="card"><div class="card-h"><h2>Últimos preços aprovados</h2></div><div class="tblwrap"><table><thead><tr><th>Quando</th><th>Produto</th><th class="r">Antes</th><th class="r">Depois</th><th>Regra</th><th>Quem</th></tr></thead><tbody>'+
@@ -1415,7 +1417,7 @@ function prAbrir(id){
   '<p style="grid-column:1/-1;margin:0">No site hoje: <b>'+brl(c.atual)+'</b>'+(c.site>0?' · sugerido <b>'+brl(c.site)+'</b> '+prDif(c):'')+'</p>'+
   (c.tipo==='conc'&&c.frete&&c.site>0?'<p class="muted" style="grid-column:1/-1;margin:0;font-size:11.5px">Conferência: em '+c.frete.uf+' (capital mais cara do grupo) a cliente paga cerca de <b>'+brl(prFinal(c))+'</b> com frete e impostos. Concorrente: '+brl(c.conc.preco)+'.</p>':'')+
   (can()&&c.site>0&&c.site!==c.atual?'<div style="grid-column:1/-1"><button class="btn pri sm" type="button" data-prok="'+esc(p.id)+'">Aprovar '+brl(c.site)+' no site</button></div>':'')+'</div>'+
-  '<div class="sec"><span class="label">Concorrentes ligados</span><div style="grid-column:1/-1">'+(c.concs.length?c.concs.map(x=>'<div class="pr-ref"><span><b>'+PR_LOJA[x.loja]+'</b> · '+(x.preco>0?brl(x.preco)+(x.esgotado?' (esgotado)':''):'<span class="muted">aguardando leitura</span>')+' · <a href="'+esc(x.url)+'" target="_blank" rel="noopener">'+esc(x.nome||x.url.replace(/^https?:\/\//,''))+'</a></span>'+(can()?'<button class="btn sm" type="button" data-prdes="'+esc(x.refId)+'">Desligar</button>':'')+'</div>').join(''):'<p class="muted" style="margin:0">Nenhum.</p>')+'</div>'+
+  '<div class="sec"><span class="label">Concorrentes ligados</span><div style="grid-column:1/-1">'+(c.concs.length?c.concs.map(x=>'<div class="pr-ref"><span><b>'+PR_LOJA[x.loja]+'</b>'+(x.auto?' <span class="pill p-info">automático</span>':'')+' · '+(x.preco>0?brl(x.preco)+(x.esgotado?' (esgotado)':''):'<span class="muted">aguardando leitura</span>')+' · <a href="'+esc(x.url)+'" target="_blank" rel="noopener">'+esc(x.nome||x.url.replace(/^https?:\/\//,''))+'</a></span>'+(can()?'<span>'+(x.auto?'<button class="btn sm pri" type="button" data-prconf="'+esc(x.refId)+'">Confere</button> ':'')+'<button class="btn sm" type="button" data-prdes="'+esc(x.refId)+'">Desligar</button></span>':'')+'</div>').join(''):'<p class="muted" style="margin:0">Nenhum.</p>')+'</div>'+
   (s.length?'<span class="label" style="margin-top:6px">Parecidos na KS e na Jini · confira o tamanho</span><div style="grid-column:1/-1">'+s.map(x=>'<div class="pr-ref"><span><b>'+PR_LOJA[x.loja]+'</b> · '+brl(Number(x.preco))+(x.esgotado?' (esgotado)':'')+' · <a href="'+esc(x.url)+'" target="_blank" rel="noopener">'+esc(x.nome)+'</a></span>'+(can()?'<span><button class="btn sm pri" type="button" data-prliga="'+esc(p.id)+'" data-url="'+esc(x.url)+'" data-loja="'+esc(x.loja)+'">É este</button> <button class="btn sm" type="button" data-prrej="'+esc(p.id)+'" data-url="'+esc(x.url)+'" data-loja="'+esc(x.loja)+'">Não é</button></span>':'')+'</div>').join('')+'</div>':'')+
   (can()?'<div class="f full"><label for="pr-url">Colar link da KS ou da Jini</label><div style="display:flex;gap:6px"><input id="pr-url" type="url" placeholder="https://jinicosmeticos.com.br/produtos/…" data-1c="off"><button class="btn sm" type="button" data-prcola="'+esc(p.id)+'">Ligar</button></div><span class="hint">O preço é lido na hora.</span></div>':'')+'</div>'+
   '<div class="sec"><span class="label">Sem concorrente: preço no exterior</span>'+
@@ -1442,6 +1444,16 @@ async function prLigar(pid,url,loja,status){
  if((status||'ok')==='ok'&&!(PR.catUrl&&PR.catUrl.get(url))){try{toast('Lendo o preço…');await chamarShop({acao:'conc_ler',urls:[url]})}catch(e){toast('Ligado. O preço entra na próxima leitura ('+(e.message||'erro')+')')}}
  await loadPrecos();prAbrir(pid);toast(status==='rejeitado'?'Marcado como diferente':'Concorrente ligado');
 }
+function prCerteiros(){const out=[];PR.sug=null;
+ for(const p of prLista()){if(prRefs(p).length)continue;const sg=prSugestoes(p);if(!sg.length)continue;
+  const porLoja={};sg.forEach(x=>{(porLoja[x.loja]=porLoja[x.loja]||[]).push(x)});
+  for(const [loja,L] of Object.entries(porLoja)){const t=L[0],ta=prTam(p.nome),tb=prTam(t.nome);
+   if(t.score>=1.0&&ta.q&&tb.q&&(L.length===1||L[1].score<t.score-0.15))out.push({produto_id:p.id,loja,url:t.url,status:'ok',quem:'automático'})}}
+ return out}
+async function prLigarCerteiros(){const L=prCerteiros();if(!L.length){toast('Nenhuma ligação certeira nova');return}
+ if(!confirm('Ligar sozinho '+L.length+' produtos ao concorrente quando nome, tipo e tamanho batem? Ficam marcados como "automático" para você conferir. Nenhum preço muda no site.'))return;
+ let err=0;for(let i=0;i<L.length;i+=200){const {error}=await sb.from('precos_ref').insert(L.slice(i,i+200));if(error)err++}
+ toast(err?'Ligados com erro em parte. Tente de novo.':L.length+' produtos ligados');await loadPrecos()}
 async function prAprovar(ids){
  const L=ids.map(id=>S.data.produtos.find(p=>p.id===id)).filter(Boolean).map(p=>({p,c:prCalc(p)})).filter(x=>x.c.site>0&&x.c.site!==x.c.atual);
  if(!L.length){toast('Nada para aprovar');return}
@@ -1463,11 +1475,13 @@ document.addEventListener('click',async e=>{const t=e.target.closest('button,a,i
  if(t.id==='pr-mais'){PR.lim+=200;render();return}
  if(t.id==='pr-recarregar'){PR.loaded=false;loadPrecos();toast('Recarregando…');return}
  if(t.id==='pr-regras'){prRegras();return}
+ if(t.id==='pr-auto'){prLigarCerteiros();return}
  if(t.id==='pr-aprovar'){prAprovar([...PR.sel]);return}
  if(t.dataset.prok){e.stopPropagation();prAprovar([t.dataset.prok]);return}
  if(t.dataset.prliga){prLigar(t.dataset.prliga,t.dataset.url,t.dataset.loja);return}
  if(t.dataset.prrej){prLigar(t.dataset.prrej,t.dataset.url,t.dataset.loja,'rejeitado');return}
  if(t.dataset.prcola){prLigar(t.dataset.prcola,($('#pr-url')||{}).value);return}
+ if(t.dataset.prconf){const r=PR.ref.find(x=>x.id===t.dataset.prconf);const {error}=await sb.from('precos_ref').update({quem:S.email||'conferido'}).eq('id',t.dataset.prconf);if(error){toast(errMsg(error));return}await loadPrecos();if(r)prAbrir(r.produto_id);toast('Conferido');return}
  if(t.dataset.prdes){const r=PR.ref.find(x=>x.id===t.dataset.prdes);const {error}=await sb.from('precos_ref').delete().eq('id',t.dataset.prdes);if(error){toast(errMsg(error));return}await loadPrecos();if(r)prAbrir(r.produto_id);return}
  if(t.dataset.prext){const pid=t.dataset.prext,u=parseFloat(($('#pr-usd')||{}).value),link=(($('#pr-extu')||{}).value||'').trim();
   await sb.from('precos_ref').delete().eq('produto_id',pid).eq('loja','exterior');
@@ -2916,7 +2930,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
- ['v34','30/10/2026',['Nova tela Precificação (em Estoque e compras): preço sugerido pela regra do Guia de precificação para cada produto do site, com a conta aberta.','Concorrentes válidos (KS e Jini) lidos sozinhos toda segunda de manhã. O ERP sugere o produto parecido; você confirma com "É este" ou "Não é", ou cola o link.','Sem concorrente: informe o preço no exterior em US$ e o ERP aplica +20%.','Alerta quando o preço do site sai da regra mais que 3%. Aprovar muda o preço no site, um ou vários de uma vez, e guarda o histórico.','Botão Regras: desconto, ICMS, câmbio, capitais de referência e quanto do frete passa para o preço.']],
+ ['v34','30/10/2026',['Ligar os certeiros: o ERP liga sozinho o concorrente quando marca, nome, tipo e tamanho batem (filtro Ligados sozinhos, botão Confere).','Sem peso cadastrado: o frete usa um peso estimado pelo tamanho (1,3 × ml + 60 g), marcado como estimado.','Nova tela Precificação (em Estoque e compras): preço sugerido pela regra do Guia de precificação para cada produto do site, com a conta aberta.','Concorrentes válidos (KS e Jini) lidos sozinhos toda segunda de manhã. O ERP sugere o produto parecido; você confirma com "É este" ou "Não é", ou cola o link.','Sem concorrente: informe o preço no exterior em US$ e o ERP aplica +20%.','Alerta quando o preço do site sai da regra mais que 3%. Aprovar muda o preço no site, um ou vários de uma vez, e guarda o histórico.','Botão Regras: desconto, ICMS, câmbio, capitais de referência e quanto do frete passa para o preço.']],
  ['v33','29/10/2026',['Regra 8: o relatório em PDF, que abre em aba nova, tem o botão ✕ Fechar aba no topo.']],
  ['v32','29/10/2026',['Exportar listas: marcas hypadas ★ (toque nas marcas para marcar; vale para toda a equipe). Começa com COSRX, Anua, SKIN1004, Beauty of Joseon, medicube e TIRTIR.','Filtros novos: só as hypadas, separar por categoria (Rosto, Protetor solar, Maquiagem, Cabelo, Corpo e banho) e ordem Hypadas primeiro. Vale para a lista, o PDF e a planilha.']],
  ['v31','29/10/2026',['Raio-X mais compacto: letras, números e quadros menores, cabe muito mais na tela.']],
