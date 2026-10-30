@@ -5,7 +5,7 @@
   Dados vêm da seção sections/omg-lista.liquid via Section Rendering API.
 {%- endcomment -%}
 <style>
-  .omg-mais{max-width:var(--page-width,1200px);margin:0 auto;padding:8px var(--page-margin,16px) 8px}
+  .omg-mais{max-width:var(--page-width,1200px);margin:0 auto;padding:8px max(16px,var(--page-margin,16px))}
   .omg-mais__box{border:1px solid #E6D9DF;border-radius:16px;padding:18px;margin:18px 0;background:#fff}
   .omg-mais__tit{font-size:18px;font-weight:700;color:#4A2638;margin:0 0 4px}
   .omg-mais__sub{font-size:13px;color:#7a6470;margin:0 0 14px}
@@ -32,7 +32,7 @@
   .omg-rot__passo.is-atual img{outline:2px solid #D63A5E;outline-offset:-2px}
   .omg-rot__atual{font-size:12px;color:#D63A5E;font-weight:700}
   .omg-pp{position:relative}
-  .omg-marca{position:absolute;right:0;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#7a6470;text-decoration:none;border:1px solid #E6D9DF;border-radius:999px;padding:4px 10px;background:#fff;max-width:45%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .omg-marca{position:absolute!important;right:0;left:auto!important;width:auto!important;display:inline-block!important;margin:0!important;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#7a6470;text-decoration:none;border:1px solid #E6D9DF;border-radius:999px;padding:4px 10px;background:#fff;max-width:45%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .omg-marca:hover{color:#D63A5E;border-color:#D63A5E}
   .omg-cm{margin:12px 0 4px;padding:12px;border-radius:12px;background:#FDEEF3}
   .omg-cm + .omg-cm{margin-top:8px}
@@ -142,7 +142,7 @@
     const meu = passo(ATUAL);
     const todos = (await daMarca(ATUAL.m)).filter(p => p.a && p.p > 0 && p.id !== ATUAL.id);
     const porPasso = {};
-    for (const p of todos) { const k = passo(p); if (k && k !== meu && !porPasso[k]) porPasso[k] = p; }
+    for (const so1 of [true, false]) for (const p of todos) { if (so1 && p.n !== 1) continue; const k = passo(p); if (k && k !== meu && !porPasso[k]) porPasso[k] = p; }
     const achados = Object.keys(porPasso).length;
     if (achados < 2) return;
     const passos = [1, 2, 3, 4, 5].filter(k => porPasso[k] || k === meu);
