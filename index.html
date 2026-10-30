@@ -2926,7 +2926,7 @@ document.addEventListener('click',e=>{
  if(t.dataset.ff){S.f.fin=t.dataset.ff;render();return}
  if(t.matches('[data-lk-novoinf]')){const f=$('#mform');const d={};if(f)for(const el of f.elements){if(!el.name)continue;if(el.type==='checkbox')d[el.name]=el.checked;else if(el.value!=='')d[el.name]=el.type==='number'?parseFloat(el.value):el.value}
   window.LK_RASCUNHO={ativo:true,...d};openForm('influenciadores');return}
- if(t.dataset.new){openForm(t.dataset.new);return}
+ if(t.dataset.new){if(t.dataset.new==='influenciadores')window.LK_RASCUNHO=null;openForm(t.dataset.new);return}
  if(t.dataset.edit&&!t.closest('#modal-root')){openForm(t.dataset.edit,t.dataset.id);return}
  if(t.id==='backup'){doBackup();return}
  if(t.id==='sync-shop'){sincronizarTudo();return}
