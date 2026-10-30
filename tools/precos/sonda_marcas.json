@@ -1,0 +1,670 @@
+{
+ "COSRX": [
+  {
+   "dominio": "www.cosrx.com",
+   "final": "https://www.cosrx.com/products.json?limit=3",
+   "ok": true,
+   "exemplo": [
+    [
+     "The Blue Peptide Hydra Plump Trio",
+     "69.70"
+    ],
+    [
+     "The Blue Peptide Hydra Boost Duo",
+     "48.60"
+    ],
+    [
+     "($50+ Free Gift) Advanced Snail Mucin Glass Glow Hydrogel Mask_1ea",
+     "6.99"
+    ]
+   ],
+   "loja": "COSRX Official",
+   "moeda": "USD",
+   "n": 158
+  },
+  {
+   "dominio": "cosrx.com",
+   "final": "https://cosrx.com/products.json?limit=3",
+   "ok": true,
+   "exemplo": [
+    [
+     "The Blue Peptide Hydra Plump Trio",
+     "69.70"
+    ],
+    [
+     "The Blue Peptide Hydra Boost Duo",
+     "48.60"
+    ],
+    [
+     "($50+ Free Gift) Advanced Snail Mucin Glass Glow Hydrogel Mask_1ea",
+     "6.99"
+    ]
+   ],
+   "loja": "COSRX Official",
+   "moeda": "USD",
+   "n": 158
+  },
+  {
+   "dominio": "us.cosrx.com",
+   "ok": false,
+   "erro": "<urlopen error [SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1081)>"
+  },
+  {
+   "dominio": "cosrx.us",
+   "ok": false,
+   "erro": "Expecting value: line 1 column 1 (char 0)"
+  }
+ ],
+ "Anua": [
+  {
+   "dominio": "anua.us",
+   "final": "https://anua.us/products.json?limit=3",
+   "ok": true,
+   "exemplo": [
+    [
+     "Peach 70 Niacin Brightening Collagen Mask",
+     "22.00"
+    ],
+    [
+     "Fall into Deep Hydration Set",
+     "124.00"
+    ],
+    [
+     "Barrier Reboot Milky Foam Toner",
+     "19.00"
+    ]
+   ],
+   "loja": "Anua US",
+   "moeda": "USD",
+   "n": 101
+  },
+  {
+   "dominio": "www.anua.us",
+   "final": "https://www.anua.us/products.json?limit=3",
+   "ok": true,
+   "exemplo": [
+    [
+     "Peach 70 Niacin Brightening Collagen Mask",
+     "22.00"
+    ],
+    [
+     "Fall into Deep Hydration Set",
+     "124.00"
+    ],
+    [
+     "Barrier Reboot Milky Foam Toner",
+     "19.00"
+    ]
+   ],
+   "loja": "Anua US",
+   "moeda": "USD",
+   "n": 101
+  },
+  {
+   "dominio": "anuaglobal.com",
+   "ok": false,
+   "erro": "<urlopen error [Errno -2] Name or service not known>"
+  },
+  {
+   "dominio": "anua.global",
+   "final": "https://anua.global/products.json?limit=3",
+   "ok": true,
+   "exemplo": [
+    [
+     "Peach 70 Niacin Brightening Collagen Mask",
+     "22.00"
+    ],
+    [
+     "Fall into Deep Hydration Set",
+     "124.00"
+    ],
+    [
+     "Barrier Reboot Milky Foam Toner",
+     "19.00"
+    ]
+   ],
+   "loja": "Anua US",
+   "moeda": "USD",
+   "n": 101
+  },
+  {
+   "dominio": "www.anua.com",
+   "final": "https://www.anua.com/products.json?limit=3",
+   "ok": true,
+   "exemplo": [
+    [
+     "Peach 70 Niacin Brightening Collagen Mask",
+     "22.00"
+    ],
+    [
+     "Fall into Deep Hydration Set",
+     "124.00"
+    ],
+    [
+     "Barrier Reboot Milky Foam Toner",
+     "19.00"
+    ]
+   ],
+   "loja": "Anua US",
+   "moeda": "USD",
+   "n": 101
+  },
+  {
+   "dominio": "anuausa.com",
+   "ok": false,
+   "erro": "<urlopen error [Errno -2] Name or service not known>"
+  }
+ ],
+ "SKIN1004": [
+  {
+   "dominio": "skin1004.com",
+   "final": "https://skin1004.com/products.json?limit=3",
+   "ok": true,
+   "exemplo": [
+    [
+     "Spot Cover Patch Set",
+     "17.00"
+    ],
+    [
+     "Poremizing Glow Wrapping Mask",
+     "18.00"
+    ]
+   ],
+   "loja": "SKIN1004",
+   "moeda": "USD",
+   "n": 86
+  },
+  {
+   "dominio": "www.skin1004.com",
+   "final": "https://www.skin1004.com/products.json?limit=3",
+   "ok": true,
+   "exemplo": [
+    [
+     "Spot Cover Patch Set",
+     "17.00"
+    ],
+    [
+     "Poremizing Glow Wrapping Mask",
+     "18.00"
+    ]
+   ],
+   "loja": "SKIN1004",
+   "moeda": "USD",
+   "n": 86
+  },
+  {
+   "dominio": "us.skin1004.com",
+   "ok": false,
+   "erro": "<urlopen error [Errno -2] Name or service not known>"
+  },
+  {
+   "dominio": "skin1004.us",
+   "ok": false,
+   "erro": "Expecting value: line 1 column 1 (char 0)"
+  },
+  {
+   "dominio": "skin1004global.com",
+   "ok": false,
+   "erro": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certif"
+  }
+ ],
+ "Beauty of Joseon": [
+  {
+   "dominio": "beautyofjoseon.com",
+   "final": "https://beautyofjoseon.com/products.json?limit=3",
+   "ok": true,
+   "exemplo": [
+    [
+     "Relief Sun : Rice + Niacinamide (SPF50+ PA++++)",
+     "18.00"
+    ],
+    [
+     "Revive Ritual Eye Duo",
+     "27.75"
+    ],
+    [
+     "Daily SPF + Double Cleanse Set",
+     "96.00"
+    ]
+   ],
+   "loja": "Beauty of Joseon",
+   "moeda": "USD",
+   "n": 63
+  },
+  {
+   "dominio": "www.beautyofjoseon.com",
+   "final": "https://www.beautyofjoseon.com/products.json?limit=3",
+   "ok": true,
+   "exemplo": [
+    [
+     "Relief Sun : Rice + Niacinamide (SPF50+ PA++++)",
+     "18.00"
+    ],
+    [
+     "Revive Ritual Eye Duo",
+     "27.75"
+    ],
+    [
+     "Daily SPF + Double Cleanse Set",
+     "96.00"
+    ]
+   ],
+   "loja": "Beauty of Joseon",
+   "moeda": "USD",
+   "n": 63
+  },
+  {
+   "dominio": "beautyofjoseon.us",
+   "ok": false,
+   "erro": "<urlopen error [Errno -3] Temporary failure in name resolution>"
+  }
+ ],
+ "medicube": [
+  {
+   "dominio": "medicube.us",
+   "final": "https://medicube.us/products.json?limit=3",
+   "ok": true,
+   "exemplo": [
+    [
+     "🎁 [GIFT] Zero Pore One Day Cream 10ml (100% off)",
+     "0.00"
+    ],
+    [
+     "[GIFT] Zero Pore One Day Cream 10ml",
+     "10.00"
+    ],
+    [
+     "🎁 [GIFT] Hypochlorous Acid Rice Peel Shot (100% off)",
+     "0.00"
+    ]
+   ],
+   "loja": "MEDICUBE US",
+   "moeda": "USD",
+   "n": 315
+  },
+  {
+   "dominio": "www.medicube.us",
+   "final": "https://www.medicube.us/products.json?limit=3",
+   "ok": true,
+   "exemplo": [
+    [
+     "🎁 [GIFT] Zero Pore One Day Cream 10ml (100% off)",
+     "0.00"
+    ],
+    [
+     "[GIFT] Zero Pore One Day Cream 10ml",
+     "10.00"
+    ],
+    [
+     "🎁 [GIFT] Hypochlorous Acid Rice Peel Shot (100% off)",
+     "0.00"
+    ]
+   ],
+   "loja": "MEDICUBE US",
+   "moeda": "USD",
+   "n": 315
+  },
+  {
+   "dominio": "medicube.global",
+   "ok": false,
+   "erro": "HTTP Error 404: Not Found"
+  }
+ ],
+ "TIRTIR": [
+  {
+   "dominio": "tirtir.us",
+   "final": "https://tirtir.us/products.json?limit=3",
+   "ok": true,
+   "exemplo": [
+    [
+     "Hydra Veil Serum Powder",
+     "22.00"
+    ],
+    [
+     "Holiday Cushion Bag Set",
+     "26.25"
+    ],
+    [
+     "🎁 TIRTIR Gift Pouch (Small) (100% off)",
+     "0.00"
+    ]
+   ],
+   "loja": "TIRTIR Official",
+   "moeda": "USD",
+   "n": 124
+  },
+  {
+   "dominio": "www.tirtir.us",
+   "final": "https://www.tirtir.us/products.json?limit=3",
+   "ok": true,
+   "exemplo": [
+    [
+     "Hydra Veil Serum Powder",
+     "22.00"
+    ],
+    [
+     "Holiday Cushion Bag Set",
+     "26.25"
+    ],
+    [
+     "🎁 TIRTIR Gift Pouch (Small) (100% off)",
+     "0.00"
+    ]
+   ],
+   "loja": "TIRTIR Official",
+   "moeda": "USD",
+   "n": 124
+  },
+  {
+   "dominio": "tirtirglobal.com",
+   "ok": false,
+   "erro": "<urlopen error [Errno -2] Name or service not known>"
+  },
+  {
+   "dominio": "tirtir.global",
+   "final": "https://tirtir.global/products.json?limit=3",
+   "ok": true,
+   "exemplo": [
+    [
+     "Hydra Veil Serum Powder",
+     "22.00"
+    ],
+    [
+     "Holiday Cushion Bag Set",
+     "26.25"
+    ],
+    [
+     "🎁 TIRTIR Gift Pouch (Small) (100% off)",
+     "0.00"
+    ]
+   ],
+   "loja": "TIRTIR Official",
+   "moeda": "USD",
+   "n": 124
+  },
+  {
+   "dominio": "tirtirusa.com",
+   "ok": false,
+   "erro": "<urlopen error [Errno -2] Name or service not known>"
+  },
+  {
+   "dominio": "us.tirtir.com",
+   "ok": false,
+   "erro": "<urlopen error [Errno -2] Name or service not known>"
+  }
+ ],
+ "ROUND LAB": [
+  {
+   "dominio": "roundlab.us",
+   "ok": false,
+   "erro": "HTTP Error 401: Unauthorized"
+  },
+  {
+   "dominio": "roundlabus.com",
+   "ok": false,
+   "erro": "<urlopen error [Errno -2] Name or service not known>"
+  },
+  {
+   "dominio": "www.roundlab.us",
+   "ok": false,
+   "erro": "HTTP Error 401: Unauthorized"
+  },
+  {
+   "dominio": "roundlab.global",
+   "ok": false,
+   "erro": "<urlopen error [Errno -2] Name or service not known>"
+  },
+  {
+   "dominio": "roundlabglobal.com",
+   "ok": false,
+   "erro": "<urlopen error [Errno -2] Name or service not known>"
+  }
+ ],
+ "celimax": [
+  {
+   "dominio": "celimax.us",
+   "final": "https://celimax.us/products.json?limit=3",
+   "ok": true,
+   "exemplo": [
+    [
+     "Exfoliating BHA Pore Relief Toner Pads",
+     "19.90"
+    ],
+    [
+     "TXA Brightening Eye Patch",
+     "20.70"
+    ],
+    [
+     "Derma Nature Relief Madecica pH Balancing Foam Cleansing",
+     "12.60"
+    ]
+   ],
+   "loja": "celimax US",
+   "moeda": "USD",
+   "n": 40
+  },
+  {
+   "dominio": "celimaxus.com",
+   "ok": false,
+   "erro": "<urlopen error [Errno -2] Name or service not known>"
+  },
+  {
+   "dominio": "celimax.global",
+   "ok": false,
+   "erro": "<urlopen error [Errno -2] Name or service not known>"
+  },
+  {
+   "dominio": "celimaxglobal.com",
+   "ok": false,
+   "erro": "<urlopen error timed out>"
+  },
+  {
+   "dominio": "www.celimax.com",
+   "final": "https://www.celimax.com/products.json?limit=3",
+   "ok": true,
+   "exemplo": [
+    [
+     "The Vita-A Retinal Shot Tightening Booster 15ml*2ea_MX",
+     "48.00"
+    ],
+    [
+     "The Real Noni Acne Bubble Cleanser 155ml_MX",
+     "22.00"
+    ],
+    [
+     "Pore+Dark Spot Brightening Pad 40pads_MX",
+     "22.00"
+    ]
+   ],
+   "loja": "CELIMAX NEW",
+   "moeda": "USD",
+   "n": 44
+  }
+ ],
+ "BANILA CO": [
+  {
+   "dominio": "banilausa.com",
+   "final": "https://banilausa.com/products.json?limit=3",
+   "ok": true,
+   "exemplo": [
+    [
+     "Clean It Zero Micellar Jelly Cleansing Water – 200ML",
+     "16.00"
+    ],
+    [
+     "Sweet Spell Duo",
+     "53.20"
+    ],
+    [
+     "Harvest Moon Glow Duo",
+     "50.40"
+    ]
+   ],
+   "loja": "Banila Co",
+   "moeda": "USD",
+   "n": 91
+  },
+  {
+   "dominio": "banila.us",
+   "ok": false,
+   "erro": "<urlopen error [Errno -2] Name or service not known>"
+  },
+  {
+   "dominio": "www.banilausa.com",
+   "final": "https://www.banilausa.com/products.json?limit=3",
+   "ok": true,
+   "exemplo": [
+    [
+     "Clean It Zero Micellar Jelly Cleansing Water – 200ML",
+     "16.00"
+    ],
+    [
+     "Sweet Spell Duo",
+     "53.20"
+    ],
+    [
+     "Harvest Moon Glow Duo",
+     "50.40"
+    ]
+   ],
+   "loja": "Banila Co",
+   "moeda": "USD",
+   "n": 91
+  },
+  {
+   "dominio": "banilaco.com",
+   "ok": false,
+   "erro": "Expecting value: line 1 column 1 (char 0)"
+  },
+  {
+   "dominio": "banilaco.us",
+   "ok": false,
+   "erro": "<urlopen error [Errno -2] Name or service not known>"
+  }
+ ],
+ "numbuzin": [
+  {
+   "dominio": "numbuzin.com",
+   "ok": false,
+   "erro": "HTTP Error 404: Not Found"
+  },
+  {
+   "dominio": "numbuzin.us",
+   "ok": false,
+   "erro": "<urlopen error timed out>"
+  },
+  {
+   "dominio": "www.numbuzin.com",
+   "ok": false,
+   "erro": "HTTP Error 404: Not Found"
+  },
+  {
+   "dominio": "numbuzinus.com",
+   "final": "https://numbuzinus.com/products.json?limit=3",
+   "ok": true,
+   "exemplo": [
+    [
+     "No.9 Glow+Hydrate Trio",
+     "68.80"
+    ],
+    [
+     "No.9 NAD+ PDRN 2000 Glow Capsule Serum Mist",
+     "14.00"
+    ],
+    [
+     "No.9 NAD+ PDRN 2000 Glow Capsule Serum Mist",
+     "24.00"
+    ]
+   ],
+   "loja": "numbuzin",
+   "moeda": "USD",
+   "n": 81
+  },
+  {
+   "dominio": "numbuzin.global",
+   "ok": false,
+   "erro": "<urlopen error [Errno -2] Name or service not known>"
+  }
+ ],
+ "PURITO SEOUL": [
+  {
+   "dominio": "purito.com",
+   "ok": false,
+   "erro": "HTTP Error 404: Not Found"
+  },
+  {
+   "dominio": "puritoseoul.com",
+   "ok": false,
+   "erro": "<urlopen error timed out>"
+  },
+  {
+   "dominio": "www.purito.com",
+   "ok": false,
+   "erro": "HTTP Error 404: Not Found"
+  },
+  {
+   "dominio": "purito.us",
+   "ok": false,
+   "erro": "Expecting value: line 1 column 1 (char 0)"
+  },
+  {
+   "dominio": "puritoseoul.us",
+   "ok": false,
+   "erro": "<urlopen error [Errno -2] Name or service not known>"
+  }
+ ],
+ "Rejuran": [
+  {
+   "dominio": "rejuran.us",
+   "ok": false,
+   "erro": "HTTP Error 404: Not Found"
+  },
+  {
+   "dominio": "rejuranus.com",
+   "ok": false,
+   "erro": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:108"
+  },
+  {
+   "dominio": "rejuranshop.com",
+   "ok": false,
+   "erro": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:108"
+  },
+  {
+   "dominio": "rejuran.global",
+   "ok": false,
+   "erro": "<urlopen error [Errno -2] Name or service not known>"
+  },
+  {
+   "dominio": "rejuranskin.com",
+   "ok": false,
+   "erro": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:108"
+  }
+ ],
+ "VT Cosmetics": [
+  {
+   "dominio": "vtcosmetics.us",
+   "ok": false,
+   "erro": "HTTP Error 404: Not Found"
+  },
+  {
+   "dominio": "vtcosmeticsus.com",
+   "ok": false,
+   "erro": "<urlopen error [Errno -2] Name or service not known>"
+  },
+  {
+   "dominio": "vt-cosmetics.com",
+   "ok": false,
+   "erro": "HTTP Error 404: Not Found"
+  },
+  {
+   "dominio": "vtcosmetics.com",
+   "ok": false,
+   "erro": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:108"
+  },
+  {
+   "dominio": "vtglobal.com",
+   "ok": false,
+   "erro": "HTTP Error 441: status code 441"
+  }
+ ]
+}
