@@ -1347,8 +1347,13 @@ function prFinal(c){const C=prCfg(),aj=c.frete.v*(1-n(C.freteParte)/100),base=c.
  const ii=base>lim?Math.max(0,base*n(C.iiPct)/100-n(C.iiDescUsd)*n(C.usd)):0;return (base+ii)/(1-n(C.icms)/100)}
 const PR_TIPO={serum:'serum',sérum:'serum',serum_:'serum',ampoule:'ampola',ampola:'ampola',essence:'essencia',essencia:'essencia',cream:'creme',creme:'creme',toner:'tonico',tonico:'tonico',pad:'pad',pads:'pad',discos:'pad',mask:'mascara',mascara:'mascara',oil:'oleo',oleo:'oleo',foam:'espuma',espuma:'espuma',gel:'gel',mist:'bruma',bruma:'bruma',cushion:'cushion',sunscreen:'solar',sun:'solar',solar:'solar',protetor:'solar',balm:'balm',lotion:'locao',locao:'locao',shampoo:'shampoo',tint:'tint',patch:'patch',adesivo:'patch',eye:'olhos',olhos:'olhos',cleanser:'limpeza',cleansing:'limpeza',limpeza:'limpeza'};
 function prTipos(T){const o=new Set();T.forEach(w=>{if(PR_TIPO[w])o.add(PR_TIPO[w])});return o}
+const PR_KIT=/\b(kit|duo|trio|conjunto|set)\b|\s\+\s|1\+1|\b[2-9]\s?(un|unid|unidades|pcs)\b|\bx\s?[2-9]\b|caixa com|\b[2-9] (frascos|tubos|potes)/i;
+const PR_GEN=new Set('facial rosto pele para poros peptideo hidratante calmante nutritiva suave de com madagascar'.split(' '));
+function prExtras(p,c){const A=new Set(prTok(String(p.nome||'').split(':')[0])),mb=prNB(p.marca);
+ return prTok(c.nome).filter(w=>!A.has(w)&&!PR_TIPO[w]&&!PR_GEN.has(w)&&!mb.includes(w)&&!/^\d/.test(w)&&w!=='ml').length}
 function prSugestoes(p){
  if(!PR.sug)PR.sug=new Map();if(PR.sug.has(p.id))return PR.sug.get(p.id);
+ if(PR_KIT.test(p.nome)){PR.sug.set(p.id,[]);return []}
  const ligados=new Set(prRefs(p).map(r=>r.url)),mb=prNB(p.marca),out=[];
  if(mb.length>=2){const en=String(p.nome||'').split(':')[0],A=new Set(prTok(en).filter(w=>!prNB(p.marca).includes(w)||w.length<3)),ta=prTam(p.nome);
   if(A.size)for(const c of PR.cat){if(c.ativo===false||ligados.has(c.url))continue;
@@ -1448,10 +1453,14 @@ function prCerteiros(){const out=[];PR.sug=null;
  for(const p of prLista()){if(prRefs(p).length)continue;const sg=prSugestoes(p);if(!sg.length)continue;
   const porLoja={};sg.forEach(x=>{(porLoja[x.loja]=porLoja[x.loja]||[]).push(x)});
   for(const [loja,L] of Object.entries(porLoja)){const t=L[0],ta=prTam(p.nome),tb=prTam(t.nome);
-   if(t.score>=1.0&&ta.q&&tb.q&&(L.length===1||L[1].score<t.score-0.15))out.push({produto_id:p.id,loja,url:t.url,status:'ok',quem:'automático'})}}
+   if(t.score>=1.0&&ta.q&&tb.q&&prExtras(p,t)<=2&&prTok(String(p.nome).split(':')[0]).length>=2&&(L.length===1||L[1].score<t.score-0.15))out.push({produto_id:p.id,loja,url:t.url,status:'ok',quem:'automático'})}}
  return out}
-async function prLigarCerteiros(){const L=prCerteiros();if(!L.length){toast('Nenhuma ligação certeira nova');return}
- if(!confirm('Ligar sozinho '+L.length+' produtos ao concorrente quando nome, tipo e tamanho batem? Ficam marcados como "automático" para você conferir. Nenhum preço muda no site.'))return;
+async function prLigarCerteiros(){
+ // refaz as ligações automáticas ainda não conferidas
+ const velhas=PR.ref.filter(r=>r.quem==='automático').map(r=>r.id);
+ if(velhas.length){const {error}=await sb.from('precos_ref').delete().in('id',velhas);if(error){toast(errMsg(error));return}PR.ref=PR.ref.filter(r=>r.quem!=='automático')}
+ const L=prCerteiros();if(!L.length){toast('Nenhuma ligação certeira nova');return}
+ if(!confirm('Ligar sozinho '+L.length+' produtos ao concorrente quando nome, tipo e tamanho batem? Ficam marcados como "automático" para você conferir (as automáticas ainda não conferidas são refeitas). Nenhum preço muda no site.'))return;
  let err=0;for(let i=0;i<L.length;i+=200){const {error}=await sb.from('precos_ref').insert(L.slice(i,i+200));if(error)err++}
  toast(err?'Ligados com erro em parte. Tente de novo.':L.length+' produtos ligados');await loadPrecos()}
 async function prAprovar(ids){
