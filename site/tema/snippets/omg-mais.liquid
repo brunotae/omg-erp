@@ -34,6 +34,7 @@
   .omg-pp{position:relative}
   .omg-marca{position:absolute!important;right:0;left:auto!important;width:auto!important;display:inline-block!important;margin:0!important;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#7a6470;text-decoration:none;border:1px solid #E6D9DF;border-radius:999px;padding:4px 10px;background:#fff;max-width:45%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .omg-marca:hover{color:#D63A5E;border-color:#D63A5E}
+  main .omg-cm-wrap{max-width:var(--page-width,1200px);margin:0 auto 24px;padding:0 max(16px,var(--page-margin,16px))}
   .omg-cm{margin:12px 0 4px;padding:12px;border-radius:12px;background:#FDEEF3}
   .omg-cm + .omg-cm{margin-top:8px}
   .omg-cm__tit{font-size:14px;font-weight:700;color:#4A2638;margin:0 0 8px}
@@ -186,7 +187,7 @@
 
   // ---------- Carrinho (gaveta e página) ----------
   let montando = false, ultimaChave = '';
-  const mini = p => `<div class="omg-cm__item"><img src="${esc(p.i)}" alt="" loading="lazy" width="100" height="100"><a class="omg-n" href="${esc(p.u)}">${esc(p.t)}</a><span class="omg-p">${BRL(p.p)}</span>${p.n === 1 ? `<button type="button" class="omg-btn omg-btn--leve" data-v="${p.v}">+ Adicionar</button>` : `<a class="omg-btn omg-btn--leve" href="${esc(p.u)}" style="text-align:center;text-decoration:none">Ver opções</a>`}</div>`;
+  const mini = p => `<div class="omg-cm__item"><img src="${esc(p.i)}" alt="" width="100" height="100"><a class="omg-n" href="${esc(p.u)}">${esc(p.t)}</a><span class="omg-p">${BRL(p.p)}</span>${p.n === 1 ? `<button type="button" class="omg-btn omg-btn--leve" data-v="${p.v}">+ Adicionar</button>` : `<a class="omg-btn omg-btn--leve" href="${esc(p.u)}" style="text-align:center;text-decoration:none">Ver opções</a>`}</div>`;
 
   async function montarCarrinho() {
     const alvos = [...document.querySelectorAll('.cart-drawer__items, .cart-page cart-items-component, main cart-items-component')].filter(el => !el.closest('template'));
