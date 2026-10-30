@@ -691,7 +691,7 @@ Deno.serve(async (req) => {
             if (!h) throw new Error("sem handle");
             const q: any = await gql(`query($q: String!) { pages(first: 1, query: $q) { nodes { id handle } } }`, { q: "handle:" + h });
             const ex = q.pages.nodes.find((x: any) => x.handle === h);
-            const page = { title: String(it.titulo || h), body: html, isPublished: true, ...(ex ? {} : { handle: h }) };
+            const page = { title: String(it.titulo || h), body: html, isPublished: true, ...(ex ? {} : { handle: h }), ...(it.template ? { templateSuffix: String(it.template) } : {}) };
             const d: any = ex
               ? await gql(`mutation($id: ID!, $p: PageUpdateInput!) { pageUpdate(id: $id, page: $p) { page { handle } userErrors { message } } }`, { id: ex.id, p: page })
               : await gql(`mutation($p: PageCreateInput!) { pageCreate(page: $p) { page { handle } userErrors { message } } }`, { p: page });

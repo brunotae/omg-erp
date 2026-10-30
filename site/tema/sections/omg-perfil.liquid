@@ -1,0 +1,210 @@
+{%- comment -%}
+  OMG · "Meu perfil de beleza" (/pages/meu-perfil, template page.meu-perfil).
+  Só para cliente logada. O tema assina (HMAC) o id + e-mail + hora; a função Supabase "perfil" confere a assinatura.
+  O segredo (__PERFIL_HMAC__) é colocado na hora de gravar o tema e NÃO fica no repositório.
+{%- endcomment -%}
+{%- liquid
+  assign ts = 'now' | date: '%s'
+  if customer
+    assign email_min = customer.email | downcase
+    assign msg = customer.id | append: ':' | append: email_min | append: ':' | append: ts
+    assign sig = msg | hmac_sha256: '__PERFIL_HMAC__'
+  endif
+-%}
+<style>
+  .omg-pf{max-width:760px;margin:0 auto;padding:28px 16px 56px;color:#2b1520}
+  .omg-pf h1{font-size:30px;line-height:1.15;color:#4A2638;margin:0 0 8px}
+  .omg-pf__intro{color:#7a6470;margin:0 0 22px;font-size:15px}
+  .omg-pf__card{border:1px solid #E6D9DF;border-radius:16px;padding:20px;margin:0 0 16px;background:#fff}
+  .omg-pf__card h2{font-size:17px;color:#4A2638;margin:0 0 4px}
+  .omg-pf__card p.omg-pf__d{font-size:13px;color:#7a6470;margin:0 0 14px}
+  .omg-pf__g{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .omg-pf__g .w2{grid-column:1/-1}
+  @media(max-width:600px){.omg-pf__g{grid-template-columns:1fr}}
+  .omg-pf label.c{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:600;color:#4A2638}
+  .omg-pf input[type=text],.omg-pf input[type=tel],.omg-pf select{font:inherit;font-size:15px;font-weight:400;border:1px solid #E6D9DF;border-radius:10px;padding:11px 12px;background:#fff;color:#2b1520;width:100%;box-sizing:border-box}
+  .omg-pf input:focus,.omg-pf select:focus{outline:2px solid #D63A5E;outline-offset:-1px}
+  .omg-pf__chips{display:flex;flex-wrap:wrap;gap:8px}
+  .omg-pf__chips label{cursor:pointer}
+  .omg-pf__chips input{position:absolute;opacity:0;pointer-events:none}
+  .omg-pf__chips span{display:inline-block;border:1px solid #E6D9DF;border-radius:999px;padding:8px 14px;font-size:14px;background:#fff;transition:.15s}
+  .omg-pf__chips input:checked + span{background:#FDEEF3;border-color:#D63A5E;color:#B83D66;font-weight:600}
+  .omg-pf__chips input:focus-visible + span{outline:2px solid #D63A5E}
+  .omg-pf__sub{font-size:13px;font-weight:600;color:#4A2638;margin:14px 0 8px}
+  .omg-pf__ok{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.4}
+  .omg-pf__ok input{width:20px;height:20px;accent-color:#D63A5E;flex:0 0 auto;margin-top:1px}
+  .omg-pf__acoes{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:18px}
+  .omg-pf__btn{font:inherit;font-weight:700;font-size:15px;border:0;border-radius:999px;background:#D63A5E;color:#fff;padding:14px 26px;cursor:pointer}
+  .omg-pf__btn[disabled]{opacity:.6}
+  .omg-pf__link{font:inherit;font-size:13px;color:#7a6470;background:none;border:0;text-decoration:underline;cursor:pointer;padding:0}
+  .omg-pf__msg{font-size:14px;font-weight:600}
+  .omg-pf__msg.ok{color:#1d7a4f}.omg-pf__msg.erro{color:#B83D66}
+  .omg-pf__login{text-align:center;padding:40px 20px}
+  .omg-pf__login a{display:inline-block;margin-top:14px;text-decoration:none}
+  .omg-pf small{color:#7a6470}
+</style>
+
+<div class="omg-pf">
+  <h1>Meu perfil de beleza</h1>
+  <p class="omg-pf__intro">Conte um pouco sobre você e sua pele. Assim indicamos produtos que combinam com você e mandamos um presente no seu aniversário. Tudo é opcional.</p>
+
+  {%- if customer -%}
+  <form id="omg-pf-form" novalidate>
+    <div class="omg-pf__card">
+      <h2>Sobre você</h2>
+      <p class="omg-pf__d">Conectada como {{ customer.email }}</p>
+      <div class="omg-pf__g">
+        <label class="c w2">Nome<input type="text" name="nome" autocomplete="name" maxlength="80" value="{{ customer.name | escape }}"></label>
+        <label class="c">Celular (WhatsApp)<input type="tel" name="telefone" autocomplete="tel" inputmode="tel" maxlength="20" placeholder="(11) 90000-0000" value="{{ customer.phone | escape }}"></label>
+        <div class="c">
+          <label class="c">Aniversário<span style="display:flex;gap:8px">
+            <select name="aniversario_dia" aria-label="Dia"><option value="">Dia</option>{%- for d in (1..31) -%}<option value="{{ d }}">{{ d }}</option>{%- endfor -%}</select>
+            <select name="aniversario_mes" aria-label="Mês"><option value="">Mês</option>
+              {%- assign meses = 'Janeiro,Fevereiro,Março,Abril,Maio,Junho,Julho,Agosto,Setembro,Outubro,Novembro,Dezembro' | split: ',' -%}
+              {%- for m in meses -%}<option value="{{ forloop.index }}">{{ m }}</option>{%- endfor -%}
+            </select></span></label>
+          <small>Só dia e mês, sem o ano.</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="omg-pf__card">
+      <h2>Endereço</h2>
+      <p class="omg-pf__d">Para agilizar suas próximas compras.</p>
+      <div class="omg-pf__g">
+        <label class="c">CEP<input type="text" name="cep" inputmode="numeric" autocomplete="postal-code" maxlength="9" placeholder="00000-000"></label>
+        <span></span>
+        <label class="c w2">Rua / avenida<input type="text" name="endereco" autocomplete="address-line1" maxlength="120"></label>
+        <label class="c">Número<input type="text" name="numero" maxlength="12"></label>
+        <label class="c">Complemento<input type="text" name="complemento" autocomplete="address-line2" maxlength="60"></label>
+        <label class="c">Bairro<input type="text" name="bairro" maxlength="60"></label>
+        <label class="c">Cidade<input type="text" name="cidade" autocomplete="address-level2" maxlength="60"></label>
+        <label class="c">Estado (UF)<input type="text" name="uf" autocomplete="address-level1" maxlength="2" style="text-transform:uppercase"></label>
+      </div>
+    </div>
+
+    <div class="omg-pf__card">
+      <h2>Sua pele</h2>
+      <p class="omg-pf__d">Ajuda a gente a indicar os produtos certos.</p>
+      <p class="omg-pf__sub">Tipo de pele</p>
+      <div class="omg-pf__chips" data-um="tipo_pele">
+        {%- for o in 'Oleosa,Mista,Normal,Seca,Não sei' | split: ',' -%}<label><input type="radio" name="tipo_pele" value="{{ o }}"><span>{{ o }}</span></label>{%- endfor -%}
+      </div>
+      <p class="omg-pf__sub">Sua pele é sensível?</p>
+      <div class="omg-pf__chips">
+        {%- for o in 'Sim,Às vezes,Não' | split: ',' -%}<label><input type="radio" name="sensibilidade" value="{{ o }}"><span>{{ o }}</span></label>{%- endfor -%}
+      </div>
+      <p class="omg-pf__sub">O que você quer melhorar? <small>(pode marcar várias)</small></p>
+      <div class="omg-pf__chips">
+        {%- for o in 'Acne e cravos,Poros,Oleosidade,Manchas,Linhas finas,Firmeza,Ressecamento,Vermelhidão,Olheiras,Textura,Viço e luminosidade,Barreira da pele' | split: ',' -%}<label><input type="checkbox" name="preocupacoes" value="{{ o }}"><span>{{ o }}</span></label>{%- endfor -%}
+      </div>
+    </div>
+
+    <div class="omg-pf__card">
+      <h2>Sua rotina e seus gostos</h2>
+      <p class="omg-pf__sub" style="margin-top:0">Como é sua rotina de skincare hoje?</p>
+      <div class="omg-pf__chips">
+        {%- for o in 'Ainda não tenho,Básica (1 a 3 passos),Completa (4 passos ou mais)' | split: ',' -%}<label><input type="radio" name="rotina" value="{{ o }}"><span>{{ o }}</span></label>{%- endfor -%}
+      </div>
+      <p class="omg-pf__sub">Do que você mais gosta?</p>
+      <div class="omg-pf__chips">
+        {%- for o in 'Skincare,Maquiagem,Protetor solar,Cabelo,Corpo e banho,Máscaras,Kits,Lançamentos' | split: ',' -%}<label><input type="checkbox" name="interesses" value="{{ o }}"><span>{{ o }}</span></label>{%- endfor -%}
+      </div>
+      <div class="omg-pf__g" style="margin-top:14px">
+        <label class="c w2">Marcas favoritas <small style="font-weight:400">(separe por vírgula)</small>
+          <input type="text" name="marcas" list="omg-pf-marcas" maxlength="300" placeholder="Ex.: COSRX, Anua, Beauty of Joseon">
+        </label>
+        <datalist id="omg-pf-marcas">{%- for v in shop.vendors -%}<option value="{{ v | escape }}">{%- endfor -%}</datalist>
+        <label class="c w2">Como você conheceu a OMG?
+          <select name="como_conheceu"><option value="">Escolha</option>
+            {%- for o in 'Instagram,TikTok,Influenciadora,Indicação de amiga,Google,YouTube,Outro' | split: ',' -%}<option>{{ o }}</option>{%- endfor -%}
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div class="omg-pf__card">
+      <label class="omg-pf__ok"><input type="checkbox" name="consentimento" value="1">
+        <span>Autorizo a OMG a usar estas informações para personalizar recomendações, ofertas e o presente de aniversário. Posso alterar ou apagar quando quiser. <a href="/policies/privacy-policy" target="_blank" rel="noopener">Política de privacidade</a></span>
+      </label>
+      <div class="omg-pf__acoes">
+        <button type="submit" class="omg-pf__btn">Salvar meu perfil</button>
+        <span class="omg-pf__msg" role="status" aria-live="polite"></span>
+      </div>
+      <p style="margin:16px 0 0"><button type="button" class="omg-pf__link" id="omg-pf-apagar" hidden>Apagar meus dados do perfil</button></p>
+    </div>
+  </form>
+  <script>
+  (() => {
+    const API = 'https://nzsiuniabovvptuqmkmi.supabase.co/functions/v1/perfil';
+    const AUT = { cid: {{ customer.id | json }}, email: {{ email_min | json }}, ts: {{ ts | json }}, sig: {{ sig | json }} };
+    const f = document.getElementById('omg-pf-form'), msg = f.querySelector('.omg-pf__msg'), btn = f.querySelector('.omg-pf__btn'), apagar = document.getElementById('omg-pf-apagar');
+    const chama = async (acao, dados) => {
+      const r = await fetch(API, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ ...AUT, acao, dados }) });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(j.erro || 'Erro ao falar com o servidor');
+      return j;
+    };
+    const aviso = (t, tipo) => { msg.textContent = t; msg.className = 'omg-pf__msg ' + (tipo || ''); };
+    const MULTI = ['preocupacoes', 'interesses'];
+    function preencher(p) {
+      if (!p) return;
+      for (const [k, v] of Object.entries(p)) {
+        if (v == null) continue;
+        if (MULTI.includes(k)) { f.querySelectorAll(`[name="${k}"]`).forEach(el => { el.checked = v.includes(el.value); }); continue; }
+        if (k === 'marcas') { f.marcas.value = v.join(', '); continue; }
+        if (k === 'consentimento') { f.consentimento.checked = !!v; continue; }
+        const els = f.querySelectorAll(`[name="${k}"]`);
+        els.forEach(el => { if (el.type === 'radio') el.checked = el.value === String(v); else if (String(v)) el.value = v; });
+      }
+      apagar.hidden = false;
+    }
+    chama('ler').then(j => preencher(j.perfil)).catch(() => {});
+    // CEP: completa o endereço sozinho (ViaCEP)
+    f.cep.addEventListener('input', async () => {
+      let c = f.cep.value.replace(/\D/g, '').slice(0, 8);
+      f.cep.value = c.length > 5 ? c.slice(0, 5) + '-' + c.slice(5) : c;
+      if (c.length !== 8) return;
+      try {
+        const d = await (await fetch(`https://viacep.com.br/ws/${c}/json/`)).json();
+        if (d.erro) return;
+        if (!f.endereco.value) f.endereco.value = d.logradouro || '';
+        if (!f.bairro.value) f.bairro.value = d.bairro || '';
+        f.cidade.value = d.localidade || f.cidade.value; f.uf.value = d.uf || f.uf.value;
+        f.numero.focus();
+      } catch (e) {}
+    });
+    f.addEventListener('submit', async e => {
+      e.preventDefault();
+      if (!f.consentimento.checked) { aviso('Para salvar, marque a autorização no final.', 'erro'); f.consentimento.focus(); return; }
+      const fd = new FormData(f), d = {};
+      for (const k of ['nome', 'telefone', 'cep', 'endereco', 'numero', 'complemento', 'bairro', 'cidade', 'uf', 'aniversario_dia', 'aniversario_mes', 'tipo_pele', 'sensibilidade', 'rotina', 'como_conheceu']) d[k] = fd.get(k) || null;
+      for (const k of MULTI) d[k] = fd.getAll(k);
+      d.marcas = String(fd.get('marcas') || '').split(',').map(s => s.trim()).filter(Boolean);
+      d.consentimento = true;
+      btn.disabled = true; aviso('Salvando…');
+      try { await chama('salvar', d); aviso('Perfil salvo! Obrigada 💗', 'ok'); apagar.hidden = false; }
+      catch (er) { aviso(er.message, 'erro'); }
+      finally { btn.disabled = false; }
+    });
+    apagar.addEventListener('click', async () => {
+      if (apagar.dataset.conf !== '1') { apagar.dataset.conf = '1'; apagar.textContent = 'Clique de novo para confirmar: apagar meus dados do perfil'; return; }
+      try { await chama('apagar'); f.reset(); apagar.hidden = true; apagar.dataset.conf = ''; apagar.textContent = 'Apagar meus dados do perfil'; aviso('Seus dados do perfil foram apagados.', 'ok'); }
+      catch (er) { aviso(er.message, 'erro'); }
+    });
+  })();
+  </script>
+  {%- else -%}
+  <div class="omg-pf__card omg-pf__login">
+    <p style="font-size:16px;margin:0">Entre na sua conta para preencher seu perfil de beleza.</p>
+    <a class="omg-pf__btn" href="{{ routes.account_login_url }}?return_url={{ '/pages/meu-perfil' | url_encode }}">Entrar ou criar conta</a>
+  </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "OMG Meu perfil",
+  "settings": []
+}
+{% endschema %}
