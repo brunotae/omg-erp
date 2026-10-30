@@ -374,6 +374,38 @@ Deno.serve(async (req) => {
       return resp(200, { ok: true, n: d.products.nodes.length, achados, proximo: d.products.pageInfo.hasNextPage ? d.products.pageInfo.endCursor : null });
     }
 
+    if (b.acao === "variantes_criar") {
+      // Transforma um produto de versão única em produto com escolha (Versão / Cor).
+      // { handle, opcao: "Versão", itens: [{ nome, sku, preco, img? }], aplicar?: true }
+      // A versão atual (Default Title) sai e entram as versões; política de estoque, rastreio e peso são copiados da atual.
+      const d: any = await gql(`query($h: String!) { productByIdentifier(identifier: { handle: $h }) { id title
+          options { name values } variants(first: 5) { nodes { id title sku price inventoryPolicy taxable
+            inventoryItem { tracked measurement { weight { value unit } } } } } } }`, { h: String(b.handle) });
+      const p = d.productByIdentifier; if (!p) throw new Error("produto não encontrado: " + b.handle);
+      const v0 = p.variants.nodes[0];
+      const itens = (Array.isArray(b.itens) ? b.itens : []).slice(0, 60);
+      if (itens.length < 2) throw new Error("precisa de pelo menos 2 versões");
+      if (p.variants.nodes.length > 1 || v0.title !== "Default Title") return resp(200, { ok: false, pulado: "produto já tem versões", variantes: p.variants.nodes.map((v: any) => v.title) });
+      const opcao = String(b.opcao || "Versão");
+      const imgs = [...new Set(itens.map((i: any) => i.img).filter((u: any) => /^https:\/\//.test(String(u))))] as string[];
+      const variants = itens.map((i: any) => ({
+        optionValues: [{ optionName: opcao, name: String(i.nome) }],
+        price: Number(i.preco ?? v0.price).toFixed(2),
+        inventoryPolicy: v0.inventoryPolicy, taxable: v0.taxable,
+        inventoryItem: { sku: String(i.sku || ""), tracked: v0.inventoryItem?.tracked ?? false,
+          ...(v0.inventoryItem?.measurement?.weight ? { measurement: { weight: v0.inventoryItem.measurement.weight } } : {}) },
+        ...(i.img ? { mediaSrc: [String(i.img)] } : {}),
+      }));
+      if (!b.aplicar) return resp(200, { ok: true, plano: true, produto: p.title, atual: v0, variants, imagens: imgs.length });
+      const r: any = await gql(`mutation($pid: ID!, $v: [ProductVariantsBulkInput!]!, $m: [CreateMediaInput!]) {
+          productVariantsBulkCreate(productId: $pid, variants: $v, media: $m, strategy: REMOVE_STANDALONE_VARIANT) {
+            productVariants { id title sku price } userErrors { field message } } }`,
+        { pid: p.id, v: variants, m: imgs.map((u) => ({ originalSource: u, mediaContentType: "IMAGE", alt: p.title })) });
+      const ue = r.productVariantsBulkCreate.userErrors;
+      if (ue.length) return resp(200, { ok: false, erro: ue.map((e: any) => (e.field || []).join(".") + ": " + e.message).join(" | ") });
+      return resp(200, { ok: true, produto: p.title, variantes: r.productVariantsBulkCreate.productVariants });
+    }
+
     if (b.acao === "produto_desc") {
       // Corrige a descrição (HTML) de produtos: b.itens = [{ id, html }] (até 20).
       const res: any[] = [];
