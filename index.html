@@ -69,6 +69,11 @@ h3{font-size:13px;font-weight:700}
 .brand small{font-size:11px;color:var(--muted)}
 .nav{display:flex;flex-direction:column;gap:2px}
 .nav .grp{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:10px 10px 4px}
+.nav button.grp{display:flex;align-items:center;gap:6px;width:100%;background:none;border:0;cursor:pointer;font-family:inherit;text-align:left}
+.nav button.grp>span:first-child{flex:1}
+.nav button.grp svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.2;flex:0 0 auto}
+.nav button.grp:hover{color:var(--ink,#2b1520)}
+.nav button.grp .cnt{font-size:10px}
 .nav button{white-space:nowrap;display:grid;grid-template-columns:20px 1fr auto;align-items:center;gap:10px;text-align:left;background:none;border:0;border-radius:12px;padding:8px 10px;color:var(--muted);font-weight:500}
 .nav button svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8}
 .nav button:hover{background:var(--surface2);color:var(--ink)}
@@ -815,14 +820,19 @@ function finance(filterFn){
 function counts(){return{vendas:S.data.vendas.filter(isOpen).length,cortes:S.data.vendas.filter(awaitingCut).length,lotes:S.data.lotes.filter(l=>!(l.etapas||{}).desembaraco).length,devolucoes:S.data.devolucoes.filter(d=>d.status!=='Resolvida').length,compras:S.data.compras.filter(x=>x.status!=='Recebida'&&x.status!=='Cancelada').length}}
 function renderNav(){
  const c=counts();
- $('#nav').innerHTML=NAV.map(([g,k,l])=>(g?'<div class="grp">'+g+'</div>':'')+'<button type="button" data-view="'+k+'"'+(S.view===k?' aria-current="page"':'')+'>'+svg(k)+'<span>'+l+'</span>'+(c[k]?'<span class="cnt num">'+c[k]+'</span>':'<span></span>')+'</button>').join('');
+ // v38: grupos do menu podem ser recolhidos (lembra neste aparelho); o item aberto sempre aparece
+ let fech=[];try{if(!matchMedia('(max-width:780px)').matches)fech=JSON.parse(localStorage.getItem('omg-nav-fechados')||'[]')}catch(_){}
+ let gAt='';const soma={};NAV.forEach(([g,k])=>{if(g)gAt=g;if(gAt&&c[k])soma[gAt]=(soma[gAt]||0)+c[k]});gAt='';
+ $('#nav').innerHTML=NAV.map(([g,k,l])=>{if(g)gAt=g;const f=gAt&&fech.includes(gAt);
+  return (g?'<button type="button" class="grp" data-grp="'+esc(g)+'" aria-expanded="'+(!fech.includes(g))+'"><span>'+g+'</span>'+(fech.includes(g)&&soma[g]?'<span class="cnt num">'+soma[g]+'</span>':'')+'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="'+(fech.includes(g)?'m9 6 6 6-6 6':'m6 9 6 6 6-6')+'"/></svg></button>':'')+
+  (f&&S.view!==k?'':'<button type="button" data-view="'+k+'"'+(S.view===k?' aria-current="page"':'')+'>'+svg(k)+'<span>'+l+'</span>'+(c[k]?'<span class="cnt num">'+c[k]+'</span>':'<span></span>')+'</button>')}).join('');
  const cn=$('#conn');cn.className='conn '+(S.status==='on'?'on':S.status==='off'?'off':'');
  cn.lastElementChild.textContent=S.status==='on'?'Sistema online':S.status==='off'?'Sem conexão com o banco':'Conectando…';
  const vr=$('#ver');if(vr)vr.textContent='Versão '+VERSAO.split(' ')[0].replace('v','')+' · '+VERSAO.split('· ')[1]+' · novidades';
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v37 · 30/10/2026';
+const VERSAO='v38 · 30/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -3075,6 +3085,7 @@ document.addEventListener('click',e=>{
  if(t.dataset.docf){S.f.doc=t.dataset.docf;render();return}
  if(t.dataset.docopen){abrirDoc(t.dataset.docopen);return}
  if(t.dataset.docdel){excluirDoc(t.dataset.docdel);return}
+ if(t.dataset.grp!=null&&t.closest('#nav')){let f=[];try{f=JSON.parse(localStorage.getItem('omg-nav-fechados')||'[]')}catch(_){}const g=t.dataset.grp;f=f.includes(g)?f.filter(x=>x!==g):f.concat(g);try{localStorage.setItem('omg-nav-fechados',JSON.stringify(f))}catch(_){}renderNav();return}
  if(t.dataset.view){S.view=t.dataset.view;S.q='';$('#q').value='';render();window.scrollTo(0,0);return}
  if(t.dataset.fv){S.f.vendas=t.dataset.fv;render();return}
  if(t.dataset.ff){S.f.fin=t.dataset.ff;render();return}
@@ -3099,6 +3110,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v38','30/10/2026',['Menu: clique no nome de um grupo (Operação, Dinheiro, Estoque e compras…) para recolher ou abrir. O ERP lembra neste aparelho. Grupo recolhido mostra a soma dos avisos; a tela aberta sempre aparece.']],
  ['v37','30/10/2026',['Nova tela Campanhas de preço (menu Estoque e compras): escolha marcas, SKUs, faixa de preço e período; o preço é calculado de trás para frente a partir do total que a cliente paga (com frete e impostos), abaixo do concorrente válido.','Frete da campanha: grátis ou fixo. ICMS de referência pelo pior caso (20%), para nenhum estado passar do limite.','Prévia com SKU, concorrente (link), preço de hoje, novo e total da cliente; trava contra quedas grandes; imprimir; aplicar só os selecionados; reverter volta os preços de antes.','Medicube: 43 concorrentes da KS e da Jini conferidos e ligados aos produtos.']],
  ['v36','30/10/2026',['Raio-X: botão Imprimir lista no quadro de cada marca. Abre um relatório simples em aba nova (imprimir ou salvar em PDF).','Exportar listas: botão Desmarcar todas nas marcas hypadas.']],
  ['v35','30/10/2026',['Links: botão "+ Cadastrar novo influenciador" dentro do formulário do link. Depois de salvar o influenciador, o link volta já com ele escolhido.']],
