@@ -158,9 +158,8 @@
     box.addEventListener('click', e => { const b = e.target.closest('button[data-v]'); if (b) adicionar([Number(b.dataset.v)], b, true); });
   }
 
-  // Marca pequena à direita, na altura do preço
-  {%- assign omg_mh = product.vendor | handleize -%}
-  {%- assign omg_mc = collections[omg_mh] -%}
+  /* Marca pequena à direita, na altura do preço */
+  {% assign omg_mh = product.vendor | handleize %}{% assign omg_mc = collections[omg_mh] %}
   const MARCA_URL = {% if omg_mc and omg_mc.products_count > 0 %}{{ omg_mc.url | json }}{% else %}{{ product.vendor | url_for_vendor | json }}{% endif %};
   function marca() {
     if (!ATUAL.m) return;
