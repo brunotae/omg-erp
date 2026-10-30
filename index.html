@@ -215,9 +215,11 @@ pre.code{background:var(--surface2);border:1px solid var(--line);border-radius:v
 .sec{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 14px}
 .pr-conta{width:100%;border-collapse:collapse;font-size:13px}.pr-conta td{padding:4px 0;border-bottom:1px dashed var(--line)}.pr-conta tr:last-child td{font-weight:700;border-bottom:0}
 .px-lote{position:sticky;top:0;z-index:5;padding:10px 12px}.px-lote-in{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-size:12.5px}.px-lote-in span{display:inline-flex;gap:6px;align-items:center}.px-lote-in input{width:70px;padding:5px 6px}.px-lote-in .sp{flex:1}
-.px-wrap{max-height:calc(100dvh - 250px)}.px-t{font-size:12px}.px-t th,.px-t td{white-space:nowrap;padding:5px 6px}.px-t td.px-nome{white-space:normal;min-width:220px;max-width:320px}.px-t td.px-nome a{color:var(--ink,#2b1520);text-decoration:none}.px-t td.px-nome a:hover{color:var(--accent);text-decoration:underline}
-.px-t thead tr:first-child th{position:sticky;top:0;background:var(--surface,#fff);z-index:2}.px-t .px-frow th{position:sticky;top:29px;background:var(--surface,#fff);z-index:2;padding:2px 3px}.px-th{cursor:pointer;user-select:none}
-.px-fi input{width:100%;min-width:60px;padding:3px 5px;font-size:11px;border:1px solid var(--line);border-radius:5px}.px-in{width:58px;padding:3px 5px;font-size:12px;text-align:right;border:1px solid var(--line);border-radius:5px}.px-in.pad{color:var(--muted)}
+.px-wrap{max-height:calc(100dvh - 250px)}.px-t{font-size:11.5px;width:100%;table-layout:auto}.px-t th,.px-t td{white-space:nowrap;padding:4px 5px}.px-t th{font-size:10px;letter-spacing:.02em}
+.px-t td.px-nome{white-space:normal;min-width:150px;max-width:230px;line-height:1.25}.px-t td.px-nome a{color:var(--ink,#2b1520);text-decoration:none}.px-t td.px-nome a:hover{color:var(--accent);text-decoration:underline}
+.px-t td.px-marca{max-width:90px;overflow:hidden;text-overflow:ellipsis}.px-t td.px-st{white-space:normal;min-width:90px;max-width:150px}.px-t td.px-st .pill{font-size:10.5px;padding:2px 7px}
+.px-t thead tr:first-child th{position:sticky;top:0;background:var(--surface,#fff);z-index:2}.px-t .px-frow th{position:sticky;top:25px;background:var(--surface,#fff);z-index:2;padding:2px 3px}.px-th{cursor:pointer;user-select:none}
+.px-fi input{width:100%;min-width:34px;padding:2px 4px;font-size:10.5px;border:1px solid var(--line);border-radius:5px}.px-in{width:44px;padding:2px 3px;font-size:11.5px;text-align:right;border:1px solid var(--line);border-radius:5px;-moz-appearance:textfield}.px-in::-webkit-inner-spin-button,.px-in::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}.px-in.pad{color:var(--muted)}
 .px-t tr.px-on td{background:var(--soft,#fbeff4)}.px-t td small{display:block;font-size:10.5px;color:var(--muted)}
 .pr-ref{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--line);font-size:13px}.pr-ref a{color:var(--accent)}
 .sec>.label{grid-column:1/-1;padding-top:4px;border-top:1px solid var(--line);padding-top:14px}
@@ -844,7 +846,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v40 · 30/10/2026';
+const VERSAO='v41 · 30/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1594,9 +1596,9 @@ function pxCalc(p){
 function pxStatus(x){if(x.erro)return ['erro',x.erro];if(!x.muda)return ['igual','igual ao site'];if(x.ok)return ['ok','OK · pronto'];if(x.okVelho)return ['velho','recalcular'];return ['muda','a calcular']}
 const PX_COLS=[
  ['sku','SKU',x=>x.p.sku,'t'],['nome','Produto',x=>x.p.nome,'t'],['marca','Marca',x=>x.p.marca,'t'],['peso','Peso',x=>x.peso,'n'],
- ['fonte','Ref.',x=>x.ref?x.ref.cod:'—','t'],['refn','Ref. normal',x=>x.ref?(x.tipo==='ext'?x.ref.usd:x.ref.normal):null,'n'],['refpix','Ref. Pix',x=>x.ref&&x.tipo==='conc'?x.ref.pix:null,'n'],
- ['d','% abaixo',x=>x.d,'n'],['fp','% frete',x=>x.fp,'n'],['frete','Frete Fortaleza',x=>x.freteCheio,'n'],['exib','Frete exibido',x=>x.freteExib,'n'],
- ['novo','Mercadoria nova',x=>x.novo,'n'],['atual','Preço atual',x=>x.atual,'n'],['dif','Dif.',x=>x.dif,'n'],['final','Final Fortaleza',x=>x.final,'n'],['st','Status',x=>pxStatus(x)[1]+(x.flags.length?' · '+x.flags.join(' · '):''),'t']];
+ ['ref','Referência',x=>x.ref?(x.tipo==='ext'?x.ref.usd:x.ref.pix):null,'n',x=>x.ref?x.ref.cod+' '+x.ref.nome:'—'],
+ ['d','% abaixo',x=>x.d,'n'],['fp','% frete',x=>x.fp,'n'],['frete','Frete',x=>x.freteExib,'n'],
+ ['novo','Novo',x=>x.novo,'n',x=>has(x.dif)?String(x.dif):''],['atual','Hoje',x=>x.atual,'n'],['final','Final CE',x=>x.final,'n'],['st','Status',x=>pxStatus(x)[1]+(x.flags.length?' · '+x.flags.join(' · '):''),'t']];
 const pxNorm=s=>String(s==null?'':s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
 function pxMatch(v,f,tipo){f=String(f||'').trim();if(!f)return true;
  if(tipo==='n'){const x=pxNum(v),g=f.replace(/\s/g,'').replace(',','.');let m;
@@ -1609,7 +1611,7 @@ function pxLinhas(){const q=pxNorm(S.q||'');
  let L=pxLista().map(pxCalc);
  if(q)L=L.filter(x=>pxNorm(x.p.nome+' '+x.p.marca+' '+x.p.sku).includes(q));
  if(PX.st)L=L.filter(x=>PX.st==='aviso'?x.flags.length>0:pxStatus(x)[0]===PX.st);
- PX_COLS.forEach(([k,,g,t])=>{if(PX.f[k])L=L.filter(x=>pxMatch(g(x),PX.f[k],t))});
+ PX_COLS.forEach(([k,,g,t,gt])=>{const f=PX.f[k];if(!f)return;const txt=gt&&/[a-z]/i.test(f)&&!/^vazio$/i.test(f.trim());L=L.filter(x=>txt?pxMatch(gt(x),f,'t'):pxMatch(g(x),f,t))});
  const [sk,dir]=PX.sort,col=PX_COLS.find(c=>c[0]===sk);
  if(col)L.sort((a,b)=>{const va=col[2](a),vb=col[2](b);if(col[3]==='n'){const A=pxNum(va),B=pxNum(vb);if(A==null&&B==null)return 0;if(A==null)return 1;if(B==null)return -1;return (A-B)*dir}
   return String(va||'').localeCompare(String(vb||''),'pt-BR',{numeric:true})*dir||String(a.p.nome).localeCompare(String(b.p.nome))});
@@ -1638,21 +1640,19 @@ VIEWFN.pricing=()=>{
   '<button class="btn sm" type="button" id="px-calc"'+(selCalc.length&&!PX.busy?'':' disabled')+'>Calcular (OK) · '+selCalc.length+'</button>'+
   '<button class="btn pri sm" type="button" id="px-tx"'+(selTx.length&&!PX.busy?'':' disabled')+'>'+(PX.busy==='tx'?'Transmitindo…':'Transmitir ao Shopify · '+selTx.length)+'</button></div></div>':'';
  const th=PX_COLS.map(([k,l,,t])=>'<th class="'+(t==='n'?'r ':'')+'px-th" data-pxsort="'+k+'">'+l+(PX.sort[0]===k?(PX.sort[1]>0?' ▲':' ▼'):'')+'</th>').join('');
- const tf=PX_COLS.map(([k,,,t])=>'<th class="px-fi"><input data-pxf="'+k+'" value="'+esc(PX.f[k]||'')+'" placeholder="'+(t==='n'?'>10, 5-20':'filtrar')+'" aria-label="Filtro" data-1c="off"></th>').join('');
+ const tf=PX_COLS.map(([k,,,t])=>'<th class="px-fi"><input data-pxf="'+k+'" value="'+esc(PX.f[k]||'')+'" placeholder="'+(k==='ref'?'ks, >100':t==='n'?'>10':'filtrar')+'" aria-label="Filtro" data-1c="off"></th>').join('');
  const allOn=L.length&&L.every(x=>PX.sel.has(x.p.id));
  const cel=(v,b)=>has(v)?(b?'<b>'+brl(v)+'</b>':brl(v)):'<span class="muted">—</span>';
- const row=x=>{const st=pxStatus(x),r=x.ref;
+ const row=x=>{const st=pxStatus(x),r=x.ref,dif=has(x.dif)&&x.muda?'<small style="color:'+(x.dif<0?'#1D7A4F':'#A15C00')+'">'+(x.dif>0?'+':'')+x.dif.toFixed(1).replace('.',',')+'%</small>':'';
   return '<tr'+(PX.sel.has(x.p.id)?' class="px-on"':'')+'><td class="rx-ck"><input type="checkbox" data-pxsel="'+esc(x.p.id)+'"'+(PX.sel.has(x.p.id)?' checked':'')+' aria-label="Selecionar"></td>'+
-  '<td class="num">'+esc(x.p.sku)+'</td><td class="px-nome"><a href="#" data-pxabre="'+esc(x.p.id)+'">'+esc(x.p.nome)+'</a></td><td>'+esc(x.p.marca||'')+'</td><td class="r num">'+(x.peso?x.peso+' g':'<span class="muted">—</span>')+'</td>'+
-  '<td>'+(r?(r.url?'<a href="'+esc(r.url)+'" target="_blank" rel="noopener" title="'+esc(r.nome)+'"><b>'+r.cod+'</b></a>':'<b>'+r.cod+'</b>'):'<span class="muted">—</span>')+'</td>'+
-  '<td class="r num">'+(r?(x.tipo==='ext'?'US$ '+r.usd.toFixed(2).replace('.',','):brl(r.normal)):'<span class="muted">—</span>')+'</td>'+
-  '<td class="r num">'+(r&&x.tipo==='conc'?'<b>'+brl(r.pix)+'</b>'+(r.pixLido?(r.pixPct?'<small>−'+pxPct(r.pixPct)+'</small>':''):'<small>não lido</small>'):'<span class="muted">—</span>')+'</td>'+
+  '<td class="num">'+esc(x.p.sku)+'</td><td class="px-nome"><a href="#" data-pxabre="'+esc(x.p.id)+'" title="'+esc(x.p.nome)+'">'+esc(String(x.p.nome).split(':')[0])+'</a></td><td class="px-marca" title="'+esc(x.p.marca||'')+'">'+esc(x.p.marca||'')+'</td><td class="r num">'+(x.peso?x.peso+'g':'<span class="muted">—</span>')+'</td>'+
+  '<td class="r num">'+(r?(r.url?'<a href="'+esc(r.url)+'" target="_blank" rel="noopener" title="'+esc(r.nome)+'"><b>'+r.cod+'</b></a> ':'<b>'+r.cod+'</b> ')+(x.tipo==='ext'?'<b>US$ '+r.usd.toFixed(2).replace('.',',')+'</b>':'<b>'+brl(r.pix)+'</b><small>'+(r.pixLido?(r.pixPct?'Pix −'+pxPct(r.pixPct)+' · normal '+brl(r.normal):'Pix = normal'):'Pix não lido')+'</small>'):'<span class="muted">—</span>')+'</td>'+
   '<td class="r">'+(can()?'<input class="px-in'+(x.dPad?' pad':'')+'" type="number" step="0.5" data-pxd="'+esc(x.p.id)+'" value="'+x.d+'" aria-label="% abaixo" data-1c="off">':pxPct(x.d))+'</td>'+
   '<td class="r">'+(can()?'<input class="px-in'+(x.fpPad?' pad':'')+'" type="number" step="5" min="0" max="100" data-pxfp="'+esc(x.p.id)+'" value="'+x.fp+'" aria-label="% frete exibido" data-1c="off">':pxPct(x.fp))+'</td>'+
-  '<td class="r num">'+cel(x.freteCheio)+'</td><td class="r num">'+cel(x.freteExib)+'</td><td class="r num">'+cel(x.novo,true)+'</td><td class="r num">'+cel(x.atual)+'</td>'+
-  '<td class="r">'+(has(x.dif)&&x.muda?'<span class="pill '+(x.dif<0?'p-ok':'p-warn')+'">'+(x.dif>0?'+':'')+x.dif.toFixed(1).replace('.',',')+'%</span>':'')+'</td>'+
+  '<td class="r num">'+cel(x.freteExib)+(has(x.freteCheio)&&Math.abs(x.freteCheio-x.freteExib)>0.005?'<small>de '+brl(x.freteCheio)+'</small>':'')+'</td>'+
+  '<td class="r num">'+cel(x.novo,true)+dif+'</td><td class="r num">'+cel(x.atual)+'</td>'+
   '<td class="r num">'+cel(x.final)+(x.tipo==='conc'&&has(x.abaixo)?'<small>'+pxPct(x.abaixo)+' abaixo</small>':'')+'</td>'+
-  '<td><span class="pill '+PX_ST_PILL[st[0]]+'">'+esc(st[1])+'</span>'+(x.flags.length?'<small style="color:#B3261E">'+esc(x.flags.join(' · '))+'</small>':'')+'</td></tr>'};
+  '<td class="px-st"><span class="pill '+PX_ST_PILL[st[0]]+'">'+esc(st[1])+'</span>'+(x.flags.length?'<small style="color:#B3261E" title="'+esc(x.flags.join(' · '))+'">'+esc(x.flags.join(' · '))+'</small>':'')+'</td></tr>'};
  const tabela='<div class="card"><div class="tblwrap px-wrap"><table class="px-t"><thead><tr><th class="rx-ck"><input type="checkbox" id="px-sel-all"'+(allOn?' checked':'')+' aria-label="Selecionar todos os filtrados" title="Seleciona todos os '+L.length+' filtrados"></th>'+th+'</tr><tr class="px-frow"><th></th>'+tf+'</tr></thead><tbody>'+
   (vis.length?vis.map(row).join(''):'<tr><td colspan="'+(PX_COLS.length+1)+'" class="muted" style="text-align:center;padding:20px">Nenhum produto com esses filtros.</td></tr>')+'</tbody></table></div>'+
   '<p class="muted" style="margin:8px 0 0;font-size:11.5px">'+L.length+' de '+A.length+' produtos'+(L.length>vis.length?' · mostrando '+vis.length+' <button class="btn sm" type="button" id="px-mais">Mostrar mais 300</button>':'')+
@@ -3243,6 +3243,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v41','30/10/2026',['Pricing: tabela mais estreita para caber numa tela. Referência junta fonte, Pix e preço normal; o frete mostra o exibido (e o cheio embaixo quando for diferente); a diferença aparece embaixo do preço novo. Filtro da Referência aceita a fonte (ks, jn) ou valor (>100).']],
  ['v40','30/10/2026',['Novo setor Pricing (no lugar de Campanhas de preço), pelo Guia de precificação v2: tabela com todos os produtos do site, filtro em cada coluna, ordenar clicando no título, seleção em lote.','Referência = menor preço no Pix entre KS (KS) e Jini (JN), só concorrentes conferidos e com estoque. O ERP agora lê o desconto do Pix nas duas lojas.','Preço final em Fortaleza = mercadoria + frete exibido + ICMS 20%, pelo menos 5% abaixo da referência. % abaixo e % do frete exibido editáveis por produto ou em lote; o preço final não muda com o % do frete.','Frete = calculadora do site para Fortaleza pelo peso do Shopify (botão Cotar frete Fortaleza). Imposto de importação fora da conta, com aviso acima de US$ 50.','Sem KS/Jini: maior varejo oficial entre YesStyle, Olive Young Global, Jolse e Sephora Global (US$) + 15%, câmbio do dia. Os preços entram na ficha do produto (clique no nome).','Fluxo: Calcular (OK) → Transmitir ao Shopify. Cada transmissão fica guardada e pode ser revertida.','Precificação virou Concorrentes: ligar e conferir KS/Jini de cada produto. Os preços agora só saem do Pricing.','Catálogo: peso de 1.922 produtos preenchido com o peso já enviado ao Shopify.']],
  ['v39','30/10/2026',['Campanhas de preço: lista de marcas organizada em colunas, em ordem alfabética, com o número de produtos no site e (em verde) quantos têm concorrente válido. Botões Marcar todas e Limpar.']],
  ['v38','30/10/2026',['Menu: clique no nome de um grupo (Operação, Dinheiro, Estoque e compras…) para recolher ou abrir. O ERP lembra neste aparelho. Grupo recolhido mostra a soma dos avisos; a tela aberta sempre aparece.']],
