@@ -1,22 +1,27 @@
 name: Precos - ler concorrentes (semanal)
-# Lê o catálogo inteiro da KS e da Jini e grava no ERP (tabela conc_catalogo).
+# Lê o catálogo inteiro da KS e da Jini e grava no ERP (tabela conc_catalogo), pela função conc-semanal do Supabase.
 # Roda toda segunda às 05:37 (Brasília) e quando alguém clica em "Run workflow".
 on:
   schedule:
     - cron: '37 8 * * 1'
   workflow_dispatch:
-    inputs:
-      loja:
-        description: 'Só uma loja (ks ou jini). Vazio = as duas'
-        required: false
-        default: ''
 jobs:
   ler:
     runs-on: ubuntu-latest
     timeout-minutes: 40
     steps:
-      - uses: actions/checkout@v4
-      - name: Ler
-        env:
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-        run: python3 tools/precos/ler_concorrentes.py ${{ inputs.loja }}
+      - name: Ler KS e Jini
+        run: |
+          INICIO=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          for LOJA in ks jini; do
+            DE=0
+            while :; do
+              R=$(curl -sS -m 150 -X POST https://nzsiuniabovvptuqmkmi.supabase.co/functions/v1/conc-semanal \
+                -H 'content-type: application/json' -d "{\"loja\":\"$LOJA\",\"de\":$DE,\"qtd\":40,\"inicio\":\"$INICIO\"}")
+              echo "$R" | head -c 600; echo
+              FIM=$(echo "$R" | jq -r '.fim // "erro"')
+              [ "$FIM" = "erro" ] && { echo "::error::$LOJA parou em $DE"; break; }
+              [ "$FIM" = "true" ] && { echo "::notice::$LOJA: $(echo "$R" | jq -r .total) páginas"; break; }
+              DE=$((DE+40))
+            done
+          done

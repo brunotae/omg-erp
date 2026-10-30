@@ -11,3 +11,6 @@ verify_jwt = false
 
 [functions.ir]
 verify_jwt = false
+
+[functions.conc-semanal]
+verify_jwt = false
