@@ -1,0 +1,19 @@
+name: Variantes - baixar versões oficiais
+on:
+  push:
+    branches: [main]
+    paths: ['tools/variantes/oficiais.py']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  baixar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/variantes/oficiais.py
+      - run: |
+          git config user.name "omg-bot"; git config user.email "bot@ohmygirl.com.br"
+          git add tools/variantes
+          git commit -m "Versões oficiais dos produtos sem escolha" || true
+          git pull --rebase origin main && git push
