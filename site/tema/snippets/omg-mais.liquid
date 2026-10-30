@@ -227,7 +227,7 @@
     if (b) adicionar([Number(b.dataset.v)], b, false);
   });
   let t = null;
-  const agenda = () => { clearTimeout(t); t = setTimeout(montarCarrinho, 250); };
+  const agenda = () => { if (t) return; t = setTimeout(() => { t = null; montarCarrinho(); }, 250); };
   document.addEventListener('cart:update', agenda);
   new MutationObserver(() => {
     const precisa = [...document.querySelectorAll('.cart-drawer__items, .cart-page cart-items-component, main cart-items-component')].some(el => !el.closest('template') && !el.parentElement.querySelector(':scope > .omg-cm-wrap'));
