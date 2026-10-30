@@ -1,0 +1,5 @@
+{%- liquid
+  assign v = p.selected_or_first_available_variant
+  assign img = p.featured_image | image_url: width: 300
+-%}
+{"id":{{ p.id }},"v":{{ v.id }},"t":{{ p.title | json }},"u":{{ p.url | json }},"p":{{ v.price }},"c":{{ v.compare_at_price | default: 0 }},"i":{{ img | json }},"a":{{ p.available }},"y":{{ p.type | json }},"m":{{ p.vendor | json }},"n":{{ p.variants.size }}}

@@ -1,0 +1,231 @@
+{%- comment -%}
+  OMG · motivação para comprar mais (incluído no layout/theme.liquid, depois de omg-site):
+  1) Página do produto: "Compre junto" (produto + 2 recomendados) e "Complete sua rotina" (passos da mesma marca).
+  2) Carrinho (gaveta e página): "Quem comprou também levou" e "Aproveite e leve" (itens até R$ 59).
+  Dados vêm da seção sections/omg-lista.liquid via Section Rendering API.
+{%- endcomment -%}
+<style>
+  .omg-mais{max-width:var(--page-width,1200px);margin:0 auto;padding:8px var(--page-margin,16px) 8px}
+  .omg-mais__box{border:1px solid #E6D9DF;border-radius:16px;padding:18px;margin:18px 0;background:#fff}
+  .omg-mais__tit{font-size:18px;font-weight:700;color:#4A2638;margin:0 0 4px}
+  .omg-mais__sub{font-size:13px;color:#7a6470;margin:0 0 14px}
+  .omg-cj{display:flex;align-items:stretch;gap:8px;overflow-x:auto;padding-bottom:4px}
+  .omg-cj__item{flex:0 0 150px;display:flex;flex-direction:column;gap:6px;position:relative}
+  .omg-cj__item img{width:100%;aspect-ratio:1;object-fit:contain;border-radius:12px;background:#f1e8ec}
+  .omg-cj__item label{position:absolute;top:6px;left:6px;background:#fff;border-radius:6px;padding:2px;display:flex}
+  .omg-cj__item input{width:18px;height:18px;accent-color:#D63A5E;margin:0}
+  .omg-cj__item.is-off{opacity:.45}
+  .omg-cj__mais{flex:0 0 auto;align-self:center;font-size:22px;color:#a08f97;font-weight:300}
+  .omg-n{font-size:13px;line-height:1.3;color:#2b1520;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-decoration:none}
+  .omg-p{font-size:14px;font-weight:700;color:#4A2638}
+  .omg-p s{font-weight:400;color:#a08f97;font-size:12px;margin-left:4px}
+  .omg-cj__rodape{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid #f1e8ec}
+  .omg-cj__total{font-size:15px;color:#4A2638}
+  .omg-cj__total b{font-size:20px}
+  .omg-btn{font:inherit;font-weight:700;font-size:14px;border:0;border-radius:999px;background:#D63A5E;color:#fff;padding:12px 20px;cursor:pointer}
+  .omg-btn[disabled]{opacity:.6;cursor:default}
+  .omg-btn--leve{background:#fff;color:#D63A5E;border:1px solid #D63A5E;padding:6px 12px;font-size:12px}
+  .omg-rot{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px}
+  .omg-rot__passo{flex:0 0 150px;display:flex;flex-direction:column;gap:6px}
+  .omg-rot__num{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#B83D66}
+  .omg-rot__passo img{width:100%;aspect-ratio:1;object-fit:contain;border-radius:12px;background:#f1e8ec}
+  .omg-rot__passo.is-atual img{outline:2px solid #D63A5E;outline-offset:-2px}
+  .omg-rot__atual{font-size:12px;color:#D63A5E;font-weight:700}
+  .omg-pp{position:relative}
+  .omg-marca{position:absolute;right:0;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#7a6470;text-decoration:none;border:1px solid #E6D9DF;border-radius:999px;padding:4px 10px;background:#fff;max-width:45%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .omg-marca:hover{color:#D63A5E;border-color:#D63A5E}
+  .omg-cm{margin:12px 0 4px;padding:12px;border-radius:12px;background:#FDEEF3}
+  .omg-cm + .omg-cm{margin-top:8px}
+  .omg-cm__tit{font-size:14px;font-weight:700;color:#4A2638;margin:0 0 8px}
+  .omg-cm__lista{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px}
+  .omg-cm__item{flex:0 0 118px;background:#fff;border-radius:10px;padding:8px;display:flex;flex-direction:column;gap:4px}
+  .omg-cm__item img{width:100%;aspect-ratio:1;object-fit:contain;border-radius:8px}
+  .omg-cm__item .omg-n{font-size:12px}
+  .omg-cm__item .omg-p{font-size:13px}
+</style>
+<script>
+(() => {
+  const BRL = c => (c / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
+  const raiz = (window.Shopify && Shopify.routes && Shopify.routes.root) || '/';
+
+  async function lista(url, chave) {
+    try { const c = sessionStorage.getItem(chave); if (c) { const o = JSON.parse(c); if (Date.now() - o.t < 600000) return o.d; } } catch (e) {}
+    try {
+      const h = await (await fetch(url)).text();
+      const m = h.match(/<script type="application\/json" data-omg-lista>([\s\S]*?)<\/script>/);
+      const d = m ? JSON.parse(m[1]) : [];
+      try { sessionStorage.setItem(chave, JSON.stringify({ t: Date.now(), d })); } catch (e) {}
+      return d;
+    } catch (e) { return []; }
+  }
+  const reco = (id, lim) => lista(`${raiz}recommendations/products?product_id=${id}&limit=${lim}&intent=related&section_id=omg-lista`, 'omg-reco-' + id);
+  const daMarca = m => lista(`${raiz}collections/vendors?q=${encodeURIComponent(m)}&section_id=omg-lista`, 'omg-marca-' + m);
+  const baratos = () => lista(`${raiz}collections/all?filter.v.price.gte=20&filter.v.price.lte=59&filter.v.availability=1&sort_by=best-selling&section_id=omg-lista`, 'omg-baratos');
+
+  // Passo da rotina coreana pelo nome/tipo do produto
+  const PASSOS = ['', 'Limpeza', 'Tônico', 'Sérum', 'Hidratante', 'Protetor solar'];
+  function passo(p) {
+    const s = ((p.t || '') + ' ' + (p.y || '')).toLowerCase();
+    if (/\b(kit|duo|dupla|trio|set|conjunto|combo)\b|cushion|\bbase\b|batom|\blip|tint|cílios|cilios|sombra|corretivo|shampoo|capilar|cabelo|\bhair|suplemento|aparelho|device|patch|adesivo|máscara|mascara|refil|mini\b|amostra|trial/.test(s)) return 0;
+    if (/protetor|\bfps\b|\bspf\b|solar|sunscreen|sun (cream|stick|serum|essence|gel)/.test(s)) return 5;
+    if (/limpeza|cleans|espuma|foam|micelar|sabonete|\bbalm\b|bálsamo|óleo de limpeza|\bwash\b/.test(s)) return 1;
+    if (/tônico|tonico|toner|\bpads?\b|discos?\b|essência|essencia|essence/.test(s)) return 2;
+    if (/sérum|serum|ampola|ampoule/.test(s)) return 3;
+    if (/creme|cream|loção|locao|lotion|hidratante|emuls|moistur/.test(s)) return 4;
+    return 0;
+  }
+
+  async function adicionar(itens, btn, abrir) {
+    if (btn) { btn.disabled = true; btn.dataset.txt = btn.textContent; btn.textContent = 'Adicionando…'; }
+    try {
+      const r = await fetch(raiz + 'cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ items: itens.map(v => ({ id: v, quantity: 1 })) }) });
+      if (!r.ok) throw new Error((await r.json()).description || 'erro');
+      const cart = await (await fetch(raiz + 'cart.js')).json();
+      const ev = new Event('cart:update', { bubbles: true });
+      ev.detail = { resource: cart, sourceId: 'omg-mais', data: { source: 'omg-mais', itemCount: cart.item_count } };
+      document.dispatchEvent(ev);
+      if (btn) btn.textContent = 'Adicionado ✓';
+      if (abrir) { const d = document.querySelector('cart-drawer-component'); if (d && d.open) d.open(); else location.href = raiz + 'cart'; }
+      else if (/\/cart\/?$/.test(location.pathname)) setTimeout(() => location.reload(), 300);
+    } catch (e) {
+      if (btn) { btn.textContent = 'Não foi possível adicionar'; }
+    } finally {
+      if (btn) setTimeout(() => { btn.disabled = false; btn.textContent = btn.dataset.txt; }, 2200);
+    }
+  }
+
+  {%- if template.name == 'product' and product -%}
+  // ---------- Página do produto ----------
+  const ATUAL = {
+    id: {{ product.id }}, t: {{ product.title | json }}, y: {{ product.type | json }}, m: {{ product.vendor | json }},
+    u: {{ product.url | json }}, i: {{ product.featured_image | image_url: width: 300 | json }},
+    v: {{ product.selected_or_first_available_variant.id }},
+    precos: { {%- for v in product.variants -%}"{{ v.id }}":{{ v.price }}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%} },
+    a: {{ product.available }}
+  };
+  const varAtual = () => {
+    const f = document.querySelector('form[action*="/cart/add"] [name="id"]');
+    const v = f && f.value ? Number(f.value) : ATUAL.v;
+    return ATUAL.precos[v] !== undefined ? v : ATUAL.v;
+  };
+  const card = (p, extra = '') => `<img src="${esc(p.i)}" alt="" loading="lazy" width="150" height="150"><a class="omg-n" href="${esc(p.u)}">${esc(p.t)}</a><span class="omg-p">${BRL(p.p)}${p.c > p.p ? `<s>${BRL(p.c)}</s>` : ''}</span>${extra}`;
+
+  async function compreJunto(alvo) {
+    const recs = (await reco(ATUAL.id, 8)).filter(p => p.a && p.id !== ATUAL.id && p.n === 1 && p.p > 0).slice(0, 2);
+    if (!ATUAL.a || recs.length < 1) return;
+    const itens = [{ ...ATUAL, v: varAtual(), p: ATUAL.precos[varAtual()], c: 0, atual: true }, ...recs];
+    const box = document.createElement('div');
+    box.className = 'omg-mais__box';
+    box.innerHTML = `<p class="omg-mais__tit">Compre junto</p><p class="omg-mais__sub">Quem leva este produto costuma combinar com estes.</p>
+      <div class="omg-cj">${itens.map((p, k) => `${k ? '<span class="omg-cj__mais">+</span>' : ''}<div class="omg-cj__item" data-k="${k}"><label><input type="checkbox" checked aria-label="Incluir ${esc(p.t)}"></label>${card(p, p.atual ? '<span class="omg-rot__atual">Este produto</span>' : '')}</div>`).join('')}</div>
+      <div class="omg-cj__rodape"><span class="omg-cj__total"></span><button type="button" class="omg-btn"></button></div>`;
+    alvo.appendChild(box);
+    const total = box.querySelector('.omg-cj__total'), btn = box.querySelector('.omg-btn');
+    const marcados = () => [...box.querySelectorAll('.omg-cj__item')].filter(el => el.querySelector('input').checked).map(el => itens[el.dataset.k]);
+    const atualiza = () => {
+      itens[0].v = varAtual(); itens[0].p = ATUAL.precos[itens[0].v];
+      const m = marcados();
+      box.querySelectorAll('.omg-cj__item').forEach(el => el.classList.toggle('is-off', !el.querySelector('input').checked));
+      total.innerHTML = m.length ? `Total: <b>${BRL(m.reduce((s, p) => s + p.p, 0))}</b>` : 'Escolha pelo menos 1 produto';
+      btn.textContent = m.length === itens.length ? `Adicionar os ${m.length} ao carrinho` : m.length === 1 ? 'Adicionar 1 ao carrinho' : `Adicionar ${m.length} ao carrinho`;
+      btn.disabled = !m.length;
+    };
+    box.addEventListener('change', atualiza);
+    document.addEventListener('change', e => { if (e.target.closest && e.target.closest('variant-picker, form[action*="/cart/add"]')) setTimeout(atualiza, 50); });
+    btn.addEventListener('click', () => adicionar(marcados().map(p => p.v), btn, true));
+    atualiza();
+  }
+
+  async function rotina(alvo) {
+    if (!ATUAL.m) return;
+    const meu = passo(ATUAL);
+    const todos = (await daMarca(ATUAL.m)).filter(p => p.a && p.p > 0 && p.id !== ATUAL.id);
+    const porPasso = {};
+    for (const p of todos) { const k = passo(p); if (k && k !== meu && !porPasso[k]) porPasso[k] = p; }
+    const achados = Object.keys(porPasso).length;
+    if (achados < 2) return;
+    const passos = [1, 2, 3, 4, 5].filter(k => porPasso[k] || k === meu);
+    const box = document.createElement('div');
+    box.className = 'omg-mais__box';
+    box.innerHTML = `<p class="omg-mais__tit">Complete sua rotina com ${esc(ATUAL.m)}</p><p class="omg-mais__sub">A rotina coreana em passos, com produtos da mesma marca.</p>
+      <div class="omg-rot">${passos.map(k => {
+        if (k === meu) return `<div class="omg-rot__passo is-atual"><span class="omg-rot__num">Passo ${k} · ${PASSOS[k]}</span>${card({ ...ATUAL, p: ATUAL.precos[varAtual()], c: 0 }, '<span class="omg-rot__atual">Este produto</span>')}</div>`;
+        const p = porPasso[k];
+        return `<div class="omg-rot__passo"><span class="omg-rot__num">Passo ${k} · ${PASSOS[k]}</span>${card(p, p.n === 1 ? `<button type="button" class="omg-btn omg-btn--leve" data-v="${p.v}">+ Adicionar</button>` : `<a class="omg-btn omg-btn--leve" href="${esc(p.u)}" style="text-align:center;text-decoration:none">Escolher opção</a>`)}</div>`;
+      }).join('')}</div>`;
+    alvo.appendChild(box);
+    box.addEventListener('click', e => { const b = e.target.closest('button[data-v]'); if (b) adicionar([Number(b.dataset.v)], b, true); });
+  }
+
+  // Marca pequena à direita, na altura do preço
+  {%- assign omg_mh = product.vendor | handleize -%}
+  {%- assign omg_mc = collections[omg_mh] -%}
+  const MARCA_URL = {% if omg_mc and omg_mc.products_count > 0 %}{{ omg_mc.url | json }}{% else %}{{ product.vendor | url_for_vendor | json }}{% endif %};
+  function marca() {
+    if (!ATUAL.m) return;
+    const pp = document.querySelector('[id^="shopify-section-template"][id$="__main"] product-price');
+    if (!pp || pp.querySelector('.omg-marca')) return;
+    pp.classList.add('omg-pp');
+    const a = document.createElement('a');
+    a.className = 'omg-marca'; a.href = MARCA_URL; a.textContent = ATUAL.m; a.title = 'Ver todos os produtos ' + ATUAL.m;
+    pp.appendChild(a);
+  }
+  new MutationObserver(marca).observe(document.documentElement, { childList: true, subtree: true });
+
+  function iniciarProduto() {
+    marca();
+    const main = document.querySelector('[id^="shopify-section-template"][id$="__main"]');
+    if (!main || document.getElementById('omg-mais-pdp')) return;
+    const alvo = document.createElement('div');
+    alvo.id = 'omg-mais-pdp'; alvo.className = 'omg-mais';
+    main.after(alvo);
+    compreJunto(alvo).then(() => rotina(alvo));
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', iniciarProduto); else iniciarProduto();
+  {%- endif -%}
+
+  // ---------- Carrinho (gaveta e página) ----------
+  let montando = false, ultimaChave = '';
+  const mini = p => `<div class="omg-cm__item"><img src="${esc(p.i)}" alt="" loading="lazy" width="100" height="100"><a class="omg-n" href="${esc(p.u)}">${esc(p.t)}</a><span class="omg-p">${BRL(p.p)}</span>${p.n === 1 ? `<button type="button" class="omg-btn omg-btn--leve" data-v="${p.v}">+ Adicionar</button>` : `<a class="omg-btn omg-btn--leve" href="${esc(p.u)}" style="text-align:center;text-decoration:none">Ver opções</a>`}</div>`;
+
+  async function montarCarrinho() {
+    const alvos = [...document.querySelectorAll('.cart-drawer__items, .cart-page cart-items-component, main cart-items-component')].filter(el => !el.closest('template'));
+    if (!alvos.length || montando) return;
+    montando = true;
+    try {
+      const cart = await (await fetch(raiz + 'cart.js')).json();
+      const chave = cart.items.map(i => i.variant_id + 'x' + i.quantity).join(',');
+      if (!cart.item_count) { document.querySelectorAll('.omg-cm').forEach(e => e.remove()); return; }
+      const noCarrinho = new Set(cart.items.map(i => i.product_id));
+      const [recs, bar] = await Promise.all([reco(cart.items[0].product_id, 10), baratos()]);
+      const r = recs.filter(p => p.a && p.p > 0 && !noCarrinho.has(p.id)).slice(0, 6);
+      const usados = new Set(r.map(p => p.id));
+      const b = bar.filter(p => p.a && p.p >= 2000 && p.p <= 5900 && !noCarrinho.has(p.id) && !usados.has(p.id)).slice(0, 8);
+      const html = (r.length ? `<div class="omg-cm" data-omg-cm><p class="omg-cm__tit">Quem comprou também levou</p><div class="omg-cm__lista">${r.map(mini).join('')}</div></div>` : '')
+        + (b.length ? `<div class="omg-cm" data-omg-cm><p class="omg-cm__tit">Aproveite e leve junto · até R$ 59</p><div class="omg-cm__lista">${b.map(mini).join('')}</div></div>` : '');
+      for (const alvo of alvos) {
+        const ja = alvo.parentElement.querySelector(':scope > .omg-cm-wrap');
+        if (ja && ja.dataset.chave === chave) continue;
+        if (ja) ja.remove();
+        const w = document.createElement('div');
+        w.className = 'omg-cm-wrap'; w.dataset.chave = chave; w.innerHTML = html;
+        alvo.after(w);
+      }
+      ultimaChave = chave;
+    } catch (e) {} finally { montando = false; }
+  }
+  document.addEventListener('click', e => {
+    const b = e.target.closest('.omg-cm-wrap button[data-v]');
+    if (b) adicionar([Number(b.dataset.v)], b, false);
+  });
+  let t = null;
+  const agenda = () => { clearTimeout(t); t = setTimeout(montarCarrinho, 250); };
+  document.addEventListener('cart:update', agenda);
+  new MutationObserver(() => {
+    const precisa = [...document.querySelectorAll('.cart-drawer__items, .cart-page cart-items-component, main cart-items-component')].some(el => !el.closest('template') && !el.parentElement.querySelector(':scope > .omg-cm-wrap'));
+    if (precisa) agenda();
+  }).observe(document.documentElement, { childList: true, subtree: true });
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', agenda); else agenda();
+})();
+</script>
