@@ -1,0 +1,148 @@
+[
+ {
+  "marca": "COSRX",
+  "site": "cosrx.com",
+  "moeda": "USD",
+  "itens_oficiais": 290,
+  "nossos": 134,
+  "arquivo": "tools/precos/planilhas/precos-oficiais-COSRX.xlsx",
+  "Certeiro": 1,
+  "Provável — conferir": 68,
+  "Conferir (tamanho/kit diferente)": 1,
+  "Fraco — conferir": 24,
+  "Sem par": 40
+ },
+ {
+  "marca": "Anua",
+  "site": "anua.us",
+  "moeda": "USD",
+  "itens_oficiais": 132,
+  "nossos": 81,
+  "arquivo": "tools/precos/planilhas/precos-oficiais-Anua.xlsx",
+  "Provável — conferir": 56,
+  "Conferir (tamanho/kit diferente)": 7,
+  "Fraco — conferir": 4,
+  "Sem par": 14
+ },
+ {
+  "marca": "SKIN1004",
+  "site": "skin1004.com",
+  "moeda": "USD",
+  "itens_oficiais": 118,
+  "nossos": 32,
+  "arquivo": "tools/precos/planilhas/precos-oficiais-SKIN1004.xlsx",
+  "Certeiro": 9,
+  "Provável — conferir": 6,
+  "Fraco — conferir": 8,
+  "Sem par": 9
+ },
+ {
+  "marca": "Beauty of Joseon",
+  "site": "beautyofjoseon.com",
+  "moeda": "USD",
+  "itens_oficiais": 198,
+  "nossos": 95,
+  "arquivo": "tools/precos/planilhas/precos-oficiais-Beauty-of-Joseon.xlsx",
+  "Provável — conferir": 28,
+  "Conferir (tamanho/kit diferente)": 1,
+  "Fraco — conferir": 15,
+  "Sem par": 51
+ },
+ {
+  "marca": "medicube",
+  "site": "medicube.us",
+  "moeda": "USD",
+  "itens_oficiais": 418,
+  "nossos": 111,
+  "arquivo": "tools/precos/planilhas/precos-oficiais-medicube.xlsx",
+  "Provável — conferir": 98,
+  "Fraco — conferir": 8,
+  "Sem par": 5
+ },
+ {
+  "marca": "TIRTIR",
+  "site": "tirtir.us",
+  "moeda": "USD",
+  "itens_oficiais": 906,
+  "nossos": 305,
+  "arquivo": "tools/precos/planilhas/precos-oficiais-TIRTIR.xlsx",
+  "Provável — conferir": 284,
+  "Conferir (tamanho/kit diferente)": 16,
+  "Fraco — conferir": 2,
+  "Sem par": 3
+ },
+ {
+  "marca": "ROUND LAB",
+  "site": "roundlab.com",
+  "moeda": "USD",
+  "itens_oficiais": 144,
+  "nossos": 111,
+  "arquivo": "tools/precos/planilhas/precos-oficiais-ROUND-LAB.xlsx",
+  "Certeiro": 6,
+  "Provável — conferir": 26,
+  "Conferir (tamanho/kit diferente)": 3,
+  "Fraco — conferir": 16,
+  "Sem par": 60
+ },
+ {
+  "marca": "celimax",
+  "site": "www.celimax.com",
+  "moeda": "USD",
+  "itens_oficiais": 61,
+  "nossos": 5,
+  "arquivo": "tools/precos/planilhas/precos-oficiais-celimax.xlsx",
+  "Certeiro": 1,
+  "Provável — conferir": 1,
+  "Conferir (tamanho/kit diferente)": 3
+ },
+ {
+  "marca": "BANILA CO",
+  "site": "banilausa.com",
+  "moeda": "USD",
+  "itens_oficiais": 162,
+  "nossos": 4,
+  "arquivo": "tools/precos/planilhas/precos-oficiais-BANILA-CO.xlsx",
+  "Certeiro": 1,
+  "Provável — conferir": 1,
+  "Conferir (tamanho/kit diferente)": 1,
+  "Fraco — conferir": 1
+ },
+ {
+  "marca": "numbuzin",
+  "site": "numbuzinus.com",
+  "moeda": "USD",
+  "itens_oficiais": 81,
+  "nossos": 30,
+  "arquivo": "tools/precos/planilhas/precos-oficiais-numbuzin.xlsx",
+  "Provável — conferir": 5,
+  "Fraco — conferir": 3,
+  "Sem par": 22
+ },
+ {
+  "marca": "PURITO SEOUL",
+  "site": "purito.com",
+  "erro": "HTTP Error 404: Not Found",
+  "nossos": 2
+ },
+ {
+  "marca": "Rejuran",
+  "site": "rejuranusa.com",
+  "moeda": "USD",
+  "itens_oficiais": 47,
+  "nossos": 1,
+  "arquivo": "tools/precos/planilhas/precos-oficiais-Rejuran.xlsx",
+  "Conferir (tamanho/kit diferente)": 1
+ },
+ {
+  "marca": "VT Cosmetics",
+  "site": "globalvt-cosmetics.com",
+  "moeda": "USD",
+  "itens_oficiais": 95,
+  "nossos": 89,
+  "arquivo": "tools/precos/planilhas/precos-oficiais-VT-Cosmetics.xlsx",
+  "Provável — conferir": 73,
+  "Conferir (tamanho/kit diferente)": 14,
+  "Fraco — conferir": 1,
+  "Sem par": 1
+ }
+]
