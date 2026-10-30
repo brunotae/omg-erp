@@ -6,8 +6,8 @@
   "itens_oficiais": 290,
   "nossos": 134,
   "arquivo": "tools/precos/planilhas/precos-oficiais-COSRX.xlsx",
-  "Certeiro": 1,
-  "Provável — conferir": 68,
+  "Certeiro": 42,
+  "Provável — conferir": 27,
   "Conferir (tamanho/kit diferente)": 1,
   "Fraco — conferir": 24,
   "Sem par": 40
@@ -19,7 +19,8 @@
   "itens_oficiais": 132,
   "nossos": 81,
   "arquivo": "tools/precos/planilhas/precos-oficiais-Anua.xlsx",
-  "Provável — conferir": 56,
+  "Certeiro": 45,
+  "Provável — conferir": 11,
   "Conferir (tamanho/kit diferente)": 7,
   "Fraco — conferir": 4,
   "Sem par": 14
@@ -31,8 +32,8 @@
   "itens_oficiais": 118,
   "nossos": 32,
   "arquivo": "tools/precos/planilhas/precos-oficiais-SKIN1004.xlsx",
-  "Certeiro": 9,
-  "Provável — conferir": 6,
+  "Certeiro": 10,
+  "Provável — conferir": 5,
   "Fraco — conferir": 8,
   "Sem par": 9
  },
@@ -43,8 +44,8 @@
   "itens_oficiais": 198,
   "nossos": 95,
   "arquivo": "tools/precos/planilhas/precos-oficiais-Beauty-of-Joseon.xlsx",
-  "Provável — conferir": 28,
-  "Conferir (tamanho/kit diferente)": 1,
+  "Certeiro": 3,
+  "Provável — conferir": 26,
   "Fraco — conferir": 15,
   "Sem par": 51
  },
@@ -55,9 +56,10 @@
   "itens_oficiais": 418,
   "nossos": 111,
   "arquivo": "tools/precos/planilhas/precos-oficiais-medicube.xlsx",
-  "Provável — conferir": 98,
-  "Fraco — conferir": 8,
-  "Sem par": 5
+  "Certeiro": 78,
+  "Provável — conferir": 20,
+  "Fraco — conferir": 7,
+  "Sem par": 6
  },
  {
   "marca": "TIRTIR",
@@ -66,7 +68,8 @@
   "itens_oficiais": 906,
   "nossos": 305,
   "arquivo": "tools/precos/planilhas/precos-oficiais-TIRTIR.xlsx",
-  "Provável — conferir": 284,
+  "Certeiro": 101,
+  "Provável — conferir": 183,
   "Conferir (tamanho/kit diferente)": 16,
   "Fraco — conferir": 2,
   "Sem par": 3
@@ -78,11 +81,11 @@
   "itens_oficiais": 144,
   "nossos": 111,
   "arquivo": "tools/precos/planilhas/precos-oficiais-ROUND-LAB.xlsx",
-  "Certeiro": 6,
-  "Provável — conferir": 26,
-  "Conferir (tamanho/kit diferente)": 3,
+  "Certeiro": 12,
+  "Provável — conferir": 17,
+  "Conferir (tamanho/kit diferente)": 4,
   "Fraco — conferir": 16,
-  "Sem par": 60
+  "Sem par": 62
  },
  {
   "marca": "celimax",
@@ -91,8 +94,7 @@
   "itens_oficiais": 61,
   "nossos": 5,
   "arquivo": "tools/precos/planilhas/precos-oficiais-celimax.xlsx",
-  "Certeiro": 1,
-  "Provável — conferir": 1,
+  "Certeiro": 2,
   "Conferir (tamanho/kit diferente)": 3
  },
  {
@@ -114,7 +116,8 @@
   "itens_oficiais": 81,
   "nossos": 30,
   "arquivo": "tools/precos/planilhas/precos-oficiais-numbuzin.xlsx",
-  "Provável — conferir": 5,
+  "Certeiro": 4,
+  "Provável — conferir": 1,
   "Fraco — conferir": 3,
   "Sem par": 22
  },
@@ -140,7 +143,8 @@
   "itens_oficiais": 95,
   "nossos": 89,
   "arquivo": "tools/precos/planilhas/precos-oficiais-VT-Cosmetics.xlsx",
-  "Provável — conferir": 73,
+  "Certeiro": 59,
+  "Provável — conferir": 14,
   "Conferir (tamanho/kit diferente)": 14,
   "Fraco — conferir": 1,
   "Sem par": 1
