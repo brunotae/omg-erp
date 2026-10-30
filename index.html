@@ -70,9 +70,10 @@ h3{font-size:13px;font-weight:700}
 .nav{display:flex;flex-direction:column;gap:2px}
 .nav .grp{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:10px 10px 4px}
 .cm-marcas{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:2px 10px;max-height:240px;overflow:auto;border:1px solid var(--line,#e5e5e5);border-radius:8px;padding:8px}
-.cm-marcas label{display:flex;align-items:center;gap:8px;font-weight:400;padding:5px 6px;border-radius:6px;cursor:pointer;min-width:0}
+.cm-marcas label{display:flex!important;flex-direction:row!important;align-items:center;gap:8px;font-weight:400;padding:5px 6px;border-radius:6px;cursor:pointer;min-width:0}
 .cm-marcas label:hover{background:rgba(0,0,0,.04)}
-.cm-marcas .nm{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cm-marcas input{width:16px!important;height:16px;flex:0 0 16px;margin:0;padding:0}
+.cm-marcas .nm{display:block!important;color:var(--ink,#2b1520);font-size:13px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cm-marcas .ct{font-size:11.5px;color:var(--muted);white-space:nowrap}
 .cm-marcas .ct b{color:#1D7A4F}
 .nav button.grp{display:flex;align-items:center;gap:6px;width:100%;background:none;border:0;cursor:pointer;font-family:inherit;text-align:left}
