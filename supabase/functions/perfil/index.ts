@@ -29,6 +29,42 @@ const txt = (v: unknown, n = 120) => (v == null ? null : String(v).trim().slice(
 const lista = (v: unknown, n = 12) => (Array.isArray(v) ? v.map((x) => String(x).trim().slice(0, 60)).filter(Boolean).slice(0, n) : null);
 const int = (v: unknown, a: number, b: number) => { const x = parseInt(String(v ?? ""), 10); return x >= a && x <= b ? x : null; };
 
+
+// ---- Shopify: etiquetas na ficha da cliente (precisa write_customers) ----
+const SHOP = Deno.env.get("SHOPIFY_SHOP") ?? "";
+const VERSAO = Deno.env.get("SHOPIFY_API_VERSION") ?? "2026-04";
+let tok = { v: "", exp: 0 };
+async function tokenShopify() {
+  const fixo = Deno.env.get("SHOPIFY_ADMIN_TOKEN"); if (fixo) return fixo;
+  if (tok.v && Date.now() < tok.exp) return tok.v;
+  const r = await fetch(`https://${SHOP}/admin/oauth/access_token`, { method: "POST", headers: { "content-type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({ grant_type: "client_credentials", client_id: Deno.env.get("SHOPIFY_CLIENT_ID") ?? "", client_secret: Deno.env.get("SHOPIFY_CLIENT_SECRET") ?? "" }) });
+  const j = await r.json(); tok = { v: j.access_token, exp: Date.now() + ((Number(j.expires_in) || 86399) - 300) * 1000 }; return tok.v;
+}
+async function gql(q: string, v: unknown) {
+  const r = await fetch(`https://${SHOP}/admin/api/${VERSAO}/graphql.json`, { method: "POST", headers: { "content-type": "application/json", "x-shopify-access-token": await tokenShopify() }, body: JSON.stringify({ query: q, variables: v }) });
+  const j = await r.json(); if (j.errors) throw new Error(JSON.stringify(j.errors).slice(0, 200)); return j.data;
+}
+const PREFIXOS = ["perfil de beleza", "pele: ", "sensível: ", "foco: ", "rotina: ", "gosta: ", "aniversário: "];
+const MESES = ["", "01-jan", "02-fev", "03-mar", "04-abr", "05-mai", "06-jun", "07-jul", "08-ago", "09-set", "10-out", "11-nov", "12-dez"];
+async function etiquetar(cid: string, l: any | null) {
+  if (!SHOP) return "sem loja";
+  const id = "gid://shopify/Customer/" + cid;
+  const d: any = await gql(`query($id: ID!) { customer(id: $id) { tags } }`, { id });
+  const velhas = (d.customer?.tags || []).filter((t: string) => PREFIXOS.some((p) => t.toLowerCase().startsWith(p)));
+  if (velhas.length) await gql(`mutation($id: ID!, $t: [String!]!) { tagsRemove(id: $id, tags: $t) { userErrors { message } } }`, { id, t: velhas });
+  if (!l) return "removidas";
+  const novas: string[] = ["perfil de beleza"];
+  if (l.tipo_pele) novas.push("pele: " + l.tipo_pele.toLowerCase());
+  if (l.sensibilidade) novas.push("sensível: " + l.sensibilidade.toLowerCase());
+  for (const x of l.preocupacoes || []) novas.push("foco: " + x.toLowerCase());
+  if (l.rotina) novas.push("rotina: " + l.rotina.split(" (")[0].toLowerCase());
+  for (const x of l.interesses || []) novas.push("gosta: " + x.toLowerCase());
+  if (l.aniversario_mes) novas.push("aniversário: " + MESES[l.aniversario_mes]);
+  const r: any = await gql(`mutation($id: ID!, $t: [String!]!) { tagsAdd(id: $id, tags: $t) { userErrors { message } } }`, { id, t: novas });
+  return r.tagsAdd.userErrors[0]?.message || "ok";
+}
+
 const CAMPOS = "nome,telefone,cep,endereco,numero,complemento,bairro,cidade,uf,aniversario_dia,aniversario_mes,tipo_pele,preocupacoes,sensibilidade,rotina,marcas,como_conheceu,interesses,consentimento,atualizado_em";
 
 Deno.serve(async (req) => {
@@ -48,6 +84,7 @@ Deno.serve(async (req) => {
   }
   if (b.acao === "apagar") {
     await sb.from("clientes_perfil").delete().eq("shopify_customer_id", cid);
+    try { await etiquetar(cid, null); } catch (_) { /* etiquetas são extra */ }
     return resp(req, 200, { ok: true });
   }
   if (b.acao === "salvar") {
@@ -65,7 +102,9 @@ Deno.serve(async (req) => {
     };
     const { error } = await sb.from("clientes_perfil").upsert(linha, { onConflict: "shopify_customer_id" });
     if (error) return resp(req, 500, { erro: "não foi possível salvar" });
-    return resp(req, 200, { ok: true });
+    let tags = "";
+    try { tags = await etiquetar(cid, linha); } catch (e) { tags = "erro: " + String((e as Error).message).slice(0, 120); }
+    return resp(req, 200, { ok: true, tags });
   }
   return resp(req, 400, { erro: "ação" });
 });
