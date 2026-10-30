@@ -2,6 +2,8 @@
 //   { acao: "sincronizar" }                              → traz todos os produtos (inclui rascunhos)
 //   { acao: "status", produtoId, ativo: true|false }     → ativa ou pausa (rascunho) no site
 //   { acao: "preco", produtoId, varianteId, preco }      → muda o preço da variante no site
+//   { acao: "precos", itens: [{ produtoId, varianteId, preco }] } → Pricing: muda até 50 preços de uma vez
+//   { acao: "frete_cotar", cep, pesos: [g] }            → Pricing: frete da calculadora do site por peso (sem o 1% do valor)
 //   { acao: "fotos", itens: [{ handle, fotos, peso_g }] } → troca as fotos pelas oficiais e corrige o peso
 //   { acao: "testar" }                                   → confere a ligação (nome da loja e permissões)
 //   { acao: "paginas", itens: [{ politica?: "PRIVACY_POLICY"|..., handle?, titulo?, html }] } → publica políticas e páginas
@@ -22,6 +24,7 @@
 //   ou, alternativa, SHOPIFY_ADMIN_TOKEN fixo.
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { gravarProdutos, gravarProdutosLote, produtoParaLinhas } from "../_shared/produtos.js";
+import { lerPagina, gravarLeitura } from "../_shared/concorrentes.ts";
 
 const URL_SB = Deno.env.get("SUPABASE_URL")!;
 const admin = createClient(URL_SB, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
@@ -613,47 +616,56 @@ Deno.serve(async (req) => {
       // Lê o preço de páginas da KS e da Jini (link colado na Precificação) e grava em conc_catalogo.
       const urls: string[] = (Array.isArray(b.urls) ? b.urls : []).map((u: string) => String(u).trim().replace(/[?#].*$/, ""))
         .filter((u: string) => /^https:\/\/(kscosmeticos|jinicosmeticos)\.com\.br\/(produtos|kits)\//i.test(u)).slice(0, 20);
-      const norm = (u: string) => String(u || "").replace(/[?#].*$/, "").replace(/\/+$/, "").toLowerCase();
-      const num = (v: unknown) => { const x = parseFloat(String(v ?? "").replace(",", ".")); return x > 0 ? x : null; };
       const resultados = [];
       for (const url of urls) {
         try {
-          const loja = /kscosmeticos/i.test(url) ? "ks" : "jini";
-          const r = await fetch(url, { headers: { "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129 Safari/537.36", "accept-language": "pt-BR" } });
-          if (!r.ok) throw new Error("página respondeu " + r.status);
-          const t = await r.text();
-          const prods: any[] = [];
-          for (const m of t.matchAll(/<script[^>]+application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi)) {
-            let j: any; try { j = JSON.parse(m[1].trim()); } catch { continue; }
-            const pilha = Array.isArray(j) ? [...j] : [j];
-            while (pilha.length) { const o = pilha.pop(); if (o && typeof o === "object") { if (o["@type"] === "Product") prods.push(o); if (Array.isArray(o["@graph"])) pilha.push(...o["@graph"]); } }
-          }
-          const ofr = (o: any) => Array.isArray(o?.offers) ? o.offers[0] || {} : o?.offers || {};
-          let p = prods.find((o) => [ofr(o).url, o?.mainEntityOfPage?.["@id"], o?.url].some((x) => x && norm(x) === norm(url)));
-          if (!p && loja === "ks") p = prods[0];
-          let nome = p?.name ?? null, marca = typeof p?.brand === "object" ? p?.brand?.name : p?.brand ?? null;
-          let preco = num(ofr(p).price ?? ofr(p).lowPrice), de: number | null = null;
-          let esgotado = /OutOfStock/.test(String(ofr(p).availability ?? ""));
-          if (loja === "jini") {
-            const mp = t.match(/<meta property="nuvemshop:price" content="([\d.,]+)"/); if (!preco && mp) preco = num(mp[1]);
-            const mc = t.match(/"compare_at_price_number":\s*([\d.]+)/); if (mc) de = num(mc[1]);
-            if (!nome) { const mt = t.match(/<meta property="og:title" content="([^"]+)"/); nome = mt ? mt[1] : null; }
-            if (!marca && nome && nome.includes(" - ")) marca = nome.split(" - ")[0].trim();
-          } else {
-            const ml = t.match(/line-through[^>]*>\s*R\$\s*([\d.]+,\d{2})/); if (ml) de = num(ml[1].replace(/\./g, "").replace(",", "."));
-          }
-          if (de && preco && de <= preco) de = null;
-          if (!preco) throw new Error("preço não encontrado na página");
-          const { data: ant } = await admin.from("conc_catalogo").select("preco").eq("url", url).maybeSingle();
-          const mudou = ant && Number(ant.preco) !== preco;
-          const row: Record<string, unknown> = { url, loja, nome, marca, preco, preco_de: de, esgotado, ativo: true, lido_em: new Date().toISOString() };
-          if (mudou) { row.preco_ant = Number(ant!.preco); row.mudou_em = new Date().toISOString(); }
-          const { error } = await admin.from("conc_catalogo").upsert(row, { onConflict: "url" });
-          if (error) throw new Error(error.message);
-          resultados.push({ url, ok: true, preco, nome });
+          const x = await lerPagina(url);
+          await gravarLeitura(admin, x);
+          resultados.push({ url, ok: true, preco: x.preco, preco_pix: x.preco_pix, pix_pct: x.pix_pct, nome: x.nome, esgotado: x.esgotado });
         } catch (e) { resultados.push({ url, ok: false, erro: String((e as Error).message || e).slice(0, 160) }); }
       }
       return resp(200, { ok: true, resultados });
+    }
+
+    if (b.acao === "precos") {
+      // Pricing: muda vários preços de uma vez. itens: [{ produtoId, varianteId, preco }] (até 50).
+      const itens: any[] = (Array.isArray(b.itens) ? b.itens : []).slice(0, 50).filter((i: any) => Number(i.preco) > 0 && i.produtoId && i.varianteId);
+      const porProd = new Map<string, any[]>();
+      itens.forEach((i) => { const k = String(i.produtoId); if (!porProd.has(k)) porProd.set(k, []); porProd.get(k)!.push(i); });
+      const resultados: any[] = [];
+      for (const [pid, its] of porProd) {
+        try {
+          const d: any = await gql(
+            `mutation($pid: ID!, $v: [ProductVariantsBulkInput!]!) { productVariantsBulkUpdate(productId: $pid, variants: $v) { userErrors { message } } }`,
+            { pid: "gid://shopify/Product/" + pid, v: its.map((i) => ({ id: "gid://shopify/ProductVariant/" + i.varianteId, price: Number(i.preco).toFixed(2) })) },
+          );
+          const e = d.productVariantsBulkUpdate.userErrors; if (e.length) throw new Error(e[0].message);
+          for (const i of its) {
+            await admin.from("produtos").update({ preco: Number(i.preco) }).eq("shopify_variant_id", String(i.varianteId));
+            resultados.push({ varianteId: String(i.varianteId), ok: true, preco: Number(i.preco) });
+          }
+        } catch (e) { its.forEach((i) => resultados.push({ varianteId: String(i.varianteId), ok: false, erro: String((e as Error).message || e).slice(0, 160) })); }
+      }
+      return resp(200, { ok: true, resultados });
+    }
+
+    if (b.acao === "frete_cotar") {
+      // Pricing: frete da calculadora do site (Shipsmart) para um CEP, por peso, sem o valor do produto.
+      // A calculadora soma 1% do valor do produto ao frete; aqui a cotação vai com R$ 1,00 e esse 1% é tirado.
+      const cep = String(b.cep || "60115-170").replace(/[^\d-]/g, "");
+      const pesos: number[] = [...new Set((Array.isArray(b.pesos) ? b.pesos : []).map((g: unknown) => Math.round(Number(g))).filter((g: number) => g > 0 && g <= 30000))].slice(0, 400) as number[];
+      const fretes: Record<string, number> = {}; const erros: Record<string, string> = {}; let cambio: number | null = null;
+      const um = async (g: number) => {
+        try {
+          const r = await fetch("https://omg-frete-ohmygirl.netlify.app/cotar", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ cep, itens: [{ grams: g, price: 100, quantity: 1 }] }) });
+          const j: any = await r.json();
+          if (!(Number(j.frete) > 0)) throw new Error(j.erro || j.error || "sem frete");
+          fretes[String(g)] = Math.round((Number(j.frete) - 0.01) * 100) / 100;
+          if (Number(j.cambio) > 0) cambio = Number(j.cambio);
+        } catch (e) { erros[String(g)] = String((e as Error).message || e).slice(0, 80); }
+      };
+      for (let i = 0; i < pesos.length; i += 10) await Promise.all(pesos.slice(i, i + 10).map(um));
+      return resp(200, { ok: true, cep, cambio, fretes, erros });
     }
 
     if (b.acao === "preco") {

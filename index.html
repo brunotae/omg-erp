@@ -214,6 +214,11 @@ pre.code{background:var(--surface2);border:1px solid var(--line);border-radius:v
 .modal form{display:flex;flex-direction:column;gap:18px;padding:18px 20px}
 .sec{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 14px}
 .pr-conta{width:100%;border-collapse:collapse;font-size:13px}.pr-conta td{padding:4px 0;border-bottom:1px dashed var(--line)}.pr-conta tr:last-child td{font-weight:700;border-bottom:0}
+.px-lote{position:sticky;top:0;z-index:5;padding:10px 12px}.px-lote-in{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-size:12.5px}.px-lote-in span{display:inline-flex;gap:6px;align-items:center}.px-lote-in input{width:70px;padding:5px 6px}.px-lote-in .sp{flex:1}
+.px-wrap{max-height:calc(100dvh - 250px)}.px-t{font-size:12px}.px-t th,.px-t td{white-space:nowrap;padding:5px 6px}.px-t td.px-nome{white-space:normal;min-width:220px;max-width:320px}.px-t td.px-nome a{color:var(--ink,#2b1520);text-decoration:none}.px-t td.px-nome a:hover{color:var(--accent);text-decoration:underline}
+.px-t thead tr:first-child th{position:sticky;top:0;background:var(--surface,#fff);z-index:2}.px-t .px-frow th{position:sticky;top:29px;background:var(--surface,#fff);z-index:2;padding:2px 3px}.px-th{cursor:pointer;user-select:none}
+.px-fi input{width:100%;min-width:60px;padding:3px 5px;font-size:11px;border:1px solid var(--line);border-radius:5px}.px-in{width:58px;padding:3px 5px;font-size:12px;text-align:right;border:1px solid var(--line);border-radius:5px}.px-in.pad{color:var(--muted)}
+.px-t tr.px-on td{background:var(--soft,#fbeff4)}.px-t td small{display:block;font-size:10.5px;color:var(--muted)}
 .pr-ref{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--line);font-size:13px}.pr-ref a{color:var(--accent)}
 .sec>.label{grid-column:1/-1;padding-top:4px;border-top:1px solid var(--line);padding-top:14px}
 .sec:first-child>.label{border-top:0;padding-top:0}
@@ -679,7 +684,7 @@ const ICONS={
  insumos:'<path d="m3 8 9-5 9 5-9 5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/>',
  compras:'<path d="M5 4h14v16l-3-2-2 2-2-2-2 2-2-2-3 2z"/><path d="M9 9h6M9 13h6"/>',
  precos:'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="7.5" r="1.5"/>',
- campanhas:'<path d="M4 10v4a1 1 0 0 0 1 1h2l5 4V5L7 9H5a1 1 0 0 0-1 1z"/><path d="M16 8a5 5 0 0 1 0 8"/>',
+ pricing:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14h18M9 4v16"/>',
  raiox:'<circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5M8.5 11h5M11 8.5v5"/>',produtos:'<rect x="8" y="3" width="8" height="5" rx="1"/><path d="M7 8h10v12a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1z"/>',
  clientes:'<circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0"/><path d="M16 11h5M18.5 8.5v5"/>',
  analises:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
@@ -688,7 +693,7 @@ const ICONS={
  fornecedores:'<path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/>',
  config:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/>'
 };
-const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Lista do dia'],['','lotes','Embarques'],['','devolucoes','Devoluções'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','insumos','Embalagens'],['','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['','precos','Precificação'],['','campanhas','Campanhas de preço'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
+const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Lista do dia'],['','lotes','Embarques'],['','devolucoes','Devoluções'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','insumos','Embalagens'],['','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['','pricing','Pricing'],['','precos','Concorrentes'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
 
 /* ================= utilidades ================= */
 const $=s=>document.querySelector(s);
@@ -839,7 +844,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v39 · 30/10/2026';
+const VERSAO='v40 · 30/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1312,7 +1317,7 @@ VIEWFN.produtos=()=>{
    2) Sem concorrente: varejo no exterior em US$ + ext%, convertido → mercadoria (frete e impostos vão no checkout).
    Depois: parte do frete passa para o preço (freteParte = % do frete que continua como frete; 100 = nada muda).
    Arredonda para ,90 para baixo. Alerta quando o preço no site difere do sugerido mais que alerta%. */
-const PR={ref:[],cat:[],hist:[],cfg:null,loaded:false,loading:false,missing:false,f:'alerta',lim:80,sel:new Set(),busy:false,marca:'',sug:null};
+const PR={ref:[],cat:[],hist:[],cfg:null,loaded:false,loading:false,missing:false,f:'conferir',lim:80,sel:new Set(),busy:false,marca:'',sug:null};
 const PR_CFG0={desc:10,ext:20,icms:17,alerta:3,freteParte:100,ufs:'SP,RJ,MG,PR,SC,RS,DF,GO,BA,PE,CE',usd:5.40,limiteUsd:50,iiPct:60,iiDescUsd:30};
 const PR_PESOS=[100,250,500,1000,2000];
 // Frete da calculadora do site (R$, produto de R$ 99,90) por peso: 100 g, 250 g, 500 g, 1 kg, 2 kg.
@@ -1388,7 +1393,7 @@ async function loadPrecos(){
   const [ref,cat,hist,cfg]=await Promise.all([all('precos_ref','criado_em',true),all('conc_catalogo','url',true),all('precos_hist','em',false),sb.from('config').select('*').eq('chave','precos')]);
   PR.ref=ref;PR.cat=cat;PR.hist=hist;PR.cfg=cfg.data&&cfg.data[0]?cfg.data[0].valor:null;PR.catUrl=new Map(cat.map(c=>[c.url,c]));PR.sug=null;PR.missing=false}
  catch(e){PR.missing=/conc_catalogo|precos_ref|precos_hist|relation|schema cache|does not exist/i.test(String(e&&(e.message||e.code)))||e&&e.code==='42P01'}
- PR.loaded=true;PR.loading=false;if(S.view==='precos'&&!document.querySelector('#ov'))render();
+ PR.loaded=true;PR.loading=false;if((S.view==='precos'||S.view==='pricing')&&!document.querySelector('#ov'))render();
 }
 function prLista(){return S.data.produtos.filter(p=>p.ativo&&p.shopify_variant_id)}
 function prLinhas(){
@@ -1396,7 +1401,7 @@ function prLinhas(){
  L.forEach(x=>{x.s=(x.c.tipo==='sem'||x.c.tipo==='ext')&&!x.c.concs.length?prSugestoes(x.p):[]});
  return L;
 }
-const PR_F=[['alerta','Preço fora da regra'],['conferir','Conferir concorrente'],['conc','Com concorrente'],['auto','Ligados sozinhos'],['ext','Preço do exterior'],['erro','Falta dado'],['sem','Sem referência'],['todos','Todos']];
+const PR_F=[['conferir','Conferir concorrente'],['conc','Com concorrente'],['auto','Ligados sozinhos'],['ext','Preço do exterior'],['erro','Falta dado'],['sem','Sem referência'],['todos','Todos']];
 const prNoFiltro=(x,f)=>f==='todos'||(f==='alerta'?x.c.alerta:f==='conferir'?x.s.length>0:f==='conc'?x.c.tipo==='conc':f==='auto'?x.c.concs.some(k=>k.auto):f==='ext'?x.c.tipo==='ext':f==='erro'?!!x.c.erro:f==='sem'?x.c.tipo==='sem'&&!x.s.length:false);
 const prDif=c=>!has(c.dif)?'<span class="muted">—</span>':'<span class="pill '+(c.alerta?(c.dif>0?'p-bad':'p-warn'):'p-ok')+'">'+(c.dif>0?'+':'')+c.dif.toFixed(1).replace('.',',')+'%</span>';
 function prRefTxt(c,s){
@@ -1418,13 +1423,13 @@ VIEWFN.precos=()=>{
  const lidoKS=PR.cat.filter(c=>c.loja==='ks'&&c.ativo!==false),lidoJ=PR.cat.filter(c=>c.loja==='jini'&&c.ativo!==false);
  const ult=PR.cat.reduce((m,c)=>c.lido_em>m?c.lido_em:m,'');
  const cnt=k=>A.filter(x=>prNoFiltro(x,k)).length;
- return '<div class="page wide"><div class="col">'+head('Precificação','Preço sugerido pela regra do Guia de precificação OMG. Nada muda no site sem você aprovar. Concorrentes lidos sozinhos toda segunda de manhã.',
-  '<button class="btn sm" type="button" id="pr-regras">Regras</button> <button class="btn sm" type="button" id="pr-recarregar">Recarregar</button>'+(can()&&PR.loaded?' <button class="btn sm" type="button" id="pr-auto" title="Liga ao concorrente quando marca, nome, tipo e tamanho batem">Ligar os certeiros</button>':'')+(can()?' <button class="btn pri sm" type="button" id="pr-aprovar"'+(aprov.length&&!PR.busy?'':' disabled')+'>'+(PR.busy?'Aprovando…':'Aprovar selecionados ('+aprov.length+')')+'</button>':''))+
- '<p class="muted" style="margin:-6px 0 0;font-size:11.5px">'+(ult?'Concorrentes lidos em '+new Date(ult).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})+' · KS '+lidoKS.length+' produtos · Jini '+lidoJ.length+' produtos':'Concorrentes ainda não lidos')+' · desconto '+n(C.desc)+'% · exterior +'+n(C.ext)+'% · ICMS '+n(C.icms)+'% · US$ '+n(C.usd).toFixed(2)+' · frete que fica no frete '+n(C.freteParte)+'% · alerta a partir de '+n(C.alerta)+'%</p>'+
+ return '<div class="page wide"><div class="col">'+head('Concorrentes','Ligue cada produto à KS e à Jini e confira se é o mesmo item (marca, tipo, tamanho, quantidade). Os preços são calculados e transmitidos no Pricing. Concorrentes lidos sozinhos toda segunda de manhã.',
+  '<button class="btn sm" type="button" data-view="pricing">Abrir o Pricing</button> <button class="btn sm" type="button" id="pr-recarregar">Recarregar</button>'+(can()&&PR.loaded?' <button class="btn sm" type="button" id="pr-auto" title="Liga ao concorrente quando marca, nome, tipo e tamanho batem">Ligar os certeiros</button>':'')+'')+
+ '<p class="muted" style="margin:-6px 0 0;font-size:11.5px">'+(ult?'Concorrentes lidos em '+new Date(ult).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})+' · KS '+lidoKS.length+' produtos · Jini '+lidoJ.length+' produtos':'Concorrentes ainda não lidos')+'</p>'+
  '<div class="chips">'+PR_F.map(([k,l])=>'<button type="button" class="chip'+(PR.f===k?' on':'')+'" data-prf="'+k+'">'+l+(PR.loaded?' · '+cnt(k):'')+'</button>').join('')+
  '<select id="pr-marca" class="chip" aria-label="Marca" data-1c="off"><option value="">Todas as marcas</option>'+marcas.map(m=>'<option'+(m===PR.marca?' selected':'')+'>'+esc(m)+'</option>').join('')+'</select></div>'+
- '<div class="card">'+(!PR.loaded?'<p class="muted">Carregando…</p>':F.length?'<div class="tblwrap"><table><thead><tr><th class="rx-ck"><input type="checkbox" id="pr-sel-all" aria-label="Selecionar todos com preço sugerido"'+(vis.some(x=>x.c.site>0)&&vis.filter(x=>x.c.site>0).every(x=>PR.sel.has(x.p.id))?' checked':'')+'></th><th>Produto</th><th class="r">Referência</th><th class="r">Sugerido</th><th class="r">No site</th><th class="r">Diferença</th><th></th></tr></thead><tbody>'+
-  vis.map(({p,c,s})=>'<tr data-pr="'+esc(p.id)+'" style="cursor:pointer"><td class="rx-ck">'+(c.site>0?'<input type="checkbox" data-prsel="'+esc(p.id)+'" aria-label="Selecionar"'+(PR.sel.has(p.id)?' checked':'')+'>':'')+'</td><td><b>'+esc(p.nome)+'</b><small>'+esc(p.marca||'')+' · '+esc(p.sku)+(c.peso?' · '+Math.round(c.peso.g)+' g'+(c.peso.est?' (estimado)':''):' · sem peso')+'</small></td><td class="r num">'+prRefTxt(c,s)+'</td><td class="r num">'+(c.site>0?'<b>'+brl(c.site)+'</b><small>'+esc(c.regra)+'</small>':c.erro?'<span class="pill p-warn" title="'+esc(c.erro)+'">'+esc(c.erro.split(':')[0])+'</span>':'<span class="muted">—</span>')+'</td><td class="r num">'+brl(c.atual)+'</td><td class="r">'+prDif(c)+'</td><td class="r">'+(can()&&c.site>0&&c.site!==c.atual?'<button class="btn sm" type="button" data-prok="'+esc(p.id)+'">Aprovar</button>':'')+'</td></tr>').join('')+'</tbody></table></div>'+
+ '<div class="card">'+(!PR.loaded?'<p class="muted">Carregando…</p>':F.length?'<div class="tblwrap"><table><thead><tr><th>Produto</th><th class="r">Concorrente</th><th class="r">No site</th></tr></thead><tbody>'+
+  vis.map(({p,c,s})=>'<tr data-pr="'+esc(p.id)+'" style="cursor:pointer"><td><b>'+esc(p.nome)+'</b><small>'+esc(p.marca||'')+' · '+esc(p.sku)+'</small></td><td class="r num">'+prRefTxt(c,s)+'</td><td class="r num">'+brl(c.atual)+'</td></tr>').join('')+'</tbody></table></div>'+
   (F.length>vis.length?'<p style="text-align:center;margin:10px 0 0"><button class="btn sm" type="button" id="pr-mais">Mostrar mais ('+(F.length-vis.length)+')</button></p>':'')
   :empty('Nada aqui',PR.f==='alerta'?'Nenhum preço fora da regra. Ligue concorrentes em "Conferir concorrente" ou "Sem referência".':'Troque o filtro acima.'))+'</div>'+
  (PR.hist.length?'<div class="card"><div class="card-h"><h2>Últimos preços aprovados</h2></div><div class="tblwrap"><table><thead><tr><th>Quando</th><th>Produto</th><th class="r">Antes</th><th class="r">Depois</th><th>Regra</th><th>Quem</th></tr></thead><tbody>'+
@@ -1434,12 +1439,8 @@ VIEWFN.precos=()=>{
 function prAbrir(id){
  const p=S.data.produtos.find(x=>x.id===id);if(!p)return;const c=prCalc(p),s=prSugestoes(p),H=PR.hist.filter(h=>h.produto_id===id).slice(0,10),C=prCfg();
  const rej=prRefs(p).filter(r=>r.status==='rejeitado');
- const conta=c.linhas.length?'<table class="pr-conta">'+c.linhas.map(([l,v,t])=>'<tr><td>'+esc(l)+'</td><td class="r num">'+(t?esc(t):v==null?'':(v<-0.004?'− '+brl(-v):brl(Math.abs(v))))+'</td></tr>').join('')+'</table>':'<p class="muted" style="margin:0">'+(c.erro?esc(c.erro):'Sem referência: ligue um concorrente (KS ou Jini) ou informe o preço no exterior em US$.')+'</p>';
- const body='<div class="sec"><span class="label">'+esc(p.marca||'')+' · '+esc(p.sku)+(c.peso?' · '+Math.round(c.peso.g)+' g'+(c.peso.de?' ('+esc(c.peso.de)+')':''):' · sem peso')+'</span>'+
-  '<div style="grid-column:1/-1">'+conta+(c.erro&&c.linhas.length?'<p class="pill p-warn" style="margin-top:8px">'+esc(c.erro)+'</p>':'')+'</div>'+
-  '<p style="grid-column:1/-1;margin:0">No site hoje: <b>'+brl(c.atual)+'</b>'+(c.site>0?' · sugerido <b>'+brl(c.site)+'</b> '+prDif(c):'')+'</p>'+
-  (c.tipo==='conc'&&c.frete&&c.site>0?'<p class="muted" style="grid-column:1/-1;margin:0;font-size:11.5px">Conferência: em '+c.frete.uf+' (capital mais cara do grupo) a cliente paga cerca de <b>'+brl(prFinal(c))+'</b> com frete e impostos. Concorrente: '+brl(c.conc.preco)+'.</p>':'')+
-  (can()&&c.site>0&&c.site!==c.atual?'<div style="grid-column:1/-1"><button class="btn pri sm" type="button" data-prok="'+esc(p.id)+'">Aprovar '+brl(c.site)+' no site</button></div>':'')+'</div>'+
+ const conta0=c.linhas.length?'<table class="pr-conta">'+c.linhas.map(([l,v,t])=>'<tr><td>'+esc(l)+'</td><td class="r num">'+(t?esc(t):v==null?'':(v<-0.004?'− '+brl(-v):brl(Math.abs(v))))+'</td></tr>').join('')+'</table>':'<p class="muted" style="margin:0">'+(c.erro?esc(c.erro):'Sem referência: ligue um concorrente (KS ou Jini) ou informe o preço no exterior em US$.')+'</p>';
+ const body='<div class="sec"><span class="label">'+esc(p.marca||'')+' · '+esc(p.sku)+' · no site hoje '+brl(c.atual)+'</span><p class="muted" style="grid-column:1/-1;margin:0;font-size:12px">O preço deste produto é calculado e transmitido no Pricing.</p></div>'+
   '<div class="sec"><span class="label">Concorrentes ligados</span><div style="grid-column:1/-1">'+(c.concs.length?c.concs.map(x=>'<div class="pr-ref"><span><b>'+PR_LOJA[x.loja]+'</b>'+(x.auto?' <span class="pill p-info">automático</span>':'')+' · '+(x.preco>0?brl(x.preco)+(x.esgotado?' (esgotado)':''):'<span class="muted">aguardando leitura</span>')+' · <a href="'+esc(x.url)+'" target="_blank" rel="noopener">'+esc(x.nome||x.url.replace(/^https?:\/\//,''))+'</a></span>'+(can()?'<span>'+(x.auto?'<button class="btn sm pri" type="button" data-prconf="'+esc(x.refId)+'">Confere</button> ':'')+'<button class="btn sm" type="button" data-prdes="'+esc(x.refId)+'">Desligar</button></span>':'')+'</div>').join(''):'<p class="muted" style="margin:0">Nenhum.</p>')+'</div>'+
   (s.length?'<span class="label" style="margin-top:6px">Parecidos na KS e na Jini · confira o tamanho</span><div style="grid-column:1/-1">'+s.map(x=>'<div class="pr-ref"><span><b>'+PR_LOJA[x.loja]+'</b> · '+brl(Number(x.preco))+(x.esgotado?' (esgotado)':'')+' · <a href="'+esc(x.url)+'" target="_blank" rel="noopener">'+esc(x.nome)+'</a></span>'+(can()?'<span><button class="btn sm pri" type="button" data-prliga="'+esc(p.id)+'" data-url="'+esc(x.url)+'" data-loja="'+esc(x.loja)+'">É este</button> <button class="btn sm" type="button" data-prrej="'+esc(p.id)+'" data-url="'+esc(x.url)+'" data-loja="'+esc(x.loja)+'">Não é</button></span>':'')+'</div>').join('')+'</div>':'')+
   (can()?'<div class="f full"><label for="pr-url">Colar link da KS ou da Jini</label><div style="display:flex;gap:6px"><input id="pr-url" type="url" placeholder="https://jinicosmeticos.com.br/produtos/…" data-1c="off"><button class="btn sm" type="button" data-prcola="'+esc(p.id)+'">Ligar</button></div><span class="hint">O preço é lido na hora.</span></div>':'')+'</div>'+
@@ -1517,148 +1518,270 @@ document.addEventListener('click',async e=>{const t=e.target.closest('button,a,i
  if(t.matches('tr[data-pr]')&&!e.target.closest('input,button,a')){prAbrir(t.dataset.pr);return}
 });
 
-/* ---------- Campanhas de preço · v37 ----------
-   O preço é calculado de trás para frente a partir do TOTAL que a cliente paga (produto + frete + impostos):
-   total alvo = concorrente válido − desconto (% ou R$). Tira ICMS (por dentro, pela alíquota de referência = pior caso),
-   imposto de importação (acima de US$ 50: 60% − US$ 30) e o frete da campanha (grátis = 0; fixo = valor) → preço do produto.
-   Concorrente válido: ligado ao produto, conferido por uma pessoa (não "automático"), lido e com estoque.
-   Nada muda no site sem "Aplicar". Cada campanha guarda o preço de antes e tem "Reverter". */
-const CM={lista:[],loaded:false,loading:false,prev:null,sel:new Set(),busy:false};
-const CM_DEF=()=>({id:'c'+Date.now().toString(36),nome:'',inicio:'',fim:'',marcas:[],skus:'',pmin:null,pmax:null,desc:3,descTipo:'%',icms:20,frete:'gratis',freteValor:20,semConc:'manter',soConferidos:true,maxQueda:35,status:'rascunho',itens:[]});
-async function cmLoad(){if(CM.loading)return;CM.loading=true;
- try{const {data,error}=await sb.from('config').select('valor').eq('chave','campanhas');if(error)throw error;CM.lista=(data&&data[0]&&Array.isArray(data[0].valor))?data[0].valor:[]}catch(e){toast(errMsg(e))}
- CM.loaded=true;CM.loading=false;if(!PR.loaded)await loadPrecos();if(S.view==='campanhas'&&!document.querySelector('#ov'))render()}
-async function cmSalvar(){const {error}=await sb.from('config').upsert({chave:'campanhas',valor:CM.lista});if(error)throw error}
-const cmGet=id=>CM.lista.find(c=>c.id===id);
-function cmTotal(preco,frete,icms){const C=prCfg(),b=preco+frete,lim=n(C.limiteUsd)*n(C.usd);const ii=b>lim?Math.max(0,b*n(C.iiPct)/100-n(C.iiDescUsd)*n(C.usd)):0;return (b+ii)/(1-icms/100)}
-function cmConc(p,cm){const cat=PR.catUrl||new Map();
- return prRefs(p).filter(r=>r.status==='ok'&&r.loja!=='exterior'&&r.url&&(!cm.soConferidos||r.quem!=='automático')).map(r=>{const c=cat.get(r.url)||{};return {loja:r.loja,url:r.url,nome:c.nome||'',preco:Number(c.preco),esgotado:!!c.esgotado,ativo:c.ativo!==false,lido:c.lido_em}})
-  .filter(c=>c.ativo&&!c.esgotado&&c.preco>0).sort((a,b)=>a.preco-b.preco)}
-function cmProdutos(cm){const skus=String(cm.skus||'').toUpperCase().split(/[\s,;]+/).filter(Boolean);
- return prLista().filter(p=>(!cm.marcas.length||cm.marcas.includes(p.marca))&&(!skus.length||skus.some(s=>String(p.sku||'').toUpperCase().startsWith(s)))&&(!has(cm.pmin)||n(p.preco)>=cm.pmin)&&(!has(cm.pmax)||n(p.preco)<=cm.pmax))}
-function cmCalc(p,cm){
- const C=prCfg(),icms=n(cm.icms)||20,frete=cm.frete==='gratis'?0:n(cm.freteValor),lim=n(C.limiteUsd)*n(C.usd),atual=has(p.preco)?p.preco:null;
- const o={p,atual,frete,icms,conc:null,novo:null,flags:[]};
- const cs=cmConc(p,cm);
- if(cs.length){const c=cs[0];o.conc=c;
-  const alvo=cm.descTipo==='R$'?c.preco-n(cm.desc):c.preco*(1-n(cm.desc)/100), x=alvo*(1-icms/100);
-  const base=x<=lim?x:(x+n(C.iiDescUsd)*n(C.usd))/(1+n(C.iiPct)/100), merc=base-frete;
-  o.alvo=alvo;o.regra=PR_LOJA[c.loja]+(cm.descTipo==='R$'?' − R$ '+n(cm.desc):' −'+n(cm.desc)+'%');
-  if(merc<=0){o.flags.push('frete e impostos passam do preço do concorrente');return o}
-  o.novo=pr90(merc);
- }else if(cm.semConc==='exterior'){const ext=prRefs(p).find(r=>r.loja==='exterior'&&Number(r.usd)>0);
-  if(ext){o.novo=pr90(Number(ext.usd)*(1+n(C.ext)/100)*n(C.usd));o.regra='Exterior +'+n(C.ext)+'%'}else o.flags.push('sem concorrente nem preço do exterior')}
- else o.regra='sem concorrente: mantém';
- const pf=has(o.novo)?o.novo:atual;
- if(has(pf)){o.totalPior=cmTotal(pf,frete,icms);o.totalSP=cmTotal(pf,frete,17)}
- if(has(o.novo)&&has(atual)&&atual>0){o.dif=(o.novo-atual)/atual*100;if(o.dif<=-n(cm.maxQueda))o.flags.push('queda maior que '+n(cm.maxQueda)+'%: conferir o concorrente')}
- if(o.conc&&has(o.totalPior)&&o.totalPior>o.conc.preco+0.01)o.flags.push('total ainda acima do concorrente');
- o.muda=has(o.novo)&&has(atual)&&Math.abs(o.novo-atual)>=0.01;
+/* ---------- Pricing · v40 (Guia de precificação OMG v2, 30/10/2026) ----------
+   Preço final em Fortaleza = mercadoria + frete exibido + ICMS 20% (por dentro) = referência Pix × (1 − d%).
+   Referência = menor preço no Pix entre KS e Jini (ligados ao produto, conferidos por uma pessoa, com estoque).
+   Frete = calculadora do site (Shipsmart) para Fortaleza pelo peso do Shopify; a calculadora soma 1% do valor do produto.
+   % frete exibido (p): quanto do frete aparece como frete. O resto vai no preço; o final não muda.
+     mercadoria = (ref × (1 − d) × 0,80 − p × frete_base) ÷ (1 + p × 1%), arredondada para baixo em ,90.
+   Sem concorrente: maior varejo oficial entre YesStyle, Olive Young Global, Jolse e Sephora Global (US$) + 15%, câmbio do dia.
+   Imposto de importação fora da conta (aviso quando o pedido de 1 unidade passa de US$ 50).
+   Fluxo: editar % → Calcular (OK) → Transmitir ao Shopify. Cada transmissão vira um lote que pode ser revertido. */
+const PX={loaded:false,loading:false,itens:new Map(),cfg:null,lotes:[],sel:new Set(),f:{},st:'',sort:['marca',1],lim:200,busy:'',aberto:null};
+const pxHoje=()=>new Date().toLocaleDateString('en-CA',{timeZone:'America/Sao_Paulo'});
+const PX_CFG0={desc:5,frete:100,icms:20,ext:15,seguro:1,cep:'60115-170',usd:null,cambio:null,fretes:{},freteEm:null};
+const PX_SITES=[['yesstyle','YesStyle','YS','https://www.yesstyle.com/'],['oliveyoung','Olive Young Global','OY','https://global.oliveyoung.com/'],['jolse','Jolse','JO','https://jolse.com/'],['sephora','Sephora Global','SE','https://www.sephora.com/']];
+const pxCfg=()=>({...PX_CFG0,...(PX.cfg||{})});
+const pxCambio=()=>{const C=pxCfg();return Number(C.usd)>0?Number(C.usd):Number(C.cambio)>0?Number(C.cambio):null};
+const pxNum=v=>{if(v===null||v===undefined||v==='')return null;const x=Number(v);return isFinite(x)?x:null};
+const pxPct=v=>(Math.round(v*10)/10).toLocaleString('pt-BR')+'%';
+async function pxSalvarCfg(v){const {error}=await sb.from('config').upsert({chave:'pricing',valor:v});if(error)throw error;PX.cfg=v}
+async function pxLoad(){
+ if(PX.loading)return;PX.loading=true;
+ try{if(!PR.loaded)await loadPrecos();
+  const all=[];let de=0;for(;;){const {data,error}=await sb.from('pricing_itens').select('*').range(de,de+999);if(error)throw error;all.push(...(data||[]));if(!data||data.length<1000)break;de+=1000}
+  PX.itens=new Map(all.map(r=>[r.produto_id,r]));
+  const {data:c,error:e2}=await sb.from('config').select('chave,valor').in('chave',['pricing','pricing_lotes']);if(e2)throw e2;
+  (c||[]).forEach(r=>{if(r.chave==='pricing')PX.cfg=r.valor;else PX.lotes=Array.isArray(r.valor)?r.valor:[]});
+ }catch(e){toast(errMsg(e))}
+ PX.loaded=true;PX.loading=false;
+ if(can()&&pxFaltaFrete().length)pxCotarFrete(true);
+ if(S.view==='pricing'&&!document.querySelector('#ov'))render()}
+const pxLista=()=>prLista();
+function pxFaltaFrete(){const F=pxCfg().fretes||{};return [...new Set(pxLista().map(p=>Math.round(Number(p.pesoG)||0)).filter(g=>g>0&&!has(pxNum(F[String(g)]))))]}
+async function pxCotarFrete(soFaltando){
+ if(PX.busy)return;const C=pxCfg();
+ const pesos=soFaltando?pxFaltaFrete():[...new Set(pxLista().map(p=>Math.round(Number(p.pesoG)||0)).filter(g=>g>0))];
+ if(!pesos.length){if(!soFaltando)toast('Nenhum peso para cotar');return}
+ PX.busy='frete';render();const fretes={...(soFaltando?C.fretes:{})};let cambio=C.cambio,err=0;
+ try{for(let i=0;i<pesos.length;i+=60){const r=await chamarShop({acao:'frete_cotar',cep:C.cep,pesos:pesos.slice(i,i+60)});Object.assign(fretes,r.fretes||{});err+=Object.keys(r.erros||{}).length;if(r.cambio)cambio=r.cambio;if(pesos.length>60)toast('Frete: '+Math.min(i+60,pesos.length)+' de '+pesos.length+' pesos…')}
+  await pxSalvarCfg({...C,fretes,cambio,freteEm:new Date().toISOString()});toast('Frete de Fortaleza cotado para '+pesos.length+' pesos'+(err?' · '+err+' sem resposta':''))}
+ catch(e){toast('Frete: '+errMsg(e))}
+ PX.busy='';render()}
+async function pxLerConc(){
+ if(PX.busy)return;const urls=[...new Set(PR.ref.filter(r=>r.status==='ok'&&r.loja!=='exterior'&&r.url).map(r=>r.url))];
+ if(!urls.length){toast('Nenhum concorrente ligado');return}
+ PX.busy='conc';render();let ok=0,err=0;
+ try{for(let i=0;i<urls.length;i+=10){const r=await chamarShop({acao:'conc_ler',urls:urls.slice(i,i+10)});(r.resultados||[]).forEach(x=>x.ok?ok++:err++);toast('Concorrentes: '+Math.min(i+10,urls.length)+' de '+urls.length+'…')}}catch(e){toast(errMsg(e))}
+ PR.loaded=false;await loadPrecos();PX.busy='';toast(ok+' páginas lidas'+(err?' · '+err+' com erro':''));render()}
+function pxConcs(p){const cat=PR.catUrl||new Map();
+ return prRefs(p).filter(r=>r.status==='ok'&&r.loja!=='exterior'&&r.url).map(r=>{const c=cat.get(r.url)||{},preco=pxNum(c.preco),pix=pxNum(c.preco_pix);
+  return {loja:r.loja,cod:r.loja==='ks'?'KS':'JN',url:r.url,nome:c.nome||'',preco,pix:pix||preco,pixLido:pix!=null,pixPct:pxNum(c.pix_pct),esgotado:!!c.esgotado,ativo:c.ativo!==false,lido:c.lido_em,auto:r.quem==='automático',refId:r.id}})}
+function pxExt(it){const S0=(it&&it.ext_sites)||{};let best=null;
+ PX_SITES.forEach(([k,nome,cod])=>{const x=S0[k];const u=x&&pxNum(x.usd);if(u>0&&(!best||u>best.usd))best={k,nome,cod,usd:u,url:x.url||''}});return best}
+function pxCalc(p){
+ const C=pxCfg(),it=PX.itens.get(p.id)||{};
+ const d=pxNum(it.desc_pct)??n(C.desc),fp=pxNum(it.frete_pct)??n(C.frete),pp=fp/100,icms=n(C.icms)/100,seg=n(C.seguro)/100,cam=pxCambio();
+ const o={p,it,d,fp,dPad:pxNum(it.desc_pct)==null,fpPad:pxNum(it.frete_pct)==null,atual:pxNum(p.preco),peso:Number(p.pesoG)>0?Math.round(Number(p.pesoG)):null,flags:[],refs:pxConcs(p)};
+ o.base=o.peso?pxNum((C.fretes||{})[String(o.peso)]):null;
+ const val=o.refs.filter(r=>r.ativo&&!r.esgotado&&r.preco>0&&!r.auto).sort((a,b)=>a.pix-b.pix);
+ if(val.length){const r=val[0];o.tipo='conc';o.ref={cod:r.cod,nome:PR_LOJA[r.loja],url:r.url,normal:r.preco,pix:r.pix,pixLido:r.pixLido,pixPct:r.pixPct,lido:r.lido,outro:val[1]||null};
+  if(!r.pixLido)o.flags.push('Pix da '+o.ref.nome+' ainda não lido: usado o preço normal');}
+ else{const ext=pxExt(it);
+  if(ext){o.tipo='ext';o.ref={cod:ext.cod,nome:ext.nome,url:ext.url,usd:ext.usd,quando:it.ext_quando}}
+  else{o.tipo='sem';o.erro=o.refs.some(r=>r.auto)?'concorrente a conferir':o.refs.length?'concorrente esgotado ou sem preço':'sem referência';return o}}
+ if(!o.peso){o.erro='sem peso';return o}
+ if(o.base==null){o.erro='frete não cotado';return o}
+ if(o.tipo==='conc'){o.alvo=o.ref.pix*(1-d/100);const s=(o.alvo*(1-icms)-pp*o.base)/(1+pp*seg);if(!(s>0)){o.erro='frete e ICMS passam da referência';return o}o.novo=pr90(s)}
+ else{if(!cam){o.erro='sem câmbio';return o}o.merc=o.ref.usd*(1+n(C.ext)/100)*cam;o.novo=pr90((o.merc+(1-pp)*o.base)/(1-(1-pp)*seg))}
+ o.freteCheio=o.base+seg*o.novo;o.freteExib=pp*o.freteCheio;o.final=(o.novo+o.freteExib)/(1-icms);
+ if(o.tipo==='conc'){o.abaixo=(1-o.final/o.ref.pix)*100;if(o.final>o.ref.pix+0.005)o.flags.push('final acima da referência')}
+ if(cam&&(o.novo+o.freteCheio)/cam>50)o.flags.push('acima de US$ 50: imposto de importação fica fora da conta');
+ if(has(o.atual)&&o.atual>0){o.dif=(o.novo-o.atual)/o.atual*100;if(o.dif<=-35)o.flags.push('queda de mais de 35%: conferir a referência');if(o.dif>=35)o.flags.push('alta de mais de 35%: conferir')}
+ o.muda=has(o.atual)&&Math.abs(o.novo-o.atual)>=0.01;
+ const k=it.calc;o.ok=!!(k&&Math.abs(Number(k.novo)-o.novo)<0.005);o.okVelho=!!(k&&!o.ok);
  return o}
-function cmLinhas(cm){return cmProdutos(cm).map(p=>cmCalc(p,cm))}
-const CM_ST={rascunho:['Rascunho','p-info'],aplicada:['No ar','p-ok'],revertida:['Revertida','p-warn']};
-function cmHoje(){return new Date().toLocaleDateString('en-CA',{timeZone:'America/Sao_Paulo'})}
-function cmAviso(cm){const h=cmHoje();
- if(cm.status==='rascunho'&&cm.inicio&&cm.inicio<=h)return 'Começa '+(cm.inicio===h?'hoje':'em '+cmData(cm.inicio))+': confira a prévia e aplique.';
- if(cm.status==='aplicada'&&cm.fim&&cm.fim<h)return 'Terminou em '+cmData(cm.fim)+': reverta para voltar os preços.';
- if(cm.status==='aplicada'&&cm.fim===h)return 'Termina hoje: reverta no fim do dia.';return ''}
-const cmData=d=>d?d.split('-').reverse().join('/'):'—';
-function cmResumo(cm){const L=cmLinhas(cm),m=L.filter(x=>x.muda);return {L,n:L.length,muda:m.length,conc:L.filter(x=>x.conc).length,flags:L.filter(x=>x.flags.length).length,baixa:m.filter(x=>x.dif<0).length,sobe:m.filter(x=>x.dif>0).length}}
-VIEWFN.campanhas=()=>{
- if(!CM.loaded&&S.db)setTimeout(cmLoad,0);
- const top=head('Campanhas de preço','O preço do produto é calculado de trás para frente a partir do total que a cliente paga (com frete e impostos), abaixo do concorrente válido. Nada muda no site sem você aplicar; toda campanha pode ser revertida.',
-  can()?'<button class="btn pri sm" type="button" id="cm-nova">Nova campanha</button>':'');
- if(!CM.loaded||!PR.loaded)return '<div class="page wide"><div class="col">'+top+'<div class="card"><p class="muted">Carregando…</p></div></div></div>';
- const prev=CM.prev&&cmGet(CM.prev);
- const cards=CM.lista.length?CM.lista.slice().reverse().map(cm=>{const r=cmResumo(cm),st=CM_ST[cm.status]||CM_ST.rascunho,av=cmAviso(cm);
-  return '<div class="card"><div class="card-h"><h2>'+esc(cm.nome||'Sem nome')+' <span class="pill '+st[1]+'">'+st[0]+'</span></h2><div class="acts">'+
-   '<button class="btn sm" type="button" data-cmprev="'+esc(cm.id)+'">Prévia</button>'+(can()&&cm.status!=='aplicada'?' <button class="btn sm" type="button" data-cmedit="'+esc(cm.id)+'">Editar</button>':'')+
-   (can()&&cm.status==='aplicada'?' <button class="btn sm" type="button" data-cmrev="'+esc(cm.id)+'">Reverter</button>':'')+'</div></div>'+
-   (av?'<p class="pill p-warn" style="margin:0 0 8px">'+esc(av)+'</p>':'')+
-   '<p class="muted" style="margin:0;font-size:12.5px">'+cmData(cm.inicio)+' a '+cmData(cm.fim)+' · '+(cm.marcas.length?esc(cm.marcas.join(', ')):'todas as marcas')+(cm.skus?' · SKUs '+esc(cm.skus):'')+(has(cm.pmin)||has(cm.pmax)?' · preço '+(has(cm.pmin)?brl(cm.pmin):'')+' a '+(has(cm.pmax)?brl(cm.pmax):''):'')+'<br>'+
-   'Total da cliente '+(cm.descTipo==='R$'?'R$ '+n(cm.desc):n(cm.desc)+'%')+' abaixo do concorrente · ICMS de referência '+n(cm.icms)+'% · frete '+(cm.frete==='gratis'?'grátis':'fixo '+brl(n(cm.freteValor)))+' · sem concorrente: '+(cm.semConc==='exterior'?'regra do exterior':'mantém o preço')+'<br>'+
-   r.n+' produtos · '+r.conc+' com concorrente válido · '+r.muda+' mudam ('+r.baixa+' baixam, '+r.sobe+' sobem)'+(r.flags?' · <b>'+r.flags+' para conferir</b>':'')+(cm.status==='aplicada'?' · aplicada em '+esc(new Date(cm.aplicada_em).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'}))+' ('+cm.itens.length+' preços)':'')+'</p></div>'}).join('')
-  :'<div class="card">'+empty('Nenhuma campanha','Crie uma em "Nova campanha": escolha marcas, período e a regra. Você vê a prévia antes de qualquer mudança.')+'</div>';
- const aviso='<div class="card" style="border-left:3px solid var(--warn,#A15C00)"><p style="margin:0;font-size:12.5px"><b>Antes de ligar frete grátis:</b> o frete do checkout vem da Shipsmart. A campanha com frete grátis só fica certa depois que a Shipsmart zerar o frete no checkout (mantendo os impostos). Caso contrário, a cliente paga o frete por cima do preço novo.</p></div>';
- return '<div class="page wide"><div class="col">'+top+(prev?cmPrevHTML(prev):'')+aviso+cards+'</div></div>';
-};
-function cmPrevHTML(cm){
- const L=cmLinhas(cm).sort((a,b)=>(b.flags.length-a.flags.length)||(n(a.dif)-n(b.dif)));
- const muda=L.filter(x=>x.muda);if(!CM.selDe||CM.selDe!==cm.id){CM.sel=new Set(muda.filter(x=>!x.flags.length).map(x=>x.p.id));CM.selDe=cm.id}
- const sel=muda.filter(x=>CM.sel.has(x.p.id)),aplicada=cm.status==='aplicada';
- const row=x=>{const c=x.conc;return '<tr><td class="rx-ck">'+(x.muda&&!aplicada&&can()?'<input type="checkbox" data-cmsel="'+esc(x.p.id)+'"'+(CM.sel.has(x.p.id)?' checked':'')+' aria-label="Selecionar">':'')+'</td>'+
-  '<td class="num">'+esc(x.p.sku)+'</td><td><b>'+esc(x.p.nome)+'</b>'+(x.flags.length?'<small style="color:#B3261E">'+esc(x.flags.join(' · '))+'</small>':'<small>'+esc(x.regra||'')+'</small>')+'</td>'+
-  '<td class="r num">'+(c?'<a href="'+esc(c.url)+'" target="_blank" rel="noopener">'+PR_LOJA[c.loja]+' '+brl(c.preco)+'</a><small>'+(c.lido?'lido '+new Date(c.lido).toLocaleDateString('pt-BR'):'')+'</small>':'<span class="muted">—</span>')+'</td>'+
-  '<td class="r num">'+brl(x.atual)+'</td><td class="r num">'+(has(x.novo)?'<b>'+brl(x.novo)+'</b>':'<span class="muted">mantém</span>')+'</td>'+
+function pxStatus(x){if(x.erro)return ['erro',x.erro];if(!x.muda)return ['igual','igual ao site'];if(x.ok)return ['ok','OK · pronto'];if(x.okVelho)return ['velho','recalcular'];return ['muda','a calcular']}
+const PX_COLS=[
+ ['sku','SKU',x=>x.p.sku,'t'],['nome','Produto',x=>x.p.nome,'t'],['marca','Marca',x=>x.p.marca,'t'],['peso','Peso',x=>x.peso,'n'],
+ ['fonte','Ref.',x=>x.ref?x.ref.cod:'—','t'],['refn','Ref. normal',x=>x.ref?(x.tipo==='ext'?x.ref.usd:x.ref.normal):null,'n'],['refpix','Ref. Pix',x=>x.ref&&x.tipo==='conc'?x.ref.pix:null,'n'],
+ ['d','% abaixo',x=>x.d,'n'],['fp','% frete',x=>x.fp,'n'],['frete','Frete Fortaleza',x=>x.freteCheio,'n'],['exib','Frete exibido',x=>x.freteExib,'n'],
+ ['novo','Mercadoria nova',x=>x.novo,'n'],['atual','Preço atual',x=>x.atual,'n'],['dif','Dif.',x=>x.dif,'n'],['final','Final Fortaleza',x=>x.final,'n'],['st','Status',x=>pxStatus(x)[1]+(x.flags.length?' · '+x.flags.join(' · '):''),'t']];
+const pxNorm=s=>String(s==null?'':s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+function pxMatch(v,f,tipo){f=String(f||'').trim();if(!f)return true;
+ if(tipo==='n'){const x=pxNum(v),g=f.replace(/\s/g,'').replace(',','.');let m;
+  if(m=g.match(/^(-?[\d.]+)-(-?[\d.]+)$/))return x!=null&&x>=+m[1]&&x<=+m[2];
+  if(m=g.match(/^(>=|<=|>|<|=)(-?[\d.]+)$/)){if(x==null)return false;const y=+m[2];return m[1]==='>'?x>y:m[1]==='<'?x<y:m[1]==='>='?x>=y:m[1]==='<='?x<=y:Math.abs(x-y)<0.005}
+  if(/^-?[\d.]+$/.test(g))return x!=null&&Math.abs(x-(+g))<0.005;
+  if(g==='vazio'||g==='—')return x==null;return true}
+ const t=pxNorm(v);return f.split('|').some(alt=>{alt=pxNorm(alt.trim());return alt.startsWith('!')?!t.includes(alt.slice(1)):t.includes(alt)})}
+function pxLinhas(){const q=pxNorm(S.q||'');
+ let L=pxLista().map(pxCalc);
+ if(q)L=L.filter(x=>pxNorm(x.p.nome+' '+x.p.marca+' '+x.p.sku).includes(q));
+ if(PX.st)L=L.filter(x=>PX.st==='aviso'?x.flags.length>0:pxStatus(x)[0]===PX.st);
+ PX_COLS.forEach(([k,,g,t])=>{if(PX.f[k])L=L.filter(x=>pxMatch(g(x),PX.f[k],t))});
+ const [sk,dir]=PX.sort,col=PX_COLS.find(c=>c[0]===sk);
+ if(col)L.sort((a,b)=>{const va=col[2](a),vb=col[2](b);if(col[3]==='n'){const A=pxNum(va),B=pxNum(vb);if(A==null&&B==null)return 0;if(A==null)return 1;if(B==null)return -1;return (A-B)*dir}
+  return String(va||'').localeCompare(String(vb||''),'pt-BR',{numeric:true})*dir||String(a.p.nome).localeCompare(String(b.p.nome))});
+ return L}
+const PX_ST_PILL={erro:'p-warn',igual:'p-info',ok:'p-ok',velho:'p-warn',muda:'p-bad'};
+VIEWFN.pricing=()=>{
+ if(!PX.loaded&&S.db)setTimeout(pxLoad,0);
+ const C=pxCfg(),cam=pxCambio();
+ const top=head('Pricing','Preço de cada produto pela regra do Guia de precificação v2. Edite os %, clique em Calcular (OK) e depois em Transmitir ao Shopify. Nada muda no site antes disso.',
+  '<button class="btn sm" type="button" id="px-regras">Regras</button> '+(can()?'<button class="btn sm" type="button" id="px-conc"'+(PX.busy?' disabled':'')+' title="Lê de novo o preço normal e o Pix de todos os concorrentes ligados">'+(PX.busy==='conc'?'Lendo concorrentes…':'Ler KS e Jini agora')+'</button> <button class="btn sm" type="button" id="px-frete"'+(PX.busy?' disabled':'')+' title="Cota de novo o frete para Fortaleza de todos os pesos">'+(PX.busy==='frete'?'Cotando frete…':'Cotar frete Fortaleza')+'</button>':''));
+ if(!PX.loaded||!PR.loaded)return '<div class="page wide"><div class="col">'+top+'<div class="card"><p class="muted">Carregando…</p></div></div></div>';
+ const A=pxLista().map(pxCalc),L=pxLinhas(),vis=L.slice(0,PX.lim);
+ const sel=A.filter(x=>PX.sel.has(x.p.id)),selCalc=sel.filter(x=>!x.erro&&x.muda&&!x.ok),selTx=sel.filter(x=>!x.erro&&x.muda&&x.ok);
+ const cont=k=>A.filter(x=>pxStatus(x)[0]===k).length;
+ const ultC=PR.cat.reduce((m,c)=>c.lido_em>m?c.lido_em:m,'');
+ const info='<p class="muted" style="margin:-6px 0 0;font-size:11.5px">'+A.length+' produtos no site · '+A.filter(x=>x.tipo==='conc').length+' com KS/Jini · '+A.filter(x=>x.tipo==='ext').length+' com preço do exterior · '+A.filter(x=>x.tipo==='sem').length+' sem referência<br>'+
+  'Padrão: '+n(C.desc)+'% abaixo da referência Pix · frete exibido '+n(C.frete)+'% · ICMS '+n(C.icms)+'% · exterior +'+n(C.ext)+'% · câmbio '+(cam?'R$ '+cam.toFixed(4).replace('.',','):'—')+(Number(C.usd)>0?' (manual)':' (calculadora do site)')+
+  ' · frete de Fortaleza cotado '+(C.freteEm?new Date(C.freteEm).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'}):'—')+' · concorrentes lidos '+(ultC?new Date(ultC).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'}):'—')+'</p>';
+ const chips='<div class="chips">'+[['','Todos',A.length],['muda','A calcular',cont('muda')],['ok','OK · prontos',cont('ok')],['velho','Recalcular',cont('velho')],['igual','Iguais ao site',cont('igual')],['erro','Pendência',cont('erro')],['aviso','Com aviso',A.filter(x=>x.flags.length).length]].map(([v,l,c])=>'<button type="button" class="chip'+(PX.st===v?' on':'')+'" data-pxst="'+esc(v)+'">'+l+' · '+c+'</button>').join('')+
+  (Object.values(PX.f).some(Boolean)||PX.st?'<button type="button" class="chip" id="px-limpa">Limpar filtros</button>':'')+'</div>';
+ const lote=can()?'<div class="card px-lote"><div class="px-lote-in"><b>'+sel.length+' selecionado'+(sel.length===1?'':'s')+'</b>'+
+  '<span>% abaixo <input type="number" step="0.5" id="px-bd" placeholder="'+n(C.desc)+'" data-1c="off"></span><span>% frete exibido <input type="number" step="5" min="0" max="100" id="px-bf" placeholder="'+n(C.frete)+'" data-1c="off"></span>'+
+  '<button class="btn sm" type="button" id="px-aplica"'+(sel.length&&!PX.busy?'':' disabled')+'>Aplicar % aos selecionados</button>'+
+  '<button class="btn sm" type="button" id="px-padrao"'+(sel.length&&!PX.busy?'':' disabled')+' title="Volta os selecionados para o % padrão">Voltar ao padrão</button>'+
+  '<span class="sp"></span><button class="btn sm" type="button" id="px-sel-nada"'+(sel.length?'':' disabled')+'>Limpar seleção</button>'+
+  '<button class="btn sm" type="button" id="px-calc"'+(selCalc.length&&!PX.busy?'':' disabled')+'>Calcular (OK) · '+selCalc.length+'</button>'+
+  '<button class="btn pri sm" type="button" id="px-tx"'+(selTx.length&&!PX.busy?'':' disabled')+'>'+(PX.busy==='tx'?'Transmitindo…':'Transmitir ao Shopify · '+selTx.length)+'</button></div></div>':'';
+ const th=PX_COLS.map(([k,l,,t])=>'<th class="'+(t==='n'?'r ':'')+'px-th" data-pxsort="'+k+'">'+l+(PX.sort[0]===k?(PX.sort[1]>0?' ▲':' ▼'):'')+'</th>').join('');
+ const tf=PX_COLS.map(([k,,,t])=>'<th class="px-fi"><input data-pxf="'+k+'" value="'+esc(PX.f[k]||'')+'" placeholder="'+(t==='n'?'>10, 5-20':'filtrar')+'" aria-label="Filtro" data-1c="off"></th>').join('');
+ const allOn=L.length&&L.every(x=>PX.sel.has(x.p.id));
+ const cel=(v,b)=>has(v)?(b?'<b>'+brl(v)+'</b>':brl(v)):'<span class="muted">—</span>';
+ const row=x=>{const st=pxStatus(x),r=x.ref;
+  return '<tr'+(PX.sel.has(x.p.id)?' class="px-on"':'')+'><td class="rx-ck"><input type="checkbox" data-pxsel="'+esc(x.p.id)+'"'+(PX.sel.has(x.p.id)?' checked':'')+' aria-label="Selecionar"></td>'+
+  '<td class="num">'+esc(x.p.sku)+'</td><td class="px-nome"><a href="#" data-pxabre="'+esc(x.p.id)+'">'+esc(x.p.nome)+'</a></td><td>'+esc(x.p.marca||'')+'</td><td class="r num">'+(x.peso?x.peso+' g':'<span class="muted">—</span>')+'</td>'+
+  '<td>'+(r?(r.url?'<a href="'+esc(r.url)+'" target="_blank" rel="noopener" title="'+esc(r.nome)+'"><b>'+r.cod+'</b></a>':'<b>'+r.cod+'</b>'):'<span class="muted">—</span>')+'</td>'+
+  '<td class="r num">'+(r?(x.tipo==='ext'?'US$ '+r.usd.toFixed(2).replace('.',','):brl(r.normal)):'<span class="muted">—</span>')+'</td>'+
+  '<td class="r num">'+(r&&x.tipo==='conc'?'<b>'+brl(r.pix)+'</b>'+(r.pixLido?(r.pixPct?'<small>−'+pxPct(r.pixPct)+'</small>':''):'<small>não lido</small>'):'<span class="muted">—</span>')+'</td>'+
+  '<td class="r">'+(can()?'<input class="px-in'+(x.dPad?' pad':'')+'" type="number" step="0.5" data-pxd="'+esc(x.p.id)+'" value="'+x.d+'" aria-label="% abaixo" data-1c="off">':pxPct(x.d))+'</td>'+
+  '<td class="r">'+(can()?'<input class="px-in'+(x.fpPad?' pad':'')+'" type="number" step="5" min="0" max="100" data-pxfp="'+esc(x.p.id)+'" value="'+x.fp+'" aria-label="% frete exibido" data-1c="off">':pxPct(x.fp))+'</td>'+
+  '<td class="r num">'+cel(x.freteCheio)+'</td><td class="r num">'+cel(x.freteExib)+'</td><td class="r num">'+cel(x.novo,true)+'</td><td class="r num">'+cel(x.atual)+'</td>'+
   '<td class="r">'+(has(x.dif)&&x.muda?'<span class="pill '+(x.dif<0?'p-ok':'p-warn')+'">'+(x.dif>0?'+':'')+x.dif.toFixed(1).replace('.',',')+'%</span>':'')+'</td>'+
-  '<td class="r num">'+brl(x.totalPior)+'<small>SP '+brl(x.totalSP)+'</small></td></tr>'};
- return '<div class="card"><div class="card-h"><h2>Prévia · '+esc(cm.nome||'')+'</h2><div class="acts"><button class="btn sm" type="button" id="cm-imp">Imprimir</button> <button class="btn sm" type="button" id="cm-fechar">Fechar prévia</button>'+
-  (can()&&!aplicada?' <button class="btn pri sm" type="button" id="cm-aplicar"'+(sel.length&&!CM.busy?'':' disabled')+'>'+(CM.busy?'Aplicando…':'Aplicar '+sel.length+' preço'+(sel.length===1?'':'s')+' no site')+'</button>':'')+'</div></div>'+
-  '<p class="muted" style="margin:0 0 8px;font-size:12px">Total da cliente = preço + frete da campanha ('+(cm.frete==='gratis'?'grátis':brl(n(cm.freteValor)))+') + impostos, com ICMS de '+n(cm.icms)+'% (pior caso); embaixo, o mesmo total em SP (17%). Itens em vermelho ficam desmarcados: confira antes de incluir.'+(aplicada?' <b>Campanha no ar: para mudar, reverta primeiro.</b>':'')+'</p>'+
-  '<div class="tblwrap"><table><thead><tr><th class="rx-ck">'+(!aplicada&&can()?'<input type="checkbox" id="cm-sel-all" aria-label="Selecionar todos"'+(muda.length&&muda.every(x=>CM.sel.has(x.p.id))?' checked':'')+'>':'')+'</th><th>SKU</th><th>Produto</th><th class="r">Concorrente</th><th class="r">Hoje</th><th class="r">Novo</th><th class="r">Dif.</th><th class="r">Total da cliente</th></tr></thead><tbody>'+L.map(row).join('')+'</tbody></table></div></div>'}
-function cmForm(id){
- const cm=id?{...cmGet(id)}:CM_DEF(),marcas=[...new Set(prLista().map(p=>p.marca).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR',{sensitivity:'base'}));
- const inp=(k,l,t,v,h,x)=>'<div class="f'+(x||'')+'"><label for="cmf-'+k+'">'+l+'</label><input id="cmf-'+k+'" name="'+k+'" type="'+t+'" value="'+esc(v==null?'':v)+'" data-1c="off"'+(t==='number'?' step="0.01"':'')+'>'+(h?'<span class="hint">'+h+'</span>':'')+'</div>';
- const sel=(k,l,ops,v,h)=>'<div class="f"><label for="cmf-'+k+'">'+l+'</label><select id="cmf-'+k+'" name="'+k+'" data-1c="off">'+ops.map(([a,b])=>'<option value="'+a+'"'+(String(v)===String(a)?' selected':'')+'>'+b+'</option>').join('')+'</select>'+(h?'<span class="hint">'+h+'</span>':'')+'</div>';
- shell(id?'Editar campanha':'Nova campanha',
-  '<div class="sec"><span class="label">Campanha</span>'+inp('nome','Nome','text',cm.nome,'Ex.: Frete grátis de novembro',' full')+inp('inicio','Início','date',cm.inicio)+inp('fim','Fim','date',cm.fim,'O ERP avisa no dia de aplicar e de reverter.')+'</div>'+
-  '<div class="sec"><span class="label">Quais produtos</span><div class="f full"><label>Marcas <span class="hint">(nenhuma marcada = todas) · número de produtos no site e quantos têm concorrente válido</span></label>'+
-   '<div style="display:flex;gap:6px;margin:2px 0 6px"><button class="btn sm" type="button" id="cmf-todas">Marcar todas</button><button class="btn sm" type="button" id="cmf-nenhuma">Limpar</button></div>'+
-   '<div class="cm-marcas">'+marcas.map(m=>{const ps=prLista().filter(p=>p.marca===m),cc=ps.filter(p=>cmConc(p,{soConferidos:true}).length).length;
-    return '<label><input type="checkbox" name="marcas" value="'+esc(m)+'"'+(cm.marcas.includes(m)?' checked':'')+'><span class="nm">'+esc(m)+'</span><span class="ct num">'+ps.length+(cc?' · <b>'+cc+'</b>':'')+'</span></label>'}).join('')+'</div></div>'+
-   inp('skus','SKUs (opcional)','text',cm.skus,'Separados por vírgula. Aceita começo do código: MB0032 pega todos que começam assim.',' full')+inp('pmin','Preço de hoje a partir de (R$)','number',cm.pmin)+inp('pmax','Preço de hoje até (R$)','number',cm.pmax)+'</div>'+
-  '<div class="sec"><span class="label">Regra</span>'+inp('desc','Total da cliente abaixo do concorrente','number',cm.desc)+sel('descTipo','Em',[['%','%'],['R$','R$']],cm.descTipo)+
-   inp('icms','ICMS de referência (%)','number',cm.icms,'Use o maior ICMS dos estados (pior caso). Assim em nenhum estado a cliente paga mais que o limite.')+
-   sel('frete','Frete na campanha',[['gratis','Grátis'],['fixo','Fixo']],cm.frete)+inp('freteValor','Frete fixo (R$)','number',cm.freteValor,'Só vale se o frete for fixo.')+
-   sel('semConc','Produto sem concorrente válido',[['manter','Mantém o preço de hoje'],['exterior','Regra do exterior (US$ + %)']],cm.semConc)+
-   sel('soConferidos','Concorrentes',[['true','Só os conferidos por uma pessoa'],['false','Incluir os ligados automaticamente']],String(cm.soConferidos))+
-   inp('maxQueda','Trava: queda máxima sem conferir (%)','number',cm.maxQueda,'Quedas maiores ficam desmarcadas na prévia (protege contra concorrente errado).')+'</div>',id?cm:null,!can());
- const del=$('#m-del');if(del)del.addEventListener('click',async()=>{if(!del.classList.contains('armed')){del.classList.add('armed');del.textContent='Confirmar exclusão';return}
-  CM.lista=CM.lista.filter(c=>c.id!==id);try{await cmSalvar();close();if(CM.prev===id)CM.prev=null;render();toast('Campanha excluída')}catch(e){$('#m-err').textContent=errMsg(e)}});
- wireSubmit(async form=>{const E=form.elements,num=k=>{const v=parseFloat(E[k].value);return isFinite(v)?v:null};
-  const v={...cm,nome:E.nome.value.trim(),inicio:E.inicio.value,fim:E.fim.value,marcas:[...form.querySelectorAll('input[name=marcas]:checked')].map(i=>i.value),skus:E.skus.value.trim(),pmin:num('pmin'),pmax:num('pmax'),
-   desc:num('desc')??0,descTipo:E.descTipo.value,icms:num('icms')??20,frete:E.frete.value,freteValor:num('freteValor')??0,semConc:E.semConc.value,soConferidos:E.soConferidos.value==='true',maxQueda:num('maxQueda')??35};
-  if(!v.nome)throw {field:{k:'nome',l:'Nome'}};if(v.inicio&&v.fim&&v.fim<v.inicio)throw new Error('O fim vem antes do início.');
-  const i=CM.lista.findIndex(c=>c.id===v.id);if(i>=0)CM.lista[i]=v;else CM.lista.push(v);await cmSalvar();CM.prev=v.id;CM.selDe=null;toast('Campanha salva: confira a prévia')});
+  '<td class="r num">'+cel(x.final)+(x.tipo==='conc'&&has(x.abaixo)?'<small>'+pxPct(x.abaixo)+' abaixo</small>':'')+'</td>'+
+  '<td><span class="pill '+PX_ST_PILL[st[0]]+'">'+esc(st[1])+'</span>'+(x.flags.length?'<small style="color:#B3261E">'+esc(x.flags.join(' · '))+'</small>':'')+'</td></tr>'};
+ const tabela='<div class="card"><div class="tblwrap px-wrap"><table class="px-t"><thead><tr><th class="rx-ck"><input type="checkbox" id="px-sel-all"'+(allOn?' checked':'')+' aria-label="Selecionar todos os filtrados" title="Seleciona todos os '+L.length+' filtrados"></th>'+th+'</tr><tr class="px-frow"><th></th>'+tf+'</tr></thead><tbody>'+
+  (vis.length?vis.map(row).join(''):'<tr><td colspan="'+(PX_COLS.length+1)+'" class="muted" style="text-align:center;padding:20px">Nenhum produto com esses filtros.</td></tr>')+'</tbody></table></div>'+
+  '<p class="muted" style="margin:8px 0 0;font-size:11.5px">'+L.length+' de '+A.length+' produtos'+(L.length>vis.length?' · mostrando '+vis.length+' <button class="btn sm" type="button" id="px-mais">Mostrar mais 300</button>':'')+
+  ' · Filtros: texto ("medicube", "ks|jn", "!kit"); números ("&gt;100", "&lt;50", "20-60", "vazio"). Clique no título da coluna para ordenar. % em cinza = padrão.</p></div>';
+ const lotes=PX.lotes.length?'<div class="card"><div class="card-h"><h2>Transmissões</h2></div><div class="tblwrap"><table><thead><tr><th>Quando</th><th>Quem</th><th class="r">Preços</th><th>Situação</th><th></th></tr></thead><tbody>'+
+  PX.lotes.slice().reverse().slice(0,15).map(l=>'<tr><td class="num">'+new Date(l.em).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})+'</td><td>'+esc(l.quem||'')+'</td><td class="r num">'+l.itens.length+'</td><td>'+(l.revertido?'<span class="pill p-warn">revertido '+new Date(l.revertido).toLocaleDateString('pt-BR')+'</span>':'<span class="pill p-ok">no ar</span>')+'</td><td class="r"><button class="btn sm" type="button" data-pxlote="'+esc(l.id)+'">Ver</button>'+(can()&&!l.revertido?' <button class="btn sm" type="button" data-pxrev="'+esc(l.id)+'">Reverter</button>':'')+'</td></tr>').join('')+'</tbody></table></div></div>':'';
+ return '<div class="page wide"><div class="col">'+top+info+chips+lote+tabela+lotes+'</div></div>';
+};
+function pxAbrir(id){
+ const p=S.data.produtos.find(x=>x.id===id);if(!p)return;PX.aberto=id;const x=pxCalc(p),C=pxCfg(),cam=pxCambio(),it=x.it,es=it.ext_sites||{};
+ const L=[];
+ if(x.tipo==='conc'){L.push(['Referência: '+x.ref.nome+' no Pix'+(x.ref.pixLido?(x.ref.pixPct?' ('+pxPct(x.ref.pixPct)+' de desconto)':' (sem desconto no Pix)'):' (Pix não lido)'),brl(x.ref.pix)]);
+  if(has(x.alvo)){L.push(['Preço final alvo em Fortaleza (−'+pxPct(x.d)+')',brl(x.alvo)]);L.push(['Sem ICMS '+n(C.icms)+'% (por dentro)','− '+brl(x.alvo*n(C.icms)/100)])}}
+ if(x.tipo==='ext'){L.push(['Referência: '+x.ref.nome+' (maior varejo oficial)','US$ '+x.ref.usd.toFixed(2)]);if(has(x.merc))L.push(['+'+n(C.ext)+'% × câmbio '+(cam||0).toFixed(4),brl(x.merc)])}
+ if(has(x.novo)){L.push(['Frete Fortaleza · '+x.peso+' g (calculadora do site, com 1% do valor)',brl(x.freteCheio)]);L.push(['Frete exibido à cliente ('+pxPct(x.fp)+')',(x.tipo==='conc'?'− ':'')+brl(x.freteExib)]);
+  L.push(['Mercadoria (arredondada para baixo em ,90)',brl(x.novo)]);L.push(['Final em Fortaleza = (mercadoria + frete exibido) ÷ '+(1-n(C.icms)/100).toFixed(2).replace('.',','),brl(x.final)])}
+ const conta=L.length?'<table class="pr-conta">'+L.map(([a,b])=>'<tr><td>'+esc(a)+'</td><td class="r num">'+b+'</td></tr>').join('')+'</table>':'';
+ const concs=x.refs.length?x.refs.map(r=>'<div class="pr-ref"><span><b>'+r.cod+'</b> · '+(r.preco?brl(r.preco)+' · Pix '+brl(r.pix)+(r.pixLido?'':' (não lido)'):'sem preço')+(r.esgotado?' · <b>esgotado</b>':'')+(r.auto?' · <span class="pill p-info">automático, conferir</span>':'')+' · <a href="'+esc(r.url)+'" target="_blank" rel="noopener">'+esc(r.nome||r.url.replace(/^https?:\/\//,''))+'</a>'+(r.lido?' <small class="muted">lido '+new Date(r.lido).toLocaleDateString('pt-BR')+'</small>':'')+'</span></div>').join(''):'<p class="muted" style="margin:0">Nenhum concorrente ligado.</p>';
+ const ext=PX_SITES.map(([k,nome,cod,site])=>{const v=es[k]||{};return '<div class="f"><label for="pxe-'+k+'">'+nome+' (US$)</label><input id="pxe-'+k+'" name="u_'+k+'" type="number" step="0.01" min="0" value="'+esc(v.usd??'')+'" data-1c="off"'+(can()?'':' disabled')+'></div><div class="f"><label for="pxl-'+k+'">Link '+cod+'</label><input id="pxl-'+k+'" name="l_'+k+'" type="url" value="'+esc(v.url||'')+'" placeholder="'+site+'…" data-1c="off"'+(can()?'':' disabled')+'></div>'}).join('');
+ const H=PR.hist.filter(h=>h.produto_id===id).slice(0,8);
+ const body='<div class="sec"><span class="label">'+esc(p.marca||'')+' · '+esc(p.sku)+' · '+(x.peso?x.peso+' g':'sem peso')+' · no site hoje '+brl(x.atual)+'</span><div style="grid-column:1/-1">'+(conta||'<p class="muted" style="margin:0">'+esc(x.erro||'')+'</p>')+
+  (x.erro&&conta?'<p class="pill p-warn" style="margin-top:8px">'+esc(x.erro)+'</p>':'')+(x.flags.length?'<p style="margin:8px 0 0;color:#B3261E;font-size:12.5px">'+esc(x.flags.join(' · '))+'</p>':'')+'</div>'+
+  '<div class="f"><label for="pxm-d">% abaixo da referência</label><input id="pxm-d" name="d" type="number" step="0.5" value="'+esc(pxNum(it.desc_pct)??'')+'" placeholder="padrão '+n(C.desc)+'" data-1c="off"'+(can()?'':' disabled')+'></div>'+
+  '<div class="f"><label for="pxm-f">% do frete exibido</label><input id="pxm-f" name="fp" type="number" step="5" min="0" max="100" value="'+esc(pxNum(it.frete_pct)??'')+'" placeholder="padrão '+n(C.frete)+'" data-1c="off"'+(can()?'':' disabled')+'></div></div>'+
+  '<div class="sec"><span class="label">Concorrentes válidos (KS e Jini)</span><div style="grid-column:1/-1">'+concs+(can()?'<p style="margin:8px 0 0"><button class="btn sm" type="button" data-pxliga="'+esc(p.id)+'">Ligar ou conferir concorrente</button></p>':'')+'</div></div>'+
+  '<div class="sec"><span class="label">Sem concorrente: varejo oficial no exterior (sem promoção)</span><p class="hint" style="grid-column:1/-1;margin:0">Vale o maior dos quatro, +'+n(C.ext)+'%, no câmbio do dia. Só é usado quando não há KS nem Jini válidos.</p>'+ext+'</div>'+
+  (H.length?'<div class="sec"><span class="label">Histórico de preço</span><div style="grid-column:1/-1">'+H.map(h=>'<div class="muted" style="font-size:12px">'+new Date(h.em).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})+' · '+brl(Number(h.antes))+' → <b>'+brl(Number(h.depois))+'</b> · '+esc(h.regra||'')+' · '+esc(h.quem||'')+'</div>').join('')+'</div></div>':'');
+ shell(p.nome,body,null,!can());
+ if(!can())return;
+ wireSubmit(async form=>{const E=form.elements,num=k=>{const v=String(E[k].value).trim();if(v==='')return null;const y=parseFloat(v.replace(',','.'));return isFinite(y)?y:null};
+  const fp=num('fp');if(fp!=null&&(fp<0||fp>100))throw new Error('% do frete exibido vai de 0 a 100.');
+  const sites={};PX_SITES.forEach(([k])=>{const u=num('u_'+k),l=String(E['l_'+k].value||'').trim();if(u>0||l)sites[k]={usd:u>0?u:null,url:l}});
+  const best=pxExt({ext_sites:sites}),antes=JSON.stringify((PX.itens.get(id)||{}).ext_sites||{});
+  const row={produto_id:id,desc_pct:num('d'),frete_pct:fp,ext_sites:sites,ext_loja:best?best.k:null,ext_url:best?best.url:null,ext_usd:best?best.usd:null,ext_quando:JSON.stringify(sites)!==antes?pxHoje():(PX.itens.get(id)||{}).ext_quando||null,quem:S.email||'',atualizado_em:new Date().toISOString()};
+  await pxGravar([row]);toast('Salvo')});
 }
-async function cmAplicar(cm){
- const L=cmLinhas(cm).filter(x=>x.muda&&CM.sel.has(x.p.id));if(!L.length){toast('Nada selecionado');return}
- const baixam=L.filter(x=>x.dif<0).length;
- if(!confirm('Aplicar a campanha "'+cm.nome+'"?\n\n'+L.length+' preços mudam no site ('+baixam+' baixam, '+(L.length-baixam)+' sobem).\nO preço de antes fica guardado para reverter.'))return;
- CM.busy=true;render();let ok=0,err=0;const itens=[];
- for(const x of L){const p=x.p;try{await chamarShop({acao:'preco',produtoId:p.shopify_product_id,varianteId:p.shopify_variant_id,preco:x.novo});
-   await sb.from('precos_hist').insert({produto_id:p.id,sku:p.sku,nome:p.nome,antes:x.atual,depois:x.novo,regra:'Campanha: '+cm.nome,quem:S.email||''});
-   itens.push({id:p.id,sku:p.sku,nome:p.nome,antes:x.atual,depois:x.novo});p.preco=x.novo;ok++;if(ok%10===0)toast(ok+' de '+L.length+'…')}catch(e){err++}}
- const c=cmGet(cm.id);c.itens=itens;c.status='aplicada';c.aplicada_em=new Date().toISOString();c.quem=S.email||'';
- try{await cmSalvar()}catch(e){toast('Preços aplicados, mas a campanha não foi salva: '+errMsg(e))}
- CM.busy=false;toast(ok+' preço'+(ok===1?'':'s')+' no site'+(err?' · '+err+' com erro':''));render()}
-async function cmReverter(cm){
- const its=cm.itens||[];if(!its.length){toast('Nada para reverter');return}
- const L=its.map(i=>({i,p:S.data.produtos.find(p=>p.id===i.id)})).filter(x=>x.p);
- const mudou=L.filter(x=>Math.abs(n(x.p.preco)-x.i.depois)>=0.01);
- if(!confirm('Reverter a campanha "'+cm.nome+'"?\n\n'+(L.length-mudou.length)+' preços voltam ao valor de antes.'+(mudou.length?'\n'+mudou.length+' foram mudados depois da campanha e NÃO serão mexidos.':'')))return;
- CM.busy=true;render();let ok=0,err=0;
- for(const {i,p} of L){if(mudou.some(x=>x.p===p))continue;try{await chamarShop({acao:'preco',produtoId:p.shopify_product_id,varianteId:p.shopify_variant_id,preco:i.antes});
-   await sb.from('precos_hist').insert({produto_id:p.id,sku:p.sku,nome:p.nome,antes:i.depois,depois:i.antes,regra:'Reversão: '+cm.nome,quem:S.email||''});p.preco=i.antes;ok++}catch(e){err++}}
- const c=cmGet(cm.id);c.status='revertida';c.revertida_em=new Date().toISOString();try{await cmSalvar()}catch(_){}
- CM.busy=false;toast(ok+' preço'+(ok===1?'':'s')+' revertido'+(ok===1?'':'s')+(mudou.length?' · '+mudou.length+' não mexidos':'')+(err?' · '+err+' com erro':''));render()}
-function cmImprimir(cm){
- const L=cmLinhas(cm).filter(x=>x.muda).sort((a,b)=>n(a.dif)-n(b.dif));
- relAbrir('Campanha · '+cm.nome,'<h1>'+esc(cm.nome)+'</h1><p>'+cmData(cm.inicio)+' a '+cmData(cm.fim)+' · total da cliente '+(cm.descTipo==='R$'?'R$ '+n(cm.desc):n(cm.desc)+'%')+' abaixo do concorrente · ICMS '+n(cm.icms)+'% · frete '+(cm.frete==='gratis'?'grátis':brl(n(cm.freteValor)))+'</p>'+
-  '<table><thead><tr><th>SKU</th><th>Produto</th><th>Concorrente</th><th>Hoje</th><th>Novo</th><th>Total cliente</th><th>Obs.</th></tr></thead><tbody>'+
-  L.map(x=>'<tr><td>'+esc(x.p.sku)+'</td><td>'+esc(x.p.nome)+'</td><td>'+(x.conc?PR_LOJA[x.conc.loja]+' '+brl(x.conc.preco):'—')+'</td><td>'+brl(x.atual)+'</td><td><b>'+brl(x.novo)+'</b></td><td>'+brl(x.totalPior)+'</td><td>'+esc(x.flags.join('; '))+'</td></tr>').join('')+'</tbody></table>')}
-document.addEventListener('change',e=>{const t=e.target;
- if(t.dataset&&t.dataset.cmsel){t.checked?CM.sel.add(t.dataset.cmsel):CM.sel.delete(t.dataset.cmsel);render();return}
- if(t.id==='cm-sel-all'){const cm=cmGet(CM.prev);if(!cm)return;cmLinhas(cm).filter(x=>x.muda).forEach(x=>{t.checked?CM.sel.add(x.p.id):CM.sel.delete(x.p.id)});render();return}});
-document.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;
- if(t.id==='cm-nova'){cmForm(null);return}
- if(t.id==='cmf-todas'||t.id==='cmf-nenhuma'){document.querySelectorAll('#mform input[name=marcas]').forEach(i=>i.checked=t.id==='cmf-todas');return}
- if(t.dataset.cmedit){cmForm(t.dataset.cmedit);return}
- if(t.dataset.cmprev){CM.prev=t.dataset.cmprev;CM.selDe=null;render();window.scrollTo(0,0);return}
- if(t.id==='cm-fechar'){CM.prev=null;render();return}
- if(t.id==='cm-imp'){const cm=cmGet(CM.prev);if(cm)cmImprimir(cm);return}
- if(t.id==='cm-aplicar'){const cm=cmGet(CM.prev);if(cm)cmAplicar(cm);return}
- if(t.dataset.cmrev){const cm=cmGet(t.dataset.cmrev);if(cm)cmReverter(cm);return}});
+async function pxGravar(rows){
+ const full=rows.map(r=>({...(PX.itens.get(r.produto_id)||{}),...r}));
+ for(let i=0;i<full.length;i+=500){const {error}=await sb.from('pricing_itens').upsert(full.slice(i,i+500),{onConflict:'produto_id'});if(error)throw error}
+ full.forEach(r=>PX.itens.set(r.produto_id,r))}
+async function pxSetPct(ids,campo,v){
+ try{await pxGravar(ids.map(id=>({produto_id:id,[campo]:v,quem:S.email||'',atualizado_em:new Date().toISOString()})));render()}catch(e){toast(errMsg(e))}}
+async function pxCalcular(){
+ const L=[...PX.sel].map(id=>S.data.produtos.find(p=>p.id===id)).filter(Boolean).map(pxCalc).filter(x=>!x.erro&&x.muda&&!x.ok);
+ if(!L.length){toast('Nada a calcular na seleção');return}
+ const comAviso=L.filter(x=>x.flags.length).length;
+ if(comAviso&&!confirm(comAviso+' dos '+L.length+' produtos têm aviso (em vermelho na tabela). Marcar como OK mesmo assim?'))return;
+ const em=new Date().toISOString();
+ try{await pxGravar(L.map(x=>({produto_id:x.p.id,calc:{novo:x.novo,final:x.final,atual:x.atual,ref:x.ref?{cod:x.ref.cod,pix:x.ref.pix??null,usd:x.ref.usd??null,url:x.ref.url||''}:null,d:x.d,fp:x.fp,frete:x.freteCheio,em,quem:S.email||''}})));
+  toast(L.length+' preço'+(L.length===1?'':'s')+' calculado'+(L.length===1?'':'s')+' (OK). Confira e clique em Transmitir.');render()}catch(e){toast(errMsg(e))}}
+async function pxTransmitir(){
+ const L=[...PX.sel].map(id=>S.data.produtos.find(p=>p.id===id)).filter(Boolean).map(pxCalc).filter(x=>!x.erro&&x.muda&&x.ok);
+ if(!L.length){toast('Nenhum selecionado com OK');return}
+ const sem=L.filter(x=>!x.p.shopify_product_id||!x.p.shopify_variant_id);if(sem.length){toast(sem.length+' sem ligação com o Shopify: sincronize o catálogo');return}
+ const baixam=L.filter(x=>x.dif<0).length,soma=(a,f)=>a.reduce((s,x)=>s+f(x),0);
+ if(!confirm('Transmitir '+L.length+' preço'+(L.length===1?'':'s')+' ao Shopify?\n\n'+baixam+' baixam, '+(L.length-baixam)+' sobem.\nSoma hoje '+brl(soma(L,x=>x.atual))+' → nova '+brl(soma(L,x=>x.novo))+'.\n\nO preço de antes fica guardado para reverter.'))return;
+ PX.busy='tx';render();const lote={id:'px'+Date.now().toString(36),em:new Date().toISOString(),quem:S.email||'',itens:[]};let err=0;
+ for(let i=0;i<L.length;i+=40){const parte=L.slice(i,i+40);
+  try{const r=await chamarShop({acao:'precos',itens:parte.map(x=>({produtoId:x.p.shopify_product_id,varianteId:x.p.shopify_variant_id,preco:x.novo}))});
+   const ok=new Set((r.resultados||[]).filter(y=>y.ok).map(y=>String(y.varianteId)));const feitos=parte.filter(x=>ok.has(String(x.p.shopify_variant_id)));err+=parte.length-feitos.length;
+   if(feitos.length){const regra=x=>'Pricing: '+(x.ref?x.ref.cod+(x.tipo==='conc'?' Pix '+brl(x.ref.pix):' US$ '+x.ref.usd.toFixed(2)):'')+' −'+x.d+'% · frete '+x.fp+'%';
+    await sb.from('precos_hist').insert(feitos.map(x=>({produto_id:x.p.id,sku:x.p.sku,nome:x.p.nome,antes:x.atual,depois:x.novo,regra:regra(x),quem:S.email||''})));
+    feitos.forEach(x=>{lote.itens.push({id:x.p.id,sku:x.p.sku,nome:x.p.nome,antes:x.atual,depois:x.novo});x.p.preco=x.novo;PX.sel.delete(x.p.id)})}
+  }catch(e){err+=parte.length;toast(errMsg(e))}
+  if(L.length>40)toast(Math.min(i+40,L.length)+' de '+L.length+'…')}
+ if(lote.itens.length){PX.lotes.push(lote);if(PX.lotes.length>40)PX.lotes=PX.lotes.slice(-40);try{await sb.from('config').upsert({chave:'pricing_lotes',valor:PX.lotes})}catch(_){}}
+ PX.busy='';PR.loaded=false;loadPrecos();toast(lote.itens.length+' preço'+(lote.itens.length===1?'':'s')+' no Shopify'+(err?' · '+err+' com erro':''));render()}
+async function pxReverter(id){
+ const l=PX.lotes.find(x=>x.id===id);if(!l||l.revertido)return;
+ const L=l.itens.map(i=>({i,p:S.data.produtos.find(p=>p.id===i.id)})).filter(x=>x.p),mexidos=L.filter(x=>Math.abs(n(pxNum(x.p.preco))-x.i.depois)>=0.01),volta=L.filter(x=>!mexidos.includes(x));
+ if(!confirm('Reverter a transmissão de '+new Date(l.em).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})+'?\n\n'+volta.length+' preços voltam ao valor de antes.'+(mexidos.length?'\n'+mexidos.length+' foram mudados depois e NÃO serão mexidos.':'')))return;
+ PX.busy='tx';render();let ok=0,err=0;
+ for(let i=0;i<volta.length;i+=40){const parte=volta.slice(i,i+40);
+  try{const r=await chamarShop({acao:'precos',itens:parte.map(x=>({produtoId:x.p.shopify_product_id,varianteId:x.p.shopify_variant_id,preco:x.i.antes}))});
+   const okS=new Set((r.resultados||[]).filter(y=>y.ok).map(y=>String(y.varianteId)));const feitos=parte.filter(x=>okS.has(String(x.p.shopify_variant_id)));
+   if(feitos.length)await sb.from('precos_hist').insert(feitos.map(x=>({produto_id:x.p.id,sku:x.p.sku,nome:x.p.nome,antes:x.i.depois,depois:x.i.antes,regra:'Pricing: reversão',quem:S.email||''})));
+   feitos.forEach(x=>{x.p.preco=x.i.antes;ok++});err+=parte.length-feitos.length}catch(e){err+=parte.length;toast(errMsg(e))}}
+ l.revertido=new Date().toISOString();try{await sb.from('config').upsert({chave:'pricing_lotes',valor:PX.lotes})}catch(_){}
+ PX.busy='';PR.loaded=false;loadPrecos();toast(ok+' revertido'+(ok===1?'':'s')+(mexidos.length?' · '+mexidos.length+' não mexidos':'')+(err?' · '+err+' com erro':''));render()}
+function pxVerLote(id){const l=PX.lotes.find(x=>x.id===id);if(!l)return;
+ shell('Transmissão de '+new Date(l.em).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'}),'<div class="sec"><span class="label">'+l.itens.length+' preços · '+esc(l.quem||'')+(l.revertido?' · revertida':'')+'</span><div style="grid-column:1/-1" class="tblwrap"><table><thead><tr><th>SKU</th><th>Produto</th><th class="r">Antes</th><th class="r">Depois</th></tr></thead><tbody>'+
+  l.itens.map(i=>'<tr><td class="num">'+esc(i.sku)+'</td><td>'+esc(i.nome)+'</td><td class="r num">'+brl(i.antes)+'</td><td class="r num"><b>'+brl(i.depois)+'</b></td></tr>').join('')+'</tbody></table></div></div>',null,true)}
+function pxRegras(){
+ const C=pxCfg(),f=(k,l,h,step)=>'<div class="f"><label for="pxc-'+k+'">'+l+'</label><input id="pxc-'+k+'" name="'+k+'" type="'+(k==='cep'?'text':'number')+'" step="'+(step||'0.5')+'" value="'+esc(C[k]??'')+'" data-1c="off"'+(can()?'':' disabled')+'>'+(h?'<span class="hint">'+h+'</span>':'')+'</div>';
+ shell('Regras do Pricing','<div class="sec"><span class="label">Padrões (cada produto pode ter o seu)</span>'+f('desc','% abaixo da referência Pix','Preço final em Fortaleza fica este % abaixo do menor Pix entre KS e Jini.')+f('frete','% do frete exibido','100 = a cliente vê o frete inteiro. 0 = frete todo dentro do preço. O final não muda.',5)+'</div>'+
+  '<div class="sec"><span class="label">Conta</span>'+f('icms','ICMS (%)','Por dentro.')+f('ext','Sobre o varejo do exterior (%)','Produto sem KS/Jini: maior varejo oficial em US$ + este %.')+f('usd','Câmbio manual (R$ por US$)','Vazio = câmbio do dia da calculadora do site ('+(Number(C.cambio)>0?Number(C.cambio).toFixed(4).replace('.',','):'—')+').',0.0001)+'</div>'+
+  '<div class="sec"><span class="label">Frete</span>'+f('cep','CEP de referência','Fortaleza (CE).')+f('seguro','Parte do frete sobre o valor (%)','A calculadora soma este % do valor do produto ao frete.',0.1)+'</div>',null,!can());
+ if(!can())return;
+ wireSubmit(async form=>{const v={...pxCfg()};['desc','frete','icms','ext','seguro'].forEach(k=>{const x=parseFloat(form.elements[k].value);if(isFinite(x))v[k]=x});
+  const u=parseFloat(form.elements.usd.value);v.usd=isFinite(u)&&u>0?u:null;const cep=String(form.elements.cep.value||'').trim();
+  if(v.frete<0||v.frete>100)throw new Error('% do frete exibido vai de 0 a 100.');
+  const mudouCep=cep&&cep!==v.cep;if(cep)v.cep=cep;if(mudouCep)v.fretes={};
+  await pxSalvarCfg(v);toast('Regras salvas'+(mudouCep?': cotando o frete do novo CEP…':''));if(mudouCep)pxCotarFrete(true)});
+}
+document.addEventListener('change',e=>{const t=e.target;if(!t.dataset)return;
+ if(t.dataset.pxsel){t.checked?PX.sel.add(t.dataset.pxsel):PX.sel.delete(t.dataset.pxsel);render();return}
+ if(t.id==='px-sel-all'){const L=pxLinhas();L.forEach(x=>{t.checked?PX.sel.add(x.p.id):PX.sel.delete(x.p.id)});render();return}
+ if(t.dataset.pxd||t.dataset.pxfp){const id=t.dataset.pxd||t.dataset.pxfp,campo=t.dataset.pxd?'desc_pct':'frete_pct',s=String(t.value).trim(),v=s===''?null:parseFloat(s.replace(',','.'));
+  if(v!=null&&(!isFinite(v)||(campo==='frete_pct'&&(v<0||v>100)))){toast(campo==='frete_pct'?'% do frete vai de 0 a 100':'Número inválido');render();return}
+  pxSetPct([id],campo,v);return}});
+let pxFT=null;
+document.addEventListener('input',e=>{const t=e.target;if(!t.dataset||!t.dataset.pxf)return;PX.f[t.dataset.pxf]=t.value;PX.lim=200;clearTimeout(pxFT);
+ pxFT=setTimeout(()=>{const k=t.dataset.pxf,pos=t.selectionStart;render();const n2=document.querySelector('[data-pxf="'+k+'"]');if(n2){n2.focus();try{n2.setSelectionRange(pos,pos)}catch(_){}}},350)});
+document.addEventListener('click',e=>{const t=e.target.closest('button,a,th[data-pxsort]');if(!t)return;
+ if(t.dataset.pxsort){if(e.target.closest('input'))return;const k=t.dataset.pxsort;PX.sort=[k,PX.sort[0]===k?-PX.sort[1]:1];render();return}
+ if(t.dataset.pxabre){e.preventDefault();pxAbrir(t.dataset.pxabre);return}
+ if(t.dataset.pxliga){prAbrir(t.dataset.pxliga);return}
+ if(t.dataset.pxst!==undefined){PX.st=t.dataset.pxst;PX.lim=200;render();return}
+ if(t.dataset.pxlote){pxVerLote(t.dataset.pxlote);return}
+ if(t.dataset.pxrev){pxReverter(t.dataset.pxrev);return}
+ switch(t.id){
+  case 'px-limpa':PX.f={};PX.st='';render();return;
+  case 'px-mais':PX.lim+=300;render();return;
+  case 'px-regras':pxRegras();return;
+  case 'px-frete':pxCotarFrete(false);return;
+  case 'px-conc':pxLerConc();return;
+  case 'px-sel-nada':PX.sel.clear();render();return;
+  case 'px-calc':pxCalcular();return;
+  case 'px-tx':pxTransmitir();return;
+  case 'px-aplica':{const d=($('#px-bd')||{}).value,f=($('#px-bf')||{}).value,ids=[...PX.sel];if(!ids.length)return;
+   const dv=String(d).trim()===''?undefined:parseFloat(String(d).replace(',','.')),fv=String(f).trim()===''?undefined:parseFloat(String(f).replace(',','.'));
+   if(dv===undefined&&fv===undefined){toast('Preencha % abaixo ou % frete');return}
+   if(fv!==undefined&&(!(fv>=0)||fv>100)){toast('% do frete vai de 0 a 100');return}
+   const rows=ids.map(id=>({produto_id:id,...(dv!==undefined?{desc_pct:dv}:{}),...(fv!==undefined?{frete_pct:fv}:{}),quem:S.email||'',atualizado_em:new Date().toISOString()}));
+   pxGravar(rows).then(()=>{toast(ids.length+' produtos atualizados');render()}).catch(er=>toast(errMsg(er)));return}
+  case 'px-padrao':{const ids=[...PX.sel];if(!ids.length)return;if(!confirm('Voltar '+ids.length+' produtos para o % padrão?'))return;
+   pxGravar(ids.map(id=>({produto_id:id,desc_pct:null,frete_pct:null,quem:S.email||'',atualizado_em:new Date().toISOString()}))).then(()=>{toast('Padrão restaurado');render()}).catch(er=>toast(errMsg(er)));return}
+ }});
+document.addEventListener('click',e=>{if(S.view==='pricing'&&e.target.closest('[data-close]'))setTimeout(()=>{if(!document.querySelector('#ov'))render()},0)});
 
 /* ---------- Raio-X do catálogo (Shopify) · v15 ---------- */
 const RX_ERR={foto:['Foto','sem foto','p-bad'],provisorio:['Preço provisório','R$ 0 ou 999,99','p-bad'],suspeito:['Preço suspeito','barato demais','p-bad'],duplicado:['Duplicado','mesmo produto 2x','p-warn'],categoria:['Categoria','fora dos menus','p-warn'],marca:['Marca','nome errado','p-warn']};
@@ -3120,6 +3243,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v40','30/10/2026',['Novo setor Pricing (no lugar de Campanhas de preço), pelo Guia de precificação v2: tabela com todos os produtos do site, filtro em cada coluna, ordenar clicando no título, seleção em lote.','Referência = menor preço no Pix entre KS (KS) e Jini (JN), só concorrentes conferidos e com estoque. O ERP agora lê o desconto do Pix nas duas lojas.','Preço final em Fortaleza = mercadoria + frete exibido + ICMS 20%, pelo menos 5% abaixo da referência. % abaixo e % do frete exibido editáveis por produto ou em lote; o preço final não muda com o % do frete.','Frete = calculadora do site para Fortaleza pelo peso do Shopify (botão Cotar frete Fortaleza). Imposto de importação fora da conta, com aviso acima de US$ 50.','Sem KS/Jini: maior varejo oficial entre YesStyle, Olive Young Global, Jolse e Sephora Global (US$) + 15%, câmbio do dia. Os preços entram na ficha do produto (clique no nome).','Fluxo: Calcular (OK) → Transmitir ao Shopify. Cada transmissão fica guardada e pode ser revertida.','Precificação virou Concorrentes: ligar e conferir KS/Jini de cada produto. Os preços agora só saem do Pricing.','Catálogo: peso de 1.922 produtos preenchido com o peso já enviado ao Shopify.']],
  ['v39','30/10/2026',['Campanhas de preço: lista de marcas organizada em colunas, em ordem alfabética, com o número de produtos no site e (em verde) quantos têm concorrente válido. Botões Marcar todas e Limpar.']],
  ['v38','30/10/2026',['Menu: clique no nome de um grupo (Operação, Dinheiro, Estoque e compras…) para recolher ou abrir. O ERP lembra neste aparelho. Grupo recolhido mostra a soma dos avisos; a tela aberta sempre aparece.']],
  ['v37','30/10/2026',['Nova tela Campanhas de preço (menu Estoque e compras): escolha marcas, SKUs, faixa de preço e período; o preço é calculado de trás para frente a partir do total que a cliente paga (com frete e impostos), abaixo do concorrente válido.','Frete da campanha: grátis ou fixo. ICMS de referência pelo pior caso (20%), para nenhum estado passar do limite.','Prévia com SKU, concorrente (link), preço de hoje, novo e total da cliente; trava contra quedas grandes; imprimir; aplicar só os selecionados; reverter volta os preços de antes.','Medicube: 43 concorrentes da KS e da Jini conferidos e ligados aos produtos.']],

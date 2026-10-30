@@ -43,7 +43,19 @@ export async function lerPagina(url: string) {
     const ml = t.match(/line-through[^>]*>\s*R\$\s*([\d.]+,\d{2})/); if (ml) de = num(ml[1].replace(/\./g, "").replace(",", "."));
   }
   if (de && preco && de <= preco) de = null;
-  return { url, loja, nome, marca, sku: p?.sku ?? null, preco, preco_de: de, esgotado, peso_g: peso };
+  // Desconto do Pix: KS guarda em pixConditions.discountPercent; Jini no bloco "info-payment-method-pix".
+  let pix_pct: number | null = null;
+  if (loja === "ks") {
+    const m = t.replace(/&quot;/g, '"').match(/"pixConditions":\[0,\{"discountPercent":\[0,([\d.]+)\]/);
+    if (m) pix_pct = parseFloat(m[1]);
+    if (/"showPixDiscount":\[0,false\]/.test(t.replace(/&quot;/g, '"'))) pix_pct = 0;
+  } else {
+    const bloco = (t.split("info-payment-method-pix")[1] || "").slice(0, 2500);
+    const m = bloco.match(/<strong>\s*([\d.,]+)\s*% de desconto\s*<\/strong>/);
+    if (m) pix_pct = num(m[1]) ?? 0;
+  }
+  const preco_pix = preco ? Math.round(preco * (1 - (pix_pct || 0) / 100) * 100) / 100 : null;
+  return { url, loja, nome, marca, sku: p?.sku ?? null, preco, preco_de: de, esgotado, peso_g: peso, pix_pct, preco_pix };
 }
 
 // Grava uma leitura em conc_catalogo, guardando o preço anterior quando muda.
