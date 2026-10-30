@@ -8,6 +8,12 @@ const resp = (s: number, c: unknown) => new Response(JSON.stringify(c), { status
 Deno.serve(async (req) => {
   if (req.method !== "POST") return resp(405, { erro: "use POST" });
   let b: any; try { b = await req.json(); } catch { return resp(400, { erro: "pedido inválido" }); }
+  // TEMPORÁRIO (30/10/2026): lista dos nossos produtos das marcas pedidas, para as planilhas de preço oficial. Sai depois de usar.
+  if (b.acao === "omg_marcas" && Array.isArray(b.marcas)) {
+    const { data, error } = await admin.from("produtos").select("sku,nome,marca,preco,peso_g,ativo").in("marca", b.marcas.slice(0, 20)).limit(5000);
+    if (error) return resp(500, { erro: error.message });
+    return resp(200, { ok: true, produtos: data });
+  }
   const loja = String(b.loja || ""); if (!LOJAS[loja]) return resp(400, { erro: "loja inválida" });
   const de = Math.max(0, Number(b.de) || 0), qtd = Math.min(60, Math.max(1, Number(b.qtd) || 40));
   const inicio = String(b.inicio || "");
