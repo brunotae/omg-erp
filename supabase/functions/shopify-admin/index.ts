@@ -353,6 +353,48 @@ Deno.serve(async (req) => {
       return resp(200, { ok: true, produtos: out });
     }
 
+    if (b.acao === "filtros_dados") {
+      // Dados para classificar filtros (tipo de pele / necessidade): produtos ATIVOS, 100 por chamada (b.after).
+      const d: any = await gql(`query($a: String) { products(first: 100, after: $a, query: "status:active") { nodes { id title productType tags descriptionHtml
+          pele: metafield(namespace: "custom", key: "tipo_de_pele") { value } nec: metafield(namespace: "custom", key: "necessidade") { value } } pageInfo { hasNextPage endCursor } } }`, { a: b.after ?? null });
+      const rows = d.products.nodes.map((p: any) => {
+        const h = String(p.descriptionHtml || "");
+        const sec = (t: string) => { const m = h.match(new RegExp("<summary[^>]*>" + t + "</summary>([\\s\\S]*?)</details>", "i")); return m ? m[1].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 300) : ""; };
+        const txt = h.replace(/<style[\s\S]*?<\/style>/gi, "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+        return { id: p.id, t: p.title, y: p.productType, tags: (p.tags || []).filter((x: string) => /^cat[-:]/.test(x)), ind: sec("Indicado para"), ben: sec("Benefícios"), txt: txt.slice(0, 700), pele: p.pele?.value ?? null, nec: p.nec?.value ?? null };
+      });
+      return resp(200, { ok: true, rows, proximo: d.products.pageInfo.hasNextPage ? d.products.pageInfo.endCursor : null });
+    }
+
+    if (b.acao === "filtros_definir") {
+      // Cria (se faltar) as definições de metafield usadas como filtros da loja.
+      const defs = [
+        { key: "tipo_de_pele", name: "Tipo de pele", choices: ["Oleosa", "Mista", "Seca", "Normal", "Sensível", "Todos os tipos"] },
+        { key: "necessidade", name: "Necessidade", choices: ["Acne e espinhas", "Poros e oleosidade", "Manchas e luminosidade", "Hidratação", "Calmante e pele sensível", "Antiidade e firmeza", "Proteção solar", "Limpeza", "Barreira da pele"] },
+      ];
+      const out: any[] = [];
+      for (const df of defs) {
+        const q: any = await gql(`{ metafieldDefinitions(first: 5, ownerType: PRODUCT, namespace: "custom", key: "${df.key}") { nodes { id } } }`, {});
+        if (q.metafieldDefinitions.nodes.length) { out.push({ key: df.key, ja: true }); continue; }
+        const r: any = await gql(`mutation($d: MetafieldDefinitionInput!) { metafieldDefinitionCreate(definition: $d) { createdDefinition { id } userErrors { message } } }`, { d: {
+          name: df.name, namespace: "custom", key: df.key, ownerType: "PRODUCT", type: "list.single_line_text_field", pin: true,
+          access: { storefront: "PUBLIC_READ" }, validations: [{ name: "choices", value: JSON.stringify(df.choices) }] } });
+        out.push({ key: df.key, erro: r.metafieldDefinitionCreate.userErrors[0]?.message ?? null });
+      }
+      return resp(200, { ok: true, out });
+    }
+
+    if (b.acao === "filtros_gravar") {
+      // { itens: [{ id, pele: [...], nec: [...] }] } até 25 por chamada.
+      const mf: any[] = [];
+      for (const it of (Array.isArray(b.itens) ? b.itens : []).slice(0, 25)) {
+        if (Array.isArray(it.pele) && it.pele.length) mf.push({ ownerId: it.id, namespace: "custom", key: "tipo_de_pele", type: "list.single_line_text_field", value: JSON.stringify(it.pele) });
+        if (Array.isArray(it.nec) && it.nec.length) mf.push({ ownerId: it.id, namespace: "custom", key: "necessidade", type: "list.single_line_text_field", value: JSON.stringify(it.nec) });
+      }
+      const r: any = await gql(`mutation($m: [MetafieldsSetInput!]!) { metafieldsSet(metafields: $m) { userErrors { field message } } }`, { m: mf });
+      return resp(200, { ok: true, gravados: mf.length, erros: r.metafieldsSet.userErrors.slice(0, 5) });
+    }
+
     if (b.acao === "desc_scan") {
       // Varre produtos ATIVOS (100 por chamada, b.after) e aponta descrições problemáticas.
       const d: any = await gql(`query($a: String) { products(first: 100, after: $a, query: "status:active") { nodes { handle title vendor productType tags descriptionHtml media(first: 1) { nodes { id } } variants(first: 1) { nodes { price } } } pageInfo { hasNextPage endCursor } } }`, { a: b.after ?? null });
