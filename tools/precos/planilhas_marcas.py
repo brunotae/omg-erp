@@ -53,7 +53,10 @@ TIPOS = {'serum': 'serum', 'ampoule': 'ampola', 'ampule': 'ampola', 'essence': '
          'mask': 'mascara', 'masks': 'mascara', 'oil': 'oleo', 'foam': 'espuma', 'gel': 'gel', 'mist': 'bruma', 'cushion': 'cushion', 'sunscreen': 'solar',
          'sun': 'solar', 'balm': 'balm', 'lotion': 'locao', 'emulsion': 'locao', 'shampoo': 'shampoo', 'tint': 'tint', 'patch': 'patch', 'patches': 'patch',
          'cleanser': 'limpeza', 'cleansing': 'limpeza', 'stick': 'stick', 'powder': 'po', 'primer': 'primer', 'concealer': 'corretivo', 'foundation': 'base',
-         'eye': 'olhos', 'lip': 'labios'}
+         'eye': 'olhos', 'lip': 'labios',
+         # português (descrição do nosso nome)
+         'sérum': 'serum', 'creme': 'creme', 'tonico': 'tonico', 'mascara': 'mascara', 'oleo': 'oleo', 'espuma': 'espuma', 'ampola': 'ampola', 'essencia': 'essencia',
+         'adesivo': 'patch', 'adesivos': 'patch', 'protetor': 'solar', 'locao': 'locao', 'bruma': 'bruma', 'balsamo': 'balm', 'discos': 'pad', 'olhos': 'olhos', 'labial': 'labios'}
 
 
 def toks(s):
@@ -70,8 +73,8 @@ def tam(s):
     return q, (int(u.group(1)) if u else None)
 
 
-KIT = re.compile(r'\b(kit|duo|trio|set|bundle|conjunto|combo|routine)\b|\s\+\s|1\+1|\b[2-9]\s?(un|unid|unidades|pcs|pack)\b|\bx\s?[2-9]\b|caixa com', re.I)
-LIXO = re.compile(r'gift|sample|free|sachet|amostra|trial|tester|shipping|insurance|protection|e-?gift|card', re.I)
+KIT = re.compile(r'\b(kit|duo|trio|set|bundle|conjunto|combo|routine)\b|\s\+\s|1\+1|\b[2-9][\s-]?(un|unid|unidades|pcs|pack|packs)\b|\bx\s?[2-9]\b|caixa com', re.I)
+LIXO = re.compile(r'gift|sample|free|sachet|amostra|trial|tester|shipping|insurance|protection|e-?gift|card|subscr|subscription|refill only|bonus', re.I)
 
 
 def catalogo(dominio):
@@ -110,7 +113,7 @@ def casa(p, cat, marca):
         return None, 0, 'Sem par'
     ta, ua = tam(p['nome'])
     kit_nosso = bool(KIT.search(p['nome']))
-    tA = {TIPOS[w] for w in A if w in TIPOS}
+    tA = {TIPOS[w] for w in toks(p['nome']) if w in TIPOS}
     best = []
     for c in cat:
         if c['lixo']:
@@ -132,10 +135,11 @@ def casa(p, cat, marca):
         return None, 0, 'Sem par'
     best.sort(key=lambda x: -x[0])
     sc, s, extras, conflito, tam_ok, c = best[0]
-    segundo = best[1][0] if len(best) > 1 else -9
+    outros = [b[0] for b in best[1:] if b[5]['produto'] != c['produto']]
+    segundo = outros[0] if outros else -9
     if conflito:
         sit = 'Conferir (tamanho/kit diferente)'
-    elif s >= 0.99 and extras <= 1 and tam_ok and sc - segundo >= 0.1:
+    elif s >= 0.99 and extras <= 1 and (tam_ok or len(A) >= 3) and sc - segundo >= 0.1:
         sit = 'Certeiro'
     elif s >= 0.67:
         sit = 'Provável — conferir'
