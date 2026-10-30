@@ -380,7 +380,8 @@ Deno.serve(async (req) => {
       // A versão atual (Default Title) sai e entram as versões; política de estoque, rastreio e peso são copiados da atual.
       const d: any = await gql(`query($h: String!) { productByIdentifier(identifier: { handle: $h }) { id title
           options { name values } variants(first: 5) { nodes { id title sku price inventoryPolicy taxable
-            inventoryItem { tracked measurement { weight { value unit } } } } } } }`, { h: String(b.handle) });
+            inventoryItem { tracked measurement { weight { value unit } }
+              inventoryLevels(first: 5) { nodes { location { id } quantities(names: ["available"]) { quantity } } } } } } } }`, { h: String(b.handle) });
       const p = d.productByIdentifier; if (!p) throw new Error("produto não encontrado: " + b.handle);
       const v0 = p.variants.nodes[0];
       const itens = (Array.isArray(b.itens) ? b.itens : []).slice(0, 60);
@@ -388,7 +389,10 @@ Deno.serve(async (req) => {
       if (p.variants.nodes.length > 1 || v0.title !== "Default Title") return resp(200, { ok: false, pulado: "produto já tem versões", variantes: p.variants.nodes.map((v: any) => v.title) });
       const opcao = String(b.opcao || "Versão");
       const imgs = [...new Set(itens.map((i: any) => i.img).filter((u: any) => /^https:\/\//.test(String(u))))] as string[];
+      // mesmo estoque disponível da versão atual em cada local (a loja vende sob encomenda com estoque "de vitrine")
+      const niveis = (v0.inventoryItem?.inventoryLevels?.nodes || []).map((n: any) => ({ locationId: n.location.id, availableQuantity: Math.max(0, Number(n.quantities?.[0]?.quantity ?? 0)) }));
       const variants = itens.map((i: any) => ({
+        ...(v0.inventoryItem?.tracked && niveis.length ? { inventoryQuantities: niveis } : {}),
         optionValues: [{ optionName: opcao, name: String(i.nome) }],
         price: Number(i.preco ?? v0.price).toFixed(2),
         inventoryPolicy: v0.inventoryPolicy, taxable: v0.taxable,
