@@ -89,6 +89,15 @@ async function trocarFotos(it: { handle: string; fotos: string[]; peso_g?: numbe
   const add: any = await gql(`mutation($p: ProductUpdateInput!, $m: [CreateMediaInput!]) {
       productUpdate(product: $p, media: $m) { product { id } userErrors { message } } }`, { p: { id: p.id }, m: media });
   if (add.productUpdate.userErrors.length) throw new Error(add.productUpdate.userErrors[0].message);
+  // espera as fotos novas ficarem prontas antes de apagar as antigas (se a nova vem do próprio CDN da loja, apagar antes perde a foto)
+  for (let i = 0; i < 20 && antigas.length; i++) {
+    const st: any = await gql(`query($id: ID!) { product(id: $id) { media(first: 50) { nodes { id status } } } }`, { id: p.id });
+    const novas = st.product.media.nodes.filter((m: any) => !antigas.includes(m.id));
+    if (novas.some((m: any) => m.status === "FAILED")) throw new Error("uma foto nova não carregou; as antigas foram mantidas");
+    if (novas.length >= media.length && novas.every((m: any) => m.status === "READY")) break;
+    if (i === 19) throw new Error("fotos novas ainda processando; as antigas foram mantidas");
+    await new Promise((r) => setTimeout(r, 3000));
+  }
   if (antigas.length) {
     const del: any = await gql(`mutation($id: ID!, $ids: [ID!]!) {
         productDeleteMedia(productId: $id, mediaIds: $ids) { deletedMediaIds mediaUserErrors { message } } }`, { id: p.id, ids: antigas });
