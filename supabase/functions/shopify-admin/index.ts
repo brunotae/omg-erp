@@ -448,10 +448,14 @@ Deno.serve(async (req) => {
       const d: any = await gql(`mutation($i: ProductSetInput!) { productSet(synchronous: true, input: $i) { product { id handle title } userErrors { field message } } }`, { i: input });
       const ue = d.productSet.userErrors; if (ue.length) return resp(422, { erro: ue.map((x: any) => (x.field || []).join(".") + ": " + x.message).join("; ") });
       const prod = d.productSet.product;
-      const pubs: any = await gql(`{ publications(first: 20) { nodes { id name } } }`);
-      await gql(`mutation($id: ID!, $p: [PublicationInput!]!) { publishablePublish(id: $id, input: $p) { userErrors { message } } }`,
-        { id: prod.id, p: pubs.publications.nodes.map((x: any) => ({ publicationId: x.id })) });
-      return resp(200, { ok: true, id: prod.id, handle: prod.handle, titulo: prod.title });
+      // Publicar nos canais pede o escopo read/write_publications; sem ele, o produto fica criado e o aviso volta.
+      let aviso = "";
+      try {
+        const pubs: any = await gql(`{ publications(first: 20) { nodes { id name } } }`);
+        await gql(`mutation($id: ID!, $p: [PublicationInput!]!) { publishablePublish(id: $id, input: $p) { userErrors { message } } }`,
+          { id: prod.id, p: pubs.publications.nodes.map((x: any) => ({ publicationId: x.id })) });
+      } catch (_) { aviso = "criado, mas sem acesso para publicar na Loja virtual: incluir no canal pelo painel do Shopify"; }
+      return resp(200, { ok: true, id: prod.id, handle: prod.handle, titulo: prod.title, aviso });
     }
 
     if (b.acao === "variantes_criar") {
