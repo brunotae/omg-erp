@@ -82,6 +82,12 @@ h3{font-size:13px;font-weight:700}
 .nav button.grp:hover{color:var(--ink,#2b1520)}
 .nav button.grp .cnt{font-size:10px}
 /* v50: título do grupo destacado (faixa rosa, texto framboesa) */
+.nav-row{display:flex;align-items:center;gap:6px}.nav-row>button:first-child{flex:1;min-width:0}
+.nav button.navtog{display:block;flex:0 0 auto;width:38px;height:22px;padding:0;border-radius:11px;background:#D9C3CC;position:relative;cursor:pointer;transition:background .15s}
+.nav button.navtog i{position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:left .15s}
+.nav button.navtog[aria-checked="true"]{background:#B83D66}.nav button.navtog[aria-checked="true"] i{left:19px}
+.nav button.navtog:hover{background:#C7A9B5}.nav button.navtog[aria-checked="true"]:hover{background:#8E2A4D}
+@media (max-width:780px){.nav button.navtog{display:none}.nav-row{display:contents}}
 .nav button.grp{background:#FBE7EE;color:#B83D66;font-size:10.5px;font-weight:800;letter-spacing:.1em;border-radius:8px;padding:7px 10px;margin:14px 0 4px;border-left:3px solid #B83D66}
 .nav button.grp:hover{background:#F6D3E0;color:#8E2A4D}
 .nav button.grp[aria-expanded="false"]{background:#F6F1F3;color:#6b5560;border-left-color:#D9C3CC}
@@ -853,6 +859,9 @@ function finance(filterFn){
 
 /* ================= navegação e render ================= */
 function counts(){return{vendas:S.data.vendas.filter(isOpen).length,cortes:S.data.vendas.filter(awaitingCut).length,lotes:S.data.lotes.filter(l=>!(l.etapas||{}).desembaraco).length,devolucoes:S.data.devolucoes.filter(d=>d.status!=='Resolvida').length,compras:S.data.compras.filter(x=>x.status!=='Recebida'&&x.status!=='Cancelada').length}}
+// v52: chave liga/desliga ao lado do Painel: abre ou fecha todos os grupos do menu de uma vez
+const NAV_GRUPOS=()=>NAV.map(x=>x[0]).filter(Boolean);
+function navTog(fech){const aberto=NAV_GRUPOS().some(g=>!fech.includes(g));return '<button type="button" class="navtog" data-navtog="1" role="switch" aria-checked="'+aberto+'" title="'+(aberto?'Menus abertos · clique para fechar todos':'Menus fechados · clique para abrir todos')+'"><i></i></button>'}
 function renderNav(){
  const c=counts();
  // v38: grupos do menu podem ser recolhidos (lembra neste aparelho); o item aberto sempre aparece
@@ -860,14 +869,15 @@ function renderNav(){
  let gAt='';const soma={};NAV.forEach(([g,k])=>{if(g)gAt=g;if(gAt&&c[k])soma[gAt]=(soma[gAt]||0)+c[k]});gAt='';
  $('#nav').innerHTML=NAV.map(([g,k,l])=>{if(g)gAt=g;const f=gAt&&fech.includes(gAt);
   return (g?'<button type="button" class="grp" data-grp="'+esc(g)+'" aria-expanded="'+(!fech.includes(g))+'"><span>'+g+'</span>'+(fech.includes(g)&&soma[g]?'<span class="cnt num">'+soma[g]+'</span>':'')+'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="'+(fech.includes(g)?'m9 6 6 6-6 6':'m6 9 6 6 6-6')+'"/></svg></button>':'')+
-  (f&&S.view!==k?'':'<button type="button" data-view="'+k+'"'+(S.view===k?' aria-current="page"':'')+'>'+svg(k)+'<span>'+l+'</span>'+(c[k]?'<span class="cnt num">'+c[k]+'</span>':'<span></span>')+'</button>')}).join('');
+  (f&&S.view!==k?'':(k==='painel'?'<div class="nav-row">':'')+'<button type="button" data-view="'+k+'"'+(S.view===k?' aria-current="page"':'')+'>'+svg(k)+'<span>'+l+'</span>'+(c[k]?'<span class="cnt num">'+c[k]+'</span>':'<span></span>')+'</button>'+
+   (k==='painel'?navTog(fech)+'</div>':''))}).join('');
  const cn=$('#conn');cn.className='conn '+(S.status==='on'?'on':S.status==='off'?'off':'');
  cn.lastElementChild.textContent=S.status==='on'?'Sistema online':S.status==='off'?'Sem conexão com o banco':'Conectando…';
  const vr=$('#ver');if(vr)vr.textContent='Versão '+VERSAO.split(' ')[0].replace('v','')+' · '+VERSAO.split('· ')[1]+' · novidades';
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v51 · 31/10/2026';
+const VERSAO='v52 · 31/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -3423,6 +3433,7 @@ document.addEventListener('click',e=>{
  if(t.dataset.docf){S.f.doc=t.dataset.docf;render();return}
  if(t.dataset.docopen){abrirDoc(t.dataset.docopen);return}
  if(t.dataset.docdel){excluirDoc(t.dataset.docdel);return}
+ if(t.dataset.navtog&&t.closest('#nav')){let f=[];try{f=JSON.parse(localStorage.getItem('omg-nav-fechados')||'[]')}catch(_){}const G=NAV_GRUPOS();f=G.some(g=>!f.includes(g))?G:[];try{localStorage.setItem('omg-nav-fechados',JSON.stringify(f))}catch(_){}renderNav();return}
  if(t.dataset.grp!=null&&t.closest('#nav')){let f=[];try{f=JSON.parse(localStorage.getItem('omg-nav-fechados')||'[]')}catch(_){}const g=t.dataset.grp;f=f.includes(g)?f.filter(x=>x!==g):f.concat(g);try{localStorage.setItem('omg-nav-fechados',JSON.stringify(f))}catch(_){}renderNav();return}
  if(t.dataset.view){S.view=t.dataset.view;S.q='';$('#q').value='';render();window.scrollTo(0,0);return}
  if(t.dataset.fv){S.f.vendas=t.dataset.fv;render();return}
@@ -3448,6 +3459,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v52','31/10/2026',['Menu lateral: chave liga/desliga ao lado do Painel. Ligada (rosa) = todos os grupos abertos; desligada (cinza) = todos fechados. Clicar em cada grupo continua abrindo ou fechando só ele.']],
  ['v51','31/10/2026',['Novo: Relatório do site (grupo Clientes). Todo dia às 8h o sistema puxa do Shopify os números de ontem — visitas, funil, origem, cidades, checkouts não finalizados e vendas —, guarda aqui e manda por e-mail. Dá para escolher o dia, baixar em PDF, gerar ontem na hora e reenviar o e-mail.']],
  ['v50','31/10/2026',['Menu lateral: os títulos dos grupos (Operação, Dinheiro, Estoque e compras…) ganharam faixa rosa com texto framboesa. Grupo fechado fica cinza.']],
  ['v49','31/10/2026',['Cupons: clique no código para copiar.','Cupons: busca por código, nome, influenciadora ou CPF, e filtros Ativos, Inativos, Já usados, Nunca usados e por tipo (%, R$, frete grátis). Abre mostrando só os ativos.']],
