@@ -3,6 +3,7 @@
 //   { acao: "status", produtoId, ativo: true|false }     → ativa ou pausa (rascunho) no site
 //   { acao: "preco", produtoId, varianteId, preco }      → muda o preço da variante no site
 //   { acao: "precos", itens: [{ produtoId, varianteId, preco }] } → Pricing: muda até 50 preços de uma vez
+//   { acao: "transportadora_registrar", ativo? } / { acao: "transportadora_ativar", id, ativo } → Frete OMG no checkout (precisa de write_shipping)
 //   { acao: "ext_buscar", q }                           → Pricing: busca o produto na Jolse (preço cheio em US$)
 //   { acao: "frete_cotar", cep, pesos: [g] }            → Pricing: frete da calculadora do site por peso (sem o 1% do valor)
 //   { acao: "fotos", itens: [{ handle, fotos, peso_g }] } → troca as fotos pelas oficiais e corrige o peso
@@ -654,6 +655,26 @@ Deno.serve(async (req) => {
       // Lista os serviços de frete calculado (carrier services) instalados na loja: nome e endereço de quem responde.
       const d: any = await gql(`{ carrierServices(first: 20) { nodes { id name formattedName active callbackUrl supportsServiceDiscovery } } }`);
       return resp(200, { ok: true, lista: d.carrierServices.nodes });
+    }
+
+    if (b.acao === "transportadora_registrar") {
+      // Registra o "Frete OMG" (função frete-omg) como serviço de frete calculado do Shopify. Precisa da permissão write_shipping.
+      const url = URL_SB + "/functions/v1/frete-omg";
+      const ex: any = await gql(`{ carrierServices(first: 20) { nodes { id name callbackUrl active } } }`);
+      const ja = ex.carrierServices.nodes.find((c: any) => c.callbackUrl === url);
+      if (ja) return resp(200, { ok: true, ja: true, servico: ja });
+      const d: any = await gql(`mutation($i: DeliveryCarrierServiceCreateInput!) { carrierServiceCreate(input: $i) { carrierService { id name active callbackUrl } userErrors { field message } } }`,
+        { i: { name: "Frete OMG", callbackUrl: url, active: b.ativo === true, supportsServiceDiscovery: true } });
+      const e = d.carrierServiceCreate.userErrors; if (e.length) return resp(422, { erro: e[0].message });
+      return resp(200, { ok: true, servico: d.carrierServiceCreate.carrierService });
+    }
+
+    if (b.acao === "transportadora_ativar") {
+      // Liga/desliga o "Frete OMG": { id, ativo: true|false }
+      const d: any = await gql(`mutation($i: DeliveryCarrierServiceUpdateInput!) { carrierServiceUpdate(input: $i) { carrierService { id name active } userErrors { field message } } }`,
+        { i: { id: String(b.id), active: b.ativo === true } });
+      const e = d.carrierServiceUpdate.userErrors; if (e.length) return resp(422, { erro: e[0].message });
+      return resp(200, { ok: true, servico: d.carrierServiceUpdate.carrierService });
     }
 
     if (b.acao === "ext_buscar") {
