@@ -421,6 +421,34 @@ Deno.serve(async (req) => {
       return resp(200, { ok: true, n: d.products.nodes.length, achados, proximo: d.products.pageInfo.hasNextPage ? d.products.pageInfo.endCursor : null });
     }
 
+    if (b.acao === "colecao_topo") {
+      // Põe produtos no topo de uma coleção (ordem manual). { handle, ids: [id numérico], tag?: "omg-home-mais" }
+      // Coleção manual: adiciona os produtos. Coleção automática por tag: passe a tag, que é colocada nos produtos.
+      const ids = (Array.isArray(b.ids) ? b.ids : []).map(String).filter((x: string) => /^\d+$/.test(x)).slice(0, 50);
+      const gids = ids.map((x: string) => "gid://shopify/Product/" + x);
+      const c: any = await gql(`query($h: String!) { collectionByIdentifier(identifier: { handle: $h }) { id title sortOrder ruleSet { rules { column } } } }`, { h: String(b.handle) });
+      const col = c.collectionByIdentifier; if (!col) throw new Error("coleção não encontrada: " + b.handle);
+      if (b.tag) for (const g of gids) await gql(`mutation($id: ID!, $t: [String!]!) { tagsAdd(id: $id, tags: $t) { userErrors { message } } }`, { id: g, t: [String(b.tag)] });
+      if (!col.ruleSet) {
+        const a: any = await gql(`mutation($id: ID!, $p: [ID!]!) { collectionAddProducts(id: $id, productIds: $p) { userErrors { message } } }`, { id: col.id, p: gids });
+        const e = a.collectionAddProducts.userErrors.filter((x: any) => !/already/i.test(x.message)); if (e.length) throw new Error(e[0].message);
+      }
+      if (col.sortOrder !== "MANUAL") {
+        const u: any = await gql(`mutation($c: CollectionInput!) { collectionUpdate(input: $c) { userErrors { message } } }`, { c: { id: col.id, sortOrder: "MANUAL" } });
+        if (u.collectionUpdate.userErrors.length) throw new Error(u.collectionUpdate.userErrors[0].message);
+      }
+      // Coleção por tag demora uns segundos para incluir o produto: tenta de novo.
+      let erro = "";
+      for (let t = 0; t < 6; t++) {
+        const r: any = await gql(`mutation($id: ID!, $m: [MoveInput!]!) { collectionReorderProducts(id: $id, moves: $m) { userErrors { message } } }`,
+          { id: col.id, m: gids.map((g: string, i: number) => ({ id: g, newPosition: String(i) })) });
+        erro = r.collectionReorderProducts.userErrors.map((x: any) => x.message).join("; ");
+        if (!erro) break;
+        await new Promise((ok) => setTimeout(ok, 2500));
+      }
+      return resp(200, { ok: !erro, colecao: col.title, ordem_antes: col.sortOrder, erro });
+    }
+
     if (b.acao === "publicar") {
       // Inclui produtos em todos os canais de vendas (Loja virtual etc.): { ids: [id numérico] } (até 50).
       const ids = (Array.isArray(b.ids) ? b.ids : []).map(String).filter((x: string) => /^\d+$/.test(x)).slice(0, 50);
