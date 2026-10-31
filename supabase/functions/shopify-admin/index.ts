@@ -139,6 +139,31 @@ Deno.serve(async (req) => {
   try { b = await req.json(); } catch { return resp(400, { erro: "pedido inválido" }); }
 
   try {
+    if (b.acao === "shopifyql") {
+      // Relatórios (visitas, funil, origem). Precisa da permissão read_reports no app.
+      const d: any = await gql(`query($q: String!) { shopifyqlQuery(query: $q) {
+          tableData { columns { name dataType displayName } rows } parseErrors } }`, { q: String(b.q || "") });
+      return resp(200, { ok: true, ...d.shopifyqlQuery });
+    }
+    if (b.acao === "pedidos_periodo") {
+      // Pedidos do período com origem da visita (para os relatórios).
+      const desde = String(b.desde || "2026-10-01");
+      let after: string | null = null; const out: any[] = [];
+      do {
+        const d: any = await gql(`query($q: String!, $after: String) { orders(first: 100, after: $after, query: $q, sortKey: CREATED_AT) {
+            pageInfo { hasNextPage endCursor }
+            nodes { name createdAt cancelledAt test displayFinancialStatus
+              currentTotalPriceSet { shopMoney { amount } } totalDiscountsSet { shopMoney { amount } } discountCodes
+              shippingAddress { provinceCode city }
+              lineItems(first: 50) { nodes { title quantity sku originalTotalSet { shopMoney { amount } } } }
+              customerJourneySummary { daysToConversion momentsCount { count }
+                firstVisit { source sourceType landingPage referrerUrl utmParameters { source medium campaign } }
+                lastVisit { source sourceType utmParameters { source campaign } } } } } }`,
+          { q: "created_at:>=" + desde, after });
+        out.push(...d.orders.nodes); after = d.orders.pageInfo.hasNextPage ? d.orders.pageInfo.endCursor : null;
+      } while (after && out.length < 2000);
+      return resp(200, { ok: true, pedidos: out });
+    }
     if (b.acao === "sincronizar") {
       // Em partes (o servidor tem limite de tempo): até ~60 s por chamada; devolve "proximo" para continuar.
       let after: string | null = b.after || null, total = 0, novos = 0, atualizados = 0;
