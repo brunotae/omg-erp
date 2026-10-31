@@ -214,8 +214,12 @@ pre.code{background:var(--surface2);border:1px solid var(--line);border-radius:v
 .modal form{display:flex;flex-direction:column;gap:18px;padding:18px 20px}
 .sec{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 14px}
 .pr-conta{width:100%;border-collapse:collapse;font-size:13px}.pr-conta td{padding:4px 0;border-bottom:1px dashed var(--line)}.pr-conta tr:last-child td{font-weight:700;border-bottom:0}
-.px-lote{position:sticky;top:0;z-index:5;padding:10px 12px}.px-lote-in{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-size:12.5px}.px-lote-in span{display:inline-flex;gap:6px;align-items:center}.px-lote-in input{width:70px;padding:5px 6px}.px-lote-in .sp{flex:1}
-.px-wrap{max-height:calc(100dvh - 250px)}.px-t{font-size:11.5px;width:100%;table-layout:auto}.px-t th,.px-t td{white-space:nowrap;padding:4px 5px}.px-t th{font-size:10px;letter-spacing:.02em}
+.px-top{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;margin:0 0 6px}.px-top h1{margin:0;font-size:24px}.px-top .muted{font-size:12.5px}.px-top .sp{flex:1}
+.px-chips{align-items:center;margin:0 0 8px}.px-chips .chip{padding:4px 10px;font-size:12px}.px-info{font-size:11px;margin-left:6px}
+.px-preco{width:78px;padding:3px 6px;font-size:12px;text-align:right;border:1px solid var(--line);border-radius:6px;background:#fff;font-variant-numeric:tabular-nums}.px-preco::placeholder{color:#8a7d83}.px-preco.man{border-color:#B83D66;font-weight:700;color:#B83D66}.px-preco:focus{outline:2px solid #B83D66;outline-offset:0}
+.px-hist summary{cursor:pointer;padding:2px 0}.px-hist[open] summary{margin-bottom:8px}
+.px-lote{position:sticky;top:0;z-index:5;padding:8px 12px}.px-lote-in{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-size:12.5px}.px-lote-in span{display:inline-flex;gap:6px;align-items:center}.px-lote-in input{width:70px;padding:5px 6px}.px-lote-in .sp{flex:1}
+.px-wrap{max-height:calc(100dvh - 190px)}.px-t{font-size:11.5px;width:100%;table-layout:auto}.px-t th,.px-t td{white-space:nowrap;padding:4px 5px}.px-t th{font-size:10px;letter-spacing:.02em}
 .px-t td.px-nome{white-space:normal;min-width:150px;max-width:230px;line-height:1.25}.px-t td.px-nome a{color:var(--ink,#2b1520);text-decoration:none}.px-t td.px-nome a:hover{color:var(--accent);text-decoration:underline}
 .px-t td.px-marca{max-width:90px;overflow:hidden;text-overflow:ellipsis}.px-t td.px-st{white-space:normal;min-width:90px;max-width:150px}.px-t td.px-st .pill{font-size:10.5px;padding:2px 7px}
 .px-t thead th{position:sticky;top:0;background:var(--surface,#fff);z-index:2}.px-t .px-frow th{position:sticky;top:25px;background:var(--surface,#fff);z-index:2;padding:2px 3px}.px-th{cursor:pointer;user-select:none}
@@ -223,7 +227,7 @@ pre.code{background:var(--surface2);border:1px solid var(--line);border-radius:v
 .px-t{border-collapse:collapse}.px-t td,.px-t thead tr:not(.px-grow) th{border-left:1px solid rgba(0,0,0,.06)}.px-t tbody tr{border-bottom:1px solid var(--line)}.px-t tbody tr:hover td{background:rgba(0,0,0,.025)}
 .px-c-ref{background:#EEF4FB}.px-c-edit{background:#FFF8E1}.px-c-res{background:#EEF8F1}.px-c-hoje{background:#F6F4F5}.px-c-ini{border-left:2px solid rgba(0,0,0,.18)}
 .px-grow th{position:sticky;top:0;z-index:3;font-size:10px;text-align:center;padding:3px 4px;border-left:2px solid #fff;color:#4a3a40;letter-spacing:.04em}
-.px-t .px-grow th.px-g-prod{background:#F3EEF0}.px-t .px-grow th.px-g-ref{background:#D9E7F7}.px-t .px-grow th.px-g-edit{background:#FCEBB6}.px-t .px-grow th.px-g-hoje{background:#E9E4E6}.px-t .px-grow th.px-g-res{background:#D3EEDC}.px-t .px-grow th.px-g-st{background:#F3EEF0}
+.px-t .px-grow th.px-g-prod{background:#F3EEF0}.px-t .px-grow th.px-g-ref{background:#D9E7F7}.px-t .px-grow th.px-g-edit{background:#FCEBB6}.px-t .px-grow th.px-g-hoje{background:#E9E4E6}.px-t .px-grow th.px-g-res{background:#D3EEDC}.px-t td.px-nome small{display:block}.px-t .px-grow th.px-g-st{background:#F3EEF0}
 .px-t thead tr:nth-child(2) th{top:21px!important}.px-t .px-frow th{top:46px!important}
 .px-ext-row{display:grid;grid-template-columns:130px 90px 1fr auto;gap:6px;align-items:center;margin:0 0 6px}.px-ext-row b{font-size:12.5px}.px-ext-row input{padding:6px 8px}
 .px-ext-prev{margin:6px 0;padding:8px 10px;border-radius:8px;background:#EEF8F1;font-size:12.5px}.px-ext-prev:empty{display:none}.px-ext-sug{margin-top:4px}
@@ -855,7 +859,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v44 · 30/10/2026';
+const VERSAO='v45 · 30/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1563,14 +1567,19 @@ async function pxLoad(){
  if(can()&&pxFaltaFrete().length)pxCotarFrete(true);
  if(S.view==='pricing'&&!document.querySelector('#ov'))render()}
 const pxLista=()=>prLista();
-function pxFaltaFrete(){const F=pxCfg().fretes||{};return [...new Set(pxLista().map(p=>Math.round(Number(p.pesoG)||0)).filter(g=>g>0&&!has(pxNum(F[String(g)]))))]}
+const PX_FRETE_URL='https://nzsiuniabovvptuqmkmi.supabase.co/functions/v1/frete-omg';
+function pxFaltaFrete(){const C=pxCfg(),F=C.fretes||{};if(C.fonte!=='omg')return pxPesos();return pxPesos().filter(g=>!has(pxNum(F[String(g)])))}
+const pxPesos=()=>[...new Set(pxLista().map(p=>Math.round(Number(p.pesoG)||0)).filter(g=>g>0))];
+// v45: frete pela mesma conta do checkout (Frete OMG): internacional US$/kg + Mile, sem o seguro (o seguro entra como 1% do preço).
 async function pxCotarFrete(soFaltando){
- if(PX.busy)return;const C=pxCfg();
- const pesos=soFaltando?pxFaltaFrete():[...new Set(pxLista().map(p=>Math.round(Number(p.pesoG)||0)).filter(g=>g>0))];
+ if(PX.busy)return;const C=pxCfg(),novo=C.fonte!=='omg';
+ const pesos=soFaltando&&!novo?pxFaltaFrete():pxPesos();
  if(!pesos.length){if(!soFaltando)toast('Nenhum peso para cotar');return}
- PX.busy='frete';render();const fretes={...(soFaltando?C.fretes:{})};let cambio=C.cambio,err=0;
- try{for(let i=0;i<pesos.length;i+=60){const r=await chamarShop({acao:'frete_cotar',cep:C.cep,pesos:pesos.slice(i,i+60)});Object.assign(fretes,r.fretes||{});err+=Object.keys(r.erros||{}).length;if(r.cambio)cambio=r.cambio;if(pesos.length>60)toast('Frete: '+Math.min(i+60,pesos.length)+' de '+pesos.length+' pesos…')}
-  await pxSalvarCfg({...C,fretes,cambio,freteEm:new Date().toISOString()});toast('Frete de SP cotado para '+pesos.length+' pesos'+(err?' · '+err+' sem resposta':''))}
+ PX.busy='frete';render();const fretes={...(soFaltando&&!novo?C.fretes:{})};let cambio=C.cambio,err=0,feitos=0;
+ const um=async g=>{try{const r=await fetch(PX_FRETE_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({simular:{cep:C.cep,itens:[{grams:g,price:0,quantity:1}]}})});const j=await r.json();
+   if(!j.ok){err++;return}const d=j.detalhe;cambio=d.cambio;fretes[String(g)]=Math.round((d.usd.frete_internacional+d.usd.frete_nacional)*d.cambio*100)/100}catch(_){err++}feitos++};
+ try{for(let i=0;i<pesos.length;i+=10){await Promise.all(pesos.slice(i,i+10).map(um));if(pesos.length>40&&i%100===0)toast('Frete: '+feitos+' de '+pesos.length+' pesos…')}
+  await pxSalvarCfg({...C,fretes,cambio,usd:null,fonte:'omg',freteEm:new Date().toISOString()});if(!soFaltando||novo)toast('Frete de SP calculado para '+pesos.length+' pesos'+(err?' · '+err+' sem resposta':''))}
  catch(e){toast('Frete: '+errMsg(e))}
  PX.busy='';render()}
 async function pxLerConc(){
@@ -1586,35 +1595,37 @@ function pxExt(it){const S0=(it&&it.ext_sites)||{};let best=null;
  PX_SITES.forEach(([k,nome,cod])=>{const x=S0[k];const u=x&&pxNum(x.usd);if(u>0&&(!best||u>best.usd))best={k,nome,cod,usd:u,url:x.url||''}});return best}
 function pxCalc(p){
  const C=pxCfg(),it=PX.itens.get(p.id)||{};
- const d=pxNum(it.desc_pct)??n(C.desc),fp=PX_TRAVA_FRETE?100:(pxNum(it.frete_pct)??n(C.frete)),pp=fp/100,icms=n(C.icms)/100,seg=n(C.seguro)/100,cam=pxCambio();
- const o={p,it,d,fp,dPad:pxNum(it.desc_pct)==null,fpPad:PX_TRAVA_FRETE||pxNum(it.frete_pct)==null,atual:pxNum(p.preco),peso:Number(p.pesoG)>0?Math.round(Number(p.pesoG)):null,flags:[],refs:pxConcs(p)};
+ const d=pxNum(it.desc_pct)??n(C.desc),icms=n(C.icms)/100,seg=n(C.seguro)/100,cam=pxCambio();
+ const o={p,it,d,dPad:pxNum(it.desc_pct)==null,atual:pxNum(p.preco),peso:Number(p.pesoG)>0?Math.round(Number(p.pesoG)):null,flags:[],refs:pxConcs(p),manual:pxNum(it.preco_manual)};
  o.base=o.peso?pxNum((C.fretes||{})[String(o.peso)]):null;
  const val=o.refs.filter(r=>r.ativo&&!r.esgotado&&r.preco>0&&!r.auto).sort((a,b)=>a.pix-b.pix);
  if(val.length){const r=val[0];o.tipo='conc';o.ref={cod:r.cod,nome:PR_LOJA[r.loja],url:r.url,normal:r.preco,pix:r.pix,pixLido:r.pixLido,pixPct:r.pixPct,lido:r.lido,outro:val[1]||null};
-  if(!r.pixLido)o.flags.push('Pix da '+o.ref.nome+' ainda não lido: usado o preço normal');}
+  if(!r.pixLido)o.flags.push('Pix da '+o.ref.nome+' ainda não lido');}
  else{const ext=pxExt(it);
   if(ext){o.tipo='ext';o.ref={cod:ext.cod,nome:ext.nome,url:ext.url,usd:ext.usd,quando:it.ext_quando}}
-  else{o.tipo='sem';o.erro=o.refs.some(r=>r.auto)?'concorrente a conferir':o.refs.length?'concorrente esgotado ou sem preço':'sem referência';return o}}
- if(!o.peso){o.erro='sem peso';return o}
- if(o.base==null){o.erro='frete não cotado';return o}
- if(o.tipo==='conc'){o.alvo=o.ref.pix*(1-d/100);const s=(o.alvo*(1-icms)-pp*o.base)/(1+pp*seg);if(!(s>0)){o.erro='frete e ICMS passam da referência';return o}o.novo=pr90(s)}
- else{if(!cam){o.erro='sem câmbio';return o}o.merc=o.ref.usd*(1+n(C.ext)/100)*cam;o.novo=pr90((o.merc+(1-pp)*o.base)/(1-(1-pp)*seg))}
- o.freteCheio=o.base+seg*o.novo;o.freteExib=pp*o.freteCheio;o.final20=(o.novo+o.freteExib)/(1-icms);o.final=(o.novo+o.freteExib)/(1-n(C.icmsRef)/100);
- if(o.tipo==='conc'){o.abaixo=(1-o.final/o.ref.pix)*100;if(o.final20>o.ref.pix+0.005)o.flags.push('final acima da referência')}
- if(cam&&(o.novo+o.freteCheio)/cam>50)o.flags.push('acima de US$ 50: imposto de importação fica fora da conta');
- if(has(o.atual)&&o.atual>0){o.dif=(o.novo-o.atual)/o.atual*100;if(o.dif<=-35)o.flags.push('queda de mais de 35%: conferir a referência');if(o.dif>=35)o.flags.push('alta de mais de 35%: conferir')}
+  else{o.tipo='sem';o.semRef=o.refs.some(r=>r.auto)?'concorrente a conferir':o.refs.length?'concorrente esgotado':'sem referência'}}
+ // sugerido pela regra
+ if(o.tipo!=='sem'){
+  if(!o.peso)o.semRef='sem peso';else if(o.base==null)o.semRef='frete não calculado';
+  else if(o.tipo==='conc'){o.alvo=o.ref.pix*(1-d/100);const s=(o.alvo*(1-icms)-o.base)/(1+seg);if(s>0)o.sug=pr90(s);else o.semRef='frete e ICMS passam da referência'}
+  else if(cam){o.merc=o.ref.usd*(1+n(C.ext)/100)*cam;o.sug=pr90(o.merc)}}
+ o.novo=has(o.manual)?o.manual:o.sug;
+ if(!has(o.novo))return o;
+ // quanto a cliente de SP paga (mesma conta do checkout)
+ if(o.base!=null){o.frete=o.base+seg*o.novo;const usdM=cam?o.novo/cam:0;o.ii=cam&&usdM>50?Math.max(0,0.6*(o.novo+o.frete)/cam-30)*cam:0;
+  o.final=(o.novo+o.frete+o.ii)/(1-n(C.icmsRef)/100)}
+ if(o.tipo==='conc'&&has(o.final)){o.abaixo=(1-o.final/o.ref.pix)*100;if(o.final>o.ref.pix+0.005)o.flags.push('cliente paga mais que na '+o.ref.nome)}
+ if(has(o.atual)&&o.atual>0){o.dif=(o.novo-o.atual)/o.atual*100;if(!has(o.manual)){if(o.dif<=-35)o.flags.push('queda de mais de 35%: conferir a referência');if(o.dif>=35)o.flags.push('alta de mais de 35%: conferir')}}
  o.muda=has(o.atual)&&Math.abs(o.novo-o.atual)>=0.01;
- const k=it.calc;o.ok=!!(k&&Math.abs(Number(k.novo)-o.novo)<0.005);o.okVelho=!!(k&&!o.ok);
  return o}
-function pxStatus(x){if(x.erro)return ['erro',x.erro];if(!x.muda)return ['igual','igual ao site'];if(x.ok)return ['ok','OK · pronto'];if(x.okVelho)return ['velho','recalcular'];return ['muda','a calcular']}
+function pxStatus(x){if(!has(x.novo))return ['erro',x.semRef||'sem referência'];if(!x.muda)return ['igual','igual ao site'];return ['muda',has(x.manual)?'vai mudar · manual':'vai mudar']}
 const PX_COLS=[
- ['sku','SKU',x=>x.p.sku,'t',null,'prod'],['nome','Produto',x=>x.p.nome,'t',null,'prod'],['marca','Marca',x=>x.p.marca,'t',null,'prod'],['peso','Peso',x=>x.peso,'n',null,'prod'],
+ ['sku','SKU',x=>x.p.sku,'t',null,'prod'],['nome','Produto',x=>x.p.nome+' '+(x.p.marca||''),'t',null,'prod'],
  ['ref','Referência',x=>x.ref?(x.tipo==='ext'?x.ref.usd:x.ref.pix):null,'n',x=>x.ref?x.ref.cod+' '+x.ref.nome:'—','ref'],
- ['d','% abaixo',x=>x.d,'n',null,'edit'],['fp','% frete',x=>x.fp,'n',null,'edit'],
  ['atual','Hoje',x=>x.atual,'n',null,'hoje'],
- ['novo','Novo',x=>x.novo,'n',x=>has(x.dif)?String(x.dif):'','res'],['frete','Frete',x=>x.freteExib,'n',null,'res'],['final','Final SP',x=>x.final,'n',null,'res'],
- ['st','Status',x=>pxStatus(x)[1]+(x.flags.length?' · '+x.flags.join(' · '):''),'t',null,'st']];
-const PX_GR={prod:'Produto',ref:'Concorrente',edit:'Você ajusta',hoje:'Site hoje',res:'Preço novo',st:'Situação'};
+ ['novo','Preço novo',x=>x.novo,'n',null,'res'],['final','Cliente SP paga',x=>x.final,'n',null,'res'],
+ ['st','Situação',x=>pxStatus(x)[1]+(x.flags.length?' · '+x.flags.join(' · '):''),'t',null,'st']];
+const PX_GR={prod:'Produto',ref:'Concorrente',hoje:'Site hoje',res:'Preço novo · você pode digitar',st:''};
 function pxGrupos(){const o=[];PX_COLS.forEach(c=>{const g=c[5],u=o[o.length-1];if(u&&u.g===g)u.n++;else o.push({g,n:1})});return o.map(x=>'<th colspan="'+x.n+'" class="px-g-'+x.g+'">'+PX_GR[x.g]+'</th>').join('')}
 function pxColgroup(){return '<colgroup><col>'+PX_COLS.map((c,i)=>'<col class="px-c-'+c[5]+((i===0||PX_COLS[i-1][5]!==c[5])?' px-c-ini':'')+'">').join('')+'</colgroup>'}
 const pxNorm=s=>String(s==null?'':s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
@@ -1628,82 +1639,76 @@ function pxMatch(v,f,tipo){f=String(f||'').trim();if(!f)return true;
 function pxLinhas(){const q=pxNorm(S.q||'');
  let L=pxLista().map(pxCalc);
  if(q)L=L.filter(x=>pxNorm(x.p.nome+' '+x.p.marca+' '+x.p.sku).includes(q));
- if(PX.st)L=L.filter(x=>PX.st==='aviso'?x.flags.length>0:pxStatus(x)[0]===PX.st);
+ if(PX.st)L=L.filter(x=>PX.st==='aviso'?x.flags.length>0:PX.st==='manual'?has(x.manual):pxStatus(x)[0]===PX.st);
  PX_COLS.forEach(([k,,g,t,gt])=>{const f=PX.f[k];if(!f)return;const txt=gt&&/[a-z]/i.test(f)&&!/^vazio$/i.test(f.trim());L=L.filter(x=>txt?pxMatch(gt(x),f,'t'):pxMatch(g(x),f,t))});
  const [sk,dir]=PX.sort,col=PX_COLS.find(c=>c[0]===sk);
  if(col)L.sort((a,b)=>{const va=col[2](a),vb=col[2](b);if(col[3]==='n'){const A=pxNum(va),B=pxNum(vb);if(A==null&&B==null)return 0;if(A==null)return 1;if(B==null)return -1;return (A-B)*dir}
   return String(va||'').localeCompare(String(vb||''),'pt-BR',{numeric:true})*dir||String(a.p.nome).localeCompare(String(b.p.nome))});
  return L}
-const PX_ST_PILL={erro:'p-warn',igual:'p-info',ok:'p-ok',velho:'p-warn',muda:'p-bad'};
+const PX_ST_PILL={erro:'p-warn',igual:'p-info',muda:'p-bad'};
 VIEWFN.pricing=()=>{
  if(!PX.loaded&&S.db)setTimeout(pxLoad,0);
  const C=pxCfg(),cam=pxCambio();
- const top=head('Pricing','Preço de cada produto pela regra do Guia de precificação v2. Edite os %, clique em Calcular (OK) e depois em Transmitir ao Shopify. Nada muda no site antes disso.',
-  '<button class="btn sm" type="button" id="px-regras">Regras</button> '+(can()?'<button class="btn sm" type="button" id="px-conc"'+(PX.busy?' disabled':'')+' title="Lê de novo o preço normal e o Pix de todos os concorrentes ligados">'+(PX.busy==='conc'?'Lendo concorrentes…':'Ler KS e Jini agora')+'</button> <button class="btn sm" type="button" id="px-frete"'+(PX.busy?' disabled':'')+' title="Cota de novo o frete para São Paulo capital de todos os pesos">'+(PX.busy==='frete'?'Cotando frete…':'Cotar frete SP')+'</button>':''));
+ const acts='<button class="btn sm" type="button" id="px-regras">Regras</button>'+(can()?' <button class="btn sm" type="button" id="px-conc"'+(PX.busy?' disabled':'')+' title="Lê de novo o preço normal e o Pix de todos os concorrentes ligados">'+(PX.busy==='conc'?'Lendo…':'Ler KS e Jini')+'</button>':'');
+ const top='<div class="px-top"><h1>Pricing</h1><span class="muted">Digite o preço novo ou use o sugerido, marque e clique em Publicar.</span><span class="sp"></span>'+acts+'</div>';
  if(!PX.loaded||!PR.loaded)return '<div class="page wide"><div class="col">'+top+'<div class="card"><p class="muted">Carregando…</p></div></div></div>';
  const A=pxLista().map(pxCalc),L=pxLinhas(),vis=L.slice(0,PX.lim);
- const sel=A.filter(x=>PX.sel.has(x.p.id)),selCalc=sel.filter(x=>!x.erro&&x.muda&&!x.ok),selTx=sel.filter(x=>!x.erro&&x.muda&&x.ok);
+ const sel=A.filter(x=>PX.sel.has(x.p.id)),selPub=sel.filter(x=>has(x.novo)&&x.muda);
  const cont=k=>A.filter(x=>pxStatus(x)[0]===k).length;
- const ultC=PR.cat.reduce((m,c)=>c.lido_em>m?c.lido_em:m,'');
- const info='<p class="muted" style="margin:-6px 0 0;font-size:11.5px">'+A.length+' produtos no site · '+A.filter(x=>x.tipo==='conc').length+' com KS/Jini · '+A.filter(x=>x.tipo==='ext').length+' com preço do exterior · '+A.filter(x=>x.tipo==='sem').length+' sem referência<br>'+
-  'Padrão: '+n(C.desc)+'% abaixo da referência Pix · frete exibido '+n(C.frete)+'% · ICMS '+n(C.icms)+'% · exterior +'+n(C.ext)+'% · câmbio '+(cam?'R$ '+cam.toFixed(4).replace('.',','):'—')+(Number(C.usd)>0?' (manual)':' (calculadora do site)')+
-  ' · frete de SP capital cotado '+(C.freteEm?new Date(C.freteEm).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'}):'—')+' · concorrentes lidos '+(ultC?new Date(ultC).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'}):'—')+'</p>';
- const chips='<div class="chips">'+[['','Todos',A.length],['muda','A calcular',cont('muda')],['ok','OK · prontos',cont('ok')],['velho','Recalcular',cont('velho')],['igual','Iguais ao site',cont('igual')],['erro','Pendência',cont('erro')],['aviso','Com aviso',A.filter(x=>x.flags.length).length]].map(([v,l,c])=>'<button type="button" class="chip'+(PX.st===v?' on':'')+'" data-pxst="'+esc(v)+'">'+l+' · '+c+'</button>').join('')+
-  (Object.values(PX.f).some(Boolean)||PX.st?'<button type="button" class="chip" id="px-limpa">Limpar filtros</button>':'')+'</div>';
- const lote=can()?'<div class="card px-lote"><div class="px-lote-in"><b>'+sel.length+' selecionado'+(sel.length===1?'':'s')+'</b>'+
-  '<span>% abaixo <input type="number" step="0.5" id="px-bd" placeholder="'+n(C.desc)+'" data-1c="off"></span>'+(PX_TRAVA_FRETE?'<span class="muted" title="O checkout ainda cobra o frete inteiro">% frete travado em 100 🔒</span>':'<span>% frete exibido <input type="number" step="5" min="0" max="100" id="px-bf" placeholder="'+n(C.frete)+'" data-1c="off"></span>')+''+
-  '<button class="btn sm" type="button" id="px-aplica"'+(sel.length&&!PX.busy?'':' disabled')+'>Aplicar % aos selecionados</button>'+
-  '<button class="btn sm" type="button" id="px-padrao"'+(sel.length&&!PX.busy?'':' disabled')+' title="Volta os selecionados para o % padrão">Voltar ao padrão</button>'+
-  '<span class="sp"></span><button class="btn sm" type="button" id="px-sel-nada"'+(sel.length?'':' disabled')+'>Limpar seleção</button>'+
-  '<button class="btn sm" type="button" id="px-calc"'+(selCalc.length&&!PX.busy?'':' disabled')+'>Calcular (OK) · '+selCalc.length+'</button>'+
-  '<button class="btn pri sm" type="button" id="px-tx"'+(selTx.length&&!PX.busy?'':' disabled')+'>'+(PX.busy==='tx'?'Transmitindo…':'Transmitir ao Shopify · '+selTx.length)+'</button></div></div>':'';
+ const chips='<div class="chips px-chips">'+[['','Todos',A.length],['muda','Vão mudar',cont('muda')],['manual','Digitados',A.filter(x=>has(x.manual)).length],['igual','Iguais ao site',cont('igual')],['erro','Sem referência',cont('erro')],['aviso','Com aviso',A.filter(x=>x.flags.length).length]].map(([v,l,c])=>'<button type="button" class="chip'+(PX.st===v?' on':'')+'" data-pxst="'+esc(v)+'">'+l+' · '+c+'</button>').join('')+
+  (Object.values(PX.f).some(Boolean)||PX.st?'<button type="button" class="chip" id="px-limpa">Limpar filtros</button>':'')+
+  '<span class="px-info muted">Regra: '+n(C.desc)+'% abaixo do Pix KS/Jini · sem concorrente: exterior +'+n(C.ext)+'% · câmbio '+(cam?'R$ '+cam.toFixed(2).replace('.',','):'—')+' · frete e impostos do checkout (SP capital)</span></div>';
+ const lote=can()?'<div class="card px-lote"><div class="px-lote-in"><b>'+(sel.length?sel.length+' marcado'+(sel.length===1?'':'s'):'Marque os produtos na tabela')+'</b>'+
+  (sel.length?'<button class="btn sm" type="button" id="px-sel-nada">Desmarcar</button><button class="btn sm" type="button" id="px-man-limpa" title="Os marcados voltam para o preço sugerido pela regra">Usar sugerido</button>':'')+
+  '<span class="sp"></span><button class="btn pri" type="button" id="px-tx"'+(selPub.length&&!PX.busy?'':' disabled')+'>'+(PX.busy==='tx'?'Publicando…':'Publicar no site · '+selPub.length)+'</button></div></div>':'';
  const th=PX_COLS.map(([k,l,,t])=>'<th class="'+(t==='n'?'r ':'')+'px-th" data-pxsort="'+k+'">'+l+(PX.sort[0]===k?(PX.sort[1]>0?' ▲':' ▼'):'')+'</th>').join('');
  const tf=PX_COLS.map(([k,,,t])=>'<th class="px-fi"><input data-pxf="'+k+'" value="'+esc(PX.f[k]||'')+'" placeholder="'+(k==='ref'?'ks, >100':t==='n'?'>10':'filtrar')+'" aria-label="Filtro" data-1c="off"></th>').join('');
  const allOn=L.length&&L.every(x=>PX.sel.has(x.p.id));
- const cel=(v,b)=>has(v)?(b?'<b>'+brl(v)+'</b>':brl(v)):'<span class="muted">—</span>';
+ const cel=v=>has(v)?brl(v):'<span class="muted">—</span>';
  const row=x=>{const st=pxStatus(x),r=x.ref,dif=has(x.dif)&&x.muda?'<small style="color:'+(x.dif<0?'#1D7A4F':'#A15C00')+'">'+(x.dif>0?'+':'')+x.dif.toFixed(1).replace('.',',')+'%</small>':'';
-  return '<tr'+(PX.sel.has(x.p.id)?' class="px-on"':'')+'><td class="rx-ck"><input type="checkbox" data-pxsel="'+esc(x.p.id)+'"'+(PX.sel.has(x.p.id)?' checked':'')+' aria-label="Selecionar"></td>'+
-  '<td class="num">'+esc(x.p.sku)+'</td><td class="px-nome"><a href="#" data-pxabre="'+esc(x.p.id)+'" title="'+esc(x.p.nome)+'">'+esc(String(x.p.nome).split(':')[0])+'</a></td><td class="px-marca" title="'+esc(x.p.marca||'')+'">'+esc(x.p.marca||'')+'</td><td class="r num">'+(x.peso?x.peso+'g':'<span class="muted">—</span>')+'</td>'+
-  '<td class="r num">'+(r?(r.url?'<a href="'+esc(r.url)+'" target="_blank" rel="noopener" title="'+esc(r.nome)+'"><b>'+r.cod+'</b></a> ':'<b>'+r.cod+'</b> ')+(x.tipo==='ext'?'<b>US$ '+r.usd.toFixed(2).replace('.',',')+'</b><small>varejo exterior'+(r.quando?' · '+r.quando.split('-').reverse().slice(0,2).join('/'):'')+'</small>':'<b>'+brl(r.pix)+'</b><small>'+(r.pixLido?(r.pixPct?'Pix −'+pxPct(r.pixPct)+' · normal '+brl(r.normal):'Pix = normal'):'Pix não lido')+'</small>'):(can()?'<button class="btn sm px-ext-bt" type="button" data-pxabre="'+esc(x.p.id)+'" data-ext="1" title="Informar o preço do varejo no exterior">+ exterior</button>':'<span class="muted">—</span>'))+'</td>'+
-  '<td class="r">'+(can()?'<input class="px-in'+(x.dPad?' pad':'')+'" type="number" step="0.5" data-pxd="'+esc(x.p.id)+'" value="'+x.d+'" aria-label="% abaixo" data-1c="off">':pxPct(x.d))+'</td>'+
-  '<td class="r">'+(can()&&!PX_TRAVA_FRETE?'<input class="px-in'+(x.fpPad?' pad':'')+'" type="number" step="5" min="0" max="100" data-pxfp="'+esc(x.p.id)+'" value="'+x.fp+'" aria-label="% frete exibido" data-1c="off">':'<span class="muted" title="Travado em 100% até a Shipsmart cobrar só parte do frete no checkout">100 🔒</span>')+'</td>'+
-  '<td class="r num">'+cel(x.atual)+'</td><td class="r num">'+cel(x.novo,true)+dif+'</td>'+
-  '<td class="r num">'+cel(x.freteExib)+(has(x.freteCheio)&&Math.abs(x.freteCheio-x.freteExib)>0.005?'<small>de '+brl(x.freteCheio)+'</small>':'')+'</td>'+
-  '<td class="r num">'+cel(x.final)+(x.tipo==='conc'&&has(x.abaixo)?'<small>'+pxPct(x.abaixo)+' abaixo</small>':'')+'</td>'+
+  const inp=can()?'<input class="px-preco'+(has(x.manual)?' man':'')+'" inputmode="decimal" data-pxman="'+esc(x.p.id)+'" value="'+(has(x.manual)?x.manual.toFixed(2).replace('.',','):'')+'" placeholder="'+(has(x.sug)?x.sug.toFixed(2).replace('.',','):'digite')+'" aria-label="Preço novo" data-1c="off">':'<b>'+cel(x.novo)+'</b>';
+  const sugTxt=has(x.manual)?(has(x.sug)?'<small>sugerido '+brl(x.sug)+'</small>':'<small>digitado</small>'):(has(x.sug)?'<small>sugerido</small>':'');
+  return '<tr'+(PX.sel.has(x.p.id)?' class="px-on"':'')+'><td class="rx-ck"><input type="checkbox" data-pxsel="'+esc(x.p.id)+'"'+(PX.sel.has(x.p.id)?' checked':'')+' aria-label="Marcar"></td>'+
+  '<td class="num">'+esc(x.p.sku)+'</td><td class="px-nome"><a href="#" data-pxabre="'+esc(x.p.id)+'" title="'+esc(x.p.nome)+'">'+esc(String(x.p.nome).split(':')[0])+'</a><small>'+esc(x.p.marca||'')+(x.peso?' · '+x.peso+' g':' · sem peso')+'</small></td>'+
+  '<td class="r num">'+(r?(r.url?'<a href="'+esc(r.url)+'" target="_blank" rel="noopener" title="'+esc(r.nome)+'"><b>'+r.cod+'</b></a> ':'<b>'+r.cod+'</b> ')+(x.tipo==='ext'?'<b>US$ '+r.usd.toFixed(2).replace('.',',')+'</b><small>varejo exterior</small>':'<b>'+brl(r.pix)+'</b><small>'+(r.pixLido?(r.pixPct?'no Pix · normal '+brl(r.normal):'Pix = normal'):'Pix não lido')+'</small>'):(can()?'<button class="btn sm px-ext-bt" type="button" data-pxabre="'+esc(x.p.id)+'" data-ext="1" title="Informar o preço do varejo no exterior">+ exterior</button>':'<span class="muted">—</span>'))+'</td>'+
+  '<td class="r num">'+cel(x.atual)+'</td>'+
+  '<td class="r num px-novo">'+inp+sugTxt+dif+'</td>'+
+  '<td class="r num">'+cel(x.final)+(has(x.final)?'<small>frete '+brl(x.frete)+(x.ii>0?' · II '+brl(x.ii):'')+'</small>':'')+'</td>'+
   '<td class="px-st"><span class="pill '+PX_ST_PILL[st[0]]+'">'+esc(st[1])+'</span>'+(x.flags.length?'<small style="color:#B3261E" title="'+esc(x.flags.join(' · '))+'">'+esc(x.flags.join(' · '))+'</small>':'')+'</td></tr>'};
- const tabela='<div class="card"><div class="tblwrap px-wrap"><table class="px-t">'+pxColgroup()+'<thead><tr class="px-grow"><th class="rx-ck"></th>'+pxGrupos()+'</tr><tr><th class="rx-ck"><input type="checkbox" id="px-sel-all"'+(allOn?' checked':'')+' aria-label="Selecionar todos os filtrados" title="Seleciona todos os '+L.length+' filtrados"></th>'+th+'</tr><tr class="px-frow"><th></th>'+tf+'</tr></thead><tbody>'+
+ const tabela='<div class="card"><div class="tblwrap px-wrap"><table class="px-t">'+pxColgroup()+'<thead><tr class="px-grow"><th class="rx-ck"></th>'+pxGrupos()+'</tr><tr><th class="rx-ck"><input type="checkbox" id="px-sel-all"'+(allOn?' checked':'')+' aria-label="Marcar todos os filtrados" title="Marca todos os '+L.length+' filtrados"></th>'+th+'</tr><tr class="px-frow"><th></th>'+tf+'</tr></thead><tbody>'+
   (vis.length?vis.map(row).join(''):'<tr><td colspan="'+(PX_COLS.length+1)+'" class="muted" style="text-align:center;padding:20px">Nenhum produto com esses filtros.</td></tr>')+'</tbody></table></div>'+
   '<p class="muted" style="margin:8px 0 0;font-size:11.5px">'+L.length+' de '+A.length+' produtos'+(L.length>vis.length?' · mostrando '+vis.length+' <button class="btn sm" type="button" id="px-mais">Mostrar mais 300</button>':'')+
-  ' · Filtros: texto ("medicube", "ks|jn", "!kit"); números ("&gt;100", "&lt;50", "20-60", "vazio"). Clique no título da coluna para ordenar. % em cinza = padrão.</p></div>';
- const lotes=PX.lotes.length?'<div class="card"><div class="card-h"><h2>Transmissões</h2></div><div class="tblwrap"><table><thead><tr><th>Quando</th><th>Quem</th><th class="r">Preços</th><th>Situação</th><th></th></tr></thead><tbody>'+
-  PX.lotes.slice().reverse().slice(0,15).map(l=>'<tr><td class="num">'+new Date(l.em).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})+'</td><td>'+esc(l.quem||'')+'</td><td class="r num">'+l.itens.length+'</td><td>'+(l.revertido?'<span class="pill p-warn">revertido '+new Date(l.revertido).toLocaleDateString('pt-BR')+'</span>':'<span class="pill p-ok">no ar</span>')+'</td><td class="r"><button class="btn sm" type="button" data-pxlote="'+esc(l.id)+'">Ver</button>'+(can()&&!l.revertido?' <button class="btn sm" type="button" data-pxrev="'+esc(l.id)+'">Reverter</button>':'')+'</td></tr>').join('')+'</tbody></table></div></div>':'';
- return '<div class="page wide"><div class="col">'+top+info+chips+lote+tabela+lotes+'</div></div>';
+  ' · Preço novo em cinza = sugerido pela regra; digite outro valor para trocar, apague para voltar ao sugerido. Clique no nome para ver a conta.</p></div>';
+ const lotes=PX.lotes.length?'<details class="card px-hist"><summary><b>Publicações</b> <span class="muted">· '+PX.lotes.length+' · ver e reverter</span></summary><div class="tblwrap"><table><thead><tr><th>Quando</th><th>Quem</th><th class="r">Preços</th><th>Situação</th><th></th></tr></thead><tbody>'+
+  PX.lotes.slice().reverse().slice(0,15).map(l=>'<tr><td class="num">'+new Date(l.em).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})+'</td><td>'+esc(l.quem||'')+'</td><td class="r num">'+l.itens.length+'</td><td>'+(l.revertido?'<span class="pill p-warn">revertido '+new Date(l.revertido).toLocaleDateString('pt-BR')+'</span>':'<span class="pill p-ok">no ar</span>')+'</td><td class="r"><button class="btn sm" type="button" data-pxlote="'+esc(l.id)+'">Ver</button>'+(can()&&!l.revertido?' <button class="btn sm" type="button" data-pxrev="'+esc(l.id)+'">Reverter</button>':'')+'</td></tr>').join('')+'</tbody></table></div></details>':'';
+ return '<div class="page wide"><div class="col">'+top+chips+lote+tabela+lotes+'</div></div>';
 };
 function pxAbrir(id){
  const p=S.data.produtos.find(x=>x.id===id);if(!p)return;PX.aberto=id;const x=pxCalc(p),C=pxCfg(),cam=pxCambio(),it=x.it,es=it.ext_sites||{};
  const L=[];
  if(x.tipo==='conc'){L.push(['Referência: '+x.ref.nome+' no Pix'+(x.ref.pixLido?(x.ref.pixPct?' ('+pxPct(x.ref.pixPct)+' de desconto)':' (sem desconto no Pix)'):' (Pix não lido)'),brl(x.ref.pix)]);
-  if(has(x.alvo)){L.push(['Preço final alvo (−'+pxPct(x.d)+')',brl(x.alvo)]);L.push(['Sem ICMS '+n(C.icms)+'% (por dentro)','− '+brl(x.alvo*n(C.icms)/100)])}}
- if(x.tipo==='ext'){L.push(['Referência: '+x.ref.nome+' (maior varejo oficial)','US$ '+x.ref.usd.toFixed(2)]);if(has(x.merc))L.push(['+'+n(C.ext)+'% × câmbio '+(cam||0).toFixed(4),brl(x.merc)])}
- if(has(x.novo)){L.push(['Frete SP capital · '+x.peso+' g (calculadora do site, com 1% do valor)',brl(x.freteCheio)]);L.push(['Frete exibido à cliente ('+pxPct(x.fp)+')',(x.tipo==='conc'?'− ':'')+brl(x.freteExib)]);
-  L.push(['Mercadoria (arredondada para baixo em ,90)',brl(x.novo)]);L.push(['Final com ICMS '+n(C.icms)+'% (conta da regra) = (mercadoria + frete) ÷ '+(1-n(C.icms)/100).toFixed(2).replace('.',','),brl(x.final20)]);L.push(['Final que a cliente de SP paga (ICMS '+n(C.icmsRef)+'%, igual à calculadora do site)',brl(x.final)])}
- const conta=L.length?'<table class="pr-conta">'+L.map(([a,b])=>'<tr><td>'+esc(a)+'</td><td class="r num">'+b+'</td></tr>').join('')+'</table>':'';
+  if(has(x.alvo))L.push(['Alvo: '+pxPct(x.d)+' abaixo',brl(x.alvo)])}
+ if(x.tipo==='ext'){L.push(['Referência: '+x.ref.nome+' (maior varejo oficial)','US$ '+x.ref.usd.toFixed(2)]);if(has(x.merc))L.push(['+'+n(C.ext)+'% × câmbio '+(cam||0).toFixed(2),brl(x.merc)])}
+ if(has(x.sug))L.push(['Preço sugerido pela regra (termina em ,90)',brl(x.sug)]);
+ if(has(x.manual))L.push(['Preço digitado por você','<b>'+brl(x.manual)+'</b>']);
+ if(has(x.final)){L.push(['Frete e seguro até SP capital ('+x.peso+' g)',brl(x.frete)]);L.push(['Imposto de importação',brl(x.ii)]);L.push(['ICMS '+n(C.icmsRef)+'% SP',brl(x.final-x.novo-x.frete-x.ii)]);L.push(['Cliente de SP paga no checkout','<b>'+brl(x.final)+'</b>'])}
+const conta=L.length?'<table class="pr-conta">'+L.map(([a,b])=>'<tr><td>'+esc(a)+'</td><td class="r num">'+b+'</td></tr>').join('')+'</table>':'';
  const concs=x.refs.length?x.refs.map(r=>'<div class="pr-ref"><span><b>'+r.cod+'</b> · '+(r.preco?brl(r.preco)+' · Pix '+brl(r.pix)+(r.pixLido?'':' (não lido)'):'sem preço')+(r.esgotado?' · <b>esgotado</b>':'')+(r.auto?' · <span class="pill p-info">automático, conferir</span>':'')+' · <a href="'+esc(r.url)+'" target="_blank" rel="noopener">'+esc(r.nome||r.url.replace(/^https?:\/\//,''))+'</a>'+(r.lido?' <small class="muted">lido '+new Date(r.lido).toLocaleDateString('pt-BR')+'</small>':'')+'</span></div>').join(''):'<p class="muted" style="margin:0">Nenhum concorrente ligado.</p>';
  const q=pxBusca(p);
  const ext=PX_SITES.map(([k,nome,cod,site,busca])=>{const v=es[k]||{};return '<div class="px-ext-row"><b>'+nome+'</b><input id="pxe-'+k+'" name="u_'+k+'" class="px-ext-usd" type="number" step="0.01" min="0" value="'+esc(v.usd??'')+'" placeholder="US$" aria-label="'+nome+' em US$" data-1c="off"'+(can()?'':' disabled')+'><input id="pxl-'+k+'" name="l_'+k+'" type="url" value="'+esc(v.url||'')+'" placeholder="link da página do produto" aria-label="Link '+nome+'" data-1c="off"'+(can()?'':' disabled')+'><a class="btn sm" href="'+busca+encodeURIComponent(q)+'" target="_blank" rel="noopener">Buscar ↗</a></div>'}).join('')+
   '<div id="px-ext-prev" class="px-ext-prev"></div><div id="px-ext-sug" class="px-ext-sug"><p class="muted" style="margin:0">Procurando na Jolse…</p></div>';
  const H=PR.hist.filter(h=>h.produto_id===id).slice(0,8);
- const body='<div class="sec"><span class="label">'+esc(p.marca||'')+' · '+esc(p.sku)+' · '+(x.peso?x.peso+' g':'sem peso')+' · no site hoje '+brl(x.atual)+'</span><div style="grid-column:1/-1">'+(conta||'<p class="muted" style="margin:0">'+esc(x.erro||'')+'</p>')+
-  (x.erro&&conta?'<p class="pill p-warn" style="margin-top:8px">'+esc(x.erro)+'</p>':'')+(x.flags.length?'<p style="margin:8px 0 0;color:#B3261E;font-size:12.5px">'+esc(x.flags.join(' · '))+'</p>':'')+'</div>'+
+ const body='<div class="sec"><span class="label">'+esc(p.marca||'')+' · '+esc(p.sku)+' · '+(x.peso?x.peso+' g':'sem peso')+' · no site hoje '+brl(x.atual)+'</span><div style="grid-column:1/-1">'+(conta||'<p class="muted" style="margin:0">'+esc(x.semRef||'')+'</p>')+
+  (x.semRef&&conta?'<p class="pill p-warn" style="margin-top:8px">'+esc(x.semRef)+'</p>':'')+(x.flags.length?'<p style="margin:8px 0 0;color:#B3261E;font-size:12.5px">'+esc(x.flags.join(' · '))+'</p>':'')+'</div>'+
   '<div class="f"><label for="pxm-d">% abaixo da referência</label><input id="pxm-d" name="d" type="number" step="0.5" value="'+esc(pxNum(it.desc_pct)??'')+'" placeholder="padrão '+n(C.desc)+'" data-1c="off"'+(can()?'':' disabled')+'></div>'+
-  '<div class="f"><label for="pxm-f">% do frete exibido</label><input id="pxm-f" name="fp" type="number" step="5" min="0" max="100" value="'+esc(pxNum(it.frete_pct)??'')+'" placeholder="padrão '+n(C.frete)+'" data-1c="off"'+(can()?'':' disabled')+'></div></div>'+
+  '<div class="f"><label for="pxm-m">Preço novo digitado (R$)</label><input id="pxm-m" name="m" inputmode="decimal" value="'+esc(has(x.manual)?x.manual.toFixed(2).replace('.',','):'')+'" placeholder="vazio = sugerido'+(has(x.sug)?' '+x.sug.toFixed(2).replace('.',','):'')+'" data-1c="off"'+(can()?'':' disabled')+'></div></div>'+
   '<div class="sec"><span class="label">Concorrentes válidos (KS e Jini)</span><div style="grid-column:1/-1">'+concs+(can()?'<p style="margin:8px 0 0"><button class="btn sm" type="button" data-pxliga="'+esc(p.id)+'">Ligar ou conferir concorrente</button></p>':'')+'</div></div>'+
   '<div class="sec"><span class="label">Varejo oficial no exterior (sem promoção)</span><p class="hint" style="grid-column:1/-1;margin:0">Para produto sem KS nem Jini. Abra cada site em Buscar ↗, ache o mesmo produto (mesmo tamanho e quantidade) e copie o preço cheio em US$ e o link. Vale o maior, +'+n(C.ext)+'%, no câmbio do dia. Busca usada: <i>'+esc(q)+'</i></p><div style="grid-column:1/-1">'+ext+'</div></div>'+
   (H.length?'<div class="sec"><span class="label">Histórico de preço</span><div style="grid-column:1/-1">'+H.map(h=>'<div class="muted" style="font-size:12px">'+new Date(h.em).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})+' · '+brl(Number(h.antes))+' → <b>'+brl(Number(h.depois))+'</b> · '+esc(h.regra||'')+' · '+esc(h.quem||'')+'</div>').join('')+'</div></div>':'');
  shell(p.nome,body,null,!can());
  const pv=()=>{const box=$('#px-ext-prev');if(!box)return;let mx=0,qual='';PX_SITES.forEach(([k,nome])=>{const v=parseFloat(String(($('#pxe-'+k)||{}).value||'').replace(',','.'));if(v>mx){mx=v;qual=nome}});
   if(!(mx>0)||!cam||!x.peso||x.base==null){box.innerHTML=mx>0&&!x.peso?'<span class="muted">Produto sem peso: cadastre o peso para calcular.</span>':'';return}
-  const merc=mx*(1+n(C.ext)/100)*cam,nv=pr90(merc),fr=x.base+n(C.seguro)/100*nv,fin=(nv+fr)/(1-n(C.icmsRef)/100);
+  const merc=mx*(1+n(C.ext)/100)*cam,nv=pr90(merc),fr=x.base+n(C.seguro)/100*nv,ii=nv/cam>50?Math.max(0,0.6*(nv+fr)/cam-30)*cam:0,fin=(nv+fr+ii)/(1-n(C.icmsRef)/100);
   box.innerHTML='Maior: <b>'+esc(qual)+' US$ '+mx.toFixed(2).replace('.',',')+'</b> → preço no site <b>'+brl(nv)+'</b> (hoje '+brl(x.atual)+(has(x.atual)&&x.atual>0?', '+((nv-x.atual)/x.atual*100>0?'+':'')+((nv-x.atual)/x.atual*100).toFixed(1).replace('.',',')+'%':'')+') · cliente SP paga '+brl(fin)+' com frete e impostos'};
  document.querySelectorAll('.px-ext-usd').forEach(i=>i.addEventListener('input',pv));pv();
  if(PX.focoExt){PX.focoExt=false;const sec=$('#px-ext-prev');if(sec)setTimeout(()=>{sec.closest('.sec').scrollIntoView({block:'start'});const f=$('#pxe-yesstyle');if(f)f.focus()},50)}
@@ -1713,10 +1718,10 @@ function pxAbrir(id){
   catch(e){if(document.body.contains(box))box.innerHTML='<p class="muted" style="margin:0">Não consegui buscar na Jolse agora ('+esc(e.message||'erro')+'). Use os botões Buscar ↗.</p>'}})();
  if(!can())return;
  wireSubmit(async form=>{const E=form.elements,num=k=>{const v=String(E[k].value).trim();if(v==='')return null;const y=parseFloat(v.replace(',','.'));return isFinite(y)?y:null};
-  const fp=num('fp');if(fp!=null&&(fp<0||fp>100))throw new Error('% do frete exibido vai de 0 a 100.');
+  const m=num('m');if(m!=null&&!(m>0))throw new Error('Preço inválido.');
   const sites={};PX_SITES.forEach(([k])=>{const u=num('u_'+k),l=String(E['l_'+k].value||'').trim();if(u>0||l)sites[k]={usd:u>0?u:null,url:l}});
   const best=pxExt({ext_sites:sites}),antes=JSON.stringify((PX.itens.get(id)||{}).ext_sites||{});
-  const row={produto_id:id,desc_pct:num('d'),frete_pct:fp,ext_sites:sites,ext_loja:best?best.k:null,ext_url:best?best.url:null,ext_usd:best?best.usd:null,ext_quando:JSON.stringify(sites)!==antes?pxHoje():(PX.itens.get(id)||{}).ext_quando||null,quem:S.email||'',atualizado_em:new Date().toISOString()};
+  const row={produto_id:id,desc_pct:num('d'),preco_manual:m,ext_sites:sites,ext_loja:best?best.k:null,ext_url:best?best.url:null,ext_usd:best?best.usd:null,ext_quando:JSON.stringify(sites)!==antes?pxHoje():(PX.itens.get(id)||{}).ext_quando||null,quem:S.email||'',atualizado_em:new Date().toISOString()};
   await pxGravar([row]);toast('Salvo')});
 }
 async function pxGravar(rows){
@@ -1725,31 +1730,30 @@ async function pxGravar(rows){
  full.forEach(r=>PX.itens.set(r.produto_id,r))}
 async function pxSetPct(ids,campo,v){
  try{await pxGravar(ids.map(id=>({produto_id:id,[campo]:v,quem:S.email||'',atualizado_em:new Date().toISOString()})));render()}catch(e){toast(errMsg(e))}}
-async function pxCalcular(){
- const L=[...PX.sel].map(id=>S.data.produtos.find(p=>p.id===id)).filter(Boolean).map(pxCalc).filter(x=>!x.erro&&x.muda&&!x.ok);
- if(!L.length){toast('Nada a calcular na seleção');return}
- const comAviso=L.filter(x=>x.flags.length).length;
- if(comAviso&&!confirm(comAviso+' dos '+L.length+' produtos têm aviso (em vermelho na tabela). Marcar como OK mesmo assim?'))return;
- const em=new Date().toISOString();
- try{await pxGravar(L.map(x=>({produto_id:x.p.id,calc:{novo:x.novo,final:x.final,atual:x.atual,ref:x.ref?{cod:x.ref.cod,pix:x.ref.pix??null,usd:x.ref.usd??null,url:x.ref.url||''}:null,d:x.d,fp:x.fp,frete:x.freteCheio,em,quem:S.email||''}})));
-  toast(L.length+' preço'+(L.length===1?'':'s')+' calculado'+(L.length===1?'':'s')+' (OK). Confira e clique em Transmitir.');render()}catch(e){toast(errMsg(e))}}
-async function pxTransmitir(){
- const L=[...PX.sel].map(id=>S.data.produtos.find(p=>p.id===id)).filter(Boolean).map(pxCalc).filter(x=>!x.erro&&x.muda&&x.ok);
- if(!L.length){toast('Nenhum selecionado com OK');return}
+function pxTransmitir(){
+ const L=[...PX.sel].map(id=>S.data.produtos.find(p=>p.id===id)).filter(Boolean).map(pxCalc).filter(x=>has(x.novo)&&x.muda);
+ if(!L.length){toast('Nenhum marcado vai mudar de preço');return}
  const sem=L.filter(x=>!x.p.shopify_product_id||!x.p.shopify_variant_id);if(sem.length){toast(sem.length+' sem ligação com o Shopify: sincronize o catálogo');return}
- const baixam=L.filter(x=>x.dif<0).length,soma=(a,f)=>a.reduce((s,x)=>s+f(x),0);
- if(!confirm('Transmitir '+L.length+' preço'+(L.length===1?'':'s')+' ao Shopify?\n\n'+baixam+' baixam, '+(L.length-baixam)+' sobem.\nSoma hoje '+brl(soma(L,x=>x.atual))+' → nova '+brl(soma(L,x=>x.novo))+'.\n\nO preço de antes fica guardado para reverter.'))return;
+ const baixam=L.filter(x=>x.dif<0).length,av=L.filter(x=>x.flags.length).length;
+ const body='<div class="sec"><span class="label">'+L.length+' preço'+(L.length===1?'':'s')+' · '+baixam+' baixa'+(baixam===1?'':'m')+', '+(L.length-baixam)+' sobe'+(L.length-baixam===1?'':'m')+(av?' · <span style="color:#B3261E">'+av+' com aviso</span>':'')+'</span><div style="grid-column:1/-1" class="tblwrap"><table><thead><tr><th>Produto</th><th>Referência</th><th class="r">Hoje</th><th class="r">Novo</th><th class="r">Cliente SP paga</th></tr></thead><tbody>'+
+  L.map(x=>'<tr><td>'+esc(String(x.p.nome).split(':')[0])+'<small class="muted" style="display:block">'+esc(x.p.sku)+(has(x.manual)?' · digitado':'')+'</small>'+(x.flags.length?'<small style="color:#B3261E;display:block">'+esc(x.flags.join(' · '))+'</small>':'')+'</td><td>'+(x.ref?(x.ref.url?'<a href="'+esc(x.ref.url)+'" target="_blank" rel="noopener">'+x.ref.cod+'</a> ':x.ref.cod+' ')+(x.tipo==='ext'?'US$ '+x.ref.usd.toFixed(2).replace('.',','):brl(x.ref.pix)):'—')+'</td><td class="r num">'+brl(x.atual)+'</td><td class="r num"><b>'+brl(x.novo)+'</b> <small style="color:'+(x.dif<0?'#1D7A4F':'#A15C00')+'">'+(x.dif>0?'+':'')+x.dif.toFixed(1).replace('.',',')+'%</small></td><td class="r num">'+(has(x.final)?brl(x.final):'—')+'</td></tr>').join('')+
+  '</tbody></table></div><p class="hint" style="grid-column:1/-1;margin:6px 0 0">O preço de antes fica guardado: dá para reverter em Publicações.</p></div>';
+ shell('Publicar no site',body,null,false);
+ const btn=document.querySelector('.mf .btn.pri');btn.textContent='Publicar '+L.length+' preço'+(L.length===1?'':'s');
+ $('#mform').addEventListener('submit',async e=>{e.preventDefault();btn.disabled=true;btn.textContent='Publicando…';await pxPublicar(L);close();render()},{once:true})}
+async function pxPublicar(L){
  PX.busy='tx';render();const lote={id:'px'+Date.now().toString(36),em:new Date().toISOString(),quem:S.email||'',itens:[]};let err=0;
  for(let i=0;i<L.length;i+=40){const parte=L.slice(i,i+40);
   try{const r=await chamarShop({acao:'precos',itens:parte.map(x=>({produtoId:x.p.shopify_product_id,varianteId:x.p.shopify_variant_id,preco:x.novo}))});
    const ok=new Set((r.resultados||[]).filter(y=>y.ok).map(y=>String(y.varianteId)));const feitos=parte.filter(x=>ok.has(String(x.p.shopify_variant_id)));err+=parte.length-feitos.length;
-   if(feitos.length){const regra=x=>'Pricing: '+(x.ref?x.ref.cod+(x.tipo==='conc'?' Pix '+brl(x.ref.pix):' US$ '+x.ref.usd.toFixed(2)):'')+' −'+x.d+'% · frete '+x.fp+'%';
+   if(feitos.length){const regra=x=>has(x.manual)?'Pricing: digitado'+(x.ref?' (ref. '+x.ref.cod+')':''):'Pricing: '+(x.ref?x.ref.cod+(x.tipo==='conc'?' Pix '+brl(x.ref.pix):' US$ '+x.ref.usd.toFixed(2)):'')+' −'+x.d+'%';
     await sb.from('precos_hist').insert(feitos.map(x=>({produto_id:x.p.id,sku:x.p.sku,nome:x.p.nome,antes:x.atual,depois:x.novo,regra:regra(x),quem:S.email||''})));
+    const limpar=feitos.filter(x=>has(x.manual)).map(x=>({produto_id:x.p.id,preco_manual:null,quem:S.email||'',atualizado_em:new Date().toISOString()}));if(limpar.length)try{await pxGravar(limpar)}catch(_){}
     feitos.forEach(x=>{lote.itens.push({id:x.p.id,sku:x.p.sku,nome:x.p.nome,antes:x.atual,depois:x.novo});x.p.preco=x.novo;PX.sel.delete(x.p.id)})}
   }catch(e){err+=parte.length;toast(errMsg(e))}
   if(L.length>40)toast(Math.min(i+40,L.length)+' de '+L.length+'…')}
  if(lote.itens.length){PX.lotes.push(lote);if(PX.lotes.length>40)PX.lotes=PX.lotes.slice(-40);try{await sb.from('config').upsert({chave:'pricing_lotes',valor:PX.lotes})}catch(_){}}
- PX.busy='';PR.loaded=false;loadPrecos();toast(lote.itens.length+' preço'+(lote.itens.length===1?'':'s')+' no Shopify'+(err?' · '+err+' com erro':''));render()}
+ PX.busy='';PR.loaded=false;loadPrecos();toast(lote.itens.length+' preço'+(lote.itens.length===1?'':'s')+' no site'+(err?' · '+err+' com erro':''));render()}
 async function pxReverter(id){
  const l=PX.lotes.find(x=>x.id===id);if(!l||l.revertido)return;
  const L=l.itens.map(i=>({i,p:S.data.produtos.find(p=>p.id===i.id)})).filter(x=>x.p),mexidos=L.filter(x=>Math.abs(n(pxNum(x.p.preco))-x.i.depois)>=0.01),volta=L.filter(x=>!mexidos.includes(x));
@@ -1767,19 +1771,21 @@ function pxVerLote(id){const l=PX.lotes.find(x=>x.id===id);if(!l)return;
   l.itens.map(i=>'<tr><td class="num">'+esc(i.sku)+'</td><td>'+esc(i.nome)+'</td><td class="r num">'+brl(i.antes)+'</td><td class="r num"><b>'+brl(i.depois)+'</b></td></tr>').join('')+'</tbody></table></div></div>',null,true)}
 function pxRegras(){
  const C=pxCfg(),f=(k,l,h,step)=>'<div class="f"><label for="pxc-'+k+'">'+l+'</label><input id="pxc-'+k+'" name="'+k+'" type="'+(k==='cep'?'text':'number')+'" step="'+(step||'0.5')+'" value="'+esc(C[k]??'')+'" data-1c="off"'+(can()?'':' disabled')+'>'+(h?'<span class="hint">'+h+'</span>':'')+'</div>';
- shell('Regras do Pricing','<div class="sec"><span class="label">Padrões (cada produto pode ter o seu)</span>'+f('desc','% abaixo da referência Pix','Preço final fica este % abaixo do menor Pix entre KS e Jini.')+f('frete','% do frete exibido','100 = a cliente vê o frete inteiro. 0 = frete todo dentro do preço. O final não muda.',5)+'</div>'+
-  '<div class="sec"><span class="label">Conta</span>'+f('icms','ICMS (%)','Por dentro.')+f('ext','Sobre o varejo do exterior (%)','Produto sem KS/Jini: maior varejo oficial em US$ + este %.')+f('usd','Câmbio manual (R$ por US$)','Vazio = câmbio do dia da calculadora do site ('+(Number(C.cambio)>0?Number(C.cambio).toFixed(4).replace('.',','):'—')+').',0.0001)+'</div>'+
-  '<div class="sec"><span class="label">Frete</span>'+f('cep','CEP de referência','São Paulo capital.')+f('icmsRef','ICMS de SP para mostrar o final (%)','A conta usa o ICMS de cima (20%); o Final mostra o que a cliente de SP paga.')+f('seguro','Parte do frete sobre o valor (%)','A calculadora soma este % do valor do produto ao frete.',0.1)+'</div>',null,!can());
+ shell('Regras do Pricing','<div class="sec"><span class="label">Padrões (cada produto pode ter o seu)</span>'+f('desc','% abaixo da referência Pix','O que a cliente paga fica este % abaixo do menor Pix entre KS e Jini. Para um produto só, abra a ficha dele.')+'</div>'+
+  '<div class="sec"><span class="label">Conta</span>'+f('icms','ICMS (%)','Por dentro.')+f('ext','Sobre o varejo do exterior (%)','Produto sem KS/Jini: maior varejo oficial em US$ + este %.')+'<p class="hint" style="grid-column:1/-1;margin:0">Câmbio: o mesmo do checkout (R$ '+(Number(C.cambio)>0?Number(C.cambio).toFixed(2).replace('.',','):'—')+').</p></div>'+
+  '<div class="sec"><span class="label">Frete</span>'+f('cep','CEP de referência','São Paulo capital. O frete vem da mesma conta do checkout.')+f('icmsRef','ICMS de SP (%)','Usado na coluna Cliente SP paga.')+'<p class="hint" style="grid-column:1/-1;margin:0"><button class="btn sm" type="button" id="px-frete">Recalcular frete de todos os pesos</button></p></div>',null,!can());
  if(!can())return;
- wireSubmit(async form=>{const v={...pxCfg()};['desc','frete','icms','icmsRef','ext','seguro'].forEach(k=>{const x=parseFloat(form.elements[k].value);if(isFinite(x))v[k]=x});
-  const u=parseFloat(form.elements.usd.value);v.usd=isFinite(u)&&u>0?u:null;const cep=String(form.elements.cep.value||'').trim();
-  if(v.frete<0||v.frete>100)throw new Error('% do frete exibido vai de 0 a 100.');
+ wireSubmit(async form=>{const v={...pxCfg()};['desc','icms','icmsRef','ext'].forEach(k=>{const x=parseFloat(form.elements[k].value);if(isFinite(x))v[k]=x});
+  const cep=String(form.elements.cep.value||'').trim();
   const mudouCep=cep&&cep!==v.cep;if(cep)v.cep=cep;if(mudouCep)v.fretes={};
   await pxSalvarCfg(v);toast('Regras salvas'+(mudouCep?': cotando o frete do novo CEP…':''));if(mudouCep)pxCotarFrete(true)});
 }
 document.addEventListener('change',e=>{const t=e.target;if(!t.dataset)return;
  if(t.dataset.pxsel){t.checked?PX.sel.add(t.dataset.pxsel):PX.sel.delete(t.dataset.pxsel);render();return}
  if(t.id==='px-sel-all'){const L=pxLinhas();L.forEach(x=>{t.checked?PX.sel.add(x.p.id):PX.sel.delete(x.p.id)});render();return}
+ if(t.dataset.pxman){const id=t.dataset.pxman,s0=String(t.value).trim().replace(/[R$\s.]/g,'').replace(',','.'),v=s0===''?null:parseFloat(s0);
+  if(v!=null&&!(v>0)){toast('Preço inválido');render();return}
+  pxGravar([{produto_id:id,preco_manual:v==null?null:Math.round(v*100)/100,quem:S.email||'',atualizado_em:new Date().toISOString()}]).then(()=>{if(v!=null)PX.sel.add(id);render()}).catch(er=>toast(errMsg(er)));return}
  if(t.dataset.pxd||t.dataset.pxfp){const id=t.dataset.pxd||t.dataset.pxfp,campo=t.dataset.pxd?'desc_pct':'frete_pct',s=String(t.value).trim(),v=s===''?null:parseFloat(s.replace(',','.'));
   if(v!=null&&(!isFinite(v)||(campo==='frete_pct'&&(v<0||v>100)))){toast(campo==='frete_pct'?'% do frete vai de 0 a 100':'Número inválido');render();return}
   pxSetPct([id],campo,v);return}});
@@ -1797,10 +1803,11 @@ document.addEventListener('click',e=>{const t=e.target.closest('button,a,th[data
   case 'px-limpa':PX.f={};PX.st='';render();return;
   case 'px-mais':PX.lim+=300;render();return;
   case 'px-regras':pxRegras();return;
-  case 'px-frete':pxCotarFrete(false);return;
+  case 'px-frete':close();pxCotarFrete(false);return;
   case 'px-conc':pxLerConc();return;
   case 'px-sel-nada':PX.sel.clear();render();return;
-  case 'px-calc':pxCalcular();return;
+  case 'px-man-limpa':{const ids=[...PX.sel].filter(id=>has(pxNum((PX.itens.get(id)||{}).preco_manual)));if(!ids.length){toast('Nenhum marcado tem preço digitado');return}
+   pxGravar(ids.map(id=>({produto_id:id,preco_manual:null,quem:S.email||'',atualizado_em:new Date().toISOString()}))).then(()=>{toast(ids.length+' voltaram ao sugerido');render()}).catch(er=>toast(errMsg(er)));return}
   case 'px-tx':pxTransmitir();return;
   case 'px-aplica':{const d=($('#px-bd')||{}).value,f=($('#px-bf')||{}).value||'',ids=[...PX.sel];if(!ids.length)return;
    const dv=String(d).trim()===''?undefined:parseFloat(String(d).replace(',','.')),fv=String(f).trim()===''?undefined:parseFloat(String(f).replace(',','.'));
@@ -3273,6 +3280,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v45','30/10/2026',['Pricing mais simples: digite o preço novo direto na tabela. Em cinza aparece o sugerido pela regra; apagar volta ao sugerido.','Um botão só: marque e clique em Publicar no site. Antes de publicar aparece a lista com hoje, novo, referência e quanto a cliente de SP paga.','Saíram as colunas % abaixo, % frete e Peso (o peso fica embaixo do nome) e o passo Calcular (OK). O % abaixo de um produto fica na ficha dele.','Cliente SP paga = mesma conta do checkout (frete OMG, imposto de importação e ICMS, câmbio R$ 5,40).','Topo compacto; as publicações ficam recolhidas no fim da página, com Ver e Reverter.']],
  ['v44','30/10/2026',['Pricing: preço do varejo no exterior. Produto sem KS/Jini mostra o botão "+ exterior" na coluna Referência.','Na ficha: uma linha por site (YesStyle, Olive Young Global, Jolse, Sephora) com US$, link e botão Buscar ↗, que já abre a busca do produto no site.','A Jolse é procurada sozinha: aparece a lista com o preço cheio (sem promoção) e o botão Usar. Itens de kit, promoção ou validade curta vêm marcados para conferir.','Prévia na hora: maior preço → preço no site e quanto a cliente de SP paga.']],
  ['v43','30/10/2026',['Pricing: o frete de referência agora é o de São Paulo capital (CEP 01532-001), cotado na calculadora do site. A conta continua com ICMS 20% (Guia); a coluna Final SP mostra o que a cliente de SP paga (ICMS 17%), igual à calculadora do site.','% do frete travado em 100: o checkout ainda cobra o frete inteiro, então colocar parte do frete no preço fazia a cliente pagar essa parte duas vezes. Destrava quando a Shipsmart permitir cobrar só parte do frete.']],
  ['v42','30/10/2026',['Pricing: colunas separadas por linhas e agrupadas por cor, com faixa de título em cima: Produto, Concorrente (azul), Você ajusta (amarelo), Site hoje (cinza), Preço novo (verde) e Situação. Hoje aparece antes do Novo.']],
