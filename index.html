@@ -1607,7 +1607,7 @@ function pxCalc(p){
  // sugerido pela regra
  if(o.tipo!=='sem'){
   if(!o.peso)o.semRef='sem peso';else if(o.base==null)o.semRef='frete não calculado';
-  else if(o.tipo==='conc'){o.alvo=o.ref.pix*(1-d/100);const s=(o.alvo*(1-icms)-o.base)/(1+seg);if(s>0)o.sug=pr90(s);else o.semRef='frete e ICMS passam da referência'}
+  else if(o.tipo==='conc'){o.alvo=o.ref.pix*(1-d/100);const s=(o.alvo*(1-icms)-o.base)/(1+seg),v=s>0?pr90(s):0;if(v>=5)o.sug=v;else o.semRef='frete e ICMS passam da referência'}
   else if(cam){o.merc=o.ref.usd*(1+n(C.ext)/100)*cam;o.sug=pr90(o.merc)}}
  o.novo=has(o.manual)?o.manual:o.sug;
  if(!has(o.novo))return o;
