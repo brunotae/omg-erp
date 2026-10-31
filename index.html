@@ -748,7 +748,7 @@ const match=row=>!S.q||JSON.stringify(row).toLowerCase().includes(S.q.toLowerCas
 const PILL={'Entregue':'p-ok','Recebida':'p-ok','Em estoque':'p-ok','Resolvida':'p-ok','Pago':'p-ok','Zerado':'p-ok','Crédito da OMG':'p-info','OMG deve':'p-bad','Ativo':'p-ok','Concluído':'p-ok','Cancelada':'p-mute','Inativo':'p-mute','Cotação':'p-warn','Previsto':'p-warn','Aberta':'p-warn','Indefinido':'p-bad','Arte pronta':'p-info','Em cotação':'p-warn','Enviada':'p-ok','Pendente':'p-warn','No site':'p-ok','Fora do site':'p-mute','Rejeitada':'p-mute','Erro':'p-bad','Aprovada':'p-info','Ideia':'p-mute','Planejada':'p-info','Em andamento':'p-warn','Concluída':'p-ok'};
 const stPill=s=>'<span class="pill '+(PILL[s]||'p-info')+'">'+esc(s||'—')+'</span>';
 function nextSeq(col,prefix,pad){let max=0;S.data[col].forEach(r=>{const m=String(r.numero||'').match(/(\d+)$/);if(m)max=Math.max(max,+m[1])});return prefix+String(max+1).padStart(pad,'0')}
-const nextVenda=()=>{let max=100000000;S.data.vendas.forEach(v=>{if(has(v.numero))max=Math.max(max,v.numero)});return max+1};
+const nextVenda=()=>{let max=200000000;S.data.vendas.forEach(v=>{if(has(v.numero)&&v.numero>=200000000)max=Math.max(max,v.numero)});return max+1}; // site = nº do Shopify (100.001.xxx); manuais = 200.000.xxx
 const findV=num=>S.data.vendas.find(v=>String(v.numero)===String(num).replace(/\D/g,''));
 
 /* ================= cálculos ================= */
@@ -880,7 +880,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v57 · 31/10/2026';
+const VERSAO='v58 · 31/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -3557,6 +3557,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v58','31/10/2026',['Número da venda do site agora é igual ao do pedido no Shopify (#1001 = 100.001.001). Vendas lançadas à mão no ERP usam a série 200.000.001.','Checkout: a linha de entrega mostra separado quanto é frete e quanto é tributo (ICMS/II).']],
  ['v57','31/10/2026',['Aviso de versão nova agora aparece flutuando embaixo e no meio da tela, em qualquer página, no computador e no celular (regra 4).']],
  ['v56','31/10/2026',['Raio-X do catálogo no servidor: o mesmo número para todo mundo e no PDF. Atualiza sozinho na hora a cada mudança feita pelo ERP, a cada aviso do Shopify, de hora em hora e com leitura completa de madrugada. "Atualizar agora" lê só o que mudou (segundos). A data dos dados aparece no topo e fica vermelha se passar de 2 horas.','Novo: Histórico do catálogo (fim da página do Raio-X) — o que mudou, quando, de onde veio e quem fez.']],
  ['v55','31/10/2026',['Raio-X do catálogo: os rascunhos agora dizem por que estão parados. Novos avisos: "Já está no ar" (existe outra versão deste produto à venda — mostra qual), "Título em inglês" e "Categoria errada" (skincare marcado como maquiagem). Clique em Atualizar raio-x e depois na marca.']],

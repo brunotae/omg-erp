@@ -39,10 +39,16 @@ Deno.serve(async (req) => {
     try {
       const itens = (b.rate.items || []).filter((i: any) => i.requires_shipping !== false);
       const x = await calcular(d.postal_code, d.province || null, itens);
+      // Nome da linha = o que aparece no checkout, no e-mail do pedido e na página do pedido:
+      // deixa claro que não é só frete — tem tributo pago (Tae · 31/10/2026).
+      const trib = x.brl.ii + x.brl.icms;
+      const nome = trib > 0
+        ? `Frete ${fmt(x.brl.frete_seguro)} + tributos ${fmt(trib)} (${x.brl.ii > 0 ? "II + ICMS" : "ICMS"} · Remessa Conforme)`
+        : x.cfg.nome;
       const desc = x.cfg.detalhar
         ? `${x.cfg.prazo} para capitais · Frete e seguro: ${fmt(x.brl.frete_seguro)} · Imposto de importação: ${fmt(x.brl.ii)} · ICMS ${x.aliquota_icms}% ${x.uf}: ${fmt(x.brl.icms)}`
         : `${x.cfg.prazo} · Frete, seguro e impostos inclusos (Remessa Conforme)`;
-      return json(200, { rates: [{ service_name: x.cfg.nome, service_code: "OMG_INTL", total_price: String(Math.round(x.brl.total_linha * 100)), currency: "BRL", description: desc }] });
+      return json(200, { rates: [{ service_name: nome, service_code: "OMG_INTL", total_price: String(Math.round(x.brl.total_linha * 100)), currency: "BRL", description: desc }] });
     } catch (e) {
       console.error("frete-omg", String((e as Error).message || e));
       return json(200, { rates: [] });
