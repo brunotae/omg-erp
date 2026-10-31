@@ -8,8 +8,9 @@ export function usarBanco(c: SupabaseClient) { sb = c; }
 const CFG0 = {
   usd: 5.40, intl_usd_kg: 10, embalagem_g: 100, seguro_pct: 1,
   ii_isencao_usd: 50, ii_pct: 60, ii_deducao_usd: 30,
-  icms: { AC: 20, AL: 20, BA: 20, CE: 20, MG: 20, PB: 20, PI: 20, RN: 20, RR: 20, SE: 20,
-    AP: 17, AM: 17, DF: 17, ES: 17, GO: 17, MA: 17, MT: 17, MS: 17, PA: 17, PR: 17, PE: 17, RJ: 17, RS: 17, RO: 17, SC: 17, SP: 17, TO: 17 } as Record<string, number>,
+  // ICMS remessa internacional por UF — tabela Comsefaz dez/2025 (corrigido 31/10/2026: MG 17, AP 18, PA 19)
+  icms: { AC: 20, AL: 20, BA: 20, CE: 20, PB: 20, PI: 20, RN: 20, RR: 20, SE: 20, PA: 19, AP: 18,
+    MG: 17, AM: 17, DF: 17, ES: 17, GO: 17, MA: 17, MT: 17, MS: 17, PR: 17, PE: 17, RJ: 17, RS: 17, RO: 17, SC: 17, SP: 17, TO: 17 } as Record<string, number>,
   nome: "Entrega internacional OMG",
   prazo: "Até 15 dias úteis",
   detalhar: true,
