@@ -36,3 +36,7 @@ jobs:
         run: supabase functions deploy perfil --project-ref nzsiuniabovvptuqmkmi --no-verify-jwt
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      - name: Publicar frete-omg (frete + impostos do checkout e simulação)
+        run: supabase functions deploy frete-omg --project-ref nzsiuniabovvptuqmkmi --no-verify-jwt
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
