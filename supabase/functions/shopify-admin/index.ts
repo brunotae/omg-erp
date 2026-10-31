@@ -145,6 +145,14 @@ Deno.serve(async (req) => {
           tableData { columns { name dataType displayName } rows } parseErrors } }`, { q: String(b.q || "") });
       return resp(200, { ok: true, ...d.shopifyqlQuery });
     }
+    if (b.acao === "checkouts_abandonados") {
+      // Checkouts não finalizados do período (o que estava no carrinho), sem dados pessoais.
+      const d: any = await gql(`query($q: String!) { abandonedCheckouts(first: 100, query: $q, reverse: true) { nodes {
+          createdAt completedAt totalPriceSet { shopMoney { amount } } discountCodes
+          shippingAddress { provinceCode city }
+          lineItems(first: 30) { nodes { title quantity } } } } }`, { q: "created_at:>=" + String(b.desde || "2026-10-31") });
+      return resp(200, { ok: true, checkouts: d.abandonedCheckouts.nodes });
+    }
     if (b.acao === "pedidos_periodo") {
       // Pedidos do período com origem da visita (para os relatórios).
       const desde = String(b.desde || "2026-10-01");
