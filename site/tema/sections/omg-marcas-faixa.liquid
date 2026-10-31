@@ -1,4 +1,5 @@
 {%- comment -%} OMG · faixa de marcas passando (tipo letreiro da bolsa). Para quando o mouse passa por cima. {%- endcomment -%}
+{%- assign logos = ',abib,aestura,another-face,anua,arencia,banila-co,beauty-of-joseon,beplain,biodance,celimax,cell-fusion-c,centellian-24,clio,cosrx,dasique,dr-forhair,dr-melaxin,dr-reju-all,eqqualberry,freshian,fwee,gongskin,hince,kaine,lador,manyo,medicube,mediheal,mise-en-scene,mixsoon,numbuzin,ongredients,purcell,purito-seoul,rejuran,round-lab,skin1004,some-by-mi,sonatural,tirtir,torriden,vt-cosmetics,' -%}
 {%- assign marcas = section.settings.marcas | newline_to_br | replace: '<br />', ',' | split: ',' -%}
 <div class="omg-tk" style="--omg-tk-bg:{{ section.settings.cor_fundo }};--omg-tk-fg:{{ section.settings.cor_texto }};--omg-tk-dur:{{ marcas.size | times: section.settings.segundos_por_marca }}s">
   <div class="omg-tk__trilho">
@@ -7,7 +8,8 @@
         {%- for m in marcas -%}
           {%- assign nome = m | strip -%}
           {%- if nome != blank -%}
-            <li><a href="{{ routes.collections_url }}/vendors?q={{ nome | url_encode }}"{% if rodada == 2 %} tabindex="-1"{% endif %}>{{ nome }}</a><span class="omg-tk__sep" aria-hidden="true">✦</span></li>
+            {%- assign mh = nome | handleize -%}{%- assign busca = ',' | append: mh | append: ',' -%}
+            <li><a href="{{ routes.collections_url }}/vendors?q={{ nome | url_encode }}"{% if rodada == 2 %} tabindex="-1"{% endif %}{% if logos contains busca %} class="omg-tk__logo" aria-label="{{ nome }}"{% endif %}>{%- if logos contains busca -%}<img src="{{ 'omg-logo-' | append: mh | append: '.png' | asset_url }}" alt="{{ nome }}" height="24" loading="lazy">{%- else -%}{{ nome }}{%- endif -%}</a><span class="omg-tk__sep" aria-hidden="true">✦</span></li>
           {%- endif -%}
         {%- endfor -%}
       </ul>
@@ -22,10 +24,13 @@
   .omg-tk__lista li{display:flex;align-items:center;white-space:nowrap}
   .omg-tk__lista a{color:inherit;text-decoration:none;font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:13px;padding:12px 22px}
   .omg-tk__lista a:hover{text-decoration:underline;text-underline-offset:4px}
+  .omg-tk__lista a.omg-tk__logo{display:flex;align-items:center;padding:8px 26px}
+  .omg-tk__lista a.omg-tk__logo img{height:24px;width:auto;max-width:150px;object-fit:contain;display:block;mix-blend-mode:multiply}
+  .omg-tk__lista a.omg-tk__logo:hover img{opacity:.75}
   .omg-tk__sep{opacity:.45;font-size:10px}
   @keyframes omg-tk{from{transform:translateX(0)}to{transform:translateX(-50%)}}
   @media (prefers-reduced-motion:reduce){.omg-tk__trilho{animation:none}.omg-tk{overflow-x:auto}}
-  @media (max-width:749px){.omg-tk__lista a{font-size:12px;padding:10px 16px}}
+  @media (max-width:749px){.omg-tk__lista a{font-size:12px;padding:10px 16px}.omg-tk__lista a.omg-tk__logo img{height:19px}}
 </style>
 
 {% schema %}

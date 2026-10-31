@@ -1,0 +1,32 @@
+{%- comment -%} Marcas ativas (30/10): esconde links para marcas sem produto à venda (menu, rodapé, página Marcas). Se abrir uma marca vazia, volta para a página de marcas. {%- endcomment -%}
+<script>
+(function(){
+  var K='omg-marcas-ativas-v1', t=null;
+  function ativas(){
+    try{var c=JSON.parse(sessionStorage.getItem(K)||'null');if(c&&Date.now()-c.t<1800000)return Promise.resolve(c.v)}catch(e){}
+    return fetch('/collections/all?section_id=omg-marcas-ativas').then(function(r){return r.text()}).then(function(h){
+      var m=h.match(/id="omg-marcas-ativas">([\s\S]*?)<\/script>/);var v=m?JSON.parse(m[1]).filter(Boolean):null;
+      if(v&&v.length){try{sessionStorage.setItem(K,JSON.stringify({t:Date.now(),v:v}))}catch(e){}}return v});
+  }
+  function aplica(set){
+    document.querySelectorAll('a[href*="/collections/vendors?q="]').forEach(function(a){
+      var q;try{q=new URL(a.getAttribute('href'),location.origin).searchParams.get('q')}catch(e){return}
+      if(q&&!set.has(q.trim().toLowerCase())){var box=a.closest('li')||a;if(box.style.display!=='none'){box.style.display='none';box.setAttribute('data-omg-marca-off','')}}
+    });
+  }
+  if(location.pathname==='/collections/vendors'&&!document.querySelector('product-card')&&/not found|não encontrad/i.test((document.querySelector('main')||document.body).innerText.slice(0,2000))){location.replace('/pages/marcas');return}
+  ativas().then(function(v){
+    if(!v||!v.length)return;var set=new Set(v.map(function(x){return String(x).trim().toLowerCase()}));
+    aplica(set);
+    new MutationObserver(function(){if(t)return;t=setTimeout(function(){t=null;aplica(set)},400)}).observe(document.body,{childList:true,subtree:true});
+  }).catch(function(){});
+})();
+</script>
+{%- if template.name == 'collection' -%}
+<style>
+  /* Título das coleções (Skincare, Maquiagem…): mais delicado, na cor da marca, com um traço framboesa (30/10) */
+  #MainContent .text-block h1{font-weight:600;color:#4A2638;letter-spacing:-.02em;line-height:1.08;font-size:clamp(30px,3.2vw,44px)}
+  #MainContent .text-block h1::after{content:"";display:block;width:46px;height:3px;border-radius:3px;background:#D9577F;margin-top:14px}
+  #MainContent .text-block h1 + p,#MainContent .text-block.rte p{color:#7A5566}
+</style>
+{%- endif -%}

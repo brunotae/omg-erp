@@ -1,0 +1,15 @@
+{%- comment -%} OMG · lista das marcas com produto à venda (filtro Marca da coleção). Usado por omg-site para esconder marcas desativadas. Chamar: /collections/all?section_id=omg-marcas-ativas {%- endcomment -%}
+{%- liquid
+  assign v = ''
+  for f in collection.filters
+    if f.param_name == 'filter.p.vendor'
+      for val in f.values
+        assign v = v | append: val.value | append: '|~|'
+      endfor
+    endif
+  endfor
+-%}
+<script type="application/json" id="omg-marcas-ativas">{{ v | split: '|~|' | json }}</script>
+{% schema %}
+{ "name": "OMG · marcas ativas (técnico)", "settings": [] }
+{% endschema %}
