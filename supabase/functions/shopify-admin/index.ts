@@ -421,6 +421,21 @@ Deno.serve(async (req) => {
       return resp(200, { ok: true, n: d.products.nodes.length, achados, proximo: d.products.pageInfo.hasNextPage ? d.products.pageInfo.endCursor : null });
     }
 
+    if (b.acao === "publicar") {
+      // Inclui produtos em todos os canais de vendas (Loja virtual etc.): { ids: [id numérico] } (até 50).
+      const ids = (Array.isArray(b.ids) ? b.ids : []).map(String).filter((x: string) => /^\d+$/.test(x)).slice(0, 50);
+      const pubs: any = await gql(`{ publications(first: 20) { nodes { id name } } }`);
+      const input = pubs.publications.nodes.map((x: any) => ({ publicationId: x.id }));
+      const res: any[] = [];
+      for (const id of ids) {
+        try {
+          const d: any = await gql(`mutation($id: ID!, $p: [PublicationInput!]!) { publishablePublish(id: $id, input: $p) { userErrors { message } } }`, { id: "gid://shopify/Product/" + id, p: input });
+          const e = d.publishablePublish.userErrors; res.push(e.length ? { id, ok: false, erro: e[0].message } : { id, ok: true });
+        } catch (e) { res.push({ id, ok: false, erro: String((e as Error).message || e).slice(0, 160) }); }
+      }
+      return resp(200, { ok: true, canais: pubs.publications.nodes.map((x: any) => x.name), res });
+    }
+
     if (b.acao === "produto_criar") {
       // Cadastra produto novo (já com fotos, opções, preço, SKU, peso e estoque de vitrine 9999).
       // { produto: { titulo, marca, tipo, tags: [], html, imagens: [url], opcao?: "Tamanho", status?: "DRAFT"|"ACTIVE",
