@@ -650,6 +650,12 @@ Deno.serve(async (req) => {
       return resp(200, { ok: true, resultados });
     }
 
+    if (b.acao === "transportadoras") {
+      // Lista os serviços de frete calculado (carrier services) instalados na loja: nome e endereço de quem responde.
+      const d: any = await gql(`{ carrierServices(first: 20) { nodes { id name formattedName active callbackUrl supportsServiceDiscovery } } }`);
+      return resp(200, { ok: true, lista: d.carrierServices.nodes });
+    }
+
     if (b.acao === "ext_buscar") {
       // Pricing: procura o produto no varejo do exterior. Hoje lê a busca da Jolse (preço cheio, sem promoção).
       // { q: "anua heartleaf pore control cleansing oil" } → { itens: [{ site, nome, url, usd_cheio, usd_venda, alerta }] }
