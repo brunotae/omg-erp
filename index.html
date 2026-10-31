@@ -859,7 +859,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v45 · 30/10/2026';
+const VERSAO='v46 · 31/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -2124,6 +2124,9 @@ function cupomResumo(c){
  const quem=c.publico==='primeira'?'só na 1ª compra':c.publico==='clientes'?'só para as clientes da lista':'para todas as clientes';
  return v+(num(c.minimo)>0?' em compras a partir de '+brl(num(c.minimo)):'')+', '+quem+(c.uma_vez?', 1 vez por cliente':'')+(num(c.limite_total)>0?', até '+num(c.limite_total)+' usos no total':'')+(c.fim?', válido até '+fdate(c.fim):', sem data de fim')+'.';
 }
+function cpfValido(d){d=String(d).replace(/\D/g,'');if(d.length!==11||/^(\d)\1{10}$/.test(d))return false;
+ const dv=k=>{let s=0;for(let i=0;i<k;i++)s+=+d[i]*(k+1-i);const r=(s*10)%11;return r===10?0:r};return dv(9)===+d[9]&&dv(10)===+d[10]}
+const cpfFmt=d=>String(d).replace(/\D/g,'').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/,'$1.$2.$3-$4');
 function emailsDaLista(txt){
  const itens=String(txt||'').split(/[\s,;]+/).map(x=>x.trim()).filter(Boolean), emails=[], semEmail=[];
  itens.forEach(it=>{
@@ -2149,7 +2152,7 @@ function openCupomShopify(){
   '<div class="f"><label for="cp-min">Compra mínima (R$)</label><input id="cp-min" name="minimo" type="number" step="any" min="0" value="150" data-fav="0,100,150,200" data-fav-key="cupom-minimo"><span class="hint">Soma dos produtos. Deixe 0 para qualquer valor.</span></div>'+
   '<div class="f"><label for="cp-pub">Quem pode usar</label><select id="cp-pub" name="publico"><option value="todas">Todas as clientes</option><option value="primeira">Só quem nunca comprou (1ª compra)</option><option value="clientes">Clientes específicas (CPF ou e-mail)</option></select></div>'+
   '<div class="f full" id="cp-lista-box" hidden><label for="cp-lista">CPFs ou e-mails (um por linha)</label><textarea id="cp-lista" name="lista" placeholder="123.456.789-00&#10;maria@email.com"></textarea>'+
-   '<span class="hint">CPF só funciona para quem já comprou (o ERP acha o e-mail pela venda). '+(fiel.length?'<a href="#" id="cp-fieis">Preencher com as '+fiel.length+' clientes fiéis</a>':'')+'</span></div>'+
+   '<span class="hint">E-mail ou CPF de quem já comprou: usa o código acima. CPF de quem nunca comprou: ganha um código só dele, de 1 uso, para você mandar. '+(fiel.length?'<a href="#" id="cp-fieis">Preencher com as '+fiel.length+' clientes fiéis</a>':'')+'</span></div>'+
   '<label class="chk" style="padding-top:22px"><input type="checkbox" id="cp-uma" name="uma_vez" checked> Só 1 uso por cliente</label>'+
   '<div class="f"><label for="cp-lim">Limite total de usos (opcional)</label><input id="cp-lim" name="limite_total" type="number" step="1" min="0" placeholder="Sem limite"></div>'+
   '<div class="f"><label for="cp-ini">Começa em</label><input id="cp-ini" name="inicio" type="date" value="'+hoje+'"></div>'+
@@ -2171,20 +2174,41 @@ function openCupomShopify(){
   if(c.tipo!=='frete'&&!(num(c.valor)>0)){err.textContent='Preencha o valor do desconto.';return}
   if(c.tipo==='%'&&num(c.valor)>100){err.textContent='Percentual não pode passar de 100%.';return}
   if(c.fim&&c.inicio&&c.fim<c.inicio){err.textContent='A data de fim é antes do início.';return}
-  let L={emails:[],semEmail:[]};
-  if(c.publico==='clientes'){L=emailsDaLista(c.lista);if(!L.emails.length){err.textContent='Nenhum e-mail encontrado'+(L.semEmail.length?' (sem compra no ERP: '+L.semEmail.slice(0,5).join(', ')+')':'')+'.';return}}
-  if(!confirm('Criar no Shopify?\n\n'+c.codigo+': '+cupomResumo(c)+(L.semEmail.length?'\n\nFicam de fora (sem e-mail): '+L.semEmail.join(', '):'')))return;
+  let L={emails:[],semEmail:[]},cpfs=[],ruins=[];
+  if(c.publico==='clientes'){L=emailsDaLista(c.lista);
+   L.semEmail.forEach(x=>{const d=x.replace(/\D/g,'');if(cpfValido(d))cpfs.push(d);else ruins.push(x)});cpfs=[...new Set(cpfs)];
+   if(cpfs.length>60){err.textContent='No máximo 60 CPFs sem compra por vez ('+cpfs.length+' na lista).';return}
+   if(!L.emails.length&&!cpfs.length){err.textContent='Nenhum e-mail ou CPF válido na lista'+(ruins.length?' (inválidos: '+ruins.slice(0,5).join(', ')+')':'')+'.';return}}
+  if(!confirm('Criar no Shopify?\n\n'+(c.publico!=='clientes'||L.emails.length?c.codigo+': '+cupomResumo(c)+(c.publico==='clientes'?' ('+L.emails.length+' cliente'+(L.emails.length===1?'':'s')+' que já compraram)':''):'')+
+   (cpfs.length?'\n\n'+cpfs.length+' CPF'+(cpfs.length===1?'':'s')+' sem compra: cada um ganha um código próprio, de 1 uso ('+c.codigo+'-XXX).':'')+(ruins.length?'\n\nFicam de fora (CPF ou e-mail inválido): '+ruins.join(', '):'')))return;
   b.disabled=true;b.textContent='Criando…';
   try{
+   if(c.publico==='clientes'&&!L.emails.length){const r=await cupomPorCpf(c,cpfs,b);close();loadAll();cupomCpfLista(r);return}
    const d=await chamarShop({acao:'cupom_criar',cupom:{codigo:c.codigo,titulo:c.titulo,tipo:c.tipo,valor:num(c.valor),teto:num(c.teto),minimo:num(c.minimo),publico:c.publico,emails:L.emails,uma_vez:c.uma_vez,limite_total:num(c.limite_total),inicio:c.inicio,fim:c.fim}});
    const pub={todas:'Todos',primeira:'Primeira compra',clientes:'Clientes específicas'}[c.publico];
    await save('cupons',null,{codigo:d.codigo,tipo:c.tipo,valor:c.tipo==='frete'?num(c.teto):num(c.valor),publico:pub,validade:c.fim||null,limite:num(c.limite_total)||null,ativo:true,
     obs:cupomResumo(c)+' · Shopify: '+d.id+(d.clientes!=null?' · '+d.clientes+' clientes':'')+(d.sem_cadastro&&d.sem_cadastro.length?' · sem cadastro no site: '+d.sem_cadastro.join(', '):'')});
-   close();loadAll();toast('Cupom '+d.codigo+' criado: já vale no site');
+   let rc=null;if(cpfs.length)rc=await cupomPorCpf(c,cpfs,b);
+   close();loadAll();toast('Cupom '+d.codigo+' criado: já vale no site');if(rc)cupomCpfLista(rc);
    if(d.sem_cadastro&&d.sem_cadastro.length)setTimeout(()=>toast(d.sem_cadastro.length+' e-mail(s) sem cadastro no site ficaram de fora'),2600);
   }catch(x){b.disabled=false;b.textContent='Criar no Shopify';err.textContent=x.message||String(x)}
  });
 }
+
+// CPF de quem nunca comprou: o Shopify só conhece cliente com cadastro, então cada CPF ganha um código próprio, de 1 uso.
+async function cupomPorCpf(c,cpfs,b){const out=[];const sorteio=k=>Array.from({length:k},()=>'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[Math.floor(Math.random()*32)]).join('');
+ for(let i=0;i<cpfs.length;i++){const cpf=cpfs[i];if(b)b.textContent='Criando '+(i+1)+' de '+cpfs.length+'…';let ok=false,tent=0;
+  while(!ok&&tent<3){tent++;const cod=c.codigo+'-'+sorteio(3);
+   try{const d=await chamarShop({acao:'cupom_criar',cupom:{codigo:cod,titulo:(c.titulo||c.codigo)+' · CPF '+cpfFmt(cpf),tipo:c.tipo,valor:num(c.valor),teto:num(c.teto),minimo:num(c.minimo),publico:'todas',emails:[],uma_vez:true,limite_total:1,inicio:c.inicio,fim:c.fim}});
+    await save('cupons',null,{codigo:d.codigo,tipo:c.tipo,valor:c.tipo==='frete'?num(c.teto):num(c.valor),publico:'CPF '+cpfFmt(cpf),validade:c.fim||null,limite:1,ativo:true,obs:cupomResumo({...c,publico:'todas',uma_vez:true,limite_total:1})+' · código só do CPF '+cpfFmt(cpf)+' · Shopify: '+d.id});
+    out.push({cpf,codigo:d.codigo});ok=true}
+   catch(x){if(!/já existe/.test(x.message||'')||tent>=3){out.push({cpf,erro:x.message||String(x)});ok=true}}}}
+ return out}
+function cupomCpfLista(r){const ok=r.filter(x=>x.codigo),txt=ok.map(x=>cpfFmt(x.cpf)+'\t'+x.codigo).join('\n');
+ shell('Códigos por CPF','<div class="sec"><span class="label">'+ok.length+' código'+(ok.length===1?'':'s')+' criado'+(ok.length===1?'':'s')+' · cada um vale 1 vez · mande para a pessoa</span><div style="grid-column:1/-1" class="tblwrap"><table><thead><tr><th>CPF</th><th>Código</th></tr></thead><tbody>'+
+  r.map(x=>'<tr><td class="num">'+cpfFmt(x.cpf)+'</td><td class="num">'+(x.codigo?'<b>'+esc(x.codigo)+'</b>':'<span style="color:#B3261E">'+esc(x.erro)+'</span>')+'</td></tr>').join('')+'</tbody></table></div>'+
+  '<p class="hint" style="grid-column:1/-1;margin:6px 0 0"><button class="btn sm" type="button" id="cp-copia">Copiar lista</button> O Shopify não confere o CPF no checkout: o código é a chave. Por isso cada um vale uma vez só.</p></div>',null,true);
+ const bt=$('#cp-copia');if(bt)bt.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(txt);toast('Lista copiada')}catch(_){toast('Não consegui copiar')}})}
 
 /* ---------- Análises ---------- */
 VIEWFN.analises=()=>{
@@ -3280,6 +3304,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v46','31/10/2026',['Cupom para clientes específicas: agora aceita CPF de quem nunca comprou. Cada CPF ganha um código só dele (ex.: OMG-MARIA-7K-X4P), de 1 uso, e aparece uma lista CPF → código para copiar e mandar.','CPF e e-mail de quem já comprou continuam usando o código principal.','O ERP confere se o CPF é válido antes de criar.']],
  ['v45','30/10/2026',['Pricing mais simples: digite o preço novo direto na tabela. Em cinza aparece o sugerido pela regra; apagar volta ao sugerido.','Um botão só: marque e clique em Publicar no site. Antes de publicar aparece a lista com hoje, novo, referência e quanto a cliente de SP paga.','Saíram as colunas % abaixo, % frete e Peso (o peso fica embaixo do nome) e o passo Calcular (OK). O % abaixo de um produto fica na ficha dele.','Cliente SP paga = mesma conta do checkout (frete OMG, imposto de importação e ICMS, câmbio R$ 5,40).','Topo compacto; as publicações ficam recolhidas no fim da página, com Ver e Reverter.']],
  ['v44','30/10/2026',['Pricing: preço do varejo no exterior. Produto sem KS/Jini mostra o botão "+ exterior" na coluna Referência.','Na ficha: uma linha por site (YesStyle, Olive Young Global, Jolse, Sephora) com US$, link e botão Buscar ↗, que já abre a busca do produto no site.','A Jolse é procurada sozinha: aparece a lista com o preço cheio (sem promoção) e o botão Usar. Itens de kit, promoção ou validade curta vêm marcados para conferir.','Prévia na hora: maior preço → preço no site e quanto a cliente de SP paga.']],
  ['v43','30/10/2026',['Pricing: o frete de referência agora é o de São Paulo capital (CEP 01532-001), cotado na calculadora do site. A conta continua com ICMS 20% (Guia); a coluna Final SP mostra o que a cliente de SP paga (ICMS 17%), igual à calculadora do site.','% do frete travado em 100: o checkout ainda cobra o frete inteiro, então colocar parte do frete no preço fazia a cliente pagar essa parte duas vezes. Destrava quando a Shipsmart permitir cobrar só parte do frete.']],
