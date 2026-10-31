@@ -10,6 +10,8 @@ on:
         description: "nome do pacote"
         required: false
         default: "imagens"
+permissions:
+  contents: write
 jobs:
   baixar:
     runs-on: ubuntu-latest
@@ -23,8 +25,12 @@ jobs:
             i=$((i+1)); n=$(printf '%03d' $i)_$(basename "${u%%\?*}")
             curl -sSL -m 60 -A "Mozilla/5.0" -e "https://www.cosrx.co.kr/" -o "out/$n" "$u" && echo "ok $n $(stat -c%s out/$n)" || echo "falhou $u"
           done
-      - uses: actions/upload-artifact@v4
-        with:
-          name: ${{ inputs.nome }}
-          path: out/
-          retention-days: 3
+      - name: Guardar no ramo imagens-tmp (fora do main)
+        env:
+          NOME: ${{ inputs.nome }}
+          TK: ${{ github.token }}
+        run: |
+          cd out; git init -q -b imagens-tmp; git config user.name omg-bot; git config user.email bot@ohmygirl.com.br
+          mkdir -p "$NOME" && find . -maxdepth 1 -type f -exec mv {} "$NOME"/ \;
+          git add . && git commit -qm "imagens $NOME"
+          git push -f "https://x-access-token:$TK@github.com/${{ github.repository }}.git" imagens-tmp
