@@ -27,6 +27,7 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { gravarProdutos, gravarProdutosLote, produtoParaLinhas } from "../_shared/produtos.js";
 import { lerPagina, gravarLeitura } from "../_shared/concorrentes.ts";
+import { syncIncremental, syncCompleta } from "../_shared/catalogo.ts";
 
 const URL_SB = Deno.env.get("SUPABASE_URL")!;
 const admin = createClient(URL_SB, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
@@ -129,7 +130,7 @@ async function editor(req: Request) {
   return m?.papel === "editor" ? email : null;
 }
 
-Deno.serve(async (req) => {
+async function principal(req: Request): Promise<Response> {
   if (req.method === "OPTIONS") return new Response("ok", { headers: CORS });
   if (req.method !== "POST") return resp(405, { erro: "use POST" });
   if (!configurado()) return resp(503, { erro: "Ligação com o Shopify ainda não configurada" });
@@ -1355,4 +1356,26 @@ Deno.serve(async (req) => {
     console.error(b?.acao, e);
     return resp(502, { erro: "O Shopify não respondeu como esperado: " + String((e as Error).message || e).slice(0, 300) });
   }
+}
+
+// Ações que mexem em produto: depois de dar certo, o Raio-X do ERP (catalogo_produtos) é atualizado na hora.
+const MEXE_PRODUTO = new Set(["status", "status_lote", "ativar", "preco", "precos", "produto_criar", "publicar", "fotos", "fotos_refazer",
+  "produto_desc", "variantes_criar", "tags_trocar", "pesos", "colecao_topo", "marca_publicar", "sincronizar"]);
+Deno.serve(async (req) => {
+  if (req.method !== "POST") return principal(req);
+  const corpo: any = await req.clone().json().catch(() => ({}));
+  if (corpo?.acao === "catalogo_sync") {
+    if (!configurado()) return resp(503, { erro: "Ligação com o Shopify ainda não configurada" });
+    const quem = await editor(req); if (!quem) return resp(403, { erro: "Só editores do ERP podem fazer isso" });
+    try {
+      const r = corpo.modo === "completa" ? await syncCompleta(admin, gql, "leitura completa (ERP)", quem) : await syncIncremental(admin, gql, "Atualizar agora (ERP)", quem);
+      return resp(200, { ok: true, ...r });
+    } catch (e) { return resp(502, { erro: String((e as Error).message || e).slice(0, 300) }); }
+  }
+  const r = await principal(req);
+  if (MEXE_PRODUTO.has(corpo?.acao) && r.status === 200 && corpo?.aplicar !== false) {
+    try { const quem = await editor(req); await syncIncremental(admin, gql, "ERP: " + corpo.acao, quem || ""); }
+    catch (e) { console.error("raio-x na hora", e); }
+  }
+  return r;
 });

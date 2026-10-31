@@ -2,6 +2,7 @@
 // Tópicos usados: orders/paid (cria a venda), orders/cancelled (marca como cancelada),
 // products/create e products/update (atualiza o Catálogo), products/delete (marca como excluído do site).
 // Segredo necessário (Supabase → Edge Functions → Secrets): SHOPIFY_WEBHOOK_SECRET
+import { gravarCatalogo, deWebhook } from "../_shared/catalogo.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { pedidoParaVenda } from "./map.js";
 import { gravarProdutos, marcarExcluido, produtoParaLinhas } from "../_shared/produtos.js";
@@ -104,7 +105,10 @@ Deno.serve(async (req) => {
       // Responde na hora e grava em segundo plano: quando o Shopify manda centenas de avisos de uma vez
       // (troca de fotos, ativação em massa), esperar a gravação estourava o tempo e o aviso contava como falha.
       // Se algo falhar aqui, o botão "Sincronizar catálogo" do ERP acerta tudo.
-      const tarefa = gravarProdutos(sb, produtoParaLinhas(pedido)).catch((e) => console.error(topico, pedido?.handle, e));
+      const tarefa = Promise.all([
+        gravarProdutos(sb, produtoParaLinhas(pedido)),
+        gravarCatalogo(sb, [deWebhook(pedido)], "aviso do Shopify"),
+      ]).catch((e) => console.error(topico, pedido?.handle, e));
       // @ts-ignore EdgeRuntime existe no Supabase
       if (typeof EdgeRuntime !== "undefined" && EdgeRuntime.waitUntil) EdgeRuntime.waitUntil(tarefa); else await tarefa;
       return resp(200, "catálogo: recebido");
@@ -112,6 +116,11 @@ Deno.serve(async (req) => {
 
     if (topico === "products/delete") {
       await marcarExcluido(sb, pedido.id);
+      const { data: x } = await sb.from("catalogo_produtos").select("id,handle,titulo,marca,status").eq("id", String(pedido.id)).maybeSingle();
+      if (x) {
+        await sb.from("catalogo_produtos").update({ status: "EXCLUIDO", lido_em: new Date().toISOString() }).eq("id", x.id);
+        await sb.from("catalogo_mudancas").insert({ produto_id: x.id, handle: x.handle, titulo: x.titulo, marca: x.marca, campo: "status", de: x.status, para: "EXCLUIDO", origem: "aviso do Shopify" });
+      }
       return resp(200, "produto marcado como excluído");
     }
 

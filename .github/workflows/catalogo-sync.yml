@@ -1,0 +1,19 @@
+name: Catalogo - Raio-X no servidor
+# De hora em hora: lê do Shopify só os produtos que mudaram. 03:17 (Brasília): leitura completa.
+# Só lê o Shopify e atualiza o Raio-X do ERP; não muda nada no site.
+on:
+  schedule:
+    - cron: '23 * * * *'
+    - cron: '17 6 * * *'
+  workflow_dispatch:
+jobs:
+  ler:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ler catálogo
+        run: |
+          MODO=incremental
+          [ "${{ github.event.schedule }}" = "17 6 * * *" ] && MODO=completa
+          R=$(curl -sS -m 140 -X POST https://nzsiuniabovvptuqmkmi.supabase.co/functions/v1/catalogo-sync -H 'content-type: application/json' -d "{\"modo\":\"$MODO\"}")
+          echo "$R"
+          echo "$R" | grep -q '"ok":true' || { echo "::error::$R"; exit 1; }

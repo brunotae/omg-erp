@@ -878,7 +878,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v55 · 31/10/2026';
+const VERSAO='v56 · 31/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1846,7 +1846,21 @@ const RX_ERR={foto:['Foto','sem foto','p-bad'],provisorio:['Preço provisório',
 const RX_OKLOW=/sach|amostra|trial|1 unidade|\(1 un|pump|válvula|adesiv|patch|scrunchie|puff|esponja|pincel|brush|^bolsa|pouch|necessaire|nécessaire|clip|presilha|case|estojo/i;
 const RX_EN=/\b(cream|serum|toner|mask|cleanser|patch(es)?|liquid|lotion|water|with|for|and|sunscreen|booster|treatment|essence|pads?)\b/i, RX_PT=/\b(creme|s[ée]rum|t[ôo]nico|m[áa]scara|limpeza|adesivos?|l[íi]quido|lo[çc][ãa]o|[áa]gua|com|para|protetor|ess[êe]ncia|discos?|bruma|[óo]leo|kit|duo|trio|conjunto)\b/i;
 const RX_KIT=/^(kit|duo|conjunto|trio|set)\b/i, RX_MARCA_RUIM=['Mundo Beleza','VT','COEVAL Vegan'];
-let RX=(()=>{try{return JSON.parse(localStorage.getItem('omg-raiox')||'null')}catch(_){return null}})();
+// v56: o Raio-X vem do servidor (catalogo_produtos), igual para todo mundo; atualiza sozinho a cada mudança feita pelo ERP,
+// a cada aviso do Shopify, de hora em hora e com leitura completa de madrugada.
+let RX=null;const RXHIST={rows:[],loaded:false};
+try{localStorage.removeItem('omg-raiox')}catch(_){}
+async function rxCarregar(silencioso){
+ if(RXUI.carregando&&!silencioso)return;RXUI.carregando=true;RXUI.prog='Carregando o raio-x…';if(!silencioso)render();
+ try{const out=[];for(let f=0;;f+=1000){const {data,error}=await sb.from('catalogo_produtos').select('id,handle,titulo,marca,status,tipo,tags,fotos,skus,preco_min,preco_max').neq('status','EXCLUIDO').range(f,f+999);if(error)throw error;out.push(...data);if(data.length<1000)break}
+  const cfg=await sb.from('config').select('valor').eq('chave','catalogo_sync').maybeSingle();
+  const rows=out.map(r=>[r.handle,r.titulo,r.marca,r.status,r.tipo,(r.tags||[]).filter(t=>/^cat[-:]|duplicata/.test(t)).join('|'),r.fotos,r.skus,Number(r.preco_min),Number(r.preco_max),r.id]);
+  RX=rows.length?rxAnalisa(rows):null;if(RX)RX.em=(cfg.data&&cfg.data.valor&&cfg.data.valor.ultima)||new Date().toISOString();
+  const h=await sb.from('catalogo_mudancas').select('*').order('em',{ascending:false}).limit(300);RXHIST.rows=h.data||[];RXHIST.loaded=true;
+ }catch(e){RXUI.erro=String(e.message||e)}
+ RXUI.carregando=false;if(S.view==='raiox')render();
+}
+const rxVelho=()=>RX&&Date.now()-new Date(RX.em).getTime()>2*3600e3;
 const RXUI={f:'todas',err:'',m:'',q:'',carregando:false,prog:'',sel:new Set(),acao:false};
 function rxTokens(s){const STOP=new Set('com para de da do das dos and the ml unidades un kit'.split(' '));return new Set(String(s).split('·')[0].toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').match(/[a-z0-9]+/g)?.filter(w=>w.length>2&&!STOP.has(w))||[])}
 // v55: compara nomes em português e inglês (creme=cream, tônico=toner…) para achar a versão que já está no ar
@@ -1875,9 +1889,9 @@ function rxAnalisa(rows){
  return {em:new Date().toISOString(),P,arq};
 }
 async function rxAtualizar(){
- if(RXUI.carregando)return;RXUI.carregando=true;RXUI.prog='Lendo o Shopify…';render();
- try{let rows=[],after=null,pag=0;do{const d=await chamarShop({acao:'catalogo',after});rows=rows.concat(d.rows||[]);after=d.proximo;pag++;RXUI.prog='Lendo o Shopify… '+rows.length+' produtos';const el=document.getElementById('rx-prog');if(el)el.textContent=RXUI.prog}while(after&&pag<40);
-  RX=rxAnalisa(rows);try{localStorage.setItem('omg-raiox',JSON.stringify(RX))}catch(_){} toast('Raio-X atualizado: '+rows.length+' produtos')}
+ if(RXUI.carregando)return;RXUI.carregando=true;RXUI.prog='Lendo do Shopify o que mudou…';render();
+ try{const vazio=!RX;const d=await chamarShop({acao:'catalogo_sync',modo:vazio?'completa':'incremental'});RXUI.carregando=false;await rxCarregar(true);
+  toast('Raio-X em dia · '+(d.lidos||0)+' produto'+(d.lidos===1?'':'s')+' lido'+(d.lidos===1?'':'s')+(d.mudancas?' · '+d.mudancas+' mudança'+(d.mudancas>1?'s':''):''))}
  catch(e){toast('Erro no raio-x: '+e.message)}
  RXUI.carregando=false;render();
 }
@@ -2023,8 +2037,9 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-rx-imp]');
  relAbrir('OMG · '+m+' · produtos',folha)});
 
 VIEWFN.raiox=()=>{
- const btn=(RX?'<button class="btn sm" type="button" id="rx-export">Exportar listas</button> ':'')+'<button class="btn sm pri" type="button" id="rx-atualizar"'+(RXUI.carregando?' disabled':'')+'>'+(RXUI.carregando?'Atualizando…':'Atualizar raio-x')+'</button>';
- const sub=RX?'Situação de cada produto no Shopify em '+new Date(RX.em).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})+'. Clique numa marca para ver os produtos e os SKUs.':'Lê todos os produtos do Shopify (no ar e rascunho) e aponta foto, preço e cadastro com problema.';
+ if(!RX&&!RXUI.carregando&&S.db&&!RXUI.tentou){RXUI.tentou=1;setTimeout(()=>rxCarregar(),0)}
+ const btn=(RX?'<button class="btn sm" type="button" id="rx-export">Exportar listas</button> ':'')+'<button class="btn sm pri" type="button" id="rx-atualizar"'+(RXUI.carregando?' disabled':'')+'>'+(RXUI.carregando?'Atualizando…':'Atualizar agora')+'</button>';
+ const sub=RX?'<span style="font-weight:700;color:var(--'+(rxVelho()?'bad':'ok')+')">Dados do Shopify de '+new Date(RX.em).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})+(rxVelho()?' · desatualizado':'')+'</span>. Atualiza sozinho a cada mudança feita pelo ERP, a cada aviso do Shopify e de hora em hora. Clique numa marca para ver os produtos e os SKUs.':'Lê todos os produtos do Shopify (no ar e rascunho) e aponta foto, preço e cadastro com problema.';
  if(!RX)return '<div class="page wide"><div class="col">'+head('Raio-X do catálogo',sub,btn)+'<div class="card">'+(RXUI.carregando?'<p class="muted" id="rx-prog">'+esc(RXUI.prog)+'</p>':empty('Ainda sem raio-x','Clique em Atualizar raio-x. Leva uns 30 segundos.'))+'</div></div></div>';
  const P=RX.P, A=P.filter(p=>p.a), tot={}; P.forEach(p=>p.f.forEach(k=>{tot[(p.a?'A':'R')+k]=(tot[(p.a?'A':'R')+k]||0)+1}));
  const t=k=>(tot['A'+k]||0)+(tot['R'+k]||0), skus=P.reduce((a,p)=>a+p.skus,0), skusA=A.reduce((a,p)=>a+p.skus,0);
@@ -2061,8 +2076,16 @@ VIEWFN.raiox=()=>{
   '<div class="head" style="margin-top:22px"><div><h1 style="font-size:20px">Por marca</h1><p>Verde = no ar e certo · azul = pronto em rascunho · vermelho = com problema. '+marcasT.size+' marcas.</p></div></div>'+
   '<div class="chips" style="margin-bottom:12px;align-items:center">'+filtros+'<input type="search" id="rx-q" class="rx-q" placeholder="Buscar marca" value="'+esc(RXUI.q)+'" aria-label="Buscar marca">'+(RXUI.err?'<button type="button" class="btn sm" data-rx-err="'+RXUI.err+'">Tirar filtro: '+RX_ERR[RXUI.err][0].toLowerCase()+' ✕</button>':'')+'</div>'+
   '<div class="rx-grade">'+(grade||'<p class="muted">Nenhuma marca com esse filtro.</p>')+'</div>'+
-  '<p class="muted" style="font-size:12px;margin-top:14px">Regras: foto = nenhuma foto · preço provisório = R$ 0 ou 999,99 · preço suspeito = abaixo de R$ 15 sem ser sachê, amostra ou acessório · duplicado = no ar, nome curto antigo com versão de nome completo; em rascunho, marcado para revisar · categoria = fora de Rosto, Cabelo, Corpo, Protetor e Maquiagem · marca = nome errado (Mundo Beleza, VT, COEVAL Vegan).</p></div></div>';
+  '<p class="muted" style="font-size:12px;margin-top:14px">Regras: foto = nenhuma foto · preço provisório = R$ 0 ou 999,99 · preço suspeito = abaixo de R$ 15 sem ser sachê, amostra ou acessório · duplicado = no ar, nome curto antigo com versão de nome completo; em rascunho, marcado para revisar · categoria = fora de Rosto, Cabelo, Corpo, Protetor e Maquiagem · marca = nome errado (Mundo Beleza, VT, COEVAL Vegan).</p>'+rxHistHTML()+'</div></div>';
 };
+function rxHistHTML(){
+ const H=RXHIST.rows;const quando=d=>new Date(d).toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+ const val=(c,v)=>v==null?'—':c==='status'?({ACTIVE:'no ar',DRAFT:'rascunho',ARCHIVED:'arquivado',EXCLUIDO:'excluído'}[v]||v):/preço/.test(c)?brl(Number(v)):v;
+ return '<div class="card" style="margin-top:14px"><div class="card-h"><h2>Histórico do catálogo</h2><span class="muted" style="font-size:12px">últimas '+H.length+' mudanças · de onde veio e quem fez</span></div>'+
+ (!RXHIST.loaded?'<p class="muted">Carregando…</p>':!H.length?empty('Sem mudanças registradas ainda','A partir de agora, toda mudança de status, preço, título, fotos ou marca fica aqui.'):
+ '<div class="tblwrap"><table><thead><tr><th>Quando</th><th>Produto</th><th>O que mudou</th><th>De → para</th><th>Origem</th></tr></thead><tbody>'+
+ H.map(m=>'<tr><td class="num">'+quando(m.em)+'</td><td><b>'+esc(m.titulo||m.handle||m.produto_id)+'</b><small>'+esc(m.marca||'')+'</small></td><td>'+esc(m.campo)+'</td><td>'+esc(val(m.campo,m.de))+' → <b>'+esc(val(m.campo,m.para))+'</b></td><td><small style="display:inline">'+esc(m.origem||'')+(m.por?' · '+esc(m.por):'')+'</small></td></tr>').join('')+'</tbody></table></div>')+'</div>';
+}
 function rxBarraSel(its){
  const ids=new Set(its.map(p=>p.id)),n=[...RXUI.sel].filter(id=>ids.has(id)).length;
  return '<div class="rx-lote"><span>'+(n?'<b>'+n+'</b> selecionado'+(n>1?'s':''):'Marque os produtos para mudar o status em lote')+'</span>'+
@@ -2085,7 +2108,7 @@ async function rxLote(st){
    (d.res||[]).forEach(r=>{const p=alvo.find(x=>x.id===r.id);if(r.ok&&p){ok++;p.st=st;p.a=st==='ACTIVE'}else falha.push((p?p.t.slice(0,40):r.id)+': '+r.erro)});toast(NOME+'… '+Math.min(i+50,alvo.length)+' de '+alvo.length)}
   catch(e){falha.push(e.message);break}}
  if(st==='ARCHIVED'){const antes=RX.P.length;RX.P=RX.P.filter(p=>p.st!=='ARCHIVED');RX.arq=(RX.arq||0)+(antes-RX.P.length)}
- try{localStorage.setItem('omg-raiox',JSON.stringify(RX))}catch(_){}
+ rxCarregar(true);
  RXUI.sel.clear();RXUI.acao=false;render();
  toast(NOME+': '+ok+' feito'+(ok!==1?'s':'')+(falha.length?' · '+falha.length+' com erro':''));if(falha.length)alert('Não deu certo em '+falha.length+':\n'+falha.slice(0,8).join('\n'));
  try{await loadAll()}catch(_){}
@@ -3532,6 +3555,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v56','31/10/2026',['Raio-X do catálogo no servidor: o mesmo número para todo mundo e no PDF. Atualiza sozinho na hora a cada mudança feita pelo ERP, a cada aviso do Shopify, de hora em hora e com leitura completa de madrugada. "Atualizar agora" lê só o que mudou (segundos). A data dos dados aparece no topo e fica vermelha se passar de 2 horas.','Novo: Histórico do catálogo (fim da página do Raio-X) — o que mudou, quando, de onde veio e quem fez.']],
  ['v55','31/10/2026',['Raio-X do catálogo: os rascunhos agora dizem por que estão parados. Novos avisos: "Já está no ar" (existe outra versão deste produto à venda — mostra qual), "Título em inglês" e "Categoria errada" (skincare marcado como maquiagem). Clique em Atualizar raio-x e depois na marca.']],
  ['v54','31/10/2026',['Novo: Cadastros do site (grupo Clientes). Todo mundo que deixou dados no site: assinantes da newsletter, quem criou conta, quem comprou e quem começou um checkout. Mostra quando entrou, cidade, se aceita receber novidades, pedidos, quanto gastou e o perfil de beleza (quando preenchido). Filtros, busca e planilha para baixar.']],
  ['v53','31/10/2026',['Relatório do site em 3 línguas: Português, English e 한국어 (botões ao lado de "Baixar PDF"). O ERP lembra a escolha neste aparelho. O e-mail diário também pode sair em inglês ou coreano para quem for cadastrado nessa língua.']],
