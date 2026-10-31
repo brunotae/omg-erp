@@ -114,7 +114,7 @@ Deno.serve(async (req) => {
       const itens = (b.rate.items || []).filter((i: any) => i.requires_shipping !== false);
       const x = await calcular(d.postal_code, d.province || null, itens);
       const desc = x.cfg.detalhar
-        ? `${x.cfg.prazo} para capitais\nFrete e seguro: ${fmt(x.brl.frete_seguro)}\nImposto de importação: ${fmt(x.brl.ii)}\nICMS ${x.aliquota_icms}% ${x.uf}: ${fmt(x.brl.icms)}`
+        ? `${x.cfg.prazo} para capitais · Frete e seguro: ${fmt(x.brl.frete_seguro)} · Imposto de importação: ${fmt(x.brl.ii)} · ICMS ${x.aliquota_icms}% ${x.uf}: ${fmt(x.brl.icms)}`
         : `${x.cfg.prazo} · Frete, seguro e impostos inclusos (Remessa Conforme)`;
       return json(200, { rates: [{ service_name: x.cfg.nome, service_code: "OMG_INTL", total_price: String(Math.round(x.brl.total_linha * 100)), currency: "BRL", description: desc }] });
     } catch (e) {
