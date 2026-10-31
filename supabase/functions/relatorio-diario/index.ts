@@ -5,6 +5,7 @@
 //   POST { dia, forcar: true, enviar }     → só editores do ERP (login): refaz um dia e, se enviar, manda de novo
 // Segredos: SHOPIFY_* (mesmos do shopify-admin) e RESEND_API_KEY. App precisa de read_reports.
 import { createClient } from "npm:@supabase/supabase-js@2";
+import { tx, diaTxt } from "../_shared/relatorio_i18n.ts";
 
 const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
 const SHOP = Deno.env.get("SHOPIFY_SHOP") ?? "";
@@ -96,89 +97,98 @@ async function montar(dia: string) {
     compras: pedidos.length, faturamento: pedidos.reduce((a: number, o: any) => a + n(o.currentTotalPriceSet?.shopMoney?.amount), 0),
     pedidos: pedidos.map((o: any) => ({ nome: o.name, hora: o.createdAt, total: n(o.currentTotalPriceSet?.shopMoney?.amount), uf: o.shippingAddress?.provinceCode || "",
       cidade: o.shippingAddress?.city || "", cupons: o.discountCodes || [], origem: o.customerJourneySummary?.firstVisit?.utmParameters?.source || o.customerJourneySummary?.firstVisit?.source || "" })),
-    produtos: Object.entries(prod).map(([t, p]) => ({ titulo: t, qtd: p.q, valor: p.v })).sort((a, b) => b.v - a.v).slice(0, 8),
+    produtos: Object.entries(prod).map(([t, p]) => ({ titulo: t, qtd: p.q, valor: p.v })).sort((a, b) => b.valor - a.valor).slice(0, 8),
     cupons: Object.entries(cupons).map(([c, q]) => ({ cupom: c, usos: q })),
   };
 }
 
-// ---------- leitura (fato → leitura → ação), regras simples ----------
+// ---------- leitura (fato → leitura → ação): guarda o código e os números; o texto sai no idioma de quem lê ----------
 export function leituras(d: any) {
-  const L: { cor: string; titulo: string; texto: string }[] = [];
+  const L: { cor: string; id: string; v: Record<string, unknown> }[] = [];
   const pct = (a: number, b: number) => b ? Math.round(a / b * 100) : 0;
   const br = d.regioes.filter((r: any) => r.pais === "Brazil").reduce((a: number, r: any) => a + r.visitas, 0);
   const fora = d.visitas - br;
   const direto = d.origem.filter((o: any) => o.fonte === "direct" || !o.fonte).reduce((a: number, o: any) => a + o.visitas, 0);
-  if (d.compras > 0) L.push({ cor: "ok", titulo: `${d.compras} compra(s) · R$ ${fmt(d.faturamento)}`, texto: `Ver de onde vieram as compras (tabela de pedidos) e repetir o que funcionou.` });
-  if (d.checkout > 0 && d.compras === 0) L.push({ cor: "bad", titulo: `${d.checkout} checkout(s), 0 compras`, texto: `Algo trava no pagamento ou o total assusta. Ação: conferir os checkouts não finalizados e testar uma compra.` });
-  else if (d.checkout > d.compras * 2 && d.compras > 0) L.push({ cor: "bad", titulo: `${pct(d.checkout - d.compras, d.checkout)}% desistem no checkout`, texto: `Ação: mandar lembrete aos checkouts não finalizados e revisar a página de pagamento.` });
-  if (d.visitas >= 20 && pct(d.carrinho, d.visitas) < 3) L.push({ cor: "warn", titulo: `Só ${pct(d.carrinho, d.visitas)}% põem no carrinho`, texto: `As pessoas olham e não escolhem. Ação: revisar preços, fotos e destaque dos mais vendidos na página inicial.` });
-  if (d.visitas >= 20 && d.rejeicao >= 0.6) L.push({ cor: "warn", titulo: `${Math.round(d.rejeicao * 100)}% saem na 1ª página`, texto: `A primeira página não segura. Ação: mandar links direto para produtos, não para a home.` });
-  if (d.visitas > 0 && pct(direto, d.visitas) >= 80) L.push({ cor: "warn", titulo: `${pct(direto, d.visitas)}% aparece como "direto"`, texto: `Sem saber se veio do Instagram, WhatsApp ou influenciador. Ação: usar links com UTM em toda divulgação.` });
-  if (d.visitas > 0 && pct(fora, d.visitas) >= 15) L.push({ cor: "warn", titulo: `${pct(fora, d.visitas)}% das visitas de fora do Brasil`, texto: `Provavelmente equipe, parceiros e robôs. O número que importa é o do Brasil: ${br}.` });
+  if (d.compras > 0) L.push({ cor: "ok", id: "compras", v: { n: d.compras, v: fmt(d.faturamento) } });
+  if (d.checkout > 0 && d.compras === 0) L.push({ cor: "bad", id: "ck0", v: { n: d.checkout } });
+  else if (d.checkout > d.compras * 2 && d.compras > 0) L.push({ cor: "bad", id: "ckdes", v: { p: pct(d.checkout - d.compras, d.checkout) } });
+  if (d.visitas >= 20 && pct(d.carrinho, d.visitas) < 3) L.push({ cor: "warn", id: "carr", v: { p: pct(d.carrinho, d.visitas) } });
+  if (d.visitas >= 20 && d.rejeicao >= 0.6) L.push({ cor: "warn", id: "rej", v: { p: Math.round(d.rejeicao * 100) } });
+  if (d.visitas > 0 && pct(direto, d.visitas) >= 80) L.push({ cor: "warn", id: "dir", v: { p: pct(direto, d.visitas) } });
+  if (d.visitas > 0 && pct(fora, d.visitas) >= 15) L.push({ cor: "warn", id: "fora", v: { p: pct(fora, d.visitas), br } });
   const va = d.anterior.visitas;
-  if (va >= 10 && d.visitas >= va * 1.3) L.push({ cor: "ok", titulo: `Visitas subiram ${pct(d.visitas - va, va)}% vs. dia anterior`, texto: `Descobrir o que gerou o aumento (post, influenciador) e repetir.` });
-  if (va >= 10 && d.visitas <= va * 0.7) L.push({ cor: "warn", titulo: `Visitas caíram ${pct(va - d.visitas, va)}% vs. dia anterior`, texto: `Conferir se parou alguma divulgação.` });
-  if (!L.length) L.push({ cor: "ok", titulo: "Dia sem alertas", texto: "Nada fora do normal." });
+  if (va >= 10 && d.visitas >= va * 1.3) L.push({ cor: "ok", id: "sobe", v: { p: pct(d.visitas - va, va) } });
+  if (va >= 10 && d.visitas <= va * 0.7) L.push({ cor: "warn", id: "cai", v: { p: pct(va - d.visitas, va) } });
+  if (!L.length) L.push({ cor: "ok", id: "nada", v: {} });
   return L.slice(0, 4);
 }
 function fmt(v: number, dec = 2) { return v.toLocaleString("pt-BR", { minimumFractionDigits: dec, maximumFractionDigits: dec }); }
 const esc = (s: any) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]!));
-const NOMES_PAIS: Record<string, string> = { Brazil: "Brasil", "South Korea": "Coreia", China: "China", "United States": "EUA" };
-const nomeOrigem = (o: any) => o.fonte === "direct" ? "Direto (app, WhatsApp, digitou)" : o.fonte === "search" ? "Busca · " + (o.nome || "") : o.fonte === "social" ? "Rede social · " + (o.nome || "") : (o.nome ? "Link · " + o.nome : "Outros");
-const DIAS = ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"];
-const diaTxt = (dia: string) => { const d = new Date(dia + "T12:00:00Z"); return `${DIAS[d.getUTCDay()]} ${dia.slice(8, 10)}/${dia.slice(5, 7)}`; };
 
 // ---------- e-mail (HTML de tabelas, funciona em Gmail/Outlook) ----------
-function email(d: any) {
+const pagNome = (p: string, L: string) => p === "/" ? tx(L, "home") : p.startsWith("/products/") ? tx(L, "prodp") + " · " + p.slice(10, 60).replace(/-/g, " ") : p.startsWith("/collections/") ? tx(L, "coll") + " · " + p.slice(13).replace(/-/g, " ") : p;
+const nomeOrigem = (o: any, L: string) => o.fonte === "direct" ? tx(L, "direct") : o.fonte === "search" ? tx(L, "search") + " · " + (o.nome || "") : o.fonte === "social" ? tx(L, "social") + " · " + (o.nome || "") : o.nome ? tx(L, "link") + " · " + o.nome : tx(L, "others");
+const leitTxt = (l: any, L: string) => l.id ? { t: tx(L, "L_" + l.id + "_t", l.v), x: tx(L, "L_" + l.id + "_x", l.v) } : { t: l.titulo, x: l.texto };
+
+function email(d: any, L: string) {
   const F = "#B83D66", FL = "#FBE7EE", FM = "#E7A3B9", MUT = "#7A6A70";
+  const T = (k: string) => tx(L, k);
   const delta = (a: number, b: number) => !b ? "" : a >= b ? `<span style="color:#2E8B57">▲ ${Math.round((a - b) / b * 100)}%</span>` : `<span style="color:#C0392B">▼ ${Math.round((b - a) / b * 100)}%</span>`;
   const tile = (l: string, v: string, s: string) => `<td width="20%" style="background:${FL};border-radius:8px;padding:10px 8px;vertical-align:top"><div style="font-size:10px;color:${MUT};font-weight:700;text-transform:uppercase">${l}</div><div style="font-size:24px;font-weight:800;color:${F};line-height:1.2">${v}</div><div style="font-size:11px;font-weight:700;color:${MUT}">${s}</div></td>`;
   const mx = Math.max(1, ...d.horas);
   const barras = d.horas.map((v: number, i: number) => `<td valign="bottom" align="center" style="padding:0 1px"><div style="font-size:8px;color:${MUT}">${v || ""}</div><div style="height:${Math.round(v / mx * 70)}px;background:${v === mx ? F : FM};border-radius:2px 2px 0 0"></div><div style="font-size:8px;color:${MUT}">${i % 3 === 0 ? i + "h" : "&nbsp;"}</div></td>`).join("");
-  const fun = [["Visitaram", d.visitas], ["Carrinho", d.carrinho], ["Checkout", d.checkout], ["Compraram", d.compras]].map(([l, v]: any) =>
-    `<tr><td style="font-size:12px;padding:3px 6px 3px 0;width:80px">${l}</td><td><div style="height:14px;width:${Math.max(1, Math.round(v / Math.max(1, d.visitas) * 100))}%;background:${l === "Compraram" ? F : FM};border-radius:3px"></div></td><td style="font-size:12px;font-weight:700;text-align:right;white-space:nowrap;padding-left:6px">${v} · ${d.visitas ? fmt(v / d.visitas * 100, 1) : 0}%</td></tr>`).join("");
+  const fun = [[T("f1"), d.visitas], [T("f2"), d.carrinho], [T("f3"), d.checkout], [T("f4"), d.compras]].map(([l, v]: any, i: number) =>
+    `<tr><td style="font-size:12px;padding:3px 6px 3px 0;width:90px">${l}</td><td><div style="height:14px;width:${Math.max(1, Math.round(v / Math.max(1, d.visitas) * 100))}%;background:${i === 3 ? F : FM};border-radius:3px"></div></td><td style="font-size:12px;font-weight:700;text-align:right;white-space:nowrap;padding-left:6px">${v} · ${d.visitas ? fmt(v / d.visitas * 100, 1) : 0}%</td></tr>`).join("");
   const linhas = (rows: string[][], cab: string[]) => `<table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-size:12px"><tr>${cab.map((c, i) => `<th style="font-size:10px;color:${MUT};text-align:${i ? "right" : "left"};border-bottom:1px solid #EEDDE3;padding:3px">${c}</th>`).join("")}</tr>${rows.map((r) => `<tr>${r.map((c, i) => `<td style="padding:4px 3px;border-bottom:1px solid #F6ECEF;text-align:${i ? "right" : "left"}">${c}</td>`).join("")}</tr>`).join("")}</table>`;
   const br = d.regioes.filter((r: any) => r.pais === "Brazil");
-  const paises: Record<string, number> = {}; for (const r of d.regioes) paises[NOMES_PAIS[r.pais] || "Outros"] = (paises[NOMES_PAIS[r.pais] || "Outros"] || 0) + r.visitas;
+  const paises: Record<string, number> = {};
+  for (const r of d.regioes) { const k = ["Brazil", "South Korea", "China", "United States"].includes(r.pais) ? T(r.pais) : T("Other"); paises[k] = (paises[k] || 0) + r.visitas; }
   const cel = d.aparelho.find((a: any) => a.tipo === "mobile")?.visitas || 0;
   const cor: any = { ok: "#2E8B57", warn: "#D98E04", bad: "#C0392B" };
   const sec = (t: string, c: string) => `<tr><td style="padding:14px 0 4px;font-size:12px;font-weight:800;color:${F};text-transform:uppercase">${t}</td></tr><tr><td>${c}</td></tr>`;
-  return `<!doctype html><html><body style="margin:0;background:#F7F2F4;font-family:Helvetica,Arial,sans-serif;color:#2A1F24">
+  return `<!doctype html><html><body style="margin:0;background:#F7F2F4;font-family:Helvetica,Arial,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;color:#2A1F24">
 <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:16px 8px">
 <table width="640" cellpadding="0" cellspacing="0" style="max-width:640px;background:#fff;border-radius:12px;padding:18px">
-<tr><td style="border-bottom:3px solid ${F};padding-bottom:6px"><span style="font-size:22px;font-weight:800">OMG! <span style="color:${F}">Relatório do dia</span></span><br><span style="font-size:12px;color:${MUT}">${diaTxt(d.dia)} · comparado com o dia anterior</span></td></tr>
+<tr><td style="border-bottom:3px solid ${F};padding-bottom:6px"><span style="font-size:22px;font-weight:800">OMG! <span style="color:${F}">${T("title")}</span></span><br><span style="font-size:12px;color:${MUT}">${diaTxt(d.dia, L, true)} · ${T("cmp")}</span></td></tr>
 <tr><td style="padding-top:10px"><table width="100%" cellspacing="6" cellpadding="0"><tr>
-${tile("Visitas", String(d.visitas), delta(d.visitas, d.anterior.visitas) || d.pessoas + " pessoas")}
-${tile("Carrinho", String(d.carrinho), delta(d.carrinho, d.anterior.carrinho) || "")}
-${tile("Checkout", String(d.checkout), delta(d.checkout, d.anterior.checkout) || "")}
-${tile("Compras", String(d.compras), d.compras ? "R$ " + fmt(d.faturamento, 0) : "nenhuma")}
-${tile("No celular", d.visitas ? Math.round(cel / d.visitas * 100) + "%" : "–", Math.round(d.duracao_s / 60) + " min/visita")}
+${tile(T("visits"), String(d.visitas), delta(d.visitas, d.anterior.visitas) || d.pessoas + " " + T("people"))}
+${tile(T("cart"), String(d.carrinho), delta(d.carrinho, d.anterior.carrinho) || "")}
+${tile(T("checkout"), String(d.checkout), delta(d.checkout, d.anterior.checkout) || "")}
+${tile(T("orders"), String(d.compras), d.compras ? "R$ " + fmt(d.faturamento, 0) : T("none"))}
+${tile(T("mobile"), d.visitas ? Math.round(cel / d.visitas * 100) + "%" : "–", Math.round(d.duracao_s / 60) + " " + T("minvisit"))}
 </tr></table></td></tr>
-${sec("Visitas por hora", `<table width="100%" cellpadding="0" cellspacing="0" style="height:100px"><tr>${barras}</tr></table>`)}
-${sec("Funil até a compra", `<table width="100%" cellpadding="0" cellspacing="0">${fun}</table>`)}
-${sec("O que fazer", d.leituras.map((l: any) => `<div style="border-left:4px solid ${cor[l.cor]};background:#FDF5F7;padding:7px 10px;margin:5px 0;border-radius:0 6px 6px 0"><b style="font-size:13px">${esc(l.titulo)}</b><div style="font-size:12px;margin-top:2px">${esc(l.texto)}</div></div>`).join(""))}
-${d.pedidos.length ? sec("Compras", linhas(d.pedidos.map((p: any) => [esc(p.nome) + " · " + esc(p.cidade) + "/" + esc(p.uf), esc(p.cupons.join(", ") || "–"), esc(p.origem || "–"), "R$ " + fmt(p.total)]), ["Pedido", "Cupom", "Origem", "Total"])) : ""}
-${d.checkouts.length ? sec("Checkouts não finalizados", linhas(d.checkouts.map((c: any) => [esc(c.itens.join(" + ")), esc(c.cidade) + "/" + esc(c.uf), esc(c.cupom || "–"), "R$ " + fmt(c.total)]), ["Produto", "Cidade", "Cupom", "Total"])) : ""}
-${sec("De onde vieram", linhas(d.origem.slice(0, 6).map((o: any) => [esc(nomeOrigem(o)), String(o.visitas), String(o.carrinho), String(o.checkout)]), ["Origem", "Visitas", "Carrinho", "Checkout"]))}
-${sec("Onde estão", `<div style="font-size:12px;line-height:1.6">${Object.entries(paises).map(([p, v]) => `<b>${p}</b> ${v}`).join(" · ")}<br>Brasil: ${br.slice(0, 6).map((r: any) => `${esc(r.regiao || "?")} <b>${r.visitas}</b>${r.carrinho ? ` (${r.carrinho} carrinho)` : ""}`).join(" · ")}<br>Cidades: ${d.cidades.slice(0, 6).map((c: any) => `${esc(c.cidade)} <b>${c.visitas}</b>`).join(" · ")}</div>`)}
-<tr><td style="padding-top:16px" align="center"><a href="${ERP_URL}#relatorios" style="background:${F};color:#fff;text-decoration:none;padding:10px 18px;border-radius:8px;font-weight:700;font-size:13px">Abrir relatório completo no ERP</a></td></tr>
-<tr><td style="padding-top:12px;font-size:10px;color:${MUT}" align="center">Fonte: análises do Shopify · gerado automaticamente às 8h</td></tr>
+${sec(T("hourly") + " · " + T("brt"), `<table width="100%" cellpadding="0" cellspacing="0" style="height:100px"><tr>${barras}</tr></table>`)}
+${sec(T("funnel"), `<table width="100%" cellpadding="0" cellspacing="0">${fun}</table>`)}
+${sec(T("todo"), d.leituras.map((l: any) => { const x = leitTxt(l, L); return `<div style="border-left:4px solid ${cor[l.cor]};background:#FDF5F7;padding:7px 10px;margin:5px 0;border-radius:0 6px 6px 0"><b style="font-size:13px">${esc(x.t)}</b><div style="font-size:12px;margin-top:2px">${esc(x.x)}</div></div>`; }).join(""))}
+${d.pedidos.length ? sec(T("purchases"), linhas(d.pedidos.map((p: any) => [esc(p.nome) + " · " + esc(p.cidade) + "/" + esc(p.uf), esc(p.cupons.join(", ") || "–"), esc(p.origem || "–"), "R$ " + fmt(p.total)]), [T("order"), T("coupon"), T("origin"), T("total")])) : ""}
+${d.checkouts.length ? sec(T("abandoned"), linhas(d.checkouts.map((c: any) => [esc(c.itens.join(" + ")), esc(c.cidade) + "/" + esc(c.uf), esc(c.cupom || "–"), "R$ " + fmt(c.total)]), [T("prodp"), T("city"), T("coupon"), T("total")])) : ""}
+${sec(T("src"), linhas(d.origem.slice(0, 6).map((o: any) => [esc(nomeOrigem(o, L)), String(o.visitas), String(o.carrinho), String(o.checkout)]), [T("origin"), T("visits"), T("cart"), T("checkout")]))}
+${sec(T("entry"), linhas((d.entradas || []).slice(0, 5).map((e: any) => [esc(pagNome(e.pagina, L)), String(e.visitas)]), [T("page"), T("visits")]))}
+${sec(T("where"), `<div style="font-size:12px;line-height:1.6">${Object.entries(paises).map(([p, v]) => `<b>${p}</b> ${v}`).join(" · ")}<br>${T("Brazil")}: ${br.slice(0, 6).map((r: any) => `${esc(r.regiao || "?")} <b>${r.visitas}</b>${r.carrinho ? ` (${r.carrinho} ${T("cart").toLowerCase()})` : ""}`).join(" · ")}<br>${T("cities")}: ${d.cidades.slice(0, 6).map((c: any) => `${esc(c.cidade)} <b>${c.visitas}</b>`).join(" · ")}</div>`)}
+<tr><td style="padding-top:16px" align="center"><a href="${ERP_URL}?lang=${L}#relatorios" style="background:${F};color:#fff;text-decoration:none;padding:10px 18px;border-radius:8px;font-weight:700;font-size:13px">${T("openerp")}</a></td></tr>
+<tr><td style="padding-top:12px;font-size:10px;color:${MUT}" align="center">${T("source")} · ${T("auto")}</td></tr>
 </table></td></tr></table></body></html>`;
 }
 
+// config.relatorios.para: ["email"] (português) ou [{ email, idioma: "pt"|"en"|"ko" }]
 async function enviar(d: any) {
   if (!RESEND) return "sem RESEND_API_KEY";
   const { data: c } = await admin.from("config").select("valor").eq("chave", "relatorios").maybeSingle();
   const cfg: any = c?.valor || {};
-  const para = (cfg.para || []).filter((x: string) => /@/.test(x));
-  if (!para.length) return "sem destinatário";
-  const r = await fetch("https://api.resend.com/emails", { method: "POST", headers: { authorization: "Bearer " + RESEND, "content-type": "application/json" },
-    body: JSON.stringify({ from: cfg.de || "OMG Relatórios <relatorio@ohmygirl.com.br>", to: para,
-      subject: `OMG · ${diaTxt(d.dia)} · ${d.visitas} visitas · ${d.compras} compra${d.compras === 1 ? "" : "s"}${d.compras ? " · R$ " + fmt(d.faturamento, 0) : ""}`,
-      html: email(d) }) });
-  const j = await r.json().catch(() => ({}));
-  if (!r.ok) throw new Error("Resend " + r.status + ": " + JSON.stringify(j).slice(0, 200));
-  return "ok " + (j.id || "");
+  const lista = (cfg.para || []).map((x: any) => typeof x === "string" ? { email: x, idioma: "pt" } : x).filter((x: any) => /@/.test(x?.email || ""));
+  if (!lista.length) return "sem destinatário";
+  const grupos: Record<string, string[]> = {};
+  for (const x of lista) { const L = ["pt", "en", "ko"].includes(x.idioma) ? x.idioma : "pt"; (grupos[L] ||= []).push(x.email); }
+  const ids: string[] = [];
+  for (const [L, para] of Object.entries(grupos)) {
+    const subj = `OMG · ${diaTxt(d.dia, L)} · ${d.visitas} ${tx(L, "subjv")} · ${d.compras} ${d.compras === 1 ? tx(L, "subj1") : tx(L, "subjc")}${d.compras ? " · R$ " + fmt(d.faturamento, 0) : ""}`;
+    const r = await fetch("https://api.resend.com/emails", { method: "POST", headers: { authorization: "Bearer " + RESEND, "content-type": "application/json" },
+      body: JSON.stringify({ from: cfg.de || "OMG Relatórios <relatorio@mintess.com>", to: para, subject: subj, html: email(d, L) }) });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error("Resend " + r.status + " (" + L + "): " + JSON.stringify(j).slice(0, 200));
+    ids.push(L + ":" + (j.id || ""));
+  }
+  return "ok " + ids.join(" ");
 }
 
 async function editor(req: Request) {
