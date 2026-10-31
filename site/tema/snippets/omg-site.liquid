@@ -5,6 +5,10 @@
      atalho no cabeçalho e lista em /pages/favoritos (div #omg-favoritos-lista).
 {%- endcomment -%}
 <style>
+  /* Menu principal (linha de baixo do cabeçalho): fundo framboesa como o botão "Dúvidas", letras brancas (Tae · 30/10) */
+  .header__row--bottom{background:#B83D66 !important}
+  .header__row--bottom .menu-list__link,.header__row--bottom .menu-list__link-title,.header__row--bottom .overflow-menu > button,.header__row--bottom .overflow-menu [slot="more"] *{color:#fff !important}
+  .header__row--bottom .menu-list__link:hover .menu-list__link-title,.header__row--bottom .menu-list__link[aria-expanded="true"] .menu-list__link-title{text-decoration:underline;text-underline-offset:4px}
   .omg-fav{position:absolute;top:8px;right:8px;z-index:3;width:34px;height:34px;border-radius:50%;border:0;background:rgba(255,255,255,.92);box-shadow:0 1px 6px rgba(74,38,56,.14);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;transition:transform .15s}
   .omg-fav svg{width:18px;height:18px;fill:none;stroke:#4A2638;stroke-width:1.8}
   .omg-fav[aria-pressed="true"] svg{fill:#D63A5E;stroke:#D63A5E}
