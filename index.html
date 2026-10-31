@@ -716,13 +716,14 @@ const ICONS={
  raiox:'<circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5M8.5 11h5M11 8.5v5"/>',produtos:'<rect x="8" y="3" width="8" height="5" rx="1"/><path d="M7 8h10v12a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1z"/>',
  clientes:'<circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0"/><path d="M16 11h5M18.5 8.5v5"/>',
  analises:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+ cadastros:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M17 11h5M19.5 8.5v5"/>',
  relatorios:'<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 17v-3M13 17v-5M16 17v-2"/>',
  atendimentos:'<path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/>',
  avisos:'<path d="M4 10v4h3l5 4V6L7 10z"/><path d="M16 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"/>',
  fornecedores:'<path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/>',
  config:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/>'
 };
-const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Lista do dia'],['','lotes','Embarques'],['','devolucoes','Devoluções'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','insumos','Embalagens'],['','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['','pricing','Pricing'],['','precos','Concorrentes'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['','relatorios','Relatório do site'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
+const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Lista do dia'],['','lotes','Embarques'],['','devolucoes','Devoluções'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','insumos','Embalagens'],['','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['','pricing','Pricing'],['','precos','Concorrentes'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','cadastros','Cadastros do site'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['','relatorios','Relatório do site'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
 
 /* ================= utilidades ================= */
 const $=s=>document.querySelector(s);
@@ -877,7 +878,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v53 · 31/10/2026';
+const VERSAO='v54 · 31/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -2395,6 +2396,58 @@ document.addEventListener('click',async e=>{
  RL.gerando=false;t.disabled=false;t.textContent=txt;
 });
 
+
+/* ---------- v54: Cadastros do site (clientes e assinantes do Shopify + perfil de beleza) ---------- */
+const CS={rows:[],perfis:{},loaded:false,loading:false,erro:'',f:'todos',q:''};
+async function loadCS(){
+ if(CS.loading)return;CS.loading=true;CS.erro='';
+ try{
+  const out=[];let after=null;
+  do{const {data,error}=await sb.functions.invoke('shopify-admin',{body:{acao:'clientes_site',after}});
+   if(error){let m='';try{m=(await error.context.json()).erro}catch(_){}throw new Error(m||error.message)}
+   out.push(...data.rows);after=data.proximo}while(after&&out.length<5000);
+  CS.rows=out;
+  const p=await sb.from('clientes_perfil').select('*');CS.perfis={};(p.data||[]).forEach(x=>CS.perfis[String(x.shopify_customer_id)]=x);
+ }catch(e){CS.erro=String(e.message||e)}
+ CS.loaded=true;CS.loading=false;if(S.view==='cadastros')render();
+}
+const csAssina=c=>c.email_mkt==='SUBSCRIBED'||c.fone_mkt==='SUBSCRIBED';
+const csOrigem=c=>c.tags.includes('newsletter')?'Newsletter':c.conta==='ENABLED'?'Criou conta':c.pedidos?'Comprou':'Checkout';
+function csFiltrados(){
+ const q=CS.q.trim().toLowerCase();
+ return CS.rows.filter(c=>(CS.f==='todos'||(CS.f==='assinantes'&&csAssina(c))||(CS.f==='compraram'&&c.pedidos>0)||(CS.f==='nao'&&!c.pedidos)||(CS.f==='perfil'&&CS.perfis[c.id]))&&
+  (!q||[c.nome,c.email,c.fone,c.cidade,c.uf].join(' ').toLowerCase().includes(q)));
+}
+VIEWFN.cadastros=()=>{
+ if(!CS.loaded&&S.db)setTimeout(loadCS,0);
+ const R=CS.rows,ass=R.filter(csAssina).length,comp=R.filter(c=>c.pedidos>0).length,perf=R.filter(c=>CS.perfis[c.id]).length;
+ const d7=Date.now()-7*864e5,novos7=R.filter(c=>new Date(c.criado)>=d7).length;
+ const ufs={};R.forEach(c=>{if(c.uf)ufs[c.uf]=(ufs[c.uf]||0)+1});const topUF=Object.entries(ufs).sort((a,b)=>b[1]-a[1]).slice(0,6);
+ const L=csFiltrados();
+ const chip=(k,l,n)=>'<button class="btn sm'+(CS.f===k?' pri':'')+'" type="button" data-csf="'+k+'">'+l+' · '+n+'</button>';
+ const pf=c=>{const p=CS.perfis[c.id];if(!p)return '<span class="muted">—</span>';return esc([p.tipo_pele,(p.preocupacoes||[]).join?.(', ')||p.preocupacoes,p.como_conheceu?'conheceu: '+p.como_conheceu:'',p.aniversario_dia&&p.aniversario_mes?'aniv. '+p.aniversario_dia+'/'+p.aniversario_mes:''].filter(Boolean).join(' · '))};
+ const mk=s=>s==='SUBSCRIBED'?stPill('Assina'):s==='UNSUBSCRIBED'?'<span class="muted">Saiu</span>':'<span class="muted">—</span>';
+ return '<div class="page wide"><div class="col">'+head('Cadastros do site','Todas as pessoas que deixaram dados no site: quem assinou a newsletter, criou conta, comprou ou começou um checkout. Dados direto do Shopify; o perfil de beleza vem da página "Meu perfil".','<button class="btn sm" type="button" data-csrec="1">Atualizar</button> <button class="btn sm" type="button" data-cscsv="1">Baixar planilha</button>')+
+ '<div class="kpis">'+kpi('Cadastros',R.length,novos7+' nos últimos 7 dias')+kpi('Assinantes (e-mail/SMS)',ass,'aceitaram receber novidades')+kpi('Já compraram',comp,R.length?Math.round(comp/R.length*100)+'% dos cadastros':'—')+kpi('Com perfil de beleza',perf,'tipo de pele, preocupações')+'</div>'+
+ (topUF.length?'<div class="card"><span class="label">Onde estão</span><div class="bars">'+topUF.map(([u,n])=>'<div class="bar"><span>'+esc(u)+'</span><span class="t"><i style="width:'+(n/topUF[0][1]*100)+'%"></i></span><span class="v num">'+n+'</span></div>').join('')+'</div></div>':'')+
+ '<div class="card"><div class="chips">'+chip('todos','Todos',R.length)+chip('assinantes','Assinantes',ass)+chip('compraram','Compraram',comp)+chip('nao','Ainda não compraram',R.length-comp)+chip('perfil','Com perfil',perf)+
+ ' <input id="cs-q" type="search" placeholder="Buscar nome, e-mail, cidade…" value="'+esc(CS.q)+'" style="min-width:220px"></div>'+
+ (CS.erro?'<p class="muted">Erro: '+esc(CS.erro)+'</p>':!CS.loaded?'<p class="muted">Carregando do Shopify…</p>':!L.length?empty('Ninguém aqui','Nenhum cadastro neste filtro.'):
+ '<div class="tblwrap"><table><thead><tr><th>Cadastro</th><th>Pessoa</th><th>Contato</th><th>Onde</th><th>Como entrou</th><th>E-mail mkt</th><th class="r">Pedidos</th><th class="r">Gastou</th><th>Perfil de beleza</th></tr></thead><tbody>'+
+ L.map(c=>'<tr><td class="num">'+dhBR(c.criado)+'</td><td><b>'+esc(c.nome||'—')+'</b></td><td>'+esc(c.email)+(c.fone?'<small>'+esc(c.fone)+'</small>':'')+'</td><td>'+esc([c.cidade,c.uf].filter(Boolean).join('/')||'—')+'</td><td>'+esc(csOrigem(c))+'</td><td>'+mk(c.email_mkt)+'</td><td class="r num">'+c.pedidos+'</td><td class="r num">'+(c.gasto?'R$ '+c.gasto.toLocaleString('pt-BR',{minimumFractionDigits:2}):'—')+'</td><td style="max-width:260px;white-space:normal;font-size:12px">'+pf(c)+'</td></tr>').join('')+'</tbody></table></div>')+
+ '</div></div></div>';
+};
+document.addEventListener('click',e=>{
+ const t=e.target.closest('[data-csf],[data-csrec],[data-cscsv]');if(!t)return;
+ if(t.dataset.csf){CS.f=t.dataset.csf;render();return}
+ if(t.dataset.csrec){CS.loaded=false;CS.rows=[];render();loadCS();return}
+ if(t.dataset.cscsv){const L=csFiltrados();const cab=['cadastro','nome','email','telefone','cidade','uf','como_entrou','email_marketing','pedidos','gasto','tipo_pele','preocupacoes','como_conheceu'];
+  const linhas=L.map(c=>{const p=CS.perfis[c.id]||{};return [c.criado,c.nome,c.email,c.fone,c.cidade,c.uf,csOrigem(c),c.email_mkt,c.pedidos,c.gasto,p.tipo_pele||'',[].concat(p.preocupacoes||[]).join(', '),p.como_conheceu||'']});
+  const csv='﻿'+[cab,...linhas].map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='omg-cadastros-'+today()+'.csv';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000)}
+});
+document.addEventListener('input',e=>{if(e.target.id==='cs-q'){CS.q=e.target.value;clearTimeout(CS.t);CS.t=setTimeout(()=>{render();const i=$('#cs-q');if(i){i.focus();i.setSelectionRange(i.value.length,i.value.length)}},300)}});
+
 /* ---------- Fornecedores ---------- */
 VIEWFN.fornecedores=()=>{
  const rows=S.data.fornecedores.filter(match).slice().sort((a,b)=>String(a.codigo||'zzz').localeCompare(String(b.codigo||'zzz')));
@@ -3469,6 +3522,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v54','31/10/2026',['Novo: Cadastros do site (grupo Clientes). Todo mundo que deixou dados no site: assinantes da newsletter, quem criou conta, quem comprou e quem começou um checkout. Mostra quando entrou, cidade, se aceita receber novidades, pedidos, quanto gastou e o perfil de beleza (quando preenchido). Filtros, busca e planilha para baixar.']],
  ['v53','31/10/2026',['Relatório do site em 3 línguas: Português, English e 한국어 (botões ao lado de "Baixar PDF"). O ERP lembra a escolha neste aparelho. O e-mail diário também pode sair em inglês ou coreano para quem for cadastrado nessa língua.']],
  ['v52','31/10/2026',['Menu lateral: chave liga/desliga ao lado do Painel. Ligada (rosa) = todos os grupos abertos; desligada (cinza) = todos fechados. Clicar em cada grupo continua abrindo ou fechando só ele.']],
  ['v51','31/10/2026',['Novo: Relatório do site (grupo Clientes). Todo dia às 8h o sistema puxa do Shopify os números de ontem — visitas, funil, origem, cidades, checkouts não finalizados e vendas —, guarda aqui e manda por e-mail. Dá para escolher o dia, baixar em PDF, gerar ontem na hora e reenviar o e-mail.']],
