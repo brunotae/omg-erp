@@ -3,6 +3,7 @@
 //   { acao: "status", produtoId, ativo: true|false }     → ativa ou pausa (rascunho) no site
 //   { acao: "preco", produtoId, varianteId, preco }      → muda o preço da variante no site
 //   { acao: "precos", itens: [{ produtoId, varianteId, preco }] } → Pricing: muda até 50 preços de uma vez
+//   { acao: "ext_buscar", q }                           → Pricing: busca o produto na Jolse (preço cheio em US$)
 //   { acao: "frete_cotar", cep, pesos: [g] }            → Pricing: frete da calculadora do site por peso (sem o 1% do valor)
 //   { acao: "fotos", itens: [{ handle, fotos, peso_g }] } → troca as fotos pelas oficiais e corrige o peso
 //   { acao: "testar" }                                   → confere a ligação (nome da loja e permissões)
@@ -647,6 +648,30 @@ Deno.serve(async (req) => {
         } catch (e) { its.forEach((i) => resultados.push({ varianteId: String(i.varianteId), ok: false, erro: String((e as Error).message || e).slice(0, 160) })); }
       }
       return resp(200, { ok: true, resultados });
+    }
+
+    if (b.acao === "ext_buscar") {
+      // Pricing: procura o produto no varejo do exterior. Hoje lê a busca da Jolse (preço cheio, sem promoção).
+      // { q: "anua heartleaf pore control cleansing oil" } → { itens: [{ site, nome, url, usd_cheio, usd_venda, alerta }] }
+      const q = String(b.q || "").replace(/[^\p{L}\p{N}\s.%+-]/gu, " ").replace(/\s+/g, " ").trim().slice(0, 120);
+      if (q.length < 3) return resp(400, { erro: "busca curta" });
+      const itens: any[] = [];
+      try {
+        const r = await fetch("https://jolse.com/product/search.html?keyword=" + encodeURIComponent(q), { headers: { "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129 Safari/537.36", "accept-language": "en-US" } });
+        const t = await r.text();
+        const blocos = t.split(/<li id="anchorBoxId_/).slice(1, 25);
+        for (const bl of blocos) {
+          const href = (bl.match(/<strong class="name"><a href="([^"]+)"/) || [])[1];
+          const nomes = [...bl.matchAll(/<span class="" style="[^"]*font-weight:bold;">([^<]+)<\/span>/g)].map((m) => m[1].trim()).filter((x) => x && x !== "Product Name");
+          const precos = [...bl.matchAll(/USD\s*([\d.,]+)/g)].map((m) => parseFloat(m[1].replace(/,/g, "")));
+          if (!href || !nomes.length || !precos.length) continue;
+          const nome = nomes[0].replace(/&amp;/g, "&");
+          const cheio = Math.max(...precos), venda = Math.min(...precos);
+          const alerta = /bundle|bogo|\[md\]|exp:|set\b|1\+1|2ea|3ea|kit|mini|sample/i.test(nome) ? "kit, promoção ou validade curta: conferir" : "";
+          itens.push({ site: "jolse", nome, url: "https://jolse.com" + href.split("/category/")[0] + "/", usd_cheio: cheio, usd_venda: venda, alerta });
+        }
+      } catch (e) { return resp(200, { ok: true, itens, erro: "Jolse: " + String((e as Error).message || e).slice(0, 120) }); }
+      return resp(200, { ok: true, q, itens });
     }
 
     if (b.acao === "frete_cotar") {
