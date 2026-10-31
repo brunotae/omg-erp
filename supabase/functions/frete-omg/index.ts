@@ -54,6 +54,19 @@ async function regiao(cep: number) {
   return null;
 }
 
+// UF pelo CEP (faixas dos Correios). Usado quando o CEP não está na tabela da Mile: vai pelo redespacho do estado.
+const UF_CEP: [number, number, string][] = [
+  [1000000, 19999999, "SP"], [20000000, 28999999, "RJ"], [29000000, 29999999, "ES"], [30000000, 39999999, "MG"],
+  [40000000, 48999999, "BA"], [49000000, 49999999, "SE"], [50000000, 56999999, "PE"], [57000000, 57999999, "AL"],
+  [58000000, 58999999, "PB"], [59000000, 59999999, "RN"], [60000000, 63999999, "CE"], [64000000, 64999999, "PI"],
+  [65000000, 65999999, "MA"], [66000000, 68899999, "PA"], [68900000, 68999999, "AP"], [69000000, 69299999, "AM"],
+  [69300000, 69399999, "RR"], [69400000, 69899999, "AM"], [69900000, 69999999, "AC"], [70000000, 72799999, "DF"],
+  [72800000, 72999999, "GO"], [73000000, 73699999, "DF"], [73700000, 76799999, "GO"], [76800000, 76999999, "RO"],
+  [77000000, 77999999, "TO"], [78000000, 78899999, "MT"], [79000000, 79999999, "MS"], [80000000, 87999999, "PR"],
+  [88000000, 89999999, "SC"], [90000000, 99999999, "RS"],
+];
+const ufDoCep = (cep: number) => (UF_CEP.find(([a, z]) => cep >= a && cep <= z) || [0, 0, ""])[2];
+
 const r2 = (x: number) => Math.round(x * 100) / 100;
 
 export async function calcular(cepTxt: string, ufInf: string | null, itens: { grams: number; price: number; quantity: number }[]) {
@@ -61,8 +74,12 @@ export async function calcular(cepTxt: string, ufInf: string | null, itens: { gr
   if (!mile) throw new Error("tabela da Mile não carregada");
   const cep = parseInt(String(cepTxt || "").replace(/\D/g, ""), 10);
   if (!(cep > 0)) throw new Error("CEP inválido");
-  const reg = await regiao(cep);
-  if (!reg) throw new Error("CEP fora da tabela da Mile");
+  let reg: any = await regiao(cep);
+  if (!reg) {
+    const u = ufDoCep(cep) || String(ufInf || "").toUpperCase();
+    if (!u) throw new Error("CEP inválido");
+    reg = { tipo: "redespacho", regiao: "RD " + u, uf: u, prazo: null };
+  }
   const uf = String(reg.uf || ufInf || "").toUpperCase();
   const aliq = Number(cfg.icms[uf]);
   if (!(aliq > 0)) throw new Error("sem alíquota de ICMS para " + uf);
