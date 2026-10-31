@@ -878,7 +878,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v54 · 31/10/2026';
+const VERSAO='v55 · 31/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1842,12 +1842,17 @@ document.addEventListener('click',e=>{const t=e.target.closest('button,a,th[data
 document.addEventListener('click',e=>{if(S.view==='pricing'&&e.target.closest('[data-close]'))setTimeout(()=>{if(!document.querySelector('#ov'))render()},0)});
 
 /* ---------- Raio-X do catálogo (Shopify) · v15 ---------- */
-const RX_ERR={foto:['Foto','sem foto','p-bad'],provisorio:['Preço provisório','R$ 0 ou 999,99','p-bad'],suspeito:['Preço suspeito','barato demais','p-bad'],duplicado:['Duplicado','mesmo produto 2x','p-warn'],categoria:['Categoria','fora dos menus','p-warn'],marca:['Marca','nome errado','p-warn']};
+const RX_ERR={foto:['Foto','sem foto','p-bad'],provisorio:['Preço provisório','R$ 0 ou 999,99','p-bad'],suspeito:['Preço suspeito','barato demais','p-bad'],duplicado:['Duplicado','mesmo produto 2x','p-warn'],categoria:['Categoria','fora dos menus','p-warn'],marca:['Marca','nome errado','p-warn'],temnoar:['Já está no ar','versão antiga: o mesmo produto já está à venda (confira o nome abaixo do título)','p-warn'],ingles:['Título em inglês','falta traduzir o nome','p-warn'],catruim:['Categoria errada','skincare marcado como maquiagem','p-warn']};
 const RX_OKLOW=/sach|amostra|trial|1 unidade|\(1 un|pump|válvula|adesiv|patch|scrunchie|puff|esponja|pincel|brush|^bolsa|pouch|necessaire|nécessaire|clip|presilha|case|estojo/i;
+const RX_EN=/\b(cream|serum|toner|mask|cleanser|patch(es)?|liquid|lotion|water|with|for|and|sunscreen|booster|treatment|essence|pads?)\b/i, RX_PT=/\b(creme|s[ée]rum|t[ôo]nico|m[áa]scara|limpeza|adesivos?|l[íi]quido|lo[çc][ãa]o|[áa]gua|com|para|protetor|ess[êe]ncia|discos?|bruma|[óo]leo|kit|duo|trio|conjunto)\b/i;
 const RX_KIT=/^(kit|duo|conjunto|trio|set)\b/i, RX_MARCA_RUIM=['Mundo Beleza','VT','COEVAL Vegan'];
 let RX=(()=>{try{return JSON.parse(localStorage.getItem('omg-raiox')||'null')}catch(_){return null}})();
 const RXUI={f:'todas',err:'',m:'',q:'',carregando:false,prog:'',sel:new Set(),acao:false};
 function rxTokens(s){const STOP=new Set('com para de da do das dos and the ml unidades un kit'.split(' '));return new Set(String(s).split('·')[0].toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').match(/[a-z0-9]+/g)?.filter(w=>w.length>2&&!STOP.has(w))||[])}
+// v55: compara nomes em português e inglês (creme=cream, tônico=toner…) para achar a versão que já está no ar
+const RX_MAP={creme:'cream',cremes:'cream',tonico:'toner',tonicos:'toner',mascara:'mask',mascaras:'mask',adesivo:'patch',adesivos:'patch',patches:'patch',disco:'pad',discos:'pad',pads:'pad',essencia:'essence',oleo:'oil',hidratante:'moist',moisturizer:'moist',moisturizing:'moist',olhos:'eye',area:'',limpeza:'cleans',cleanser:'cleans',cleansing:'cleans',espuma:'foam',protetor:'sun',solar:'sun',sunscreen:'sun',bruma:'mist',labial:'lip',corporal:'body',caracol:'snail',mucina:'mucin',peptideos:'peptide',peptides:'peptide',colageno:'collagen',acido:'acid',hialuronico:'hyaluronic',ceramidas:'ceramide',arroz:'rice',vermelho:'red',azuis:'blue',espinhas:'pimple',manchas:'blemish',cravos:'blackhead',capilar:'hair',cabelos:'hair',fios:'hair',vitamina:'vitamin',niacinamida:'niacinamide',calmante:'calm',calming:'calm',soothing:'calm',suave:'gentle',leve:'light',noturna:'night',noturno:'night',locao:'lotion',ampola:'ampoule',liquido:'liquid',potente:'power',powerful:'power'};
+const RX_STOP2=new Set('com para de da do das dos and the with for ml unidades un kit em um uma o a e no na os as pele facial face skin care cuidado tratamento'.split(' '));
+function rxTok2(s){return new Set((String(s).split(':')[0].toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').match(/[a-z0-9.]+/g)||[]).map(w=>RX_MAP[w]??w).filter(w=>w&&w.length>1&&!RX_STOP2.has(w)))}
 function rxAnalisa(rows){
  const T=rows.map(r=>({h:r[0],t:r[1],m:r[2]||'(sem marca)',a:r[3]==='ACTIVE',st:r[3],tags:r[5]||'',fotos:r[6],skus:r[7],pmin:r[8],pmax:r[9],id:r[10]})), P=T.filter(p=>p.st!=='ARCHIVED'), arq=T.length-P.length;
  const A=P.filter(p=>p.a), dup={};
@@ -1861,6 +1866,11 @@ function rxAnalisa(rows){
   if((p.a&&dup[p.h])||(!p.a&&/duplicata/.test(p.tags)))f.push('duplicado');
   if(!p.tags.split('|').some(t=>/^cat[-:]/.test(t)))f.push('categoria');
   if(RX_MARCA_RUIM.includes(p.m))f.push('marca');
+  // v55: por que o rascunho está parado — já existe versão no ar? título em inglês? categoria errada?
+  if(!p.a){const tp=rxTok2(p.t);let best=null;A.forEach(b=>{if(b.m!==p.m)return;const tb=rxTok2(b.t);let k=0;tp.forEach(w=>{if(tb.has(w))k++});const sc=k/Math.max(1,tp.size,tb.size);if(sc>=0.6&&(!best||sc>best[0]))best=[sc,b.t,b.pmin]});
+   if(best){if(!f.includes('duplicado'))f.push('temnoar');p.par=best[1];p.parpr=best[2]}}
+  if(RX_EN.test(p.t)&&!RX_PT.test(p.t.split(':')[0]))f.push('ingles');
+  if(/cat-maquiagem/.test(p.tags)&&!/maquiagem|cushion|batom|base|tint|pó|po-/i.test(p.t+' '+p.h))f.push('catruim');
   p.f=f;if(p.a&&dup[p.h]){p.par=dup[p.h][1];p.parpr=dup[p.h][2]}});
  return {em:new Date().toISOString(),P,arq};
 }
@@ -2044,7 +2054,7 @@ VIEWFN.raiox=()=>{
   '<div class="chips">'+(Object.keys(RX_ERR).filter(k=>b.e[k]).map(k=>'<span class="pill '+RX_ERR[k][2]+'">'+RX_ERR[k][0].toLowerCase()+' '+b.e[k]+(b.eA[k]?' ('+b.eA[k]+' no ar)':'')+'</span>').join('')||'<span class="pill p-ok">sem problema</span>')+'</div></button>'};
  const det=m=>{const its=P.filter(p=>p.m===m&&(!RXUI.err||p.f.includes(RXUI.err))).sort((a,b)=>(b.f.length>0)-(a.f.length>0)||b.a-a.a||a.t.localeCompare(b.t));
   return '<div class="card rx-det"><div class="rx-mt"><b>'+esc(m)+' · '+its.length+' produtos'+(RXUI.err?' com '+RX_ERR[RXUI.err][0].toLowerCase():'')+'</b><span class="chips">'+(can()&&P.some(p=>p.m===m&&p.a)?'<button type="button" class="btn sm pri" data-rx-pub="'+esc(m)+'"'+(RXUI.pub?' disabled':'')+' title="Põe a marca na página Marcas do site e ensina a Bomi os produtos dela">'+(RXUI.pub?'Publicando…':'Publicar marca no site')+'</button>':'')+'<button type="button" class="btn sm" data-rx-imp="'+esc(m)+'" title="Abre a lista em aba nova para imprimir ou salvar em PDF">Imprimir lista</button><button type="button" class="btn sm" data-rx-m="'+esc(m)+'">Fechar</button></span></div>'+(RXUI.lista=its,'')+rxBarraSel(its)+'<div class="tblwrap"><table><thead><tr><th class="rx-ck"><input type="checkbox" class="rx-sel-all" aria-label="Selecionar todos desta lista"'+(its.length&&its.every(p=>RXUI.sel.has(p.id))?' checked':'')+'></th><th>Produto</th><th>SKU</th><th>Status</th><th class="r">Preço</th><th>Situação</th></tr></thead><tbody>'+
-  its.map(p=>{const sk=rxSkus(p.id);return '<tr'+(sk[0]?' data-edit="produtos" data-id="'+esc(sk[0].id)+'" title="Abrir no catálogo"':'')+'><td class="rx-ck"><input type="checkbox" class="rx-sel" data-id="'+esc(p.id)+'" aria-label="Selecionar '+esc(p.t)+'"'+(RXUI.sel.has(p.id)?' checked':'')+'></td><td><b>'+esc(p.t)+'</b><small>'+esc(p.h)+(p.par?' · versão completa: '+esc(p.par)+' ('+brl(p.parpr)+')':'')+'</small></td><td class="num">'+(sk.length?sk.slice(0,8).map(x=>{const v=String(x.nome||'').split(' · ').slice(1).join(' · ');return '<b>'+esc(x.sku)+'</b>'+(v||sk.length>1?' <small style="display:inline">'+esc(v||'')+(has(x.preco)?' · '+brl(x.preco):'')+'</small>':'')}).join('<br>')+(sk.length>8?'<br><small>+'+(sk.length-8)+' SKUs</small>':''):'<small>'+p.skus+' SKU'+(p.skus>1?'s':'')+'</small>')+'</td><td><span class="pill '+(p.a?'p-ok">no ar':'p-mute">rascunho')+'</span></td><td class="r num">'+(p.pmax>p.pmin?brl(p.pmin)+'<small>a '+brl(p.pmax)+' (varia por SKU)</small>':brl(p.pmin))+'</td><td><div class="chips">'+(p.f.length?p.f.map(k=>'<span class="pill '+RX_ERR[k][2]+'">'+RX_ERR[k][0].toLowerCase()+'</span>').join(''):'<span class="pill p-ok">ok</span>')+'</div></td></tr>'}).join('')+'</tbody></table></div></div>'};
+  its.map(p=>{const sk=rxSkus(p.id);return '<tr'+(sk[0]?' data-edit="produtos" data-id="'+esc(sk[0].id)+'" title="Abrir no catálogo"':'')+'><td class="rx-ck"><input type="checkbox" class="rx-sel" data-id="'+esc(p.id)+'" aria-label="Selecionar '+esc(p.t)+'"'+(RXUI.sel.has(p.id)?' checked':'')+'></td><td><b>'+esc(p.t)+'</b><small>'+esc(p.h)+(p.par?' · '+(p.a?'versão completa: ':'já no ar como: ')+esc(p.par)+' ('+brl(p.parpr)+')':'')+'</small></td><td class="num">'+(sk.length?sk.slice(0,8).map(x=>{const v=String(x.nome||'').split(' · ').slice(1).join(' · ');return '<b>'+esc(x.sku)+'</b>'+(v||sk.length>1?' <small style="display:inline">'+esc(v||'')+(has(x.preco)?' · '+brl(x.preco):'')+'</small>':'')}).join('<br>')+(sk.length>8?'<br><small>+'+(sk.length-8)+' SKUs</small>':''):'<small>'+p.skus+' SKU'+(p.skus>1?'s':'')+'</small>')+'</td><td><span class="pill '+(p.a?'p-ok">no ar':'p-mute">rascunho')+'</span></td><td class="r num">'+(p.pmax>p.pmin?brl(p.pmin)+'<small>a '+brl(p.pmax)+' (varia por SKU)</small>':brl(p.pmin))+'</td><td><div class="chips">'+(p.f.length?p.f.map(k=>'<span class="pill '+RX_ERR[k][2]+'">'+RX_ERR[k][0].toLowerCase()+'</span>').join(''):'<span class="pill p-ok">ok</span>')+'</div></td></tr>'}).join('')+'</tbody></table></div></div>'};
  let grade='';const ab=L.find(b=>b.m===RXUI.m);if(ab)grade+=card(ab)+det(ab.m);L.forEach(b=>{if(b!==ab)grade+=card(b)});
  const filtros=[['todas','Todas'],['ar','No ar'],['ras','Só rascunho'],['urg','Problema no ar'],['prob','Com problema']].map(([k,l])=>'<button type="button" class="btn sm rx-f" data-rx-f="'+k+'" aria-pressed="'+(RXUI.f===k)+'">'+l+'</button>').join('');
  return '<div class="page wide"><div class="col">'+head('Raio-X do catálogo',sub,btn)+(RXUI.carregando?'<p class="muted" id="rx-prog">'+esc(RXUI.prog)+'</p>':'')+fluxo+
@@ -3522,6 +3532,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v55','31/10/2026',['Raio-X do catálogo: os rascunhos agora dizem por que estão parados. Novos avisos: "Já está no ar" (existe outra versão deste produto à venda — mostra qual), "Título em inglês" e "Categoria errada" (skincare marcado como maquiagem). Clique em Atualizar raio-x e depois na marca.']],
  ['v54','31/10/2026',['Novo: Cadastros do site (grupo Clientes). Todo mundo que deixou dados no site: assinantes da newsletter, quem criou conta, quem comprou e quem começou um checkout. Mostra quando entrou, cidade, se aceita receber novidades, pedidos, quanto gastou e o perfil de beleza (quando preenchido). Filtros, busca e planilha para baixar.']],
  ['v53','31/10/2026',['Relatório do site em 3 línguas: Português, English e 한국어 (botões ao lado de "Baixar PDF"). O ERP lembra a escolha neste aparelho. O e-mail diário também pode sair em inglês ou coreano para quem for cadastrado nessa língua.']],
  ['v52','31/10/2026',['Menu lateral: chave liga/desliga ao lado do Painel. Ligada (rosa) = todos os grupos abertos; desligada (cinza) = todos fechados. Clicar em cada grupo continua abrindo ou fechando só ele.']],
