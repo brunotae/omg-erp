@@ -859,7 +859,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v47 · 31/10/2026';
+const VERSAO='v48 · 31/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1547,7 +1547,7 @@ const pxHoje=()=>new Date().toLocaleDateString('en-CA',{timeZone:'America/Sao_Pa
 const PX_CFG0={desc:5,frete:100,icms:20,icmsRef:17,ext:15,seguro:1,cep:'01532-001',usd:null,cambio:null,fretes:{},freteEm:null,v:2};
 // v43: referência de frete = São Paulo capital (CEP 01532-001). % frete travado em 100 até a Shipsmart cobrar só parte do frete no checkout.
 const PX_TRAVA_FRETE=true;
-const PX_SITES=[['yesstyle','YesStyle','YS','https://www.yesstyle.com/','https://www.yesstyle.com/en/list.html?q='],['oliveyoung','Olive Young Global','OY','https://global.oliveyoung.com/','https://global.oliveyoung.com/display/search?query='],['jolse','Jolse','JO','https://jolse.com/','https://jolse.com/product/search.html?keyword='],['sephora','Sephora Global','SE','https://www.sephora.com/','https://www.sephora.com/search?keyword=']];
+const PX_SITES=[['oficial','Loja oficial da marca','OF','','https://www.google.com/search?q=loja+oficial+'],['yesstyle','YesStyle','YS','https://www.yesstyle.com/','https://www.yesstyle.com/en/list.html?q='],['oliveyoung','Olive Young Global','OY','https://global.oliveyoung.com/','https://global.oliveyoung.com/display/search?query='],['jolse','Jolse','JO','https://jolse.com/','https://jolse.com/product/search.html?keyword='],['sephora','Sephora Global','SE','https://www.sephora.com/','https://www.sephora.com/search?keyword=']];
 const pxBusca=p=>(String(p.marca||'')+' '+String(p.nome||'').split(':')[0].split('·')[0]).replace(/\b(FPS|SPF)\s*\d+\+?|PA\+*/gi,' ').replace(/\s+/g,' ').trim();
 const pxCfg=()=>({...PX_CFG0,...(PX.cfg||{})});
 const pxCambio=()=>{const C=pxCfg();return Number(C.usd)>0?Number(C.usd):Number(C.cambio)>0?Number(C.cambio):null};
@@ -3319,6 +3319,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v48','31/10/2026',['Pricing: nova fonte de preço do exterior, "Loja oficial da marca" (OF). Primeiro uso: a loja oficial da celimax que vende para o Brasil em US$.']],
  ['v47','31/10/2026',['Pricing: o filtro da coluna Referência virou uma lista: todas, com referência, KS, Jini, exterior ou sem referência.']],
  ['v46','31/10/2026',['Cupom: campo "Quantos códigos diferentes". Ex.: 7 gera 7 códigos com as mesmas regras e finais sorteados diferentes, com lista para copiar.','Cupom para clientes específicas: agora aceita CPF de quem nunca comprou. Cada CPF ganha um código só dele (ex.: OMG-MARIA-7K-X4P), de 1 uso, e aparece uma lista CPF → código para copiar e mandar.','CPF e e-mail de quem já comprou continuam usando o código principal.','O ERP confere se o CPF é válido antes de criar.']],
  ['v45','30/10/2026',['Pricing mais simples: digite o preço novo direto na tabela. Em cinza aparece o sugerido pela regra; apagar volta ao sugerido.','Um botão só: marque e clique em Publicar no site. Antes de publicar aparece a lista com hoje, novo, referência e quanto a cliente de SP paga.','Saíram as colunas % abaixo, % frete e Peso (o peso fica embaixo do nome) e o passo Calcular (OK). O % abaixo de um produto fica na ficha dele.','Cliente SP paga = mesma conta do checkout (frete OMG, imposto de importação e ICMS, câmbio R$ 5,40).','Topo compacto; as publicações ficam recolhidas no fim da página, com Ver e Reverter.']],
