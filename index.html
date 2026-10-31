@@ -440,7 +440,9 @@ select.chip{appearance:auto;cursor:pointer}
 .logo-btn{border:0;background:none;padding:0;cursor:pointer;display:block;width:100%;text-align:left;border-radius:12px}
 .ver-link{font-size:10.5px;text-align:left;padding:0;color:var(--muted);text-decoration:underline;text-underline-offset:2px}
 #cores-btn{font-size:12px;text-align:left;padding:0;color:var(--muted)}
-.nova-ver{margin-top:6px;border:0;border-radius:var(--r-sm);background:var(--pri);color:var(--on-pri);font-weight:700;font-size:12px;padding:9px 10px;text-align:left;cursor:pointer}
+/* v57 (regra 4): aviso de versão nova flutuando embaixo e no meio da tela */
+.nova-ver{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:9999;max-width:calc(100% - 32px);border:0;border-radius:999px;background:var(--pri);color:var(--on-pri);font-weight:700;font-size:13px;padding:11px 20px;text-align:center;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.22);white-space:nowrap}
+.nova-ver[hidden]{display:none}
 .dzauto{display:flex;flex-direction:column;gap:2px;align-items:center;justify-content:center;text-align:center;border:1.5px dashed var(--framboesa);border-radius:var(--r-sm);padding:14px 12px;background:var(--surface2);color:var(--muted);font-size:12.5px;cursor:pointer;min-height:64px}
 .dzauto b{color:var(--ink);font-size:13px}
 .btn.on{outline:2px dashed var(--framboesa);outline-offset:2px}
@@ -878,7 +880,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v56 · 31/10/2026';
+const VERSAO='v57 · 31/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -3555,6 +3557,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v57','31/10/2026',['Aviso de versão nova agora aparece flutuando embaixo e no meio da tela, em qualquer página, no computador e no celular (regra 4).']],
  ['v56','31/10/2026',['Raio-X do catálogo no servidor: o mesmo número para todo mundo e no PDF. Atualiza sozinho na hora a cada mudança feita pelo ERP, a cada aviso do Shopify, de hora em hora e com leitura completa de madrugada. "Atualizar agora" lê só o que mudou (segundos). A data dos dados aparece no topo e fica vermelha se passar de 2 horas.','Novo: Histórico do catálogo (fim da página do Raio-X) — o que mudou, quando, de onde veio e quem fez.']],
  ['v55','31/10/2026',['Raio-X do catálogo: os rascunhos agora dizem por que estão parados. Novos avisos: "Já está no ar" (existe outra versão deste produto à venda — mostra qual), "Título em inglês" e "Categoria errada" (skincare marcado como maquiagem). Clique em Atualizar raio-x e depois na marca.']],
  ['v54','31/10/2026',['Novo: Cadastros do site (grupo Clientes). Todo mundo que deixou dados no site: assinantes da newsletter, quem criou conta, quem comprou e quem começou um checkout. Mostra quando entrou, cidade, se aceita receber novidades, pedidos, quanto gastou e o perfil de beleza (quando preenchido). Filtros, busca e planilha para baixar.']],
@@ -3619,6 +3622,7 @@ async function checaVersao(){
  try{const r=await fetch(location.pathname+'?nc='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/const VERSAO='([^']+)'/);
   if(m&&m[1]!==VERSAO){const b=$('#nova-ver');if(b){b.textContent='Versão '+m[1].split(' ')[0].replace('v','')+' disponível · Atualizar';b.hidden=false}}}catch(_){}
 }
+{const nv=document.getElementById('nova-ver');if(nv)document.body.appendChild(nv)}
 setInterval(checaVersao,5*60*1000);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')checaVersao()});
 setTimeout(checaVersao,20000);
