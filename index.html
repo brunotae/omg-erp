@@ -223,7 +223,7 @@ pre.code{background:var(--surface2);border:1px solid var(--line);border-radius:v
 .px-t td.px-nome{white-space:normal;min-width:150px;max-width:230px;line-height:1.25}.px-t td.px-nome a{color:var(--ink,#2b1520);text-decoration:none}.px-t td.px-nome a:hover{color:var(--accent);text-decoration:underline}
 .px-t td.px-marca{max-width:90px;overflow:hidden;text-overflow:ellipsis}.px-t td.px-st{white-space:normal;min-width:90px;max-width:150px}.px-t td.px-st .pill{font-size:10.5px;padding:2px 7px}
 .px-t thead th{position:sticky;top:0;background:var(--surface,#fff);z-index:2}.px-t .px-frow th{position:sticky;top:25px;background:var(--surface,#fff);z-index:2;padding:2px 3px}.px-th{cursor:pointer;user-select:none}
-.px-fi input{width:100%;min-width:34px;padding:2px 4px;font-size:10.5px;border:1px solid var(--line);border-radius:5px}.px-in{width:44px;padding:2px 3px;font-size:11.5px;text-align:right;border:1px solid var(--line);border-radius:5px;-moz-appearance:textfield}.px-in::-webkit-inner-spin-button,.px-in::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}.px-in.pad{color:var(--muted)}
+.px-fi select{width:100%;padding:2px 2px;font-size:10.5px;border:1px solid var(--line);border-radius:5px;background:#fff}.px-fi input{width:100%;min-width:34px;padding:2px 4px;font-size:10.5px;border:1px solid var(--line);border-radius:5px}.px-in{width:44px;padding:2px 3px;font-size:11.5px;text-align:right;border:1px solid var(--line);border-radius:5px;-moz-appearance:textfield}.px-in::-webkit-inner-spin-button,.px-in::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}.px-in.pad{color:var(--muted)}
 .px-t{border-collapse:collapse}.px-t td,.px-t thead tr:not(.px-grow) th{border-left:1px solid rgba(0,0,0,.06)}.px-t tbody tr{border-bottom:1px solid var(--line)}.px-t tbody tr:hover td{background:rgba(0,0,0,.025)}
 .px-c-ref{background:#EEF4FB}.px-c-edit{background:#FFF8E1}.px-c-res{background:#EEF8F1}.px-c-hoje{background:#F6F4F5}.px-c-ini{border-left:2px solid rgba(0,0,0,.18)}
 .px-grow th{position:sticky;top:0;z-index:3;font-size:10px;text-align:center;padding:3px 4px;border-left:2px solid #fff;color:#4a3a40;letter-spacing:.04em}
@@ -859,7 +859,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v46 · 31/10/2026';
+const VERSAO='v47 · 31/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1640,7 +1640,8 @@ function pxLinhas(){const q=pxNorm(S.q||'');
  let L=pxLista().map(pxCalc);
  if(q)L=L.filter(x=>pxNorm(x.p.nome+' '+x.p.marca+' '+x.p.sku).includes(q));
  if(PX.st)L=L.filter(x=>PX.st==='aviso'?x.flags.length>0:PX.st==='manual'?has(x.manual):pxStatus(x)[0]===PX.st);
- PX_COLS.forEach(([k,,g,t,gt])=>{const f=PX.f[k];if(!f)return;const txt=gt&&/[a-z]/i.test(f)&&!/^vazio$/i.test(f.trim());L=L.filter(x=>txt?pxMatch(gt(x),f,'t'):pxMatch(g(x),f,t))});
+ const fr=PX.f.ref;if(fr)L=L.filter(x=>fr==='com'?!!x.ref:fr==='sem'?!x.ref:fr==='ext'?x.tipo==='ext':!!x.ref&&x.ref.cod===fr);
+ PX_COLS.forEach(([k,,g,t,gt])=>{const f=PX.f[k];if(!f||k==='ref')return;const txt=gt&&/[a-z]/i.test(f)&&!/^vazio$/i.test(f.trim());L=L.filter(x=>txt?pxMatch(gt(x),f,'t'):pxMatch(g(x),f,t))});
  const [sk,dir]=PX.sort,col=PX_COLS.find(c=>c[0]===sk);
  if(col)L.sort((a,b)=>{const va=col[2](a),vb=col[2](b);if(col[3]==='n'){const A=pxNum(va),B=pxNum(vb);if(A==null&&B==null)return 0;if(A==null)return 1;if(B==null)return -1;return (A-B)*dir}
   return String(va||'').localeCompare(String(vb||''),'pt-BR',{numeric:true})*dir||String(a.p.nome).localeCompare(String(b.p.nome))});
@@ -1662,7 +1663,7 @@ VIEWFN.pricing=()=>{
   (sel.length?'<button class="btn sm" type="button" id="px-sel-nada">Desmarcar</button><button class="btn sm" type="button" id="px-man-limpa" title="Os marcados voltam para o preço sugerido pela regra">Usar sugerido</button>':'')+
   '<span class="sp"></span><button class="btn pri" type="button" id="px-tx"'+(selPub.length&&!PX.busy?'':' disabled')+'>'+(PX.busy==='tx'?'Publicando…':'Publicar no site · '+selPub.length)+'</button></div></div>':'';
  const th=PX_COLS.map(([k,l,,t])=>'<th class="'+(t==='n'?'r ':'')+'px-th" data-pxsort="'+k+'">'+l+(PX.sort[0]===k?(PX.sort[1]>0?' ▲':' ▼'):'')+'</th>').join('');
- const tf=PX_COLS.map(([k,,,t])=>'<th class="px-fi"><input data-pxf="'+k+'" value="'+esc(PX.f[k]||'')+'" placeholder="'+(k==='ref'?'ks, >100':t==='n'?'>10':'filtrar')+'" aria-label="Filtro" data-1c="off"></th>').join('');
+ const tf=PX_COLS.map(([k,,,t])=>'<th class="px-fi">'+(k==='ref'?'<select data-pxf="ref" aria-label="Filtro de referência">'+[['','todas'],['com','com referência'],['KS','KS'],['JN','Jini'],['ext','exterior'],['sem','sem referência']].map(([v,l])=>'<option value="'+v+'"'+((PX.f.ref||'')===v?' selected':'')+'>'+l+'</option>').join('')+'</select>':'<input data-pxf="'+k+'" value="'+esc(PX.f[k]||'')+'" placeholder="'+(t==='n'?'>10':'filtrar')+'" aria-label="Filtro" data-1c="off">')+'</th>').join('');
  const allOn=L.length&&L.every(x=>PX.sel.has(x.p.id));
  const cel=v=>has(v)?brl(v):'<span class="muted">—</span>';
  const row=x=>{const st=pxStatus(x),r=x.ref,dif=has(x.dif)&&x.muda?'<small style="color:'+(x.dif<0?'#1D7A4F':'#A15C00')+'">'+(x.dif>0?'+':'')+x.dif.toFixed(1).replace('.',',')+'%</small>':'';
@@ -1790,7 +1791,8 @@ document.addEventListener('change',e=>{const t=e.target;if(!t.dataset)return;
   if(v!=null&&(!isFinite(v)||(campo==='frete_pct'&&(v<0||v>100)))){toast(campo==='frete_pct'?'% do frete vai de 0 a 100':'Número inválido');render();return}
   pxSetPct([id],campo,v);return}});
 let pxFT=null;
-document.addEventListener('input',e=>{const t=e.target;if(!t.dataset||!t.dataset.pxf)return;PX.f[t.dataset.pxf]=t.value;PX.lim=200;clearTimeout(pxFT);
+document.addEventListener('change',e=>{const t=e.target;if(t.tagName!=='SELECT'||!t.dataset||!t.dataset.pxf)return;PX.f[t.dataset.pxf]=t.value;PX.lim=200;render()});
+document.addEventListener('input',e=>{const t=e.target;if(!t.dataset||!t.dataset.pxf||t.tagName==='SELECT')return;PX.f[t.dataset.pxf]=t.value;PX.lim=200;clearTimeout(pxFT);
  pxFT=setTimeout(()=>{const k=t.dataset.pxf,pos=t.selectionStart;render();const n2=document.querySelector('[data-pxf="'+k+'"]');if(n2){n2.focus();try{n2.setSelectionRange(pos,pos)}catch(_){}}},350)});
 document.addEventListener('click',e=>{const t=e.target.closest('button,a,th[data-pxsort]');if(!t)return;
  if(t.dataset.pxsort){if(e.target.closest('input'))return;const k=t.dataset.pxsort;PX.sort=[k,PX.sort[0]===k?-PX.sort[1]:1];render();return}
@@ -3317,6 +3319,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v47','31/10/2026',['Pricing: o filtro da coluna Referência virou uma lista: todas, com referência, KS, Jini, exterior ou sem referência.']],
  ['v46','31/10/2026',['Cupom: campo "Quantos códigos diferentes". Ex.: 7 gera 7 códigos com as mesmas regras e finais sorteados diferentes, com lista para copiar.','Cupom para clientes específicas: agora aceita CPF de quem nunca comprou. Cada CPF ganha um código só dele (ex.: OMG-MARIA-7K-X4P), de 1 uso, e aparece uma lista CPF → código para copiar e mandar.','CPF e e-mail de quem já comprou continuam usando o código principal.','O ERP confere se o CPF é válido antes de criar.']],
  ['v45','30/10/2026',['Pricing mais simples: digite o preço novo direto na tabela. Em cinza aparece o sugerido pela regra; apagar volta ao sugerido.','Um botão só: marque e clique em Publicar no site. Antes de publicar aparece a lista com hoje, novo, referência e quanto a cliente de SP paga.','Saíram as colunas % abaixo, % frete e Peso (o peso fica embaixo do nome) e o passo Calcular (OK). O % abaixo de um produto fica na ficha dele.','Cliente SP paga = mesma conta do checkout (frete OMG, imposto de importação e ICMS, câmbio R$ 5,40).','Topo compacto; as publicações ficam recolhidas no fim da página, com Ver e Reverter.']],
  ['v44','30/10/2026',['Pricing: preço do varejo no exterior. Produto sem KS/Jini mostra o botão "+ exterior" na coluna Referência.','Na ficha: uma linha por site (YesStyle, Olive Young Global, Jolse, Sephora) com US$, link e botão Buscar ↗, que já abre a busca do produto no site.','A Jolse é procurada sozinha: aparece a lista com o preço cheio (sem promoção) e o botão Usar. Itens de kit, promoção ou validade curta vêm marcados para conferir.','Prévia na hora: maior preço → preço no site e quanto a cliente de SP paga.']],
