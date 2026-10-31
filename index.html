@@ -214,6 +214,7 @@ pre.code{background:var(--surface2);border:1px solid var(--line);border-radius:v
 .modal form{display:flex;flex-direction:column;gap:18px;padding:18px 20px}
 .sec{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 14px}
 .pr-conta{width:100%;border-collapse:collapse;font-size:13px}.pr-conta td{padding:4px 0;border-bottom:1px dashed var(--line)}.pr-conta tr:last-child td{font-weight:700;border-bottom:0}
+.cp-filtro{display:grid;gap:8px;margin:0 0 10px}.cp-filtro input{width:100%;max-width:420px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font:inherit}.cp-filtro .chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.cp-filtro .chip{padding:4px 10px;font-size:12px}.cp-sep{width:1px;height:20px;background:var(--line);margin:0 4px}
 .px-top{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;margin:0 0 6px}.px-top h1{margin:0;font-size:24px}.px-top .muted{font-size:12.5px}.px-top .sp{flex:1}
 .px-chips{align-items:center;margin:0 0 8px}.px-chips .chip{padding:4px 10px;font-size:12px}.px-info{font-size:11px;margin-left:6px}
 .px-preco{width:78px;padding:3px 6px;font-size:12px;text-align:right;border:1px solid var(--line);border-radius:6px;background:#fff;font-variant-numeric:tabular-nums}.px-preco::placeholder{color:#8a7d83}.px-preco.man{border-color:#B83D66;font-weight:700;color:#B83D66}.px-preco:focus{outline:2px solid #B83D66;outline-offset:0}
@@ -859,7 +860,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v48 · 31/10/2026';
+const VERSAO='v49 · 31/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -2105,19 +2106,35 @@ function clientes(){
   const c=m.get(key)||{nome:v.cliente,contato:v.contato,uf:v.uf,cidade:v.cidade,n:0,total:0,ult:''};c.n++;c.total+=calc(v).total;if(String(v.dataCompra)>c.ult)c.ult=v.dataCompra;m.set(key,c)});
  return [...m.values()].sort((a,b)=>b.total-a.total);
 }
+const CP={q:'',st:'ativos',tipo:''};
+const cpAtivo=c=>!!(c.ativo&&(!c.validade||c.validade>=today()));
+function cpLista(){const q=String(CP.q||'').trim().toLowerCase(),qd=q.replace(/\D/g,'');
+ return S.data.cupons.filter(match).filter(c=>{
+  if(CP.st==='ativos'&&!cpAtivo(c))return false;if(CP.st==='inativos'&&cpAtivo(c))return false;
+  if(CP.st==='usados'&&!cupomUsos(c.codigo).length)return false;if(CP.st==='nunca'&&cupomUsos(c.codigo).length)return false;
+  if(CP.tipo&&c.tipo!==CP.tipo)return false;
+  if(q){const t=[c.codigo,c.publico,c.obs].join(' ').toLowerCase();if(!t.includes(q)&&!(qd.length>=3&&t.replace(/\D/g,'').includes(qd)))return false}
+  return true}).sort((a,b)=>(cpAtivo(b)-cpAtivo(a))||String(b.criado_em||'').localeCompare(String(a.criado_em||''))||String(a.codigo).localeCompare(String(b.codigo)))}
 VIEWFN.clientes=()=>{
  const cl=clientes().filter(match), fiel=cl.filter(c=>c.n>=n(S.cfg.fielMin));
  const uso=cupomUsos;
+ const cpL=cpLista(),ct=f=>S.data.cupons.filter(f).length;
+ const cpChips='<div class="cp-filtro"><input id="cp-q" type="search" value="'+esc(CP.q)+'" placeholder="Buscar código, nome, influenciadora ou CPF" aria-label="Buscar cupom" data-1c="off">'+
+  '<div class="chips">'+[['ativos','Ativos',ct(cpAtivo)],['inativos','Inativos',ct(c=>!cpAtivo(c))],['usados','Já usados',ct(c=>cupomUsos(c.codigo).length>0)],['nunca','Nunca usados',ct(c=>!cupomUsos(c.codigo).length)],['','Todos',S.data.cupons.length]].map(([v,l,k])=>'<button type="button" class="chip'+(CP.st===v?' on':'')+'" data-cpst="'+v+'">'+l+' · '+k+'</button>').join('')+
+  '<span class="cp-sep"></span>'+[['','Qualquer tipo'],['%','%'],['R$','R$'],['frete','Frete grátis']].map(([v,l])=>'<button type="button" class="chip'+(CP.tipo===v?' on':'')+'" data-cptipo="'+esc(v)+'">'+l+'</button>').join('')+'</div></div>';
  return '<div class="page wide"><div class="col">'+head('Clientes e cupons','Clientes saem das vendas. Quem compra '+n(S.cfg.fielMin)+' vezes ou mais vira cliente fiel e pode receber cupom exclusivo. Cupons criados aqui já valem no site.','<button class="btn" type="button" id="cupom-imp"'+(can()?'':' disabled')+' title="Traz os cupons criados direto no Shopify e atualiza o status de todos">Trazer cupons do Shopify</button> <button class="btn pri" type="button" id="cupom-shop"'+(can()?'':' disabled')+'>+ Criar cupom no site</button>')+
  '<div class="kpis">'+kpi('Clientes',cl.length,'Com ao menos 1 compra')+kpi('Clientes fiéis',fiel.length,cl.length?pct(fiel.length/cl.length)+' da base':'—')+kpi('Cupons ativos',S.data.cupons.filter(c=>c.ativo).length,S.data.cupons.length+' cadastrados')+kpi('Desconto concedido',dm(S.data.vendas.filter(v=>!isCancel(v)).reduce((a,v)=>a+n(v.desconto),0)),'Todas as vendas')+'</div>'+
- '<div class="card"><div class="card-h"><h2>Cupons</h2></div>'+(S.data.cupons.length?'<div class="tblwrap"><table><thead><tr><th>Código</th><th>Desconto</th><th>Público</th><th>Validade</th><th class="r">Usos</th><th class="r">Desconto dado</th><th>Status</th></tr></thead><tbody>'+
-  S.data.cupons.filter(match).map(c=>{const u=uso(c.codigo);return '<tr data-edit="cupons" data-id="'+esc(c.id)+'"><td><b class="num">'+esc(c.codigo)+'</b></td><td>'+(c.tipo==='frete'?'Frete grátis'+(has(c.valor)&&n(c.valor)>0?' (até '+brl(c.valor)+')':''):c.tipo==='%'?n(c.valor)+'%':brl(c.valor))+'</td><td>'+esc(c.publico||'')+'</td><td class="num">'+fdate(c.validade)+'</td><td class="r num">'+u.length+(has(c.limite)?' / '+c.limite:'')+'</td><td class="r num">'+brl(u.reduce((a,v)=>a+n(v.desconto),0))+'</td><td>'+stPill(c.ativo&&(!c.validade||c.validade>=today())?'Ativo':'Inativo')+'</td></tr>'}).join('')+'</tbody></table></div>'
+ '<div class="card"><div class="card-h"><h2>Cupons</h2><span class="muted" style="font-size:12px">'+cpL.length+' de '+S.data.cupons.length+'</span></div>'+(S.data.cupons.length?cpChips+(cpL.length?'':'<p class="muted" style="margin:10px 0">Nenhum cupom com esse filtro.</p>')+'<div class="tblwrap"><table><thead><tr><th>Código</th><th>Desconto</th><th>Público</th><th>Validade</th><th class="r">Usos</th><th class="r">Desconto dado</th><th>Status</th></tr></thead><tbody>'+
+  cpL.map(c=>{const u=uso(c.codigo);return '<tr data-edit="cupons" data-id="'+esc(c.id)+'"><td><b class="num">'+esc(c.codigo)+'</b></td><td>'+(c.tipo==='frete'?'Frete grátis'+(has(c.valor)&&n(c.valor)>0?' (até '+brl(c.valor)+')':''):c.tipo==='%'?n(c.valor)+'%':brl(c.valor))+'</td><td>'+esc(c.publico||'')+'</td><td class="num">'+fdate(c.validade)+'</td><td class="r num">'+u.length+(has(c.limite)?' / '+c.limite:'')+'</td><td class="r num">'+brl(u.reduce((a,v)=>a+n(v.desconto),0))+'</td><td>'+stPill(c.ativo&&(!c.validade||c.validade>=today())?'Ativo':'Inativo')+'</td></tr>'}).join('')+'</tbody></table></div>'
   :empty('Nenhum cupom','Crie cupons para clientes fiéis, influencers ou campanhas. O uso é contado pelo código informado em cada venda.'))+'</div>'+
  '<div class="card"><div class="card-h"><h2>Clientes</h2></div>'+(cl.length?'<div class="tblwrap"><table><thead><tr><th>Cliente</th><th>Local</th><th class="r">Compras</th><th class="r">Total gasto</th><th>Última compra</th><th></th></tr></thead><tbody>'+
   cl.map(c=>'<tr><td><b>'+esc(c.nome)+'</b><small>'+esc(c.contato||'')+'</small></td><td>'+esc([c.cidade,c.uf].filter(Boolean).join(' / ')||'—')+'</td><td class="r num">'+c.n+'</td><td class="r num"><b>'+dm(c.total)+'</b></td><td class="num">'+fdate(c.ult)+'</td><td>'+(c.n>=n(S.cfg.fielMin)?stPill('Cliente fiel'):'')+'</td></tr>').join('')+'</tbody></table></div>'
   :empty('Nenhum cliente ainda','A lista se monta sozinha a partir das vendas.'))+'</div></div></div>';
 };
 
+
+document.addEventListener('click',e=>{const t=e.target.closest('[data-cpst],[data-cptipo]');if(!t)return;if(t.dataset.cpst!==undefined)CP.st=t.dataset.cpst;else CP.tipo=t.dataset.cptipo;render()});
+let cpT=null;document.addEventListener('input',e=>{if(e.target.id!=='cp-q')return;CP.q=e.target.value;clearTimeout(cpT);cpT=setTimeout(()=>{const pos=e.target.selectionStart;render();const i=document.getElementById('cp-q');if(i){i.focus();try{i.setSelectionRange(pos,pos)}catch(_){}}},250)});
 
 /* ---------- Criar cupom no Shopify ---------- */
 const num=v=>{const x=parseFloat(String(v??'').replace(',','.'));return isFinite(x)?x:0};
@@ -3319,6 +3336,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v49','31/10/2026',['Cupons: busca por código, nome, influenciadora ou CPF, e filtros Ativos, Inativos, Já usados, Nunca usados e por tipo (%, R$, frete grátis). Abre mostrando só os ativos.']],
  ['v48','31/10/2026',['Pricing: nova fonte de preço do exterior, "Loja oficial da marca" (OF). Primeiro uso: a loja oficial da celimax que vende para o Brasil em US$.']],
  ['v47','31/10/2026',['Pricing: o filtro da coluna Referência virou uma lista: todas, com referência, KS, Jini, exterior ou sem referência.']],
  ['v46','31/10/2026',['Cupom: campo "Quantos códigos diferentes". Ex.: 7 gera 7 códigos com as mesmas regras e finais sorteados diferentes, com lista para copiar.','Cupom para clientes específicas: agora aceita CPF de quem nunca comprou. Cada CPF ganha um código só dele (ex.: OMG-MARIA-7K-X4P), de 1 uso, e aparece uma lista CPF → código para copiar e mandar.','CPF e e-mail de quem já comprou continuam usando o código principal.','O ERP confere se o CPF é válido antes de criar.']],
