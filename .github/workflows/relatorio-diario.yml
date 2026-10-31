@@ -1,0 +1,16 @@
+name: Relatorio diario do site (e-mail 8h)
+# Monta o relatório de ontem (visitas, funil, origem, checkouts, vendas), guarda no ERP e manda por e-mail.
+# Roda todo dia às 08:07 (Brasília). Se o dia já foi enviado, a função não faz nada.
+on:
+  schedule:
+    - cron: '7 11 * * *'
+  workflow_dispatch:
+jobs:
+  gerar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Gerar e enviar
+        run: |
+          R=$(curl -sS -m 140 -X POST https://nzsiuniabovvptuqmkmi.supabase.co/functions/v1/relatorio-diario -H 'content-type: application/json' -d '{}')
+          echo "$R"
+          echo "$R" | grep -q '"ok":true' || { echo "::error::$R"; exit 1; }

@@ -686,7 +686,7 @@ function contasList(){
 }
 const MOEDAS=['BRL','USD','KRW'];
 
-const S={db:null,canWrite:true,status:'connecting',view:'painel',q:'',
+const S={db:null,canWrite:true,status:'connecting',view:(/^#relatorios/.test(location.hash)?'relatorios':'painel'),q:'',
  data:{vendas:[],cortes:[],lotes:[],lancamentos:[],devolucoes:[],insumos:[],compras:[],produtos:[],cupons:[],fornecedores:[],metricas:[],acoes_mkt:[],influenciadores:[],links_utm:[],link_cliques_dia:[],comissoes_fechamentos:[]},
  loaded:{},missing:{},cfg:{krw:0.0039,usd:5.40,desc:12,markup:40,fielMin:2},
  f:{vendas:'abertas',fin:'mes',doc:'identidade'}};
@@ -710,12 +710,13 @@ const ICONS={
  raiox:'<circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5M8.5 11h5M11 8.5v5"/>',produtos:'<rect x="8" y="3" width="8" height="5" rx="1"/><path d="M7 8h10v12a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1z"/>',
  clientes:'<circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0"/><path d="M16 11h5M18.5 8.5v5"/>',
  analises:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+ relatorios:'<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 17v-3M13 17v-5M16 17v-2"/>',
  atendimentos:'<path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/>',
  avisos:'<path d="M4 10v4h3l5 4V6L7 10z"/><path d="M16 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"/>',
  fornecedores:'<path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/>',
  config:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/>'
 };
-const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Lista do dia'],['','lotes','Embarques'],['','devolucoes','Devoluções'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','insumos','Embalagens'],['','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['','pricing','Pricing'],['','precos','Concorrentes'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
+const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Lista do dia'],['','lotes','Embarques'],['','devolucoes','Devoluções'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','insumos','Embalagens'],['','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['','pricing','Pricing'],['','precos','Concorrentes'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['','relatorios','Relatório do site'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
 
 /* ================= utilidades ================= */
 const $=s=>document.querySelector(s);
@@ -866,7 +867,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v50 · 31/10/2026';
+const VERSAO='v51 · 31/10/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -2272,6 +2273,108 @@ VIEWFN.analises=()=>{
   :empty('Sem dados do site','Lance visitas, carrinhos, checkouts e pedidos da semana (do painel do site ou do Google Analytics). Depois da integração, isso entra sozinho.'))+'</div></div></div>';
 };
 
+
+/* ---------- v51: Relatório do site (diário, gerado às 8h pela função relatorio-diario) ---------- */
+const RL={rows:[],loaded:false,loading:false,missing:false,dia:null,gerando:false};
+async function loadRel(){
+ if(RL.loading)return;RL.loading=true;
+ try{const {data,error}=await sb.from('relatorios').select('dia,dados,gerado_em,enviado_em,envio_info').order('dia',{ascending:false}).limit(120);if(error)throw error;RL.rows=data||[];RL.missing=false}
+ catch(e){RL.missing=/relatorios|relation|does not exist/i.test(String(e&&(e.message||e.code)));RL.rows=[]}
+ RL.loaded=true;RL.loading=false;if(!RL.dia&&RL.rows[0])RL.dia=RL.rows[0].dia;if(S.view==='relatorios')render();
+}
+const REL_DIAS=['domingo','segunda','terça','quarta','quinta','sexta','sábado'];
+const relDiaTxt=d=>{const x=new Date(d+'T12:00:00Z');return REL_DIAS[x.getUTCDay()]+' '+d.slice(8,10)+'/'+d.slice(5,7)+'/'+d.slice(0,4)};
+const relN=v=>Number(v||0).toLocaleString('pt-BR');
+const relR=v=>'R$ '+Number(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const relP=(a,b)=>b?(a/b*100).toLocaleString('pt-BR',{maximumFractionDigits:1})+'%':'0%';
+function relDelta(a,b){if(!b)return '<span style="color:#7A6A70">sem comparação</span>';const p=Math.round((a-b)/b*100);return a>=b?'<span style="color:#2E8B57">▲ '+p+'% ('+b+')</span>':'<span style="color:#C0392B">▼ '+(-p)+'% ('+b+')</span>'}
+const REL_PAIS={Brazil:'Brasil','South Korea':'Coreia',China:'China','United States':'EUA'};
+const relOrig=o=>o.fonte==='direct'?'Direto (app, WhatsApp, digitou)':o.fonte==='search'?'Busca · '+(o.nome||''):o.fonte==='social'?'Rede social · '+(o.nome||''):o.nome?'Link · '+o.nome:'Outros';
+const relPag=p=>p==='/'?'Página inicial':p.startsWith('/products/')?'Produto · '+p.slice(10,60).replace(/-/g,' '):p.startsWith('/collections/')?'Coleção · '+p.slice(13).replace(/-/g,' '):p;
+// Página A4 (mesmo visual do relatório em PDF), montada a partir dos dados guardados
+function relHTML(d){
+ const H=d.horas||[],mx=Math.max(1,...H),vis=d.visitas||0;
+ const cel=(d.aparelho||[]).find(a=>a.tipo==='mobile')?.visitas||0;
+ const paises={};(d.regioes||[]).forEach(r=>{const k=REL_PAIS[r.pais]||'Outros';paises[k]=(paises[k]||0)+r.visitas});
+ const br=(d.regioes||[]).filter(r=>r.pais==='Brazil');
+ const cor=['#B83D66','#D06A8C','#E7A3B9','#F3C9D6','#E9E3E5'];
+ const stack=(arr)=>{const t=arr.reduce((a,x)=>a+x[1],0)||1;return '<div class="stack">'+arr.map((x,i)=>'<i style="width:'+(x[1]/t*100)+'%;background:'+cor[Math.min(i,4)]+'"></i>').join('')+'</div><div class="leg">'+arr.map((x,i)=>'<span><b style="background:'+cor[Math.min(i,4)]+'"></b>'+esc(x[0])+' '+Math.round(x[1]/t*100)+'% ('+x[1]+')</span>').join('')+'</div>'};
+ const pais=Object.entries(paises).sort((a,b)=>b[1]-a[1]);
+ const est=br.map(r=>[r.regiao||'?',r.visitas]).slice(0,4);const estResto=br.slice(4).reduce((a,r)=>a+r.visitas,0);if(estResto)est.push(['Outros',estResto]);
+ const carrUF=br.filter(r=>r.carrinho).map(r=>(r.regiao||'?')+' '+r.carrinho).join(' · ');
+ const fun=[['Visitaram',vis],['Carrinho',d.carrinho],['Checkout',d.checkout],['<b>Compraram</b>',d.compras]];
+ const drops=[(d.rejeicao?'▼ '+Math.round(d.rejeicao*100)+'% saíram na 1ª página (rejeição)':''),(d.carrinho?'▼ '+Math.round((d.carrinho-d.checkout)/d.carrinho*100)+'% pararam no carrinho':''),(d.checkout?'▼ '+Math.round((d.checkout-d.compras)/d.checkout*100)+'% desistiram no checkout':'')];
+ const origem=(d.origem||[]).slice(0,6),mo=Math.max(1,...origem.map(o=>o.visitas));
+ const ent=(d.entradas||[]).slice(0,6),me=Math.max(1,...ent.map(o=>o.visitas));
+ const ck=d.checkouts||[],pd=d.pedidos||[];
+ const corL={ok:'o',warn:'w',bad:''};
+ const css=`@page{size:A4;margin:0}*{box-sizing:border-box;margin:0;padding:0}:root{--f:#B83D66;--fl:#FBE7EE;--fm:#E7A3B9;--ink:#2A1F24;--mut:#7A6A70;--line:#EEDDE3;--ok:#2E8B57;--bad:#C0392B;--warn:#D98E04}
+body{width:210mm;min-height:297mm;font-family:"Helvetica Neue",Arial,sans-serif;color:var(--ink);font-size:8.6pt;background:#fff;padding:9mm 10mm 8mm;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.top{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2.5px solid var(--f);padding-bottom:5px}h1{font-size:17pt}h1 b{color:var(--f)}.sub{color:var(--mut);font-size:8.5pt;margin-top:2px}
+.tag{background:#E3F4EA;color:#2E8B57;border:1px solid #A8D8BB;border-radius:4px;padding:3px 7px;font-weight:700;font-size:7.5pt}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin:10px 0}.k{background:var(--fl);border-radius:7px;padding:7px 8px}.k .l{font-size:7.2pt;color:var(--mut);text-transform:uppercase;font-weight:700}.k .v{font-size:17pt;font-weight:800;color:var(--f);line-height:1.15}.k .d{font-size:7.5pt;font-weight:700;color:var(--mut)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:10px}.g3{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:9px;margin-bottom:10px}
+.card{border:1px solid var(--line);border-radius:7px;padding:7px 9px}h2{font-size:9pt;color:var(--f);text-transform:uppercase;margin-bottom:5px;display:flex;justify-content:space-between}h2 small{color:var(--mut);text-transform:none;font-weight:400;font-size:7.3pt}
+.bars{display:flex;align-items:flex-end;gap:2px;height:130px;padding-top:12px}.bars div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}.bars i{display:block;width:100%;background:var(--fm);border-radius:2px 2px 0 0}.bars .pk i{background:var(--f)}.bars span{font-size:6.3pt;font-weight:700}.bars em{font-style:normal;font-size:6pt;color:var(--mut);margin-top:2px}
+.fun .r{white-space:nowrap;display:grid;grid-template-columns:78px 1fr 88px;align-items:center;gap:6px;margin:6px 0}.fun .b{height:15px;background:var(--fm);border-radius:3px}.fun .n{font-weight:700;text-align:right}.drop{font-size:7pt;color:var(--bad);font-weight:700;margin-left:84px}
+table{width:100%;border-collapse:collapse}th{font-size:7pt;color:var(--mut);text-align:right;font-weight:700;text-transform:uppercase;padding:2px 3px;border-bottom:1px solid var(--line)}th:first-child,td:first-child{text-align:left}td{padding:4px 3px;border-bottom:1px solid #F6ECEF;text-align:right}td.bar{width:24%}.mb{height:9px;background:var(--fm);border-radius:2px}
+.stack{display:flex;height:14px;border-radius:3px;overflow:hidden;margin:3px 0 4px}.stack i{display:block}.leg{display:flex;flex-wrap:wrap;gap:3px 9px;font-size:7.4pt}.leg b{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:3px}
+.mini{margin-bottom:7px}.mini .t{font-size:7.4pt;color:var(--mut);font-weight:700;text-transform:uppercase}
+.ins{display:grid;grid-template-columns:1fr 1fr;gap:6px}.i{border-left:3.5px solid var(--bad);background:#FDF5F7;border-radius:0 6px 6px 0;padding:7px 9px}.i.w{border-color:var(--warn)}.i.o{border-color:var(--ok)}.i h3{font-size:8.3pt;margin-bottom:2px}.i p{font-size:8pt;line-height:1.32}
+.foot{margin-top:6px;font-size:6.8pt;color:var(--mut);display:flex;justify-content:space-between}`;
+ return '<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>Relatório OMG '+esc(d.dia)+'</title><style>'+css+'</style></head><body>'+
+ '<div class="top"><div><h1>OMG! <b>Relatório do dia</b></h1><div class="sub">'+relDiaTxt(d.dia)+' · comparado com o dia anterior · www.ohmygirl.com.br</div></div><div class="tag">DADOS REAIS · SHOPIFY</div></div>'+
+ '<div class="kpis"><div class="k"><div class="l">Visitas</div><div class="v">'+relN(vis)+'</div><div class="d">'+relDelta(vis,d.anterior?.visitas)+'</div></div>'+
+ '<div class="k"><div class="l">Carrinho</div><div class="v">'+relN(d.carrinho)+'</div><div class="d">'+relP(d.carrinho,vis)+' das visitas</div></div>'+
+ '<div class="k"><div class="l">Checkout</div><div class="v">'+relN(d.checkout)+'</div><div class="d">'+relP(d.checkout,vis)+' das visitas</div></div>'+
+ '<div class="k"><div class="l">Compras</div><div class="v">'+relN(d.compras)+'</div><div class="d">'+(d.compras?relR(d.faturamento):'nenhuma')+'</div></div>'+
+ '<div class="k"><div class="l">No celular</div><div class="v">'+relP(cel,vis).replace(/,\d%/,'%')+'</div><div class="d">'+Math.round((d.duracao_s||0)/60)+' min por visita · '+relN(d.pessoas)+' pessoas</div></div></div>'+
+ '<div class="g2"><div class="card"><h2>Visitas por hora <small>horário de Brasília</small></h2><div class="bars">'+H.map((v,i)=>'<div'+(v===mx&&v?' class="pk"':'')+'><span>'+(v||'')+'</span><i style="height:'+(v/mx*100)+'%"></i><em>'+(i%3===0?i+'h':'&nbsp;')+'</em></div>').join('')+'</div></div>'+
+ '<div class="card fun"><h2>Funil até a compra <small>% sobre as visitas</small></h2>'+fun.map((f,i)=>'<div class="r"><span>'+f[0]+'</span><div class="b" style="width:'+Math.max(.6,vis?f[1]/vis*100:0)+'%'+(i===3?';background:var(--f)':'')+'"></div><span class="n">'+relN(f[1])+' · '+relP(f[1],vis)+'</span></div>'+(i<3&&drops[i]?'<div class="drop">'+drops[i]+'</div>':'')).join('')+'</div></div>'+
+ '<div class="g3"><div class="card"><h2>De onde vieram <small>links com UTM aparecem separados</small></h2><table><tr><th>Origem</th><th></th><th>Visitas</th><th>%</th><th>Carrinho</th><th>Checkout</th></tr>'+
+  origem.map(o=>'<tr><td>'+esc(relOrig(o))+'</td><td class="bar"><div class="mb" style="width:'+(o.visitas/mo*100)+'%"></div></td><td>'+o.visitas+'</td><td>'+relP(o.visitas,vis)+'</td><td>'+o.carrinho+'</td><td>'+o.checkout+'</td></tr>').join('')+'</table>'+
+  ((d.utm||[]).length?'<h2 style="margin-top:9px">Campanhas (UTM)</h2><table><tr><th>Fonte · campanha</th><th>Visitas</th><th>Carrinho</th></tr>'+d.utm.map(u=>'<tr><td>'+esc((u.fonte||'—')+' · '+(u.campanha||'—'))+'</td><td>'+u.visitas+'</td><td>'+u.carrinho+'</td></tr>').join('')+'</table>':'')+
+  '<h2 style="margin-top:9px">Por onde entraram <small>página de chegada</small></h2><table><tr><th>Página</th><th></th><th>Visitas</th><th>%</th></tr>'+ent.map(e=>'<tr><td>'+esc(relPag(e.pagina))+'</td><td class="bar"><div class="mb" style="width:'+(e.visitas/me*100)+'%"></div></td><td>'+e.visitas+'</td><td>'+relP(e.visitas,vis)+'</td></tr>').join('')+'</table></div>'+
+ '<div class="card"><h2>Quem visitou</h2><div class="mini"><div class="t">Aparelho</div>'+stack([['Celular',cel],['Computador',vis-cel]])+'</div>'+
+  '<div class="mini"><div class="t">País</div>'+stack(pais)+'</div>'+(est.length?'<div class="mini"><div class="t">Brasil por estado</div>'+stack(est)+'</div>':'')+
+  '<div class="mini" style="margin:0"><div class="t">Cidades do Brasil</div><div style="font-size:7.8pt;margin-top:2px;line-height:1.45">'+(d.cidades||[]).slice(0,8).map(c=>esc(c.cidade||'?')+' <b>'+c.visitas+'</b>').join(' · ')+(carrUF?'<br><b style="color:var(--f)">Carrinhos: '+esc(carrUF)+'</b>':'')+'</div></div></div></div>'+
+ (pd.length?'<div class="card" style="margin-bottom:10px"><h2>Compras <small>'+relR(d.faturamento)+'</small></h2><table><tr><th>Hora</th><th style="text-align:left">Pedido</th><th>Cidade</th><th>Cupom</th><th>Origem</th><th>Total</th></tr>'+pd.map(p=>'<tr><td>'+dhBR(p.hora).slice(-5)+'</td><td style="text-align:left">'+esc(p.nome)+'</td><td>'+esc(p.cidade)+'/'+esc(p.uf)+'</td><td>'+esc((p.cupons||[]).join(', ')||'–')+'</td><td>'+esc(p.origem||'–')+'</td><td>'+relR(p.total)+'</td></tr>').join('')+'</table>'+
+  ((d.produtos||[]).length?'<div style="font-size:7.6pt;margin-top:4px"><b>Produtos:</b> '+d.produtos.map(p=>esc(p.titulo)+' ×'+p.qtd).join(' · ')+'</div>':'')+'</div>':'')+
+ (ck.length?'<div class="card" style="margin-bottom:10px"><h2>Checkouts não finalizados <small>preencheu o endereço e não pagou</small></h2><table><tr><th>Hora</th><th style="text-align:left">Produto</th><th>Cidade</th><th>Cupom</th><th>Total</th></tr>'+ck.map(c=>'<tr><td>'+dhBR(c.hora).slice(-5)+'</td><td style="text-align:left">'+esc(c.itens.join(' + '))+'</td><td>'+esc(c.cidade)+'/'+esc(c.uf)+'</td><td>'+esc(c.cupom||'–')+'</td><td>'+relR(c.total)+'</td></tr>').join('')+'</table></div>':'')+
+ '<div class="card"><h2>O que fazer <small>fato → leitura provável → ação</small></h2><div class="ins">'+(d.leituras||[]).map(l=>'<div class="i '+(corL[l.cor]||'')+'"><h3>'+esc(l.titulo)+'</h3><p>'+esc(l.texto)+'</p></div>').join('')+'</div></div>'+
+ '<div class="foot"><span>Fonte: análises do Shopify (sessões, funil, origem) + checkouts e pedidos do Shopify</span><span>Gerado '+dhBR(d.gerado)+'</span></div></body></html>';
+}
+VIEWFN.relatorios=()=>{
+ if(!RL.loaded&&S.db)setTimeout(loadRel,0);
+ const r=RL.rows.find(x=>x.dia===RL.dia)||RL.rows[0];
+ const acts=can()?'<button class="btn sm" type="button" data-relgerar="1">Gerar ontem agora</button>'+(r?' <button class="btn sm" type="button" data-relenviar="'+esc(r.dia)+'">Reenviar e-mail deste dia</button>':''):'';
+ const sel=RL.rows.length?'<label class="muted" style="font-size:12px">Dia <select id="rel-dia">'+RL.rows.map(x=>'<option value="'+x.dia+'"'+(r&&x.dia===r.dia?' selected':'')+'>'+relDiaTxt(x.dia)+' · '+(x.dados?.visitas??0)+' visitas · '+(x.dados?.compras??0)+' compras</option>').join('')+'</select></label> <button class="btn sm pri" type="button" data-relpdf="1">Baixar PDF / imprimir</button>':'';
+ return '<div class="page wide"><div class="col">'+head('Relatório do site','Todo dia às 8h o sistema puxa do Shopify os números de ontem (visitas, funil, origem, cidades, checkouts e vendas), guarda aqui e manda por e-mail.',acts)+
+ (RL.missing?'<div class="note"><span class="label">Tabela ainda não existe</span><p>Falta criar a tabela relatorios no Supabase.</p></div>':'')+
+ '<div class="card"><div class="chips">'+sel+(r?' <span class="muted" style="font-size:12px">E-mail: '+(r.enviado_em?'enviado '+dhBR(r.enviado_em):esc(r.envio_info||'não enviado'))+'</span>':'')+'</div></div>'+
+ (!RL.loaded?'<div class="card"><p class="muted">Carregando…</p></div>':!r?'<div class="card">'+empty('Nenhum relatório ainda','O primeiro chega amanhã às 8h. Ou clique em "Gerar ontem agora".')+'</div>':
+  '<div class="card" style="padding:0;overflow:auto;background:#F7F2F4"><iframe id="rel-frame" title="Relatório" style="display:block;margin:12px auto;width:820px;max-width:none;height:1180px;border:0;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.08)" srcdoc="'+esc(relHTML(r.dados))+'"></iframe></div>')+
+ '</div></div>';
+};
+async function relChamar(body){
+ const {data,error}=await sb.functions.invoke('relatorio-diario',{body});
+ if(error){let m='';try{m=(await error.context.json()).erro}catch(_){}throw new Error(m||error.message)}
+ return data;
+}
+document.addEventListener('change',e=>{if(e.target.id==='rel-dia'){RL.dia=e.target.value;render()}});
+document.addEventListener('click',async e=>{
+ const t=e.target.closest('[data-relgerar],[data-relenviar],[data-relpdf]');if(!t)return;
+ if(t.dataset.relpdf){const f=$('#rel-frame');if(f&&f.contentWindow){f.contentWindow.focus();f.contentWindow.print()}return}
+ if(RL.gerando)return;RL.gerando=true;t.disabled=true;const txt=t.textContent;t.textContent='Gerando…';
+ try{
+  if(t.dataset.relgerar){const d0=new Date(Date.now()-3*3600e3);d0.setUTCDate(d0.getUTCDate()-1);const dia=d0.toISOString().slice(0,10);
+   const r=await relChamar({dia,forcar:true,enviar:false});RL.dia=r.dia;toast('Relatório de '+r.dia.split('-').reverse().join('/')+' gerado')}
+  else{if(!confirm('Mandar de novo o e-mail deste dia?'))throw 0;const r=await relChamar({dia:t.dataset.relenviar,forcar:true,enviar:true});toast(/^ok/.test(r.envio)?'E-mail enviado':'E-mail não saiu: '+r.envio)}
+  RL.loaded=false;await loadRel();
+ }catch(err){if(err)toast(String(err.message||err))}
+ RL.gerando=false;t.disabled=false;t.textContent=txt;
+});
+
 /* ---------- Fornecedores ---------- */
 VIEWFN.fornecedores=()=>{
  const rows=S.data.fornecedores.filter(match).slice().sort((a,b)=>String(a.codigo||'zzz').localeCompare(String(b.codigo||'zzz')));
@@ -3345,6 +3448,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v51','31/10/2026',['Novo: Relatório do site (grupo Clientes). Todo dia às 8h o sistema puxa do Shopify os números de ontem — visitas, funil, origem, cidades, checkouts não finalizados e vendas —, guarda aqui e manda por e-mail. Dá para escolher o dia, baixar em PDF, gerar ontem na hora e reenviar o e-mail.']],
  ['v50','31/10/2026',['Menu lateral: os títulos dos grupos (Operação, Dinheiro, Estoque e compras…) ganharam faixa rosa com texto framboesa. Grupo fechado fica cinza.']],
  ['v49','31/10/2026',['Cupons: clique no código para copiar.','Cupons: busca por código, nome, influenciadora ou CPF, e filtros Ativos, Inativos, Já usados, Nunca usados e por tipo (%, R$, frete grátis). Abre mostrando só os ativos.']],
  ['v48','31/10/2026',['Pricing: nova fonte de preço do exterior, "Loja oficial da marca" (OF). Primeiro uso: a loja oficial da celimax que vende para o Brasil em US$.']],
