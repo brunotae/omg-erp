@@ -421,6 +421,39 @@ Deno.serve(async (req) => {
       return resp(200, { ok: true, n: d.products.nodes.length, achados, proximo: d.products.pageInfo.hasNextPage ? d.products.pageInfo.endCursor : null });
     }
 
+    if (b.acao === "produto_criar") {
+      // Cadastra produto novo (já com fotos, opções, preço, SKU, peso e estoque de vitrine 9999).
+      // { produto: { titulo, marca, tipo, tags: [], html, imagens: [url], opcao?: "Tamanho", status?: "DRAFT"|"ACTIVE",
+      //   variantes: [{ nome?, sku, preco, peso_g }] } }  · fica publicado em todos os canais (como os outros).
+      const P = b.produto || {};
+      const vs = (Array.isArray(P.variantes) ? P.variantes : []).slice(0, 20);
+      if (!P.titulo || !vs.length) return resp(400, { erro: "precisa de titulo e ao menos 1 variante" });
+      const sk: any = await gql(`query($q: String!) { productVariants(first: 5, query: $q) { nodes { sku product { title } } } }`, { q: vs.map((v: any) => "sku:" + v.sku).join(" OR ") });
+      if (sk.productVariants.nodes.length) return resp(409, { erro: "SKU já existe: " + sk.productVariants.nodes.map((x: any) => x.sku + " (" + x.product.title + ")").join(", ") });
+      const loc: any = await gql(`{ locations(first: 1) { nodes { id } } }`);
+      const locId = loc.locations.nodes[0]?.id;
+      const opcao = String(P.opcao || "Tamanho"), unica = vs.length === 1;
+      const input: any = {
+        title: String(P.titulo), descriptionHtml: String(P.html || ""), vendor: String(P.marca || ""), productType: String(P.tipo || ""),
+        tags: (P.tags || []).map(String), status: String(P.status || "DRAFT").toUpperCase(),
+        productOptions: [{ name: unica ? "Title" : opcao, values: vs.map((v: any) => ({ name: unica ? "Default Title" : String(v.nome) })) }],
+        files: (P.imagens || []).filter((u: any) => /^https:\/\//.test(String(u))).slice(0, 10).map((u: string) => ({ originalSource: u, contentType: "IMAGE" })),
+        variants: vs.map((v: any) => ({
+          optionValues: [{ optionName: unica ? "Title" : opcao, name: unica ? "Default Title" : String(v.nome) }],
+          price: Number(v.preco).toFixed(2), inventoryPolicy: "DENY", taxable: true,
+          inventoryItem: { sku: String(v.sku), tracked: true, measurement: { weight: { value: Number(v.peso_g) || 0, unit: "GRAMS" } } },
+          ...(locId ? { inventoryQuantities: [{ locationId: locId, name: "available", quantity: 9999 }] } : {}),
+        })),
+      };
+      const d: any = await gql(`mutation($i: ProductSetInput!) { productSet(synchronous: true, input: $i) { product { id handle title } userErrors { field message } } }`, { i: input });
+      const ue = d.productSet.userErrors; if (ue.length) return resp(422, { erro: ue.map((x: any) => (x.field || []).join(".") + ": " + x.message).join("; ") });
+      const prod = d.productSet.product;
+      const pubs: any = await gql(`{ publications(first: 20) { nodes { id name } } }`);
+      await gql(`mutation($id: ID!, $p: [PublicationInput!]!) { publishablePublish(id: $id, input: $p) { userErrors { message } } }`,
+        { id: prod.id, p: pubs.publications.nodes.map((x: any) => ({ publicationId: x.id })) });
+      return resp(200, { ok: true, id: prod.id, handle: prod.handle, titulo: prod.title });
+    }
+
     if (b.acao === "variantes_criar") {
       // Transforma um produto de versão única em produto com escolha (Versão / Cor).
       // { handle, opcao: "Versão", itens: [{ nome, sku, preco, img? }], aplicar?: true }
