@@ -5,6 +5,7 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { pedidoParaVenda } from "./map.js";
 import { gravarProdutos, marcarExcluido, produtoParaLinhas } from "../_shared/produtos.js";
+import { calcular, usarBanco } from "../_shared/frete_calc.ts";
 
 // Webhooks criados em Configurações → Notificações usam o segredo mostrado lá; os criados pelo app usam o Client Secret do app.
 const SECRET = Deno.env.get("SHOPIFY_WEBHOOK_SECRET") ?? Deno.env.get("SHOPIFY_CLIENT_SECRET") ?? "";
@@ -13,6 +14,27 @@ const sb = createClient(
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
   { auth: { persistSession: false } },
 );
+usarBanco(sb);
+
+// Frete OMG: o checkout cobra frete + seguro + II + ICMS numa linha só. Refaz a mesma conta para o ERP
+// guardar cada parte (declaração, manifesto, lucratividade). Se não bater com o cobrado, avisa na obs.
+async function separarFreteOMG(pedido: any, venda: any) {
+  const linha = (pedido.shipping_lines || []).find((l: any) => /OMG_INTL/i.test(l.code || "") || /Entrega internacional OMG/i.test(l.title || ""));
+  if (!linha) return;
+  const ad = pedido.shipping_address || {};
+  const itens = (pedido.line_items || []).filter((li: any) => li.requires_shipping !== false)
+    .map((li: any) => ({ grams: Number(li.grams) || 0, price: Math.round(Number(li.price) * 100), quantity: Number(li.quantity) || 1 }));
+  const cobrado = Number(linha.price_set?.shop_money?.amount ?? linha.price) || 0;
+  try {
+    const c = await calcular(ad.zip, ad.province_code || null, itens);
+    venda.frete = c.brl.frete_seguro; venda.ii = c.brl.ii; venda.icms = c.brl.icms;
+    venda.dados_site = { ...(venda.dados_site || {}), frete_omg: { ...c, cobrado } };
+    const dif = Math.round((cobrado - c.brl.total_linha) * 100) / 100;
+    if (Math.abs(dif) > 0.05) venda.obs = [venda.obs, "Frete OMG: cobrado R$ " + cobrado.toFixed(2) + ", conta de hoje R$ " + c.brl.total_linha.toFixed(2) + " (diferença R$ " + dif.toFixed(2) + ")"].filter(Boolean).join(" · ");
+  } catch (e) {
+    venda.obs = [venda.obs, "Frete OMG: não deu para separar frete e impostos (" + String((e as Error).message || e) + "); total cobrado R$ " + cobrado.toFixed(2)].filter(Boolean).join(" · ");
+  }
+}
 
 async function assinaturaOk(corpo: Uint8Array, recebida: string | null) {
   if (!SECRET || !recebida) return false;
@@ -60,7 +82,9 @@ Deno.serve(async (req) => {
         .from("vendas").select("id").eq("ext_id", extId).maybeSingle();
       if (e1) throw e1;
       if (existe) return resp(200, "já importada");
-      const { error } = await sb.from("vendas").insert(pedidoParaVenda(pedido));
+      const venda = pedidoParaVenda(pedido);
+      await separarFreteOMG(pedido, venda);
+      const { error } = await sb.from("vendas").insert(venda);
       if (error) {
         if (error.code === "23505") return resp(200, "já importada");
         throw error;
