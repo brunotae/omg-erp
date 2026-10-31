@@ -17,3 +17,6 @@ verify_jwt = false
 
 [functions.frete-omg]
 verify_jwt = false
+
+[functions.vitrine-sync]
+verify_jwt = false

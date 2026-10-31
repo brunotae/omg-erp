@@ -48,3 +48,11 @@ jobs:
         run: supabase functions deploy catalogo-sync --project-ref nzsiuniabovvptuqmkmi --no-verify-jwt
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      - name: Publicar vitrine-sync (vitrine Até R$ 50 pelo preço do card)
+        run: supabase functions deploy vitrine-sync --project-ref nzsiuniabovvptuqmkmi --no-verify-jwt
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      - name: Atualizar vitrine Até R$ 50 logo após publicar
+        run: |
+          sleep 20
+          curl -sS -m 140 -X POST https://nzsiuniabovvptuqmkmi.supabase.co/functions/v1/vitrine-sync -H 'content-type: application/json' -d '{"modo":"ate50"}'

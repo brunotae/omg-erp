@@ -1,0 +1,15 @@
+name: Vitrine Até R$ 50
+# De hora em hora: etiqueta ate-50 nos produtos cujo preço do card é até R$ 50 (e tira de quem passou).
+on:
+  schedule:
+    - cron: '41 * * * *'
+  workflow_dispatch:
+jobs:
+  vitrine:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Atualizar etiquetas
+        run: |
+          R=$(curl -sS -m 140 -X POST https://nzsiuniabovvptuqmkmi.supabase.co/functions/v1/vitrine-sync -H 'content-type: application/json' -d '{"modo":"ate50"}')
+          echo "$R"
+          echo "$R" | grep -q '"ok":true' || { echo "::error::$R"; exit 1; }

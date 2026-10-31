@@ -110,7 +110,8 @@ async function trocarFotos(it: { handle: string; fotos: string[]; peso_g?: numbe
     const e = del.productDeleteMedia.mediaUserErrors; if (e.length) throw new Error("fotos novas entraram, mas as antigas não saíram: " + e[0].message);
   }
   const g = Number(it.peso_g);
-  if (g > 0 && p.variants.nodes.length) {
+  // Só grava o peso quando o produto tem 1 versão: com várias (ex.: frasco 75 g + sachê 1 g) o mesmo peso em todas deixava o frete do sachê caro.
+  if (g > 0 && p.variants.nodes.length === 1) {
     const w: any = await gql(`mutation($pid: ID!, $v: [ProductVariantsBulkInput!]!) {
         productVariantsBulkUpdate(productId: $pid, variants: $v) { userErrors { message } } }`,
       { pid: p.id, v: p.variants.nodes.map((v: any) => ({ id: v.id, inventoryItem: { measurement: { weight: { value: g, unit: "GRAMS" } } } })) });
