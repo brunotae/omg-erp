@@ -437,7 +437,8 @@ Deno.serve(async (req) => {
         const u: any = await gql(`mutation($c: CollectionInput!) { collectionUpdate(input: $c) { userErrors { message } } }`, { c: { id: col.id, sortOrder: "MANUAL" } });
         if (u.collectionUpdate.userErrors.length) throw new Error(u.collectionUpdate.userErrors[0].message);
       }
-      // Coleção por tag demora uns segundos para incluir o produto: tenta de novo.
+      // Coleção por tag demora uns segundos para incluir o produto (e o Shopify não avisa erro se ainda não incluiu): espera antes.
+      if (b.tag) await new Promise((ok) => setTimeout(ok, 8000));
       let erro = "";
       for (let t = 0; t < 6; t++) {
         const r: any = await gql(`mutation($id: ID!, $m: [MoveInput!]!) { collectionReorderProducts(id: $id, moves: $m) { userErrors { message } } }`,
