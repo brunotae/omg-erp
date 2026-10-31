@@ -1,0 +1,30 @@
+name: baixar-imagens
+# Ferramenta interna: baixa imagens de sites de fabricantes (que só abrem fora daqui) e guarda como artefato por 3 dias.
+on:
+  workflow_dispatch:
+    inputs:
+      urls:
+        description: "uma URL por linha (ou separadas por espaço)"
+        required: true
+      nome:
+        description: "nome do pacote"
+        required: false
+        default: "imagens"
+jobs:
+  baixar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar
+        env:
+          URLS: ${{ inputs.urls }}
+        run: |
+          mkdir -p out; i=0
+          for u in $URLS; do
+            i=$((i+1)); n=$(printf '%03d' $i)_$(basename "${u%%\?*}")
+            curl -sSL -m 60 -A "Mozilla/5.0" -e "https://www.cosrx.co.kr/" -o "out/$n" "$u" && echo "ok $n $(stat -c%s out/$n)" || echo "falhou $u"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.nome }}
+          path: out/
+          retention-days: 3
