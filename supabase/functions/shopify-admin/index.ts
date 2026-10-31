@@ -145,6 +145,26 @@ Deno.serve(async (req) => {
           tableData { columns { name dataType displayName } rows } parseErrors } }`, { q: String(b.q || "") });
       return resp(200, { ok: true, ...d.shopifyqlQuery });
     }
+    if (b.acao === "clientes_site") {
+      // Cadastros do site (contas e assinantes de e-mail/SMS), mais novos primeiro, até 250 por chamada (b.after).
+      const d: any = await gql(`query($a: String) { customers(first: 250, after: $a, sortKey: CREATED_AT, reverse: true) {
+          pageInfo { hasNextPage endCursor }
+          nodes { legacyResourceId displayName firstName lastName createdAt updatedAt state tags note
+            defaultEmailAddress { emailAddress marketingState marketingOptInLevel marketingUpdatedAt }
+            defaultPhoneNumber { phoneNumber marketingState }
+            numberOfOrders amountSpent { amount }
+            defaultAddress { city provinceCode countryCodeV2 }
+            lastOrder { name createdAt } } } }`, { a: b.after ?? null });
+      const rows = d.customers.nodes.map((c: any) => ({
+        id: c.legacyResourceId, nome: c.displayName, email: c.defaultEmailAddress?.emailAddress || "",
+        email_mkt: c.defaultEmailAddress?.marketingState || "", email_mkt_em: c.defaultEmailAddress?.marketingUpdatedAt || null,
+        fone: c.defaultPhoneNumber?.phoneNumber || "", fone_mkt: c.defaultPhoneNumber?.marketingState || "",
+        pedidos: Number(c.numberOfOrders || 0), gasto: Number(c.amountSpent?.amount || 0),
+        cidade: c.defaultAddress?.city || "", uf: c.defaultAddress?.provinceCode || "", pais: c.defaultAddress?.countryCodeV2 || "",
+        criado: c.createdAt, conta: c.state, tags: c.tags || [], ultimo_pedido: c.lastOrder?.createdAt || null,
+      }));
+      return resp(200, { ok: true, rows, proximo: d.customers.pageInfo.hasNextPage ? d.customers.pageInfo.endCursor : null });
+    }
     if (b.acao === "checkouts_abandonados") {
       // Checkouts não finalizados do período (o que estava no carrinho), sem dados pessoais.
       const d: any = await gql(`query($q: String!) { abandonedCheckouts(first: 100, query: $q, reverse: true) { nodes {
