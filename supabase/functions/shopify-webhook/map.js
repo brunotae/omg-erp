@@ -148,6 +148,16 @@ export function pedidoParaVenda(o) {
         ? round2((o.tax_lines || []).reduce((t, x) => t + num(x.price_set?.shop_money?.amount ?? x.price), 0))
         : 0,
       linhas: (o.line_items || []).map((l) => ({ sku: l.sku, title: l.title, qtd: l.quantity, price: l.price })),
+      // endereço de entrega completo: vai para o manifesto da Mile (parametrização)
+      endereco: {
+        nome: ad.name || nome,
+        rua: ad.address1 || "",
+        compl: ad.address2 || "",
+        cidade: ad.city || "",
+        uf: ad.province_code || "",
+        cep: ad.zip || "",
+        fone: ad.phone || o.phone || o.billing_address?.phone || "",
+      },
     },
   };
 }

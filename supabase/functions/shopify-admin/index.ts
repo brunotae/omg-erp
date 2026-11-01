@@ -212,6 +212,21 @@ async function principal(req: Request): Promise<Response> {
       }
       return resp(200, { ok: true, res });
     }
+    if (b.acao === "vendas_endereco") {
+      // Preenche o endereço de entrega completo (manifesto da Mile) nas vendas do site que ainda não têm.
+      const { data: vs } = await admin.from("vendas").select("id,ext_id,dados_site").like("ext_id", "shopify:%");
+      const res: any[] = [];
+      for (const v of (vs || []).filter((x: any) => b.todas || !(x.dados_site || {}).endereco)) {
+        try {
+          const d: any = await gql(`query($id: ID!) { order(id: $id) { phone shippingAddress { name address1 address2 city provinceCode zip phone } billingAddress { phone } } }`, { id: "gid://shopify/Order/" + String(v.ext_id).split(":")[1] });
+          const a = d?.order?.shippingAddress; if (!a) { res.push({ id: v.id, ok: false }); continue; }
+          const endereco = { nome: a.name || "", rua: a.address1 || "", compl: a.address2 || "", cidade: a.city || "", uf: a.provinceCode || "", cep: a.zip || "", fone: a.phone || d.order.phone || d.order.billingAddress?.phone || "" };
+          await admin.from("vendas").update({ dados_site: { ...(v.dados_site || {}), endereco } }).eq("id", v.id);
+          res.push({ id: v.id, ok: true });
+        } catch (e) { res.push({ id: v.id, erro: String((e as Error).message || e).slice(0, 160) }); }
+      }
+      return resp(200, { ok: true, res });
+    }
     if (b.acao === "pedidos_periodo") {
       // Pedidos do período com origem da visita (para os relatórios).
       const desde = String(b.desde || "2026-10-01");
