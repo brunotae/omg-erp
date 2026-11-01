@@ -897,7 +897,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v66 · 01/11/2026';
+const VERSAO='v67 · 01/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -944,6 +944,51 @@ VIEWFN.painel=()=>{
 };
 
 /* ---------- Vendas ---------- */
+/* v67: tabela estilo Excel reutilizável (XT): filtro em cada coluna com lista de valores + ordenar pelo título.
+   cols: [{k,l,g:row=>valor, t:'t'|'n'|'d', fmt:v=>html (lista), cell:row=>html, cls, nf:true (sem filtro), ns:true (sem ordenar)}] */
+const XT={},XT_DEF={};
+const xtSt=(id,def)=>XT[id]||(XT[id]={f:{},sort:def||[null,1],lim:300});
+function xtFiltra(id,cols,rows,pula){const st=xtSt(id);let L=rows;cols.forEach(c=>{const f=st.f[c.k];if(!c.nf&&f&&c.k!==pula)L=L.filter(r=>pxMatch(c.g(r),f,c.t==='n'?'n':'t'))});return L}
+function xtOrdena(id,cols,L){const [sk,dir]=xtSt(id).sort,c=cols.find(x=>x.k===sk);if(!c)return L;
+ return [...L].sort((a,b)=>{const va=c.g(a),vb=c.g(b);if(c.t==='n'){const A=pxNum(va),B=pxNum(vb);if(A==null&&B==null)return 0;if(A==null)return 1;if(B==null)return -1;return (A-B)*dir}
+  if(va==null||va==='')return 1;if(vb==null||vb==='')return -1;return String(va).localeCompare(String(vb),'pt-BR',{numeric:true})*dir})}
+function xtTabela(id,cols,rows,trAttr,def){const st=xtSt(id,def);XT_DEF[id]={cols,rows};
+ const L=xtOrdena(id,cols,xtFiltra(id,cols,rows)),vis=L.slice(0,st.lim),fil=Object.values(st.f).some(Boolean);
+ const th=cols.map(c=>'<th class="'+(c.t==='n'?'r ':'')+(c.ns?'':'px-th')+'"'+(c.ns?'':' data-xtsort="'+id+'|'+c.k+'"')+'>'+c.l+(st.sort[0]===c.k?(st.sort[1]>0?' ▲':' ▼'):'')+'</th>').join('');
+ const tf=cols.map(c=>'<th class="px-fi">'+(c.nf?'':'<input data-xtf="'+id+'|'+c.k+'" value="'+esc(st.f[c.k]||'')+'" placeholder="'+(c.t==='n'?'>10':'filtrar')+'" aria-label="Filtro '+esc(c.l)+'" data-1c="off" autocomplete="off">')+'</th>').join('');
+ return {n:L.length,fil,html:'<div class="tblwrap px-wrap"><table class="px-t ct-t xt-t"><thead><tr>'+th+'</tr><tr class="px-frow">'+tf+'</tr></thead><tbody>'+
+  (vis.length?vis.map(r=>'<tr '+trAttr(r)+'>'+cols.map(c=>'<td'+(c.cls?' class="'+c.cls+'"':'')+'>'+c.cell(r)+'</td>').join('')+'</tr>').join(''):'<tr><td colspan="'+cols.length+'" class="muted" style="padding:16px;text-align:center">Nada neste filtro.</td></tr>')+
+  '</tbody></table></div>'+(L.length>vis.length?'<p style="text-align:center;margin:10px 0 0"><button class="btn sm" type="button" data-xtmais="'+id+'">Mostrar mais ('+(L.length-vis.length)+')</button></p>':'')}}
+let xtPop=null;
+function xtPopFechar(){const d=document.getElementById('xt-pop');if(d)d.remove();xtPop=null}
+function xtPopAbrir(inp){const [id,k]=inp.dataset.xtf.split('|'),D=XT_DEF[id];if(!D)return;xtPopFechar();xtPop=inp.dataset.xtf;
+ const c=D.cols.find(x=>x.k===k),st=xtSt(id),cur=String(st.f[k]||''),sel=new Set(cur?cur.split('|').map(x=>x.trim()).filter(Boolean):[]);
+ const M=new Map();xtFiltra(id,D.cols,D.rows,k).forEach(r=>{let v=c.g(r);v=v==null||v===''?'(vazio)':String(v);M.set(v,(M.get(v)||0)+1)});
+ const fmt=v=>v==='(vazio)'?'(vazio)':c.fmt?c.fmt(v):esc(v);
+ let V=[...M.entries()].sort((a,b)=>a[0]==='(vazio)'?1:b[0]==='(vazio)'?-1:c.t==='n'?Number(a[0])-Number(b[0]):a[0].localeCompare(b[0],'pt-BR',{numeric:true}));
+ const busca=cur.includes('|')?'':pxNorm(cur);if(busca)V=V.filter(([v])=>sel.has(v)||pxNorm(v).includes(busca)||pxNorm(fmt(v).replace(/<[^>]+>/g,'')).includes(busca));
+ const d=document.createElement('div');d.id='xt-pop';d.className='ct-pop';
+ d.innerHTML='<div class="ct-pop-l">'+(V.length?V.slice(0,500).map(([v,q])=>'<label><input type="checkbox" value="'+esc(v)+'"'+(sel.has(v)?' checked':'')+'><span>'+fmt(v)+'</span><small>'+q+'</small></label>').join('')+(V.length>500?'<p class="muted">… e mais '+(V.length-500)+'. Digite para achar.</p>':''):'<p class="muted">Nada com esse texto.</p>')+'</div>'+
+  '<div class="ct-pop-b"><button type="button" class="btn sm" data-xtpop="tudo">Marcar todos</button><button type="button" class="btn sm" data-xtpop="limpa">Limpar</button><span style="flex:1"></span><button type="button" class="btn sm pri" data-xtpop="ok">Aplicar</button></div>';
+ document.body.appendChild(d);const r=inp.getBoundingClientRect();d.style.left=Math.max(8,Math.min(r.left+scrollX,innerWidth-d.offsetWidth-8))+'px';d.style.top=(r.bottom+scrollY+2)+'px';d.style.minWidth=Math.max(r.width,220)+'px'}
+let xtFT=null;
+document.addEventListener('focusin',e=>{const t=e.target;if(t.matches&&t.matches('input[data-xtf]')&&xtPop!==t.dataset.xtf)xtPopAbrir(t)});
+document.addEventListener('click',e=>{const t=e.target;
+ if(t.matches&&t.matches('input[data-xtf]')){if(xtPop!==t.dataset.xtf)xtPopAbrir(t);return}
+ const s0=t.closest&&t.closest('th[data-xtsort]');if(s0){const [id,k]=s0.dataset.xtsort.split('|'),st=xtSt(id);st.sort=st.sort[0]===k?[k,-st.sort[1]]:[k,1];render();return}
+ const m=t.closest&&t.closest('[data-xtmais]');if(m){xtSt(m.dataset.xtmais).lim+=500;render();return}
+ const b=t.closest&&t.closest('[data-xtpop]');if(b&&xtPop){const d=document.getElementById('xt-pop'),[id,k]=xtPop.split('|'),st=xtSt(id),a=b.dataset.xtpop;
+  if(a==='tudo'){d.querySelectorAll('input[type=checkbox]').forEach(c=>c.checked=true);return}
+  if(a==='limpa'){st.f[k]='';xtPopFechar();st.lim=300;render();return}
+  const v=[...d.querySelectorAll('input[type=checkbox]:checked')].map(c=>c.value),tot=d.querySelectorAll('input[type=checkbox]').length;
+  st.f[k]=v.length&&v.length<tot?v.join('|'):'';xtPopFechar();st.lim=300;render()}});
+document.addEventListener('mousedown',e=>{if(!xtPop)return;if(e.target.closest('#xt-pop')||e.target.closest('input[data-xtf]'))return;xtPopFechar()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&xtPop)xtPopFechar()});
+document.addEventListener('input',e=>{const t=e.target;if(!t.dataset||!t.dataset.xtf)return;clearTimeout(xtFT);
+ xtFT=setTimeout(()=>{const key=t.dataset.xtf,[id,k]=key.split('|'),pos=t.selectionStart;xtSt(id).f[k]=t.value;xtSt(id).lim=300;render();const n2=document.querySelector('[data-xtf="'+key+'"]');if(n2){xtPop=null;n2.focus();try{n2.setSelectionRange(pos,pos)}catch(_){}}},350)});
+function xtLimpar(id){const st=xtSt(id);st.f={};render()}
+document.addEventListener('click',e=>{const a=e.target.closest&&e.target.closest('[data-xtlimpa]');if(a){e.preventDefault();xtLimpar(a.dataset.xtlimpa)}});
+
 function tblVendas(rows){
  return '<div class="tblwrap"><table><thead><tr><th>Venda</th><th>Cliente</th><th>Etapa</th><th class="r">Total</th><th class="r">Avançar</th></tr></thead><tbody>'+
  rows.map(v=>{const c=calc(v),cs=curStep(v);const nx=cs<12&&!isCancel(v)?STEPS[cs+1]:null;
@@ -952,12 +997,27 @@ function tblVendas(rows){
   '<td class="r num"><b>'+dm(c.total)+'</b><small>impostos '+dm(c.impostos)+'</small></td>'+
   '<td class="r">'+(nx&&can()?'<button class="iconbtn" type="button" data-adv="'+esc(v.id)+'" title="Marcar: '+esc(nx[1])+'" aria-label="Marcar: '+esc(nx[1])+'"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>':'')+'</td></tr>'}).join('')+'</tbody></table></div>';
 }
+const VD_COLS=[
+ {k:'num',l:'Venda',g:v=>vnum(v.numero),cell:v=>'<b class="num">'+vnum(v.numero)+'</b>'},
+ {k:'data',l:'Data',t:'t',g:v=>v.dataCompra||'',fmt:v=>fdate(v),cell:v=>'<span class="num">'+fdate(v.dataCompra)+'</span>'},
+ {k:'canal',l:'Canal',g:v=>(v.canal||'')+(v.pedidoSite?' '+v.pedidoSite:''),cell:v=>esc(v.canal||'')+(v.pedidoSite?'<small>'+esc(v.pedidoSite)+'</small>':'')},
+ {k:'cli',l:'Cliente',g:v=>v.cliente||'',cell:v=>'<b>'+esc(v.cliente||'')+'</b>',cls:'px-nome'},
+ {k:'cid',l:'Cidade',g:v=>v.cidade||'',cell:v=>esc(v.cidade||'')},
+ {k:'uf',l:'UF',g:v=>v.uf||'',cell:v=>esc(v.uf||'')},
+ {k:'itens',l:'Itens',t:'n',g:v=>calc(v).qtd,cell:v=>'<span class="num">'+calc(v).qtd+'</span>',cls:'r'},
+ {k:'cupom',l:'Cupom',g:v=>v.cupom||'',cell:v=>esc(v.cupom||'')},
+ {k:'emb',l:'Embarque',g:v=>(loteOf(v)||{}).numero||'',cell:v=>esc((loteOf(v)||{}).numero||'')},
+ {k:'etapa',l:'Etapa',g:v=>isCancel(v)?'Cancelada':(curStep(v)<0?'Sem etapa':(curStep(v)+1)+'. '+STEPS[curStep(v)][1]),cell:v=>prog(v)},
+ {k:'total',l:'Total',t:'n',g:v=>Math.round(calc(v).total*100)/100,fmt:v=>dm(Number(v)),cell:v=>{const c=calc(v);return '<b class="num">'+dm(c.total)+'</b><small>impostos '+dm(c.impostos)+'</small>'},cls:'r'},
+ {k:'adv',l:'Avançar',nf:true,ns:true,g:()=>'',cell:v=>{const cs=curStep(v),nx=cs<12&&!isCancel(v)?STEPS[cs+1]:null;return nx&&can()?'<button class="iconbtn" type="button" data-adv="'+esc(v.id)+'" title="Marcar: '+esc(nx[1])+'" aria-label="Marcar: '+esc(nx[1])+'"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>':''},cls:'r'}];
 VIEWFN.vendas=()=>{
  const f=S.f.vendas;let rows=S.data.vendas.filter(match);
  if(f==='abertas')rows=rows.filter(isOpen);else if(f==='canceladas')rows=rows.filter(isCancel);else if(f!=='todas'){const g=GROUPS.find(x=>x[0]===f);rows=rows.filter(v=>!isCancel(v)&&curStep(v)>=g[1]&&curStep(v)<=g[2])}
+ const T=rows.length?xtTabela('vendas',VD_COLS,rows,v=>'data-edit="vendas" data-id="'+esc(v.id)+'" style="cursor:pointer"',['num',-1]):null;
  return '<div class="page wide"><div class="col">'+head('Vendas','Numeração automática a partir de 100.000.001. Cada venda guarda mercadoria, cliente, impostos, custos, quem carregou na Coreia e no Brasil e a data de cada etapa.',newBtn('vendas','Nova venda'))+
  '<div class="chips">'+[['abertas','Em andamento'],['todas','Todas'],...GROUPS.map(g=>[g[0],g[0]]),['canceladas','Canceladas']].map(([k,l])=>'<button type="button" data-fv="'+esc(k)+'" aria-pressed="'+(f===k)+'">'+esc(l)+'</button>').join('')+'</div>'+
- '<div class="card">'+(loading('vendas')?'<p class="muted">Carregando…</p>':rows.length?tblVendas(rows):empty(S.data.vendas.length?'Nenhuma venda neste filtro':'Nenhuma venda lançada','Use Nova venda. A seta da tabela marca a próxima etapa com a data de hoje; o resto se edita dentro da venda.'))+'</div></div></div>';
+ (T&&T.fil?'<p class="muted" style="margin:0;font-size:11.5px"><b>'+T.n+' de '+rows.length+' vendas</b> · <a href="#" data-xtlimpa="vendas">limpar filtros das colunas</a></p>':'')+
+ '<div class="card" style="padding:8px">'+(loading('vendas')?'<p class="muted">Carregando…</p>':rows.length?T.html:empty(S.data.vendas.length?'Nenhuma venda neste filtro':'Nenhuma venda lançada','Use Nova venda. A seta da tabela marca a próxima etapa com a data de hoje; o resto se edita dentro da venda.'))+'</div></div></div>';
 };
 
 /* ---------- Embarques ---------- */
@@ -3756,6 +3816,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v67','01/11/2026',['Vendas: tabela estilo Excel. Colunas Venda, Data, Canal, Cliente, Cidade, UF, Itens, Cupom, Embarque, Etapa e Total, cada uma com filtro (lista de valores com quantidade, marque um ou vários) e ordem clicando no título. Os botões de etapa no topo continuam valendo junto com os filtros.']],
  ['v66','01/11/2026',['Catálogo: nova coluna EAN (código de barras), começa oculta: o botão Mostrar EAN / Ocultar EAN abre e fecha (lembra neste aparelho). Dá para filtrar e ordenar por ela.','O EAN vem só de fonte confiável: lista da Janice/fabricante, caixa do produto ou digitado na ficha. EAN visto em loja (Sephora, KS, Jini) não entra. Embaixo do número aparece de onde veio.']],
  ['v65','01/11/2026',['Monitoramentos: M-003 Preços dos concorrentes (leitura de segunda no servidor, sem custo de cota; cada leitura aparece no histórico com quantos produtos foram lidos e quantos mudaram de preço) e M-004 Movimentos dos concorrentes (Claude, dias 8 e 22, com relatório: promoções, marcas novas, concorrentes novos e Reclame Aqui).','O tempo do Claude no mês e a previsão não contam o que roda no servidor.']],
  ['v64','01/11/2026',['Catálogo: filtro estilo Excel. Ao clicar no campo de filtro abre a lista de valores da coluna, com a quantidade de cada um; marque um ou vários e clique em Aplicar. Dá para continuar digitando no campo, e a lista se ajusta ao texto.']],
