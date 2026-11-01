@@ -742,7 +742,7 @@ const ICONS={
  fornecedores:'<path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/>',
  config:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/>'
 };
-const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Parametrização'],['','lotes','Embarques'],['','devolucoes','Devoluções'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['','pricing','Pricing'],['','precos','Concorrentes'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','cadastros','Cadastros do site'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['','relatorios','Relatório do site'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Automação','monitor','Monitoramentos'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
+const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Parametrização'],['','lotes','Embarques'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['','pricing','Pricing'],['','precos','Concorrentes'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','cadastros','Cadastros do site'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['','relatorios','Relatório do site'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Automação','monitor','Monitoramentos'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
 
 /* ================= utilidades ================= */
 const $=s=>document.querySelector(s);
@@ -897,7 +897,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v71 · 01/11/2026';
+const VERSAO='v72 · 01/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -4013,6 +4013,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v72','01/11/2026',['Devoluções saiu do menu por enquanto (só vamos precisar depois). Os dados continuam guardados; volta quando for preciso.']],
  ['v71','01/11/2026',['Embalagens saiu do menu por enquanto (não vamos precisar tão cedo). Os dados continuam guardados; volta quando for preciso.']],
  ['v70','01/11/2026',['"Lista do dia" agora se chama Parametrização. Cada parametrização é um lote de vendas que sai da Coreia no mesmo AWB; as novas recebem o número P-AAMMDD.','Tabela de parametrizações com filtro tipo Excel e classificação (número, corte, vendas, unidades, AWB, mesmo AWB, enviada, compra).','Dentro da parametrização: campo AWB e dois botões de Excel. Planilha da Mile (Brasil), uma linha por item com cliente, CPF, endereço, telefone, HS, peso, medidas e valor em US$. Master List (Coreia), agrupada por produto, com valor 25% abaixo do vendido. Se mais de uma parametrização tiver o mesmo AWB, sai um arquivo só, e a coluna "Parametrização (uso interno)" mostra de qual veio cada pedido.','Antes de baixar, o ERP lista o que falta (CPF, endereço, telefone, nome em coreano, ingredientes, peso, medidas, HS).','Remetente (hoje La Belle) e dados da Mile editáveis em Parametrização › Remetente › Alterar.','Vendas: novas colunas Parametrização e AWB, com filtro.']],
  ['v69','01/11/2026',['Cupons: botão 🎁 Enviar como presente (na lista e dentro do cupom; abre sozinho depois de criar um cupom). Escolha o modelo (Boas-vindas, Aniversário, Presente, Influenciador, Desculpa pelo atraso) e o nome; copie o link do presente, mande no WhatsApp ou baixe o cartão com QR code para pôr na caixa.','A cliente abre o link em ohmygirl.com.br/pages/presente, toca no presente, copia o código com um toque e o botão Usar agora já aplica o desconto no carrinho.']],
