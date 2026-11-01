@@ -1,0 +1,142 @@
+{%- comment -%}
+  Calculadora de frete e impostos da OH MY GIRL (produto e carrinho). Mesma conta do checkout (função frete-omg).
+  v3 (01/11/2026, Tae): a cliente escolhe só a CIDADE (não o CEP) e vê o preço final estimado; o frete exato sai no checkout com o CEP.
+  Sem cidade escolhida: São Paulo (capital). A cidade fica guardada no aparelho (omg_cidade) e vale também nas vitrines (omg-mais).
+{%- endcomment -%}
+{%- assign prazo_txt = prazo_texto | default: 'Entrega em até 15 dias úteis para capitais' -%}
+<div class="omg-frete" data-modo="{{ modo }}" data-cidades="{{ 'omg-cidades.json' | asset_url }}">
+  <p class="omg-frete__prazo">{{ prazo_txt }}</p>
+  <form class="omg-frete__form" onsubmit="return false" autocomplete="off">
+    <label class="omg-frete__label" for="omg-cidade-{{ modo }}">Sua cidade</label>
+    <div class="omg-frete__linha">
+      <input id="omg-cidade-{{ modo }}" class="omg-frete__cid" placeholder="Digite sua cidade (ex.: Campinas)" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="omg-cidlista-{{ modo }}">
+    </div>
+    <ul class="omg-frete__lista" id="omg-cidlista-{{ modo }}" role="listbox" hidden></ul>
+  </form>
+  <div class="omg-frete__res" hidden></div>
+  {%- if modo == 'produto' -%}
+    <script type="application/json" class="omg-frete__variantes">[{% for v in product.variants %}{"id":{{ v.id }},"price":{{ v.price }},"grams":{{ v.weight | default: 300 }}}{% unless forloop.last %},{% endunless %}{% endfor %}]</script>
+  {%- endif -%}
+</div>
+<style>
+  .omg-frete{border:1px solid #EBD3DC;border-radius:10px;padding:10px 12px;margin-block:10px;display:grid;gap:8px;font-size:13px;background:#fff;position:relative}
+  .omg-frete__prazo{margin:0;font-weight:600;display:flex;align-items:center;gap:6px}
+  .omg-frete__prazo:before{content:"";width:7px;height:7px;border-radius:50%;background:#B83D66}
+  .omg-frete__label{display:none}
+  .omg-frete__linha{display:flex;gap:6px}
+  .omg-frete__cid{flex:1;min-width:0;padding:8px 10px;border:1px solid #D9C3CC;border-radius:8px;font:inherit}
+  .omg-frete__lista{list-style:none;margin:0;padding:4px;border:1px solid #D9C3CC;border-radius:8px;background:#fff;max-height:240px;overflow:auto;position:absolute;left:12px;right:12px;z-index:30;box-shadow:0 8px 20px rgba(74,38,56,.12)}
+  .omg-frete__form{position:relative}
+  .omg-frete__lista li{padding:7px 9px;border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;gap:8px}
+  .omg-frete__lista li small{color:#888}
+  .omg-frete__lista li[aria-selected="true"],.omg-frete__lista li:hover{background:#FBEFF3}
+  .omg-frete__res{display:grid;gap:1px}
+  .omg-frete__row{display:flex;justify-content:space-between;gap:10px;padding:1px 0}
+  .omg-frete__row span{color:#555}
+  .omg-frete__row b{font-weight:600;font-variant-numeric:tabular-nums}
+  .omg-frete__tot{background:#FBEFF3;border-radius:6px;padding:5px 8px;margin-top:4px}
+  .omg-frete__tot span,.omg-frete__tot b{color:#B83D66;font-weight:700}
+  .omg-frete__nota{color:#888;font-size:11px;margin:3px 0 0;line-height:1.35}
+  .omg-frete__ref{margin:0 0 2px;font-size:12px;color:#6b4a58;line-height:1.35}
+  .omg-frete__ref b{color:#B83D66}
+  .omg-pfinal{margin:6px 0 0;font-size:13px;color:#4A2638;line-height:1.4}
+  .omg-pfinal b{color:#B83D66;font-size:15px}
+  .omg-pfinal a{color:#7a6470;text-decoration:underline;white-space:nowrap}
+</style>
+<script>
+(() => {
+  const box = document.currentScript.previousElementSibling.previousElementSibling;
+  if (!box || box.dataset.ok) return; box.dataset.ok = 1;
+  const API = 'https://nzsiuniabovvptuqmkmi.supabase.co/functions/v1/frete-omg';
+  const SP = { n: 'São Paulo', uf: 'SP', cep: '01532001', ref: true };
+  const inp = box.querySelector('.omg-frete__cid'), lista = box.querySelector('.omg-frete__lista'), res = box.querySelector('.omg-frete__res');
+  const brl = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  const norm = s => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const nomeLocal = c => c.ref ? 'São Paulo (capital)' : c.n + ' (' + c.uf + ')';
+  let local = SP;
+  try { const s = JSON.parse(localStorage.getItem('omg_cidade') || 'null'); if (s && s.cep) local = s; } catch (e) {}
+  if (!local.ref) inp.value = local.n + ' · ' + local.uf;
+
+  // Lista de cidades (carrega só quando a cliente toca no campo)
+  let CID = null, carregando = null;
+  const carregar = () => carregando || (carregando = fetch(box.dataset.cidades).then(r => r.json()).then(d => { CID = d.map(x => ({ n: x[0], uf: x[1], cep: String(x[2]).padStart(8, '0'), cap: x[3], k: norm(x[0]) })); }).catch(() => { CID = []; }));
+  let achados = [], sel = -1;
+  function mostrar() {
+    const q = norm(inp.value.split('·')[0].trim());
+    if (!CID) { carregar().then(mostrar); return; }
+    if (q.length < 2) { lista.hidden = true; inp.setAttribute('aria-expanded', 'false'); return; }
+    const ini = CID.filter(c => c.k.startsWith(q)), mei = CID.filter(c => !c.k.startsWith(q) && c.k.includes(q));
+    achados = [...ini.sort((a, b) => b.cap - a.cap || a.n.length - b.n.length), ...mei].slice(0, 8); sel = achados.length ? 0 : -1;
+    lista.innerHTML = achados.length ? achados.map((c, i) => '<li role="option" data-i="' + i + '" aria-selected="' + (i === sel) + '"><span>' + c.n + '</span><small>' + c.uf + (c.cap ? ' · capital' : '') + '</small></li>').join('') : '<li aria-disabled="true"><span>Nenhuma cidade com esse nome</span></li>';
+    lista.hidden = false; inp.setAttribute('aria-expanded', 'true');
+  }
+  function escolher(c) {
+    lista.hidden = true; inp.setAttribute('aria-expanded', 'false');
+    local = c.n === 'São Paulo' && c.uf === 'SP' ? SP : { n: c.n, uf: c.uf, cep: c.cep };
+    inp.value = local.ref ? '' : local.n + ' · ' + local.uf;
+    try { localStorage.setItem('omg_cidade', JSON.stringify(local)); } catch (e) {}
+    document.dispatchEvent(new CustomEvent('omg:cidade', { detail: local }));
+    calcular();
+  }
+  inp.addEventListener('focus', () => { carregar(); if (inp.value.includes('·')) inp.select(); });
+  inp.addEventListener('input', mostrar);
+  inp.addEventListener('keydown', e => {
+    if (lista.hidden) return;
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); sel = Math.max(0, Math.min(achados.length - 1, sel + (e.key === 'ArrowDown' ? 1 : -1))); lista.querySelectorAll('li').forEach((li, i) => li.setAttribute('aria-selected', i === sel)); }
+    if (e.key === 'Enter') { e.preventDefault(); if (achados[sel]) escolher(achados[sel]); }
+    if (e.key === 'Escape') { lista.hidden = true; }
+  });
+  lista.addEventListener('mousedown', e => { const li = e.target.closest('li[data-i]'); if (li) { e.preventDefault(); escolher(achados[+li.dataset.i]); } });
+  inp.addEventListener('blur', () => setTimeout(() => { lista.hidden = true; }, 150));
+
+  function linhaPreco(total) {
+    if (box.dataset.modo !== 'produto') return;
+    const pp = document.querySelector('[id^="shopify-section-template"][id$="__main"] product-price');
+    if (!pp) return;
+    let el = document.querySelector('.omg-pfinal');
+    if (!el) { el = document.createElement('p'); el.className = 'omg-pfinal'; pp.after(el); }
+    el.innerHTML = 'Preço final ' + (local.ref ? 'em São Paulo (capital)' : 'para ' + nomeLocal(local)) + ': <b>' + brl(total) + '</b> com frete e impostos · <a href="#omg-cidade-produto">' + (local.ref ? 'veja para a sua cidade' : 'trocar cidade') + '</a>';
+    el.querySelector('a').addEventListener('click', ev => { ev.preventDefault(); inp.scrollIntoView({ block: 'center', behavior: 'smooth' }); setTimeout(() => inp.focus(), 300); });
+  }
+  async function itens() {
+    if (box.dataset.modo === 'carrinho') {
+      const c = await (await fetch('/cart.js')).json();
+      return c.items.map(i => ({ grams: i.grams || 300, price: i.original_price ?? i.price, quantity: i.quantity }));
+    }
+    const vs = JSON.parse(box.querySelector('.omg-frete__variantes').textContent);
+    const f = document.querySelector('form[action*="/cart/add"] [name="id"]');
+    const id = f ? Number(f.value) : vs[0].id;
+    const v = vs.find(x => x.id === id) || vs[0];
+    const q = document.querySelector('form[action*="/cart/add"] [name="quantity"], input[name="quantity"]');
+    return [{ grams: v.grams, price: v.price, quantity: Math.max(1, Number(q && q.value) || 1) }];
+  }
+  async function calcular() {
+    res.hidden = false; res.innerHTML = '<p class="omg-frete__nota">Calculando…</p>';
+    try {
+      const it = await itens();
+      if (!it.length) { res.innerHTML = '<p class="omg-frete__nota">Seu carrinho está vazio.</p>'; return; }
+      const r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ simular: { cep: local.cep, itens: it } }) });
+      const j = await r.json();
+      if (!j.ok || !j.detalhe) { res.innerHTML = '<p class="omg-frete__nota">Não deu para estimar para essa cidade. O valor exato aparece no checkout.</p>'; return; }
+      const x = j.detalhe, b = x.brl;
+      const row = (t, v, c) => '<div class="omg-frete__row' + (c ? ' ' + c : '') + '"><span>' + t + '</span><b>' + brl(v) + '</b></div>';
+      res.innerHTML =
+        '<p class="omg-frete__ref">Estimativa para <b>' + nomeLocal(local) + '</b>.' + (local.ref ? ' Digite sua cidade acima para ver o seu.' : '') + '</p>' +
+        row(box.dataset.modo === 'carrinho' ? 'Produtos' : 'Produto', b.mercadoria) +
+        row('Frete e seguro', b.frete_seguro) +
+        row('Imposto de importação', b.ii) +
+        row('ICMS ' + x.aliquota_icms + '% ' + x.uf, b.icms) +
+        row('Total estimado', b.total_pedido, 'omg-frete__tot') +
+        '<p class="omg-frete__nota">O frete exato é calculado no checkout, com o seu CEP. ' + (b.ii === 0 ? 'Até US$ 50 não paga imposto de importação. ' : '') +
+        'Remessa Conforme, câmbio R$ ' + Number(x.cambio).toFixed(2).replace('.', ',') + '. Nada é cobrado na entrega.</p>';
+      linhaPreco(b.total_pedido);
+    } catch (e) { res.innerHTML = '<p class="omg-frete__nota">Não deu para calcular agora. O valor aparece no checkout.</p>'; }
+  }
+  calcular();
+  let tm = null; const de = () => { clearTimeout(tm); tm = setTimeout(calcular, 400); };
+  document.addEventListener('change', e => { if (e.target.closest && e.target.closest('variant-picker, form[action*="/cart/add"], [name="quantity"]')) de(); });
+  document.addEventListener('click', e => { if (e.target.closest && e.target.closest('quantity-selector-component button, .quantity__button, button[name="plus"], button[name="minus"]')) de(); });
+  if (box.dataset.modo === 'carrinho') document.addEventListener('cart:update', de);
+  document.addEventListener('omg:cidade', e => { if (e.detail && e.detail.cep !== local.cep) { local = e.detail; inp.value = local.ref ? '' : local.n + ' · ' + local.uf; de(); } });
+})();
+</script>

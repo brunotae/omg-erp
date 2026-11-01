@@ -303,3 +303,64 @@
   }
 })();
 </script>
+
+<style>
+  .omg-pf-card{font-size:12px;line-height:1.3;color:#7a6470;margin-top:2px}
+  .omg-pf-card b{color:#B83D66;font-weight:700}
+</style>
+<script>
+// Preço final estimado nas vitrines (cards de produto em coleções, busca, página inicial e recomendações).
+// Usa a cidade escolhida pela cliente (omg_cidade, ver omg-frete) ou São Paulo capital. Conta = frete-omg (modo lote).
+(() => {
+  if (window.__omgPf) return; window.__omgPf = 1;
+  const API = 'https://nzsiuniabovvptuqmkmi.supabase.co/functions/v1/frete-omg';
+  const SP = { n: 'São Paulo', uf: 'SP', cep: '01532001', ref: true };
+  const brl = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  const loc = () => { try { const s = JSON.parse(localStorage.getItem('omg_cidade') || 'null'); if (s && s.cep) return s; } catch (e) {} return SP; };
+  let cache = {}; try { cache = JSON.parse(sessionStorage.getItem('omg_pf') || '{}'); } catch (e) {}
+  const salvar = () => { try { sessionStorage.setItem('omg_pf', JSON.stringify(cache)); } catch (e) {} };
+  const pjs = {}, fila = new Map(); let tm = null;
+  const info = h => pjs[h] || (pjs[h] = fetch('/products/' + h + '.js').then(r => r.ok ? r.json() : null).catch(() => null));
+  function alvo(card) {
+    const a = card.querySelector('a[href*="/products/"]'); if (!a) return null;
+    const u = new URL(a.getAttribute('href'), location.origin);
+    return { h: decodeURIComponent(u.pathname.split('/products/')[1].split('/')[0]), v: u.searchParams.get('variant') };
+  }
+  function pintar(card, total, l) {
+    const pp = card.querySelector('product-price'); if (!pp) return;
+    let el = card.querySelector('.omg-pf-card');
+    if (!el) { el = document.createElement('div'); el.className = 'omg-pf-card'; pp.after(el); }
+    el.innerHTML = '<b>' + brl(total) + '</b> final ' + (l.ref ? 'em SP capital' : 'em ' + l.n);
+    el.title = 'Estimativa com frete e impostos. O frete exato é calculado no checkout, com o seu CEP.';
+  }
+  async function processa(card) {
+    const x = alvo(card); if (!x) return;
+    const p = await info(x.h); if (!p || !p.variants) return;
+    const v = p.variants.find(v => String(v.id) === x.v) || p.variants.find(v => v.available) || p.variants[0];
+    const l = loc(), k = l.cep + ':' + v.id;
+    if (cache[k] != null) { pintar(card, cache[k], l); return; }
+    const o = fila.get(k) || { v, l, cards: [] }; o.cards.push(card); fila.set(k, o);
+    clearTimeout(tm); tm = setTimeout(envia, 250);
+  }
+  async function envia() {
+    const lote = [...fila.entries()]; fila.clear();
+    const porCep = {}; lote.forEach(([k, o]) => { (porCep[o.l.cep] = porCep[o.l.cep] || []).push([k, o]); });
+    for (const [cep, L] of Object.entries(porCep)) {
+      for (let i = 0; i < L.length; i += 40) {
+        const parte = L.slice(i, i + 40);
+        try {
+          const r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ lote: { cep, itens: parte.map(([k, o]) => ({ k, grams: o.v.weight || 300, price: o.v.price })) } }) });
+          const j = await r.json();
+          for (const [k, o] of parte) { const t = j.totais && j.totais[k]; if (t != null) { cache[k] = t; o.cards.forEach(c => pintar(c, t, o.l)); } }
+          salvar();
+        } catch (e) {}
+      }
+    }
+  }
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { io.unobserve(e.target); processa(e.target); } }), { rootMargin: '300px' });
+  const varre = () => document.querySelectorAll('product-card:not([data-omg-pf])').forEach(c => { c.dataset.omgPf = 1; io.observe(c); });
+  new MutationObserver(varre).observe(document.documentElement, { childList: true, subtree: true });
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', varre); else varre();
+  document.addEventListener('omg:cidade', () => document.querySelectorAll('product-card[data-omg-pf]').forEach(c => processa(c)));
+})();
+</script>
