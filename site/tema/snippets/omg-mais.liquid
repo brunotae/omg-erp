@@ -37,8 +37,8 @@
   .omg-rot__passo.is-atual img{outline:2px solid #D63A5E;outline-offset:-2px}
   .omg-rot__atual{font-size:12px;color:#D63A5E;font-weight:700}
   .omg-pp{position:relative}
-  .omg-marca img{display:block;height:20px;width:auto;max-width:120px;object-fit:contain}
-  .omg-marca.tem-logo{border:0;padding:0;background:none}
+  .omg-marca img{display:block;height:20px;width:auto;max-width:140px;flex-shrink:0;object-fit:contain}
+  .omg-marca.tem-logo{border:0;padding:0 2px 0 0;background:none;overflow:visible!important;text-overflow:clip!important;max-width:none!important}
   .omg-marca{position:absolute!important;right:0;left:auto!important;width:auto!important;display:inline-block!important;margin:0!important;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#7a6470;text-decoration:none;border:1px solid #E6D9DF;border-radius:999px;padding:4px 10px;background:#fff;max-width:45%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .omg-marca:hover{color:#D63A5E;border-color:#D63A5E}
   .cart-drawer__items .omg-cm-wrap{padding:8px 0 4px}
@@ -176,7 +176,7 @@
   /* Marca pequena à direita, na altura do preço */
   {% assign omg_mh = product.vendor | handleize %}{% assign omg_mc = collections[omg_mh] %}
   const MARCA_LOGO = {% assign omg_logos = ',abib,aestura,another-face,anua,arencia,banila-co,beauty-of-joseon,beplain,biodance,celimax,cell-fusion-c,centellian-24,clio,cosrx,dasique,dr-forhair,dr-melaxin,dr-reju-all,eqqualberry,freshian,fwee,gongskin,hince,kaine,lador,manyo,medicube,mediheal,mise-en-scene,mixsoon,numbuzin,ongredients,purcell,purito-seoul,rejuran,round-lab,skin1004,some-by-mi,sonatural,tirtir,torriden,vt-cosmetics,' %}{% assign omg_busca = ',' | append: omg_mh | append: ',' %}{% if omg_logos contains omg_busca %}{{ 'omg-logo-' | append: omg_mh | append: '.png' | asset_url | json }}{% else %}null{% endif %};
-  const MARCA_URL = {% if omg_mc and omg_mc.products_count > 0 %}{{ omg_mc.url | json }}{% else %}{{ product.vendor | url_for_vendor | json }}{% endif %};
+  const MARCA_URL = {% assign omg_qtd = omg_mc.products_count | plus: 0 %}{% if omg_mc.url != blank and omg_qtd > 0 %}{{ omg_mc.url | json }}{% else %}{{ product.vendor | url_for_vendor | json }}{% endif %};
   function marca() {
     if (!ATUAL.m) return;
     const pp = document.querySelector('[id^="shopify-section-template"][id$="__main"] product-price');
