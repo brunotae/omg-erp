@@ -130,6 +130,10 @@ const pagNome = (p: string, L: string) => p === "/" ? tx(L, "home") : p.startsWi
 const nomeOrigem = (o: any, L: string) => o.fonte === "direct" ? tx(L, "direct") : o.fonte === "search" ? tx(L, "search") + " · " + (o.nome || "") : o.fonte === "social" ? tx(L, "social") + " · " + (o.nome || "") : o.nome ? tx(L, "link") + " · " + o.nome : tx(L, "others");
 const leitTxt = (l: any, L: string) => l.id ? { t: tx(L, "L_" + l.id + "_t", l.v), x: tx(L, "L_" + l.id + "_x", l.v) } : { t: l.titulo, x: l.texto };
 
+function relPeriodo(dia: string, L: string): string{const [y,m,d]=String(dia).split('-');const ant=new Date(Date.UTC(+y,+m-1,+d-1)).toISOString().slice(0,10).split('-');
+ if(L==='en'){const M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return 'Period: '+M[+m-1]+' '+(+d)+', '+y+', 00:00–23:59 (Brasília time) · compared with '+M[+ant[1]-1]+' '+(+ant[2])}
+ if(L==='ko')return '기간: '+y+'.'+m+'.'+d+' 00:00–23:59 (브라질리아 시간) · 비교: '+ant[0]+'.'+ant[1]+'.'+ant[2];
+ return 'Período: '+d+'/'+m+'/'+y+', das 00:00 às 23:59 (horário de Brasília) · comparado com '+ant[2]+'/'+ant[1]+'/'+ant[0]}
 function email(d: any, L: string) {
   const F = "#B83D66", FL = "#FBE7EE", FM = "#E7A3B9", MUT = "#7A6A70";
   const T = (k: string) => tx(L, k);
@@ -149,7 +153,7 @@ function email(d: any, L: string) {
   return `<!doctype html><html><body style="margin:0;background:#F7F2F4;font-family:Helvetica,Arial,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;color:#2A1F24">
 <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:16px 8px">
 <table width="640" cellpadding="0" cellspacing="0" style="max-width:640px;background:#fff;border-radius:12px;padding:18px">
-<tr><td style="border-bottom:3px solid ${F};padding-bottom:6px"><span style="font-size:22px;font-weight:800">OMG! <span style="color:${F}">${T("title")}</span></span><br><span style="font-size:12px;color:${MUT}">${diaTxt(d.dia, L, true)} · ${T("cmp")}</span></td></tr>
+<tr><td style="border-bottom:3px solid ${F};padding-bottom:6px"><span style="font-size:22px;font-weight:800">OMG! <span style="color:${F}">${T("title")}</span></span><br><span style="font-size:12px;color:${MUT}">${diaTxt(d.dia, L, true)}<br><b>${relPeriodo(d.dia, L)}</b></span></td></tr>
 <tr><td style="padding-top:10px"><table width="100%" cellspacing="6" cellpadding="0"><tr>
 ${tile(T("visits"), String(d.visitas), delta(d.visitas, d.anterior.visitas) || d.pessoas + " " + T("people"))}
 ${tile(T("cart"), String(d.carrinho), delta(d.carrinho, d.anterior.carrinho) || "")}
