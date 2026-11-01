@@ -242,7 +242,8 @@ pre.code{background:var(--surface2);border:1px solid var(--line);border-radius:v
 .px-grow th{position:sticky;top:0;z-index:3;font-size:10px;text-align:center;padding:3px 4px;border-left:2px solid #fff;color:#4a3a40;letter-spacing:.04em}
 .px-t .px-grow th.px-g-prod{background:#F3EEF0}.px-t .px-grow th.px-g-ref{background:#D9E7F7}.px-t .px-grow th.px-g-edit{background:#FCEBB6}.px-t .px-grow th.px-g-hoje{background:#E9E4E6}.px-t .px-grow th.px-g-res{background:#D3EEDC}.px-t td.px-nome small{display:block}.px-t .px-grow th.px-g-st{background:#F3EEF0}
 .px-t thead tr:nth-child(2) th{top:21px!important}.px-t .px-frow th{top:46px!important}
-.ct-t .px-frow th{top:24px!important}.ct-t td.px-nome{max-width:300px}.ct-t td.px-marca{max-width:110px;white-space:normal}.ct-t .px-fi input,.ct-t .px-fi select{width:100%;min-width:44px;box-sizing:border-box}
+.ct-t .px-frow th{top:24px!important}
+.ct-pop{position:absolute;z-index:60;background:var(--surface,#fff);border:1px solid var(--line,#e6d9df);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);max-width:340px;font-size:12px}.ct-pop-l{max-height:290px;overflow:auto;padding:6px}.ct-pop-l label{display:flex;align-items:center;gap:6px;padding:3px 4px;border-radius:6px;cursor:pointer}.ct-pop-l label:hover{background:rgba(0,0,0,.04)}.ct-pop-l label span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ct-pop-l small{color:var(--muted)}.ct-pop-l p{margin:4px;font-size:11.5px}.ct-pop-b{display:flex;gap:6px;padding:6px;border-top:1px solid var(--line,#e6d9df)}.ct-t td.px-nome{max-width:300px}.ct-t td.px-marca{max-width:110px;white-space:normal}.ct-t .px-fi input,.ct-t .px-fi select{width:100%;min-width:44px;box-sizing:border-box}
 .px-ext-row{display:grid;grid-template-columns:130px 90px 1fr auto;gap:6px;align-items:center;margin:0 0 6px}.px-ext-row b{font-size:12.5px}.px-ext-row input{padding:6px 8px}
 .px-ext-prev{margin:6px 0;padding:8px 10px;border-radius:8px;background:#EEF8F1;font-size:12.5px}.px-ext-prev:empty{display:none}.px-ext-sug{margin-top:4px}
 .px-ext-bt{padding:2px 8px!important;font-size:11px!important}
@@ -896,7 +897,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v63 · 01/11/2026';
+const VERSAO='v64 · 01/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1387,9 +1388,32 @@ VIEWFN.produtos=()=>{
   '<div class="tblwrap px-wrap"><table class="px-t ct-t"><thead><tr>'+th+'</tr><tr class="px-frow">'+tf+'</tr></thead><tbody>'+(vis.length?vis.map(row).join(''):'<tr><td colspan="'+CT_COLS.length+'" class="muted" style="padding:16px;text-align:center">Nenhum produto neste filtro.</td></tr>')+'</tbody></table></div>'+
   (L.length>vis.length?'<p style="text-align:center;margin:10px 0 0"><button class="btn sm" type="button" id="ct-mais">Mostrar mais ('+(L.length-vis.length)+')</button></p>':''))+'</div></div></div>';
 };
+/* v64: filtro estilo Excel: ao clicar no campo abre a lista de valores da coluna (com quantidade), marca um ou vários e Aplicar; dá para continuar digitando */
+let ctPopK=null;
+function ctValores(k){const col=CT_COLS.find(c=>c[0]===k);if(!col)return [];
+ let L=S.data.produtos.filter(match);CT_COLS.forEach(([k2,,g,t])=>{const f=CT.f[k2];if(f&&k2!==k)L=L.filter(p=>pxMatch(g(p),f,t))});
+ const M=new Map();L.forEach(p=>{let v=col[2](p);if(v==null||v==='')v='(vazio)';const key=String(v);M.set(key,(M.get(key)||0)+1)});
+ return [...M.entries()].sort((a,b)=>col[3]==='n'?(a[0]==='(vazio)'?1:b[0]==='(vazio)'?-1:Number(a[0])-Number(b[0])):(a[0]==='(vazio)'?1:b[0]==='(vazio)'?-1:a[0].localeCompare(b[0],'pt-BR',{numeric:true})))}
+const ctFmt=(k,v)=>v==='(vazio)'?'(vazio)':k==='venda'?brl(Number(v)):(k==='fab'||k==='dist')?krw(Number(v)):esc(v);
+function ctPopFechar(){const d=document.getElementById('ct-pop');if(d)d.remove();ctPopK=null}
+function ctPopAbrir(inp){const k=inp.dataset.ctf;ctPopFechar();ctPopK=k;
+ const col=CT_COLS.find(c=>c[0]===k),num=col[3]==='n',cur=String(CT.f[k]||''),sel=new Set(cur.includes('|')||cur?cur.split('|').map(x=>x.trim()).filter(Boolean):[]);
+ const busca=pxNorm(cur.includes('|')?'':cur),V=ctValores(k).filter(([v])=>!busca||sel.has(v)||pxNorm(ctFmt(k,v).replace(/<[^>]+>/g,'')).includes(busca)||pxNorm(v).includes(busca));
+ const d=document.createElement('div');d.id='ct-pop';d.className='ct-pop';
+ d.innerHTML='<div class="ct-pop-l">'+(V.length?V.slice(0,500).map(([v,c])=>'<label><input type="checkbox" value="'+esc(v)+'"'+(sel.has(v)?' checked':'')+'><span>'+ctFmt(k,v)+'</span><small>'+c+'</small></label>').join('')+(V.length>500?'<p class="muted">… e mais '+(V.length-500)+'. Digite para achar.</p>':''):'<p class="muted">Nada com esse texto.</p>')+'</div>'+
+  '<div class="ct-pop-b"><button type="button" class="btn sm" data-ctpop="tudo">Marcar todos</button><button type="button" class="btn sm" data-ctpop="limpa">Limpar</button><span style="flex:1"></span><button type="button" class="btn sm pri" data-ctpop="ok">Aplicar</button></div>';
+ document.body.appendChild(d);const r=inp.getBoundingClientRect();d.style.left=Math.max(8,Math.min(r.left+scrollX,innerWidth-d.offsetWidth-8))+'px';d.style.top=(r.bottom+scrollY+2)+'px';d.style.minWidth=Math.max(r.width,220)+'px';d.dataset.num=num?'1':''}
+document.addEventListener('focusin',e=>{const t=e.target;if(t.matches&&t.matches('input[data-ctf]')&&ctPopK!==t.dataset.ctf)ctPopAbrir(t)});
+document.addEventListener('mousedown',e=>{if(!ctPopK)return;if(e.target.closest('#ct-pop')||e.target.closest('input[data-ctf]'))return;ctPopFechar()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&ctPopK)ctPopFechar()});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-ctpop]');if(!b||!ctPopK)return;const d=document.getElementById('ct-pop'),k=ctPopK,a=b.dataset.ctpop;
+ if(a==='tudo'){d.querySelectorAll('input[type=checkbox]').forEach(c=>c.checked=true);return}
+ if(a==='limpa'){CT.f[k]='';ctPopFechar();CT.lim=300;render();return}
+ const v=[...d.querySelectorAll('input[type=checkbox]:checked')].map(c=>c.value);const tot=d.querySelectorAll('input[type=checkbox]').length;
+ CT.f[k]=v.length&&v.length<tot?v.join('|'):'';ctPopFechar();CT.lim=300;render()});
 let ctFT=null;
 document.addEventListener('input',e=>{const t=e.target;if(!t.dataset||!t.dataset.ctf||t.tagName==='SELECT')return;clearTimeout(ctFT);
- ctFT=setTimeout(()=>{const k=t.dataset.ctf,pos=t.selectionStart;CT.f[k]=t.value;CT.lim=300;render();const n2=document.querySelector('[data-ctf="'+k+'"]');if(n2){n2.focus();try{n2.setSelectionRange(pos,pos)}catch(_){}}},350)});
+ ctFT=setTimeout(()=>{const k=t.dataset.ctf,pos=t.selectionStart;CT.f[k]=t.value;CT.lim=300;render();const n2=document.querySelector('[data-ctf="'+k+'"]');if(n2){ctPopK=null;n2.focus();try{n2.setSelectionRange(pos,pos)}catch(_){}}},350)});
 document.addEventListener('change',e=>{const t=e.target;if(t.tagName!=='SELECT'||!t.dataset||!t.dataset.ctf)return;CT.f[t.dataset.ctf]=t.value;CT.lim=300;render()});
 document.addEventListener('click',e=>{
  if(e.target.closest('.ct-t .px-fi'))e.stopPropagation();
@@ -1713,12 +1737,13 @@ function pxGrupos(){const o=[];PX_COLS.forEach(c=>{const g=c[5],u=o[o.length-1];
 function pxColgroup(){return '<colgroup><col>'+PX_COLS.map((c,i)=>'<col class="px-c-'+c[5]+((i===0||PX_COLS[i-1][5]!==c[5])?' px-c-ini':'')+'">').join('')+'</colgroup>'}
 const pxNorm=s=>String(s==null?'':s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
 function pxMatch(v,f,tipo){f=String(f||'').trim();if(!f)return true;
+ if(tipo==='n'&&f.includes('|'))return f.split('|').some(a=>a.trim()&&pxMatch(v,a,'n'));
  if(tipo==='n'){const x=pxNum(v),g=f.replace(/\s/g,'').replace(',','.');let m;
   if(m=g.match(/^(-?[\d.]+)-(-?[\d.]+)$/))return x!=null&&x>=+m[1]&&x<=+m[2];
   if(m=g.match(/^(>=|<=|>|<|=)(-?[\d.]+)$/)){if(x==null)return false;const y=+m[2];return m[1]==='>'?x>y:m[1]==='<'?x<y:m[1]==='>='?x>=y:m[1]==='<='?x<=y:Math.abs(x-y)<0.005}
   if(/^-?[\d.]+$/.test(g))return x!=null&&Math.abs(x-(+g))<0.005;
-  if(g==='vazio'||g==='—')return x==null;return true}
- const t=pxNorm(v);return f.split('|').some(alt=>{alt=pxNorm(alt.trim());return alt.startsWith('!')?!t.includes(alt.slice(1)):t.includes(alt)})}
+  if(g==='vazio'||g==='—'||g==='(vazio)')return x==null;return true}
+ const t=pxNorm(v);return f.split('|').some(alt=>{alt=pxNorm(alt.trim());if(alt==='(vazio)')return t==='';return alt.startsWith('!')?!t.includes(alt.slice(1)):t.includes(alt)})}
 function pxLinhas(){const q=pxNorm(S.q||'');
  let L=pxLista().map(pxCalc);
  if(q)L=L.filter(x=>pxNorm(x.p.nome+' '+x.p.marca+' '+x.p.sku).includes(q));
@@ -3726,6 +3751,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v64','01/11/2026',['Catálogo: filtro estilo Excel. Ao clicar no campo de filtro abre a lista de valores da coluna, com a quantidade de cada um; marque um ou vários e clique em Aplicar. Dá para continuar digitando no campo, e a lista se ajusta ao texto.']],
  ['v63','01/11/2026',['Catálogo: saiu a coluna Sugerido (regra antiga, confundia). O preço pela regra atual fica só no Pricing.']],
  ['v62','01/11/2026',['Catálogo em tabela larga, que cabe na tela: SKU em coluna própria, marca, categoria, peso (g), dimensões (cm), custo fábrica, preço distribuidor, sugerido, venda e status.','Filtro em cada coluna (texto, número como >100 ou 50-200, status na lista) e ordem clicando no título da coluna.','“Preço La Belle” passa a se chamar Preço distribuidor (catálogo, ficha do produto e piso de margem do Pricing). O quadro antigo de regra de preço saiu da lateral.']],
  ['v61','01/11/2026',['Pricing: Sephora Brasil passa a ser concorrente válido (Guia de precificação v3). Referência = menor preço entre KS, Jini (no Pix) e Sephora BR.','Sephora: promoção só vale como referência depois de 14 dias no ar; antes disso vale o preço cheio. A ficha mostra os dois preços e há quantos dias está em promoção.','Leitura automática de segunda também lê a Sephora BR, só as marcas que a OMG vende. Em Concorrentes, dá para colar link da Sephora e aparecem parecidos dela.','Regras › Piso de margem: margem mínima sobre o custo La Belle. Abaixo do piso, o sugerido fica no piso com o aviso "não dá para competir".']],
