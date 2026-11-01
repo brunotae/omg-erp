@@ -1,0 +1,159 @@
+{%- comment -%}
+  OMG · Cupom em formato de presente (página /pages/presente, template page.presente).
+  O ERP gera o link: /pages/presente?c=CODIGO&m=boas&n=Maria&t=p&v=10&d=2026-11-30&min=99&de=@jenikang
+    c   código do cupom (obrigatório)          m   modelo: boas | aniv | presente | influ | desc
+    n   nome da cliente (opcional)             t   tipo: p (%), r (R$), f (frete grátis)
+    v   valor                                  d   validade (AAAA-MM-DD)
+    min compra mínima em R$                    de  quem manda (ex.: @jenikang, só no modelo influ)
+    u   1 = uso único
+  "Usar agora" leva para /discount/CODIGO, que já aplica o cupom no carrinho.
+{%- endcomment -%}
+<div class="omg-pr" id="omg-pr-{{ section.id }}">
+  <div class="pr-stage">
+    <div class="pr-fechado">
+      <p class="pr-para" data-pr="para">Chegou um presente da OMG pra você</p>
+      <button class="pr-bundle" type="button" aria-label="Abrir o presente">
+        <span class="pr-cloth"></span>
+        <span class="pr-knot"><i></i><i></i><b></b></span>
+        <span class="pr-tag" data-pr="tag">Para você</span>
+      </button>
+      <p class="pr-hint">Toque para abrir 🎁</p>
+    </div>
+    <div class="pr-aberto">
+      <article class="pr-ticket">
+        <div class="pr-top">
+          <span class="pr-star" style="right:18px;top:14px">✦</span><span class="pr-star" style="right:46px;top:36px;font-size:12px">✦</span>
+          <div class="pr-logo">OMG!</div>
+          <div class="pr-kicker" data-pr="kicker">Presente</div>
+          <h1 class="pr-titulo" data-pr="titulo">Um presente pra você</h1>
+        </div>
+        <div class="pr-mid">
+          <p class="pr-big" data-pr="valor"></p>
+          <p class="pr-what" data-pr="what"></p>
+        </div>
+        <div class="pr-perf"></div>
+        <div class="pr-bot">
+          <button class="pr-code" type="button" aria-label="Copiar código"><span data-pr="code"></span><em data-pr="codehint">toque para copiar</em></button>
+          <a class="pr-btn" data-pr="usar" href="/collections/all">Usar agora · desconto já aplicado</a>
+          <p class="pr-fine" data-pr="fine"></p>
+        </div>
+      </article>
+      <a class="pr-link" href="/collections/all">Ver a loja</a>
+    </div>
+    <div class="pr-erro">
+      <p class="pr-para">Não encontramos este presente.</p>
+      <p class="pr-fine">Confira o link que você recebeu ou fale com a gente pelo chat.</p>
+      <a class="pr-btn" href="/collections/all">Ver a loja</a>
+    </div>
+    <div class="pr-conf" aria-hidden="true"></div>
+    <div class="pr-toast" role="status"></div>
+  </div>
+</div>
+
+<style>
+#omg-pr-{{ section.id }}{--creme:#FFF9F6;--bebe:#FDE4EC;--chiclete:#F48FB1;--framboesa:#D9577F;--vinho:#B83D66;--menta:#9EDFC4;--ameixa:#4A2638;--linha:#F1D3DD;--suave:#8A6A78;--acc:var(--chiclete);--acc2:var(--bebe)}
+.omg-pr{background:var(--bebe);color:var(--ameixa);padding:28px 16px 48px;min-height:72vh;display:flex;justify-content:center}
+.omg-pr *{box-sizing:border-box}
+.omg-pr .pr-stage{position:relative;width:100%;max-width:420px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding:10px 0 40px}
+.omg-pr .pr-fechado,.omg-pr .pr-aberto,.omg-pr .pr-erro{display:flex;flex-direction:column;align-items:center;gap:14px;width:100%}
+.omg-pr .pr-aberto,.omg-pr .pr-erro{display:none}
+.omg-pr.is-open .pr-fechado{display:none}
+.omg-pr.is-open .pr-aberto{display:flex;animation:prIn .7s cubic-bezier(.2,1.4,.4,1)}
+.omg-pr.is-erro .pr-fechado{display:none}.omg-pr.is-erro .pr-erro{display:flex}
+@keyframes prIn{from{opacity:0;transform:translateY(40px) scale(.9)}}
+.omg-pr .pr-para{font-size:17px;font-weight:600;margin:0}
+.omg-pr .pr-bundle{position:relative;width:230px;height:230px;border:0;background:none;cursor:pointer;padding:0}
+.omg-pr .pr-cloth{position:absolute;inset:28px;transform:rotate(45deg);border-radius:18px;background:
+  linear-gradient(90deg,transparent 48%,rgba(255,255,255,.55) 48% 52%,transparent 52%),
+  linear-gradient(0deg,transparent 48%,rgba(255,255,255,.55) 48% 52%,transparent 52%),
+  conic-gradient(var(--acc) 0 25%,var(--framboesa) 0 50%,var(--acc) 0 75%,var(--vinho) 0);
+  box-shadow:0 18px 30px rgba(74,38,56,.25);transition:transform .3s}
+.omg-pr .pr-bundle:hover .pr-cloth{transform:rotate(45deg) scale(1.03)}
+.omg-pr .pr-knot{position:absolute;left:50%;top:6px;width:86px;height:56px;transform:translateX(-50%)}
+.omg-pr .pr-knot i{position:absolute;top:8px;width:46px;height:36px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;background:var(--acc);border:3px solid var(--vinho)}
+.omg-pr .pr-knot i:first-child{left:0;transform:rotate(-24deg)}.omg-pr .pr-knot i:nth-child(2){right:0;transform:rotate(24deg)}
+.omg-pr .pr-knot b{position:absolute;left:50%;top:16px;width:24px;height:24px;transform:translateX(-50%);border-radius:50%;background:var(--vinho)}
+.omg-pr .pr-tag{position:absolute;right:-4px;bottom:26px;background:#fff;border:2px solid var(--ameixa);border-radius:8px;padding:3px 10px;font-size:12px;font-weight:700;transform:rotate(-8deg);max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.omg-pr .pr-hint{margin:0;font-size:14px;color:var(--vinho);font-weight:600;animation:prPulse 1.6s ease-in-out infinite}
+@keyframes prPulse{50%{opacity:.45}}
+.omg-pr .pr-ticket{width:100%;max-width:340px;background:#fff;border-radius:20px;text-align:center;overflow:hidden;
+  -webkit-mask:radial-gradient(circle 13px at 0 62%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 13px at 100% 62%,#0000 98%,#000) right/51% 100% no-repeat;
+  mask:radial-gradient(circle 13px at 0 62%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 13px at 100% 62%,#0000 98%,#000) right/51% 100% no-repeat;
+  box-shadow:0 14px 30px rgba(74,38,56,.18)}
+.omg-pr .pr-top{background:var(--acc);padding:16px 18px 18px;position:relative}
+.omg-pr .pr-logo{font-weight:800;font-size:24px;font-style:italic;letter-spacing:-.02em;color:#fff;text-shadow:0 2px 0 var(--vinho)}
+.omg-pr .pr-star{position:absolute;color:#fff;font-size:18px}
+.omg-pr .pr-kicker{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-top:6px}
+.omg-pr .pr-titulo{margin:2px 0 0;font-size:20px;font-weight:700;line-height:1.2;color:var(--ameixa)}
+.omg-pr .pr-mid{padding:0 18px}
+.omg-pr .pr-big{font-size:56px;font-weight:800;line-height:1;margin:14px 0 0;color:var(--vinho);letter-spacing:-.03em}
+.omg-pr .pr-big small{font-size:24px;font-weight:800}
+.omg-pr .pr-what{font-size:14px;font-weight:500;margin:6px 0 0}
+.omg-pr .pr-perf{border-top:2px dashed var(--linha);margin:16px 16px 0}
+.omg-pr .pr-bot{padding:12px 18px 18px;display:flex;flex-direction:column;gap:10px}
+.omg-pr .pr-code{font:inherit;display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--acc2);border:2px dashed var(--vinho);border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ameixa)}
+.omg-pr .pr-code span{font-size:19px;font-weight:700;letter-spacing:.06em;word-break:break-all;text-align:left}
+.omg-pr .pr-code em{font-style:normal;font-size:11px;font-weight:600;white-space:nowrap;color:var(--vinho)}
+.omg-pr .pr-code.ok{background:var(--menta);border-style:solid}
+.omg-pr .pr-btn{display:block;text-align:center;text-decoration:none;font-weight:600;font-size:15px;border-radius:999px;padding:13px 16px;background:var(--vinho);color:#fff}
+.omg-pr .pr-fine{font-size:12px;color:var(--suave);margin:0}
+.omg-pr .pr-link{font-size:13px;color:var(--ameixa);font-weight:600}
+.omg-pr .pr-conf{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.omg-pr .pr-conf i{position:absolute;top:-20px;font-style:normal;animation:prFall 1.8s ease-in forwards}
+@keyframes prFall{to{transform:translateY(700px) rotate(360deg);opacity:.2}}
+.omg-pr .pr-toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,30px);background:var(--ameixa);color:#fff;font-weight:600;font-size:14px;padding:10px 18px;border-radius:999px;opacity:0;transition:.3s;pointer-events:none;z-index:50;white-space:nowrap}
+.omg-pr .pr-toast.on{opacity:1;transform:translate(-50%,0)}
+.omg-pr button:focus-visible,.omg-pr a:focus-visible{outline:3px solid var(--framboesa);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.omg-pr *{animation:none!important;transition:none!important}}
+</style>
+
+<script>
+(function(){
+  var root=document.getElementById('omg-pr-{{ section.id }}');if(!root)return;
+  var q=new URLSearchParams(location.search),g=function(k){return (q.get(k)||'').trim()};
+  var $=function(k){return root.querySelector('[data-pr="'+k+'"]')};
+  var cod=g('c').toUpperCase();
+  if(!/^[A-Z0-9_-]{3,40}$/.test(cod)){root.classList.add('is-erro');return}
+  var nome=g('n').slice(0,24),de=g('de').slice(0,30),t=g('t')||'p',v=g('v').replace(',','.'),min=parseFloat((g('min')||'').replace(',','.')),d=g('d');
+  var M={
+    boas:{acc:'#F48FB1',acc2:'#FDE4EC',kicker:'Presente de boas-vindas',tit:function(n){return n?'Bem-vinda, '+n+'!':'Bem-vinda à OMG!'},para:function(n){return (n?n+', chegou':'Chegou')+' um presente da OMG pra você'}},
+    aniv:{acc:'#9EDFC4',acc2:'#E3F6EE',kicker:'Feliz aniversário',tit:function(n){return n?'Parabéns, '+n+'! 🎂':'Parabéns! 🎂'},para:function(n){return (n?n+', hoje':'Hoje')+' o presente é seu'}},
+    presente:{acc:'#F48FB1',acc2:'#FDE4EC',kicker:'Presente da OMG',tit:function(n){return n?n+', isso é pra você':'Isso é pra você'},para:function(n){return (n?n+', chegou':'Chegou')+' um presente da OMG pra você'}},
+    influ:{acc:'#F7C6D6',acc2:'#FDE4EC',kicker:de?'Presente de '+de:'Presente especial',tit:function(n){return (n?n+', ':'')+(de?de+' separou isso pra você':'separamos isso pra você')},para:function(n){return (n?n+', ':'')+(de?de+' mandou um presente':'chegou um presente')}},
+    desc:{acc:'#FFD9A8',acc2:'#FFF0DC',kicker:'Um carinho da OMG',tit:function(n){return (n?n+', obrigada':'Obrigada')+' pela paciência'},para:function(n){return (n?n+', a':'A')+' gente te deve essa'}}
+  };
+  var m=M[g('m')]||M.presente;
+  root.style.setProperty('--acc',m.acc);root.style.setProperty('--acc2',m.acc2);
+  var brl=function(x){return 'R$ '+Number(x).toLocaleString('pt-BR',{minimumFractionDigits:Number(x)%1?2:0,maximumFractionDigits:2})};
+  var big=$('valor');big.textContent='';
+  var add=function(txt,small){var e=document.createElement(small?'small':'span');e.textContent=txt;big.appendChild(e)};
+  if(t==='f'){add('Frete');add(' grátis',true)}
+  else if(t==='r'&&parseFloat(v)>0){add(brl(v));add(' OFF',true)}
+  else if(parseFloat(v)>0){add(String(parseFloat(v)));add('% OFF',true)}
+  else add('Presente');
+  $('what').textContent=(t==='f'?'no seu pedido':'em todo o site')+(min>0?', em compras a partir de '+brl(min):'');
+  var fine=[];
+  if(/^\d{4}-\d{2}-\d{2}$/.test(d))fine.push('Válido até '+d.split('-').reverse().join('/'));
+  if(g('u')==='1')fine.push('uso único');
+  $('fine').textContent=fine.join(' · ');
+  $('para').textContent=m.para(nome);$('tag').textContent='Para '+(nome||'você');
+  $('kicker').textContent=m.kicker;$('titulo').textContent=m.tit(nome);
+  $('code').textContent=cod;
+  $('usar').href='/discount/'+encodeURIComponent(cod)+'?redirect=%2Fcollections%2Fall';
+  var toast=function(s){var e=root.querySelector('.pr-toast');e.textContent=s;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(function(){e.classList.remove('on')},2000)};
+  var conf=function(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;var f=root.querySelector('.pr-conf'),cs=['#F48FB1','#9EDFC4','#D9577F','#FFD9A8','#4A2638'];f.innerHTML='';
+    for(var i=0;i<34;i++){var e=document.createElement('i');e.textContent=i%3?'✦':'●';e.style.left=Math.random()*100+'%';e.style.color=cs[i%cs.length];e.style.fontSize=(8+Math.random()*14)+'px';e.style.animationDelay=(Math.random()*.6)+'s';f.appendChild(e)}
+    setTimeout(function(){f.innerHTML=''},3000)};
+  root.querySelector('.pr-bundle').addEventListener('click',function(){root.classList.add('is-open');conf()});
+  var cb=root.querySelector('.pr-code');
+  cb.addEventListener('click',function(){
+    var ok=function(){cb.classList.add('ok');$('codehint').textContent='copiado ✓';toast('Código copiado! Cole no carrinho.')};
+    var sel=function(){var r=document.createRange();r.selectNodeContents($('code'));var s=getSelection();s.removeAllRanges();s.addRange(r);try{if(document.execCommand('copy')){ok();return}}catch(_){}toast('Código selecionado: copie')};
+    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(cod).then(ok,sel);else sel();
+  });
+})();
+</script>
+
+{% schema %}
+{ "name": "OMG · Cupom presente", "settings": [], "presets": [{ "name": "OMG · Cupom presente" }] }
+{% endschema %}

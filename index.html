@@ -897,7 +897,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v68 · 01/11/2026';
+const VERSAO='v69 · 01/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -2334,7 +2334,7 @@ VIEWFN.clientes=()=>{
  return '<div class="page wide"><div class="col">'+head('Clientes e cupons','Clientes saem das vendas. Quem compra '+n(S.cfg.fielMin)+' vezes ou mais vira cliente fiel e pode receber cupom exclusivo. Cupons criados aqui já valem no site.','<button class="btn" type="button" id="cupom-imp"'+(can()?'':' disabled')+' title="Traz os cupons criados direto no Shopify e atualiza o status de todos">Trazer cupons do Shopify</button> <button class="btn pri" type="button" id="cupom-shop"'+(can()?'':' disabled')+'>+ Criar cupom no site</button>')+
  '<div class="kpis">'+kpi('Clientes',cl.length,'Com ao menos 1 compra')+kpi('Clientes fiéis',fiel.length,cl.length?pct(fiel.length/cl.length)+' da base':'—')+kpi('Cupons ativos',S.data.cupons.filter(c=>c.ativo).length,S.data.cupons.length+' cadastrados')+kpi('Desconto concedido',dm(S.data.vendas.filter(v=>!isCancel(v)).reduce((a,v)=>a+n(v.desconto),0)),'Todas as vendas')+'</div>'+
  '<div class="card"><div class="card-h"><h2>Cupons</h2><span class="muted" style="font-size:12px">'+cpL.length+' de '+S.data.cupons.length+'</span></div>'+(S.data.cupons.length?cpChips+(cpL.length?'':'<p class="muted" style="margin:10px 0">Nenhum cupom com esse filtro.</p>')+'<div class="tblwrap"><table><thead><tr><th>Código</th><th>Desconto</th><th>Público</th><th>Validade</th><th class="r">Usos</th><th class="r">Desconto dado</th><th>Status</th></tr></thead><tbody>'+
-  cpL.map(c=>{const u=uso(c.codigo);return '<tr data-edit="cupons" data-id="'+esc(c.id)+'"><td><button type="button" class="cp-copia" data-cpcopia="'+esc(c.codigo)+'" title="Clique para copiar o código">'+esc(c.codigo)+' <span aria-hidden="true">⧉</span></button></td><td>'+(c.tipo==='frete'?'Frete grátis'+(has(c.valor)&&n(c.valor)>0?' (até '+brl(c.valor)+')':''):c.tipo==='%'?n(c.valor)+'%':brl(c.valor))+'</td><td>'+esc(c.publico||'')+'</td><td class="num">'+fdate(c.validade)+'</td><td class="r num">'+u.length+(has(c.limite)?' / '+c.limite:'')+'</td><td class="r num">'+brl(u.reduce((a,v)=>a+n(v.desconto),0))+'</td><td>'+stPill(c.ativo&&(!c.validade||c.validade>=today())?'Ativo':'Inativo')+'</td></tr>'}).join('')+'</tbody></table></div>'
+  cpL.map(c=>{const u=uso(c.codigo);return '<tr data-edit="cupons" data-id="'+esc(c.id)+'"><td><button type="button" class="cp-copia" data-cpcopia="'+esc(c.codigo)+'" title="Clique para copiar o código">'+esc(c.codigo)+' <span aria-hidden="true">⧉</span></button> <button type="button" class="btn sm" data-presente="'+esc(c.codigo)+'" title="Enviar como presente" aria-label="Enviar '+esc(c.codigo)+' como presente">🎁</button></td><td>'+(c.tipo==='frete'?'Frete grátis'+(has(c.valor)&&n(c.valor)>0?' (até '+brl(c.valor)+')':''):c.tipo==='%'?n(c.valor)+'%':brl(c.valor))+'</td><td>'+esc(c.publico||'')+'</td><td class="num">'+fdate(c.validade)+'</td><td class="r num">'+u.length+(has(c.limite)?' / '+c.limite:'')+'</td><td class="r num">'+brl(u.reduce((a,v)=>a+n(v.desconto),0))+'</td><td>'+stPill(c.ativo&&(!c.validade||c.validade>=today())?'Ativo':'Inativo')+'</td></tr>'}).join('')+'</tbody></table></div>'
   :empty('Nenhum cupom','Crie cupons para clientes fiéis, influencers ou campanhas. O uso é contado pelo código informado em cada venda.'))+'</div>'+
  '<div class="card"><div class="card-h"><h2>Clientes</h2></div>'+(cl.length?'<div class="tblwrap"><table><thead><tr><th>Cliente</th><th>Local</th><th class="r">Compras</th><th class="r">Total gasto</th><th>Última compra</th><th></th></tr></thead><tbody>'+
   cl.map(c=>'<tr><td><b>'+esc(c.nome)+'</b><small>'+esc(c.contato||'')+'</small></td><td>'+esc([c.cidade,c.uf].filter(Boolean).join(' / ')||'—')+'</td><td class="r num">'+c.n+'</td><td class="r num"><b>'+dm(c.total)+'</b></td><td class="num">'+fdate(c.ult)+'</td><td>'+(c.n>=n(S.cfg.fielMin)?stPill('Cliente fiel'):'')+'</td></tr>').join('')+'</tbody></table></div>'
@@ -2424,7 +2424,7 @@ function openCupomShopify(){
    await save('cupons',null,{codigo:d.codigo,tipo:c.tipo,valor:c.tipo==='frete'?num(c.teto):num(c.valor),publico:pub,validade:c.fim||null,limite:num(c.limite_total)||null,ativo:true,
     obs:cupomResumo(c)+' · Shopify: '+d.id+(d.clientes!=null?' · '+d.clientes+' clientes':'')+(d.sem_cadastro&&d.sem_cadastro.length?' · sem cadastro no site: '+d.sem_cadastro.join(', '):'')});
    let rc=null;if(cpfs.length)rc=await cupomPorCpf(c,cpfs,b);
-   close();loadAll();toast('Cupom '+d.codigo+' criado: já vale no site');if(rc)cupomCpfLista(rc);
+   close();loadAll();toast('Cupom '+d.codigo+' criado: já vale no site');if(rc)cupomCpfLista(rc);else setTimeout(()=>cupomPresente({...c,codigo:d.codigo}),350);
    if(d.sem_cadastro&&d.sem_cadastro.length)setTimeout(()=>toast(d.sem_cadastro.length+' e-mail(s) sem cadastro no site ficaram de fora'),2600);
   }catch(x){b.disabled=false;b.textContent='Criar no Shopify';err.textContent=x.message||String(x)}
  });
@@ -2453,6 +2453,64 @@ function cupomCpfLista(r,titulo){const ok=r.filter(x=>x.codigo),rot=x=>x.cpf?cpf
   r.map(x=>'<tr><td class="num">'+esc(rot(x))+'</td><td class="num">'+(x.codigo?'<b>'+esc(x.codigo)+'</b>':'<span style="color:#B3261E">'+esc(x.erro)+'</span>')+'</td></tr>').join('')+'</tbody></table></div>'+
   '<p class="hint" style="grid-column:1/-1;margin:6px 0 0"><button class="btn sm" type="button" id="cp-copia">Copiar lista</button> '+(titulo?'Cada código tem as mesmas regras.':'O Shopify não confere o CPF no checkout: o código é a chave. Por isso cada um vale uma vez só.')+'</p></div>',null,true);
  const bt=$('#cp-copia');if(bt)bt.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(txt);toast('Lista copiada')}catch(_){toast('Não consegui copiar')}})}
+
+/* ---------- v69: cupom em formato de presente (página ohmygirl.com.br/pages/presente) ---------- */
+const PR_MOD={boas:['Boas-vindas','#F48FB1','Presente de boas-vindas'],aniv:['Aniversário','#9EDFC4','Feliz aniversário'],presente:['Presente','#F48FB1','Presente da OMG'],influ:['Influenciador','#F7C6D6','Presente especial'],desc:['Desculpa pelo atraso','#FFD9A8','Um carinho da OMG']};
+function prDados(x){const c=typeof x==='string'?(S.data.cupons.find(r=>String(r.codigo).toUpperCase()===x.toUpperCase())||{codigo:x}):x;
+ const obs=String(c.obs||'');let min=num(c.minimo);if(!(min>0)){const mm=obs.match(/a partir de R\$\s*([\d.]+(?:,\d+)?)/);if(mm)min=parseFloat(mm[1].replace(/\./g,'').replace(',','.'))}
+ return {codigo:String(c.codigo||'').toUpperCase(),t:c.tipo==='frete'?'f':c.tipo==='%'?'p':'r',v:c.tipo==='frete'?'':String(num(c.valor)||''),d:c.validade||c.fim||'',min:min>0?min:0,u:(String(c.limite)==='1'||Number(c.limite_total)===1||c.uma_vez||/1 vez por cliente/.test(obs))?1:0}}
+function prLink(p,o){const q=new URLSearchParams({c:p.codigo,m:o.m,t:p.t});if(p.v)q.set('v',p.v);if(p.d)q.set('d',String(p.d).slice(0,10));if(p.min)q.set('min',String(p.min));if(p.u)q.set('u','1');if(o.n)q.set('n',o.n);if(o.m==='influ'&&o.de)q.set('de',o.de);
+ return 'https://www.ohmygirl.com.br/pages/presente?'+q.toString()}
+const prDesc=p=>'https://www.ohmygirl.com.br/discount/'+encodeURIComponent(p.codigo)+'?redirect=%2Fcollections%2Fall';
+const prValor=p=>p.t==='f'?'Frete grátis':p.t==='p'?(p.v||0)+'% OFF':brl(num(p.v))+' OFF';
+const prFine=p=>[p.d?'Válido até '+fdate(String(p.d).slice(0,10)):'',p.min?'compra mínima '+brl(p.min):'',p.u?'uso único':''].filter(Boolean).join(' · ');
+let prQRlib=null;
+function prQR(){if(window.QRCode)return Promise.resolve();if(prQRlib)return prQRlib;
+ prQRlib=new Promise((ok,er)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';s.onload=ok;s.onerror=()=>{prQRlib=null;er(new Error('não carregou o gerador de QR code'))};document.head.appendChild(s)});return prQRlib}
+async function prCartao(p,o){await prQR();await document.fonts.load('800 40px Poppins').catch(()=>{});
+ const W=1200,H=760,cv=document.createElement('canvas');cv.width=W;cv.height=H;const x=cv.getContext('2d'),acc=PR_MOD[o.m][1];
+ const rr=(X,Y,w,h,r)=>{x.beginPath();x.roundRect(X,Y,w,h,r)};
+ x.fillStyle='#FFF9F6';rr(0,0,W,H,40);x.fill();x.lineWidth=8;x.strokeStyle='#4A2638';rr(4,4,W-8,H-8,36);x.stroke();
+ x.fillStyle=acc;rr(4,4,W-8,150,[36,36,0,0]);x.fill();
+ x.font='italic 800 78px Poppins, sans-serif';x.fillStyle='#B83D66';x.fillText('OMG!',64,118);x.fillStyle='#FFFFFF';x.fillText('OMG!',60,112);
+ x.fillStyle='#4A2638';x.font='700 26px Poppins, sans-serif';const kick=(o.m==='influ'&&o.de?'Presente de '+o.de:PR_MOD[o.m][2]).toUpperCase();x.fillText(kick,300,92);
+ x.font='800 150px Poppins, sans-serif';x.fillStyle='#B83D66';const val=prValor(p);let fs=150;while(x.measureText(val).width>700&&fs>70){fs-=8;x.font='800 '+fs+'px Poppins, sans-serif'}x.fillText(val,60,330);
+ x.fillStyle='#4A2638';x.font='500 32px Poppins, sans-serif';x.fillText((p.t==='f'?'no seu pedido':'em todo o site')+(o.n?' · para '+o.n:''),64,390);
+ x.setLineDash([14,10]);x.lineWidth=4;x.strokeStyle='#B83D66';x.fillStyle=PR_MOD[o.m][1]==='#F48FB1'?'#FDE4EC':'#FFFFFF';rr(60,440,640,110,20);x.fill();x.stroke();x.setLineDash([]);
+ x.fillStyle='#4A2638';x.font='700 54px Poppins, sans-serif';let cs=54;while(x.measureText(p.codigo).width>590&&cs>26){cs-=4;x.font='700 '+cs+'px Poppins, sans-serif'}x.fillText(p.codigo,90,515);
+ x.fillStyle='#8A6A78';x.font='500 26px Poppins, sans-serif';x.fillText(prFine(p)||'ohmygirl.com.br',64,620);x.fillText('Use no carrinho em ohmygirl.com.br',64,665);
+ const box=document.createElement('div');new QRCode(box,{text:prDesc(p),width:320,height:320,colorDark:'#4A2638',colorLight:'#FFFFFF',correctLevel:QRCode.CorrectLevel.M});
+ const qc=box.querySelector('canvas');x.fillStyle='#FFFFFF';x.strokeStyle=acc;x.lineWidth=8;rr(790,230,360,400,28);x.fill();x.stroke();if(qc)x.drawImage(qc,810,250,320,320);
+ x.fillStyle='#8A6A78';x.font='600 24px Poppins, sans-serif';x.textAlign='center';x.fillText('aponte a câmera',970,606);x.textAlign='left';
+ x.fillStyle='#FFFFFF';x.font='700 40px Poppins, sans-serif';x.fillText('✦',1080,80);x.font='700 24px Poppins, sans-serif';x.fillText('✦',1040,120);
+ return cv}
+function cupomPresente(x){const p=prDados(x);if(!p.codigo)return;const o={m:'boas',n:'',de:'',tel:''};
+ const chips=()=>Object.entries(PR_MOD).map(([k,v])=>'<button type="button" class="chip'+(o.m===k?' on':'')+'" data-prm="'+k+'" aria-pressed="'+(o.m===k)+'">'+v[0]+'</button>').join('');
+ shell('Enviar como presente · '+p.codigo,'<div class="sec">'+
+  '<div class="f" style="grid-column:1/-1"><label>Modelo</label><div class="chips" id="pr-chips" style="display:flex;flex-wrap:wrap;gap:6px">'+chips()+'</div></div>'+
+  '<div class="f"><label for="pr-n">Nome da cliente</label><input id="pr-n" maxlength="24" placeholder="Ex.: Maria"></div>'+
+  '<div class="f"><label for="pr-tel">WhatsApp (opcional)</label><input id="pr-tel" inputmode="tel" placeholder="(21) 99999-9999"></div>'+
+  '<div class="f" id="pr-de-f" hidden><label for="pr-de">De quem (influenciador)</label><input id="pr-de" maxlength="30" placeholder="@jenikang"></div>'+
+  '<div style="grid-column:1/-1;display:flex;justify-content:center"><div id="pr-prev"></div></div>'+
+  '<div class="f" style="grid-column:1/-1"><label for="pr-link">Link do presente</label><input id="pr-link" readonly></div>'+
+  '<div style="grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px"><button class="btn" type="button" id="pr-cod">Copiar código</button><button class="btn pri" type="button" id="pr-cl">Copiar link do presente</button><a class="btn" id="pr-wa" target="_blank" rel="noopener">Abrir no WhatsApp</a><button class="btn" type="button" id="pr-png">Baixar cartão (imagem com QR)</button><a class="btn" id="pr-ver" target="_blank" rel="noopener">Ver como a cliente vê</a></div>'+
+  '<p class="hint" style="grid-column:1/-1;margin:0">A cliente abre o link, toca no presente e vê o cupom. Tocar no código copia; “Usar agora” já aplica o desconto no carrinho. O cartão com QR é para imprimir e pôr na caixa.</p></div>',null,true);
+ const msg=()=>'Oi'+(o.n?', '+o.n:'')+'! Separamos um presente pra você 💗\n'+prLink(p,o)+'\n\nCódigo: '+p.codigo;
+ const pinta=()=>{const acc=PR_MOD[o.m][1],lk=prLink(p,o);$('#pr-chips').innerHTML=chips();$('#pr-de-f').hidden=o.m!=='influ';$('#pr-link').value=lk;$('#pr-ver').href=lk;
+  const tel=o.tel.replace(/\D/g,'');$('#pr-wa').href='https://wa.me/'+(tel?tel.replace(/^(?!55)/,'55'):'')+'?text='+encodeURIComponent(msg());
+  $('#pr-prev').innerHTML='<div style="width:280px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 8px 20px rgba(74,38,56,.15);border:1px solid var(--line);text-align:center;color:#4A2638">'+
+   '<div style="background:'+acc+';padding:10px 14px"><div style="font-weight:800;font-style:italic;font-size:20px;color:#fff;text-shadow:0 2px 0 #B83D66">OMG!</div><div style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase">'+esc(o.m==='influ'&&o.de?'Presente de '+o.de:PR_MOD[o.m][2])+'</div></div>'+
+   '<div style="font-size:34px;font-weight:800;color:#B83D66;margin-top:8px">'+esc(prValor(p))+'</div><div style="font-size:12px">'+(p.t==='f'?'no seu pedido':'em todo o site')+(p.min?', a partir de '+brl(p.min):'')+'</div>'+
+   '<div style="margin:10px 14px;border:2px dashed #B83D66;border-radius:10px;padding:6px;font-weight:700;letter-spacing:.06em">'+esc(p.codigo)+'</div><div style="font-size:11px;color:#8A6A78;padding:0 10px 10px">'+esc(prFine(p))+'</div></div>'};
+ const cop=async(t,ok)=>{try{await navigator.clipboard.writeText(t);toast(ok)}catch(_){prompt('Copie:',t)}};
+ $('#pr-chips').addEventListener('click',e=>{const b=e.target.closest('[data-prm]');if(!b)return;o.m=b.dataset.prm;pinta()});
+ $('#pr-n').addEventListener('input',e=>{o.n=e.target.value.trim();pinta()});$('#pr-tel').addEventListener('input',e=>{o.tel=e.target.value;pinta()});$('#pr-de').addEventListener('input',e=>{o.de=e.target.value.trim();pinta()});
+ $('#pr-cod').addEventListener('click',()=>cop(p.codigo,'Código copiado'));$('#pr-cl').addEventListener('click',()=>cop(msg(),'Link e mensagem copiados'));
+ $('#pr-png').addEventListener('click',async e=>{const b=e.currentTarget;b.disabled=true;b.textContent='Gerando…';
+  try{const cv=await prCartao(p,o);const a=document.createElement('a');a.download='presente-'+p.codigo+'.png';a.href=cv.toDataURL('image/png');a.click();toast('Cartão baixado')}catch(x){toast(x.message||'Não deu para gerar o cartão')}
+  b.disabled=false;b.textContent='Baixar cartão (imagem com QR)'});
+ pinta()}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-presente]');if(!b)return;e.preventDefault();e.stopPropagation();cupomPresente(b.dataset.presente)},true);
 
 /* ---------- Análises ---------- */
 VIEWFN.analises=()=>{
@@ -2936,9 +2994,10 @@ async function cupomHistorico(codigo){
   :'<p class="muted" style="margin:0">Sem registros ainda.</p>';
 }
 FORMS.cupons.pre=rec=>{
+ const prB='<div class="sec"><div style="grid-column:1/-1"><button class="btn pri" type="button" data-presente="'+esc(rec.codigo)+'">🎁 Enviar como presente</button></div></div>';
  const us=cupomUsos(rec.codigo).sort((a,b)=>String(b.dataCompra).localeCompare(String(a.dataCompra)));
  setTimeout(()=>cupomHistorico(rec.codigo),0);
- return '<div class="sec"><span class="label">Pedidos que usaram · '+us.length+(us.length?' · desconto dado '+brl(us.reduce((a,v)=>a+n(v.desconto),0)):'')+'</span><div style="grid-column:1/-1;min-width:0">'+
+ return prB+'<div class="sec"><span class="label">Pedidos que usaram · '+us.length+(us.length?' · desconto dado '+brl(us.reduce((a,v)=>a+n(v.desconto),0)):'')+'</span><div style="grid-column:1/-1;min-width:0">'+
   (us.length?'<div class="tblwrap"><table><thead><tr><th>Pedido</th><th>Data</th><th>Cliente</th><th class="r">Total</th><th class="r">Desconto</th></tr></thead><tbody>'+
    us.map(v=>'<tr><td><b class="num">'+esc(v.pedidoSite||vnum(v.numero))+'</b></td><td class="num">'+fdate(v.dataCompra)+'</td><td>'+esc(v.cliente||'')+'</td><td class="r num">'+brl(calc(v).total)+'</td><td class="r num">'+brl(n(v.desconto))+'</td></tr>').join('')+'</tbody></table></div>'
    :'<p class="muted" style="margin:0">Nenhum pedido usou este cupom ainda.</p>')+'</div></div>'+
@@ -3817,6 +3876,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v69','01/11/2026',['Cupons: botão 🎁 Enviar como presente (na lista e dentro do cupom; abre sozinho depois de criar um cupom). Escolha o modelo (Boas-vindas, Aniversário, Presente, Influenciador, Desculpa pelo atraso) e o nome; copie o link do presente, mande no WhatsApp ou baixe o cartão com QR code para pôr na caixa.','A cliente abre o link em ohmygirl.com.br/pages/presente, toca no presente, copia o código com um toque e o botão Usar agora já aplica o desconto no carrinho.']],
  ['v68','01/11/2026',['Vendas: o CPF da cliente aparece embaixo do nome. O filtro da coluna Cliente também acha pelo CPF.']],
  ['v67','01/11/2026',['Vendas: tabela estilo Excel. Colunas Venda, Data, Canal, Cliente, Cidade, UF, Itens, Cupom, Embarque, Etapa e Total, cada uma com filtro (lista de valores com quantidade, marque um ou vários) e ordem clicando no título. Os botões de etapa no topo continuam valendo junto com os filtros.']],
  ['v66','01/11/2026',['Catálogo: nova coluna EAN (código de barras), começa oculta: o botão Mostrar EAN / Ocultar EAN abre e fecha (lembra neste aparelho). Dá para filtrar e ordenar por ela.','O EAN vem só de fonte confiável: lista da Janice/fabricante, caixa do produto ou digitado na ficha. EAN visto em loja (Sephora, KS, Jini) não entra. Embaixo do número aparece de onde veio.']],

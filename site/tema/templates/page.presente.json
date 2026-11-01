@@ -1,0 +1,6 @@
+{
+  "sections": {
+    "main": { "type": "omg-presente", "settings": {} }
+  },
+  "order": ["main"]
+}
