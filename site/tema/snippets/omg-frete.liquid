@@ -52,33 +52,33 @@
   const inp = box.querySelector('.omg-frete__cid'), lista = box.querySelector('.omg-frete__lista'), res = box.querySelector('.omg-frete__res');
   const brl = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   const norm = s => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
-  const nomeLocal = c => c.ref ? 'São Paulo (capital)' : c.n + ' (' + c.uf + ')';
+  const nomeLocal = c => c.ref ? 'São Paulo (capital)' : c.n + ' - ' + c.uf;
   let local = SP;
   try { const s = JSON.parse(localStorage.getItem('omg_cidade') || 'null'); if (s && s.cep) local = s; } catch (e) {}
-  if (!local.ref) inp.value = local.n + ' · ' + local.uf;
+  if (!local.ref) inp.value = local.n + ' - ' + local.uf;
 
   // Lista de cidades (carrega só quando a cliente toca no campo)
   let CID = null, carregando = null;
   const carregar = () => carregando || (carregando = fetch(box.dataset.cidades).then(r => r.json()).then(d => { CID = d.map(x => ({ n: x[0], uf: x[1], cep: String(x[2]).padStart(8, '0'), cap: x[3], k: norm(x[0]) })); }).catch(() => { CID = []; }));
   let achados = [], sel = -1;
   function mostrar() {
-    const q = norm(inp.value.split('·')[0].trim());
+    const q = norm(inp.value.split(' - ')[0].split('·')[0].trim());
     if (!CID) { carregar().then(mostrar); return; }
     if (q.length < 2) { lista.hidden = true; inp.setAttribute('aria-expanded', 'false'); return; }
     const ini = CID.filter(c => c.k.startsWith(q)), mei = CID.filter(c => !c.k.startsWith(q) && c.k.includes(q));
     achados = [...ini.sort((a, b) => b.cap - a.cap || a.n.length - b.n.length), ...mei].slice(0, 8); sel = achados.length ? 0 : -1;
-    lista.innerHTML = achados.length ? achados.map((c, i) => '<li role="option" data-i="' + i + '" aria-selected="' + (i === sel) + '"><span>' + c.n + '</span><small>' + c.uf + (c.cap ? ' · capital' : '') + '</small></li>').join('') : '<li aria-disabled="true"><span>Nenhuma cidade com esse nome</span></li>';
+    lista.innerHTML = achados.length ? achados.map((c, i) => '<li role="option" data-i="' + i + '" aria-selected="' + (i === sel) + '"><span>' + c.n + ' - ' + c.uf + '</span>' + (c.cap ? '<small>capital</small>' : '') + '</li>').join('') : '<li aria-disabled="true"><span>Nenhuma cidade com esse nome</span></li>';
     lista.hidden = false; inp.setAttribute('aria-expanded', 'true');
   }
   function escolher(c) {
     lista.hidden = true; inp.setAttribute('aria-expanded', 'false');
     local = c.n === 'São Paulo' && c.uf === 'SP' ? SP : { n: c.n, uf: c.uf, cep: c.cep };
-    inp.value = local.ref ? '' : local.n + ' · ' + local.uf;
+    inp.value = local.ref ? '' : local.n + ' - ' + local.uf;
     try { localStorage.setItem('omg_cidade', JSON.stringify(local)); } catch (e) {}
     document.dispatchEvent(new CustomEvent('omg:cidade', { detail: local }));
     calcular();
   }
-  inp.addEventListener('focus', () => { carregar(); if (inp.value.includes('·')) inp.select(); });
+  inp.addEventListener('focus', () => { carregar(); if (inp.value.includes(' - ')) inp.select(); });
   inp.addEventListener('input', mostrar);
   inp.addEventListener('keydown', e => {
     if (lista.hidden) return;
@@ -137,6 +137,6 @@
   document.addEventListener('change', e => { if (e.target.closest && e.target.closest('variant-picker, form[action*="/cart/add"], [name="quantity"]')) de(); });
   document.addEventListener('click', e => { if (e.target.closest && e.target.closest('quantity-selector-component button, .quantity__button, button[name="plus"], button[name="minus"]')) de(); });
   if (box.dataset.modo === 'carrinho') document.addEventListener('cart:update', de);
-  document.addEventListener('omg:cidade', e => { if (e.detail && e.detail.cep !== local.cep) { local = e.detail; inp.value = local.ref ? '' : local.n + ' · ' + local.uf; de(); } });
+  document.addEventListener('omg:cidade', e => { if (e.detail && e.detail.cep !== local.cep) { local = e.detail; inp.value = local.ref ? '' : local.n + ' - ' + local.uf; de(); } });
 })();
 </script>

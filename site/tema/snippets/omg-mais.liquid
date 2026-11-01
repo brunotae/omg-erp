@@ -330,7 +330,7 @@
     const pp = card.querySelector('product-price'); if (!pp) return;
     let el = card.querySelector('.omg-pf-card');
     if (!el) { el = document.createElement('div'); el.className = 'omg-pf-card'; pp.after(el); }
-    el.innerHTML = '<b>' + brl(total) + '</b> final ' + (l.ref ? 'em SP capital' : 'em ' + l.n);
+    el.innerHTML = '<b>' + brl(total) + '</b> final ' + (l.ref ? 'em SP capital' : 'em ' + l.n + ' - ' + l.uf);
     el.title = 'Estimativa com frete e impostos. O frete exato é calculado no checkout, com o seu CEP.';
   }
   async function processa(card) {
