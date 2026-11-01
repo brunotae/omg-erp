@@ -15,7 +15,7 @@ jobs:
         run: |
           set -e
           mkdir out
-          q(){ jq -n --arg q "$2" '{query:$q}' > c.json
+          q(){ jq -n --arg q "create temp table t_exp as $2; select * from t_exp" '{query:$q}' > c.json
             curl -sS -o "out/$1.json" -w '%{http_code}\n' -X POST "https://api.supabase.com/v1/projects/nzsiuniabovvptuqmkmi/database/query" \
               -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" -H "Content-Type: application/json" --data @c.json; head -c 200 "out/$1.json"; echo; }
           q skus "select p.id, p.sku, p.marca, p.nome, p.preco, p.peso_g, p.shopify_product_id, p.shopify_variant_id, cp.handle, cp.titulo from produtos p left join catalogo_produtos cp on cp.id = p.shopify_product_id::text where p.site_status = 'active' order by p.marca, p.sku"
