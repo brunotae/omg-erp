@@ -625,6 +625,7 @@ table.rel-t{width:100%;border-collapse:collapse;font-size:7.4pt}
 .mon-ul{margin:6px 0 0;padding-left:18px;font-size:12px}
 .mon-h{min-width:600px}.mon-h td{vertical-align:top}.mon-h td:last-child{min-width:240px}
 @media(max-width:780px){.mon-li{grid-template-columns:minmax(0,1fr);gap:2px}}
+.lnk{border:0;background:none;padding:0;margin-top:4px;font:inherit;font-size:11.5px;font-weight:600;color:var(--accent,#B83D66);text-decoration:underline;cursor:pointer}
 </style>
 </head>
 <body>
@@ -894,7 +895,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v59 · 31/10/2026';
+const VERSAO='v60 · 01/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -2832,9 +2833,9 @@ function monMedia(cod){const L=monExecs(cod).filter(e=>has(e.duracao_seg)&&e.sta
 // próxima execução a partir do cron simples "CRON_TZ=America/Sao_Paulo M H * * D" (Brasília = UTC−3, sem horário de verão)
 function monProxima(m){
  if(!m.ligado||m.agendado===false)return null;const p=String(m.agenda_cron||'').replace(/^CRON_TZ=\S+\s+/,'').trim().split(/\s+/);if(p.length<5)return null;
- const mi=+p[0],h=+p[1],dows=p[4]==='*'?[0,1,2,3,4,5,6]:p[4].split(',').map(Number);if(!isFinite(mi)||!isFinite(h))return null;
- const agora=Date.now();for(let k=0;k<8;k++){const d=new Date(agora-3*36e5);d.setUTCDate(d.getUTCDate()+k);
-  if(!dows.includes(d.getUTCDay()))continue;const t=Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate(),h+3,mi);if(t>agora)return new Date(t)}
+ const mi=+p[0],h=+p[1],dows=p[4]==='*'?null:p[4].split(',').map(Number),doms=p[2]==='*'?null:p[2].split(',').map(Number);if(!isFinite(mi)||!isFinite(h))return null;
+ const agora=Date.now();for(let k=0;k<64;k++){const d=new Date(agora-3*36e5);d.setUTCDate(d.getUTCDate()+k);
+  if(dows&&!dows.includes(d.getUTCDay()))continue;if(doms&&!doms.includes(d.getUTCDate()))continue;const t=Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate(),h+3,mi);if(t>agora)return new Date(t)}
  return null;
 }
 function monSwitch(m){return '<button type="button" class="mon-sw" data-mon-tog="'+esc(m.codigo)+'" role="switch" aria-checked="'+(!!m.ligado)+'"'+(can()?'':' disabled')+' title="'+(m.ligado?'Ligado · clique para desligar':'Desligado · clique para ligar')+'"><i></i><span>'+(m.ligado?'Ligado':'Desligado')+'</span></button>'}
@@ -2846,7 +2847,7 @@ VIEWFN.monitor=()=>{
  const seg=Em.reduce((s,e)=>s+n(e.duracao_seg),0), lig=(S.data.monitoramentos||[]).filter(m=>m.ligado).length;
  const ult=E.filter(e=>e.status==='Mudança encontrada').sort((a,b)=>String(b.inicio).localeCompare(String(a.inicio)))[0];
  // previsão do mês: tempo médio × execuções por semana × 4,3
- const prev=(S.data.monitoramentos||[]).filter(m=>m.ligado).reduce((s,m)=>{const md=monMedia(m.codigo);const p=String(m.agenda_cron||'').replace(/^CRON_TZ=\S+\s+/,'').trim().split(/\s+/);const pw=p[4]==='*'?7:(p[4]||'').split(',').filter(Boolean).length||1;return s+(md==null?240:md)*pw*4.3},0);
+ const prev=(S.data.monitoramentos||[]).filter(m=>m.ligado).reduce((s,m)=>{const md=monMedia(m.codigo);const p=String(m.agenda_cron||'').replace(/^CRON_TZ=\S+\s+/,'').trim().split(/\s+/);const pm=p[2]&&p[2]!=='*'?p[2].split(',').filter(Boolean).length:(p[4]==='*'?30:((p[4]||'').split(',').filter(Boolean).length||1)*4.3);return s+(md==null?300:md)*pm},0);
  return '<div class="page wide"><div class="col">'+head('Monitoramentos','Cada monitoramento é uma tarefa do Claude que roda sozinha no horário marcado, lê as fontes, grava o resultado aqui e avisa no celular e no e-mail. Nada é alterado no site. Desligado aqui, ele acorda, vê que está desligado e para em segundos.')+
  '<div class="kpis">'+kpi('Ligados',lig+' de '+(S.data.monitoramentos||[]).length,'Liga e desliga na chave de cada um')+kpi('Execuções no mês',Em.length,'Sem contar as puladas')+kpi('Tempo do Claude no mês',monDur(seg),'Previsão: cerca de '+monDur(Math.round(prev))+' por mês')+kpi('Custo extra','R$ 0','Incluído no plano do Claude (usa a cota de uso) · Supabase grátis')+'</div>'+
  (ult?'<div class="card mon-ult"><span class="label">Última mudança encontrada</span><p><b class="num">'+esc(ult.codigo)+'</b> · '+monQuando(ult.inicio)+' · '+esc(ult.resumo)+'</p></div>':'')+
@@ -2855,7 +2856,7 @@ VIEWFN.monitor=()=>{
    return '<tr data-mon-open="'+esc(m.codigo)+'"><td><b class="num">'+esc(m.codigo)+'</b><small>'+esc(m.area||'')+'</small></td>'+
     '<td><b>'+esc(m.nome)+'</b><small>'+esc(m.descricao)+'</small></td>'+
     '<td>'+esc(m.frequencia||'—')+'<small>'+(m.agendado===false?'<b style="color:var(--warn)">agenda parada · peça ao Claude: religar '+esc(m.codigo)+'</b>':m.ligado?(px?'próxima: '+monQuando(px):''):'parado')+'</small></td>'+
-    '<td>'+(e?monPill(e.status)+(e.relatorio?' <button type="button" class="btn sm" data-mon-rel="'+esc(e.id)+'">Relatório</button>':'')+'<small>'+monQuando(e.inicio)+' · '+esc((e.resumo||'').slice(0,90))+'</small>':'<span class="muted">Ainda não rodou</span>')+'</td>'+
+    '<td>'+(e?monPill(e.status)+(e.relatorio?' <button type="button" class="btn sm" data-mon-rel="'+esc(e.id)+'">Relatório</button>':'')+'<small>'+monQuando(e.inicio)+' · '+esc((e.resumo||'').slice(0,90))+'</small>':'<span class="muted">Ainda não rodou</span>')+'<small><button type="button" class="lnk" data-mon-hist="'+esc(m.codigo)+'">Histórico e relatórios ('+monExecs(m.codigo).length+')</button></small></td>'+
     '<td class="r num">'+(md!=null?monDur(Math.round(md)):'<span class="muted">'+esc(m.tempo_estimado||'—')+'</span>')+'</td>'+
     '<td>'+monSwitch(m)+'</td></tr>'}).join('')+'</tbody></table></div>':empty('Nenhum monitoramento','Peça ao Claude para criar um. Ele ganha um código (M-003…) e aparece aqui.'))+'</div>'+
  '<div class="card"><span class="label">Como mudar</span><p class="muted" style="margin:6px 0 0;font-size:12.5px">Ligar e desligar: pela chave, na hora. Mudar frequência, horário, fontes ou criar um novo: peça ao Claude citando o código (ex.: "M-002: incluir a Celimax" ou "M-001: rodar toda segunda e quinta").</p></div>'+
@@ -2877,7 +2878,7 @@ function monOpen(cod){
   (m.referencia?lin('Referência',/^https?:/.test(m.referencia)?'<a href="'+esc(m.referencia)+'" target="_blank" rel="noopener">abrir</a>':esc(m.referencia)):'')+
   (m.obs?lin('Observação',esc(m.obs)):'')+'</div>'+
   '<div class="sec"><span class="label" style="grid-column:1/-1">Histórico ('+L.length+')</span><div style="grid-column:1/-1;min-width:0">'+(L.length?'<div class="tblwrap"><table class="mon-h"><thead><tr><th>Quando</th><th>Resultado</th><th class="r">Tempo</th><th>Resumo</th></tr></thead><tbody>'+
-   L.slice(0,60).map(e=>'<tr><td class="num">'+monQuando(e.inicio)+'</td><td>'+monPill(e.status)+(e.avisou?'<small>avisou</small>':'')+'</td><td class="r num">'+monDur(e.duracao_seg)+'</td><td>'+esc(e.resumo||'')+(e.relatorio?' <button type="button" class="btn sm" data-mon-rel="'+esc(e.id)+'">Relatório</button>':'')+det(e)+'</td></tr>').join('')+'</tbody></table></div>':'<p class="muted" style="margin:0">Ainda não rodou.</p>')+'</div></div>',
+   L.slice(0,60).map(e=>'<tr><td class="num">'+monQuando(e.inicio)+'</td><td>'+monPill(e.status)+(e.avisou?'<small>avisou</small>':'')+'</td><td class="r num">'+monDur(e.duracao_seg)+'</td><td>'+esc(e.resumo||'')+(e.relatorio?' <button type="button" class="btn sm" data-mon-rel="'+esc(e.id)+'">Relatório</button>':'')+det(e)+'</td></tr>').join('')+'</tbody></table></div>':'<p class="muted mon-hist" style="margin:0">Ainda não rodou.</p>')+'</div></div>',
   null,true);
 }
 async function monToggle(cod,btn){
@@ -2891,6 +2892,7 @@ async function monToggle(cod,btn){
 }
 document.addEventListener('click',e=>{
  const t=e.target.closest('[data-mon-tog]');if(t){e.preventDefault();e.stopPropagation();monToggle(t.dataset.monTog,t);return}
+ const hb=e.target.closest('[data-mon-hist]');if(hb){e.preventDefault();e.stopPropagation();monOpen(hb.dataset.monHist);setTimeout(()=>{const h=document.querySelector('#ov .mon-h,#ov .mon-hist');if(h)h.scrollIntoView({block:'start'})},60);return}
  const o=e.target.closest('tr[data-mon-open]');if(o&&S.view==='monitor'&&!e.target.closest('a'))monOpen(o.dataset.monOpen);
 },true);
 // v59: relatório de cada execução (markdown simples gravado pela tarefa) em aba nova, com Imprimir/PDF e ✕ Fechar aba (regra 8)
@@ -3673,6 +3675,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v60','01/11/2026',['Monitoramentos: link Histórico e relatórios em cada linha (abre o histórico com o botão Relatório de cada execução).','Corrigida a próxima execução e a previsão do mês para monitoramentos por dia do mês (M-001: dias 1 e 15).']],
  ['v59','31/10/2026',['Novo: Automação › Monitoramentos. Cada monitoramento automático tem código (M-001, M-002…), o que faz, frequência, próxima execução, histórico e uma chave liga/desliga.','Mostra o tempo que o Claude gastou em cada execução e no mês, e a previsão mensal. Custo extra: R$ 0 (incluído no plano do Claude; Supabase grátis).','M-001 Regras do PRC (dias 1 e 15, com relatório completo em toda execução: abre em aba nova e vira PDF) e M-002 Lançamentos e saídas das marcas (COSRX, toda segunda).']],
  ['v58','31/10/2026',['Número da venda do site agora é igual ao do pedido no Shopify (#1001 = 100.001.001). Vendas lançadas à mão no ERP usam a série 200.000.001.','Checkout: a linha de entrega mostra separado quanto é frete e quanto é tributo (ICMS/II).']],
  ['v57','31/10/2026',['Aviso de versão nova agora aparece flutuando embaixo e no meio da tela, em qualquer página, no computador e no celular (regra 4).']],
