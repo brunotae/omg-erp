@@ -242,6 +242,8 @@ pre.code{background:var(--surface2);border:1px solid var(--line);border-radius:v
 .px-grow th{position:sticky;top:0;z-index:3;font-size:10px;text-align:center;padding:3px 4px;border-left:2px solid #fff;color:#4a3a40;letter-spacing:.04em}
 .px-t .px-grow th.px-g-prod{background:#F3EEF0}.px-t .px-grow th.px-g-ref{background:#D9E7F7}.px-t .px-grow th.px-g-edit{background:#FCEBB6}.px-t .px-grow th.px-g-hoje{background:#E9E4E6}.px-t .px-grow th.px-g-res{background:#D3EEDC}.px-t td.px-nome small{display:block}.px-t .px-grow th.px-g-st{background:#F3EEF0}
 .px-t thead tr:nth-child(2) th{top:21px!important}.px-t .px-frow th{top:46px!important}
+.ct-t .px-frow th{top:24px!important}
+.ct-pop{position:absolute;z-index:60;background:var(--surface,#fff);border:1px solid var(--line,#e6d9df);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);max-width:340px;font-size:12px}.ct-pop-l{max-height:290px;overflow:auto;padding:6px}.ct-pop-l label{display:flex;align-items:center;gap:6px;padding:3px 4px;border-radius:6px;cursor:pointer}.ct-pop-l label:hover{background:rgba(0,0,0,.04)}.ct-pop-l label span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ct-pop-l small{color:var(--muted)}.ct-pop-l p{margin:4px;font-size:11.5px}.ct-pop-b{display:flex;gap:6px;padding:6px;border-top:1px solid var(--line,#e6d9df)}.ct-t td.px-nome{max-width:300px}.ct-t td.px-marca{max-width:110px;white-space:normal}.ct-t .px-fi input,.ct-t .px-fi select{width:100%;min-width:44px;box-sizing:border-box}
 .px-ext-row{display:grid;grid-template-columns:130px 90px 1fr auto;gap:6px;align-items:center;margin:0 0 6px}.px-ext-row b{font-size:12.5px}.px-ext-row input{padding:6px 8px}
 .px-ext-prev{margin:6px 0;padding:8px 10px;border-radius:8px;background:#EEF8F1;font-size:12.5px}.px-ext-prev:empty{display:none}.px-ext-sug{margin-top:4px}
 .px-ext-bt{padding:2px 8px!important;font-size:11px!important}
@@ -895,7 +897,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v62 · 01/11/2026';
+const VERSAO='v65 · 01/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1352,14 +1354,72 @@ VIEWFN.compras=()=>{
 };
 
 /* ---------- Catálogo ---------- */
+/* v62: Catálogo em tabela larga (cabe na tela): SKU em coluna própria, peso e dimensões, filtro em cada coluna e ordenar clicando no título */
+const CT={f:{},sort:['sku',1],lim:300,med:null,medLoading:false};
+async function ctMed(){if(CT.med||CT.medLoading)return;CT.medLoading=true;try{CT.med=await (await fetch('tools/pesos/medidas_sku.json')).json()}catch(_){CT.med={}}CT.medLoading=false;if(S.view==='produtos')render()}
+const ctM=p=>(CT.med&&CT.med[p.sku])||null;
+const ctPeso=p=>has(p.pesoG)&&p.pesoG>0?Math.round(p.pesoG):(ctM(p)&&ctM(p).peso>0?Math.round(ctM(p).peso):null);
+const ctDim=p=>{const m=ctM(p);return m&&Array.isArray(m.dim)&&m.dim.length===3?m.dim.map(v=>String(Math.round(v*10)/10).replace('.',',')).join(' × '):null};
+const ctEst=p=>{const m=ctM(p);return m&&/estimad/i.test(String(m.peso_origem||''))&&!(has(p.pesoG)&&p.pesoG>0&&Math.round(p.pesoG)!==Math.round(m.peso))};
+const ctSt=p=>p.dg?'DG bloqueado':p.ativo?'No site':'Fora do site';
+const CT_COLS=[
+ ['sku','SKU',p=>p.sku,'t'],['nome','Produto',p=>p.nome,'t'],['marca','Marca',p=>p.marca,'t'],['cat','Categoria',p=>p.categoria,'t'],
+ ['peso','Peso (g)',p=>ctPeso(p),'n'],['dim','Dimensões (cm)',p=>ctDim(p),'t'],
+ ['fab','Custo fábrica (₩)',p=>p.custoFab,'n'],['dist','Preço distribuidor (₩)',p=>p.custoLB,'n'],['venda','Venda',p=>p.preco,'n'],['st','Status',ctSt,'t']];
+function ctLinhas(){let L=S.data.produtos.filter(match);
+ CT_COLS.forEach(([k,,g,t])=>{const f=CT.f[k];if(f)L=L.filter(p=>pxMatch(g(p),f,t))});
+ const [sk,dir]=CT.sort,col=CT_COLS.find(c=>c[0]===sk);
+ if(col)L=[...L].sort((a,b)=>{const va=col[2](a),vb=col[2](b);if(col[3]==='n'){const A=pxNum(va),B=pxNum(vb);if(A==null&&B==null)return 0;if(A==null)return 1;if(B==null)return -1;return (A-B)*dir}
+  return String(va||'').localeCompare(String(vb||''),'pt-BR',{numeric:true})*dir});
+ return L}
 VIEWFN.produtos=()=>{
- const rows=S.data.produtos.filter(match);
- return '<div class="page"><div class="col">'+head('Catálogo','Todos os produtos, inclusive os que não estão à venda no site. SKUs, custos na Coreia e preço sugerido pela regra da OMG. Ao lançar uma venda, o SKU preenche preço e custos.',(can()?'<button class="btn sm" type="button" id="sync-shop">Sincronizar com o Shopify</button> <button class="btn sm" type="button" id="pesos-shop" title="Grava no Shopify o peso e as dimensões de cada SKU (tools/pesos/medidas_sku.json)">Enviar pesos ao Shopify</button> <label class="btn sm" style="cursor:pointer">Importar do Shopify (CSV)<input type="file" id="cat-up" accept=".csv,text/csv" hidden></label> ':'')+newBtn('produtos','Novo produto'))+(S.data.produtos.length?'<p class="muted" style="margin:-6px 0 0;font-size:11.5px">'+S.data.produtos.length+(S.data.produtos.length===1?' produto · ':' produtos · ')+S.data.produtos.filter(p=>p.ativo).length+' ativos no site · '+S.data.produtos.filter(p=>!p.ativo).length+' fora do site</p>':'')+
- '<div class="card">'+(loading('produtos')?'<p class="muted">Carregando…</p>':rows.length?'<div class="tblwrap"><table><thead><tr><th>Produto</th><th class="r">Custo fábrica</th><th class="r">Preço La Belle</th><th class="r">Sugerido</th><th class="r">Venda</th><th>Status</th></tr></thead><tbody>'+
- rows.map(p=>{const s=suggest(p);return '<tr data-edit="produtos" data-id="'+esc(p.id)+'"><td><b>'+esc(p.nome)+'</b><small>'+esc(p.marca||'')+' · '+esc(p.sku)+' · '+esc(p.categoria||'')+'</small></td><td class="r num">'+krw(p.custoFab)+'</td><td class="r num">'+krw(p.custoLB)+'<small>'+(has(p.custoLB)&&has(p.custoFab)?'Janice '+krw(p.custoLB-p.custoFab):'')+'</small></td><td class="r num">'+(s?'<b>'+brl(s.v)+'</b><small>'+esc(s.how)+'</small>':'<small>sem referência</small>')+'</td><td class="r num"><b>'+brl(p.preco)+'</b></td><td>'+(p.dg?'<span class="pill p-bad">DG bloqueado</span>':p.ativo?stPill('No site'):stPill('Fora do site'))+'</td></tr>'}).join('')+'</tbody></table></div>'
- :empty('Catálogo vazio','No Shopify, vá em Produtos → Exportar → Todos os produtos → CSV. Depois clique em Importar do Shopify (CSV) aqui. Vêm também os produtos em rascunho.'))+'</div></div>'+
- '<aside class="rail"><div class="note"><span class="label">Regra de preço OMG</span><p>1. Se KS ou Jini vendem: '+n(S.cfg.desc)+'% abaixo, preço final com frete e impostos.</p><p>2. Se não: site oficial coreano +'+n(S.cfg.markup)+'%.</p><p class="muted">Sprays, aerossóis, perfumes e removedor de esmalte não podem ser vendidos (DG aéreo).</p></div></aside></div>';
+ if(!CT.med)setTimeout(ctMed,0);
+ const all=S.data.produtos,L=loading('produtos')?[]:ctLinhas(),vis=L.slice(0,CT.lim),filtrando=Object.values(CT.f).some(Boolean);
+ const th=CT_COLS.map(([k,l,,t])=>'<th class="'+(t==='n'?'r ':'')+'px-th" data-ctsort="'+k+'">'+l+(CT.sort[0]===k?(CT.sort[1]>0?' ▲':' ▼'):'')+'</th>').join('');
+ const tf=CT_COLS.map(([k,,,t])=>'<th class="px-fi">'+(k==='st'?'<select data-ctf="st" aria-label="Filtro de status"><option value="">todos</option>'+['No site','Fora do site','DG bloqueado'].map(v=>'<option'+(CT.f.st===v?' selected':'')+'>'+v+'</option>').join('')+'</select>':'<input data-ctf="'+k+'" value="'+esc(CT.f[k]||'')+'" placeholder="'+(t==='n'?'>10':'filtrar')+'" aria-label="Filtro" data-1c="off">')+'</th>').join('');
+ const row=p=>{const pe=ctPeso(p),d=ctDim(p);
+  return '<tr data-edit="produtos" data-id="'+esc(p.id)+'" style="cursor:pointer"><td class="num">'+esc(p.sku)+'</td><td class="px-nome"><b>'+esc(p.nome)+'</b></td><td class="px-marca">'+esc(p.marca||'')+'</td><td class="px-marca">'+esc(p.categoria||'')+'</td>'+
+  '<td class="r num">'+(pe?pe+(ctEst(p)?'<small>estimado</small>':''):'<span class="muted">—</span>')+'</td><td class="num">'+(d?d+(ctM(p)&&/estimad/i.test(String(ctM(p).dim_origem||''))?'<small>estimado</small>':''):'<span class="muted">—</span>')+'</td>'+
+  '<td class="r num">'+(has(p.custoFab)?krw(p.custoFab):'<span class="muted">—</span>')+'</td><td class="r num">'+(has(p.custoLB)?krw(p.custoLB):'<span class="muted">—</span>')+'</td>'+
+  '<td class="r num"><b>'+brl(p.preco)+'</b></td><td>'+(p.dg?'<span class="pill p-bad">DG bloqueado</span>':p.ativo?stPill('No site'):stPill('Fora do site'))+'</td></tr>'};
+ return '<div class="page wide"><div class="col">'+head('Catálogo','Todos os produtos, inclusive os que não estão à venda no site: SKU, peso, dimensões, custos na Coreia e preço de venda. O preço calculado pela regra fica no Pricing. Filtre em cada coluna e ordene clicando no título. Ao lançar uma venda, o SKU preenche preço e custos.',(can()?'<button class="btn sm" type="button" id="sync-shop">Sincronizar com o Shopify</button> <button class="btn sm" type="button" id="pesos-shop" title="Grava no Shopify o peso e as dimensões de cada SKU (tools/pesos/medidas_sku.json)">Enviar pesos ao Shopify</button> <label class="btn sm" style="cursor:pointer">Importar do Shopify (CSV)<input type="file" id="cat-up" accept=".csv,text/csv" hidden></label> ':'')+newBtn('produtos','Novo produto'))+
+ (all.length?'<p class="muted" style="margin:-6px 0 0;font-size:11.5px">'+all.length+' produtos · '+all.filter(p=>p.ativo).length+' no site · '+all.filter(p=>!p.ativo).length+' fora do site'+(filtrando||S.q?' · <b>'+L.length+' no filtro</b> · <a href="#" id="ct-limpa">limpar filtros</a>':'')+(CT.medLoading?' · carregando medidas…':'')+'</p>':'')+
+ '<div class="card" style="padding:8px">'+(loading('produtos')?'<p class="muted">Carregando…</p>':!all.length?empty('Catálogo vazio','No Shopify, vá em Produtos → Exportar → Todos os produtos → CSV. Depois clique em Importar do Shopify (CSV) aqui. Vêm também os produtos em rascunho.'):
+  '<div class="tblwrap px-wrap"><table class="px-t ct-t"><thead><tr>'+th+'</tr><tr class="px-frow">'+tf+'</tr></thead><tbody>'+(vis.length?vis.map(row).join(''):'<tr><td colspan="'+CT_COLS.length+'" class="muted" style="padding:16px;text-align:center">Nenhum produto neste filtro.</td></tr>')+'</tbody></table></div>'+
+  (L.length>vis.length?'<p style="text-align:center;margin:10px 0 0"><button class="btn sm" type="button" id="ct-mais">Mostrar mais ('+(L.length-vis.length)+')</button></p>':''))+'</div></div></div>';
 };
+/* v64: filtro estilo Excel: ao clicar no campo abre a lista de valores da coluna (com quantidade), marca um ou vários e Aplicar; dá para continuar digitando */
+let ctPopK=null;
+function ctValores(k){const col=CT_COLS.find(c=>c[0]===k);if(!col)return [];
+ let L=S.data.produtos.filter(match);CT_COLS.forEach(([k2,,g,t])=>{const f=CT.f[k2];if(f&&k2!==k)L=L.filter(p=>pxMatch(g(p),f,t))});
+ const M=new Map();L.forEach(p=>{let v=col[2](p);if(v==null||v==='')v='(vazio)';const key=String(v);M.set(key,(M.get(key)||0)+1)});
+ return [...M.entries()].sort((a,b)=>col[3]==='n'?(a[0]==='(vazio)'?1:b[0]==='(vazio)'?-1:Number(a[0])-Number(b[0])):(a[0]==='(vazio)'?1:b[0]==='(vazio)'?-1:a[0].localeCompare(b[0],'pt-BR',{numeric:true})))}
+const ctFmt=(k,v)=>v==='(vazio)'?'(vazio)':k==='venda'?brl(Number(v)):(k==='fab'||k==='dist')?krw(Number(v)):esc(v);
+function ctPopFechar(){const d=document.getElementById('ct-pop');if(d)d.remove();ctPopK=null}
+function ctPopAbrir(inp){const k=inp.dataset.ctf;ctPopFechar();ctPopK=k;
+ const col=CT_COLS.find(c=>c[0]===k),num=col[3]==='n',cur=String(CT.f[k]||''),sel=new Set(cur.includes('|')||cur?cur.split('|').map(x=>x.trim()).filter(Boolean):[]);
+ const busca=pxNorm(cur.includes('|')?'':cur),V=ctValores(k).filter(([v])=>!busca||sel.has(v)||pxNorm(ctFmt(k,v).replace(/<[^>]+>/g,'')).includes(busca)||pxNorm(v).includes(busca));
+ const d=document.createElement('div');d.id='ct-pop';d.className='ct-pop';
+ d.innerHTML='<div class="ct-pop-l">'+(V.length?V.slice(0,500).map(([v,c])=>'<label><input type="checkbox" value="'+esc(v)+'"'+(sel.has(v)?' checked':'')+'><span>'+ctFmt(k,v)+'</span><small>'+c+'</small></label>').join('')+(V.length>500?'<p class="muted">… e mais '+(V.length-500)+'. Digite para achar.</p>':''):'<p class="muted">Nada com esse texto.</p>')+'</div>'+
+  '<div class="ct-pop-b"><button type="button" class="btn sm" data-ctpop="tudo">Marcar todos</button><button type="button" class="btn sm" data-ctpop="limpa">Limpar</button><span style="flex:1"></span><button type="button" class="btn sm pri" data-ctpop="ok">Aplicar</button></div>';
+ document.body.appendChild(d);const r=inp.getBoundingClientRect();d.style.left=Math.max(8,Math.min(r.left+scrollX,innerWidth-d.offsetWidth-8))+'px';d.style.top=(r.bottom+scrollY+2)+'px';d.style.minWidth=Math.max(r.width,220)+'px';d.dataset.num=num?'1':''}
+document.addEventListener('focusin',e=>{const t=e.target;if(t.matches&&t.matches('input[data-ctf]')&&ctPopK!==t.dataset.ctf)ctPopAbrir(t)});
+document.addEventListener('click',e=>{const t=e.target;if(t.matches&&t.matches('input[data-ctf]')&&ctPopK!==t.dataset.ctf)ctPopAbrir(t)});
+document.addEventListener('mousedown',e=>{if(!ctPopK)return;if(e.target.closest('#ct-pop')||e.target.closest('input[data-ctf]'))return;ctPopFechar()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&ctPopK)ctPopFechar()});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-ctpop]');if(!b||!ctPopK)return;const d=document.getElementById('ct-pop'),k=ctPopK,a=b.dataset.ctpop;
+ if(a==='tudo'){d.querySelectorAll('input[type=checkbox]').forEach(c=>c.checked=true);return}
+ if(a==='limpa'){CT.f[k]='';ctPopFechar();CT.lim=300;render();return}
+ const v=[...d.querySelectorAll('input[type=checkbox]:checked')].map(c=>c.value);const tot=d.querySelectorAll('input[type=checkbox]').length;
+ CT.f[k]=v.length&&v.length<tot?v.join('|'):'';ctPopFechar();CT.lim=300;render()});
+let ctFT=null;
+document.addEventListener('input',e=>{const t=e.target;if(!t.dataset||!t.dataset.ctf||t.tagName==='SELECT')return;clearTimeout(ctFT);
+ ctFT=setTimeout(()=>{const k=t.dataset.ctf,pos=t.selectionStart;CT.f[k]=t.value;CT.lim=300;render();const n2=document.querySelector('[data-ctf="'+k+'"]');if(n2){ctPopK=null;n2.focus();try{n2.setSelectionRange(pos,pos)}catch(_){}}},350)});
+document.addEventListener('change',e=>{const t=e.target;if(t.tagName!=='SELECT'||!t.dataset||!t.dataset.ctf)return;CT.f[t.dataset.ctf]=t.value;CT.lim=300;render()});
+document.addEventListener('click',e=>{
+ const s0=e.target.closest('th[data-ctsort]');if(s0){const k=s0.dataset.ctsort;CT.sort=CT.sort[0]===k?[k,-CT.sort[1]]:[k,1];render();return}
+ if(e.target.closest('#ct-mais')){CT.lim+=500;render();return}
+ if(e.target.closest('#ct-limpa')){e.preventDefault();CT.f={};S.q='';const q=document.querySelector('#q,input[type=search]');if(q)q.value='';render();return}},true);
 
 /* ---------- Precificação · v34 ----------
    Regra (Guia de precificação OMG):
@@ -1652,7 +1712,7 @@ function pxCalc(p){
   if(!o.peso)o.semRef='sem peso';else if(o.base==null)o.semRef='frete não calculado';
   else if(o.tipo==='conc'){o.alvo=o.ref.pix*(1-d/100);const s=(o.alvo*(1-icms)-o.base)/(1+seg),v=s>0?pr90(s):0;if(v>=5)o.sug=v;else o.semRef='frete e ICMS passam da referência'}
   else if(cam){o.merc=o.ref.usd*(1+n(C.ext)/100)*cam;o.sug=pr90(o.merc)}}
- // v61: piso de margem (custo La Belle em ₩ × câmbio do ₩ × (1 + margem mínima)). Só vale com custo cadastrado e margem definida nas Regras.
+ // v61: piso de margem (preço do distribuidor em ₩ × câmbio do ₩ × (1 + margem mínima)). Só vale com custo cadastrado e margem definida nas Regras.
  const mm=pxNum(C.margemMin),cLB=pxNum(p.custoLB),krwR=pxNum((S.cfg||{}).krw);
  if(mm>0&&cLB>0&&krwR>0){o.piso=Math.ceil(cLB*krwR*(1+mm/100))-0.10;if(has(o.sug)&&o.sug<o.piso){o.flags.push('abaixo do piso de margem ('+brl(o.piso)+'): não dá para competir');o.sugRegra=o.sug;o.sug=o.piso}}
  else if(mm>0&&!(cLB>0))o.semCusto=true;
@@ -1677,12 +1737,13 @@ function pxGrupos(){const o=[];PX_COLS.forEach(c=>{const g=c[5],u=o[o.length-1];
 function pxColgroup(){return '<colgroup><col>'+PX_COLS.map((c,i)=>'<col class="px-c-'+c[5]+((i===0||PX_COLS[i-1][5]!==c[5])?' px-c-ini':'')+'">').join('')+'</colgroup>'}
 const pxNorm=s=>String(s==null?'':s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
 function pxMatch(v,f,tipo){f=String(f||'').trim();if(!f)return true;
+ if(tipo==='n'&&f.includes('|'))return f.split('|').some(a=>a.trim()&&pxMatch(v,a,'n'));
  if(tipo==='n'){const x=pxNum(v),g=f.replace(/\s/g,'').replace(',','.');let m;
   if(m=g.match(/^(-?[\d.]+)-(-?[\d.]+)$/))return x!=null&&x>=+m[1]&&x<=+m[2];
   if(m=g.match(/^(>=|<=|>|<|=)(-?[\d.]+)$/)){if(x==null)return false;const y=+m[2];return m[1]==='>'?x>y:m[1]==='<'?x<y:m[1]==='>='?x>=y:m[1]==='<='?x<=y:Math.abs(x-y)<0.005}
   if(/^-?[\d.]+$/.test(g))return x!=null&&Math.abs(x-(+g))<0.005;
-  if(g==='vazio'||g==='—')return x==null;return true}
- const t=pxNorm(v);return f.split('|').some(alt=>{alt=pxNorm(alt.trim());return alt.startsWith('!')?!t.includes(alt.slice(1)):t.includes(alt)})}
+  if(g==='vazio'||g==='—'||g==='(vazio)')return x==null;return true}
+ const t=pxNorm(v);return f.split('|').some(alt=>{alt=pxNorm(alt.trim());if(alt==='(vazio)')return t==='';return alt.startsWith('!')?!t.includes(alt.slice(1)):t.includes(alt)})}
 function pxLinhas(){const q=pxNorm(S.q||'');
  let L=pxLista().map(pxCalc);
  if(q)L=L.filter(x=>pxNorm(x.p.nome+' '+x.p.marca+' '+x.p.sku).includes(q));
@@ -1738,7 +1799,7 @@ function pxAbrir(id){
   if(has(x.alvo))L.push(['Alvo: '+pxPct(x.d)+' abaixo',brl(x.alvo)])}
  if(x.tipo==='ext'){L.push(['Referência: '+x.ref.nome+' (maior varejo oficial)','US$ '+x.ref.usd.toFixed(2)]);if(has(x.merc))L.push(['+'+n(C.ext)+'% × câmbio '+(cam||0).toFixed(2),brl(x.merc)])}
  if(has(x.sugRegra))L.push(['Pela regra daria',brl(x.sugRegra)]);
- if(has(x.piso))L.push(['Piso de margem ('+n(C.margemMin)+'% sobre o custo La Belle)',brl(x.piso)]);
+ if(has(x.piso))L.push(['Piso de margem ('+n(C.margemMin)+'% sobre o preço do distribuidor)',brl(x.piso)]);
  if(has(x.sug))L.push([has(x.sugRegra)?'Preço sugerido: o piso':'Preço sugerido pela regra (termina em ,90)',brl(x.sug)]);
  if(has(x.manual))L.push(['Preço digitado por você','<b>'+brl(x.manual)+'</b>']);
  if(has(x.final)){L.push(['Frete e seguro até SP capital ('+x.peso+' g)',brl(x.frete)]);L.push(['Imposto de importação',brl(x.ii)]);L.push(['ICMS '+n(C.icmsRef)+'% SP',brl(x.final-x.novo-x.frete-x.ii)]);L.push(['Cliente de SP paga no checkout','<b>'+brl(x.final)+'</b>'])}
@@ -1822,7 +1883,7 @@ function pxVerLote(id){const l=PX.lotes.find(x=>x.id===id);if(!l)return;
 function pxRegras(){
  const C=pxCfg(),f=(k,l,h,step)=>'<div class="f"><label for="pxc-'+k+'">'+l+'</label><input id="pxc-'+k+'" name="'+k+'" type="'+(k==='cep'?'text':'number')+'" step="'+(step||'0.5')+'" value="'+esc(C[k]??'')+'" data-1c="off"'+(can()?'':' disabled')+'>'+(h?'<span class="hint">'+h+'</span>':'')+'</div>';
  shell('Regras do Pricing','<div class="sec"><span class="label">Padrões (cada produto pode ter o seu)</span>'+f('desc','% abaixo da referência Pix','O que a cliente paga fica este % abaixo do menor preço entre KS e Jini (no Pix) e Sephora BR (promoção só após 14 dias). Para um produto só, abra a ficha dele.')+'</div>'+
-  '<div class="sec"><span class="label">Piso de margem</span>'+f('margemMin','Margem mínima sobre o custo (%)','Vazio = sem piso. Com custo La Belle cadastrado, o sugerido nunca fica abaixo de custo × (1 + margem) e o produto ganha o aviso "não dá para competir".',1)+'</div>'+
+  '<div class="sec"><span class="label">Piso de margem</span>'+f('margemMin','Margem mínima sobre o custo (%)','Vazio = sem piso. Com o preço do distribuidor cadastrado, o sugerido nunca fica abaixo de custo × (1 + margem) e o produto ganha o aviso "não dá para competir".',1)+'</div>'+
   '<div class="sec"><span class="label">Conta</span>'+f('icms','ICMS (%)','Por dentro.')+f('ext','Sobre o varejo do exterior (%)','Produto sem KS, Jini e Sephora BR: maior varejo oficial em US$ + este %.')+'<p class="hint" style="grid-column:1/-1;margin:0">Câmbio: o mesmo do checkout (R$ '+(Number(C.cambio)>0?Number(C.cambio).toFixed(2).replace('.',','):'—')+').</p></div>'+
   '<div class="sec"><span class="label">Frete</span>'+f('cep','CEP de referência','São Paulo capital. O frete vem da mesma conta do checkout.')+f('icmsRef','ICMS de SP (%)','Usado na coluna Cliente SP paga.')+'<p class="hint" style="grid-column:1/-1;margin:0"><button class="btn sm" type="button" id="px-frete">Recalcular frete de todos os pesos</button></p></div>',null,!can());
  if(!can())return;
@@ -2588,7 +2649,7 @@ const FORMS={
  produtos:{title:['Novo produto','Produto'],col:'produtos',secs:[['Produto',[
   {k:'sku',l:'SKU',req:1},{k:'marca',l:'Marca',t:'select',o:BRANDS},{k:'nome',l:'Produto',req:1,full:1},{k:'categoria',l:'Categoria',t:'select',o:CATS},
   {k:'fornecedor',l:'Fornecedor',t:'select',o:opt(fornNames)},{k:'custoFab',l:'Custo de fábrica (₩)',t:'number',hint:'O que a Janice paga'},
-  {k:'custoLB',l:'Preço La Belle → OMG (₩)',t:'number',hint:'O que a OMG paga à Janice'},{k:'precoKR',l:'Preço site oficial KR (₩)',t:'number'},
+  {k:'custoLB',l:'Preço distribuidor → OMG (₩)',t:'number',hint:'O que a OMG paga ao distribuidor na Coreia'},{k:'precoKR',l:'Preço site oficial KR (₩)',t:'number'},
   {k:'precoConc',l:'Preço KS / Jini (R$)',t:'number'},{k:'preco',l:'Preço de venda (R$)',t:'number'},{k:'pesoG',l:'Peso (g)',t:'number'},
   {k:'estoque',l:'Estoque na Coreia (un)',t:'number',hint:'Para o futuro galpão'},
   {k:'dg',l:'Spray, aerossol ou perfume (bloqueado)',t:'bool'},{k:'ativo',l:'Ativo no site',t:'bool'}]]],
@@ -3691,7 +3752,10 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
- ['v62','01/11/2026',['Monitoramentos: M-003 Preços dos concorrentes (leitura de segunda no servidor, sem custo de cota; cada leitura aparece no histórico com quantos produtos foram lidos e quantos mudaram de preço) e M-004 Movimentos dos concorrentes (Claude, dias 8 e 22, com relatório: promoções, marcas novas, concorrentes novos e Reclame Aqui).','O tempo do Claude no mês e a previsão não contam o que roda no servidor.']],
+ ['v65','01/11/2026',['Monitoramentos: M-003 Preços dos concorrentes (leitura de segunda no servidor, sem custo de cota; cada leitura aparece no histórico com quantos produtos foram lidos e quantos mudaram de preço) e M-004 Movimentos dos concorrentes (Claude, dias 8 e 22, com relatório: promoções, marcas novas, concorrentes novos e Reclame Aqui).','O tempo do Claude no mês e a previsão não contam o que roda no servidor.']],
+ ['v64','01/11/2026',['Catálogo: filtro estilo Excel. Ao clicar no campo de filtro abre a lista de valores da coluna, com a quantidade de cada um; marque um ou vários e clique em Aplicar. Dá para continuar digitando no campo, e a lista se ajusta ao texto.']],
+ ['v63','01/11/2026',['Catálogo: saiu a coluna Sugerido (regra antiga, confundia). O preço pela regra atual fica só no Pricing.']],
+ ['v62','01/11/2026',['Catálogo em tabela larga, que cabe na tela: SKU em coluna própria, marca, categoria, peso (g), dimensões (cm), custo fábrica, preço distribuidor, sugerido, venda e status.','Filtro em cada coluna (texto, número como >100 ou 50-200, status na lista) e ordem clicando no título da coluna.','“Preço La Belle” passa a se chamar Preço distribuidor (catálogo, ficha do produto e piso de margem do Pricing). O quadro antigo de regra de preço saiu da lateral.']],
  ['v61','01/11/2026',['Pricing: Sephora Brasil passa a ser concorrente válido (Guia de precificação v3). Referência = menor preço entre KS, Jini (no Pix) e Sephora BR.','Sephora: promoção só vale como referência depois de 14 dias no ar; antes disso vale o preço cheio. A ficha mostra os dois preços e há quantos dias está em promoção.','Leitura automática de segunda também lê a Sephora BR, só as marcas que a OMG vende. Em Concorrentes, dá para colar link da Sephora e aparecem parecidos dela.','Regras › Piso de margem: margem mínima sobre o custo La Belle. Abaixo do piso, o sugerido fica no piso com o aviso "não dá para competir".']],
  ['v60','01/11/2026',['Monitoramentos: link Histórico e relatórios em cada linha (abre o histórico com o botão Relatório de cada execução).','Corrigida a próxima execução e a previsão do mês para monitoramentos por dia do mês (M-001: dias 1 e 15).']],
  ['v59','31/10/2026',['Novo: Automação › Monitoramentos. Cada monitoramento automático tem código (M-001, M-002…), o que faz, frequência, próxima execução, histórico e uma chave liga/desliga.','Mostra o tempo que o Claude gastou em cada execução e no mês, e a previsão mensal. Custo extra: R$ 0 (incluído no plano do Claude; Supabase grátis).','M-001 Regras do PRC (dias 1 e 15, com relatório completo em toda execução: abre em aba nova e vira PDF) e M-002 Lançamentos e saídas das marcas (COSRX, toda segunda).']],
