@@ -2,6 +2,7 @@
 // Tópicos usados: orders/paid (cria a venda), orders/cancelled (marca como cancelada),
 // products/create e products/update (atualiza o Catálogo), products/delete (marca como excluído do site).
 // Segredo necessário (Supabase → Edge Functions → Secrets): SHOPIFY_WEBHOOK_SECRET
+import { cpfDoPedido } from "../_shared/shopify_gql.ts";
 import { gravarCatalogo, deWebhook } from "../_shared/catalogo.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { pedidoParaVenda } from "./map.js";
@@ -84,6 +85,7 @@ Deno.serve(async (req) => {
       if (e1) throw e1;
       if (existe) return resp(200, "já importada");
       const venda = pedidoParaVenda(pedido);
+      if (!venda.cpf) { try { venda.cpf = await cpfDoPedido(pedido.id); } catch (_) { /* segue sem CPF */ } }
       await separarFreteOMG(pedido, venda);
       const { error } = await sb.from("vendas").insert(venda);
       if (error) {

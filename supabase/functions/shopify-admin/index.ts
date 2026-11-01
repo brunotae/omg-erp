@@ -28,6 +28,7 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 import { gravarProdutos, gravarProdutosLote, produtoParaLinhas } from "../_shared/produtos.js";
 import { lerPagina, gravarLeitura } from "../_shared/concorrentes.ts";
 import { syncIncremental, syncCompleta } from "../_shared/catalogo.ts";
+import { cpfDoPedido } from "../_shared/shopify_gql.ts";
 
 const URL_SB = Deno.env.get("SUPABASE_URL")!;
 const admin = createClient(URL_SB, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
@@ -174,6 +175,16 @@ async function principal(req: Request): Promise<Response> {
           shippingAddress { provinceCode city }
           lineItems(first: 30) { nodes { title quantity } } } } }`, { q: "created_at:>=" + String(b.desde || "2026-10-31") });
       return resp(200, { ok: true, checkouts: d.abandonedCheckouts.nodes });
+    }
+    if (b.acao === "vendas_cpf") {
+      // Preenche o CPF das vendas do site que estão sem (o checkout guarda o CPF fora do aviso do pedido).
+      const { data: vs } = await admin.from("vendas").select("id,ext_id,cpf").like("ext_id", "shopify:%");
+      const res: any[] = [];
+      for (const v of (vs || []).filter((x: any) => !String(x.cpf || "").replace(/\D/g, ""))) {
+        try { const c = await cpfDoPedido(String(v.ext_id).split(":")[1]); if (c) { await admin.from("vendas").update({ cpf: c }).eq("id", v.id); } res.push({ id: v.id, ok: !!c }); }
+        catch (e) { res.push({ id: v.id, erro: String((e as Error).message || e).slice(0, 120) }); }
+      }
+      return resp(200, { ok: true, res });
     }
     if (b.acao === "pedidos_periodo") {
       // Pedidos do período com origem da visita (para os relatórios).
