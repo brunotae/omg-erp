@@ -31,7 +31,8 @@
           endif
         -%}
         <li class="omg-cartao">
-          <a href="{{ p.url }}" class="omg-cartao__img" tabindex="-1" aria-hidden="true">
+          {%- assign omg_capa = '' -%}{%- if p.featured_image -%}{%- assign omg_pid = p.id | append: '' -%}{%- assign omg_fn = p.featured_image.src | split: '/' | last -%}{%- if omg_fn contains omg_pid -%}{%- assign omg_capa = ' omg-cartao__img--capa' -%}{%- endif -%}{%- endif -%}
+          <a href="{{ p.url }}" class="omg-cartao__img{{ omg_capa }}" tabindex="-1" aria-hidden="true">
             {%- if p.featured_image -%}
               {{ p.featured_image | image_url: width: 480 | image_tag: loading: 'lazy', widths: '240,360,480', sizes: '(min-width: 990px) 220px, 44vw', alt: p.title }}
             {%- endif -%}
