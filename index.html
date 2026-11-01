@@ -895,7 +895,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v60 · 01/11/2026';
+const VERSAO='v61 · 01/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1375,7 +1375,8 @@ const PR_PESOS=[100,250,500,1000,2000];
 const PR_FRETE={SP:[15.35,25.00,41.62,75.47,142.37],RJ:[17.96,27.61,44.50,78.58,147.28],MG:[17.30,26.95,43.50,77.05,144.19],PR:[18.23,27.88,44.96,79.48,148.74],
  SC:[17.35,27.00,44.46,79.73,147.31],RS:[17.68,27.33,44.81,80.83,149.04],DF:[18.31,27.96,44.82,79.70,147.61],GO:[22.08,31.73,49.04,84.35,154.46],BA:[19.91,29.56,47.88,85.13,154.53],
  PE:[17.88,27.53,45.90,83.05,152.32],CE:[20.93,30.58,50.84,91.98,164.99],PA:[23.59,33.24,51.28,91.28,163.24],AM:[44.97,54.62,82.62,148.08,271.97]};
-const PR_LOJA={ks:'KS',jini:'Jini',exterior:'Exterior'};
+const PR_LOJA={ks:'KS',jini:'Jini',sephora:'Sephora BR',exterior:'Exterior'};
+const PR_COD={ks:'KS',jini:'JN',sephora:'SB'};
 const prCfg=()=>({...PR_CFG0,...(PR.cfg||{})});
 function prFreteUF(uf,g){const t=PR_FRETE[uf],P=PR_PESOS;if(!t||!(g>0))return null;if(g<=P[0])return t[0];
  for(let i=1;i<P.length;i++)if(g<=P[i])return t[i-1]+(t[i]-t[i-1])*(g-P[i-1])/(P[i]-P[i-1]);
@@ -1471,12 +1472,12 @@ VIEWFN.precos=()=>{
  const F=A.filter(x=>prNoFiltro(x,PR.f)&&(!PR.marca||x.p.marca===PR.marca)&&(!q||(x.p.nome+' '+x.p.marca+' '+x.p.sku).toLowerCase().includes(q)));
  F.sort((a,b)=>PR.f==='alerta'?Math.abs(n(b.c.dif))-Math.abs(n(a.c.dif)):String(a.p.marca).localeCompare(String(b.p.marca))||String(a.p.nome).localeCompare(String(b.p.nome)));
  const vis=F.slice(0,PR.lim),aprov=[...PR.sel].map(id=>A.find(x=>x.p.id===id)).filter(x=>x&&x.c.site>0);
- const lidoKS=PR.cat.filter(c=>c.loja==='ks'&&c.ativo!==false),lidoJ=PR.cat.filter(c=>c.loja==='jini'&&c.ativo!==false);
+ const lidoKS=PR.cat.filter(c=>c.loja==='ks'&&c.ativo!==false),lidoJ=PR.cat.filter(c=>c.loja==='jini'&&c.ativo!==false),lidoS=PR.cat.filter(c=>c.loja==='sephora'&&c.ativo!==false);
  const ult=PR.cat.reduce((m,c)=>c.lido_em>m?c.lido_em:m,'');
  const cnt=k=>A.filter(x=>prNoFiltro(x,k)).length;
- return '<div class="page wide"><div class="col">'+head('Concorrentes','Ligue cada produto à KS e à Jini e confira se é o mesmo item (marca, tipo, tamanho, quantidade). Os preços são calculados e transmitidos no Pricing. Concorrentes lidos sozinhos toda segunda de manhã.',
+ return '<div class="page wide"><div class="col">'+head('Concorrentes','Ligue cada produto à KS, à Jini e à Sephora Brasil e confira se é o mesmo item (marca, tipo, tamanho, quantidade). Os preços são calculados e transmitidos no Pricing. Concorrentes lidos sozinhos toda segunda de manhã.',
   '<button class="btn sm" type="button" data-view="pricing">Abrir o Pricing</button> <button class="btn sm" type="button" id="pr-recarregar">Recarregar</button>'+(can()&&PR.loaded?' <button class="btn sm" type="button" id="pr-auto" title="Liga ao concorrente quando marca, nome, tipo e tamanho batem">Ligar os certeiros</button>':'')+'')+
- '<p class="muted" style="margin:-6px 0 0;font-size:11.5px">'+(ult?'Concorrentes lidos em '+new Date(ult).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})+' · KS '+lidoKS.length+' produtos · Jini '+lidoJ.length+' produtos':'Concorrentes ainda não lidos')+'</p>'+
+ '<p class="muted" style="margin:-6px 0 0;font-size:11.5px">'+(ult?'Concorrentes lidos em '+new Date(ult).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})+' · KS '+lidoKS.length+' produtos · Jini '+lidoJ.length+' produtos · Sephora BR '+lidoS.length+' produtos (só marcas da OMG)':'Concorrentes ainda não lidos')+'</p>'+
  '<div class="chips">'+PR_F.map(([k,l])=>'<button type="button" class="chip'+(PR.f===k?' on':'')+'" data-prf="'+k+'">'+l+(PR.loaded?' · '+cnt(k):'')+'</button>').join('')+
  '<select id="pr-marca" class="chip" aria-label="Marca" data-1c="off"><option value="">Todas as marcas</option>'+marcas.map(m=>'<option'+(m===PR.marca?' selected':'')+'>'+esc(m)+'</option>').join('')+'</select></div>'+
  '<div class="card">'+(!PR.loaded?'<p class="muted">Carregando…</p>':F.length?'<div class="tblwrap"><table><thead><tr><th>Produto</th><th class="r">Concorrente</th><th class="r">No site</th></tr></thead><tbody>'+
@@ -1493,8 +1494,8 @@ function prAbrir(id){
  const conta0=c.linhas.length?'<table class="pr-conta">'+c.linhas.map(([l,v,t])=>'<tr><td>'+esc(l)+'</td><td class="r num">'+(t?esc(t):v==null?'':(v<-0.004?'− '+brl(-v):brl(Math.abs(v))))+'</td></tr>').join('')+'</table>':'<p class="muted" style="margin:0">'+(c.erro?esc(c.erro):'Sem referência: ligue um concorrente (KS ou Jini) ou informe o preço no exterior em US$.')+'</p>';
  const body='<div class="sec"><span class="label">'+esc(p.marca||'')+' · '+esc(p.sku)+' · no site hoje '+brl(c.atual)+'</span><p class="muted" style="grid-column:1/-1;margin:0;font-size:12px">O preço deste produto é calculado e transmitido no Pricing.</p></div>'+
   '<div class="sec"><span class="label">Concorrentes ligados</span><div style="grid-column:1/-1">'+(c.concs.length?c.concs.map(x=>'<div class="pr-ref"><span><b>'+PR_LOJA[x.loja]+'</b>'+(x.auto?' <span class="pill p-info">automático</span>':'')+' · '+(x.preco>0?brl(x.preco)+(x.esgotado?' (esgotado)':''):'<span class="muted">aguardando leitura</span>')+' · <a href="'+esc(x.url)+'" target="_blank" rel="noopener">'+esc(x.nome||x.url.replace(/^https?:\/\//,''))+'</a></span>'+(can()?'<span>'+(x.auto?'<button class="btn sm pri" type="button" data-prconf="'+esc(x.refId)+'">Confere</button> ':'')+'<button class="btn sm" type="button" data-prdes="'+esc(x.refId)+'">Desligar</button></span>':'')+'</div>').join(''):'<p class="muted" style="margin:0">Nenhum.</p>')+'</div>'+
-  (s.length?'<span class="label" style="margin-top:6px">Parecidos na KS e na Jini · confira o tamanho</span><div style="grid-column:1/-1">'+s.map(x=>'<div class="pr-ref"><span><b>'+PR_LOJA[x.loja]+'</b> · '+brl(Number(x.preco))+(x.esgotado?' (esgotado)':'')+' · <a href="'+esc(x.url)+'" target="_blank" rel="noopener">'+esc(x.nome)+'</a></span>'+(can()?'<span><button class="btn sm pri" type="button" data-prliga="'+esc(p.id)+'" data-url="'+esc(x.url)+'" data-loja="'+esc(x.loja)+'">É este</button> <button class="btn sm" type="button" data-prrej="'+esc(p.id)+'" data-url="'+esc(x.url)+'" data-loja="'+esc(x.loja)+'">Não é</button></span>':'')+'</div>').join('')+'</div>':'')+
-  (can()?'<div class="f full"><label for="pr-url">Colar link da KS ou da Jini</label><div style="display:flex;gap:6px"><input id="pr-url" type="url" placeholder="https://jinicosmeticos.com.br/produtos/…" data-1c="off"><button class="btn sm" type="button" data-prcola="'+esc(p.id)+'">Ligar</button></div><span class="hint">O preço é lido na hora.</span></div>':'')+'</div>'+
+  (s.length?'<span class="label" style="margin-top:6px">Parecidos na KS, na Jini e na Sephora BR · confira o tamanho</span><div style="grid-column:1/-1">'+s.map(x=>'<div class="pr-ref"><span><b>'+PR_LOJA[x.loja]+'</b> · '+brl(Number(x.preco))+(x.esgotado?' (esgotado)':'')+' · <a href="'+esc(x.url)+'" target="_blank" rel="noopener">'+esc(x.nome)+'</a></span>'+(can()?'<span><button class="btn sm pri" type="button" data-prliga="'+esc(p.id)+'" data-url="'+esc(x.url)+'" data-loja="'+esc(x.loja)+'">É este</button> <button class="btn sm" type="button" data-prrej="'+esc(p.id)+'" data-url="'+esc(x.url)+'" data-loja="'+esc(x.loja)+'">Não é</button></span>':'')+'</div>').join('')+'</div>':'')+
+  (can()?'<div class="f full"><label for="pr-url">Colar link da KS, da Jini ou da Sephora BR</label><div style="display:flex;gap:6px"><input id="pr-url" type="url" placeholder="https://jinicosmeticos.com.br/produtos/…" data-1c="off"><button class="btn sm" type="button" data-prcola="'+esc(p.id)+'">Ligar</button></div><span class="hint">O preço é lido na hora.</span></div>':'')+'</div>'+
   '<div class="sec"><span class="label">Sem concorrente: preço no exterior</span>'+
   (can()?'<div class="f"><label for="pr-usd">Preço no varejo do exterior (US$)</label><input id="pr-usd" type="number" step="0.01" min="0" value="'+(c.ext?esc(c.ext.usd):'')+'" data-1c="off"></div><div class="f"><label for="pr-extu">Link (opcional)</label><input id="pr-extu" type="url" value="'+(c.ext?esc(c.ext.url||''):'')+'" placeholder="https://www.yesstyle.com/…" data-1c="off"></div><div style="grid-column:1/-1"><button class="btn sm" type="button" data-prext="'+esc(p.id)+'">Salvar preço do exterior</button> <span class="muted" style="font-size:11.5px">Só vale quando não há concorrente ligado.</span></div>':(c.ext?'<p>US$ '+esc(c.ext.usd)+'</p>':'<p class="muted">—</p>'))+'</div>'+
   (H.length?'<div class="sec"><span class="label">Histórico</span><div style="grid-column:1/-1">'+H.map(h=>'<div class="muted" style="font-size:12px">'+new Date(h.em).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})+' · '+brl(Number(h.antes))+' → <b>'+brl(Number(h.depois))+'</b> · '+esc(h.regra||'')+' · '+esc(h.quem||'')+'</div>').join('')+'</div></div>':'')+
@@ -1512,8 +1513,8 @@ function prRegras(){
 }
 async function prLigar(pid,url,loja,status){
  url=String(url||'').trim().replace(/[?#].*$/,'');
- if(!loja)loja=/kscosmeticos\.com\.br/i.test(url)?'ks':/jinicosmeticos\.com\.br/i.test(url)?'jini':'';
- if(!loja){toast('Use um link da KS (kscosmeticos.com.br) ou da Jini (jinicosmeticos.com.br)');return}
+ if(!loja)loja=/kscosmeticos\.com\.br/i.test(url)?'ks':/jinicosmeticos\.com\.br/i.test(url)?'jini':/sephora\.com\.br/i.test(url)?'sephora':'';
+ if(!loja){toast('Use um link da KS (kscosmeticos.com.br), da Jini (jinicosmeticos.com.br) ou da Sephora Brasil (sephora.com.br)');return}
  const {error}=await sb.from('precos_ref').insert({produto_id:pid,loja,url,status:status||'ok',quem:S.email||''});
  if(error&&!/duplicate/i.test(error.message)){toast(errMsg(error));return}
  if((status||'ok')==='ok'&&!(PR.catUrl&&PR.catUrl.get(url))){try{toast('Lendo o preço…');await chamarShop({acao:'conc_ler',urls:[url]})}catch(e){toast('Ligado. O preço entra na próxima leitura ('+(e.message||'erro')+')')}}
@@ -1571,7 +1572,7 @@ document.addEventListener('click',async e=>{const t=e.target.closest('button,a,i
 
 /* ---------- Pricing · v40 (Guia de precificação OMG v2, 30/10/2026) ----------
    Preço final (v43: frete de São Paulo capital) = mercadoria + frete + ICMS 20% (por dentro) = referência Pix × (1 − d%). O Final mostrado usa o ICMS de SP (17%), igual à calculadora do site.
-   Referência = menor preço no Pix entre KS e Jini (ligados ao produto, conferidos por uma pessoa, com estoque).
+   Referência = menor preço entre KS e Jini (no Pix) e Sephora Brasil (v61; promoção só depois de 14 dias), ligados ao produto, conferidos por uma pessoa, com estoque.
    Frete = calculadora do site (Shipsmart) para São Paulo capital pelo peso do Shopify; a calculadora soma 1% do valor do produto.
    % frete exibido (p): quanto do frete aparece como frete. O resto vai no preço; o final não muda.
      mercadoria = (ref × (1 − d) × 0,80 − p × frete_base) ÷ (1 + p × 1%), arredondada para baixo em ,90.
@@ -1626,7 +1627,12 @@ async function pxLerConc(){
  PR.loaded=false;await loadPrecos();PX.busy='';toast(ok+' páginas lidas'+(err?' · '+err+' com erro':''));render()}
 function pxConcs(p){const cat=PR.catUrl||new Map();
  return prRefs(p).filter(r=>r.status==='ok'&&r.loja!=='exterior'&&r.url).map(r=>{const c=cat.get(r.url)||{},preco=pxNum(c.preco),pix=pxNum(c.preco_pix);
-  return {loja:r.loja,cod:r.loja==='ks'?'KS':'JN',url:r.url,nome:c.nome||'',preco,pix:pix||preco,pixLido:pix!=null,pixPct:pxNum(c.pix_pct),esgotado:!!c.esgotado,ativo:c.ativo!==false,lido:c.lido_em,auto:r.quem==='automático',refId:r.id}})}
+  return {loja:r.loja,cod:PR_COD[r.loja]||'?',url:r.url,nome:c.nome||'',preco,pix:pix||preco,pixLido:pix!=null,pixPct:pxNum(c.pix_pct),esgotado:!!c.esgotado,ativo:c.ativo!==false,lido:c.lido_em,auto:r.quem==='automático',refId:r.id,
+   cheio:pxNum(c.preco_de),promoDesde:c.promo_desde||null}})}
+// v61: Sephora BR · promoção só vira referência depois de 14 dias no ar
+const PX_PROMO_DIAS=14;
+const pxPromoTxt=r=>{if(r.loja!=='sephora'||!r.promoDesde||!(r.cheio>0))return '';const d=Math.floor((Date.now()-new Date(r.promoDesde))/864e5);
+ return d>=PX_PROMO_DIAS?'promoção há '+d+' dias: vale o preço da promoção':'promoção há '+d+(d===1?' dia':' dias')+': vale o preço cheio '+brl(r.cheio)+' até completar '+PX_PROMO_DIAS}
 function pxExt(it){const S0=(it&&it.ext_sites)||{};let best=null;
  PX_SITES.forEach(([k,nome,cod])=>{const x=S0[k];const u=x&&pxNum(x.usd);if(u>0&&(!best||u>best.usd))best={k,nome,cod,usd:u,url:x.url||''}});return best}
 function pxCalc(p){
@@ -1635,8 +1641,9 @@ function pxCalc(p){
  const o={p,it,d,dPad:pxNum(it.desc_pct)==null,atual:pxNum(p.preco),peso:Number(p.pesoG)>0?Math.round(Number(p.pesoG)):null,flags:[],refs:pxConcs(p),manual:pxNum(it.preco_manual)};
  o.base=o.peso?pxNum((C.fretes||{})[String(o.peso)]):null;
  const val=o.refs.filter(r=>r.ativo&&!r.esgotado&&r.preco>0&&!r.auto).sort((a,b)=>a.pix-b.pix);
- if(val.length){const r=val[0];o.tipo='conc';o.ref={cod:r.cod,nome:PR_LOJA[r.loja],url:r.url,normal:r.preco,pix:r.pix,pixLido:r.pixLido,pixPct:r.pixPct,lido:r.lido,outro:val[1]||null};
-  if(!r.pixLido)o.flags.push('Pix da '+o.ref.nome+' ainda não lido');}
+ if(val.length){const r=val[0];o.tipo='conc';o.ref={cod:r.cod,loja:r.loja,nome:PR_LOJA[r.loja],url:r.url,normal:r.preco,pix:r.pix,pixLido:r.pixLido,pixPct:r.pixPct,lido:r.lido,outro:val[1]||null,promo:pxPromoTxt(r)};
+  if(!r.pixLido)o.flags.push('Pix da '+o.ref.nome+' ainda não lido');
+  if(r.loja==='sephora'&&r.promoDesde&&r.cheio>0&&r.pix>r.preco)o.flags.push('Sephora em promoção relâmpago: usando o preço cheio');}
  else{const ext=pxExt(it);
   if(ext){o.tipo='ext';o.ref={cod:ext.cod,nome:ext.nome,url:ext.url,usd:ext.usd,quando:it.ext_quando}}
   else{o.tipo='sem';o.semRef=o.refs.some(r=>r.auto)?'concorrente a conferir':o.refs.length?'concorrente esgotado':'sem referência'}}
@@ -1645,6 +1652,10 @@ function pxCalc(p){
   if(!o.peso)o.semRef='sem peso';else if(o.base==null)o.semRef='frete não calculado';
   else if(o.tipo==='conc'){o.alvo=o.ref.pix*(1-d/100);const s=(o.alvo*(1-icms)-o.base)/(1+seg),v=s>0?pr90(s):0;if(v>=5)o.sug=v;else o.semRef='frete e ICMS passam da referência'}
   else if(cam){o.merc=o.ref.usd*(1+n(C.ext)/100)*cam;o.sug=pr90(o.merc)}}
+ // v61: piso de margem (custo La Belle em ₩ × câmbio do ₩ × (1 + margem mínima)). Só vale com custo cadastrado e margem definida nas Regras.
+ const mm=pxNum(C.margemMin),cLB=pxNum(p.custoLB),krwR=pxNum((S.cfg||{}).krw);
+ if(mm>0&&cLB>0&&krwR>0){o.piso=Math.ceil(cLB*krwR*(1+mm/100))-0.10;if(has(o.sug)&&o.sug<o.piso){o.flags.push('abaixo do piso de margem ('+brl(o.piso)+'): não dá para competir');o.sugRegra=o.sug;o.sug=o.piso}}
+ else if(mm>0&&!(cLB>0))o.semCusto=true;
  o.novo=has(o.manual)?o.manual:o.sug;
  if(!has(o.novo))return o;
  // quanto a cliente de SP paga (mesma conta do checkout)
@@ -1694,7 +1705,7 @@ VIEWFN.pricing=()=>{
  const cont=k=>A.filter(x=>pxStatus(x)[0]===k).length;
  const chips='<div class="chips px-chips">'+[['','Todos',A.length],['muda','Vão mudar',cont('muda')],['manual','Digitados',A.filter(x=>has(x.manual)).length],['igual','Iguais ao site',cont('igual')],['erro','Sem referência',cont('erro')],['aviso','Com aviso',A.filter(x=>x.flags.length).length]].map(([v,l,c])=>'<button type="button" class="chip'+(PX.st===v?' on':'')+'" data-pxst="'+esc(v)+'">'+l+' · '+c+'</button>').join('')+
   (Object.values(PX.f).some(Boolean)||PX.st?'<button type="button" class="chip" id="px-limpa">Limpar filtros</button>':'')+
-  '<span class="px-info muted">Regra: '+n(C.desc)+'% abaixo do Pix KS/Jini · sem concorrente: exterior +'+n(C.ext)+'% · câmbio '+(cam?'R$ '+cam.toFixed(2).replace('.',','):'—')+' · frete e impostos do checkout (SP capital)</span></div>';
+  '<span class="px-info muted">Regra: '+n(C.desc)+'% abaixo do menor entre KS, Jini (Pix) e Sephora BR · sem concorrente: exterior +'+n(C.ext)+'% · câmbio '+(cam?'R$ '+cam.toFixed(2).replace('.',','):'—')+' · frete e impostos do checkout (SP capital)</span></div>';
  const lote=can()?'<div class="card px-lote"><div class="px-lote-in"><b>'+(sel.length?sel.length+' marcado'+(sel.length===1?'':'s'):'Marque os produtos na tabela')+'</b>'+
   (sel.length?'<button class="btn sm" type="button" id="px-sel-nada">Desmarcar</button><button class="btn sm" type="button" id="px-man-limpa" title="Os marcados voltam para o preço sugerido pela regra">Usar sugerido</button>':'')+
   '<span class="sp"></span><button class="btn pri" type="button" id="px-tx"'+(selPub.length&&!PX.busy?'':' disabled')+'>'+(PX.busy==='tx'?'Publicando…':'Publicar no site · '+selPub.length)+'</button></div></div>':'';
@@ -1723,14 +1734,16 @@ VIEWFN.pricing=()=>{
 function pxAbrir(id){
  const p=S.data.produtos.find(x=>x.id===id);if(!p)return;PX.aberto=id;const x=pxCalc(p),C=pxCfg(),cam=pxCambio(),it=x.it,es=it.ext_sites||{};
  const L=[];
- if(x.tipo==='conc'){L.push(['Referência: '+x.ref.nome+' no Pix'+(x.ref.pixLido?(x.ref.pixPct?' ('+pxPct(x.ref.pixPct)+' de desconto)':' (sem desconto no Pix)'):' (Pix não lido)'),brl(x.ref.pix)]);
+ if(x.tipo==='conc'){L.push(['Referência: '+x.ref.nome+(x.ref.loja==='sephora'?(x.ref.promo?' ('+x.ref.promo+')':' (preço do site)'):' no Pix'+(x.ref.pixLido?(x.ref.pixPct?' ('+pxPct(x.ref.pixPct)+' de desconto)':' (sem desconto no Pix)'):' (Pix não lido)')),brl(x.ref.pix)]);
   if(has(x.alvo))L.push(['Alvo: '+pxPct(x.d)+' abaixo',brl(x.alvo)])}
  if(x.tipo==='ext'){L.push(['Referência: '+x.ref.nome+' (maior varejo oficial)','US$ '+x.ref.usd.toFixed(2)]);if(has(x.merc))L.push(['+'+n(C.ext)+'% × câmbio '+(cam||0).toFixed(2),brl(x.merc)])}
- if(has(x.sug))L.push(['Preço sugerido pela regra (termina em ,90)',brl(x.sug)]);
+ if(has(x.sugRegra))L.push(['Pela regra daria',brl(x.sugRegra)]);
+ if(has(x.piso))L.push(['Piso de margem ('+n(C.margemMin)+'% sobre o custo La Belle)',brl(x.piso)]);
+ if(has(x.sug))L.push([has(x.sugRegra)?'Preço sugerido: o piso':'Preço sugerido pela regra (termina em ,90)',brl(x.sug)]);
  if(has(x.manual))L.push(['Preço digitado por você','<b>'+brl(x.manual)+'</b>']);
  if(has(x.final)){L.push(['Frete e seguro até SP capital ('+x.peso+' g)',brl(x.frete)]);L.push(['Imposto de importação',brl(x.ii)]);L.push(['ICMS '+n(C.icmsRef)+'% SP',brl(x.final-x.novo-x.frete-x.ii)]);L.push(['Cliente de SP paga no checkout','<b>'+brl(x.final)+'</b>'])}
 const conta=L.length?'<table class="pr-conta">'+L.map(([a,b])=>'<tr><td>'+esc(a)+'</td><td class="r num">'+b+'</td></tr>').join('')+'</table>':'';
- const concs=x.refs.length?x.refs.map(r=>'<div class="pr-ref"><span><b>'+r.cod+'</b> · '+(r.preco?brl(r.preco)+' · Pix '+brl(r.pix)+(r.pixLido?'':' (não lido)'):'sem preço')+(r.esgotado?' · <b>esgotado</b>':'')+(r.auto?' · <span class="pill p-info">automático, conferir</span>':'')+' · <a href="'+esc(r.url)+'" target="_blank" rel="noopener">'+esc(r.nome||r.url.replace(/^https?:\/\//,''))+'</a>'+(r.lido?' <small class="muted">lido '+new Date(r.lido).toLocaleDateString('pt-BR')+'</small>':'')+'</span></div>').join(''):'<p class="muted" style="margin:0">Nenhum concorrente ligado.</p>';
+ const concs=x.refs.length?x.refs.map(r=>'<div class="pr-ref"><span><b>'+r.cod+'</b> · '+(r.preco?(r.loja==='sephora'?brl(r.preco)+(r.cheio>0?' (cheio '+brl(r.cheio)+')':'')+' · vale '+brl(r.pix)+(pxPromoTxt(r)?' · '+pxPromoTxt(r):''):brl(r.preco)+' · Pix '+brl(r.pix)+(r.pixLido?'':' (não lido)')):'sem preço')+(r.esgotado?' · <b>esgotado</b>':'')+(r.auto?' · <span class="pill p-info">automático, conferir</span>':'')+' · <a href="'+esc(r.url)+'" target="_blank" rel="noopener">'+esc(r.nome||r.url.replace(/^https?:\/\//,''))+'</a>'+(r.lido?' <small class="muted">lido '+new Date(r.lido).toLocaleDateString('pt-BR')+'</small>':'')+'</span></div>').join(''):'<p class="muted" style="margin:0">Nenhum concorrente ligado.</p>';
  const q=pxBusca(p);
  const ext=PX_SITES.map(([k,nome,cod,site,busca])=>{const v=es[k]||{};return '<div class="px-ext-row"><b>'+nome+'</b><input id="pxe-'+k+'" name="u_'+k+'" class="px-ext-usd" type="number" step="0.01" min="0" value="'+esc(v.usd??'')+'" placeholder="US$" aria-label="'+nome+' em US$" data-1c="off"'+(can()?'':' disabled')+'><input id="pxl-'+k+'" name="l_'+k+'" type="url" value="'+esc(v.url||'')+'" placeholder="link da página do produto" aria-label="Link '+nome+'" data-1c="off"'+(can()?'':' disabled')+'><a class="btn sm" href="'+busca+encodeURIComponent(q)+'" target="_blank" rel="noopener">Buscar ↗</a></div>'}).join('')+
   '<div id="px-ext-prev" class="px-ext-prev"></div><div id="px-ext-sug" class="px-ext-sug"><p class="muted" style="margin:0">Procurando na Jolse…</p></div>';
@@ -1739,8 +1752,8 @@ const conta=L.length?'<table class="pr-conta">'+L.map(([a,b])=>'<tr><td>'+esc(a)
   (x.semRef&&conta?'<p class="pill p-warn" style="margin-top:8px">'+esc(x.semRef)+'</p>':'')+(x.flags.length?'<p style="margin:8px 0 0;color:#B3261E;font-size:12.5px">'+esc(x.flags.join(' · '))+'</p>':'')+'</div>'+
   '<div class="f"><label for="pxm-d">% abaixo da referência</label><input id="pxm-d" name="d" type="number" step="0.5" value="'+esc(pxNum(it.desc_pct)??'')+'" placeholder="padrão '+n(C.desc)+'" data-1c="off"'+(can()?'':' disabled')+'></div>'+
   '<div class="f"><label for="pxm-m">Preço novo digitado (R$)</label><input id="pxm-m" name="m" inputmode="decimal" value="'+esc(has(x.manual)?x.manual.toFixed(2).replace('.',','):'')+'" placeholder="vazio = sugerido'+(has(x.sug)?' '+x.sug.toFixed(2).replace('.',','):'')+'" data-1c="off"'+(can()?'':' disabled')+'></div></div>'+
-  '<div class="sec"><span class="label">Concorrentes válidos (KS e Jini)</span><div style="grid-column:1/-1">'+concs+(can()?'<p style="margin:8px 0 0"><button class="btn sm" type="button" data-pxliga="'+esc(p.id)+'">Ligar ou conferir concorrente</button></p>':'')+'</div></div>'+
-  '<div class="sec"><span class="label">Varejo oficial no exterior (sem promoção)</span><p class="hint" style="grid-column:1/-1;margin:0">Para produto sem KS nem Jini. Abra cada site em Buscar ↗, ache o mesmo produto (mesmo tamanho e quantidade) e copie o preço cheio em US$ e o link. Vale o maior, +'+n(C.ext)+'%, no câmbio do dia. Busca usada: <i>'+esc(q)+'</i></p><div style="grid-column:1/-1">'+ext+'</div></div>'+
+  '<div class="sec"><span class="label">Concorrentes válidos (KS, Jini e Sephora BR)</span><div style="grid-column:1/-1">'+concs+(can()?'<p style="margin:8px 0 0"><button class="btn sm" type="button" data-pxliga="'+esc(p.id)+'">Ligar ou conferir concorrente</button></p>':'')+'</div></div>'+
+  '<div class="sec"><span class="label">Varejo oficial no exterior (sem promoção)</span><p class="hint" style="grid-column:1/-1;margin:0">Para produto sem KS, Jini e Sephora BR. Abra cada site em Buscar ↗, ache o mesmo produto (mesmo tamanho e quantidade) e copie o preço cheio em US$ e o link. Vale o maior, +'+n(C.ext)+'%, no câmbio do dia. Busca usada: <i>'+esc(q)+'</i></p><div style="grid-column:1/-1">'+ext+'</div></div>'+
   (H.length?'<div class="sec"><span class="label">Histórico de preço</span><div style="grid-column:1/-1">'+H.map(h=>'<div class="muted" style="font-size:12px">'+new Date(h.em).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})+' · '+brl(Number(h.antes))+' → <b>'+brl(Number(h.depois))+'</b> · '+esc(h.regra||'')+' · '+esc(h.quem||'')+'</div>').join('')+'</div></div>':'');
  shell(p.nome,body,null,!can());
  const pv=()=>{const box=$('#px-ext-prev');if(!box)return;let mx=0,qual='';PX_SITES.forEach(([k,nome])=>{const v=parseFloat(String(($('#pxe-'+k)||{}).value||'').replace(',','.'));if(v>mx){mx=v;qual=nome}});
@@ -1808,11 +1821,13 @@ function pxVerLote(id){const l=PX.lotes.find(x=>x.id===id);if(!l)return;
   l.itens.map(i=>'<tr><td class="num">'+esc(i.sku)+'</td><td>'+esc(i.nome)+'</td><td class="r num">'+brl(i.antes)+'</td><td class="r num"><b>'+brl(i.depois)+'</b></td></tr>').join('')+'</tbody></table></div></div>',null,true)}
 function pxRegras(){
  const C=pxCfg(),f=(k,l,h,step)=>'<div class="f"><label for="pxc-'+k+'">'+l+'</label><input id="pxc-'+k+'" name="'+k+'" type="'+(k==='cep'?'text':'number')+'" step="'+(step||'0.5')+'" value="'+esc(C[k]??'')+'" data-1c="off"'+(can()?'':' disabled')+'>'+(h?'<span class="hint">'+h+'</span>':'')+'</div>';
- shell('Regras do Pricing','<div class="sec"><span class="label">Padrões (cada produto pode ter o seu)</span>'+f('desc','% abaixo da referência Pix','O que a cliente paga fica este % abaixo do menor Pix entre KS e Jini. Para um produto só, abra a ficha dele.')+'</div>'+
-  '<div class="sec"><span class="label">Conta</span>'+f('icms','ICMS (%)','Por dentro.')+f('ext','Sobre o varejo do exterior (%)','Produto sem KS/Jini: maior varejo oficial em US$ + este %.')+'<p class="hint" style="grid-column:1/-1;margin:0">Câmbio: o mesmo do checkout (R$ '+(Number(C.cambio)>0?Number(C.cambio).toFixed(2).replace('.',','):'—')+').</p></div>'+
+ shell('Regras do Pricing','<div class="sec"><span class="label">Padrões (cada produto pode ter o seu)</span>'+f('desc','% abaixo da referência Pix','O que a cliente paga fica este % abaixo do menor preço entre KS e Jini (no Pix) e Sephora BR (promoção só após 14 dias). Para um produto só, abra a ficha dele.')+'</div>'+
+  '<div class="sec"><span class="label">Piso de margem</span>'+f('margemMin','Margem mínima sobre o custo (%)','Vazio = sem piso. Com custo La Belle cadastrado, o sugerido nunca fica abaixo de custo × (1 + margem) e o produto ganha o aviso "não dá para competir".',1)+'</div>'+
+  '<div class="sec"><span class="label">Conta</span>'+f('icms','ICMS (%)','Por dentro.')+f('ext','Sobre o varejo do exterior (%)','Produto sem KS, Jini e Sephora BR: maior varejo oficial em US$ + este %.')+'<p class="hint" style="grid-column:1/-1;margin:0">Câmbio: o mesmo do checkout (R$ '+(Number(C.cambio)>0?Number(C.cambio).toFixed(2).replace('.',','):'—')+').</p></div>'+
   '<div class="sec"><span class="label">Frete</span>'+f('cep','CEP de referência','São Paulo capital. O frete vem da mesma conta do checkout.')+f('icmsRef','ICMS de SP (%)','Usado na coluna Cliente SP paga.')+'<p class="hint" style="grid-column:1/-1;margin:0"><button class="btn sm" type="button" id="px-frete">Recalcular frete de todos os pesos</button></p></div>',null,!can());
  if(!can())return;
  wireSubmit(async form=>{const v={...pxCfg()};['desc','icms','icmsRef','ext'].forEach(k=>{const x=parseFloat(form.elements[k].value);if(isFinite(x))v[k]=x});
+  {const mx=String(form.elements.margemMin.value).trim();v.margemMin=mx===''?null:parseFloat(mx.replace(',','.'))}
   const cep=String(form.elements.cep.value||'').trim();
   const mudouCep=cep&&cep!==v.cep;if(cep)v.cep=cep;if(mudouCep)v.fretes={};
   await pxSalvarCfg(v);toast('Regras salvas'+(mudouCep?': cotando o frete do novo CEP…':''));if(mudouCep)pxCotarFrete(true)});
@@ -3675,6 +3690,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v61','01/11/2026',['Pricing: Sephora Brasil passa a ser concorrente válido (Guia de precificação v3). Referência = menor preço entre KS, Jini (no Pix) e Sephora BR.','Sephora: promoção só vale como referência depois de 14 dias no ar; antes disso vale o preço cheio. A ficha mostra os dois preços e há quantos dias está em promoção.','Leitura automática de segunda também lê a Sephora BR, só as marcas que a OMG vende. Em Concorrentes, dá para colar link da Sephora e aparecem parecidos dela.','Regras › Piso de margem: margem mínima sobre o custo La Belle. Abaixo do piso, o sugerido fica no piso com o aviso "não dá para competir".']],
  ['v60','01/11/2026',['Monitoramentos: link Histórico e relatórios em cada linha (abre o histórico com o botão Relatório de cada execução).','Corrigida a próxima execução e a previsão do mês para monitoramentos por dia do mês (M-001: dias 1 e 15).']],
  ['v59','31/10/2026',['Novo: Automação › Monitoramentos. Cada monitoramento automático tem código (M-001, M-002…), o que faz, frequência, próxima execução, histórico e uma chave liga/desliga.','Mostra o tempo que o Claude gastou em cada execução e no mês, e a previsão mensal. Custo extra: R$ 0 (incluído no plano do Claude; Supabase grátis).','M-001 Regras do PRC (dias 1 e 15, com relatório completo em toda execução: abre em aba nova e vira PDF) e M-002 Lançamentos e saídas das marcas (COSRX, toda segunda).']],
  ['v58','31/10/2026',['Número da venda do site agora é igual ao do pedido no Shopify (#1001 = 100.001.001). Vendas lançadas à mão no ERP usam a série 200.000.001.','Checkout: a linha de entrega mostra separado quanto é frete e quanto é tributo (ICMS/II).']],

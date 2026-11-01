@@ -1,5 +1,5 @@
 name: Precos - ler concorrentes (semanal)
-# Lê o catálogo inteiro da KS e da Jini e grava no ERP (tabela conc_catalogo), pela função conc-semanal do Supabase.
+# Lê o catálogo inteiro da KS e da Jini e, na Sephora Brasil, só as marcas que a OMG vende, e grava no ERP (tabela conc_catalogo), pela função conc-semanal do Supabase.
 # Roda toda segunda às 05:37 (Brasília) e quando alguém clica em "Run workflow".
 on:
   schedule:
@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 40
     steps:
-      - name: Ler KS e Jini
+      - name: Ler KS, Jini e Sephora Brasil
         run: |
           INICIO=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          for LOJA in ks jini; do
+          for LOJA in ks jini sephora; do
             DE=0
             while :; do
               R=$(curl -sS -m 150 -X POST https://nzsiuniabovvptuqmkmi.supabase.co/functions/v1/conc-semanal \

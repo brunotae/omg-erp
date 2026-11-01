@@ -19,7 +19,7 @@
 //   { acao: "link_curto", slug, apagar? }   → ohmygirl.com.br/a/<slug> (link curto das parcerias, conta cliques)
 //   { acao: "cupons_listar" }               → todos os cupons de código do Shopify (para importar no ERP)
 //   { acao: "tema_duplicar" | "tema_copiar" | "colecao_criar" | "menu_arvore" } → ver cada bloco abaixo
-//   { acao: "conc_ler", urls: [..] }                 → lê preço da KS/Jini (até 20 links) e grava em conc_catalogo
+//   { acao: "conc_ler", urls: [..] }                 → lê preço da KS/Jini/Sephora BR (até 20 links) e grava em conc_catalogo
 //   { acao: "pesos", itens: [{ sku, peso_g, dim: [c, l, a] (cm) }] } → grava peso (frete) e dimensões (metafield custom.dimensoes_cm), até 100 por vez
 // Segredos: SHOPIFY_SHOP (ex.: mundo-beleza-9571.myshopify.com), SHOPIFY_API_VERSION (opcional) e
 //   SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET (app do Dev Dashboard; token pedido a cada 24 h por client credentials)
@@ -772,7 +772,7 @@ async function principal(req: Request): Promise<Response> {
     if (b.acao === "conc_ler") {
       // Lê o preço de páginas da KS e da Jini (link colado na Precificação) e grava em conc_catalogo.
       const urls: string[] = (Array.isArray(b.urls) ? b.urls : []).map((u: string) => String(u).trim().replace(/[?#].*$/, ""))
-        .filter((u: string) => /^https:\/\/(kscosmeticos|jinicosmeticos)\.com\.br\/(produtos|kits)\//i.test(u)).slice(0, 20);
+        .filter((u: string) => /^https:\/\/(kscosmeticos|jinicosmeticos)\.com\.br\/(produtos|kits)\//i.test(u) || /^https:\/\/www\.sephora\.com\.br\/[^/]+\.html$/i.test(u)).slice(0, 20);
       const resultados = [];
       for (const url of urls) {
         try {

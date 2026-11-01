@@ -1,5 +1,5 @@
-// Leitura semanal dos concorrentes válidos (KS e Jini) → conc_catalogo.
-// Chamado pelo GitHub Actions em partes: { loja: "ks"|"jini", de: 0, qtd: 40, inicio: ISO }.
+// Leitura semanal dos concorrentes válidos (KS, Jini e Sephora Brasil) → conc_catalogo.
+// Chamado pelo GitHub Actions em partes: { loja: "ks"|"jini"|"sephora", de: 0, qtd: 40, inicio: ISO }.
 // Só lê páginas públicas dos concorrentes e grava preços; não recebe nem devolve dados da OMG.
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { LOJAS, urlsDaLoja, lerPagina, gravarLeitura } from "../_shared/concorrentes.ts";
@@ -11,7 +11,9 @@ Deno.serve(async (req) => {
   const loja = String(b.loja || ""); if (!LOJAS[loja]) return resp(400, { erro: "loja inválida" });
   const de = Math.max(0, Number(b.de) || 0), qtd = Math.min(60, Math.max(1, Number(b.qtd) || 40));
   const inicio = String(b.inicio || "");
-  const urls = await urlsDaLoja(loja);
+  let marcas: string[] = [];
+  if (loja === "sephora") { const { data } = await admin.from("catalogo_produtos").select("marca").neq("status", "EXCLUIDO"); marcas = [...new Set((data || []).map((x: any) => String(x.marca || "")))]; }
+  const urls = await urlsDaLoja(loja, marcas);
   const parte = urls.slice(de, de + qtd);
   let ok = 0; const erros: string[] = [];
   for (const u of parte) {
