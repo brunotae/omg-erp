@@ -1,0 +1,32 @@
+name: Precos - exportar dados para o overview
+# Exporta (só leitura) os SKUs no ar, as referências ligadas e os catálogos lidos de KS, Jini e Sephora BR
+# para o branch dados-tmp, em JSON. Usado para montar a planilha de overview de preços.
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  exportar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Consultar
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: |
+          set -e
+          mkdir out
+          q(){ jq -n --arg q "$2" '{query:$q}' > c.json
+            curl -sS -o "out/$1.json" -w '%{http_code}\n' -X POST "https://api.supabase.com/v1/projects/nzsiuniabovvptuqmkmi/database/query" \
+              -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" -H "Content-Type: application/json" --data @c.json; head -c 200 "out/$1.json"; echo; }
+          q skus "select p.id, p.sku, p.marca, p.nome, p.preco, p.peso_g, p.shopify_product_id, p.shopify_variant_id, cp.handle, cp.titulo from produtos p left join catalogo_produtos cp on cp.id = p.shopify_product_id::text where p.site_status = 'active' order by p.marca, p.sku"
+          q refs "select produto_id, loja, url, status, usd, criado_em from precos_ref"
+          q itens "select produto_id, ext_loja, ext_url, ext_usd, ext_quando, ext_sites, preco_manual, desc_pct from pricing_itens"
+          q conc "select url, loja, nome, marca, sku, preco, preco_de, preco_pix, esgotado, ativo, promo_desde, lido_em from conc_catalogo"
+          ls -la out
+      - name: Publicar no branch dados-tmp
+        run: |
+          cd out
+          git init -q -b dados-tmp
+          git config user.name "omg-bot"; git config user.email "bot@ohmygirl.com.br"
+          git add . && git commit -qm "dados overview $(date -u +%FT%TZ)"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" dados-tmp
