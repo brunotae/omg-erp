@@ -742,7 +742,7 @@ const ICONS={
  fornecedores:'<path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/>',
  config:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/>'
 };
-const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Lista do dia'],['','lotes','Embarques'],['','devolucoes','Devoluções'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','insumos','Embalagens'],['','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['','pricing','Pricing'],['','precos','Concorrentes'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','cadastros','Cadastros do site'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['','relatorios','Relatório do site'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Automação','monitor','Monitoramentos'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
+const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Parametrização'],['','lotes','Embarques'],['','devolucoes','Devoluções'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','insumos','Embalagens'],['','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['','pricing','Pricing'],['','precos','Concorrentes'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','cadastros','Cadastros do site'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['','relatorios','Relatório do site'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Automação','monitor','Monitoramentos'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
 
 /* ================= utilidades ================= */
 const $=s=>document.querySelector(s);
@@ -897,7 +897,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v69 · 01/11/2026';
+const VERSAO='v70 · 01/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -924,7 +924,7 @@ VIEWFN.painel=()=>{
  lowStock().forEach(i=>alerts.push(['bad',i.codigo+' abaixo do mínimo',n(i.estoque)+' em estoque · mínimo '+n(i.minimo),'insumos']));
  S.data.devolucoes.filter(d=>d.destino==='Indefinido'&&d.status!=='Resolvida').forEach(d=>alerts.push(['',d.numero+' sem destino definido','Venda '+vnum(d.venda)+' · revender ou voltar à Coreia','devolucoes']));
  open.forEach(v=>{const c=curStep(v);if(c<0)return;const d=v.etapas[SK[c]];const lim=c<=1?2:c<=7?5:c<=9?3:7;if(daysSince(d)>lim)alerts.push(['bad','Venda '+vnum(v.numero)+' parada',daysSince(d)+' dias em "'+STEPS[c][1]+'"','vendas'])});
- pendingGroups().filter(g=>g.c.ms<Date.now()).forEach(g=>alerts.push(['bad','Lista de '+cutLabel(g.c)+' não fechada',g.vs.length+' vendas esperando a lista do dia','cortes']));
+ pendingGroups().filter(g=>g.c.ms<Date.now()).forEach(g=>alerts.push(['bad','Parametrização de '+cutLabel(g.c)+' não fechada',g.vs.length+' vendas esperando a parametrização','cortes']));
  S.data.cortes.filter(c=>!c.enviadoEm).forEach(c=>alerts.push(['',c.numero+' ainda não enviada','Mandar para Janice, Skyroad e Mile','cortes']));
  S.data.lotes.filter(l=>(l.etapas||{}).awb&&!(l.etapas||{}).rfkr).forEach(l=>alerts.push(['',l.numero+' aguardando RF Coreia','AWB '+(l.awb||'—'),'lotes']));
  S.data.lotes.filter(l=>(l.etapas||{}).embarcado&&!(l.etapas||{}).manifesto).forEach(l=>alerts.push(['bad',l.numero+': enviar manifesto à Mile','Embarcou em '+fdate(l.etapas.embarcado),'lotes']));
@@ -1007,6 +1007,8 @@ const VD_COLS=[
  {k:'uf',l:'UF',g:v=>v.uf||'',cell:v=>esc(v.uf||'')},
  {k:'itens',l:'Itens',t:'n',g:v=>calc(v).qtd,cell:v=>'<span class="num">'+calc(v).qtd+'</span>',cls:'r'},
  {k:'cupom',l:'Cupom',g:v=>v.cupom||'',cell:v=>esc(v.cupom||'')},
+ {k:'par',l:'Parametrização',g:v=>(corteOf(v)||{}).numero||'',cell:v=>esc((corteOf(v)||{}).numero||'')},
+ {k:'awb',l:'AWB',g:v=>v.awb||pmAwb(corteOf(v)||{})||'',cell:v=>'<span class="num">'+esc(v.awb||pmAwb(corteOf(v)||{})||'')+'</span>'},
  {k:'emb',l:'Embarque',g:v=>(loteOf(v)||{}).numero||'',cell:v=>esc((loteOf(v)||{}).numero||'')},
  {k:'etapa',l:'Etapa',g:v=>isCancel(v)?'Cancelada':(curStep(v)<0?'Sem etapa':(curStep(v)+1)+'. '+STEPS[curStep(v)][1]),cell:v=>prog(v)},
  {k:'total',l:'Total',t:'n',g:v=>Math.round(calc(v).total*100)/100,fmt:v=>dm(Number(v)),cell:v=>{const c=calc(v);return '<b class="num">'+dm(c.total)+'</b><small>impostos '+dm(c.impostos)+'</small>'},cls:'r'},
@@ -1075,33 +1077,151 @@ VIEWFN.cortes=()=>{
  const G=pendingGroups(), now=Date.now(), nextC=cutoffFor(now);
  const falta=Math.max(0,nextC.ms-now), hh=Math.floor(falta/36e5), mm=Math.floor(falta%36e5/6e4);
  const missing=S.missing&&S.missing.cortes;
+ if(!PM.cfg&&!PM.loading)setTimeout(pmCfgLoad,0);
+ if(!CT.med)setTimeout(ctMed,0);
  const grpHTML=G.length?G.map(({c,vs})=>{const venc=c.ms<now;
-  return '<div class="card"><div class="card-h"><h2>'+(venc?'Lista de ':'Próxima lista · ')+esc(cutLabel(c))+'</h2>'+(can()&&!missing?'<button class="btn '+(venc?'pri':'')+' sm" type="button" data-cut="'+esc(c.dia)+'">'+(venc?'Fechar lista':'Fechar agora')+'</button>':'')+'</div>'+
+  return '<div class="card"><div class="card-h"><h2>'+(venc?'Parametrização de ':'Próxima parametrização · ')+esc(cutLabel(c))+'</h2>'+(can()&&!missing?'<button class="btn '+(venc?'pri':'')+' sm" type="button" data-cut="'+esc(c.dia)+'">'+(venc?'Fechar parametrização':'Fechar agora')+'</button>':'')+'</div>'+
   '<p class="muted" style="margin:0 0 8px;font-size:11.5px">'+vs.length+' venda'+(vs.length>1?'s':'')+' · '+(u=>u+(u===1?' unidade':' unidades'))(aggItems(vs).reduce((s,a)=>s+a.qtd,0))+(venc?' · <b style="color:var(--bad)">horário do corte já passou</b>':'')+'</p>'+
-  tblVendas(vs)+'</div>'}).join(''):'<div class="card">'+empty('Nenhuma venda esperando corte','Vendas pagas entram aqui sozinhas e saem na lista do próximo corte das 18h.')+'</div>';
+  tblVendas(vs)+'</div>'}).join(''):'<div class="card">'+empty('Nenhuma venda esperando corte','Vendas pagas entram aqui sozinhas e saem na parametrização do próximo corte das 18h.')+'</div>';
  const rows=(S.data.cortes||[]).filter(match);
- return '<div class="page"><div class="col">'+head('Lista do dia','Corte às 18h (Brasília), domingo a quinta. Pedidos de quinta 18:01 a domingo 18:00 saem juntos no domingo. Cada lista gera o que a Janice compra, o que a Skyroad separa e o que a Mile precisa.')+
- (missing?'<div class="note"><span class="label">Falta um passo no banco</span><p>Rode o SQL <b>20261024b_lista_do_dia.sql</b> no Supabase (SQL Editor) para salvar as listas.</p></div>':'')+
+ const T=rows.length?xtTabela('param',PM_COLS,rows,c=>'data-edit="cortes" data-id="'+esc(c.id)+'" style="cursor:pointer"',['data',-1]):null;
+ const P=PM.cfg||PM_PAD;
+ return '<div class="page wide"><div class="col">'+head('Parametrização','Cada parametrização é um lote de vendas que sai da Coreia no mesmo AWB. Corte às 18h (Brasília), domingo a quinta; pedidos de quinta 18:01 a domingo 18:00 saem juntos no domingo. Cada uma gera a planilha da Mile (Brasil) e a Master List da Skyroad (Coreia).')+
+ (missing?'<div class="note"><span class="label">Falta um passo no banco</span><p>Rode o SQL <b>20261024b_lista_do_dia.sql</b> no Supabase (SQL Editor) para salvar as parametrizações.</p></div>':'')+
  grpHTML+
- '<div class="card"><div class="card-h"><h2>Listas fechadas</h2></div>'+(rows.length?'<div class="tblwrap"><table><thead><tr><th>Lista</th><th class="r">Vendas</th><th class="r">Unidades</th><th>Enviada</th><th class="r">Compra Janice</th></tr></thead><tbody>'+
- rows.map(c=>{const vs=corteVendas(c), un=aggItems(vs).reduce((s,a)=>s+a.qtd,0), tot=compraTotal(c);
-  return '<tr data-edit="cortes" data-id="'+esc(c.id)+'"><td><b>'+esc(c.numero)+'</b><small>'+esc(cutLabel(cutoffFor(Date.parse(c.corteEm)||c.createdAt)))+'</small></td><td class="r num">'+vs.length+'</td><td class="r num">'+un+'</td><td>'+(c.enviadoEm?stPill('Enviada'):stPill('Pendente'))+'</td><td class="r num">'+(tot.base?'<b>'+krw(tot.total)+'</b><small>'+dm(tot.total*n(S.cfg.krw))+'</small>':'<span class="muted">aguardando</span>')+'</td></tr>'}).join('')+'</tbody></table></div>'
- :empty('Nenhuma lista fechada ainda','Feche a lista depois das 18h. Ela fica guardada aqui com as três versões para mandar.'))+'</div></div>'+
+ '<div class="card" style="padding:8px"><div class="card-h"><h2>Parametrizações fechadas</h2></div>'+(T&&T.fil?'<p class="muted" style="margin:0 0 6px;font-size:11.5px"><b>'+T.n+' de '+rows.length+'</b> · <a href="#" data-xtlimpa="param">limpar filtros das colunas</a></p>':'')+
+ (rows.length?T.html:empty('Nenhuma parametrização fechada ainda','Feche depois das 18h. Ela fica guardada aqui com as planilhas da Mile e da Skyroad.'))+'</div></div>'+
  '<aside class="rail"><div class="note"><span class="label">Próximo corte</span><p><b>'+esc(cutLabel(nextC))+'</b></p><p class="muted">faltam '+hh+'h'+String(mm).padStart(2,'0')+'</p></div>'+
- '<div class="note"><span class="label">Rotina</span><p>1. Às 18h, feche a lista.</p><p>2. Mande a lista da Janice (compra), da Skyroad (separação) e da Mile (etiquetas e DIR).</p><p>3. Marque como enviada: as vendas passam para "Documentos enviados à Skyroad".</p><p>4. Quando a Janice mandar os custos em ₩, lance na própria lista. O custo entra em cada venda.</p></div></aside></div>';
+ '<div class="note"><span class="label">Rotina</span><p>1. Às 18h, feche a parametrização (número P-AAMMDD).</p><p>2. Baixe a <b>Master List</b> (Coreia) para a Skyroad e a planilha da <b>Mile</b> (Brasil).</p><p>3. Marque como enviada: as vendas passam para "Documentos enviados à Skyroad".</p><p>4. Quando sair o booking (2 a 3 dias), digite o AWB. Se outra parametrização tiver o mesmo AWB, as planilhas saem consolidadas num arquivo só.</p></div>'+
+ '<div class="note"><span class="label">Remetente (Shipper)</span><p><b>'+esc(P.shipNome)+'</b></p><p class="muted" style="font-size:11.5px">'+esc(P.shipEnd)+'</p><p class="muted" style="font-size:11.5px">Valor na Master List: '+n(P.desconto)+'% abaixo do vendido</p>'+(can()?'<p><button class="btn sm" type="button" data-pmcfg>Alterar</button></p>':'')+'</div></aside></div>';
 };
 function compraTotal(c){const it=Array.isArray(c.compra)?c.compra:[];const base=it.reduce((s,i)=>s+n(i.qtd)*n(i.custo),0);return{base,desp:n(c.despesasKrw),total:base+n(c.despesasKrw)}}
 async function fecharLista(dia){
  const G=pendingGroups().find(g=>g.c.dia===dia);if(!G)return;
- const c=G.c, num='LD-'+dia.slice(2).replace(/-/g,'');
- if(c.ms>Date.now()&&!confirm('Ainda não deu 18h. Fechar a lista mesmo assim? Vendas pagas depois disso vão para a próxima.'))return;
+ const c=G.c, num='P-'+dia.slice(2).replace(/-/g,'');
+ if(c.ms>Date.now()&&!confirm('Ainda não deu 18h. Fechar a parametrização mesmo assim? Vendas pagas depois disso vão para a próxima.'))return;
  try{
   const ex=(S.data.cortes||[]).find(x=>x.numero===num);
   const ids=G.vs.map(v=>v.id);
   const cid=ex?await save('cortes',ex,{vendas:[...new Set([...(ex.vendas||[]),...ids])]}):await save('cortes',null,{numero:num,corteEm:new Date(Math.min(c.ms,Date.now())).toISOString(),vendas:ids});
   for(const v of G.vs)await save('vendas',v,{corte:cid});
-  toast('Lista '+num+' fechada · '+ids.length+' vendas');await loadAll();openCorte(cid);
+  toast('Parametrização '+num+' fechada · '+ids.length+' vendas');await loadAll();openCorte(cid);
  }catch(e){toast(errMsg(e))}
+}
+
+/* ---------- Parametrização: planilha da Mile (Brasil) e Master List da Skyroad (Coreia) ---------- */
+// Um arquivo por AWB: parametrizações com o mesmo AWB saem consolidadas. Sem AWB, um arquivo por parametrização.
+const PM_PAD={shipNome:'La Belle',shipEnd:'Suite 415, 26 Hakdong-ro 101-gil, Gangnam-gu, Seoul, Republic of Korea',desconto:25,cia:'TBD',
+ conCurto:'MILE EXPRESS',conNome:'Miles Express Agenciamento de Carga Aerea Ltda',conEnd:'Rua Lagora Dourada 371, Guarulhos, SP Brazil',conCep:'07130-210',conCnpj:'39.844.391/0001-28',conTel:'(5511) 2937-2297'};
+const PM={cfg:null,loading:false};
+async function pmCfgLoad(){if(PM.loading)return;PM.loading=true;try{const {data}=await sb.from('config').select('valor').eq('chave','parametrizacao');PM.cfg={...PM_PAD,...((data&&data[0]&&data[0].valor)||{})}}catch(_){PM.cfg={...PM_PAD}}PM.loading=false;if(S.view==='cortes')render()}
+const pmAwb=c=>String(c.awb||'').trim();
+const pmAwbNorm=a=>String(a||'').replace(/\D/g,'');
+// parametrizações que vão juntas no mesmo AWB
+function pmGrupo(c){const a=pmAwbNorm(c.awb);return a?(S.data.cortes||[]).filter(x=>pmAwbNorm(x.awb)===a).sort((x,y)=>String(x.numero).localeCompare(String(y.numero))):[c]}
+const PM_COLS=[
+ {k:'num',l:'Parametrização',g:c=>c.numero||'',cell:c=>'<b>'+esc(c.numero||'')+'</b>'},
+ {k:'data',l:'Corte',t:'t',g:c=>spDate(Date.parse(c.corteEm)||c.createdAt||Date.now()),fmt:v=>fdate(v),cell:c=>esc(cutLabel(cutoffFor(Date.parse(c.corteEm)||c.createdAt)))},
+ {k:'vendas',l:'Vendas',t:'n',g:c=>corteVendas(c).length,cell:c=>'<span class="num">'+corteVendas(c).length+'</span>',cls:'r'},
+ {k:'un',l:'Unidades',t:'n',g:c=>aggItems(corteVendas(c)).reduce((s,a)=>s+a.qtd,0),cell:c=>'<span class="num">'+aggItems(corteVendas(c)).reduce((s,a)=>s+a.qtd,0)+'</span>',cls:'r'},
+ {k:'awb',l:'AWB',g:c=>pmAwb(c)||'(sem AWB)',cell:c=>pmAwb(c)?'<b class="num">'+esc(pmAwb(c))+'</b>':'<span class="muted">aguardando booking</span>'},
+ {k:'junto',l:'Mesmo AWB',g:c=>pmGrupo(c).filter(x=>x.id!==c.id).map(x=>x.numero).join(', '),cell:c=>esc(pmGrupo(c).filter(x=>x.id!==c.id).map(x=>x.numero).join(', '))},
+ {k:'env',l:'Enviada',g:c=>c.enviadoEm?'Enviada':'Pendente',cell:c=>stPill(c.enviadoEm?'Enviada':'Pendente')},
+ {k:'compra',l:'Compra Janice',t:'n',g:c=>compraTotal(c).total,fmt:v=>krw(Number(v)),cell:c=>{const t=compraTotal(c);return t.base?'<b class="num">'+krw(t.total)+'</b><small>'+dm(t.total*n(S.cfg.krw))+'</small>':'<span class="muted">aguardando</span>'},cls:'r'}
+];
+// código HS sugerido pelo tipo do produto (vale até alguém preencher o HS no catálogo)
+const HS_CLASSE={batom:'3304.10','olhos make':'3304.20',lapis:'3304.20',shampoo:'3305.10',capilar:'3305.90','sabonete barra':'3401.11'};
+function pmItem(i){
+ const p=String(i.produto||'').split(' · ').map(x=>x.trim());
+ const sku=/^[A-Z]{2}\d{3,}$/.test(p[0])?p[0]:'';const r=sku?p.slice(1):p;
+ const tit=r[0]||'', vn=r.slice(1).join(' · ');
+ const prod=sku?(S.data.produtos||[]).find(x=>x.sku===sku):null, med=((CT.med||{})[sku])||{};
+ const en=(prod&&prod.nome_en)||(tit.split(':')[0].trim()+(vn&&!/default/i.test(vn)?' '+vn:''));
+ const g=n(prod&&prod.pesoG)||n(med.peso)||0;
+ const dp=prod&&[prod.comp_cm,prod.larg_cm,prod.alt_cm].every(x=>n(x)>0)?[n(prod.comp_cm),n(prod.larg_cm),n(prod.alt_cm)]:(Array.isArray(med.dim)?med.dim:[]);
+ return {sku,en,marca:(prod&&prod.marca)||'',kr:(prod&&prod.nome_kr)||'',ing:(prod&&prod.ingredientes)||'',hs:(prod&&prod.hs)||HS_CLASSE[med.classe]||'3304.99',hsPad:!(prod&&prod.hs),
+  kg:g/1000,dim:dp,qtd:n(i.qtd)||1,preco:n(i.preco)}
+}
+const pmCambio=v=>n(((v.dados_site||{}).frete_omg||{}).cambio)||n(S.cfg.usd)||5.4;
+const pmEnd=v=>(v.dados_site||{}).endereco||null;
+const r2=x=>Math.round(x*100)/100;
+// linhas do manifesto: uma por item de cada venda, valores em US$ pelo câmbio do checkout
+function pmLinhas(grupo){
+ const out=[];
+ grupo.forEach(c=>corteVendas(c).filter(v=>!isCancel(v)).forEach(v=>{
+  const its=(v.itens||[]).map(pmItem), bruto=its.reduce((s,i)=>s+i.preco*i.qtd,0)||1, fx=pmCambio(v);
+  const liq=Math.max(0,bruto-n(v.desconto));
+  its.forEach(i=>{const part=i.preco*i.qtd/bruto;out.push({c,v,i,usd:r2(liq*part/fx),frete:r2(n(v.frete)*part/fx)})});
+ }));
+ return out;
+}
+function pmChecar(L){
+ const av=[];const vs=new Map();L.forEach(l=>vs.set(l.v.id,l.v));
+ for(const v of vs.values()){const e=pmEnd(v),nm=vnum(v.numero);
+  if(String(v.cpf||'').replace(/\D/g,'').length<11)av.push(nm+': sem CPF');
+  if(!e||!e.rua||!e.cep)av.push(nm+': sem endereço completo');else if(!String(e.fone||'').replace(/\D/g,''))av.push(nm+': sem telefone')}
+ const ps=new Map();L.forEach(l=>ps.set(l.i.sku||l.i.en,l.i));
+ for(const i of ps.values()){const f=[];if(!i.sku)f.push('sem SKU');if(!i.marca)f.push('marca');if(!i.kr)f.push('nome em coreano');if(!i.ing)f.push('ingredientes');if(!i.kg)f.push('peso');if(i.dim.length<3)f.push('medidas');if(i.hsPad)f.push('HS (usando '+i.hs+')');
+  if(f.length)av.push(i.en+': falta '+f.join(', '))}
+ return av;
+}
+let pmXlsx=null;
+function pmLib(){if(window.ExcelJS)return Promise.resolve(window.ExcelJS);if(pmXlsx)return pmXlsx;
+ pmXlsx=new Promise((ok,er)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js';s.onload=()=>ok(window.ExcelJS);s.onerror=()=>{pmXlsx=null;er(new Error('não carregou o gerador de Excel'))};document.head.appendChild(s)});return pmXlsx}
+async function pmBaixar(wb,nome){const buf=await wb.xlsx.writeBuffer();const b=new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=nome;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},800)}
+const pmNome=g=>{const a=pmAwb(g[0]);return a?'AWB '+a.replace(/[^\w-]+/g,''):g.map(c=>c.numero).join('+')};
+const pmFone=f=>{let d=String(f||'').replace(/\D/g,'');if(d&&!d.startsWith('55')&&d.length<=11)d='55'+d;return d};
+const pmCep=c=>{const d=String(c||'').replace(/\D/g,'');return d.length===8?d.slice(0,5)+'-'+d.slice(5):String(c||'')};
+const PM_HEAD_FILL={type:'pattern',pattern:'solid',fgColor:{argb:'FFF3D9E1'}};
+async function pmManifesto(c){
+ const X=await pmLib(),P=PM.cfg||PM_PAD,g=pmGrupo(c),L=pmLinhas(g),awb=pmAwb(c);
+ const wb=new X.Workbook(),ws=wb.addWorksheet('Manifest');
+ const kv=(r,a,va,b,vb)=>{ws.getCell(r,1).value=a;ws.getCell(r,2).value=va;ws.getCell(r,5).value=b;ws.getCell(r,6).value=vb;[1,5].forEach(k=>ws.getCell(r,k).font={bold:true})};
+ const kg=r2(L.reduce((s,l)=>s+l.i.kg*l.i.qtd,0)*1000)/1000, un=L.reduce((s,l)=>s+l.i.qtd,0);
+ kv(2,'Manifest #',g.map(x=>x.numero).join(' + '),'Date Manifest',new Date().toLocaleDateString('pt-BR',{timeZone:'America/Sao_Paulo'}));
+ kv(3,'Shipper',P.shipNome+'\n'+P.shipEnd,'Manifest Status','MANIFEST READY');
+ kv(4,'Consignee',P.conCurto,'Total Weigth (kg)',kg);
+ kv(5,'Country of Destination','BRAZIL GRU','Total Items',un);
+ kv(6,'Airlines',P.cia||'TBD','AWB',awb||'TBD');
+ ws.getCell(3,2).alignment={wrapText:true,vertical:'top'};
+ const H=['AWB','SHIPPER','CONSIGNEE','DNI','ADDRESS','ZIP CODE','CITY','STATE','PHONE','DESCRIPTION','HS','QUANTITY','FREIGHT U$','INSURANCE','WEIGHT','UNIT WEIGHT','VALUE U$ FCA','BAG','LOCAL TRACKING PROVIDER','SERVICE_TYPE','EXTERNAL TRACKING','PROVIDER NAME','COPA ID','COPA NAME','LENGTH (cm)','WIDTH (cm)','HEIGHT (cm)','DIMEN UNIT','BAG TAG','INVOICE URL','PARAMETRIZAÇÃO (uso interno)'];
+ const hr=ws.getRow(8);H.forEach((h,k)=>{const x=hr.getCell(k+1);x.value=h;x.font={bold:true};x.fill=PM_HEAD_FILL});
+ L.forEach((l,k)=>{const v=l.v,e=pmEnd(v)||{},i=l.i;
+  const end=[e.rua,e.compl].filter(Boolean).join(', ')+(e.cidade||v.cidade?' - '+(e.cidade||v.cidade)+' - '+(e.uf||v.uf):'')+(e.cep?' - CEP: '+pmCep(e.cep):'');
+  ws.getRow(9+k).values=[awb,P.shipNome,e.nome||v.cliente||'',String(v.cpf||'').replace(/\D/g,''),end,pmCep(e.cep),e.cidade||v.cidade||'',e.uf||v.uf||'',pmFone(e.fone),i.en,i.hs,i.qtd,l.frete,0,r2(i.kg*i.qtd*1000)/1000,'KG',l.usd,'','','DDP','','','','',i.dim[0]||'',i.dim[1]||'',i.dim[2]||'','CBM','','',l.c.numero]});
+ [10,10,26,14,50,11,16,7,15,46,9,9,11,10,9,10,12,6,8,12,8,8,8,8,10,10,10,9,8,10,16].forEach((w,k)=>ws.getColumn(k+1).width=w);
+ ws.getColumn(4).numFmt='@';ws.getColumn(9).numFmt='@';
+ await pmBaixar(wb,'Manifest Mile '+pmNome(g)+'.xlsx');
+}
+async function pmMaster(c){
+ const X=await pmLib(),P=PM.cfg||PM_PAD,g=pmGrupo(c),L=pmLinhas(g),awb=pmAwb(c),f=1-n(P.desconto)/100;
+ const m=new Map();L.forEach(l=>{const k=l.i.sku||l.i.en;const a=m.get(k)||{i:l.i,qtd:0,usd:0};a.qtd+=l.i.qtd;a.usd+=l.usd;m.set(k,a)});
+ const A=[...m.values()].sort((a,b)=>(a.i.marca+a.i.en).localeCompare(b.i.marca+b.i.en));
+ const wb=new X.Workbook(),ws=wb.addWorksheet('Master List');
+ ws.getCell('A1').value='Master List';ws.getCell('A1').font={bold:true,size:16};
+ const set=(ref,v,b)=>{ws.getCell(ref).value=v;if(b)ws.getCell(ref).font={bold:true}};
+ set('A3','Shipper',1);set('B3',P.shipNome+'\n'+P.shipEnd);ws.getCell('B3').alignment={wrapText:true,vertical:'top'};
+ const d=new Date();
+ [['H3','Invoice number',g.map(x=>x.numero).join(' + ')],['H4','Date',d.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric',timeZone:'America/Sao_Paulo'})],['H5','INCOTERM','DDP Sao Paulo'],['H6','Currency','US Dollar'],['H7','Port of Loading','Incheon Korea'],['H8','Port of Discharge','São Paulo Brazil'],['H9','Modal','Air'],['H10','AWB',awb||'TBD']].forEach(([r,a,b])=>{set(r,a,1);set('I'+r.slice(1),b)});
+ set('A7','Consignee',1);set('B7',P.conNome);set('B8',P.conEnd);set('B9','CEP: '+P.conCep);set('B10','CNPJ: '+P.conCnpj);set('B11','Tel: '+P.conTel);
+ const H=['No.','Brand','Description of Goods','Product name (KR)','Ingredient','HS Code','Qty','Unit','Unit Price (USD)','Amount (USD)','Net Weight (kg)'];
+ const hr=ws.getRow(15);H.forEach((h,k)=>{const x=hr.getCell(k+1);x.value=h;x.font={bold:true};x.fill=PM_HEAD_FILL});
+ A.forEach((a,k)=>{const r=16+k;const up=r2(a.usd/a.qtd*f);
+  ws.getRow(r).values=[k+1,a.i.marca,a.i.en,a.i.kr,a.i.ing,a.i.hs,a.qtd,/kit|set|\+/i.test(a.i.en)?'set':'pc',up,{formula:'IFERROR(G'+r+'*I'+r+',"")',result:r2(up*a.qtd)},r2(a.i.kg*a.qtd*1000)/1000];
+  ws.getCell('E'+r).alignment={wrapText:true,vertical:'top'}});
+ const t=16+A.length;set('C'+t,'TOTAL',1);
+ [['G',A.reduce((s,a)=>s+a.qtd,0)],['J',r2(A.reduce((s,a)=>s+r2(a.usd/a.qtd*f)*a.qtd,0))],['K',r2(A.reduce((s,a)=>s+a.i.kg*a.qtd,0)*1000)/1000]].forEach(([col,res])=>{ws.getCell(col+t).value={formula:'SUM('+col+'16:'+col+(t-1)+')',result:res};ws.getCell(col+t).font={bold:true}});
+ [6,14,42,30,60,10,6,6,14,13,14].forEach((w,k)=>ws.getColumn(k+1).width=w);
+ ['I','J'].forEach(col=>ws.getColumn(col).numFmt='0.00');
+ await pmBaixar(wb,'Master List '+pmNome(g)+'.xlsx');
+}
+function pmCfgEditar(){
+ const P=PM.cfg||PM_PAD;
+ const f=(k,l,h)=>'<div class="f full" style="grid-column:1/-1"><label for="pm-'+k+'">'+l+'</label><input id="pm-'+k+'" value="'+esc(P[k]??'')+'">'+(h?'<span class="hint">'+h+'</span>':'')+'</div>';
+ shell('Dados das planilhas','<div class="sec"><span class="label">Remetente (Shipper)</span>'+f('shipNome','Nome','Hoje La Belle; depois a empresa própria na Coreia')+f('shipEnd','Endereço')+f('desconto','% abaixo do vendido na Master List (Coreia)')+f('cia','Companhia aérea','TBD até o booking')+'</div>'+
+  '<div class="sec"><span class="label">Consignatário (Mile)</span>'+f('conCurto','Nome curto (manifesto)')+f('conNome','Razão social (Master List)')+f('conEnd','Endereço')+f('conCep','CEP')+f('conCnpj','CNPJ')+f('conTel','Telefone')+'</div>',null,false);
+ wireSubmit(async()=>{const v={};Object.keys(PM_PAD).forEach(k=>{const el=$('#pm-'+k);if(el)v[k]=k==='desconto'?(parseFloat(el.value)||0):el.value.trim()});
+  const {error}=await sb.from('config').upsert({chave:'parametrizacao',valor:v});if(error)throw error;PM.cfg={...PM_PAD,...v};toast('Dados salvos');render()});
 }
 
 /* ---------- Documentos e arquivos da empresa ---------- */
@@ -1675,7 +1795,8 @@ document.addEventListener('change',e=>{const t=e.target;
  if(t.dataset&&t.dataset.prsel){t.checked?PR.sel.add(t.dataset.prsel):PR.sel.delete(t.dataset.prsel);render();return}
  if(t.id==='pr-sel-all'){document.querySelectorAll('[data-prsel]').forEach(c=>{t.checked?PR.sel.add(c.dataset.prsel):PR.sel.delete(c.dataset.prsel)});render();return}
 });
-document.addEventListener('click',async e=>{const t=e.target.closest('button,a,input,tr[data-pr]');if(!t)return;
+document.addEventListener('click',async e=>{
+ if(e.target.closest('[data-pmcfg]')){pmCfgEditar();return}const t=e.target.closest('button,a,input,tr[data-pr]');if(!t)return;
  if(t.dataset.prf){PR.f=t.dataset.prf;PR.lim=80;render();return}
  if(t.id==='pr-mais'){PR.lim+=200;render();return}
  if(t.id==='pr-recarregar'){PR.loaded=false;loadPrecos();toast('Recarregando…');return}
@@ -2739,7 +2860,7 @@ const fornNames=()=>S.data.fornecedores.map(f=>f.nome);
 const FORMS={
  vendas:{title:['Nova venda','Venda'],col:'vendas',custom:true},
  lotes:{title:['Novo embarque','Embarque'],col:'lotes',custom:true},
- cortes:{title:['Lista do dia','Lista do dia'],col:'cortes',custom:true},
+ cortes:{title:['Parametrização','Parametrização'],col:'cortes',custom:true},
  devolucoes:{title:['Nova devolução','Devolução'],col:'devolucoes',secs:[['Devolução',[
   {k:'numero',l:'Nº',req:1},{k:'data',l:'Data',t:'date'},{k:'venda',l:'Nº da venda',t:'number',hint:'Ex.: 100000001'},
   {k:'status',l:'Situação',t:'select',o:['Aberta','Recebida','Resolvida']},{k:'itens',l:'Itens devolvidos',t:'textarea',full:1},{k:'motivo',l:'Motivo',full:1},
@@ -3501,6 +3622,17 @@ function openLote(id){
  });
 }
 
+function pmBloco(rec){
+ const g=pmGrupo(rec),L=pmLinhas(g),av=pmChecar(L),ro=!can();
+ const outros=g.filter(x=>x.id!==rec.id);
+ return '<div class="sec"><span class="label">Planilhas · Mile (Brasil) e Skyroad (Coreia)</span>'+
+ '<div class="f"><label for="c-awb">AWB</label><input id="c-awb" value="'+esc(pmAwb(rec))+'" placeholder="ex.: 020-9303-8610"'+(ro?' readonly':'')+'><span class="hint">Sai 2 a 3 dias depois, com o booking</span></div>'+
+ '<div class="f"><label>Neste AWB</label><div style="padding:9px 0">'+(outros.length?'<b>'+esc(g.map(x=>x.numero).join(' + '))+'</b><span class="hint" style="display:block">Planilhas consolidadas num arquivo só</span>':'só esta parametrização')+'</div></div>'+
+ (av.length?'<div class="note full" style="grid-column:1/-1;margin:0"><span class="label">Conferir antes de mandar ('+av.length+')</span>'+av.slice(0,14).map(x=>'<p style="margin:2px 0;font-size:11.5px">• '+esc(x)+'</p>').join('')+(av.length>14?'<p class="muted" style="font-size:11.5px">e mais '+(av.length-14)+'</p>':'')+'</div>':'')+
+ '<div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm pri" type="button" data-pmx="mile">Baixar planilha da Mile (Brasil)</button><button class="btn sm pri" type="button" data-pmx="coreia">Baixar Master List (Coreia)</button></div>'+
+ '<p class="muted" style="grid-column:1/-1;margin:0;font-size:11.5px">Mile: uma linha por item de cada venda, valor do produto pago em US$ (câmbio do checkout), frete sem seguro. Master List: agrupada por produto, valor '+n((PM.cfg||PM_PAD).desconto)+'% abaixo do vendido. Brindes desligados.</p></div>';
+}
+
 /* ---------- formulário da lista do dia ---------- */
 function openCorte(id){
  const rec=(S.data.cortes||[]).find(r=>r.id===id);if(!rec)return;
@@ -3509,10 +3641,9 @@ function openCorte(id){
  const L={janice:listaJanice(rec,vs),skyroad:listaSkyroad(rec,vs),mile:listaMile(rec,vs)};
  const bloco=(k,t,sub)=>'<div class="sec"><span class="label">'+t+'</span><p class="muted full" style="grid-column:1/-1;margin:0;font-size:11.5px">'+sub+'</p><pre class="code" style="grid-column:1/-1;max-height:200px">'+esc(L[k].txt)+'</pre><div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" type="button" data-lcopy="'+k+'">Copiar texto</button><button class="btn sm" type="button" data-lcsv="'+k+'">Baixar planilha</button></div></div>';
  const body='<div class="sec"><span class="label">Resumo</span><p style="grid-column:1/-1;margin:0">'+vs.length+' vendas · '+A.reduce((s,a)=>s+a.qtd,0)+' unidades · corte '+esc(cutLabel(cutoffFor(Date.parse(rec.corteEm)||rec.createdAt)))+'</p>'+
-  '<label class="chk full" style="grid-column:1/-1"><input type="checkbox" id="c-env"'+(rec.enviadoEm?' checked':'')+(ro?' disabled':'')+'> Lista enviada para Janice, Skyroad e Mile'+(rec.enviadoEm?' <span class="muted">· '+esc(new Date(rec.enviadoEm).toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo'}))+'</span>':'')+'</label></div>'+
+  '<label class="chk full" style="grid-column:1/-1"><input type="checkbox" id="c-env"'+(rec.enviadoEm?' checked':'')+(ro?' disabled':'')+'> Enviada para Janice, Skyroad e Mile'+(rec.enviadoEm?' <span class="muted">· '+esc(new Date(rec.enviadoEm).toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo'}))+'</span>':'')+'</label></div>'+
   bloco('janice','Para a Janice · o que comprar','Itens somados de todas as vendas da lista.')+
-  bloco('skyroad','Para a Skyroad · como separar','Um pacote por venda, com a etiqueta da Mile.')+
-  bloco('mile','Para a Mile · etiquetas e DIR','Confira se nenhuma venda está com CPF faltando.')+
+  pmBloco(rec)+
   '<div class="sec"><span class="label">Compra da Janice · custo em ₩</span><p class="muted" style="grid-column:1/-1;margin:0;font-size:11.5px">Custo unitário de cada item e as despesas na Coreia (embalagem, transporte local). As despesas são rateadas pelo valor dos itens e o custo final entra no campo "₩ La Belle" de cada venda.</p>'+
   '<div style="grid-column:1/-1;min-width:0"><div class="tblwrap"><table><thead><tr><th>Produto</th><th class="r">Qtd</th><th class="r">₩ por unidade</th><th class="r">Subtotal</th></tr></thead><tbody>'+
   A.map((a,i)=>'<tr><td>'+esc(a.produto)+'</td><td class="r num">'+a.qtd+'</td><td class="r"><input type="number" step="any" min="0" data-cprod="'+i+'" value="'+esc((prev.get(a.produto)||{}).custo??'')+'" style="width:120px;text-align:right"'+(ro?' readonly':'')+'></td><td class="r num" data-csub="'+i+'">—</td></tr>').join('')+
@@ -3520,20 +3651,24 @@ function openCorte(id){
   '<div class="f"><label for="c-desp">Despesas na Coreia (₩)</label><input id="c-desp" type="number" step="any" min="0" value="'+esc(rec.despesasKrw??'')+'"'+(ro?' readonly':'')+'><span class="hint">Embalagem, transporte até a Skyroad, taxas</span></div>'+
   '<div class="f"><label>Total da compra</label><div id="c-tot" class="num" style="padding:9px 0;font-weight:700">—</div></div>'+
   '<div class="f full" style="grid-column:1/-1"><label for="c-obs">Observações</label><textarea id="c-obs"'+(ro?' readonly':'')+'>'+esc(rec.obs||'')+'</textarea></div></div>';
- shell('Lista '+rec.numero,body,rec,ro);
+ shell('Parametrização '+rec.numero,body,rec,ro);
  const f=$('#mform');
  const tot=()=>{let b=0;A.forEach((a,i)=>{const u=parseFloat(f.querySelector('[data-cprod="'+i+'"]').value);const s=isFinite(u)?u*a.qtd:0;b+=s;f.querySelector('[data-csub="'+i+'"]').textContent=isFinite(u)?krw(s):'—'});const d=parseFloat($('#c-desp').value)||0;$('#c-tot').textContent=b||d?krw(b+d)+' ≈ '+dm((b+d)*n(S.cfg.krw)):'—'};
  f.addEventListener('input',tot);tot();
  $('#ov').addEventListener('click',e=>{const b=e.target.closest('[data-lcopy],[data-lcsv]');if(!b)return;
   if(b.dataset.lcopy)copiar(L[b.dataset.lcopy].txt,'Lista copiada');else baixar(rec.numero+'-'+b.dataset.lcsv+'.csv',L[b.dataset.lcsv].csv)});
+ $('#ov').addEventListener('click',async e=>{const b=e.target.closest('[data-pmx]');if(!b)return;
+  const awbNovo=$('#c-awb')?$('#c-awb').value.trim():'';if(awbNovo!==pmAwb(rec)){toast('Salve o AWB antes de baixar');return}
+  const t=b.textContent;b.disabled=true;b.textContent='Gerando…';try{if(b.dataset.pmx==='mile')await pmManifesto(rec);else await pmMaster(rec)}catch(err){toast(errMsg(err))}b.disabled=false;b.textContent=t});
  // excluir lista: devolve as vendas para "esperando corte"
  const del=$('#m-del');if(del)del.addEventListener('click',async()=>{if(!del.classList.contains('armed')){del.classList.add('armed');del.textContent='Confirmar exclusão';return}
-  del.disabled=true;try{for(const v of vs)if(v.corte===rec.id)await save('vendas',v,{corte:''});await dbDelete('cortes',rec.id);close();toast('Lista excluída · vendas voltaram para o corte');loadAll()}catch(e){$('#m-err').textContent=errMsg(e);del.disabled=false}});
+  del.disabled=true;try{for(const v of vs)if(v.corte===rec.id)await save('vendas',v,{corte:''});await dbDelete('cortes',rec.id);close();toast('Parametrização excluída · vendas voltaram para o corte');loadAll()}catch(e){$('#m-err').textContent=errMsg(e);del.disabled=false}});
  wireSubmit(async()=>{
   const compra=A.map((a,i)=>{const u=parseFloat(f.querySelector('[data-cprod="'+i+'"]').value);return{produto:a.produto,qtd:a.qtd,custo:isFinite(u)?u:null}}).filter(i=>i.custo!=null);
   const desp=parseFloat($('#c-desp').value);const D=isFinite(desp)?desp:null;
   const env=$('#c-env').checked;
-  const vals={compra,despesasKrw:D,obs:$('#c-obs').value};
+  const awb=$('#c-awb').value.trim();
+  const vals={compra,despesasKrw:D,obs:$('#c-obs').value,awb};
   if(env&&!rec.enviadoEm)vals.enviadoEm=new Date().toISOString();
   if(!env&&rec.enviadoEm)vals.enviadoEm=null;
   if(compra.length&&!rec.compraEm)vals.compraEm=new Date().toISOString();
@@ -3547,9 +3682,10 @@ function openCorte(id){
    const pat={};
    if(compra.length){const it=(v.itens||[]).map(i=>unit.has(prodKey(i))?{...i,custoLB:unit.get(prodKey(i))}:i);if(JSON.stringify(it)!==JSON.stringify(v.itens))pat.itens=it}
    if(env&&!(v.etapas||{}).skyroad)pat.etapas={...(v.etapas||{}),skyroad:today()};
+   if(awb&&String(v.awb||'')!==awb)pat.awb=awb;
    if(Object.keys(pat).length){await save('vendas',v,pat);mud++}
   }
-  toast('Lista salva'+(mud?' · '+mud+' vendas atualizadas':''));
+  toast('Parametrização salva'+(mud?' · '+mud+' vendas atualizadas':''));
  });
 }
 
@@ -3571,13 +3707,13 @@ const MAP={dataCompra:'data_compra',custoMile:'custo_mile',custo3PL:'custo_3pl',
 const RMAP=Object.fromEntries(Object.entries(MAP).map(([a,b])=>[b,a]));
 const COLS={
  vendas:['numero','data_compra','canal','cliente','cpf','contato','cidade','uf','cupom','itens','desconto','frete','ii','icms','custo_mile','custo_3pl','caixa','outros_custos','etiqueta_mile','invoice','carga_coreia','carga_brasil','rastreio','obs','etapas','cancelada','lote','awb','baixa_embalagem','corte'],
- cortes:['numero','corte_em','vendas','enviado_em','compra','despesas_krw','compra_em','obs'],
+ cortes:['numero','corte_em','vendas','enviado_em','compra','despesas_krw','compra_em','obs','awb'],
  lotes:['numero','awb','cia','caixa','peso_kg','volumes','custo_3pl','frete_aereo','despacho','custo_mercadoria','pago_por','parceiro_pagador','obs','vendas','etapas'],
  lancamentos:['data','tipo','descricao','categoria','conta','valor','moeda','valor_destino','status','ref','parceiro'],
  devolucoes:['numero','data','venda','status','itens','motivo','local','destino','reembolso','custo_retorno','obs'],
  insumos:['codigo','tipo','nome','dimensoes','especificacao','designs','status','estoque','minimo','local','custo_unit','fornecedor','arquivo'],
  compras:['numero','data','fornecedor','parceiro','tipo','itens','valor','moeda','status','previsao','insumo','qtd','entrada_estoque'],
- produtos:['sku','ean','marca','nome','categoria','fornecedor','custo_fab','custo_lb','preco_kr','preco_conc','preco','peso_g','estoque','dg','ativo'],
+ produtos:['sku','ean','marca','nome','categoria','fornecedor','custo_fab','custo_lb','preco_kr','preco_conc','preco','peso_g','estoque','dg','ativo','hs','nome_kr','nome_en','ingredientes','comp_cm','larg_cm','alt_cm'],
  cupons:['codigo','tipo','valor','publico','validade','limite','ativo','obs'],
  fornecedores:['codigo','nome','tipo','moeda','pais','contato','canal','obs'],
  metricas:['semana','visitas','carrinhos','checkouts','pedidos','fonte'],
@@ -3876,6 +4012,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v70','01/11/2026',['"Lista do dia" agora se chama Parametrização. Cada parametrização é um lote de vendas que sai da Coreia no mesmo AWB; as novas recebem o número P-AAMMDD.','Tabela de parametrizações com filtro tipo Excel e classificação (número, corte, vendas, unidades, AWB, mesmo AWB, enviada, compra).','Dentro da parametrização: campo AWB e dois botões de Excel. Planilha da Mile (Brasil), uma linha por item com cliente, CPF, endereço, telefone, HS, peso, medidas e valor em US$. Master List (Coreia), agrupada por produto, com valor 25% abaixo do vendido. Se mais de uma parametrização tiver o mesmo AWB, sai um arquivo só, e a coluna "Parametrização (uso interno)" mostra de qual veio cada pedido.','Antes de baixar, o ERP lista o que falta (CPF, endereço, telefone, nome em coreano, ingredientes, peso, medidas, HS).','Remetente (hoje La Belle) e dados da Mile editáveis em Parametrização › Remetente › Alterar.','Vendas: novas colunas Parametrização e AWB, com filtro.']],
  ['v69','01/11/2026',['Cupons: botão 🎁 Enviar como presente (na lista e dentro do cupom; abre sozinho depois de criar um cupom). Escolha o modelo (Boas-vindas, Aniversário, Presente, Influenciador, Desculpa pelo atraso) e o nome; copie o link do presente, mande no WhatsApp ou baixe o cartão com QR code para pôr na caixa.','A cliente abre o link em ohmygirl.com.br/pages/presente, toca no presente, copia o código com um toque e o botão Usar agora já aplica o desconto no carrinho.']],
  ['v68','01/11/2026',['Vendas: o CPF da cliente aparece embaixo do nome. O filtro da coluna Cliente também acha pelo CPF.']],
  ['v67','01/11/2026',['Vendas: tabela estilo Excel. Colunas Venda, Data, Canal, Cliente, Cidade, UF, Itens, Cupom, Embarque, Etapa e Total, cada uma com filtro (lista de valores com quantidade, marque um ou vários) e ordem clicando no título. Os botões de etapa no topo continuam valendo junto com os filtros.']],
