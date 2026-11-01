@@ -896,7 +896,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v62 · 01/11/2026';
+const VERSAO='v63 · 01/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1364,8 +1364,7 @@ const ctSt=p=>p.dg?'DG bloqueado':p.ativo?'No site':'Fora do site';
 const CT_COLS=[
  ['sku','SKU',p=>p.sku,'t'],['nome','Produto',p=>p.nome,'t'],['marca','Marca',p=>p.marca,'t'],['cat','Categoria',p=>p.categoria,'t'],
  ['peso','Peso (g)',p=>ctPeso(p),'n'],['dim','Dimensões (cm)',p=>ctDim(p),'t'],
- ['fab','Custo fábrica (₩)',p=>p.custoFab,'n'],['dist','Preço distribuidor (₩)',p=>p.custoLB,'n'],
- ['sug','Sugerido',p=>{const x=suggest(p);return x?x.v:null},'n'],['venda','Venda',p=>p.preco,'n'],['st','Status',ctSt,'t']];
+ ['fab','Custo fábrica (₩)',p=>p.custoFab,'n'],['dist','Preço distribuidor (₩)',p=>p.custoLB,'n'],['venda','Venda',p=>p.preco,'n'],['st','Status',ctSt,'t']];
 function ctLinhas(){let L=S.data.produtos.filter(match);
  CT_COLS.forEach(([k,,g,t])=>{const f=CT.f[k];if(f)L=L.filter(p=>pxMatch(g(p),f,t))});
  const [sk,dir]=CT.sort,col=CT_COLS.find(c=>c[0]===sk);
@@ -1377,12 +1376,12 @@ VIEWFN.produtos=()=>{
  const all=S.data.produtos,L=loading('produtos')?[]:ctLinhas(),vis=L.slice(0,CT.lim),filtrando=Object.values(CT.f).some(Boolean);
  const th=CT_COLS.map(([k,l,,t])=>'<th class="'+(t==='n'?'r ':'')+'px-th" data-ctsort="'+k+'">'+l+(CT.sort[0]===k?(CT.sort[1]>0?' ▲':' ▼'):'')+'</th>').join('');
  const tf=CT_COLS.map(([k,,,t])=>'<th class="px-fi">'+(k==='st'?'<select data-ctf="st" aria-label="Filtro de status"><option value="">todos</option>'+['No site','Fora do site','DG bloqueado'].map(v=>'<option'+(CT.f.st===v?' selected':'')+'>'+v+'</option>').join('')+'</select>':'<input data-ctf="'+k+'" value="'+esc(CT.f[k]||'')+'" placeholder="'+(t==='n'?'>10':'filtrar')+'" aria-label="Filtro" data-1c="off">')+'</th>').join('');
- const row=p=>{const x=suggest(p),pe=ctPeso(p),d=ctDim(p);
+ const row=p=>{const pe=ctPeso(p),d=ctDim(p);
   return '<tr data-edit="produtos" data-id="'+esc(p.id)+'" style="cursor:pointer"><td class="num">'+esc(p.sku)+'</td><td class="px-nome"><b>'+esc(p.nome)+'</b></td><td class="px-marca">'+esc(p.marca||'')+'</td><td class="px-marca">'+esc(p.categoria||'')+'</td>'+
   '<td class="r num">'+(pe?pe+(ctEst(p)?'<small>estimado</small>':''):'<span class="muted">—</span>')+'</td><td class="num">'+(d?d+(ctM(p)&&/estimad/i.test(String(ctM(p).dim_origem||''))?'<small>estimado</small>':''):'<span class="muted">—</span>')+'</td>'+
   '<td class="r num">'+(has(p.custoFab)?krw(p.custoFab):'<span class="muted">—</span>')+'</td><td class="r num">'+(has(p.custoLB)?krw(p.custoLB):'<span class="muted">—</span>')+'</td>'+
-  '<td class="r num">'+(x?brl(x.v)+'<small>'+esc(x.how)+'</small>':'<span class="muted">—</span>')+'</td><td class="r num"><b>'+brl(p.preco)+'</b></td><td>'+(p.dg?'<span class="pill p-bad">DG bloqueado</span>':p.ativo?stPill('No site'):stPill('Fora do site'))+'</td></tr>'};
- return '<div class="page wide"><div class="col">'+head('Catálogo','Todos os produtos, inclusive os que não estão à venda no site: SKU, peso, dimensões, custos na Coreia e preço. Filtre em cada coluna e ordene clicando no título. Ao lançar uma venda, o SKU preenche preço e custos.',(can()?'<button class="btn sm" type="button" id="sync-shop">Sincronizar com o Shopify</button> <button class="btn sm" type="button" id="pesos-shop" title="Grava no Shopify o peso e as dimensões de cada SKU (tools/pesos/medidas_sku.json)">Enviar pesos ao Shopify</button> <label class="btn sm" style="cursor:pointer">Importar do Shopify (CSV)<input type="file" id="cat-up" accept=".csv,text/csv" hidden></label> ':'')+newBtn('produtos','Novo produto'))+
+  '<td class="r num"><b>'+brl(p.preco)+'</b></td><td>'+(p.dg?'<span class="pill p-bad">DG bloqueado</span>':p.ativo?stPill('No site'):stPill('Fora do site'))+'</td></tr>'};
+ return '<div class="page wide"><div class="col">'+head('Catálogo','Todos os produtos, inclusive os que não estão à venda no site: SKU, peso, dimensões, custos na Coreia e preço de venda. O preço calculado pela regra fica no Pricing. Filtre em cada coluna e ordene clicando no título. Ao lançar uma venda, o SKU preenche preço e custos.',(can()?'<button class="btn sm" type="button" id="sync-shop">Sincronizar com o Shopify</button> <button class="btn sm" type="button" id="pesos-shop" title="Grava no Shopify o peso e as dimensões de cada SKU (tools/pesos/medidas_sku.json)">Enviar pesos ao Shopify</button> <label class="btn sm" style="cursor:pointer">Importar do Shopify (CSV)<input type="file" id="cat-up" accept=".csv,text/csv" hidden></label> ':'')+newBtn('produtos','Novo produto'))+
  (all.length?'<p class="muted" style="margin:-6px 0 0;font-size:11.5px">'+all.length+' produtos · '+all.filter(p=>p.ativo).length+' no site · '+all.filter(p=>!p.ativo).length+' fora do site'+(filtrando||S.q?' · <b>'+L.length+' no filtro</b> · <a href="#" id="ct-limpa">limpar filtros</a>':'')+(CT.medLoading?' · carregando medidas…':'')+'</p>':'')+
  '<div class="card" style="padding:8px">'+(loading('produtos')?'<p class="muted">Carregando…</p>':!all.length?empty('Catálogo vazio','No Shopify, vá em Produtos → Exportar → Todos os produtos → CSV. Depois clique em Importar do Shopify (CSV) aqui. Vêm também os produtos em rascunho.'):
   '<div class="tblwrap px-wrap"><table class="px-t ct-t"><thead><tr>'+th+'</tr><tr class="px-frow">'+tf+'</tr></thead><tbody>'+(vis.length?vis.map(row).join(''):'<tr><td colspan="'+CT_COLS.length+'" class="muted" style="padding:16px;text-align:center">Nenhum produto neste filtro.</td></tr>')+'</tbody></table></div>'+
@@ -3727,6 +3726,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v63','01/11/2026',['Catálogo: saiu a coluna Sugerido (regra antiga, confundia). O preço pela regra atual fica só no Pricing.']],
  ['v62','01/11/2026',['Catálogo em tabela larga, que cabe na tela: SKU em coluna própria, marca, categoria, peso (g), dimensões (cm), custo fábrica, preço distribuidor, sugerido, venda e status.','Filtro em cada coluna (texto, número como >100 ou 50-200, status na lista) e ordem clicando no título da coluna.','“Preço La Belle” passa a se chamar Preço distribuidor (catálogo, ficha do produto e piso de margem do Pricing). O quadro antigo de regra de preço saiu da lateral.']],
  ['v61','01/11/2026',['Pricing: Sephora Brasil passa a ser concorrente válido (Guia de precificação v3). Referência = menor preço entre KS, Jini (no Pix) e Sephora BR.','Sephora: promoção só vale como referência depois de 14 dias no ar; antes disso vale o preço cheio. A ficha mostra os dois preços e há quantos dias está em promoção.','Leitura automática de segunda também lê a Sephora BR, só as marcas que a OMG vende. Em Concorrentes, dá para colar link da Sephora e aparecem parecidos dela.','Regras › Piso de margem: margem mínima sobre o custo La Belle. Abaixo do piso, o sugerido fica no piso com o aviso "não dá para competir".']],
  ['v60','01/11/2026',['Monitoramentos: link Histórico e relatórios em cada linha (abre o histórico com o botão Relatório de cada execução).','Corrigida a próxima execução e a previsão do mês para monitoramentos por dia do mês (M-001: dias 1 e 15).']],
