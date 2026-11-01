@@ -33,6 +33,16 @@ Deno.serve(async (req) => {
     catch (e) { return json(200, { ok: false, erro: String((e as Error).message || e) }); }
   }
 
+  // 3) Vários produtos de uma vez (preço final estimado nas vitrines do site): { lote: { cep, itens: [{ k, grams, price }] } } → { ok, totais: { k: total } }
+  if (b?.lote) {
+    const its = (Array.isArray(b.lote.itens) ? b.lote.itens : []).slice(0, 60);
+    const totais: Record<string, number> = {};
+    await Promise.all(its.map(async (i: any) => {
+      try { const x = await calcular(b.lote.cep, null, [{ grams: Number(i.grams) || 300, price: Number(i.price) || 0, quantity: 1 }]); totais[String(i.k)] = x.brl.total_pedido; } catch { /* sem preço para este */ }
+    }));
+    return json(200, { ok: true, totais });
+  }
+
   if (b?.rate) {
     const d = b.rate.destination || {};
     if (String(d.country || "BR").toUpperCase() !== "BR") return json(200, { rates: [] });

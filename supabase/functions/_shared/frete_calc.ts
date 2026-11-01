@@ -35,7 +35,12 @@ function faixa(tab: Record<string, number>, add: number | undefined, g: number) 
   return tab[String(ult)] + Math.ceil((g - ult) / 1000) * (add || 0);
 }
 
+const REG = new Map<number, { t: number; r: any }>();
 async function regiao(cep: number) {
+  const c = REG.get(cep); if (c && Date.now() - c.t < 10 * 60 * 1000) return c.r;
+  const r = await regiao0(cep); REG.set(cep, { t: Date.now(), r }); return r;
+}
+async function regiao0(cep: number) {
   for (const tipo of ["proprio", "redespacho"]) {
     const { data } = await sb.from("frete_cep").select("ini,fim,regiao,uf,prazo").eq("tipo", tipo).lte("ini", cep).order("ini", { ascending: false }).limit(1);
     const r = data?.[0];
