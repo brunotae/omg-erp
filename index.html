@@ -1404,6 +1404,7 @@ function ctPopAbrir(inp){const k=inp.dataset.ctf;ctPopFechar();ctPopK=k;
   '<div class="ct-pop-b"><button type="button" class="btn sm" data-ctpop="tudo">Marcar todos</button><button type="button" class="btn sm" data-ctpop="limpa">Limpar</button><span style="flex:1"></span><button type="button" class="btn sm pri" data-ctpop="ok">Aplicar</button></div>';
  document.body.appendChild(d);const r=inp.getBoundingClientRect();d.style.left=Math.max(8,Math.min(r.left+scrollX,innerWidth-d.offsetWidth-8))+'px';d.style.top=(r.bottom+scrollY+2)+'px';d.style.minWidth=Math.max(r.width,220)+'px';d.dataset.num=num?'1':''}
 document.addEventListener('focusin',e=>{const t=e.target;if(t.matches&&t.matches('input[data-ctf]')&&ctPopK!==t.dataset.ctf)ctPopAbrir(t)});
+document.addEventListener('click',e=>{const t=e.target;if(t.matches&&t.matches('input[data-ctf]')&&ctPopK!==t.dataset.ctf)ctPopAbrir(t)});
 document.addEventListener('mousedown',e=>{if(!ctPopK)return;if(e.target.closest('#ct-pop')||e.target.closest('input[data-ctf]'))return;ctPopFechar()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&ctPopK)ctPopFechar()});
 document.addEventListener('click',e=>{const b=e.target.closest('[data-ctpop]');if(!b||!ctPopK)return;const d=document.getElementById('ct-pop'),k=ctPopK,a=b.dataset.ctpop;
