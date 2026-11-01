@@ -630,6 +630,10 @@ table.rel-t{width:100%;border-collapse:collapse;font-size:7.4pt}
 .mon-h{min-width:600px}.mon-h td{vertical-align:top}.mon-h td:last-child{min-width:240px}
 @media(max-width:780px){.mon-li{grid-template-columns:minmax(0,1fr);gap:2px}}
 .lnk{border:0;background:none;padding:0;margin-top:4px;font:inherit;font-size:11.5px;font-weight:500;color:var(--accent,#B83D66);text-decoration:underline;cursor:pointer}
+.va-k{cursor:pointer;text-align:left}.va-k.hot{outline:2px solid var(--accent,#B83D66)}
+.va-t{min-width:0}.va-t td,.va-t th{padding:7px 8px}
+.va-bars{display:flex;align-items:flex-end;gap:2px;height:96px;margin-top:10px}.va-bars i{flex:1;min-width:2px;background:#E7A3B9;border-radius:2px 2px 0 0}.va-bars i:last-child{background:#B83D66}
+@media(max-width:780px){.va-kpis{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}.va-kpis .kpi{padding:9px 8px}.va-kpis .kpi .label{font-size:9px;letter-spacing:.04em}.va-kpis .kpi .s{font-size:10.5px}.va-in{grid-template-columns:repeat(2,minmax(0,1fr))!important}.va-in .kpi:last-child{grid-column:1/-1}}
 </style>
 </head>
 <body>
@@ -719,6 +723,7 @@ const S={db:null,canWrite:true,status:'connecting',view:(/^#relatorios/.test(loc
 
 const ICONS={
  monitor:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><path d="M12 12l6-6"/><circle cx="12" cy="12" r=".8"/>',
+ visitas:'<path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
  links:'<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
  acoes:'<path d="M12 3c.6 4.2 2.3 5.9 6.5 6.5-4.2.6-5.9 2.3-6.5 6.5-.6-4.2-2.3-5.9-6.5-6.5C9.7 8.9 11.4 7.2 12 3z"/><path d="M19 15c.3 1.8 1 2.6 2.8 2.8-1.8.3-2.5 1-2.8 2.8-.3-1.8-1-2.5-2.8-2.8 1.8-.2 2.5-1 2.8-2.8z"/>',
  painel:'<path d="M4 13h6V4H4zM14 20h6v-9h-6zM4 20h6v-4H4zM14 8h6V4h-6z"/>',
@@ -744,7 +749,7 @@ const ICONS={
  fornecedores:'<path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/>',
  config:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/>'
 };
-const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Parametrização'],['','lotes','Embarques'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['','pricing','Pricing'],['','precos','Concorrentes'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','cadastros','Cadastros do site'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['','relatorios','Relatório do site'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Automação','monitor','Monitoramentos'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
+const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Parametrização'],['','lotes','Embarques'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['','pricing','Pricing'],['','precos','Concorrentes'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','cadastros','Cadastros do site'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['','relatorios','Relatório do site'],['','visitas','Visitas agora'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Automação','monitor','Monitoramentos'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
 
 /* ================= utilidades ================= */
 const $=s=>document.querySelector(s);
@@ -899,7 +904,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v73 · 01/11/2026';
+const VERSAO='v74 · 01/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -3252,6 +3257,47 @@ function monRelatorio(id){
 }
 document.addEventListener('click',e=>{const b=e.target.closest('[data-mon-rel]');if(!b)return;e.preventDefault();e.stopPropagation();monRelatorio(b.dataset.monRel)},true);
 
+/* ================= Visitas agora (v74): visitas e pessoas do site em 24 h, 2 dias e 7 dias, de onde vêm (Brasil × fora, estados, origem) ================= */
+const VA={d:null,loading:false,err:'',win:'h24',at:0};
+const VA_PAIS={Brazil:'Brasil','South Korea':'Coreia do Sul','United States':'EUA',China:'China',Japan:'Japão',Portugal:'Portugal',Paraguay:'Paraguai',Argentina:'Argentina',Canada:'Canadá',Mexico:'México',Germany:'Alemanha',France:'França','United Kingdom':'Reino Unido',Spain:'Espanha',Italy:'Itália',Netherlands:'Holanda',Ireland:'Irlanda',Singapore:'Singapura',India:'Índia',Desconhecido:'Desconhecido'};
+const vaOrigem=k=>{const [f,nm]=String(k).split('|');return f==='direct'||!f?'Direto (app, WhatsApp, digitou o endereço)':f==='search'?'Busca'+(nm?' · '+nm:''):f==='social'?'Rede social'+(nm?' · '+nm:''):f==='email'?'E-mail'+(nm?' · '+nm:''):(nm?'Link · '+nm:'Outros')};
+async function vaCarregar(){
+ if(VA.loading||!S.db)return;VA.loading=true;VA.err='';if(S.view==='visitas')render();
+ try{const {data,error}=await sb.functions.invoke('visitas-agora',{body:{}});
+  if(error){let m='';try{m=(await error.context.json()).erro}catch(_){}throw new Error(m||error.message)}
+  VA.d=data;VA.at=Date.now()}
+ catch(e){VA.err=String(e&&e.message||e)}
+ VA.loading=false;if(S.view==='visitas')render();
+}
+VIEWFN.visitas=()=>{
+ if(S.db&&!VA.loading&&!VA.err&&(!VA.d||Date.now()-VA.at>5*60e3))setTimeout(vaCarregar,0);
+ const d=VA.d, J=d&&d.janelas||{}, w=J[VA.win]||null, P=d&&d.pessoas||{};
+ const nomes={h24:'24 horas',h48:'2 dias',d7:'7 dias'}, pes={h24:P.hoje,h48:P.d2,d7:P.d7}, pesL={h24:'hoje',h48:'ontem e hoje',d7:'7 dias'};
+ const tile=k=>{const j=J[k]||{};return '<button type="button" class="kpi va-k'+(VA.win===k?' hot':'')+'" data-vawin="'+k+'"><span class="label">'+nomes[k]+'</span><span class="v num">'+(d?vnum(j.visitas||0):'…')+'</span><span class="s">visitas'+(d?' · '+vnum(pes[k]||0)+' pessoas ('+pesL[k]+')':'')+'</span></button>'};
+ const br=w?(w.paises||[]).filter(p=>p.nome==='Brazil').reduce((a,p)=>a+p.visitas,0):0, tot=w?w.visitas:0, fora=Math.max(0,tot-br);
+ const pc=v=>tot?Math.round(v/tot*100)+'%':'—';
+ const tab=(cab,rows)=>'<div class="tblwrap"><table class="va-t"><thead><tr>'+cab.map((c,i)=>'<th'+(i?' class="r"':'')+'>'+c+'</th>').join('')+'</tr></thead><tbody>'+(rows.length?rows.join(''):'<tr><td colspan="'+cab.length+'" class="muted">Nenhuma visita neste período.</td></tr>')+'</tbody></table></div>';
+ const lin=(nome,v)=>'<tr><td>'+esc(nome)+'</td><td class="r num"><b>'+vnum(v)+'</b></td><td class="r num">'+pc(v)+'</td></tr>';
+ const H=(d&&d.horas)||[], mx=Math.max(1,...H.map(h=>h.visitas));
+ const barras=H.length?'<div class="va-bars">'+H.map(h=>{const t=new Date(h.hora);return '<i title="'+esc(t.toLocaleString('pt-BR',{weekday:'short',hour:'2-digit'}))+'h · '+h.visitas+' visitas" style="height:'+Math.max(2,Math.round(h.visitas/mx*100))+'%"></i>'}).join('')+'</div><p class="muted" style="font-size:11px;margin:4px 0 0">Cada barra é uma hora, da mais antiga (esquerda) até agora (direita). Toque numa barra para ver a hora.</p>':'';
+ return '<div class="page wide"><div class="col">'+head('Visitas agora','Quantas visitas o site teve e de onde vieram, direto do Shopify. "Visita" é cada vez que alguém abre o site; "pessoa" conta cada visitante uma vez só.','<button class="btn sm" type="button" id="va-atual"'+(VA.loading?' disabled':'')+'>'+(VA.loading?'Atualizando…':'Atualizar')+'</button>')+
+  (VA.err?'<div class="note"><span class="label">Não foi possível ler o Shopify</span><p>'+esc(VA.err)+'</p></div>':'')+
+  '<div class="kpis va-kpis">'+tile('h24')+tile('h48')+tile('d7')+'</div>'+
+  (d?'<p class="muted" style="font-size:11.5px;margin:-6px 0 0">Atualizado às '+new Date(VA.at).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+' · toque num quadro para ver os detalhes daquele período · Shopify pode levar alguns minutos para contar as visitas mais recentes.</p>':'')+
+  (w?'<div class="card"><span class="label">'+nomes[VA.win]+' · de onde vêm</span>'+
+   '<div class="kpis va-in" style="margin-top:10px;grid-template-columns:repeat(3,minmax(0,1fr))">'+kpi('Brasil',vnum(br),pc(br)+' das visitas')+kpi('Fora do Brasil',vnum(fora),pc(fora)+' · equipe, parceiros e robôs, em geral')+kpi('Carrinho / compras',vnum(w.carrinho||0)+' / '+vnum(w.compras||0),'visitas que puseram no carrinho / que compraram')+'</div></div>'+
+   '<div class="card"><span class="label">Origem · como chegaram</span>'+tab(['Origem','Visitas','%'],(w.origem||[]).map(o=>lin(vaOrigem(o.nome),o.visitas)))+'</div>'+
+   '<div class="card"><span class="label">Países</span>'+tab(['País','Visitas','%'],(w.paises||[]).slice(0,10).map(p=>lin(VA_PAIS[p.nome]||p.nome,p.visitas)))+'</div>'+
+   '<div class="card"><span class="label">Brasil por estado</span>'+tab(['Estado','Visitas','%'],(w.estados||[]).map(p=>lin(p.nome,p.visitas)))+'</div>'+
+   (barras?'<div class="card"><span class="label">Visitas por hora · últimas 48 h</span>'+barras+'</div>':''):
+   (VA.loading?'<div class="card"><p class="muted">Lendo o Shopify…</p></div>':''))+
+ '</div></div>';
+};
+document.addEventListener('click',e=>{
+ const k=e.target.closest('[data-vawin]');if(k){VA.win=k.dataset.vawin;render();return}
+ if(e.target.closest('#va-atual'))vaCarregar();
+});
+
 /* ================= Ações de marketing (v23: dentro do ERP; antes era acoes.html) ================= */
 const AC_TIPOS=['Concurso cultural','Sorteio','Post','Reels','Story','Vídeo','Anúncio Meta','Live','Influenciadora','Cupom','Outro'];
 const AC_CANAIS=['Instagram','TikTok','WhatsApp','Site','Meta Ads','Google','YouTube'];
@@ -4016,6 +4062,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v74','01/11/2026',['Novo: Clientes › Visitas agora. Visitas e pessoas do site nas últimas 24 h, 2 dias e 7 dias, direto do Shopify, com Brasil × fora, países, estados e origem (Instagram, Google, direto…). Abre direto pelo link brunotae.github.io/omg-erp/?tela=visitas, bom para salvar na tela do celular.']],
  ['v73','01/11/2026',['Visual mais profissional: letra Inter no lugar da Poppins (menos arredondada, mais fácil de ler em tabelas) e negrito mais leve em todo o ERP. Tamanhos mantidos.','Painel: saíram os avisos de embalagem (arte pronta / falta cotar), já que Embalagens está oculta.']],
  ['v72','01/11/2026',['Devoluções saiu do menu por enquanto (só vamos precisar depois). Os dados continuam guardados; volta quando for preciso.']],
  ['v71','01/11/2026',['Embalagens saiu do menu por enquanto (não vamos precisar tão cedo). Os dados continuam guardados; volta quando for preciso.']],
@@ -4225,7 +4272,7 @@ async function enter(session){
  S.canWrite=data[0].papel==='editor';S.db=sb;S.email=email;
  $('#me-email').textContent=email+(S.canWrite?'':' · consulta');
  $('#gate').hidden=true;$('#app').hidden=false;
- const qs=new URLSearchParams(location.search);if(qs.get('tela')==='acoes'||qs.get('acao'))S.view='acoes';
+ const qs=new URLSearchParams(location.search);if(qs.get('tela')==='acoes'||qs.get('acao'))S.view='acoes';if(qs.get('tela')==='visitas')S.view='visitas';
  render();await loadAll();
  if(qs.get('acao')){const r=(S.data.acoes_mkt||[]).find(x=>String(x.numero).toUpperCase()===qs.get('acao').toUpperCase());if(r)acOpenSheet(r.id)}
 }
