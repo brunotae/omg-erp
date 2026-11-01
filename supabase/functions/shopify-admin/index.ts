@@ -605,6 +605,25 @@ async function principal(req: Request): Promise<Response> {
 
     }
 
+    if (b.acao === "arquivos_criar") {
+      // Sobe imagens para "Arquivos" da loja (CDN do Shopify), sem prender a um produto. Uso: imagens da descrição.
+      // { urls: ["https://..."] } (até 25) → { arquivos: [{ origem, url|null, status }] }
+      const urls = (Array.isArray(b.urls) ? b.urls : []).filter((u: any) => /^https:\/\//.test(String(u))).slice(0, 25);
+      if (!urls.length) return resp(400, { erro: "sem urls" });
+      const d: any = await gql(`mutation($f: [FileCreateInput!]!) { fileCreate(files: $f) { files { id fileStatus } userErrors { message } } }`,
+        { f: urls.map((u: string) => ({ originalSource: u, contentType: "IMAGE" })) });
+      if (d.fileCreate.userErrors.length) return resp(400, { erro: d.fileCreate.userErrors.map((e: any) => e.message).join("; ") });
+      const ids = d.fileCreate.files.map((f: any) => f.id);
+      let nodes: any[] = [];
+      for (let i = 0; i < 20; i++) {
+        const q: any = await gql(`query($ids: [ID!]!) { nodes(ids: $ids) { ... on MediaImage { id fileStatus image { url } } } }`, { ids });
+        nodes = q.nodes;
+        if (nodes.every((n: any) => n && (n.fileStatus === "READY" || n.fileStatus === "FAILED"))) break;
+        await new Promise((r) => setTimeout(r, 3000));
+      }
+      return resp(200, { ok: true, arquivos: urls.map((u: string, i: number) => ({ origem: u, url: nodes[i]?.image?.url || null, status: nodes[i]?.fileStatus || "?" })) });
+    }
+
     if (b.acao === "produto_desc") {
       // Corrige a descrição (HTML) de produtos: b.itens = [{ id, html }] (até 20).
       const res: any[] = [];
