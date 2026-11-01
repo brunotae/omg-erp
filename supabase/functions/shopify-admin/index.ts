@@ -176,6 +176,32 @@ async function principal(req: Request): Promise<Response> {
           lineItems(first: 30) { nodes { title quantity } } } } }`, { q: "created_at:>=" + String(b.desde || "2026-10-31") });
       return resp(200, { ok: true, checkouts: d.abandonedCheckouts.nodes });
     }
+    if (b.acao === "variantes_midia_ler") {
+      // Produtos com mais de uma versão: versões (nome, SKU, foto ligada) e fotos do produto. { after? } → até 50 por vez
+      const d: any = await gql(`query($a: String) { products(first: 50, after: $a, query: "status:active") { pageInfo { hasNextPage endCursor }
+        nodes { id handle title vendor variantsCount { count }
+          media(first: 30) { nodes { id alt ... on MediaImage { image { url } } } }
+          variants(first: 30) { nodes { id title sku media(first: 1) { nodes { id } } } } } } }`, { a: b.after || null });
+      const L = d.products.nodes.filter((p: any) => (p.variantsCount?.count || 0) > 1).map((p: any) => ({ id: p.id, handle: p.handle, titulo: p.title, marca: p.vendor,
+        fotos: p.media.nodes.map((m: any) => ({ id: m.id, alt: m.alt || "", url: m.image?.url || "" })),
+        versoes: p.variants.nodes.map((v: any) => ({ id: v.id, nome: v.title, sku: v.sku, foto: v.media?.nodes?.[0]?.id || null })) }));
+      return resp(200, { ok: true, produtos: L, proximo: d.products.pageInfo.hasNextPage ? d.products.pageInfo.endCursor : null });
+    }
+    if (b.acao === "variantes_midia") {
+      // Liga uma foto a cada versão (ao escolher a versão no site, a foto troca). { itens: [{ produto, versao, foto }] } (ids gid)
+      const porProd = new Map<string, any[]>();
+      for (const it of (Array.isArray(b.itens) ? b.itens : []).slice(0, 300)) { if (!porProd.has(it.produto)) porProd.set(it.produto, []); porProd.get(it.produto)!.push({ variantId: it.versao, mediaIds: [it.foto] }); }
+      const res: any[] = [];
+      for (const [pid, vm] of porProd) {
+        // tira a foto atual das versões antes (uma versão só pode ter uma foto)
+        const cur: any = await gql(`query($id: ID!) { product(id: $id) { variants(first: 50) { nodes { id media(first: 5) { nodes { id } } } } } }`, { id: pid });
+        const det = cur.product.variants.nodes.filter((v: any) => v.media.nodes.length && vm.some((x) => x.variantId === v.id)).map((v: any) => ({ variantId: v.id, mediaIds: v.media.nodes.map((m: any) => m.id) }));
+        if (det.length) await gql(`mutation($p: ID!, $vm: [ProductVariantDetachMediaInput!]!) { productVariantDetachMedia(productId: $p, variantMedia: $vm) { userErrors { message } } }`, { p: pid, vm: det });
+        const d: any = await gql(`mutation($p: ID!, $vm: [ProductVariantAppendMediaInput!]!) { productVariantAppendMedia(productId: $p, variantMedia: $vm) { userErrors { field message } } }`, { p: pid, vm });
+        const e = d.productVariantAppendMedia.userErrors; res.push(e.length ? { produto: pid, erro: e.map((x: any) => x.message).join("; ") } : { produto: pid, ok: vm.length });
+      }
+      return resp(200, { ok: true, res });
+    }
     if (b.acao === "vendas_cpf") {
       // Preenche o CPF das vendas do site que estão sem (o checkout guarda o CPF fora do aviso do pedido).
       const { data: vs } = await admin.from("vendas").select("id,ext_id,cpf").like("ext_id", "shopify:%");
