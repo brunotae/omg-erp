@@ -897,7 +897,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v65 · 01/11/2026';
+const VERSAO='v66 · 01/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1363,9 +1363,12 @@ const ctDim=p=>{const m=ctM(p);return m&&Array.isArray(m.dim)&&m.dim.length===3?
 const ctEst=p=>{const m=ctM(p);return m&&/estimad/i.test(String(m.peso_origem||''))&&!(has(p.pesoG)&&p.pesoG>0&&Math.round(p.pesoG)!==Math.round(m.peso))};
 const ctSt=p=>p.dg?'DG bloqueado':p.ativo?'No site':'Fora do site';
 const CT_COLS=[
- ['sku','SKU',p=>p.sku,'t'],['nome','Produto',p=>p.nome,'t'],['marca','Marca',p=>p.marca,'t'],['cat','Categoria',p=>p.categoria,'t'],
+ ['sku','SKU',p=>p.sku,'t'],['ean','EAN',p=>p.ean||'','t'],['nome','Produto',p=>p.nome,'t'],['marca','Marca',p=>p.marca,'t'],['cat','Categoria',p=>p.categoria,'t'],
  ['peso','Peso (g)',p=>ctPeso(p),'n'],['dim','Dimensões (cm)',p=>ctDim(p),'t'],
  ['fab','Custo fábrica (₩)',p=>p.custoFab,'n'],['dist','Preço distribuidor (₩)',p=>p.custoLB,'n'],['venda','Venda',p=>p.preco,'n'],['st','Status',ctSt,'t']];
+// v66: coluna EAN pode ser ocultada (lembra neste aparelho)
+const ctEanOn=()=>{try{return localStorage.getItem('omg-ct-ean')==='1'}catch(_){return false}};
+const ctCols=()=>ctEanOn()?CT_COLS:CT_COLS.filter(c=>c[0]!=='ean');
 function ctLinhas(){let L=S.data.produtos.filter(match);
  CT_COLS.forEach(([k,,g,t])=>{const f=CT.f[k];if(f)L=L.filter(p=>pxMatch(g(p),f,t))});
  const [sk,dir]=CT.sort,col=CT_COLS.find(c=>c[0]===sk);
@@ -1375,19 +1378,20 @@ function ctLinhas(){let L=S.data.produtos.filter(match);
 VIEWFN.produtos=()=>{
  if(!CT.med)setTimeout(ctMed,0);
  const all=S.data.produtos,L=loading('produtos')?[]:ctLinhas(),vis=L.slice(0,CT.lim),filtrando=Object.values(CT.f).some(Boolean);
- const th=CT_COLS.map(([k,l,,t])=>'<th class="'+(t==='n'?'r ':'')+'px-th" data-ctsort="'+k+'">'+l+(CT.sort[0]===k?(CT.sort[1]>0?' ▲':' ▼'):'')+'</th>').join('');
- const tf=CT_COLS.map(([k,,,t])=>'<th class="px-fi">'+(k==='st'?'<select data-ctf="st" aria-label="Filtro de status"><option value="">todos</option>'+['No site','Fora do site','DG bloqueado'].map(v=>'<option'+(CT.f.st===v?' selected':'')+'>'+v+'</option>').join('')+'</select>':'<input data-ctf="'+k+'" value="'+esc(CT.f[k]||'')+'" placeholder="'+(t==='n'?'>10':'filtrar')+'" aria-label="Filtro" data-1c="off">')+'</th>').join('');
+ const th=ctCols().map(([k,l,,t])=>'<th class="'+(t==='n'?'r ':'')+'px-th" data-ctsort="'+k+'">'+l+(CT.sort[0]===k?(CT.sort[1]>0?' ▲':' ▼'):'')+'</th>').join('');
+ const tf=ctCols().map(([k,,,t])=>'<th class="px-fi">'+(k==='st'?'<select data-ctf="st" aria-label="Filtro de status"><option value="">todos</option>'+['No site','Fora do site','DG bloqueado'].map(v=>'<option'+(CT.f.st===v?' selected':'')+'>'+v+'</option>').join('')+'</select>':'<input data-ctf="'+k+'" value="'+esc(CT.f[k]||'')+'" placeholder="'+(t==='n'?'>10':'filtrar')+'" aria-label="Filtro" data-1c="off">')+'</th>').join('');
  const row=p=>{const pe=ctPeso(p),d=ctDim(p);
-  return '<tr data-edit="produtos" data-id="'+esc(p.id)+'" style="cursor:pointer"><td class="num">'+esc(p.sku)+'</td><td class="px-nome"><b>'+esc(p.nome)+'</b></td><td class="px-marca">'+esc(p.marca||'')+'</td><td class="px-marca">'+esc(p.categoria||'')+'</td>'+
+  return '<tr data-edit="produtos" data-id="'+esc(p.id)+'" style="cursor:pointer"><td class="num">'+esc(p.sku)+'</td>'+(ctEanOn()?'<td class="num">'+(p.ean?esc(p.ean)+(p.ean_fonte?'<small>'+esc(p.ean_fonte)+'</small>':''):'<span class="muted">—</span>')+'</td>':'')+'<td class="px-nome"><b>'+esc(p.nome)+'</b></td><td class="px-marca">'+esc(p.marca||'')+'</td><td class="px-marca">'+esc(p.categoria||'')+'</td>'+
   '<td class="r num">'+(pe?pe+(ctEst(p)?'<small>estimado</small>':''):'<span class="muted">—</span>')+'</td><td class="num">'+(d?d+(ctM(p)&&/estimad/i.test(String(ctM(p).dim_origem||''))?'<small>estimado</small>':''):'<span class="muted">—</span>')+'</td>'+
   '<td class="r num">'+(has(p.custoFab)?krw(p.custoFab):'<span class="muted">—</span>')+'</td><td class="r num">'+(has(p.custoLB)?krw(p.custoLB):'<span class="muted">—</span>')+'</td>'+
   '<td class="r num"><b>'+brl(p.preco)+'</b></td><td>'+(p.dg?'<span class="pill p-bad">DG bloqueado</span>':p.ativo?stPill('No site'):stPill('Fora do site'))+'</td></tr>'};
- return '<div class="page wide"><div class="col">'+head('Catálogo','Todos os produtos, inclusive os que não estão à venda no site: SKU, peso, dimensões, custos na Coreia e preço de venda. O preço calculado pela regra fica no Pricing. Filtre em cada coluna e ordene clicando no título. Ao lançar uma venda, o SKU preenche preço e custos.',(can()?'<button class="btn sm" type="button" id="sync-shop">Sincronizar com o Shopify</button> <button class="btn sm" type="button" id="pesos-shop" title="Grava no Shopify o peso e as dimensões de cada SKU (tools/pesos/medidas_sku.json)">Enviar pesos ao Shopify</button> <label class="btn sm" style="cursor:pointer">Importar do Shopify (CSV)<input type="file" id="cat-up" accept=".csv,text/csv" hidden></label> ':'')+newBtn('produtos','Novo produto'))+
+ return '<div class="page wide"><div class="col">'+head('Catálogo','Todos os produtos, inclusive os que não estão à venda no site: SKU, peso, dimensões, custos na Coreia e preço de venda. O preço calculado pela regra fica no Pricing. Filtre em cada coluna e ordene clicando no título. Ao lançar uma venda, o SKU preenche preço e custos.','<button class="btn sm" type="button" id="ct-ean" title="Mostra ou esconde a coluna EAN (código de barras). Lembra neste aparelho.">'+(ctEanOn()?'Ocultar EAN':'Mostrar EAN')+'</button> '+(can()?'<button class="btn sm" type="button" id="sync-shop">Sincronizar com o Shopify</button> <button class="btn sm" type="button" id="pesos-shop" title="Grava no Shopify o peso e as dimensões de cada SKU (tools/pesos/medidas_sku.json)">Enviar pesos ao Shopify</button> <label class="btn sm" style="cursor:pointer">Importar do Shopify (CSV)<input type="file" id="cat-up" accept=".csv,text/csv" hidden></label> ':'')+newBtn('produtos','Novo produto'))+
  (all.length?'<p class="muted" style="margin:-6px 0 0;font-size:11.5px">'+all.length+' produtos · '+all.filter(p=>p.ativo).length+' no site · '+all.filter(p=>!p.ativo).length+' fora do site'+(filtrando||S.q?' · <b>'+L.length+' no filtro</b> · <a href="#" id="ct-limpa">limpar filtros</a>':'')+(CT.medLoading?' · carregando medidas…':'')+'</p>':'')+
  '<div class="card" style="padding:8px">'+(loading('produtos')?'<p class="muted">Carregando…</p>':!all.length?empty('Catálogo vazio','No Shopify, vá em Produtos → Exportar → Todos os produtos → CSV. Depois clique em Importar do Shopify (CSV) aqui. Vêm também os produtos em rascunho.'):
-  '<div class="tblwrap px-wrap"><table class="px-t ct-t"><thead><tr>'+th+'</tr><tr class="px-frow">'+tf+'</tr></thead><tbody>'+(vis.length?vis.map(row).join(''):'<tr><td colspan="'+CT_COLS.length+'" class="muted" style="padding:16px;text-align:center">Nenhum produto neste filtro.</td></tr>')+'</tbody></table></div>'+
+  '<div class="tblwrap px-wrap"><table class="px-t ct-t"><thead><tr>'+th+'</tr><tr class="px-frow">'+tf+'</tr></thead><tbody>'+(vis.length?vis.map(row).join(''):'<tr><td colspan="'+ctCols().length+'" class="muted" style="padding:16px;text-align:center">Nenhum produto neste filtro.</td></tr>')+'</tbody></table></div>'+
   (L.length>vis.length?'<p style="text-align:center;margin:10px 0 0"><button class="btn sm" type="button" id="ct-mais">Mostrar mais ('+(L.length-vis.length)+')</button></p>':''))+'</div></div></div>';
 };
+document.addEventListener('click',e=>{if(!e.target.closest('#ct-ean'))return;try{localStorage.setItem('omg-ct-ean',ctEanOn()?'0':'1')}catch(_){}render()});
 /* v64: filtro estilo Excel: ao clicar no campo abre a lista de valores da coluna (com quantidade), marca um ou vários e Aplicar; dá para continuar digitando */
 let ctPopK=null;
 function ctValores(k){const col=CT_COLS.find(c=>c[0]===k);if(!col)return [];
@@ -2647,7 +2651,7 @@ const FORMS={
   {k:'insumo',l:'Embalagem recebida',t:'select',o:opt(()=>S.data.insumos.map(i=>i.codigo)),hint:'Ao marcar Recebida, soma ao estoque'},{k:'qtd',l:'Quantidade',t:'number'}]]],
   def:()=>({numero:nextSeq('compras','PC-',3),data:today(),moeda:'BRL',status:'Cotação',tipo:'Embalagem'})},
  produtos:{title:['Novo produto','Produto'],col:'produtos',secs:[['Produto',[
-  {k:'sku',l:'SKU',req:1},{k:'marca',l:'Marca',t:'select',o:BRANDS},{k:'nome',l:'Produto',req:1,full:1},{k:'categoria',l:'Categoria',t:'select',o:CATS},
+  {k:'sku',l:'SKU',req:1},{k:'ean',l:'EAN (código de barras)',hint:'Só da Janice, do fabricante ou da caixa. Não use o que aparece em loja (Sephora etc.)'},{k:'marca',l:'Marca',t:'select',o:BRANDS},{k:'nome',l:'Produto',req:1,full:1},{k:'categoria',l:'Categoria',t:'select',o:CATS},
   {k:'fornecedor',l:'Fornecedor',t:'select',o:opt(fornNames)},{k:'custoFab',l:'Custo de fábrica (₩)',t:'number',hint:'O que a Janice paga'},
   {k:'custoLB',l:'Preço distribuidor → OMG (₩)',t:'number',hint:'O que a OMG paga ao distribuidor na Coreia'},{k:'precoKR',l:'Preço site oficial KR (₩)',t:'number'},
   {k:'precoConc',l:'Preço KS / Jini (R$)',t:'number'},{k:'preco',l:'Preço de venda (R$)',t:'number'},{k:'pesoG',l:'Peso (g)',t:'number'},
@@ -3453,7 +3457,7 @@ const COLS={
  devolucoes:['numero','data','venda','status','itens','motivo','local','destino','reembolso','custo_retorno','obs'],
  insumos:['codigo','tipo','nome','dimensoes','especificacao','designs','status','estoque','minimo','local','custo_unit','fornecedor','arquivo'],
  compras:['numero','data','fornecedor','parceiro','tipo','itens','valor','moeda','status','previsao','insumo','qtd','entrada_estoque'],
- produtos:['sku','marca','nome','categoria','fornecedor','custo_fab','custo_lb','preco_kr','preco_conc','preco','peso_g','estoque','dg','ativo'],
+ produtos:['sku','ean','marca','nome','categoria','fornecedor','custo_fab','custo_lb','preco_kr','preco_conc','preco','peso_g','estoque','dg','ativo'],
  cupons:['codigo','tipo','valor','publico','validade','limite','ativo','obs'],
  fornecedores:['codigo','nome','tipo','moeda','pais','contato','canal','obs'],
  metricas:['semana','visitas','carrinhos','checkouts','pedidos','fonte'],
@@ -3752,6 +3756,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v66','01/11/2026',['Catálogo: nova coluna EAN (código de barras), começa oculta: o botão Mostrar EAN / Ocultar EAN abre e fecha (lembra neste aparelho). Dá para filtrar e ordenar por ela.','O EAN vem só de fonte confiável: lista da Janice/fabricante, caixa do produto ou digitado na ficha. EAN visto em loja (Sephora, KS, Jini) não entra. Embaixo do número aparece de onde veio.']],
  ['v65','01/11/2026',['Monitoramentos: M-003 Preços dos concorrentes (leitura de segunda no servidor, sem custo de cota; cada leitura aparece no histórico com quantos produtos foram lidos e quantos mudaram de preço) e M-004 Movimentos dos concorrentes (Claude, dias 8 e 22, com relatório: promoções, marcas novas, concorrentes novos e Reclame Aqui).','O tempo do Claude no mês e a previsão não contam o que roda no servidor.']],
  ['v64','01/11/2026',['Catálogo: filtro estilo Excel. Ao clicar no campo de filtro abre a lista de valores da coluna, com a quantidade de cada um; marque um ou vários e clique em Aplicar. Dá para continuar digitando no campo, e a lista se ajusta ao texto.']],
  ['v63','01/11/2026',['Catálogo: saiu a coluna Sugerido (regra antiga, confundia). O preço pela regra atual fica só no Pricing.']],
