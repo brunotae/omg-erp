@@ -1417,7 +1417,6 @@ document.addEventListener('input',e=>{const t=e.target;if(!t.dataset||!t.dataset
  ctFT=setTimeout(()=>{const k=t.dataset.ctf,pos=t.selectionStart;CT.f[k]=t.value;CT.lim=300;render();const n2=document.querySelector('[data-ctf="'+k+'"]');if(n2){ctPopK=null;n2.focus();try{n2.setSelectionRange(pos,pos)}catch(_){}}},350)});
 document.addEventListener('change',e=>{const t=e.target;if(t.tagName!=='SELECT'||!t.dataset||!t.dataset.ctf)return;CT.f[t.dataset.ctf]=t.value;CT.lim=300;render()});
 document.addEventListener('click',e=>{
- if(e.target.closest('.ct-t .px-fi'))e.stopPropagation();
  const s0=e.target.closest('th[data-ctsort]');if(s0){const k=s0.dataset.ctsort;CT.sort=CT.sort[0]===k?[k,-CT.sort[1]]:[k,1];render();return}
  if(e.target.closest('#ct-mais')){CT.lim+=500;render();return}
  if(e.target.closest('#ct-limpa')){e.preventDefault();CT.f={};S.q='';const q=document.querySelector('#q,input[type=search]');if(q)q.value='';render();return}},true);
