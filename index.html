@@ -897,7 +897,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v67 · 01/11/2026';
+const VERSAO='v68 · 01/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -997,11 +997,12 @@ function tblVendas(rows){
   '<td class="r num"><b>'+dm(c.total)+'</b><small>impostos '+dm(c.impostos)+'</small></td>'+
   '<td class="r">'+(nx&&can()?'<button class="iconbtn" type="button" data-adv="'+esc(v.id)+'" title="Marcar: '+esc(nx[1])+'" aria-label="Marcar: '+esc(nx[1])+'"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>':'')+'</td></tr>'}).join('')+'</tbody></table></div>';
 }
+const vdCpf=v=>{const d=String(v.cpf||'').replace(/\D/g,'');return d.length===11?d.slice(0,3)+'.'+d.slice(3,6)+'.'+d.slice(6,9)+'-'+d.slice(9):(v.cpf||'')};
 const VD_COLS=[
  {k:'num',l:'Venda',g:v=>vnum(v.numero),cell:v=>'<b class="num">'+vnum(v.numero)+'</b>'},
  {k:'data',l:'Data',t:'t',g:v=>v.dataCompra||'',fmt:v=>fdate(v),cell:v=>'<span class="num">'+fdate(v.dataCompra)+'</span>'},
  {k:'canal',l:'Canal',g:v=>(v.canal||'')+(v.pedidoSite?' '+v.pedidoSite:''),cell:v=>esc(v.canal||'')+(v.pedidoSite?'<small>'+esc(v.pedidoSite)+'</small>':'')},
- {k:'cli',l:'Cliente',g:v=>v.cliente||'',cell:v=>'<b>'+esc(v.cliente||'')+'</b>',cls:'px-nome'},
+ {k:'cli',l:'Cliente',g:v=>(v.cliente||'')+(vdCpf(v)?' · '+vdCpf(v):''),cell:v=>'<b>'+esc(v.cliente||'')+'</b>'+(vdCpf(v)?'<small class="num">CPF '+vdCpf(v)+'</small>':''),cls:'px-nome'},
  {k:'cid',l:'Cidade',g:v=>v.cidade||'',cell:v=>esc(v.cidade||'')},
  {k:'uf',l:'UF',g:v=>v.uf||'',cell:v=>esc(v.uf||'')},
  {k:'itens',l:'Itens',t:'n',g:v=>calc(v).qtd,cell:v=>'<span class="num">'+calc(v).qtd+'</span>',cls:'r'},
@@ -3816,6 +3817,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v68','01/11/2026',['Vendas: o CPF da cliente aparece embaixo do nome. O filtro da coluna Cliente também acha pelo CPF.']],
  ['v67','01/11/2026',['Vendas: tabela estilo Excel. Colunas Venda, Data, Canal, Cliente, Cidade, UF, Itens, Cupom, Embarque, Etapa e Total, cada uma com filtro (lista de valores com quantidade, marque um ou vários) e ordem clicando no título. Os botões de etapa no topo continuam valendo junto com os filtros.']],
  ['v66','01/11/2026',['Catálogo: nova coluna EAN (código de barras), começa oculta: o botão Mostrar EAN / Ocultar EAN abre e fecha (lembra neste aparelho). Dá para filtrar e ordenar por ela.','O EAN vem só de fonte confiável: lista da Janice/fabricante, caixa do produto ou digitado na ficha. EAN visto em loja (Sephora, KS, Jini) não entra. Embaixo do número aparece de onde veio.']],
  ['v65','01/11/2026',['Monitoramentos: M-003 Preços dos concorrentes (leitura de segunda no servidor, sem custo de cota; cada leitura aparece no histórico com quantos produtos foram lidos e quantos mudaram de preço) e M-004 Movimentos dos concorrentes (Claude, dias 8 e 22, com relatório: promoções, marcas novas, concorrentes novos e Reclame Aqui).','O tempo do Claude no mês e a previsão não contam o que roda no servidor.']],
