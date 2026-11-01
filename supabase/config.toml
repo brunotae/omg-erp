@@ -20,3 +20,6 @@ verify_jwt = false
 
 [functions.vitrine-sync]
 verify_jwt = false
+
+[functions.capa-foto]
+verify_jwt = true
