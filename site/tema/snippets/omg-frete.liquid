@@ -98,6 +98,7 @@
     el.innerHTML = 'Preço final ' + (local.ref ? 'em São Paulo (capital)' : 'para ' + nomeLocal(local)) + ': <b>' + brl(total) + '</b> com frete e impostos · <a href="#omg-cidade-produto">' + (local.ref ? 'veja para a sua cidade' : 'trocar cidade') + '</a>';
     el.querySelector('a').addEventListener('click', ev => { ev.preventDefault(); inp.scrollIntoView({ block: 'center', behavior: 'smooth' }); setTimeout(() => inp.focus(), 300); });
   }
+  let varSel = 0;
   async function itens() {
     if (box.dataset.modo === 'carrinho') {
       const c = await (await fetch('/cart.js')).json();
@@ -105,18 +106,22 @@
     }
     const vs = JSON.parse(box.querySelector('.omg-frete__variantes').textContent);
     const f = document.querySelector('form[action*="/cart/add"] [name="id"]');
-    const id = f ? Number(f.value) : vs[0].id;
+    const u = Number(new URLSearchParams(location.search).get('variant'));
+    const id = varSel || (vs.some(x => x.id === u) ? u : 0) || (f ? Number(f.value) : vs[0].id);
     const v = vs.find(x => x.id === id) || vs[0];
     const q = document.querySelector('form[action*="/cart/add"] [name="quantity"], input[name="quantity"]');
     return [{ grams: v.grams, price: v.price, quantity: Math.max(1, Number(q && q.value) || 1) }];
   }
+  let seq = 0;
   async function calcular() {
+    const meu = ++seq;
     res.hidden = false; res.innerHTML = '<p class="omg-frete__nota">Calculando…</p>';
     try {
       const it = await itens();
       if (!it.length) { res.innerHTML = '<p class="omg-frete__nota">Seu carrinho está vazio.</p>'; return; }
       const r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ simular: { cep: local.cep, itens: it } }) });
       const j = await r.json();
+      if (meu !== seq) return;
       if (!j.ok || !j.detalhe) { res.innerHTML = '<p class="omg-frete__nota">Não deu para estimar para essa cidade. O valor exato aparece no checkout.</p>'; return; }
       const x = j.detalhe, b = x.brl;
       const row = (t, v, c) => '<div class="omg-frete__row' + (c ? ' ' + c : '') + '"><span>' + t + '</span><b>' + brl(v) + '</b></div>';
@@ -134,6 +139,7 @@
   }
   calcular();
   let tm = null; const de = () => { clearTimeout(tm); tm = setTimeout(calcular, 400); };
+  document.addEventListener('variant:update', e => { const r = e.detail && e.detail.resource; if (r && r.id) { varSel = Number(r.id); de(); } });
   document.addEventListener('change', e => { if (e.target.closest && e.target.closest('variant-picker, form[action*="/cart/add"], [name="quantity"]')) de(); });
   document.addEventListener('click', e => { if (e.target.closest && e.target.closest('quantity-selector-component button, .quantity__button, button[name="plus"], button[name="minus"]')) de(); });
   if (box.dataset.modo === 'carrinho') document.addEventListener('cart:update', de);
