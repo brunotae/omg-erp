@@ -95,7 +95,7 @@
         var img=p.featured_image?(p.featured_image.indexOf('?')>-1?p.featured_image+'&width=400':p.featured_image+'?width=400'):'';
         var nome=p.title.split(': '); nome=nome.length>1?nome.slice(1).join(': '):p.title;
         var off=p.compare_at_price>p.price?'<s style="color:#a08f97;font-size:12px">'+preco(p.compare_at_price)+'</s> ':'';
-        return '<li class="omg-cartao"><a class="omg-cartao__img'+(img&&String(img).indexOf('/'+p.id)>-1?' omg-cartao__img--capa':'')+'" href="'+esc(p.url)+'">'+(img?'<img src="'+esc(img)+'" alt="'+esc(p.title)+'" loading="lazy">':'')+'</a><button type="button" class="omg-fav" data-omg-fav="'+esc(p.handle)+'" aria-pressed="true" aria-label="Tirar dos favoritos">'+SVG+'</button><a class="omg-cartao__txt" href="'+esc(p.url)+'"><span class="omg-cartao__marca">'+esc(p.vendor)+'</span><span class="omg-cartao__nome">'+esc(nome)+'</span></a><div class="omg-cartao__preco">'+off+'<strong>'+preco(p.price)+'</strong></div></li>';
+        return '<li class="omg-cartao"><a class="omg-cartao__img'+(img&&String(img).indexOf('/'+p.id)>-1&&String(img).indexOf('.jpg')>-1?' omg-cartao__img--capa':'')+'" href="'+esc(p.url)+'">'+(img?'<img src="'+esc(img)+'" alt="'+esc(p.title)+'" loading="lazy">':'')+'</a><button type="button" class="omg-fav" data-omg-fav="'+esc(p.handle)+'" aria-pressed="true" aria-label="Tirar dos favoritos">'+SVG+'</button><a class="omg-cartao__txt" href="'+esc(p.url)+'"><span class="omg-cartao__marca">'+esc(p.vendor)+'</span><span class="omg-cartao__nome">'+esc(nome)+'</span></a><div class="omg-cartao__preco">'+off+'<strong>'+preco(p.price)+'</strong></div></li>';
       }).join('')+'</ul>';
     });
   }
