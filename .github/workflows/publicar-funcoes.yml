@@ -13,43 +13,43 @@ jobs:
         with:
           version: latest
       - name: Publicar shopify-webhook (avisos do Shopify)
-        run: supabase functions deploy shopify-webhook --project-ref nzsiuniabovvptuqmkmi --no-verify-jwt
+        run: supabase functions deploy shopify-webhook --project-ref nzsiuniabovvptuqmkmi --yes --no-verify-jwt
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       - name: Publicar shopify-admin (ações do ERP no Shopify)
-        run: supabase functions deploy shopify-admin --project-ref nzsiuniabovvptuqmkmi
+        run: supabase functions deploy shopify-admin --project-ref nzsiuniabovvptuqmkmi --yes
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       - name: Publicar bomi (chat do site)
-        run: supabase functions deploy bomi --project-ref nzsiuniabovvptuqmkmi --no-verify-jwt
+        run: supabase functions deploy bomi --project-ref nzsiuniabovvptuqmkmi --yes --no-verify-jwt
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       - name: Publicar ir (link curto das parcerias)
-        run: supabase functions deploy ir --project-ref nzsiuniabovvptuqmkmi --no-verify-jwt
+        run: supabase functions deploy ir --project-ref nzsiuniabovvptuqmkmi --yes --no-verify-jwt
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       - name: Publicar conc-semanal (leitura semanal da KS e Jini)
-        run: supabase functions deploy conc-semanal --project-ref nzsiuniabovvptuqmkmi --no-verify-jwt
+        run: supabase functions deploy conc-semanal --project-ref nzsiuniabovvptuqmkmi --yes --no-verify-jwt
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       - name: Publicar perfil (Meu perfil de beleza do site)
-        run: supabase functions deploy perfil --project-ref nzsiuniabovvptuqmkmi --no-verify-jwt
+        run: supabase functions deploy perfil --project-ref nzsiuniabovvptuqmkmi --yes --no-verify-jwt
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       - name: Publicar frete-omg (frete + impostos do checkout e simulação)
-        run: supabase functions deploy frete-omg --project-ref nzsiuniabovvptuqmkmi --no-verify-jwt
+        run: supabase functions deploy frete-omg --project-ref nzsiuniabovvptuqmkmi --yes --no-verify-jwt
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       - name: Publicar relatorio-diario (relatório do site por e-mail, 8h)
-        run: supabase functions deploy relatorio-diario --project-ref nzsiuniabovvptuqmkmi --no-verify-jwt
+        run: supabase functions deploy relatorio-diario --project-ref nzsiuniabovvptuqmkmi --yes --no-verify-jwt
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       - name: Publicar catalogo-sync (Raio-X do catálogo no servidor)
-        run: supabase functions deploy catalogo-sync --project-ref nzsiuniabovvptuqmkmi --no-verify-jwt
+        run: supabase functions deploy catalogo-sync --project-ref nzsiuniabovvptuqmkmi --yes --no-verify-jwt
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       - name: Publicar vitrine-sync (vitrine Até R$ 50 pelo preço do card)
-        run: supabase functions deploy vitrine-sync --project-ref nzsiuniabovvptuqmkmi --no-verify-jwt
+        run: supabase functions deploy vitrine-sync --project-ref nzsiuniabovvptuqmkmi --yes --no-verify-jwt
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       - name: Atualizar vitrine Até R$ 50 logo após publicar
@@ -57,6 +57,6 @@ jobs:
           sleep 20
           curl -sS -m 140 -X POST https://nzsiuniabovvptuqmkmi.supabase.co/functions/v1/vitrine-sync -H 'content-type: application/json' -d '{"modo":"ate50"}'
       - name: Publicar catalogo-robo (ajustes em lote aprovados, com chave temporária)
-        run: supabase functions deploy catalogo-robo --project-ref nzsiuniabovvptuqmkmi --no-verify-jwt
+        run: supabase functions deploy catalogo-robo --project-ref nzsiuniabovvptuqmkmi --yes --no-verify-jwt
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
