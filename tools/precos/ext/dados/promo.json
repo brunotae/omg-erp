@@ -1156,6 +1156,28 @@
  "jini": [
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-1-creme-calmante-com-ativo-pantotenico-b5-80ml-1xqwg/",
+   "variantes": [
+    {
+     "price_number": 219,
+     "compare_at_price_number": null,
+     "promotional_price_number": null,
+     "has_promotional_price": false,
+     "price_with_payment_discount_short": null,
+     "option0": null,
+     "option1": null,
+     "sku": "NZ-01-03",
+     "stock": 149,
+     "available": true
+    }
+   ],
+   "opcoes": [
+    " ",
+    " ",
+    "Unidade",
+    "Caixa c/ 5 Unidades",
+    "Unidade",
+    "Caixa c/ 5 Unidades"
+   ],
    "desc": [
     "incare'                    ]\n    };\n                    LS.variants = [{\"product_id\":352689723,\"price_short\":\"R$219,00\",\"price_long\":\"R$219,00\",\"price_number\":219,\"price_number_raw\":21900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
     "_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":22.43,\\\"installment_value_cents\\\":2243,\\\"interest\\\":0.229,\\\"total_value\\\":269.15,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
@@ -1202,6 +1224,39 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-1-mascara-facial-clareadora-com-acido-hialuronico-pantotenico-b5-33ml-q0xtm/",
+   "variantes": [
+    {
+     "price_number": 29,
+     "compare_at_price_number": null,
+     "promotional_price_number": null,
+     "has_promotional_price": false,
+     "price_with_payment_discount_short": null,
+     "option0": "Unidade",
+     "option1": null,
+     "sku": "NZ-01-05-UN",
+     "stock": 25,
+     "available": true
+    },
+    {
+     "price_number": 139,
+     "compare_at_price_number": null,
+     "promotional_price_number": null,
+     "has_promotional_price": false,
+     "price_with_payment_discount_short": null,
+     "option0": "Caixa c/ 5 Unidades",
+     "option1": null,
+     "sku": "NZ-01-05-CX",
+     "stock": 1,
+     "available": true
+    }
+   ],
+   "opcoes": [
+    " ",
+    "Unidade",
+    "Caixa c/ 5 Unidades",
+    "Unidade",
+    "Caixa c/ 5 Unidades"
+   ],
    "desc": [
     "rificadora'                    ]\n    };\n                    LS.variants = [{\"product_id\":353198643,\"price_short\":\"R$29,00\",\"price_long\":\"R$29,00\",\"price_number\":29,\"price_number_raw\":2900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
     "llments_data\":\"{\\\"PagarMe\\\":{\\\"1\\\":{\\\"installment_value\\\":29,\\\"installment_value_cents\\\":2900,\\\"interest\\\":0,\\\"total_value\\\":29,\\\"without_interests\\\":true,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null},{\"product_id\":353198643,\"price_short\":\"R$139,00\",\"pric",
@@ -1248,6 +1303,21 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-1-oleo-de-limpeza-facial-easy-peasy-200ml-1orl3/",
+   "variantes": [
+    {
+     "price_number": 199,
+     "compare_at_price_number": null,
+     "promotional_price_number": null,
+     "has_promotional_price": false,
+     "price_with_payment_discount_short": null,
+     "option0": null,
+     "option1": null,
+     "sku": "NZ-01-01",
+     "stock": 170,
+     "available": true
+    }
+   ],
+   "opcoes": [],
    "desc": [
     "20pele'                    ]\n    };\n                    LS.variants = [{\"product_id\":352689699,\"price_short\":\"R$199,00\",\"price_long\":\"R$199,00\",\"price_number\":199,\"price_number_raw\":19900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
     "_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":20.38,\\\"installment_value_cents\\\":2038,\\\"interest\\\":0.229,\\\"total_value\\\":244.57,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
@@ -1294,6 +1364,28 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-1-serum-calmante-com-ativo-pantotenico-b5-50ml-s4aux/",
+   "variantes": [
+    {
+     "price_number": 189,
+     "compare_at_price_number": null,
+     "promotional_price_number": null,
+     "has_promotional_price": false,
+     "price_with_payment_discount_short": null,
+     "option0": null,
+     "option1": null,
+     "sku": "NZ-01-04",
+     "stock": 168,
+     "available": true
+    }
+   ],
+   "opcoes": [
+    " ",
+    " ",
+    "Unidade",
+    "Caixa c/ 5 Unidades",
+    "1 unidade",
+    "5 unidades"
+   ],
    "desc": [
     "tamina'                    ]\n    };\n                    LS.variants = [{\"product_id\":352689742,\"price_short\":\"R$189,00\",\"price_long\":\"R$189,00\",\"price_number\":189,\"price_number_raw\":18900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
     "_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":19.36,\\\"installment_value_cents\\\":1936,\\\"interest\\\":0.229,\\\"total_value\\\":232.28,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
@@ -1340,6 +1432,31 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-1-toner-pad-centella-re-leaf-green-70-pads-190ml-hkapc/",
+   "variantes": [
+    {
+     "price_number": 229,
+     "compare_at_price_number": null,
+     "promotional_price_number": null,
+     "has_promotional_price": false,
+     "price_with_payment_discount_short": null,
+     "option0": null,
+     "option1": null,
+     "sku": "NZ-01-02",
+     "stock": 198,
+     "available": true
+    }
+   ],
+   "opcoes": [
+    " ",
+    " ",
+    " ",
+    "Unidade",
+    "Caixa c/ 5 Unidades",
+    "Unidade",
+    "Caixa c/ 5 Unidades",
+    "Unidade",
+    "Caixa c/ 5 Unidades"
+   ],
    "desc": [
     "oreano'                    ]\n    };\n                    LS.variants = [{\"product_id\":352689710,\"price_short\":\"R$229,00\",\"price_long\":\"R$229,00\",\"price_number\":229,\"price_number_raw\":22900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
     "_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":23.45,\\\"installment_value_cents\\\":2345,\\\"interest\\\":0.229,\\\"total_value\\\":281.44,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
@@ -1386,6 +1503,28 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-2-espuma-de-limpeza-cremosa-clean-fresh-200ml-1oxs3/",
+   "variantes": [
+    {
+     "price_number": 169,
+     "compare_at_price_number": null,
+     "promotional_price_number": null,
+     "has_promotional_price": false,
+     "price_with_payment_discount_short": null,
+     "option0": null,
+     "option1": null,
+     "sku": "NZ-02-01",
+     "stock": 146,
+     "available": true
+    }
+   ],
+   "opcoes": [
+    " ",
+    " ",
+    "Unidade",
+    "Caixa c/ 5 Unidades",
+    "1 unidade",
+    "5 unidades"
+   ],
    "desc": [
     "impeza'                    ]\n    };\n                    LS.variants = [{\"product_id\":352689766,\"price_short\":\"R$169,00\",\"price_long\":\"R$169,00\",\"price_number\":169,\"price_number_raw\":16900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
     "d_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":17.31,\\\"installment_value_cents\\\":1731,\\\"interest\\\":0.229,\\\"total_value\\\":207.7,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
@@ -1432,6 +1571,42 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-3-mascara-facial-suavizante-de-poros-tingle-pore-27ml-11fjk/",
+   "variantes": [
+    {
+     "price_number": 29,
+     "compare_at_price_number": null,
+     "promotional_price_number": null,
+     "has_promotional_price": false,
+     "price_with_payment_discount_short": null,
+     "option0": "Unidade",
+     "option1": null,
+     "sku": "NZ-03-01-UN",
+     "stock": 242,
+     "available": true
+    },
+    {
+     "price_number": 139,
+     "compare_at_price_number": null,
+     "promotional_price_number": null,
+     "has_promotional_price": false,
+     "price_with_payment_discount_short": null,
+     "option0": "Caixa c/ 5 Unidades",
+     "option1": null,
+     "sku": "NZ-03-01-CX",
+     "stock": 61,
+     "available": true
+    }
+   ],
+   "opcoes": [
+    " ",
+    " ",
+    "Unidade",
+    "Caixa c/ 5 Unidades",
+    "Unidade",
+    "Caixa c/ 5 Unidades",
+    "Unidade",
+    "Caixa c/ 5 Unidades"
+   ],
    "desc": [
     " 'skincare'                    ]\n    };\n                    LS.variants = [{\"product_id\":353198898,\"price_short\":\"R$29,00\",\"price_long\":\"R$29,00\",\"price_number\":29,\"price_number_raw\":2900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
     "llments_data\":\"{\\\"PagarMe\\\":{\\\"1\\\":{\\\"installment_value\\\":29,\\\"installment_value_cents\\\":2900,\\\"interest\\\":0,\\\"total_value\\\":29,\\\"without_interests\\\":true,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null},{\"product_id\":353198898,\"price_short\":\"R$139,00\",\"pric",
@@ -1478,6 +1653,31 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-3-oleo-de-limpeza-facial-zero-poros-com-bifida-e-bakuchiol-200ml-1cfp1/",
+   "variantes": [
+    {
+     "price_number": 199,
+     "compare_at_price_number": null,
+     "promotional_price_number": null,
+     "has_promotional_price": false,
+     "price_with_payment_discount_short": null,
+     "option0": null,
+     "option1": null,
+     "sku": "NZ-03-04",
+     "stock": 261,
+     "available": true
+    }
+   ],
+   "opcoes": [
+    " ",
+    " ",
+    " ",
+    "Unidade",
+    "Caixa c/ 5 Unidades",
+    "1 unidade",
+    "5 unidades",
+    "Unidade",
+    "Caixa c/ 5 Unidades"
+   ],
    "desc": [
     "incare'                    ]\n    };\n                    LS.variants = [{\"product_id\":352689812,\"price_short\":\"R$199,00\",\"price_long\":\"R$199,00\",\"price_number\":199,\"price_number_raw\":19900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
     "_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":20.38,\\\"installment_value_cents\\\":2038,\\\"interest\\\":0.229,\\\"total_value\\\":244.57,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
@@ -1524,6 +1724,31 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-3-toner-pad-esfoliante-com-bifida-e-bakuchiol-70-pads-150ml-u6crj/",
+   "variantes": [
+    {
+     "price_number": 229,
+     "compare_at_price_number": null,
+     "promotional_price_number": null,
+     "has_promotional_price": false,
+     "price_with_payment_discount_short": null,
+     "option0": null,
+     "option1": null,
+     "sku": "NZ-03-02",
+     "stock": 100,
+     "available": true
+    }
+   ],
+   "opcoes": [
+    " ",
+    " ",
+    " ",
+    "Unidade",
+    "Caixa c/ 5 Unidades",
+    "Unidade",
+    "Caixa c/ 5 Unidades",
+    "Unidade",
+    "Caixa c/ 4 Unidades + Faixa Tensora"
+   ],
    "desc": [
     "0poros'                    ]\n    };\n                    LS.variants = [{\"product_id\":352689788,\"price_short\":\"R$229,00\",\"price_long\":\"R$229,00\",\"price_number\":229,\"price_number_raw\":22900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
     "_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":23.45,\\\"installment_value_cents\\\":2345,\\\"interest\\\":0.229,\\\"total_value\\\":281.44,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
@@ -1570,6 +1795,25 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-5-hidratante-facial-para-manchas-de-vitamina-com-glutationa-50ml-172ax/",
+   "variantes": [
+    {
+     "price_number": 219,
+     "compare_at_price_number": null,
+     "promotional_price_number": null,
+     "has_promotional_price": false,
+     "price_with_payment_discount_short": null,
+     "option0": null,
+     "option1": null,
+     "sku": "NZ-05-01",
+     "stock": 557,
+     "available": true
+    }
+   ],
+   "opcoes": [
+    " ",
+    "Unidade",
+    "Caixa c/ 5 Unidades"
+   ],
    "desc": [
     "tamina'                    ]\n    };\n                    LS.variants = [{\"product_id\":352689823,\"price_short\":\"R$219,00\",\"price_long\":\"R$219,00\",\"price_number\":219,\"price_number_raw\":21900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
     "_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":22.43,\\\"installment_value_cents\\\":2243,\\\"interest\\\":0.229,\\\"total_value\\\":269.15,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
@@ -1616,6 +1860,45 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-5-mascara-facial-concentrada-de-vitamina-com-glutationa-27ml-ufjdl/",
+   "variantes": [
+    {
+     "price_number": 29,
+     "compare_at_price_number": null,
+     "promotional_price_number": null,
+     "has_promotional_price": false,
+     "price_with_payment_discount_short": null,
+     "option0": "Unidade",
+     "option1": null,
+     "sku": "NZ-05-04-UN",
+     "stock": 196,
+     "available": true
+    },
+    {
+     "price_number": 139,
+     "compare_at_price_number": null,
+     "promotional_price_number": null,
+     "has_promotional_price": false,
+     "price_with_payment_discount_short": null,
+     "option0": "Caixa c/ 5 Unidades",
+     "option1": null,
+     "sku": "NZ-05-04-CX",
+     "stock": 33,
+     "available": true
+    }
+   ],
+   "opcoes": [
+    " ",
+    " ",
+    " ",
+    "Unidade",
+    "Caixa c/ 5 Unidades",
+    "Unidade",
+    "Caixa c/ 5 Unidades",
+    "Unidade",
+    "Caixa c/ 5 Unidades",
+    "Unidade",
+    "Caixa c/ 4 Unidades + Faixa Tensora"
+   ],
    "desc": [
     " 'vitamina'                    ]\n    };\n                    LS.variants = [{\"product_id\":353199251,\"price_short\":\"R$29,00\",\"price_long\":\"R$29,00\",\"price_number\":29,\"price_number_raw\":2900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
     "llments_data\":\"{\\\"PagarMe\\\":{\\\"1\\\":{\\\"installment_value\\\":29,\\\"installment_value_cents\\\":2900,\\\"interest\\\":0,\\\"total_value\\\":29,\\\"without_interests\\\":true,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null},{\"product_id\":353199251,\"price_short\":\"R$139,00\",\"pric",
@@ -1662,6 +1945,28 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-5-serum-concentrado-de-vitamina-com-glutationa-30ml-1f29m/",
+   "variantes": [
+    {
+     "price_number": 189,
+     "compare_at_price_number": null,
+     "promotional_price_number": null,
+     "has_promotional_price": false,
+     "price_with_payment_discount_short": null,
+     "option0": null,
+     "option1": null,
+     "sku": "NZ-05-03",
+     "stock": 464,
+     "available": true
+    }
+   ],
+   "opcoes": [
+    " ",
+    " ",
+    "Unidade",
+    "Caixa c/ 5 Unidades",
+    "Unidade",
+    "Caixa c/ 5 Unidades"
+   ],
    "desc": [
     "'serum'                    ]\n    };\n                    LS.variants = [{\"product_id\":352689846,\"price_short\":\"R$189,00\",\"price_long\":\"R$189,00\",\"price_number\":189,\"price_number_raw\":18900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
     "_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":19.36,\\\"installment_value_cents\\\":1936,\\\"interest\\\":0.229,\\\"total_value\\\":232.28,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
@@ -1708,6 +2013,25 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-5-toner-pad-concentrado-de-vitamina-com-glutationa-70-pads-180ml-ga56j/",
+   "variantes": [
+    {
+     "price_number": 249,
+     "compare_at_price_number": null,
+     "promotional_price_number": null,
+     "has_promotional_price": false,
+     "price_with_payment_discount_short": null,
+     "option0": null,
+     "option1": null,
+     "sku": "NZ-05-02",
+     "stock": 237,
+     "available": true
+    }
+   ],
+   "opcoes": [
+    " ",
+    "Unidade",
+    "Caixa c/ 5 Unidades"
+   ],
    "desc": [
     "oreano'                    ]\n    };\n                    LS.variants = [{\"product_id\":352689837,\"price_short\":\"R$249,00\",\"price_long\":\"R$249,00\",\"price_number\":249,\"price_number_raw\":24900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
     "d_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":25.5,\\\"installment_value_cents\\\":2550,\\\"interest\\\":0.229,\\\"total_value\\\":306.02,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
@@ -1754,6 +2078,31 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-9-creme-para-olhos-volumizador-nad-retinal-20ml-7njbn/",
+   "variantes": [
+    {
+     "price_number": 219,
+     "compare_at_price_number": null,
+     "promotional_price_number": null,
+     "has_promotional_price": false,
+     "price_with_payment_discount_short": null,
+     "option0": null,
+     "option1": null,
+     "sku": "NZ-09-05",
+     "stock": 1357,
+     "available": true
+    }
+   ],
+   "opcoes": [
+    " ",
+    " ",
+    " ",
+    "Unidade",
+    "Caixa c/ 4 Unidades + Faixa Tensora",
+    "Unidade",
+    "Caixa c/ 5 Unidades",
+    "Unidade",
+    "Caixa c/ 5 Unidades"
+   ],
    "desc": [
     "'rugas'                    ]\n    };\n                    LS.variants = [{\"product_id\":353595482,\"price_short\":\"R$219,00\",\"price_long\":\"R$219,00\",\"price_number\":219,\"price_number_raw\":21900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
     "_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":22.43,\\\"installment_value_cents\\\":2243,\\\"interest\\\":0.229,\\\"total_value\\\":269.15,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
@@ -1800,6 +2149,25 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-9-creme-para-olhos-volumizador-nad-retinol-10ml-jlpxw/",
+   "variantes": [
+    {
+     "price_number": 179,
+     "compare_at_price_number": 199,
+     "promotional_price_number": null,
+     "has_promotional_price": true,
+     "price_with_payment_discount_short": null,
+     "option0": null,
+     "option1": null,
+     "sku": "NZ-09-01",
+     "stock": 957,
+     "available": true
+    }
+   ],
+   "opcoes": [
+    " ",
+    "Unidade",
+    "Caixa c/ 4 Unidades + Faixa Tensora"
+   ],
    "desc": [
     "eringa'                    ]\n    };\n                    LS.variants = [{\"product_id\":352689868,\"price_short\":\"R$179,00\",\"price_long\":\"R$179,00\",\"price_number\":179,\"price_number_raw\":17900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":\"R$199,00\",\"compare_at_price_long\":\"R$199,00\",\"compare_at_price_number\":199,\"compare_at_price_number_raw\":19900,\"has_promotional_price\"",
     "_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":18.33,\\\"installment_value_cents\\\":1833,\\\"interest\\\":0.229,\\\"total_value\\\":219.99,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
@@ -1846,6 +2214,31 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-9-essencia-bio-lifting-sil-nad-50ml-sjnn7/",
+   "variantes": [
+    {
+     "price_number": 229,
+     "compare_at_price_number": 249,
+     "promotional_price_number": null,
+     "has_promotional_price": true,
+     "price_with_payment_discount_short": null,
+     "option0": null,
+     "option1": null,
+     "sku": "NZ-09-04",
+     "stock": 1169,
+     "available": true
+    }
+   ],
+   "opcoes": [
+    " ",
+    " ",
+    " ",
+    "1 unidade",
+    "5 unidades",
+    "Unidade",
+    "Caixa c/ 4 Unidades + Faixa Tensora",
+    "Unidade",
+    "Caixa c/ 5 Unidades"
+   ],
    "desc": [
     "incare'                    ]\n    };\n                    LS.variants = [{\"product_id\":352689909,\"price_short\":\"R$229,00\",\"price_long\":\"R$229,00\",\"price_number\":229,\"price_number_raw\":22900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":\"R$249,00\",\"compare_at_price_long\":\"R$249,00\",\"compare_at_price_number\":249,\"compare_at_price_number_raw\":24900,\"has_promotional_price\"",
     "_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":23.45,\\\"installment_value_cents\\\":2345,\\\"interest\\\":0.229,\\\"total_value\\\":281.44,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
@@ -1892,6 +2285,39 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-9-mascara-de-hidrogel-para-os-olhos-com-nad-e-colageno-1epdy/",
+   "variantes": [
+    {
+     "price_number": 27,
+     "compare_at_price_number": null,
+     "promotional_price_number": null,
+     "has_promotional_price": false,
+     "price_with_payment_discount_short": null,
+     "option0": "1 unidade",
+     "option1": null,
+     "sku": "NZ-09-06-1",
+     "stock": 1226,
+     "available": true
+    },
+    {
+     "price_number": 125,
+     "compare_at_price_number": null,
+     "promotional_price_number": null,
+     "has_promotional_price": false,
+     "price_with_payment_discount_short": null,
+     "option0": "5 unidades",
+     "option1": null,
+     "sku": "NZ-09-06-5",
+     "stock": 158,
+     "available": true
+    }
+   ],
+   "opcoes": [
+    " ",
+    "1 unidade",
+    "5 unidades",
+    "Unidade",
+    "Caixa c/ 4 Unidades + Faixa Tensora"
+   ],
    "desc": [
     " 'hidrogel'                    ]\n    };\n                    LS.variants = [{\"product_id\":360159193,\"price_short\":\"R$27,00\",\"price_long\":\"R$27,00\",\"price_number\":27,\"price_number_raw\":2700,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
     "llments_data\":\"{\\\"PagarMe\\\":{\\\"1\\\":{\\\"installment_value\\\":27,\\\"installment_value_cents\\\":2700,\\\"interest\\\":0,\\\"total_value\\\":27,\\\"without_interests\\\":true,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null},{\"product_id\":360159193,\"price_short\":\"R$125,00\",\"pric",
@@ -1938,6 +2364,42 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-9-mascara-facial-bio-lifting-sil-nad-1vkzb/",
+   "variantes": [
+    {
+     "price_number": 49,
+     "compare_at_price_number": null,
+     "promotional_price_number": null,
+     "has_promotional_price": false,
+     "price_with_payment_discount_short": null,
+     "option0": "Unidade",
+     "option1": null,
+     "sku": "NZ-09-02-UN",
+     "stock": 542,
+     "available": true
+    },
+    {
+     "price_number": 189,
+     "compare_at_price_number": null,
+     "promotional_price_number": null,
+     "has_promotional_price": false,
+     "price_with_payment_discount_short": null,
+     "option0": "Caixa c/ 4 Unidades + Faixa Tensora",
+     "option1": null,
+     "sku": "NZ-09-02-CX",
+     "stock": 194,
+     "available": true
+    }
+   ],
+   "opcoes": [
+    " ",
+    " ",
+    "Unidade",
+    "Caixa c/ 4 Unidades + Faixa Tensora",
+    "Unidade",
+    "Caixa c/ 5 Unidades",
+    "Unidade",
+    "Caixa c/ 5 Unidades"
+   ],
    "desc": [
     "0020facial'                    ]\n    };\n                    LS.variants = [{\"product_id\":353199582,\"price_short\":\"R$49,00\",\"price_long\":\"R$49,00\",\"price_number\":49,\"price_number_raw\":4900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
     "or_is_third_party\\\":false},\\\"2\\\":{\\\"installment_value\\\":24.5,\\\"installment_value_cents\\\":2450,\\\"interest\\\":0,\\\"total_value\\\":49,\\\"without_interests\\\":true,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null},{\"product_id\":353199582,\"price_short\":\"R$189,00\",\"pric",
@@ -1984,6 +2446,31 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-9-tonico-iluminador-nad-pdrn-glow-boosting-150ml-wm58a/",
+   "variantes": [
+    {
+     "price_number": 229,
+     "compare_at_price_number": null,
+     "promotional_price_number": null,
+     "has_promotional_price": false,
+     "price_with_payment_discount_short": null,
+     "option0": null,
+     "option1": null,
+     "sku": "NZ-09-03",
+     "stock": 677,
+     "available": true
+    }
+   ],
+   "opcoes": [
+    " ",
+    " ",
+    " ",
+    "1 unidade",
+    "5 unidades",
+    "Unidade",
+    "Caixa c/ 4 Unidades + Faixa Tensora",
+    "Unidade",
+    "Caixa c/ 5 Unidades"
+   ],
    "desc": [
     "tonico'                    ]\n    };\n                    LS.variants = [{\"product_id\":352689895,\"price_short\":\"R$229,00\",\"price_long\":\"R$229,00\",\"price_number\":229,\"price_number_raw\":22900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
     "_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":23.45,\\\"installment_value_cents\\\":2345,\\\"interest\\\":0.229,\\\"total_value\\\":281.44,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
