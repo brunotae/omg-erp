@@ -55,10 +55,9 @@ Deno.serve(async (req) => {
       // Nome deixa claro que inclui tributos (Tae · 31/10/2026); layout simplificado (Tae · 02/11/2026).
       const trib = x.brl.ii + x.brl.icms;
       const prazo = String(x.cfg.prazo || "").replace(/^De /, "");
-      const nome = `Entrega + impostos · ${prazo}`;
-      const desc = trib > 0
-        ? `Frete ${fmt(x.brl.frete_seguro)} · Impostos ${fmt(trib)} (detalhes no carrinho)`
-        : `Frete ${fmt(x.brl.frete_seguro)} · sem impostos`;
+      const fr = x.frete_gratis ? "Frete grátis" : `Frete ${fmt(x.brl.frete_seguro)}`;
+      const nome = `${x.frete_gratis ? "Frete grátis" : "Entrega"} + impostos · ${prazo}`;
+      const desc = trib > 0 ? `${fr} · Impostos ${fmt(trib)} (detalhes no carrinho)` : `${fr} · sem impostos`;
       return json(200, { rates: [{ service_name: nome, service_code: "OMG_INTL", total_price: String(Math.round(x.brl.total_linha * 100)), currency: "BRL", description: desc }] });
     } catch (e) {
       console.error("frete-omg", String((e as Error).message || e));
