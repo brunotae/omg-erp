@@ -1,3 +1,4 @@
+# v2: refaz só as páginas EUA que falharam (com pausa), guarda amostra da Jini.
 # Lê preço promocional: loja oficial Numbuzin EUA (preço atual, preço riscado, cupom do site) e Jini (preço, Pix).
 import urllib.request, json, re, gzip, time, html
 UA={"user-agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129 Safari/537.36","accept-language":"en-US,en;q=0.9,pt-BR;q=0.8"}
@@ -7,8 +8,12 @@ def get(u):
     return b.decode("utf-8","replace")
 def txt(s): return re.sub(r'\s+',' ',html.unescape(re.sub(r'<[^>]+>',' ',s)))
 U=json.load(open("tools/precos/ext/promo_urls.json"))
+import os
+ant={i["url"]:i for i in json.load(open("tools/precos/ext/dados/promo.json"))["us"]} if os.path.exists("tools/precos/ext/dados/promo.json") else {}
 out={"us":[],"jini":[]}
 for u in U["us"]:
+    if u in ant and "erro" not in ant[u]: out["us"].append(ant[u]); continue
+    time.sleep(6)
     h=u.rstrip('/').split('/')[-1]; it={"url":u}
     try:
         j=json.loads(get(f"https://numbuzinus.com/products/{h}.js"))
@@ -23,6 +28,8 @@ for u in U["jini"]:
     it={"url":u}
     try:
         t=get(u); T=txt(t)
+        if u==U["jini"][0]: open("tools/precos/ext/dados/jini_amostra.html","w").write(t)
+        it["desc"]=[t[max(0,m.start()-200):m.end()+200] for m in re.finditer(r'(?i)(payment_discount|discount_percent|desconto|% off|OFF no)',t)][:8]
         it["ld"]=re.findall(r'"price"\s*:\s*"?([\d.]+)',t)[:6]
         it["pix"]=[T[max(0,m.start()-160):m.end()+60] for m in re.finditer(r'[Pp]ix',T)][:4]
         it["precos"]=re.findall(r'R\$\s?[\d.]+,\d{2}',T)[:12]
