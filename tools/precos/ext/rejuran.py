@@ -1,0 +1,50 @@
+# Rejuran: catálogo da loja oficial dos EUA (Shopify products.json), ordem de mais vendidos,
+# cupons visíveis e sonda de outras fontes (Sephora US, loja coreana). Saída: tools/precos/ext/dados/rejuran/
+import urllib.request, re, json, os, time, gzip
+UA = {"user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129 Safari/537.36",
+      "accept-language": "en-US,en;q=0.9"}
+OUT = "tools/precos/ext/dados/rejuran"; os.makedirs(OUT, exist_ok=True)
+def get(u, t=60):
+    r = urllib.request.urlopen(urllib.request.Request(u, headers=UA), timeout=t); b = r.read()
+    if r.headers.get("content-encoding") == "gzip": b = gzip.decompress(b)
+    return b.decode("utf-8", "replace"), r.geturl()
+log = {}
+loja = None
+for L in ["rejuranusa.com", "www.rejuranusa.com", "rejuran.us", "us.rejuran.com", "rejuran.com", "www.rejuran.com"]:
+    try:
+        t, fin = get(f"https://{L}/products.json?limit=250&page=1")
+        p = json.loads(t)["products"]; log[L] = {"ok": len(p), "final": fin}
+        if p: loja = L; break
+    except Exception as e: log[L] = str(e)[:200]
+prods = []
+if loja:
+    for pg in range(1, 10):
+        t, _ = get(f"https://{loja}/products.json?limit=250&page={pg}")
+        p = json.loads(t)["products"]
+        if not p: break
+        prods += p; time.sleep(1)
+    json.dump({"loja": loja, "lido": time.strftime("%Y-%m-%d %H:%M"), "produtos": prods}, open(f"{OUT}/us_products.json", "w"), ensure_ascii=False)
+    ordem = []
+    for pg in range(1, 15):
+        try: t, _ = get(f"https://{loja}/collections/all?sort_by=best-selling&page={pg}")
+        except Exception as e: log["ordem_erro"] = str(e)[:200]; break
+        hs = []
+        for h in re.findall(r'href="(?:/[a-z]{2}(?:-[a-z]{2})?)?/(?:collections/[^/"]+/)?products/([a-z0-9][a-z0-9-]*)', t):
+            if h not in ordem and h not in hs: hs.append(h)
+        if not hs: break
+        ordem += hs; time.sleep(2)
+    try:
+        t, _ = get(f"https://{loja}/")
+        log["cupons_home"] = sorted(set(re.findall(r"\b([A-Z][A-Z0-9]{3,14}\d{1,3})\b", t)))[:30]
+        log["textos_off"] = sorted(set(re.findall(r"[^<>\"]{0,60}\d{1,2}% (?:off|OFF|Off)[^<>\"]{0,60}", t)))[:20]
+    except Exception as e: log["home"] = str(e)[:200]
+    json.dump({"loja": loja, "lido": time.strftime("%Y-%m-%d"), "ordem": ordem}, open(f"{OUT}/ordem_us.json", "w"), indent=0)
+# outras fontes (só sonda: status e tamanho)
+for nome, u in [("sephora_us", "https://www.sephora.com/brand/rejuran"), ("kr_oficial", "https://www.rejuran.co.kr/"),
+                ("kr_mall", "https://rejuranmall.com/"), ("oliveyoung_us", "https://us.oliveyoung.com/brands/B00204")]:
+    try:
+        t, fin = get(u, 40); log[nome] = {"final": fin, "tam": len(t), "titulo": (re.findall(r"<title>([^<]{0,120})", t) or [""])[0]}
+        open(f"{OUT}/{nome}.html", "w").write(t)
+    except Exception as e: log[nome] = str(e)[:200]
+json.dump(log, open(f"{OUT}/log.json", "w"), indent=1, ensure_ascii=False)
+print(json.dumps(log, ensure_ascii=False)[:3000]); print("produtos", len(prods))
