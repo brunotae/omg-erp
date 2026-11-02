@@ -1276,7 +1276,9 @@ async function principal(req: Request): Promise<Response> {
         if (b.urls?.[it.id]) { out.type = "HTTP"; out.url = String(b.urls[it.id]); delete out.resourceId; n++; }
         return out;
       };
-      const items = m.items.map(map);
+      const tira = new Set((Array.isArray(b.remover) ? b.remover : []).map(String));
+      const poda = (L: any[]): any[] => L.filter((x: any) => { if (tira.has(String(x.id))) { n++; return false } x.items = poda(x.items || []); return true });
+      const items = poda(m.items.map(map));
       for (const ad of (Array.isArray(b.adicionar) ? b.adicionar : [])) { if (!items.some((x: any) => x.title === ad.titulo)) { items.push({ title: String(ad.titulo), type: "HTTP", url: String(ad.url), items: [] }); n++; } }
       const d: any = await gql(`mutation($id: ID!, $t: String!, $h: String, $i: [MenuItemUpdateInput!]!) { menuUpdate(id: $id, title: $t, handle: $h, items: $i) { menu { id } userErrors { message } } }`,
         { id: m.id, t: m.title, h: m.handle, i: items });
