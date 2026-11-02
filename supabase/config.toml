@@ -23,3 +23,6 @@ verify_jwt = false
 
 [functions.capa-foto]
 verify_jwt = true
+
+[functions.catalogo-robo]
+verify_jwt = false
