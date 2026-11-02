@@ -1,7 +1,7 @@
 {%- comment -%} Home: caminhãozinho do frete grátis andando numa faixa fina logo abaixo do menu (Tae · 02/11/2026). {%- endcomment -%}
 {%- if template.name == 'index' -%}
 <style>
-  .omg-anda{position:relative;display:block;height:46px;overflow:hidden;background:linear-gradient(180deg,#FDF0F4,#F9DCE6);border-bottom:1px solid #F0D2DD;text-decoration:none;color:inherit}
+  .omg-anda{position:relative;display:block;height:54px;overflow:hidden;background:linear-gradient(180deg,#FDF0F4,#F9DCE6);border-bottom:1px solid #F0D2DD;text-decoration:none;color:inherit}
   .omg-anda__chao{position:absolute;left:0;right:0;bottom:7px;height:2px;background:repeating-linear-gradient(90deg,#E5A9BF 0 12px,transparent 12px 22px)}
   .omg-anda__carro{position:absolute;bottom:6px;left:0;display:flex;align-items:flex-end;white-space:nowrap;animation:omgAnda var(--omg-dur,16s) linear infinite;will-change:transform}
   .omg-anda__placa{background:#B83D66;color:#fff;font-size:14px;font-weight:600;border-radius:8px;padding:6px 12px;margin-bottom:6px;box-shadow:0 3px 8px rgba(184,61,102,.3)}
@@ -11,7 +11,7 @@
   .omg-anda:hover .omg-anda__carro{animation-play-state:paused}
   @keyframes omgAnda{from{transform:translateX(-100%)}to{transform:translateX(var(--omg-w,1400px))}}
   @keyframes omgPula{50%{translate:0 -2px}}
-  @media (max-width:749px){.omg-anda{height:42px}.omg-anda__placa{font-size:12px;padding:5px 9px}.omg-anda__truck{font-size:22px}}
+  @media (max-width:749px){.omg-anda{height:48px}.omg-anda__placa{font-size:12px;padding:5px 9px}.omg-anda__truck{font-size:22px}}
   @media (prefers-reduced-motion:reduce){.omg-anda__carro{animation:none;left:50%;transform:translateX(-50%)}.omg-anda__truck{animation:none}}
 </style>
 <a class="omg-anda" id="omg-anda" href="/collections/all?sort_by=best-selling" aria-label="Frete grátis para todo o Brasil em compras acima de R$ 200. Ver os mais vendidos">
