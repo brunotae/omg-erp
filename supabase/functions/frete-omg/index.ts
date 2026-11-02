@@ -51,12 +51,13 @@ Deno.serve(async (req) => {
       const x = await calcular(d.postal_code, d.province || null, itens);
       // Nome da linha = o que aparece no checkout, no e-mail do pedido e na página do pedido:
       // deixa claro que não é só frete — tem tributo pago (Tae · 31/10/2026).
+      // Checkout só aceita texto corrido (sem quebra de linha nem negrito): nome curto + descrição em blocos curtos.
+      // Nome deixa claro que inclui tributos (Tae · 31/10/2026); layout simplificado (Tae · 02/11/2026).
       const trib = x.brl.ii + x.brl.icms;
-      const nome = trib > 0
-        ? `Frete ${fmt(x.brl.frete_seguro)} + tributos ${fmt(trib)} (${x.brl.ii > 0 ? "II + ICMS" : "ICMS"} · Remessa Conforme)`
-        : x.cfg.nome;
+      const nome = trib > 0 ? "Entrega internacional + impostos" : x.cfg.nome;
+      const prazo = String(x.cfg.prazo || "").replace(/^De /, "");
       const desc = x.cfg.detalhar
-        ? `${x.cfg.prazo} para capitais · Frete e seguro: ${fmt(x.brl.frete_seguro)} · Imposto de importação: ${fmt(x.brl.ii)} · ICMS ${x.aliquota_icms}% ${x.uf}: ${fmt(x.brl.icms)}`
+        ? [prazo, `Frete ${fmt(x.brl.frete_seguro)}`, `ICMS ${fmt(x.brl.icms)}`, x.brl.ii > 0 ? `Imposto de importação ${fmt(x.brl.ii)}` : "Sem imposto de importação ✓"].join("  ·  ")
         : `${x.cfg.prazo} · Frete, seguro e impostos inclusos (Remessa Conforme)`;
       return json(200, { rates: [{ service_name: nome, service_code: "OMG_INTL", total_price: String(Math.round(x.brl.total_linha * 100)), currency: "BRL", description: desc }] });
     } catch (e) {
