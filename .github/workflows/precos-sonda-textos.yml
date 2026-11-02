@@ -1,0 +1,20 @@
+name: Precos - sonda de textos de desconto em paginas
+on:
+  workflow_dispatch:
+    inputs:
+      urls: { description: 'URLs separadas por virgula', required: true }
+      nome: { description: 'nome do arquivo', default: 'sonda' }
+permissions:
+  contents: write
+jobs:
+  ler:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/precos/ext/sonda_textos.py
+        env: { URLS: "${{ github.event.inputs.urls }}", NOME: "${{ github.event.inputs.nome }}" }
+      - run: |
+          git config user.name "omg-bot"; git config user.email "bot@ohmygirl.com.br"
+          git add tools/precos/ext/dados
+          git commit -m "Sonda de textos de desconto" || true
+          git pull --rebase origin main && git push
