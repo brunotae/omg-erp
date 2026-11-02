@@ -15,7 +15,7 @@ CENA = {"anua": [1, 0, 6], "arencia": [6, 7, 5], "aromatica": [0, 6, 7], "banila
  "dr-melaxin": [2, 3, 5], "dr-reju-all": [2, 1], "ilso": [5, 6, 7], "kaine": [0, 4, 6], "lador": [1, 3, 6],
  "manyo": [1], "medicube": [6, 1, 7], "mediheal": [4, 5], "mise-en-scene": [4, 6, 7], "mixsoon": [2, 3, 4],
  "purcell": [0, 1, 2], "round-lab": [2, 4, 3], "skin1004": [1, 0, 4], "some-by-mi": [7, 5], "tirtir": [1, 2, 7],
- "torriden": [6, 5, 2], "wellage": [0, 2, 6], "another-face": [6], "ongredients": [7]}
+ "torriden": [6, 5, 2], "wellage": [0, 2, 6], "another-face": [6], "ongredients": [7], "numbuzin": [0, 1, 2]}
 M = json.load(open(f"{R}/site/marcas/marcas.json", encoding="utf-8"))
 W, H = 1600, 900
 OUTW, OUTH = 1200, 675

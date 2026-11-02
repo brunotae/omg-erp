@@ -10,6 +10,7 @@
 //   { modo: "capa", fase: "por" | "fim", itens } → troca a capa (mesmo fluxo da função capa-foto)
 //   { modo: "status", ids, status: "ACTIVE" | "DRAFT" } → ativa (e publica nos canais de um produto ativo) — só com OK explícito do Tae
 //   { modo: "ler2", ids } → conferência completa por versão
+//   { modo: "tema", ler?: [arquivo], gravar?: [{ arquivo, texto? | url? }] } → lê/grava arquivo do tema publicado
 import { createClient } from "npm:@supabase/supabase-js@2";
 const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
 const SHOP = Deno.env.get("SHOPIFY_SHOP") ?? "", VERSAO = Deno.env.get("SHOPIFY_API_VERSION") ?? "2026-04";
@@ -293,6 +294,20 @@ Deno.serve(async (req) => {
           out.push({ id, titulo: p.title, status: p.status, fotos: p.mediaCount?.count, canais: p.resourcePublicationsV2.nodes.filter((x: any) => x.isPublished).length, opcoes: p.options,
             versoes: p.variants.nodes.map((v: any) => ({ sku: v.sku, nome: v.title, preco: v.price, foto: !!v.media.nodes[0], dim: v.metafield?.value, hs: v.inventoryItem.harmonizedSystemCode, origem: v.inventoryItem.countryCodeOfOrigin, peso: v.inventoryItem.measurement?.weight?.value })) });
         } catch (e) { out.push({ id, ok: false, erro: erro(e) }); }
+      }
+    } else if (b.modo === "tema") {
+      // tema publicado: { ler: [arquivo] } → conteúdo (texto) · { gravar: [{ arquivo, texto? , url? }] } → grava (url = imagem do repositório)
+      const t: any = await gql(`{ themes(first: 1, roles: [MAIN]) { nodes { id name } } }`);
+      const tema = t.themes.nodes[0]; if (!tema) throw new Error("sem tema publicado");
+      if (Array.isArray(b.ler)) {
+        const d: any = await gql(`query($id: ID!, $f: [String!]) { theme(id: $id) { files(filenames: $f, first: 20) { nodes { filename size body { ... on OnlineStoreThemeFileBodyText { content } } } } } }`, { id: tema.id, f: b.ler.map(String) });
+        for (const n of d.theme.files.nodes) out.push({ arquivo: n.filename, tamanho: n.size, texto: n.body?.content ?? null });
+      }
+      if (Array.isArray(b.gravar)) {
+        const files = b.gravar.map((g: any) => ({ filename: String(g.arquivo), body: g.url ? { type: "URL", value: String(g.url) } : { type: "TEXT", value: String(g.texto) } }));
+        const d: any = await gql(`mutation($id: ID!, $f: [OnlineStoreThemeFilesUpsertFileInput!]!) { themeFilesUpsert(themeId: $id, files: $f) { upsertedThemeFiles { filename } userErrors { field message } } }`, { id: tema.id, f: files });
+        if (d.themeFilesUpsert.userErrors.length) throw new Error("tema: " + JSON.stringify(d.themeFilesUpsert.userErrors).slice(0, 250));
+        out.push({ tema: tema.name, gravados: d.themeFilesUpsert.upsertedThemeFiles.map((x: any) => x.filename) });
       }
     } else return resp(400, { erro: "modo desconhecido" });
     return resp(200, { ok: true, resultados: out });
