@@ -56,6 +56,13 @@ Deno.serve(async (req) => {
       const trib = x.brl.ii + x.brl.icms;
       const prazo = String(x.cfg.prazo || "").replace(/^De /, "");
       const fr = x.frete_gratis ? "Frete grátis" : `Frete ${fmt(x.brl.frete_seguro)}`;
+      if (x.cfg.icms_shopify) {
+        // ICMS sai na linha "Impostos" do Shopify; aqui só frete + seguro (+ imposto de importação, quando houver).
+        const linha = x.brl.frete_seguro + x.brl.ii;
+        const nm = (x.frete_gratis ? "Frete grátis" : "Entrega") + (x.brl.ii > 0 ? " + imposto de importação" : "") + ` · ${prazo}`;
+        const ds = x.brl.ii > 0 ? `${fr} · Imposto de importação ${fmt(x.brl.ii)}` : `${fr} · ICMS na linha de impostos`;
+        return json(200, { rates: [{ service_name: nm, service_code: "OMG_INTL", total_price: String(Math.round(linha * 100)), currency: "BRL", description: ds }] });
+      }
       const nome = `${x.frete_gratis ? "Frete grátis" : "Entrega"} + impostos · ${prazo}`;
       const desc = trib > 0 ? `${fr} · Impostos ${fmt(trib)} (detalhes no carrinho)` : `${fr} · sem impostos`;
       return json(200, { rates: [{ service_name: nome, service_code: "OMG_INTL", total_price: String(Math.round(x.brl.total_linha * 100)), currency: "BRL", description: desc }] });

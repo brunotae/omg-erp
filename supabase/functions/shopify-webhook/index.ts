@@ -29,10 +29,14 @@ async function separarFreteOMG(pedido: any, venda: any) {
   const cobrado = Number(linha.price_set?.shop_money?.amount ?? linha.price) || 0;
   try {
     const c = await calcular(ad.zip, ad.province_code || null, itens);
-    venda.frete = c.brl.frete_seguro; venda.ii = c.brl.ii; venda.icms = c.brl.icms;
+    // Com ICMS cobrado pelo Shopify (tax_lines), a linha de entrega é só frete + seguro + II.
+    const taxICMS = Math.round((pedido.tax_lines || []).reduce((t: number, x: any) => t + (Number(x.price_set?.shop_money?.amount ?? x.price) || 0), 0) * 100) / 100;
+    const viaShopify = taxICMS > 0;
+    venda.frete = c.brl.frete_seguro; venda.ii = c.brl.ii; venda.icms = viaShopify ? taxICMS : c.brl.icms;
     venda.dados_site = { ...(venda.dados_site || {}), frete_omg: { ...c, cobrado } };
-    const dif = Math.round((cobrado - c.brl.total_linha) * 100) / 100;
-    if (Math.abs(dif) > 0.05) venda.obs = [venda.obs, "Frete OMG: cobrado R$ " + cobrado.toFixed(2) + ", conta de hoje R$ " + c.brl.total_linha.toFixed(2) + " (diferença R$ " + dif.toFixed(2) + ")"].filter(Boolean).join(" · ");
+    const esperado = viaShopify ? c.brl.frete_seguro + c.brl.ii : c.brl.total_linha;
+    const dif = Math.round((cobrado - esperado) * 100) / 100;
+    if (Math.abs(dif) > 0.05) venda.obs = [venda.obs, "Frete OMG: cobrado R$ " + cobrado.toFixed(2) + ", conta de hoje R$ " + esperado.toFixed(2) + " (diferença R$ " + dif.toFixed(2) + ")"].filter(Boolean).join(" · ");
   } catch (e) {
     venda.obs = [venda.obs, "Frete OMG: não deu para separar frete e impostos (" + String((e as Error).message || e) + "); total cobrado R$ " + cobrado.toFixed(2)].filter(Boolean).join(" · ");
   }

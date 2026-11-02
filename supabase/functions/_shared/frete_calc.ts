@@ -19,6 +19,9 @@ const CFG0 = {
   frete_fator: 1,
   // Frete grátis (frete + seguro) quando os produtos somam pelo menos este valor em R$, antes de cupom. 0 = desligado.
   frete_gratis_min: 0,
+  // true = o ICMS é cobrado pelo próprio Shopify (Impostos, alíquota por estado, também sobre o frete);
+  // a linha de entrega leva só frete + seguro + imposto de importação.
+  icms_shopify: false,
 };
 let CACHE: { t: number; cfg: typeof CFG0; mile: any } | null = null;
 
@@ -110,7 +113,7 @@ export async function calcular(cepTxt: string, ufInf: string | null, itens: { gr
     usd: { mercadoria: r2(merc), frete_internacional: gratis ? 0 : r2(intl * fator), frete_nacional: gratis ? 0 : r2(nacional * fator), seguro: r2(seguro), frete_seguro: r2(frete), valor_aduaneiro: r2(va), ii: r2(ii), icms: r2(icms), total_linha: r2(linhaUSD) },
     brl: { mercadoria: r2(mercBRL), frete_seguro: B(frete), ii: B(ii), icms: B(icms), total_linha: B(linhaUSD), total_pedido: r2(mercBRL + B(linhaUSD)) },
     origem_nacional: origemNac,
-    cfg: { nome: cfg.nome, prazo: cfg.prazo, detalhar: cfg.detalhar, frete_fator: fator },
+    cfg: { nome: cfg.nome, prazo: cfg.prazo, detalhar: cfg.detalhar, frete_fator: fator, icms_shopify: !!cfg.icms_shopify },
   };
 }
 
