@@ -1,0 +1,5 @@
+{
+ "loja": "purito.com",
+ "https://purito.com/products.json?limit=250": "HTTP Error 404: Not Found",
+ "https://purito.com/collections/all?sort_by=best-selling": "HTTP Error 404: Not Found"
+}
