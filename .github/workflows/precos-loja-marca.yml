@@ -1,0 +1,25 @@
+name: Precos - loja oficial de uma marca (catalogo, ordem, Sephora BR)
+on:
+  push:
+    branches: [main]
+    paths: ['tools/precos/ext/loja_marca.py']
+  workflow_dispatch:
+    inputs:
+      marca: { description: 'slug da marca', default: 'torriden' }
+      lojas: { description: 'dominios separados por virgula', default: 'torriden.us,torridenus.com,us.torriden.com,torriden.com,www.torriden.com,torriden.co.kr' }
+permissions:
+  contents: write
+jobs:
+  ler:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/precos/ext/loja_marca.py
+        env:
+          MARCA: "${{ github.event.inputs.marca || 'torriden' }}"
+          LOJAS: "${{ github.event.inputs.lojas || 'torriden.us,torridenus.com,us.torriden.com,torriden.com,www.torriden.com,torriden.co.kr' }}"
+      - run: |
+          git config user.name "omg-bot"; git config user.email "bot@ohmygirl.com.br"
+          git add tools/precos/ext/dados
+          git commit -m "Loja oficial: catalogo da marca" || true
+          git pull --rebase origin main && git push
