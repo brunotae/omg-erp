@@ -1,0 +1,54 @@
+{
+ "jolse_1": {
+  "ok": true,
+  "status": 200,
+  "len": 221187,
+  "final": "https://jolse.com/product/search.html?keyword=numbuzin&page=1",
+  "usd": 40,
+  "numbuzin": 75
+ },
+ "jolse_cat": {
+  "ok": true,
+  "status": 200,
+  "len": 1147646,
+  "final": "https://jolse.com/index.html",
+  "usd": 690,
+  "numbuzin": 87
+ },
+ "yes_list": {
+  "ok": true,
+  "status": 200,
+  "len": 908983,
+  "final": "https://www.yesstyle.com/en/list.html?q=numbuzin",
+  "usd": 403,
+  "numbuzin": 1480
+ },
+ "yes_api": {
+  "ok": false,
+  "erro": "HTTP Error 401: Unauthorized"
+ },
+ "yes_brand": {
+  "ok": false,
+  "erro": "HTTP Error 404: Not Found"
+ },
+ "oy_search": {
+  "ok": false,
+  "erro": "HTTP Error 403: Forbidden"
+ },
+ "oy_api": {
+  "ok": false,
+  "erro": "HTTP Error 403: Forbidden"
+ },
+ "sep_api": {
+  "ok": true,
+  "status": 200,
+  "len": 291,
+  "final": "https://www.sephora.com/api/v2/catalog/search/?type=keyword&q=numbuzin&pageSize=60&currentPage=1",
+  "usd": 0,
+  "numbuzin": 2
+ },
+ "sep_brand": {
+  "ok": false,
+  "erro": "HTTP Error 403: Forbidden"
+ }
+}

@@ -1,0 +1,1 @@
+{"keyword":"numbuzin","responseSource":"NLP","searchRedirectTarget":{"targetUrl":"/beauty/korean-skin-care","slug":"/beauty/korean-skin-care"},"userSegment":"COUNTRY_US|desktopweb","content":{"sid":"numbuzin","marketingTilePositions":["1"]},"resultId":"73797029-02fc-4230-a958-51d8dc1dfc67"}
