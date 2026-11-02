@@ -1212,6 +1212,33 @@ async function principal(req: Request): Promise<Response> {
       return resp(200, { ok: true, res });
     }
 
+    if (b.acao === "colecao_ordenar") {
+      // Só muda a ORDEM de uma coleção: põe no topo, na ordem dada, os produtos da lista que já estão nela.
+      // Não adiciona nem tira produto. { handle, ids: [id numérico na ordem desejada] }
+      const c: any = await gql(`query($h: String!) { collectionByIdentifier(identifier: { handle: $h }) { id title sortOrder } }`, { h: String(b.handle) });
+      const col = c.collectionByIdentifier; if (!col) throw new Error("coleção não encontrada: " + b.handle);
+      const dentro = new Set<string>(); let a: string | null = null;
+      do {
+        const d: any = await gql(`query($id: ID!, $a: String) { collection(id: $id) { products(first: 250, after: $a) { nodes { id } pageInfo { hasNextPage endCursor } } } }`, { id: col.id, a });
+        d.collection.products.nodes.forEach((x: any) => dentro.add(x.id));
+        a = d.collection.products.pageInfo.hasNextPage ? d.collection.products.pageInfo.endCursor : null;
+      } while (a);
+      const gids = (Array.isArray(b.ids) ? b.ids : []).map((x: any) => "gid://shopify/Product/" + String(x)).filter((g: string) => dentro.has(g));
+      if (!gids.length) return resp(200, { ok: true, colecao: col.title, movidos: 0, ordem_antes: col.sortOrder });
+      if (col.sortOrder !== "MANUAL") {
+        const u: any = await gql(`mutation($c: CollectionInput!) { collectionUpdate(input: $c) { userErrors { message } } }`, { c: { id: col.id, sortOrder: "MANUAL" } });
+        if (u.collectionUpdate.userErrors.length) throw new Error(u.collectionUpdate.userErrors[0].message);
+      }
+      let erro = "";
+      for (let t = 0; t < 4; t++) {
+        const r: any = await gql(`mutation($id: ID!, $m: [MoveInput!]!) { collectionReorderProducts(id: $id, moves: $m) { job { id } userErrors { message } } }`,
+          { id: col.id, m: gids.slice(0, 250).map((g: string, i: number) => ({ id: g, newPosition: String(i) })) });
+        erro = r.collectionReorderProducts.userErrors.map((x: any) => x.message).join("; ");
+        if (!erro) break;
+        await new Promise((ok) => setTimeout(ok, 2000));
+      }
+      return resp(200, { ok: !erro, colecao: col.title, total: dentro.size, movidos: gids.length, ordem_antes: col.sortOrder, erro });
+    }
     if (b.acao === "colecoes") {
       const out: any[] = []; let a: string | null = null;
       do {
