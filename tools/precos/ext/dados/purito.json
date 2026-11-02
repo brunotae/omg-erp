@@ -1,0 +1,12 @@
+{
+ "lido": "2026-11-02",
+ "produtos": [],
+ "notas": [
+  "store api: HTTP Error 404: Not Found",
+  "best: HTTP Error 404: Not Found"
+ ],
+ "sitemaps": [
+  "https://purito.com/sitemap-misc.xml",
+  "https://purito.com/page-sitemap.xml"
+ ]
+}
