@@ -1279,7 +1279,15 @@ async function principal(req: Request): Promise<Response> {
       const tira = new Set((Array.isArray(b.remover) ? b.remover : []).map(String));
       const poda = (L: any[]): any[] => L.filter((x: any) => { if (tira.has(String(x.id))) { n++; return false } x.items = poda(x.items || []); return true });
       const items = poda(m.items.map(map));
-      for (const ad of (Array.isArray(b.adicionar) ? b.adicionar : [])) { if (!items.some((x: any) => x.title === ad.titulo)) { items.push({ title: String(ad.titulo), type: "HTTP", url: String(ad.url), items: [] }); n++; } }
+      // adicionar: [{ titulo, url, pai?: itemId (entra no submenu desse item), antes?: itemId (posição) }]
+      const acha = (L: any[], id: string): any => { for (const x of L) { if (String(x.id) === id) return x; const y = acha(x.items || [], id); if (y) return y; } return null; };
+      for (const ad of (Array.isArray(b.adicionar) ? b.adicionar : [])) {
+        const alvo = ad.pai ? (acha(items, String(ad.pai))?.items) : items; if (!alvo) continue;
+        if (alvo.some((x: any) => x.title === ad.titulo)) continue;
+        const novo = { title: String(ad.titulo), type: "HTTP", url: String(ad.url), items: [] };
+        const i = ad.antes ? alvo.findIndex((x: any) => String(x.id) === String(ad.antes)) : -1;
+        if (i >= 0) alvo.splice(i, 0, novo); else alvo.push(novo); n++;
+      }
       const d: any = await gql(`mutation($id: ID!, $t: String!, $h: String, $i: [MenuItemUpdateInput!]!) { menuUpdate(id: $id, title: $t, handle: $h, items: $i) { menu { id } userErrors { message } } }`,
         { id: m.id, t: m.title, h: m.handle, i: items });
       const e = d.menuUpdate.userErrors; if (e.length) return resp(422, { erro: e.map((x: any) => x.message).join("; ") });
