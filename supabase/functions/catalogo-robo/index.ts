@@ -2,7 +2,7 @@
 // que é criada para a tarefa e apagada no fim. "criar" sempre cria em RASCUNHO; só o modo "status" ativa, e só com OK explícito do Tae no chat.
 //   { modo: "fonte", handles: [..], loja?: "numbuzinus.com" } → lê a ficha oficial (Shopify da marca): título, texto, fotos, peso
 //   { modo: "arquivar", ids: [productId] }                     → status ARCHIVED
-//   { modo: "atualizar", itens: [{ id, titulo?, tipo?, tags?, preco?, peso_g? }] } → 1ª variante para preço/peso; tags substitui a lista
+//   { modo: "atualizar", itens: [{ id, titulo?, tipo?, tags?, preco?, peso_g?, sku? }] } → 1ª variante para preço/peso; tags substitui a lista
 //   { modo: "criar", itens: [{ titulo, handle, vendor, tipo, tags, html | desc, fotos: [url] | fonte (handle na loja oficial), sku, preco, peso_g }] } → cria em DRAFT
 //   { modo: "ler", ids: [productId] }                          → título, tipo, tags, status, preço, peso, nº de fotos
 //   { modo: "completar", itens: [{ sku, preco?, peso_g?, hs?, dim?: [c,l,a], nome_en?, nome_kr? }] } → Shopify (por SKU) + ERP
@@ -58,8 +58,9 @@ async function variante1(pid: string) {
   return d.product.variants.nodes[0]?.id;
 }
 async function porSku(sku: string) {
-  const d: any = await gql(`query($q: String!) { productVariants(first: 5, query: $q) { nodes { id sku product { id } } } }`, { q: "sku:" + sku });
-  const v = d.productVariants.nodes.find((x: any) => x.sku === sku); if (!v) throw new Error("SKU não está no Shopify");
+  const d: any = await gql(`query($q: String!) { productVariants(first: 10, query: $q) { nodes { id sku product { id status } } } }`, { q: "sku:" + sku });
+  const vs = d.productVariants.nodes.filter((x: any) => x.sku === sku);
+  const v = vs.find((x: any) => x.product.status !== "ARCHIVED") || vs[0]; if (!v) throw new Error("SKU não está no Shopify");
   return v;
 }
 async function precoPeso(pid: string, vid: string, preco?: number, peso?: number, sku?: string) {
@@ -112,6 +113,7 @@ Deno.serve(async (req) => {
             const d: any = await gql(`mutation($p: ProductUpdateInput!) { productUpdate(product: $p) { userErrors { message } } }`, { p });
             if (d.productUpdate.userErrors.length) throw new Error(d.productUpdate.userErrors[0].message);
           }
+          if (it.sku) await precoPeso(pid, await variante1(pid), undefined, undefined, String(it.sku));
           if (it.preco != null || it.peso_g != null) {
             await precoPeso(pid, await variante1(pid), it.preco, it.peso_g);
             const up: any = {}; if (it.preco != null) up.preco = Number(it.preco); if (it.peso_g != null) up.peso_g = Number(it.peso_g);
