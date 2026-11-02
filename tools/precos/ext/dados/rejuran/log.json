@@ -1,10 +1,35 @@
 {
- "rejuranusa.com": "HTTP Error 429: Too Many Requests",
- "www.rejuranusa.com": "HTTP Error 429: Too Many Requests",
- "rejuran.us": "HTTP Error 404: Not Found",
- "us.rejuran.com": "<urlopen error [Errno -2] Name or service not known>",
- "rejuran.com": "<urlopen error [Errno -5] No address associated with hostname>",
- "www.rejuran.com": "<urlopen error [Errno -2] Name or service not known>",
+ "rejuranusa.com": {
+  "ok": 42,
+  "final": "https://rejuranusa.com/products.json?limit=250&page=1"
+ },
+ "cupons_home": [
+  "B2F9E9",
+  "B50700",
+  "D3D4D2",
+  "D9D9D9",
+  "DBDDE4",
+  "E16F27",
+  "E3E3E3",
+  "E5E5E5",
+  "EA4335",
+  "F37521",
+  "F48120",
+  "F4F4F6",
+  "F4F5F4",
+  "F58720",
+  "F5F5F5",
+  "F68D20",
+  "F79A20",
+  "F7F7F8",
+  "F89F20",
+  "FBBC04",
+  "FF5F00",
+  "MK4NPMM2"
+ ],
+ "textos_off": [
+  "Unlock 20% Off Today"
+ ],
  "sephora_us": "HTTP Error 403: Forbidden",
  "kr_oficial": {
   "final": "https://www.rejuran.co.kr/",
@@ -12,5 +37,14 @@
   "titulo": "리쥬란"
  },
  "kr_mall": "<urlopen error [Errno -3] Temporary failure in name resolution>",
- "oliveyoung_us": "HTTP Error 403: Forbidden"
+ "oliveyoung_us": "HTTP Error 403: Forbidden",
+ "ml_rejuran": "HTTP Error 403: Forbidden",
+ "mlhtml_rejuran": 41892,
+ "amz_rejuran": "HTTP Error 503: Service Unavailable",
+ "ml_rejuran ampoule": "HTTP Error 403: Forbidden",
+ "mlhtml_rejuran ampoule": 41940,
+ "amz_rejuran ampoule": "HTTP Error 503: Service Unavailable",
+ "ml_rejuran mask": "HTTP Error 403: Forbidden",
+ "mlhtml_rejuran mask": 41922,
+ "amz_rejuran mask": 1151502
 }
