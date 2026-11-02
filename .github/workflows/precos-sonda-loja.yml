@@ -1,0 +1,22 @@
+name: Precos - sonda loja oficial
+on:
+  push:
+    branches: [main]
+    paths: ['tools/precos/ext/sonda_loja.py']
+  workflow_dispatch:
+    inputs:
+      loja: { description: 'Loja', default: 'purito.com' }
+permissions:
+  contents: write
+jobs:
+  ler:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/precos/ext/sonda_loja.py
+        env: { LOJA: "${{ github.event.inputs.loja || 'purito.com' }}" }
+      - run: |
+          git config user.name "omg-bot"; git config user.email "bot@ohmygirl.com.br"
+          git add tools/precos/ext/dados
+          git commit -m "Sonda loja oficial" || true
+          git pull --rebase origin main && git push
