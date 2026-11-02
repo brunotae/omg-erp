@@ -1,0 +1,27 @@
+{
+ "torriden.us": {
+  "ok": 71,
+  "final": "https://torriden.us/products.json?limit=250&page=1"
+ },
+ "cupons_home": [
+  "B20000",
+  "C5F7F0",
+  "D60F10",
+  "F9F9F9",
+  "M119059",
+  "M193635",
+  "M209789",
+  "M219539",
+  "M221711",
+  "M296643"
+ ],
+ "textos_off": [
+  "10% off ",
+  "100% OFF"
+ ],
+ "sephora_br": "HTTP Error 403: Forbidden",
+ "sephora_br2": "HTTP Error 410: Gone",
+ "ml_torriden": "HTTP Error 403: Forbidden",
+ "mlhtml_torriden": 41898,
+ "amz_torriden": "HTTP Error 503: Service Unavailable"
+}
