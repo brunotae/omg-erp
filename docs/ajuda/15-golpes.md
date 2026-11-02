@@ -11,7 +11,7 @@ Desconfie de:
 - perfis em redes sociais oferecendo **preço muito abaixo** do site;
 - lojas em **marketplaces** usando o nome OMG.
 
-Nosso Instagram oficial: **@omg_ohmygirlbr**.
+Nosso Instagram oficial: **[novo Instagram em breve]**.
 
 ### Recebi mensagem pedindo pagamento por Pix em nome da OMG.
 
@@ -27,7 +27,7 @@ Cosméticos coreanos falsificados são comuns em sites desconhecidos e marketpla
 
 ### Encontrei um perfil falso usando o nome da OMG.
 
-Obrigada por avisar! Mande o @ ou o link pelo WhatsApp ou e-mail. Nosso perfil oficial é @omg_ohmygirlbr.
+Obrigada por avisar! Mande o @ ou o link pelo WhatsApp ou e-mail. Nosso novo perfil oficial chega em breve; até lá, a OMG só fala com você pelo site, WhatsApp e e-mail.
 
 ### A OMG pede senha ou código por mensagem?
 

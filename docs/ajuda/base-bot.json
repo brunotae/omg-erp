@@ -861,7 +861,7 @@
    "quanto é o frete",
    "frete pra sp"
   ],
-  "resposta": "O frete é calculado no checkout, pelo seu CEP. Não trabalhamos com frete grátis, mas sempre temos cupons e promoções: siga @omg_ohmygirlbr e assine a newsletter.",
+  "resposta": "O frete é calculado no checkout, pelo seu CEP. Não trabalhamos com frete grátis, mas sempre temos cupons e promoções: assine a newsletter.",
   "links": [],
   "status": "ok",
   "escalar_humano": false
@@ -2136,7 +2136,7 @@
    "cliente fiel ganha desconto",
    "cashback"
   ],
-  "resposta": "Ainda não, mas está nos nossos planos! Estamos preparando um clube de fidelidade para premiar quem compra com a gente com frequência. Quando lançar, avisamos no site e no Instagram @omg_ohmygirlbr 💗",
+  "resposta": "Ainda não, mas está nos nossos planos! Estamos preparando um clube de fidelidade para premiar quem compra com a gente com frequência. Quando lançar, avisamos aqui no site e na newsletter 💗",
   "links": [],
   "status": "ok",
   "escalar_humano": false
@@ -2151,7 +2151,7 @@
    "quando tem desconto",
    "liquidação"
   ],
-  "resposta": "Siga @omg_ohmygirlbr no Instagram e assine a nossa newsletter no rodapé do site. As promoções também aparecem na página inicial.",
+  "resposta": "Assine a nossa newsletter no rodapé do site. As promoções também aparecem na página inicial.",
   "links": [],
   "status": "ok",
   "escalar_humano": false
@@ -2179,7 +2179,7 @@
    "desconto boas vindas",
    "primeiro pedido desconto"
   ],
-  "resposta": "Lançamos cupons e promoções com frequência, inclusive para quem está chegando. Assine a newsletter no rodapé do site e siga @omg_ohmygirlbr para não perder.",
+  "resposta": "Lançamos cupons e promoções com frequência, inclusive para quem está chegando. Assine a newsletter no rodapé do site para não perder.",
   "links": [],
   "status": "ok",
   "escalar_humano": false
@@ -2192,7 +2192,7 @@
    "cupom aniversario",
    "desconto no meu aniversario"
   ],
-  "resposta": "Ainda não temos cupom de aniversário, mas lançamos promoções com frequência. Assine a newsletter e siga @omg_ohmygirlbr.",
+  "resposta": "Ainda não temos cupom de aniversário, mas lançamos promoções com frequência. Assine a newsletter.",
   "links": [],
   "status": "ok",
   "escalar_humano": false
@@ -2250,7 +2250,7 @@
    "posso postar",
    "qual o @ de vcs"
   ],
-  "resposta": "Pode e a gente ama! Marque @omg_ohmygirlbr no Instagram e no TikTok.",
+  "resposta": "Pode e a gente ama! Nosso novo perfil no Instagram chega em breve.",
   "links": [],
   "status": "ok",
   "escalar_humano": false
@@ -2328,7 +2328,7 @@
   "links": [],
   "status": "ok",
   "escalar_humano": false,
-  "resposta_longa": "O **único** site oficial é **ohmygirl.com.br**.\n\nDesconfie de:\n- domínios parecidos (**ohmygirl.com**, **.shop**, **.store**, com hífen ou letras trocadas);\n- perfis em redes sociais oferecendo **preço muito abaixo** do site;\n- lojas em **marketplaces** usando o nome OMG.\n\nNosso Instagram oficial: **@omg_ohmygirlbr**."
+  "resposta_longa": "O **único** site oficial é **ohmygirl.com.br**.\n\nDesconfie de:\n- domínios parecidos (**ohmygirl.com**, **.shop**, **.store**, com hífen ou letras trocadas);\n- perfis em redes sociais oferecendo **preço muito abaixo** do site;\n- lojas em **marketplaces** usando o nome OMG.\n\nNosso novo Instagram oficial chega em breve.."
  },
  {
   "id": "golpes-02",
@@ -2382,7 +2382,7 @@
    "instagram fake omg",
    "estão usando o nome de vcs"
   ],
-  "resposta": "Obrigada por avisar! Mande o @ ou o link pelo WhatsApp ou e-mail. Nosso perfil oficial é @omg_ohmygirlbr.",
+  "resposta": "Obrigada por avisar! Mande o @ ou o link pelo WhatsApp ou e-mail. Nosso novo perfil oficial chega em breve; até lá, a OMG só fala com você pelo site, WhatsApp e e-mail.",
   "links": [],
   "status": "ok",
   "escalar_humano": true
