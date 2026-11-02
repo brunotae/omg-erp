@@ -3,7 +3,7 @@
 //   { modo: "fonte", handles: [..], loja?: "numbuzinus.com" } → lê a ficha oficial (Shopify da marca): título, texto, fotos, peso
 //   { modo: "arquivar", ids: [productId] }                     → status ARCHIVED
 //   { modo: "atualizar", itens: [{ id, titulo?, tipo?, tags?, preco?, peso_g? }] } → 1ª variante para preço/peso; tags substitui a lista
-//   { modo: "criar", itens: [{ titulo, handle, vendor, tipo, tags, html, fotos: [url], sku, preco, peso_g }] } → cria em DRAFT
+//   { modo: "criar", itens: [{ titulo, handle, vendor, tipo, tags, html | desc, fotos: [url] | fonte (handle na loja oficial), sku, preco, peso_g }] } → cria em DRAFT
 //   { modo: "ler", ids: [productId] }                          → título, tipo, tags, status, preço, peso, nº de fotos
 import { createClient } from "npm:@supabase/supabase-js@2";
 const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
@@ -22,6 +22,28 @@ async function token() {
 async function gql(query: string, variables: Record<string, unknown> = {}) {
   const r = await fetch(`https://${SHOP}/admin/api/${VERSAO}/graphql.json`, { method: "POST", headers: { "content-type": "application/json", "x-shopify-access-token": await token() }, body: JSON.stringify({ query, variables }) });
   const j = await r.json(); if (!r.ok || j.errors) throw new Error("Shopify: " + JSON.stringify(j.errors ?? r.status).slice(0, 300)); return j.data;
+}
+
+// Mesmo padrão de descrição de tools/descricoes/montar.py (padrão TIRTIR Mask Fit Red Cushion).
+const E = (x: unknown) => String(x ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const CSS = '<style>.omg-sec>summary{list-style:none;display:flex;justify-content:space-between;align-items:center}.omg-sec>summary::-webkit-details-marker{display:none}.omg-sec>summary::after{content:"+";font-size:1.4em;font-weight:400;line-height:1}.omg-sec[open]>summary::after{content:"\\2212"}</style>';
+const sec = (t: string, c: string) => `<details class="omg-sec" style="border-top:1px solid rgba(0,0,0,.12)"><summary style="cursor:pointer;font-weight:600;padding:14px 0;">${t}</summary><div style="padding:0 0 14px">${c}</div></details>`;
+const ul = (L: any[] | undefined, tag = "ul") => { const l = (L || []).filter((x) => String(x).trim()); return l.length ? `<${tag}>\n` + l.map((x) => `<li>${E(x)}</li>`).join("\n") + `\n</${tag}>` : ""; };
+function montar(d: any, sku = "", marca = "") {
+  const h = [CSS, '<div class="omg-desc">', `<p class="omg-nota"><strong>Descrição</strong><br>${E(d.descricao)}</p>`];
+  if (d.tamanho) h.push(`<p><strong>Tamanho:</strong> ${E(d.tamanho)}</p>`);
+  if (d.beneficios?.length) h.push(sec("Benefícios", ul(d.beneficios)));
+  if (d.indicado) h.push(sec("Indicado para", `<p>${E(d.indicado)}</p>`));
+  if (d.opcoes) h.push(sec("Opções", `<p>${E(d.opcoes)}</p>`));
+  if (d.como_usar?.length) h.push(sec("Como usar", ul(d.como_usar, "ol")));
+  let ing = ul(d.ingredientes);
+  if (d.inci) ing += `\n<p class="omg-inci"><small>${E(d.inci)}</small></p>\n<p><small>A composição pode mudar entre lotes. Vale sempre a lista impressa na embalagem.</small></p>`;
+  if (ing) h.push(sec("Ingredientes", ing));
+  h.push(sec("Detalhes", ul([marca ? `Marca: ${marca}` : "", "Fabricado em: Coreia do Sul", sku ? `SKU: ${sku}` : ""])));
+  if (d.sobre_marca) h.push(sec("Sobre a marca", `<p>${E(d.sobre_marca)}</p>`));
+  h.push('<p style="border-top:1px solid rgba(0,0,0,.12);padding-top:14px"><small>Produto importado da Coreia do Sul. Será registrada uma Declaração de Importação e o pedido está sujeito aos tributos federais e estaduais, calculados no checkout.</small></p>');
+  h.push("</div>");
+  return h.join("\n");
 }
 const gid = (id: any) => String(id).startsWith("gid://") ? String(id) : "gid://shopify/Product/" + id;
 const erro = (e: unknown) => String((e as Error).message || e).slice(0, 300);
@@ -91,9 +113,13 @@ Deno.serve(async (req) => {
     } else if (b.modo === "criar") {
       for (const it of (b.itens || []).slice(0, 15)) {
         try {
+          if (!it.fotos?.length && it.fonte) {
+            const r = await fetch(`https://${String(it.fonte_loja || "numbuzinus.com")}/products/${encodeURIComponent(it.fonte)}.json`, { headers: { "user-agent": "Mozilla/5.0" } });
+            it.fotos = ((await r.json()).product?.images || []).map((i: any) => i.src);
+          }
           const media = (it.fotos || []).slice(0, 20).map((u: string) => ({ originalSource: u, alt: it.titulo, mediaContentType: "IMAGE" }));
           const d: any = await gql(`mutation($p: ProductCreateInput!, $m: [CreateMediaInput!]) { productCreate(product: $p, media: $m) { product { id variants(first: 1) { nodes { id } } } userErrors { message } } }`,
-            { p: { title: it.titulo, handle: it.handle, vendor: it.vendor, productType: it.tipo, tags: it.tags, descriptionHtml: it.html, status: "DRAFT" }, m: media });
+            { p: { title: it.titulo, handle: it.handle, vendor: it.vendor, productType: it.tipo, tags: it.tags, descriptionHtml: it.html || (it.desc ? montar(it.desc, it.sku, it.vendor) : undefined), status: "DRAFT" }, m: media });
           if (d.productCreate.userErrors.length) throw new Error(d.productCreate.userErrors[0].message);
           const pid = d.productCreate.product.id;
           await precoPeso(pid, d.productCreate.product.variants.nodes[0].id, it.preco, it.peso_g, it.sku);
