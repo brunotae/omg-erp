@@ -1,23 +1,34 @@
 {%- comment -%} Home: caminhãozinho do frete grátis flutuando na parte de baixo da tela, sempre por cima, mesmo rolando a página (Tae · 02/11/2026). {%- endcomment -%}
 {%- if template.name == 'index' -%}
 <style>
-  .omg-anda{position:fixed;left:0;right:0;bottom:calc(86px + env(safe-area-inset-bottom,0px));height:54px;overflow:hidden;text-decoration:none;color:inherit;z-index:40;pointer-events:none}
+  .omg-anda{position:fixed;left:0;right:0;bottom:calc(86px + env(safe-area-inset-bottom,0px));height:64px;overflow:hidden;text-decoration:none;color:inherit;z-index:40;pointer-events:none}
   .omg-anda__carro{pointer-events:auto;cursor:pointer}
   .omg-anda__chao{display:none;position:absolute;left:0;right:0;bottom:7px;height:2px;background:repeating-linear-gradient(90deg,#E5A9BF 0 12px,transparent 12px 22px)}
   .omg-anda__carro{position:absolute;bottom:6px;left:0;display:flex;align-items:flex-end;white-space:nowrap;animation:omgAnda var(--omg-dur,16s) linear infinite;will-change:transform}
-  .omg-anda__placa{background:#B83D66;color:#fff;font-size:14px;font-weight:600;border-radius:8px;padding:6px 12px;margin-bottom:6px;box-shadow:0 4px 14px rgba(74,38,56,.28)}
-  .omg-anda__placa b{color:#FFE3EC}
-  .omg-anda__corda{width:14px;height:2px;background:#B83D66;margin:0 0 16px}
-  .omg-anda__truck{font-size:28px;line-height:1;filter:drop-shadow(0 3px 4px rgba(74,38,56,.3));display:inline-block;transform:scaleX(-1);animation:omgPula .35s ease-in-out infinite}
+  .omg-anda__placa{position:relative;overflow:hidden;background:linear-gradient(90deg,#B83D66,#E0578A 50%,#B83D66);background-size:200% 100%;color:#fff;font-size:15px;font-weight:700;letter-spacing:.01em;border:2px solid #fff;border-radius:999px;padding:7px 16px;margin-bottom:8px;box-shadow:0 6px 18px rgba(184,61,102,.45);animation:omgBrilhaFundo 3s linear infinite, omgGlow 1.6s ease-in-out infinite}
+  .omg-anda__placa::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%);transform:translateX(-120%);animation:omgReflexo 2.4s ease-in-out infinite}
+  .omg-anda__placa b{color:#FFF3A6;font-size:1.12em}
+  .omg-anda__placa em{font-style:normal;text-transform:uppercase;letter-spacing:.04em}
+  .omg-anda__brilhos{position:relative;width:34px;height:30px;margin-right:2px}
+  .omg-anda__brilhos i{position:absolute;font-style:normal;color:#E0578A;font-size:12px;opacity:0;animation:omgFaisca 1.2s ease-out infinite}
+  .omg-anda__brilhos i:nth-child(1){left:22px;top:6px}
+  .omg-anda__brilhos i:nth-child(2){left:10px;top:16px;animation-delay:.4s;color:#F4A6C2}
+  .omg-anda__brilhos i:nth-child(3){left:0;top:4px;animation-delay:.8s;font-size:10px}
+  @keyframes omgBrilhaFundo{to{background-position:-200% 0}}
+  @keyframes omgGlow{50%{box-shadow:0 6px 26px rgba(224,87,138,.75),0 0 0 4px rgba(224,87,138,.18)}}
+  @keyframes omgReflexo{0%{transform:translateX(-120%)}60%,100%{transform:translateX(120%)}}
+  @keyframes omgFaisca{0%{opacity:0;transform:scale(.4)}30%{opacity:1;transform:scale(1.1)}100%{opacity:0;transform:translateX(-14px) scale(.6)}}
+  .omg-anda__corda{width:16px;height:2px;background:#B83D66;margin:0 0 20px}
+  .omg-anda__truck{font-size:36px;line-height:1;filter:drop-shadow(0 3px 4px rgba(74,38,56,.3));display:inline-block;transform:scaleX(-1);animation:omgPula .35s ease-in-out infinite}
   .omg-anda__carro:hover{animation-play-state:paused}
   @keyframes omgAnda{from{transform:translateX(-100%)}to{transform:translateX(var(--omg-w,1400px))}}
   @keyframes omgPula{50%{translate:0 -2px}}
-  @media (max-width:749px){.omg-anda{height:48px;bottom:calc(80px + env(safe-area-inset-bottom,0px))}.omg-anda__placa{font-size:12px;padding:5px 9px}.omg-anda__truck{font-size:22px}}
-  @media (prefers-reduced-motion:reduce){.omg-anda__carro{animation:none;left:50%;transform:translateX(-50%)}.omg-anda__truck{animation:none}}
+  @media (max-width:749px){.omg-anda{height:56px;bottom:calc(80px + env(safe-area-inset-bottom,0px))}.omg-anda__placa{font-size:13px;padding:6px 12px}.omg-anda__truck{font-size:28px}.omg-anda__brilhos{display:none}}
+  @media (prefers-reduced-motion:reduce){.omg-anda__carro{animation:none;left:50%;transform:translateX(-50%)}.omg-anda__truck,.omg-anda__placa,.omg-anda__placa::after,.omg-anda__brilhos i{animation:none}}
 </style>
 <a class="omg-anda" id="omg-anda" href="/collections/all?sort_by=best-selling" aria-label="Frete grátis para todo o Brasil em compras acima de R$ 200. Ver os mais vendidos">
   <span class="omg-anda__chao"></span>
-  <span class="omg-anda__carro"><span class="omg-anda__placa">Frete grátis acima de <b>R$ 200</b> <span class="omg-anda__extra">✦ para todo o Brasil</span></span><span class="omg-anda__corda"></span><span class="omg-anda__truck" aria-hidden="true">🚚</span></span>
+  <span class="omg-anda__carro"><span class="omg-anda__brilhos" aria-hidden="true"><i>✦</i><i>✦</i><i>✦</i></span><span class="omg-anda__placa">🎁 <em>Frete grátis</em> acima de <b>R$ 200</b> <span class="omg-anda__extra">✦ para todo o Brasil</span></span><span class="omg-anda__corda"></span><span class="omg-anda__truck" aria-hidden="true">🚚</span></span>
 </a>
 <script>
 (function(){
