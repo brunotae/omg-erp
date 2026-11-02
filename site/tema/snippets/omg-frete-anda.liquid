@@ -1,7 +1,7 @@
 {%- comment -%} Home: caminhãozinho do frete grátis flutuando na parte de baixo da tela, sempre por cima, mesmo rolando a página (Tae · 02/11/2026). {%- endcomment -%}
 {%- if template.name == 'index' -%}
 <style>
-  .omg-anda{position:fixed;left:0;right:0;bottom:calc(86px + env(safe-area-inset-bottom,0px));height:72px;overflow:hidden;text-decoration:none;color:inherit;z-index:40;pointer-events:none}
+  .omg-anda{position:fixed;left:0;right:0;bottom:calc(86px + env(safe-area-inset-bottom,0px));height:72px;overflow-x:clip;overflow-y:visible;text-decoration:none;color:inherit;z-index:40;pointer-events:none}
   .omg-anda__carro{pointer-events:auto;cursor:pointer}
   .omg-anda__chao{display:none;position:absolute;left:0;right:0;bottom:7px;height:2px;background:repeating-linear-gradient(90deg,#E5A9BF 0 12px,transparent 12px 22px)}
   .omg-anda__carro{position:absolute;bottom:6px;left:0;display:flex;align-items:flex-end;white-space:nowrap;animation:omgAnda var(--omg-dur,16s) linear infinite;will-change:transform}
