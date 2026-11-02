@@ -19,6 +19,7 @@
   {%- endif -%}
 </div>
 <style>
+  .omg-frete__form{display:none!important}
   .omg-frete{border:1px solid #EBD3DC;border-radius:10px;padding:10px 12px;margin-block:10px;display:grid;gap:8px;font-size:13px;background:#fff;position:relative}
   .omg-frete__prazo{margin:0;font-weight:600;display:flex;align-items:center;gap:6px}
   .omg-frete__prazo:before{content:"";width:7px;height:7px;border-radius:50%;background:#B83D66}
@@ -54,7 +55,7 @@
   const norm = s => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
   const nomeLocal = c => c.ref ? 'São Paulo (capital)' : c.n + ' - ' + c.uf;
   let local = SP;
-  try { const s = JSON.parse(localStorage.getItem('omg_cidade') || 'null'); if (s && s.cep) local = s; } catch (e) {}
+  // campo de cidade oculto (Tae 02/11/2026): conta sempre para São Paulo (capital)
   if (!local.ref) inp.value = local.n + ' - ' + local.uf;
 
   // Lista de cidades (carrega só quando a cliente toca no campo)
@@ -95,8 +96,8 @@
     if (!pp) return;
     let el = document.querySelector('.omg-pfinal');
     if (!el) { el = document.createElement('p'); el.className = 'omg-pfinal'; pp.after(el); }
-    el.innerHTML = 'Preço final ' + (local.ref ? 'em São Paulo (capital)' : 'para ' + nomeLocal(local)) + ': <b>' + brl(total) + '</b> com frete e impostos · <a href="#omg-cidade-produto">' + (local.ref ? 'veja para a sua cidade' : 'trocar cidade') + '</a>';
-    el.querySelector('a').addEventListener('click', ev => { ev.preventDefault(); inp.scrollIntoView({ block: 'center', behavior: 'smooth' }); setTimeout(() => inp.focus(), 300); });
+    el.innerHTML = 'Preço final ' + (local.ref ? 'em São Paulo (capital)' : 'para ' + nomeLocal(local)) + ': <b>' + brl(total) + '</b> com frete e impostos';
+    
   }
   let varSel = 0;
   async function itens() {
@@ -126,12 +127,12 @@
       const x = j.detalhe, b = x.brl;
       const row = (t, v, c) => '<div class="omg-frete__row' + (c ? ' ' + c : '') + '"><span>' + t + '</span><b>' + brl(v) + '</b></div>';
       res.innerHTML =
-        '<p class="omg-frete__ref">Estimativa para <b>' + nomeLocal(local) + '</b>.' + (local.ref ? ' Digite sua cidade acima para ver o seu.' : '') + '</p>' +
+        '<p class="omg-frete__ref">Estimativa para <b>' + nomeLocal(local) + '</b>.' + '' + '</p>' +
         row(box.dataset.modo === 'carrinho' ? 'Produtos' : 'Produto', b.mercadoria) +
         row('Frete e seguro', b.frete_seguro) +
         row('Imposto de importação', b.ii) +
         row('ICMS ' + x.aliquota_icms + '% ' + x.uf, b.icms) +
-        row('Total estimado', b.total_pedido, 'omg-frete__tot') +
+        row('Total final estimado', b.total_pedido, 'omg-frete__tot') +
         '<p class="omg-frete__nota">O frete exato é calculado no checkout, com o seu CEP. ' + (b.ii === 0 ? 'Até US$ 50 não paga imposto de importação. ' : '') +
         'Remessa Conforme, câmbio R$ ' + Number(x.cambio).toFixed(2).replace('.', ',') + '. Nada é cobrado na entrega.</p>';
       linhaPreco(b.total_pedido);
