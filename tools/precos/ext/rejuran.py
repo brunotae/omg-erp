@@ -5,6 +5,12 @@ UA = {"user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit
       "accept-language": "en-US,en;q=0.9"}
 OUT = "tools/precos/ext/dados/rejuran"; os.makedirs(OUT, exist_ok=True)
 def get(u, t=60):
+    for tent in range(5):
+        try: return get0(u, t)
+        except urllib.error.HTTPError as e:
+            if e.code != 429 or tent == 4: raise
+            time.sleep(30 * (tent + 1))
+def get0(u, t=60):
     r = urllib.request.urlopen(urllib.request.Request(u, headers=UA), timeout=t); b = r.read()
     if r.headers.get("content-encoding") == "gzip": b = gzip.decompress(b)
     return b.decode("utf-8", "replace"), r.geturl()
@@ -12,21 +18,19 @@ log = {}
 loja = None
 for L in ["rejuranusa.com", "www.rejuranusa.com", "rejurancosmetics.com", "www.rejurancosmetics.com"]:
     try:
-        for tent in range(4):
-            try: t, fin = get(f"https://{L}/products.json?limit=250&page=1"); break
-            except urllib.error.HTTPError as e:
-                if e.code != 429 or tent == 3: raise
-                time.sleep(40 * (tent + 1))
+        t, fin = get(f"https://{L}/products.json?limit=250&page=1")
         p = json.loads(t)["products"]; log[L] = {"ok": len(p), "final": fin}
         if p: loja = L; break
     except Exception as e: log[L] = str(e)[:200]
 prods = []
 if loja:
     for pg in range(1, 10):
-        t, _ = get(f"https://{loja}/products.json?limit=250&page={pg}")
+        time.sleep(5)
+        if pg > 1: t, _ = get(f"https://{loja}/products.json?limit=250&page={pg}")
         p = json.loads(t)["products"]
         if not p: break
-        prods += p; time.sleep(1)
+        prods += p
+        if len(p) < 250: break
     json.dump({"loja": loja, "lido": time.strftime("%Y-%m-%d %H:%M"), "produtos": prods}, open(f"{OUT}/us_products.json", "w"), ensure_ascii=False)
     ordem = []
     for pg in range(1, 15):
