@@ -836,6 +836,19 @@ async function principal(req: Request): Promise<Response> {
       return resp(200, { ok: true, resultados });
     }
 
+    if (b.acao === "precos_ler") {
+      // Todas as variantes (qualquer status) com preço, preço "de" e peso. 100 produtos por chamada (b.after).
+      const d: any = await gql(`query($a: String) { products(first: 100, after: $a) { nodes { legacyResourceId handle title vendor status
+          variants(first: 60) { nodes { legacyResourceId sku title price compareAtPrice inventoryItem { measurement { weight { value unit } } } } } }
+          pageInfo { hasNextPage endCursor } } }`, { a: b.after ?? null });
+      const G: Record<string, number> = { GRAMS: 1, KILOGRAMS: 1000, OUNCES: 28.3495, POUNDS: 453.592 };
+      const rows = d.products.nodes.flatMap((p: any) => p.variants.nodes.map((v: any) => {
+        const w = v.inventoryItem?.measurement?.weight; const g = w ? Math.round(Number(w.value) * (G[w.unit] || 1)) : 0;
+        return [String(p.legacyResourceId), String(v.legacyResourceId), p.handle, p.title, p.vendor, p.status, v.sku, v.title, Number(v.price), v.compareAtPrice ? Number(v.compareAtPrice) : null, g];
+      }));
+      return resp(200, { ok: true, cols: ["pid","vid","handle","titulo","marca","status","sku","variante","preco","de","gramas"], rows, proximo: d.products.pageInfo.hasNextPage ? d.products.pageInfo.endCursor : null });
+    }
+
     if (b.acao === "precos") {
       // Pricing: muda vários preços de uma vez. itens: [{ produtoId, varianteId, preco }] (até 50).
       const itens: any[] = (Array.isArray(b.itens) ? b.itens : []).slice(0, 50).filter((i: any) => Number(i.preco) > 0 && i.produtoId && i.varianteId);
@@ -846,7 +859,8 @@ async function principal(req: Request): Promise<Response> {
         try {
           const d: any = await gql(
             `mutation($pid: ID!, $v: [ProductVariantsBulkInput!]!) { productVariantsBulkUpdate(productId: $pid, variants: $v) { userErrors { message } } }`,
-            { pid: "gid://shopify/Product/" + pid, v: its.map((i) => ({ id: "gid://shopify/ProductVariant/" + i.varianteId, price: Number(i.preco).toFixed(2) })) },
+            { pid: "gid://shopify/Product/" + pid, v: its.map((i) => ({ id: "gid://shopify/ProductVariant/" + i.varianteId, price: Number(i.preco).toFixed(2),
+              ...(i.de !== undefined ? { compareAtPrice: i.de ? Number(i.de).toFixed(2) : null } : {}) })) },
           );
           const e = d.productVariantsBulkUpdate.userErrors; if (e.length) throw new Error(e[0].message);
           for (const i of its) {
