@@ -1,0 +1,22 @@
+name: Precos - sonda Sephora BR
+on:
+  push:
+    branches: [main]
+    paths: ['tools/precos/ext/sonda_sephora.py']
+  workflow_dispatch:
+    inputs:
+      marca: { description: "Marca", default: "purito" }
+permissions:
+  contents: write
+jobs:
+  ler:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/precos/ext/sonda_sephora.py
+        env: { MARCA: "${{ github.event.inputs.marca || 'purito' }}" }
+      - run: |
+          git config user.name "omg-bot"; git config user.email "bot@ohmygirl.com.br"
+          git add tools/precos/ext/dados
+          git commit -m "Sonda Sephora BR" || true
+          git pull --rebase origin main && git push
