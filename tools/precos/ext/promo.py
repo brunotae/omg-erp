@@ -28,6 +28,10 @@ for u in U["jini"]:
     it={"url":u}
     try:
         t=get(u); T=txt(t)
+        mv=re.search(r'LS.variants = (\[.*?\]);\n',t,re.S)
+        if mv:
+            it["variantes"]=[{k:v.get(k) for k in ("price_number","compare_at_price_number","promotional_price_number","has_promotional_price","price_with_payment_discount_short","option0","option1","sku","stock","available")} for v in json.loads(mv.group(1))]
+        it["opcoes"]=re.findall(r'data-option="\d+"[^>]*>\s*([^<]{1,60})<',t)[:12]+re.findall(r'<option value="([^"]{1,60})"',t)[:12]
         if u==U["jini"][0]: open("tools/precos/ext/dados/jini_amostra.html","w").write(t)
         it["desc"]=[t[max(0,m.start()-200):m.end()+200] for m in re.finditer(r'(?i)(payment_discount|discount_percent|desconto|% off|OFF no)',t)][:8]
         it["ld"]=re.findall(r'"price"\s*:\s*"?([\d.]+)',t)[:6]
