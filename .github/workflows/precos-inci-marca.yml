@@ -1,0 +1,21 @@
+name: Precos - INCI e modo de usar (loja oficial)
+on:
+  workflow_dispatch:
+    inputs:
+      loja: { required: true }
+      marca: { required: true }
+      handles: { required: true }
+permissions:
+  contents: write
+jobs:
+  ler:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/precos/ext/inci_marca.py
+        env: { LOJA: "${{ github.event.inputs.loja }}", MARCA: "${{ github.event.inputs.marca }}", HANDLES: "${{ github.event.inputs.handles }}" }
+      - run: |
+          git config user.name "omg-bot"; git config user.email "bot@ohmygirl.com.br"
+          git add tools/precos/ext/dados
+          git commit -m "INCI da loja oficial" || true
+          git pull --rebase origin main && git push
