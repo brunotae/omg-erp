@@ -1,6 +1,6 @@
 # Rejuran: catálogo da loja oficial dos EUA (Shopify products.json), ordem de mais vendidos,
 # cupons visíveis e sonda de outras fontes (Sephora US, loja coreana). Saída: tools/precos/ext/dados/rejuran/
-import urllib.request, re, json, os, time, gzip
+import urllib.request, urllib.error, urllib.parse, re, json, os, time, gzip
 UA = {"user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129 Safari/537.36",
       "accept-language": "en-US,en;q=0.9"}
 OUT = "tools/precos/ext/dados/rejuran"; os.makedirs(OUT, exist_ok=True)
@@ -10,9 +10,13 @@ def get(u, t=60):
     return b.decode("utf-8", "replace"), r.geturl()
 log = {}
 loja = None
-for L in ["rejuranusa.com", "www.rejuranusa.com", "rejuran.us", "us.rejuran.com", "rejuran.com", "www.rejuran.com"]:
+for L in ["rejuranusa.com", "www.rejuranusa.com", "rejurancosmetics.com", "www.rejurancosmetics.com"]:
     try:
-        t, fin = get(f"https://{L}/products.json?limit=250&page=1")
+        for tent in range(4):
+            try: t, fin = get(f"https://{L}/products.json?limit=250&page=1"); break
+            except urllib.error.HTTPError as e:
+                if e.code != 429 or tent == 3: raise
+                time.sleep(40 * (tent + 1))
         p = json.loads(t)["products"]; log[L] = {"ok": len(p), "final": fin}
         if p: loja = L; break
     except Exception as e: log[L] = str(e)[:200]
@@ -46,5 +50,20 @@ for nome, u in [("sephora_us", "https://www.sephora.com/brand/rejuran"), ("kr_of
         t, fin = get(u, 40); log[nome] = {"final": fin, "tam": len(t), "titulo": (re.findall(r"<title>([^<]{0,120})", t) or [""])[0]}
         open(f"{OUT}/{nome}.html", "w").write(t)
     except Exception as e: log[nome] = str(e)[:200]
+# Brasil: Mercado Livre (API pública) e Amazon BR (busca)
+for q in ["rejuran", "rejuran ampoule", "rejuran mask"]:
+    try:
+        t, _ = get("https://api.mercadolibre.com/sites/MLB/search?limit=50&q=" + urllib.parse.quote(q))
+        open(f"{OUT}/ml_{q.replace(' ', '_')}.json", "w").write(t); log["ml_" + q] = len(json.loads(t).get("results", []))
+    except Exception as e: log["ml_" + q] = str(e)[:200]
+    try:
+        t, _ = get("https://lista.mercadolivre.com.br/" + q.replace(" ", "-"))
+        open(f"{OUT}/mlhtml_{q.replace(' ', '_')}.html", "w").write(t); log["mlhtml_" + q] = len(t)
+    except Exception as e: log["mlhtml_" + q] = str(e)[:200]
+    try:
+        t, _ = get("https://www.amazon.com.br/s?k=" + urllib.parse.quote(q))
+        open(f"{OUT}/amz_{q.replace(' ', '_')}.html", "w").write(t); log["amz_" + q] = len(t)
+    except Exception as e: log["amz_" + q] = str(e)[:200]
+    time.sleep(3)
 json.dump(log, open(f"{OUT}/log.json", "w"), indent=1, ensure_ascii=False)
 print(json.dumps(log, ensure_ascii=False)[:3000]); print("produtos", len(prods))
