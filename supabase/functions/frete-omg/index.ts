@@ -54,11 +54,11 @@ Deno.serve(async (req) => {
       // Checkout só aceita texto corrido (sem quebra de linha nem negrito): nome curto + descrição em blocos curtos.
       // Nome deixa claro que inclui tributos (Tae · 31/10/2026); layout simplificado (Tae · 02/11/2026).
       const trib = x.brl.ii + x.brl.icms;
-      const nome = trib > 0 ? "Entrega internacional + impostos" : x.cfg.nome;
       const prazo = String(x.cfg.prazo || "").replace(/^De /, "");
-      const desc = x.cfg.detalhar
-        ? [prazo, `Frete ${fmt(x.brl.frete_seguro)}`, `ICMS ${fmt(x.brl.icms)}`, x.brl.ii > 0 ? `Imposto de importação ${fmt(x.brl.ii)}` : "Sem imposto de importação ✓"].join("  ·  ")
-        : `${x.cfg.prazo} · Frete, seguro e impostos inclusos (Remessa Conforme)`;
+      const nome = `Entrega + impostos · ${prazo}`;
+      const desc = trib > 0
+        ? `Frete ${fmt(x.brl.frete_seguro)} · Impostos ${fmt(trib)} (detalhes no carrinho)`
+        : `Frete ${fmt(x.brl.frete_seguro)} · sem impostos`;
       return json(200, { rates: [{ service_name: nome, service_code: "OMG_INTL", total_price: String(Math.round(x.brl.total_linha * 100)), currency: "BRL", description: desc }] });
     } catch (e) {
       console.error("frete-omg", String((e as Error).message || e));
