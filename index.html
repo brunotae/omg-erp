@@ -904,7 +904,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v75 · 01/11/2026';
+const VERSAO='v76 · 02/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -2884,7 +2884,7 @@ const SCHEMA={tabela_vendas:{data_compra:'2026-10-20',canal:'Site',cliente:'Nome
 VIEWFN.config=()=>{
  const dis=can()?'':' disabled';
  const fi=(id,l,v,step,h)=>'<div class="f"><label for="c-'+id+'">'+l+'</label><input id="c-'+id+'" type="number" step="'+step+'" value="'+v+'"'+dis+'><span class="hint">'+h+'</span></div>';
- return '<div class="page wide"><div class="col">'+head('Ajustes e integração','Parâmetros usados nos cálculos e o formato de dados para ligar o site ao ERP.')+
+ return '<div class="page wide"><div class="col">'+head('Ajustes e integração','Parâmetros usados nos cálculos e o formato de dados para ligar o site ao ERP.')+avcCard()+
  (can()?'<div class="card"><span class="label">Site (Shopify)</span><p class="muted" style="margin:4px 0 10px;font-size:12.5px">Ações do ERP na loja, pelo app OMG ERP. O resultado aparece abaixo.</p>'+
   '<div class="chips"><button class="btn sm" type="button" id="shop-testar">1. Testar ligação</button><button class="btn sm" type="button" id="sync-shop">2. Sincronizar catálogo</button><button class="btn sm" type="button" id="shop-paginas">3. Publicar políticas e páginas</button><button class="btn sm" type="button" id="pesos-shop">4. Enviar pesos</button><button class="btn sm" type="button" id="shop-webhooks">5. Ligar pedidos ao ERP</button><button class="btn sm" type="button" id="shop-rodape">6. Trocar páginas antigas do rodapé</button><button class="btn sm" type="button" id="shop-ativar">7. Ativar lote 1 no site</button></div>'+
   '<pre id="shop-saida" style="white-space:pre-wrap;font-size:12px;margin:10px 0 0;max-height:260px;overflow:auto">'+esc(SHOPLOG||'')+'</pre></div>':'')+
@@ -3341,6 +3341,61 @@ document.addEventListener('click',e=>{
  if(e.target.closest('#va-atual'))vaCarregar();
 });
 
+/* ================= Avisos à cliente por e-mail (v76): aviso 2 "Preparado na Coreia" e aviso 4 "Chegou ao Brasil e foi liberado" ================= */
+// Os avisos 1, 3, 5 e 6 saem pelo Shopify (envio_sync). Estes dois saem pela função avisos-cliente e ficam em avisos_cliente.
+const AVC={cfg:null,cfgLoaded:false};
+const AVC_TIT={preparado:'2 · Preparado na Coreia',liberado:'4 · Chegou ao Brasil e foi liberado'};
+async function avChamar(body){
+ const {data,error}=await sb.functions.invoke('avisos-cliente',{body});
+ if(error){let m='';try{m=(await error.context.json()).erro}catch(_){}throw new Error(m||error.message)}
+ return data;
+}
+async function avcCfg(){if(AVC.cfgLoaded||!S.db)return;AVC.cfgLoaded=true;
+ try{const {data}=await sb.from('config').select('valor').eq('chave','avisos').maybeSingle();AVC.cfg=data?data.valor:null}catch(_){AVC.cfg=null}
+ if(S.view==='config')render()}
+function avcCard(){
+ if(!AVC.cfgLoaded)setTimeout(avcCfg,0);
+ const c=AVC.cfg;
+ if(AVC.cfgLoaded&&!c)return '<div class="card"><span class="label">Avisos à cliente por e-mail</span><p class="muted" style="margin:4px 0 0;font-size:12.5px">Falta rodar no Supabase o SQL <b>omg-supabase-09-avisos-cliente.sql</b>.</p></div>';
+ const on=!!(c&&c.ativo);
+ return '<div class="card"><span class="label">Avisos à cliente por e-mail</span>'+
+  '<p class="muted" style="margin:4px 0 10px;font-size:12.5px">O Shopify manda: 1 pedido confirmado, 3 saiu da Coreia (com rastreio), 5 saiu para entrega e 6 entregue. O ERP manda: <b>2 · Preparado na Coreia</b> (quando a venda chega em "Embalado") e <b>4 · Chegou ao Brasil e foi liberado</b> (em "Desembaraço"). Cada aviso sai uma vez só por pedido e fica registrado na ficha da venda.</p>'+
+  '<div class="chips" style="align-items:center"><button type="button" class="mon-sw" id="avc-tog" role="switch" aria-checked="'+on+'"'+(can()&&c?'':' disabled')+'><i></i><span>'+(on?'Ligado':'Desligado')+'</span></button>'+
+  '<span class="muted" style="font-size:12px">Remetente: '+esc(c?c.de||'':'…')+'</span></div>'+
+  (can()?'<div class="chips" style="margin-top:10px"><button class="btn sm" type="button" data-avcteste="preparado">Me mandar exemplo do aviso 2</button><button class="btn sm" type="button" data-avcteste="liberado">Me mandar exemplo do aviso 4</button><button class="btn sm" type="button" id="avc-pend">Enviar pendentes agora</button></div>':'')+
+  '<p class="muted" id="avc-res" style="margin:8px 0 0;font-size:12px"></p></div>';
+}
+// ficha da venda: lista de avisos (Shopify + ERP)
+async function avcVenda(rec){
+ const box=document.getElementById('av-cli');if(!box||!rec)return;
+ const linhas=[];const e=rec.etapas||{};const site=String(rec.ext_id||rec.extId||'').startsWith('shopify:');
+ if(!site){box.innerHTML='<span class="muted" style="font-size:12.5px">Venda lançada à mão no ERP: a cliente não recebe avisos automáticos.</span>';return}
+ const env=((rec.dados_site||rec.dadosSite||{}).envio)||{};
+ if(e.pago)linhas.push([e.pago,'1 · Pedido confirmado','Shopify','enviado','']);
+ if(env.fulfillment_id)linhas.push([e.embarcado||'','3 · Saiu da Coreia (com rastreio)','Shopify','enviado','']);
+ (env.eventos||[]).forEach(k=>{const m={desembaraco:'Página "Acompanhe seu pedido" atualizada (chegou ao Brasil)',lastmile:'5 · Saiu para entrega',entregue:'6 · Entregue'}[k];if(m)linhas.push([e[k]||'',m,'Shopify','enviado',''])});
+ try{const {data,error}=await sb.from('avisos_cliente').select('tipo,status,para,info,criado_em,enviado_em').eq('venda',rec.id).order('criado_em');
+  if(error)throw error;(data||[]).forEach(a=>linhas.push([(a.enviado_em||a.criado_em||'').slice(0,16).replace('T',' '),AVC_TIT[a.tipo]||a.tipo,'ERP (e-mail)',a.status,a.status==='enviado'?a.para:a.info]))}
+ catch(err){linhas.push(['','Avisos do ERP','ERP','erro',/avisos_cliente|does not exist|schema/i.test(String(err.message))?'falta rodar o SQL 09':String(err.message||err)])}
+ linhas.sort((a,b)=>String(a[0]).localeCompare(String(b[0])));
+ const pill=s=>stPill(s==='enviado'?'Enviado':s==='pulado'?'Pulado':s==='erro'?'Erro':s==='enviando'?'Enviando':s);
+ box.innerHTML=linhas.length?'<div class="tblwrap"><table><thead><tr><th>Quando</th><th>Aviso</th><th>Quem manda</th><th>Situação</th><th>Detalhe</th></tr></thead><tbody>'+linhas.map(l=>'<tr><td class="num">'+esc(l[0]?(l[0].length===10?fdate(l[0]):fdate(l[0].slice(0,10))+' '+l[0].slice(11,16)):'—')+'</td><td>'+esc(l[1])+'</td><td>'+esc(l[2])+'</td><td>'+pill(l[3])+'</td><td><small>'+esc(l[4]||'')+'</small></td></tr>').join('')+'</tbody></table></div>':'<span class="muted" style="font-size:12.5px">Nenhum aviso ainda.</span>';
+}
+document.addEventListener('click',async e=>{
+ const tg=e.target.closest('#avc-tog');
+ if(tg){if(!can()||!AVC.cfg)return;tg.disabled=true;const novo={...AVC.cfg,ativo:!AVC.cfg.ativo};
+  const {error}=await sb.from('config').update({valor:novo}).eq('chave','avisos');
+  if(error){toast(errMsg(error));tg.disabled=false;return}AVC.cfg=novo;toast(novo.ativo?'Avisos por e-mail ligados':'Avisos por e-mail desligados');render();return}
+ const t=e.target.closest('[data-avcteste],#avc-pend');if(!t)return;
+ const out=document.getElementById('avc-res');t.disabled=true;
+ try{
+  if(t.dataset.avcteste){const r=await avChamar({teste:t.dataset.avcteste});if(out)out.textContent='Exemplo enviado para '+r.para+'. Confira a caixa de entrada (e o spam).'}
+  else{const r=await avChamar({pendentes:true});const rs=r.resultados||[];
+   if(out)out.textContent=r.desligado?'Os avisos estão desligados.':rs.length?rs.map(x=>vnum(x.numero)+' · '+(AVC_TIT[x.tipo]||x.tipo)+' · '+x.status+(x.info?' ('+x.info+')':'')).join(' | '):'Nada pendente: todos os avisos já saíram.'}
+ }catch(err){if(out)out.textContent='Não deu: '+(err.message||err)}
+ t.disabled=false;
+});
+
 /* ================= Ações de marketing (v23: dentro do ERP; antes era acoes.html) ================= */
 const AC_TIPOS=['Concurso cultural','Sorteio','Post','Reels','Story','Vídeo','Anúncio Meta','Live','Influenciadora','Cupom','Outro'];
 const AC_CANAIS=['Instagram','TikTok','WhatsApp','Site','Meta Ads','Google','YouTube'];
@@ -3573,9 +3628,10 @@ function openVenda(id){
   '<div class="sec"><span class="label">Valores cobrados</span>'+B.map(f=>fieldHTML(f,v[f.k],ro)).join('')+'<div class="sum" id="v-sum"></div></div>'+
   '<div class="sec"><span class="label">Custos</span>'+C.map(f=>fieldHTML(f,v[f.k],ro)).join('')+(L?'<div class="f full"><span class="hint">Embarque '+esc(L.numero)+' · AWB '+esc(L.awb||'—')+' · rateio '+krw((n(L.custo3PL)+n(L.freteAereo)+n(L.despacho))/Math.max(1,(L.vendas||[]).length))+'</span></div>':'')+'</div>'+
   '<div class="sec"><span class="label">Logística e documentos</span>'+D.map(f=>fieldHTML(f,v[f.k],ro)).join('')+'</div>'+
+  (rec?'<div class="sec"><span class="label">Avisos à cliente</span><div id="av-cli" style="grid-column:1/-1;min-width:0"><span class="muted" style="font-size:12.5px">Carregando…</span></div></div>':'')+
   '<div class="sec"><span class="label">Etapas · data de cada uma</span><div class="stepgrid">'+STEPS.map(([k,l,w],i)=>'<label class="stepg'+(e[k]?' on':'')+'"><span class="n">'+(i+1)+'</span><span>'+esc(l)+'<span class="who">'+esc(w)+(LOTE_STEPS.includes(k)?' · vem do embarque':'')+'</span></span><input type="date" data-step="'+k+'" value="'+esc(e[k]||'')+'"'+(ro?' readonly':'')+'></label>').join('')+'</div>'+
   '<label class="chk full"><input type="checkbox" name="cancelada" id="f-cancelada"'+(v.cancelada?' checked':'')+(ro?' disabled':'')+'> Venda cancelada</label></div>'+anexosHTML('vendas',ro);
- shell(rec?'Venda '+vnum(v.numero):'Nova venda',body,rec,ro);
+ shell(rec?'Venda '+vnum(v.numero):'Nova venda',body,rec,ro);if(rec)setTimeout(()=>avcVenda(rec),0);
  wireDelete('vendas',rec);
  wireAnexos('vendas',rec);
  const form=$('#mform');
@@ -4034,7 +4090,8 @@ function filaEnvio(id){FILA_ENVIO.add(id);clearTimeout(tEnvio);tEnvio=setTimeout
  try{const d=await chamarShop({acao:'envio_sync',ids});const rs=d.resultados||[];
   const feitos=rs.filter(r=>r.ok&&r.feito&&r.feito.length);if(feitos.length)toast('Site avisado: '+feitos.map(r=>vnum(r.numero)+' ('+r.feito.join(', ')+')').join(' · '));
   const erros=rs.filter(r=>r.ok===false);if(erros.length&&!avisoEnvio){avisoEnvio=true;toast('Não deu para avisar o site: '+erros[0].erro)}
- }catch(e){if(!avisoEnvio){avisoEnvio=true;toast('Não deu para avisar o site: '+e.message)}}},1500)}
+ }catch(e){if(!avisoEnvio){avisoEnvio=true;toast('Não deu para avisar o site: '+e.message)}}
+ try{const a=await avChamar({ids});const ok=(a.resultados||[]).filter(x=>x.status==='enviado');if(ok.length)toast('E-mail à cliente: '+ok.map(x=>vnum(x.numero)+' ('+(AVC_TIT[x.tipo]||x.tipo)+')').join(' · '))}catch(_){}},1500)}
 async function save0(col,rec,vals){
  const all={...(rec||{}),...vals};
  if(col==='compras'){const pp=parcById(all.parceiro);if(pp)all.fornecedor=pp.nome}
@@ -4105,6 +4162,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v76','02/11/2026',['Avisos à cliente por e-mail: o ERP passa a mandar o aviso 2 · Preparado na Coreia (quando a venda chega em Embalado) e o 4 · Chegou ao Brasil e foi liberado (em Desembaraço). Os avisos 1, 3, 5 e 6 continuam com o Shopify.','Cada aviso sai uma vez só por pedido. A ficha da venda mostra todos os avisos que a cliente recebeu (Shopify e ERP). Em Ajustes: ligar/desligar, mandar exemplo para você e enviar pendentes.']],
  ['v75','01/11/2026',['Cupons: tabela tipo Excel, com filtro e ordem em cada coluna (código, tipo, desconto, público, validade, usos, desconto dado, status).','Seleção de vários cupons (caixinha em cada linha ou "Selecionar os do filtro"): copiar os códigos, copiar os links do presente (escolha o modelo) ou baixar uma planilha com código, desconto, validade, link do presente e link que já aplica o desconto.']],
  ['v74','01/11/2026',['Novo: Clientes › Visitas agora. Visitas e pessoas do site nas últimas 24 h, 2 dias e 7 dias, direto do Shopify, com Brasil × fora, países, estados e origem (Instagram, Google, direto…). Abre direto pelo link brunotae.github.io/omg-erp/?tela=visitas, bom para salvar na tela do celular.']],
  ['v74','01/11/2026',['Relatório do site: aparece o período coberto (ex.: 31/10/2026, das 00:00 às 23:59, horário de Brasília) e com qual dia está sendo comparado. Vale na tela, no PDF e no e-mail.']],
