@@ -1,0 +1,16 @@
+{
+ "rejuranusa.com": "HTTP Error 429: Too Many Requests",
+ "www.rejuranusa.com": "HTTP Error 429: Too Many Requests",
+ "rejuran.us": "HTTP Error 404: Not Found",
+ "us.rejuran.com": "<urlopen error [Errno -2] Name or service not known>",
+ "rejuran.com": "<urlopen error [Errno -5] No address associated with hostname>",
+ "www.rejuran.com": "<urlopen error [Errno -2] Name or service not known>",
+ "sephora_us": "HTTP Error 403: Forbidden",
+ "kr_oficial": {
+  "final": "https://www.rejuran.co.kr/",
+  "tam": 267659,
+  "titulo": "리쥬란"
+ },
+ "kr_mall": "<urlopen error [Errno -3] Temporary failure in name resolution>",
+ "oliveyoung_us": "HTTP Error 403: Forbidden"
+}
