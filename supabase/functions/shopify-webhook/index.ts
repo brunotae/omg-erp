@@ -31,7 +31,7 @@ async function separarFreteOMG(pedido: any, venda: any) {
     const c = await calcular(ad.zip, ad.province_code || null, itens);
     // Com ICMS cobrado pelo Shopify (tax_lines), a linha de entrega é só frete + seguro + II.
     const taxICMS = Math.round((pedido.tax_lines || []).reduce((t: number, x: any) => t + (Number(x.price_set?.shop_money?.amount ?? x.price) || 0), 0) * 100) / 100;
-    const viaShopify = taxICMS > 0;
+    const viaShopify = !!c.cfg.icms_shopify && taxICMS > 0;
     venda.frete = c.brl.frete_seguro; venda.ii = c.brl.ii; venda.icms = viaShopify ? taxICMS : c.brl.icms;
     venda.dados_site = { ...(venda.dados_site || {}), frete_omg: { ...c, cobrado } };
     const esperado = viaShopify ? c.brl.frete_seguro + c.brl.ii : c.brl.total_linha;
