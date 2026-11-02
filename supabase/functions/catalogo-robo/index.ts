@@ -158,7 +158,7 @@ Deno.serve(async (req) => {
           if (it.hs) ii.harmonizedSystemCode = String(it.hs).replace(/\D/g, "");
           const vv: any = { id: v.id, inventoryItem: ii };
           if (it.preco != null) vv.price = String(it.preco);
-          if (Array.isArray(it.dim) && it.dim.every((x: any) => x != null)) vv.metafields = [{ namespace: "custom", key: "dimensoes_cm", type: "single_line_text_field", value: it.dim.map((x: any) => String(x).replace(".", ",")).join(" x ") }];
+          if (Array.isArray(it.dim) && it.dim.every((x: any) => x != null)) vv.metafields = [{ namespace: "custom", key: "dimensoes_cm", type: "single_line_text_field", value: it.dim.map((x: any) => String(x).replace(".", ",")).join(" × ") + " cm" }];
           const d: any = await gql(`mutation($p: ID!, $v: [ProductVariantsBulkInput!]!) { productVariantsBulkUpdate(productId: $p, variants: $v) { userErrors { message } } }`, { p: v.product.id, v: [vv] });
           if (d.productVariantsBulkUpdate.userErrors.length) throw new Error(d.productVariantsBulkUpdate.userErrors[0].message);
           const up: any = { shopify_product_id: v.product.id.split("/").pop(), shopify_variant_id: v.id.split("/").pop() };
