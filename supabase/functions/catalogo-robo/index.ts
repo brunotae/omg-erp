@@ -2,6 +2,7 @@
 // que é criada para a tarefa e apagada no fim. "criar" sempre cria em RASCUNHO; só o modo "status" ativa, e só com OK explícito do Tae no chat.
 //   { modo: "fonte", handles: [..], loja?: "numbuzinus.com" } → lê a ficha oficial (Shopify da marca): título, texto, fotos, peso
 //   { modo: "arquivar", ids: [productId] }                     → status ARCHIVED
+//   { modo: "remover_versao", skus: [sku] }                    → apaga só a versão (variante) da página; ERP: linha arquivada
 //   { modo: "atualizar", itens: [{ id, titulo?, tipo?, tags?, preco?, peso_g?, sku? }] } → 1ª variante para preço/peso; tags substitui a lista
 //   { modo: "criar", itens: [{ titulo, handle, vendor, tipo, tags, html | desc, fotos: [url] | fonte (handle na loja oficial), sku, preco, peso_g }] } → cria em DRAFT
 //   { modo: "ler", ids: [productId] }                          → título, tipo, tags, status, preço, peso, nº de fotos
@@ -103,6 +104,17 @@ Deno.serve(async (req) => {
           await admin.from("produtos").update({ ativo: false, site_status: "archived" }).eq("shopify_product_id", String(id));
           out.push({ id, ok: true });
         } catch (e) { out.push({ id, ok: false, erro: erro(e) }); }
+      }
+    } else if (b.modo === "remover_versao") {
+      // { modo: "remover_versao", skus: ["MB..."] } → apaga só essa versão (variante) da página; no ERP a linha fica arquivada
+      for (const sku of (b.skus || []).slice(0, 20)) {
+        try {
+          const v = await porSku(String(sku));
+          const d: any = await gql(`mutation($p: ID!, $v: [ID!]!) { productVariantsBulkDelete(productId: $p, variantsIds: $v) { userErrors { message } } }`, { p: v.product.id, v: [v.id] });
+          if (d.productVariantsBulkDelete.userErrors.length) throw new Error(d.productVariantsBulkDelete.userErrors[0].message);
+          await admin.from("produtos").update({ ativo: false, site_status: "archived" }).eq("sku", String(sku));
+          out.push({ sku, ok: true });
+        } catch (e) { out.push({ sku, ok: false, erro: erro(e) }); }
       }
     } else if (b.modo === "atualizar") {
       for (const it of (b.itens || []).slice(0, 40)) {
