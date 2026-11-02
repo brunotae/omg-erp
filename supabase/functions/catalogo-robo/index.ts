@@ -6,7 +6,7 @@
 //   { modo: "criar", itens: [{ titulo, handle, vendor, tipo, tags, html | desc, fotos: [url] | fonte (handle na loja oficial), sku, preco, peso_g }] } → cria em DRAFT
 //   { modo: "ler", ids: [productId] }                          → título, tipo, tags, status, preço, peso, nº de fotos
 //   { modo: "completar", itens: [{ sku, preco?, peso_g?, hs?, dim?: [c,l,a], nome_en?, nome_kr? }] } → Shopify (por SKU) + ERP
-//   { modo: "versoes", base, titulo?, opcao?, variantes: [{ sku, nome, preco, peso_g, de?, foto? }] } → junta versões num produto só
+//   { modo: "versoes", base, titulo?, opcao?, renomear?: { valorAntigo: novo }, variantes: [{ sku, nome, preco, peso_g, de?, foto? }] } → junta versões num produto só
 //   { modo: "capa", fase: "por" | "fim", itens } → troca a capa (mesmo fluxo da função capa-foto)
 //   { modo: "status", ids, status: "ACTIVE" | "DRAFT" } → ativa (e publica nos canais de um produto ativo) — só com OK explícito do Tae
 //   { modo: "ler2", ids } → conferência completa por versão
@@ -181,7 +181,7 @@ Deno.serve(async (req) => {
       // { base: productId, titulo?, opcao: "Versão", variantes: [{ sku, nome, preco, peso_g, de?: productId (arquivado depois), foto?: url }] }
       // a 1ª variante é a que o produto-base já tem; as outras são criadas nele
       const pid = gid(b.base); const opcao = String(b.opcao || "Versão"); const vs = b.variantes || [];
-      const p0: any = (await gql(`query($id: ID!) { product(id: $id) { title options { id name } media(first: 1) { nodes { id } }
+      const p0: any = (await gql(`query($id: ID!) { product(id: $id) { title options { id name optionValues { id name } } media(first: 1) { nodes { id } }
         variants(first: 10) { nodes { id sku inventoryPolicy inventoryItem { tracked } } } } }`, { id: pid })).product;
       const v0 = p0.variants.nodes[0];
       if (v0.sku !== vs[0].sku) throw new Error(`a 1ª versão do produto-base é ${v0.sku}, não ${vs[0].sku}`);
@@ -189,6 +189,14 @@ Deno.serve(async (req) => {
         const o: any = await gql(`mutation($p: ID!, $o: [OptionCreateInput!]!) { productOptionsCreate(productId: $p, options: $o, variantStrategy: LEAVE_AS_IS) { userErrors { message } } }`,
           { p: pid, o: [{ name: opcao, values: [{ name: vs[0].nome }] }] });
         if (o.productOptionsCreate.userErrors.length) throw new Error("opção: " + o.productOptionsCreate.userErrors[0].message);
+      }
+      if (b.renomear && p0.options[0] && p0.options[0].name !== "Title") {
+        // produto-base que já tem versões: renomeia a opção e os valores (ex.: "60 ml" → "Sem perfume 60 ml")
+        const o0 = p0.options[0];
+        const vals = o0.optionValues.filter((v: any) => b.renomear[v.name]).map((v: any) => ({ id: v.id, name: String(b.renomear[v.name]) }));
+        const u: any = await gql(`mutation($p: ID!, $o: OptionUpdateInput!, $v: [OptionValueUpdateInput!]) { productOptionUpdate(productId: $p, option: $o, optionValuesToUpdate: $v, variantStrategy: LEAVE_AS_IS) { userErrors { message } } }`,
+          { p: pid, o: { id: o0.id, name: opcao }, v: vals });
+        if (u.productOptionUpdate.userErrors.length) throw new Error("renomear: " + u.productOptionUpdate.userErrors[0].message);
       }
       const novos = vs.slice(1).filter((v: any) => !p0.variants.nodes.some((x: any) => x.sku === v.sku));
       let criadas: any[] = [];
