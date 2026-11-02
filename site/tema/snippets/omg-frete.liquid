@@ -3,7 +3,7 @@
   v3 (01/11/2026, Tae): a cliente escolhe só a CIDADE (não o CEP) e vê o preço final estimado; o frete exato sai no checkout com o CEP.
   Sem cidade escolhida: São Paulo (capital). A cidade fica guardada no aparelho (omg_cidade) e vale também nas vitrines (omg-mais).
 {%- endcomment -%}
-{%- assign prazo_txt = prazo_texto | default: 'Entrega em até 15 dias úteis para capitais' -%}
+{%- assign prazo_txt = prazo_texto | default: 'Entrega de 7 a 15 dias úteis para capitais' -%}
 <div class="omg-frete" data-modo="{{ modo }}" data-cidades="{{ 'omg-cidades.json' | asset_url }}">
   <p class="omg-frete__prazo">{{ prazo_txt }}</p>
   <form class="omg-frete__form" onsubmit="return false" autocomplete="off">

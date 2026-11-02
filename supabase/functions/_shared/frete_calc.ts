@@ -12,7 +12,7 @@ const CFG0 = {
   icms: { AC: 20, AL: 20, BA: 20, CE: 20, PB: 20, PI: 20, RN: 20, RR: 20, SE: 20, PA: 19, AP: 18,
     MG: 17, AM: 17, DF: 17, ES: 17, GO: 17, MA: 17, MT: 17, MS: 17, PR: 17, PE: 17, RJ: 17, RS: 17, RO: 17, SC: 17, SP: 17, TO: 17 } as Record<string, number>,
   nome: "Entrega internacional OMG",
-  prazo: "Até 15 dias úteis",
+  prazo: "De 7 a 15 dias úteis",
   detalhar: true,
 };
 let CACHE: { t: number; cfg: typeof CFG0; mile: any } | null = null;
