@@ -10,6 +10,7 @@
 //   { modo: "capa", fase: "por" | "fim", itens } → troca a capa (mesmo fluxo da função capa-foto)
 //   { modo: "status", ids, status: "ACTIVE" | "DRAFT" } → ativa (e publica nos canais de um produto ativo) — só com OK explícito do Tae
 //   { modo: "ler2", ids } → conferência completa por versão
+//   { modo: "colecao_marca", handle, titulo, vendor, ids } → coleção da marca em ordem manual (só ordem)
 //   { modo: "tema", ler?: [arquivo], gravar?: [{ arquivo, texto? | url? }] } → lê/grava arquivo do tema publicado
 import { createClient } from "npm:@supabase/supabase-js@2";
 const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
@@ -295,6 +296,36 @@ Deno.serve(async (req) => {
             versoes: p.variants.nodes.map((v: any) => ({ sku: v.sku, nome: v.title, preco: v.price, foto: !!v.media.nodes[0], dim: v.metafield?.value, hs: v.inventoryItem.harmonizedSystemCode, origem: v.inventoryItem.countryCodeOfOrigin, peso: v.inventoryItem.measurement?.weight?.value })) });
         } catch (e) { out.push({ id, ok: false, erro: erro(e) }); }
       }
+    } else if (b.modo === "colecao_marca") {
+      // { handle, titulo, vendor, ids: [productId na ordem] } — coleção da marca (regra: fornecedor = vendor), ordem manual.
+      // Só ordena: não muda preço, texto nem status de produto. Cria a coleção se não existir e publica nos mesmos canais de uma coleção existente.
+      let c: any = (await gql(`query($h: String!) { collectionByIdentifier(identifier: { handle: $h }) { id title sortOrder ruleSet { rules { column condition } } } }`, { h: String(b.handle) })).collectionByIdentifier;
+      let criada = false;
+      if (!c) {
+        const r: any = await gql(`mutation($c: CollectionInput!) { collectionCreate(input: $c) { collection { id title sortOrder } userErrors { message } } }`,
+          { c: { title: String(b.titulo), handle: String(b.handle), sortOrder: "MANUAL", ruleSet: { appliedDisjunctively: false, rules: [{ column: "VENDOR", relation: "EQUALS", condition: String(b.vendor) }] } } });
+        if (r.collectionCreate.userErrors.length) throw new Error("coleção: " + r.collectionCreate.userErrors[0].message);
+        c = r.collectionCreate.collection; criada = true;
+        const ref: any = await gql(`{ collections(first: 5, query: "handle:mais-pedidos") { nodes { resourcePublicationsV2(first: 20) { nodes { publication { id } } } } } }`);
+        const pubs = (ref.collections.nodes[0]?.resourcePublicationsV2.nodes || []).map((x: any) => ({ publicationId: x.publication.id }));
+        if (pubs.length) await gql(`mutation($id: ID!, $i: [PublicationInput!]!) { publishablePublish(id: $id, input: $i) { userErrors { message } } }`, { id: c.id, i: pubs });
+        await new Promise((ok) => setTimeout(ok, 8000)); // a coleção automática leva uns segundos para juntar os produtos
+      } else if (c.sortOrder !== "MANUAL") {
+        await gql(`mutation($c: CollectionInput!) { collectionUpdate(input: $c) { userErrors { message } } }`, { c: { id: c.id, sortOrder: "MANUAL" } });
+      }
+      const dentro = new Set<string>(); let a: string | null = null;
+      do {
+        const d: any = await gql(`query($id: ID!, $a: String) { collection(id: $id) { products(first: 250, after: $a) { nodes { id } pageInfo { hasNextPage endCursor } } } }`, { id: c.id, a });
+        d.collection.products.nodes.forEach((x: any) => dentro.add(x.id)); a = d.collection.products.pageInfo.hasNextPage ? d.collection.products.pageInfo.endCursor : null;
+      } while (a);
+      const gids = (b.ids || []).map((x: any) => gid(x)).filter((g: string) => dentro.has(g));
+      let err = "";
+      for (let t = 0; t < 4 && gids.length; t++) {
+        const r: any = await gql(`mutation($id: ID!, $m: [MoveInput!]!) { collectionReorderProducts(id: $id, moves: $m) { job { id } userErrors { message } } }`, { id: c.id, m: gids.map((g: string, i: number) => ({ id: g, newPosition: String(i) })) });
+        err = r.collectionReorderProducts.userErrors.map((x: any) => x.message).join("; "); if (!err) break;
+        await new Promise((ok) => setTimeout(ok, 3000));
+      }
+      out.push({ colecao: c.title, criada, na_colecao: dentro.size, ordenados: gids.length, erro: err || null });
     } else if (b.modo === "tema") {
       // tema publicado: { ler: [arquivo] } → conteúdo (texto) · { gravar: [{ arquivo, texto? , url? }] } → grava (url = imagem do repositório)
       const t: any = await gql(`{ themes(first: 1, roles: [MAIN]) { nodes { id name } } }`);

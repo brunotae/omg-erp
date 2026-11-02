@@ -9,7 +9,7 @@
           {%- assign nome = m | strip -%}
           {%- if nome != blank -%}
             {%- assign mh = nome | handleize -%}{%- assign busca = ',' | append: mh | append: ',' -%}
-            <li><a href="{{ routes.collections_url }}/vendors?q={{ nome | url_encode }}"{% if rodada == 2 %} tabindex="-1"{% endif %}{% if logos contains busca %} class="omg-tk__logo" aria-label="{{ nome }}"{% endif %}>{%- if logos contains busca -%}<img src="{{ 'omg-logo-' | append: mh | append: '.png' | asset_url }}" alt="{{ nome }}" height="24" loading="lazy">{%- else -%}{{ nome }}{%- endif -%}</a><span class="omg-tk__sep" aria-hidden="true">✦</span></li>
+            {%- assign cm = collections[mh] -%}<li><a href="{% if cm.id %}{{ cm.url }}{% else %}{{ routes.collections_url }}/vendors?q={{ nome | url_encode }}{% endif %}"{% if rodada == 2 %} tabindex="-1"{% endif %}{% if logos contains busca %} class="omg-tk__logo" aria-label="{{ nome }}"{% endif %}>{%- if logos contains busca -%}<img src="{{ 'omg-logo-' | append: mh | append: '.png' | asset_url }}" alt="{{ nome }}" height="24" loading="lazy">{%- else -%}{{ nome }}{%- endif -%}</a><span class="omg-tk__sep" aria-hidden="true">✦</span></li>
           {%- endif -%}
         {%- endfor -%}
       </ul>
