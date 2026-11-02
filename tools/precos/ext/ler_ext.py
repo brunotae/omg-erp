@@ -25,7 +25,8 @@ for pn in range(1,8):
         if (nome,url) in seen: continue
         seen.add((nome,url)); n+=1
         venda=usd(p1.group(1)) if p1 else None; cheio=usd(p2.group(1)) if p2 else venda
-        out.append({"site":"YesStyle","nome":nome,"url":url,"usd_venda":venda,"usd_cheio":max(x for x in (venda,cheio) if x),"selo":badge.group(1) if badge else ""})
+        vs=[x for x in (venda,cheio) if x]
+        out.append({"site":"YesStyle","nome":nome,"url":url,"usd_venda":venda,"usd_cheio":max(vs) if vs else None,"selo":(badge.group(1) if badge else "")+("" if vs else "sem preço/esgotado")})
     print("yes pn",pn,n)
     if n==0: break
     time.sleep(2)
