@@ -19,6 +19,9 @@
   .omg-anda__brilhos i:nth-child(6){left:4px;top:14px;font-size:22px;color:#FFD24A;animation-delay:0.4s}
   .omg-anda__brilhos i:nth-child(7){left:58px;top:52px;font-size:12px;color:#FF4F8B;animation-delay:0.8s}
   .omg-anda__brilhos i:nth-child(8){left:0px;top:36px;font-size:15px;color:#fff;animation-delay:1.0s}
+  .omg-anda__farol{position:relative;width:14px;height:14px;margin:0 0 14px -10px;border-radius:50%;background:#fff;opacity:0;box-shadow:0 0 10px 4px #fff,0 0 22px 10px rgba(255,214,90,.95),0 0 40px 18px rgba(255,79,139,.55);animation:omgFarol 1.5s linear infinite}
+  .omg-anda__farol::after{content:"";position:absolute;left:8px;top:50%;width:70px;height:26px;transform:translateY(-50%);background:linear-gradient(90deg,rgba(255,255,255,.95),rgba(255,236,170,.6) 40%,rgba(255,255,255,0));clip-path:polygon(0 40%,100% 0,100% 100%,0 60%);filter:drop-shadow(0 0 6px rgba(255,214,90,.9))}
+  @keyframes omgFarol{0%,100%{opacity:0;transform:scale(.6)}4%{opacity:1;transform:scale(1.3)}12%{opacity:0;transform:scale(.8)}18%{opacity:1;transform:scale(1.4)}28%{opacity:0;transform:scale(.6)}}
   @keyframes omgBrilhaFundo{to{background-position:-200% 0}}
   @keyframes omgGlow{50%{box-shadow:0 6px 26px rgba(224,87,138,.75),0 0 0 4px rgba(224,87,138,.18)}}
   @keyframes omgReflexo{0%{transform:translateX(-120%)}60%,100%{transform:translateX(120%)}}
@@ -28,12 +31,12 @@
   .omg-anda__carro:hover{animation-play-state:paused}
   @keyframes omgAnda{from{transform:translateX(-100%)}to{transform:translateX(var(--omg-w,1400px))}}
   @keyframes omgPula{50%{translate:0 -2px}}
-  @media (max-width:749px){.omg-anda{height:64px;bottom:calc(80px + env(safe-area-inset-bottom,0px))}.omg-anda__placa{font-size:13px;padding:6px 12px}.omg-anda__truck{font-size:28px}.omg-anda__brilhos{width:64px;transform:scale(.8);transform-origin:right bottom}.omg-anda__brilhos i:nth-child(n+6){display:none}}
-  @media (prefers-reduced-motion:reduce){.omg-anda__carro{animation:none;left:50%;transform:translateX(-50%)}.omg-anda__truck,.omg-anda__placa,.omg-anda__placa::after,.omg-anda__brilhos i{animation:none}}
+  @media (max-width:749px){.omg-anda{height:64px;bottom:calc(80px + env(safe-area-inset-bottom,0px))}.omg-anda__placa{font-size:13px;padding:6px 12px}.omg-anda__truck{font-size:28px}.omg-anda__farol::after{width:44px}.omg-anda__brilhos{width:64px;transform:scale(.8);transform-origin:right bottom}.omg-anda__brilhos i:nth-child(n+6){display:none}}
+  @media (prefers-reduced-motion:reduce){.omg-anda__carro{animation:none;left:50%;transform:translateX(-50%)}.omg-anda__truck,.omg-anda__placa,.omg-anda__placa::after,.omg-anda__brilhos i,.omg-anda__farol{animation:none}}
 </style>
 <a class="omg-anda" id="omg-anda" href="/collections/all?sort_by=best-selling" aria-label="Frete grátis para todo o Brasil em compras acima de R$ 200. Ver os mais vendidos">
   <span class="omg-anda__chao"></span>
-  <span class="omg-anda__carro"><span class="omg-anda__brilhos" aria-hidden="true"><i>✦</i><i>✦</i><i>✧</i><i>✦</i><i>✦</i><i>✦</i><i>✧</i><i>✦</i></span><span class="omg-anda__placa">🎁 <em>Frete grátis</em> acima de <b>R$ 200</b> <span class="omg-anda__extra">✦ para todo o Brasil</span></span><span class="omg-anda__corda"></span><span class="omg-anda__truck" aria-hidden="true">🚚</span></span>
+  <span class="omg-anda__carro"><span class="omg-anda__brilhos" aria-hidden="true"><i>✦</i><i>✦</i><i>✧</i><i>✦</i><i>✦</i><i>✦</i><i>✧</i><i>✦</i></span><span class="omg-anda__placa">🎁 <em>Frete grátis</em> acima de <b>R$ 200</b> <span class="omg-anda__extra">✦ para todo o Brasil</span></span><span class="omg-anda__corda"></span><span class="omg-anda__truck" aria-hidden="true">🚚</span><span class="omg-anda__farol" aria-hidden="true"></span></span>
 </a>
 <script>
 (function(){
