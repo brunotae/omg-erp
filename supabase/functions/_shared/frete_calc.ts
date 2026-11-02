@@ -105,7 +105,7 @@ export async function calcular(cepTxt: string, ufInf: string | null, itens: { gr
     usd: { mercadoria: r2(merc), frete_internacional: r2(intl * fator), frete_nacional: r2(nacional * fator), seguro: r2(seguro), frete_seguro: r2(frete), valor_aduaneiro: r2(va), ii: r2(ii), icms: r2(icms), total_linha: r2(linhaUSD) },
     brl: { mercadoria: r2(mercBRL), frete_seguro: B(frete), ii: B(ii), icms: B(icms), total_linha: B(linhaUSD), total_pedido: r2(mercBRL + B(linhaUSD)) },
     origem_nacional: origemNac,
-    cfg: { nome: cfg.nome, prazo: cfg.prazo, detalhar: cfg.detalhar },
+    cfg: { nome: cfg.nome, prazo: cfg.prazo, detalhar: cfg.detalhar, frete_fator: fator },
   };
 }
 

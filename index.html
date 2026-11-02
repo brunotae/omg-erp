@@ -905,7 +905,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v78 · 02/11/2026';
+const VERSAO='v79 · 02/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1837,7 +1837,7 @@ document.addEventListener('click',async e=>{
    Fluxo: editar % → Calcular (OK) → Transmitir ao Shopify. Cada transmissão vira um lote que pode ser revertido. */
 const PX={loaded:false,loading:false,itens:new Map(),cfg:null,lotes:[],sel:new Set(),f:{},st:'',sort:['marca',1],lim:200,busy:'',aberto:null};
 const pxHoje=()=>new Date().toLocaleDateString('en-CA',{timeZone:'America/Sao_Paulo'});
-const PX_CFG0={desc:5,frete:100,icms:20,icmsRef:17,ext:15,seguro:1,cep:'01532-001',usd:null,cambio:null,fretes:{},freteEm:null,v:2};
+const PX_CFG0={desc:5,frete:35,icms:20,icmsRef:17,ext:15,seguro:1,cep:'01532-001',usd:null,cambio:null,fretes:{},freteEm:null,v:2};
 // v43: referência de frete = São Paulo capital (CEP 01532-001). % frete travado em 100 até a Shipsmart cobrar só parte do frete no checkout.
 const PX_TRAVA_FRETE=true;
 const PX_SITES=[['oficial','Loja oficial da marca','OF','','https://www.google.com/search?q=loja+oficial+'],['yesstyle','YesStyle','YS','https://www.yesstyle.com/','https://www.yesstyle.com/en/list.html?q='],['oliveyoung','Olive Young Global','OY','https://global.oliveyoung.com/','https://global.oliveyoung.com/display/search?query='],['jolse','Jolse','JO','https://jolse.com/','https://jolse.com/product/search.html?keyword='],['sephora','Sephora Global','SE','https://www.sephora.com/','https://www.sephora.com/search?keyword=']];
@@ -1854,7 +1854,9 @@ async function pxLoad(){
   PX.itens=new Map(all.map(r=>[r.produto_id,r]));
   const {data:c,error:e2}=await sb.from('config').select('chave,valor').in('chave',['pricing','pricing_lotes']);if(e2)throw e2;
   (c||[]).forEach(r=>{if(r.chave==='pricing')PX.cfg=r.valor;else PX.lotes=Array.isArray(r.valor)?r.valor:[]});
-  if(PX.cfg&&PX.cfg.v!==2){PX.cfg={...PX.cfg,cep:'01532-001',icmsRef:17,fretes:{},freteEm:null,v:2};if(can())try{await pxSalvarCfg(PX.cfg)}catch(_){}}
+  if(PX.cfg&&PX.cfg.v!==2&&PX.cfg.v!==3){PX.cfg={...PX.cfg,cep:'01532-001',icmsRef:17,fretes:{},freteEm:null,v:2};if(can())try{await pxSalvarCfg(PX.cfg)}catch(_){}}
+  // v79: frete embutido (Tae 02/11/2026): o site cobra 35% do frete; 65% do frete de SP vai no preço
+  if(PX.cfg&&PX.cfg.v===2){PX.cfg={...PX.cfg,frete:35,v:3};if(can())try{await pxSalvarCfg(PX.cfg)}catch(_){}}
  }catch(e){toast(errMsg(e))}
  PX.loaded=true;PX.loading=false;
  if(can()&&pxFaltaFrete().length)pxCotarFrete(true);
@@ -1870,7 +1872,7 @@ async function pxCotarFrete(soFaltando){
  if(!pesos.length){if(!soFaltando)toast('Nenhum peso para cotar');return}
  PX.busy='frete';render();const fretes={...(soFaltando&&!novo?C.fretes:{})};let cambio=C.cambio,err=0,feitos=0;
  const um=async g=>{try{const r=await fetch(PX_FRETE_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({simular:{cep:C.cep,itens:[{grams:g,price:0,quantity:1}]}})});const j=await r.json();
-   if(!j.ok){err++;return}const d=j.detalhe;cambio=d.cambio;fretes[String(g)]=Math.round((d.usd.frete_internacional+d.usd.frete_nacional)*d.cambio*100)/100}catch(_){err++}feitos++};
+   if(!j.ok){err++;return}const d=j.detalhe;cambio=d.cambio;const fat=Number(d.cfg&&d.cfg.frete_fator)>0?Number(d.cfg.frete_fator):1;fretes[String(g)]=Math.round((d.usd.frete_internacional+d.usd.frete_nacional)/fat*d.cambio*100)/100}catch(_){err++}feitos++};
  try{for(let i=0;i<pesos.length;i+=10){await Promise.all(pesos.slice(i,i+10).map(um));if(pesos.length>40&&i%100===0)toast('Frete: '+feitos+' de '+pesos.length+' pesos…')}
   await pxSalvarCfg({...C,fretes,cambio,usd:null,fonte:'omg',freteEm:new Date().toISOString()});if(!soFaltando||novo)toast('Frete de SP calculado para '+pesos.length+' pesos'+(err?' · '+err+' sem resposta':''))}
  catch(e){toast('Frete: '+errMsg(e))}
@@ -1895,7 +1897,9 @@ function pxCalc(p){
  const C=pxCfg(),it=PX.itens.get(p.id)||{};
  const d=pxNum(it.desc_pct)??n(C.desc),icms=n(C.icms)/100,seg=n(C.seguro)/100,cam=pxCambio();
  const o={p,it,d,dPad:pxNum(it.desc_pct)==null,atual:pxNum(p.preco),peso:Number(p.pesoG)>0?Math.round(Number(p.pesoG)):null,flags:[],refs:pxConcs(p),manual:pxNum(it.preco_manual)};
- o.base=o.peso?pxNum((C.fretes||{})[String(o.peso)]):null;
+ o.baseCheio=o.peso?pxNum((C.fretes||{})[String(o.peso)]):null;
+ // v79: o.base = parte do frete que o checkout cobra (frete% da config, 35); o.emb = parte embutida no preço
+ const fp=Math.min(100,Math.max(0,n(C.frete)))/100;o.fp=fp;o.base=o.baseCheio!=null?o.baseCheio*fp:null;o.emb=o.baseCheio!=null?o.baseCheio*(1-fp):0;
  const val=o.refs.filter(r=>r.ativo&&!r.esgotado&&r.preco>0&&!r.auto).sort((a,b)=>a.pix-b.pix);
  if(val.length){const r=val[0];o.tipo='conc';o.ref={cod:r.cod,loja:r.loja,nome:PR_LOJA[r.loja],url:r.url,normal:r.preco,pix:r.pix,pixLido:r.pixLido,pixPct:r.pixPct,lido:r.lido,outro:val[1]||null,promo:pxPromoTxt(r)};
   if(!r.pixLido)o.flags.push('Pix da '+o.ref.nome+' ainda não lido');
@@ -1907,7 +1911,9 @@ function pxCalc(p){
  if(o.tipo!=='sem'){
   if(!o.peso)o.semRef='sem peso';else if(o.base==null)o.semRef='frete não calculado';
   else if(o.tipo==='conc'){o.alvo=o.ref.pix*(1-d/100);const s=(o.alvo*(1-icms)-o.base)/(1+seg),v=s>0?pr90(s):0;if(v>=5)o.sug=v;else o.semRef='frete e ICMS passam da referência'}
-  else if(cam){o.merc=o.ref.usd*(1+n(C.ext)/100)*cam;o.sug=pr90(o.merc)}}
+  else if(cam){o.merc=o.ref.usd*(1+n(C.ext)/100)*cam+o.emb;o.sug=pr90(o.merc)}
+  // v79: teto de R$ 269,90 quando só o frete embutido faria passar de US$ 50 (perderia a isenção)
+  const limI=cam?50*cam:null;if(has(o.sug)&&limI&&o.sug>limI&&o.sug-o.emb<=limI){o.sug=Math.floor(limI+0.1)-0.1;o.flags.push('limitado a '+brl(o.sug)+' para manter a isenção de US$ 50')}}
  // v61: piso de margem (preço do distribuidor em ₩ × câmbio do ₩ × (1 + margem mínima)). Só vale com custo cadastrado e margem definida nas Regras.
  const mm=pxNum(C.margemMin),cLB=pxNum(p.custoLB),krwR=pxNum((S.cfg||{}).krw);
  if(mm>0&&cLB>0&&krwR>0){o.piso=Math.ceil(cLB*krwR*(1+mm/100))-0.10;if(has(o.sug)&&o.sug<o.piso){o.flags.push('abaixo do piso de margem ('+brl(o.piso)+'): não dá para competir');o.sugRegra=o.sug;o.sug=o.piso}}
@@ -2081,7 +2087,7 @@ function pxRegras(){
  shell('Regras do Pricing','<div class="sec"><span class="label">Padrões (cada produto pode ter o seu)</span>'+f('desc','% abaixo da referência Pix','O que a cliente paga fica este % abaixo do menor preço entre KS e Jini (no Pix) e Sephora BR (promoção só após 14 dias). Para um produto só, abra a ficha dele.')+'</div>'+
   '<div class="sec"><span class="label">Piso de margem</span>'+f('margemMin','Margem mínima sobre o custo (%)','Vazio = sem piso. Com o preço do distribuidor cadastrado, o sugerido nunca fica abaixo de custo × (1 + margem) e o produto ganha o aviso "não dá para competir".',1)+'</div>'+
   '<div class="sec"><span class="label">Conta</span>'+f('icms','ICMS (%)','Por dentro.')+f('ext','Sobre o varejo do exterior (%)','Produto sem KS, Jini e Sephora BR: maior varejo oficial em US$ + este %.')+'<p class="hint" style="grid-column:1/-1;margin:0">Câmbio: o mesmo do checkout (R$ '+(Number(C.cambio)>0?Number(C.cambio).toFixed(2).replace('.',','):'—')+').</p></div>'+
-  '<div class="sec"><span class="label">Frete</span>'+f('cep','CEP de referência','São Paulo capital. O frete vem da mesma conta do checkout.')+f('icmsRef','ICMS de SP (%)','Usado na coluna Cliente SP paga.')+'<p class="hint" style="grid-column:1/-1;margin:0"><button class="btn sm" type="button" id="px-frete">Recalcular frete de todos os pesos</button></p></div>',null,!can());
+  '<div class="sec"><span class="label">Frete</span>'+f('cep','CEP de referência','São Paulo capital. O frete vem da mesma conta do checkout.')+f('icmsRef','ICMS de SP (%)','Usado na coluna Cliente SP paga.')+'<p class="hint" style="grid-column:1/-1;margin:0"><b>Frete embutido:</b> o checkout cobra '+n(C.frete)+'% do frete (voo + entrega no Brasil). Os outros '+(100-n(C.frete))+'% do frete de SP entram no preço do produto. Preços acima de R$ 269,90 só por causa do frete embutido ficam em R$ 269,90, para manter a isenção de US$ 50.</p>'+'<p class="hint" style="grid-column:1/-1;margin:0"><button class="btn sm" type="button" id="px-frete">Recalcular frete de todos os pesos</button></p></div>',null,!can());
  if(!can())return;
  wireSubmit(async form=>{const v={...pxCfg()};['desc','icms','icmsRef','ext'].forEach(k=>{const x=parseFloat(form.elements[k].value);if(isFinite(x))v[k]=x});
   {const mx=String(form.elements.margemMin.value).trim();v.margemMin=mx===''?null:parseFloat(mx.replace(',','.'))}
@@ -4170,6 +4176,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v79','02/11/2026',['Pricing com frete embutido (Guia v3.3): o site agora cobra só 35% do frete; os outros 65% do frete de SP entram no preço do produto. O preço sugerido já sai assim, tanto com concorrente no Brasil quanto pelo exterior.','Preço que passaria de R$ 269,90 só por causa do frete embutido fica em R$ 269,90, com aviso, para manter a isenção de US$ 50.','Coluna Cliente SP paga usa o frete novo (35% + seguro). Frete cotado continua guardado cheio; Regras do Pricing explicam a divisão.']],
  ['v78','02/11/2026',['Cupons: a coluna Público virou Nome interno, para identificar de quem é cada cupom (ex.: Neiva, Jean IMP). Digite direto na tabela; salva ao sair do campo. Sugere nomes já usados e as influenciadoras.','O Nome interno de quem cria o cupom fica salvo; cupom de influenciadora já vem com o nome dela. "Trazer cupons do Shopify" preenche os que estão sem nome com o nome do Shopify. Quem pode usar continua na ficha do cupom.']],
  ['v77','02/11/2026',['Visitas agora: o horário da última atualização fica embaixo do botão Atualizar.']],
  ['v76','02/11/2026',['Avisos à cliente por e-mail: o ERP passa a mandar o aviso 2 · Preparado na Coreia (quando a venda chega em Embalado) e o 4 · Chegou ao Brasil e foi liberado (em Desembaraço). Os avisos 1, 3, 5 e 6 continuam com o Shopify.','Cada aviso sai uma vez só por pedido. A ficha da venda mostra todos os avisos que a cliente recebeu (Shopify e ERP). Em Ajustes: ligar/desligar, mandar exemplo para você e enviar pendentes.']],
