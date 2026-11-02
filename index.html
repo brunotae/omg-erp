@@ -904,7 +904,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v74 · 01/11/2026';
+const VERSAO='v75 · 01/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -2445,7 +2445,7 @@ function clientes(){
   const c=m.get(key)||{nome:v.cliente,contato:v.contato,uf:v.uf,cidade:v.cidade,n:0,total:0,ult:''};c.n++;c.total+=calc(v).total;if(String(v.dataCompra)>c.ult)c.ult=v.dataCompra;m.set(key,c)});
  return [...m.values()].sort((a,b)=>b.total-a.total);
 }
-const CP={q:'',st:'ativos',tipo:''};
+const CP={q:'',st:'ativos',tipo:'',sel:new Set(),mod:'presente'};
 const cpAtivo=c=>!!(c.ativo&&(!c.validade||c.validade>=today()));
 function cpLista(){const q=String(CP.q||'').trim().toLowerCase(),qd=q.replace(/\D/g,'');
  return S.data.cupons.filter(match).filter(c=>{
@@ -2463,8 +2463,7 @@ VIEWFN.clientes=()=>{
   '<span class="cp-sep"></span>'+[['','Qualquer tipo'],['%','%'],['R$','R$'],['frete','Frete grátis']].map(([v,l])=>'<button type="button" class="chip'+(CP.tipo===v?' on':'')+'" data-cptipo="'+esc(v)+'">'+l+'</button>').join('')+'</div></div>';
  return '<div class="page wide"><div class="col">'+head('Clientes e cupons','Clientes saem das vendas. Quem compra '+n(S.cfg.fielMin)+' vezes ou mais vira cliente fiel e pode receber cupom exclusivo. Cupons criados aqui já valem no site.','<button class="btn" type="button" id="cupom-imp"'+(can()?'':' disabled')+' title="Traz os cupons criados direto no Shopify e atualiza o status de todos">Trazer cupons do Shopify</button> <button class="btn pri" type="button" id="cupom-shop"'+(can()?'':' disabled')+'>+ Criar cupom no site</button>')+
  '<div class="kpis">'+kpi('Clientes',cl.length,'Com ao menos 1 compra')+kpi('Clientes fiéis',fiel.length,cl.length?pct(fiel.length/cl.length)+' da base':'—')+kpi('Cupons ativos',S.data.cupons.filter(c=>c.ativo).length,S.data.cupons.length+' cadastrados')+kpi('Desconto concedido',dm(S.data.vendas.filter(v=>!isCancel(v)).reduce((a,v)=>a+n(v.desconto),0)),'Todas as vendas')+'</div>'+
- '<div class="card"><div class="card-h"><h2>Cupons</h2><span class="muted" style="font-size:12px">'+cpL.length+' de '+S.data.cupons.length+'</span></div>'+(S.data.cupons.length?cpChips+(cpL.length?'':'<p class="muted" style="margin:10px 0">Nenhum cupom com esse filtro.</p>')+'<div class="tblwrap"><table><thead><tr><th>Código</th><th>Desconto</th><th>Público</th><th>Validade</th><th class="r">Usos</th><th class="r">Desconto dado</th><th>Status</th></tr></thead><tbody>'+
-  cpL.map(c=>{const u=uso(c.codigo);return '<tr data-edit="cupons" data-id="'+esc(c.id)+'"><td><button type="button" class="cp-copia" data-cpcopia="'+esc(c.codigo)+'" title="Clique para copiar o código">'+esc(c.codigo)+' <span aria-hidden="true">⧉</span></button> <button type="button" class="btn sm" data-presente="'+esc(c.codigo)+'" title="Enviar como presente" aria-label="Enviar '+esc(c.codigo)+' como presente">🎁</button></td><td>'+(c.tipo==='frete'?'Frete grátis'+(has(c.valor)&&n(c.valor)>0?' (até '+brl(c.valor)+')':''):c.tipo==='%'?n(c.valor)+'%':brl(c.valor))+'</td><td>'+esc(c.publico||'')+'</td><td class="num">'+fdate(c.validade)+'</td><td class="r num">'+u.length+(has(c.limite)?' / '+c.limite:'')+'</td><td class="r num">'+brl(u.reduce((a,v)=>a+n(v.desconto),0))+'</td><td>'+stPill(c.ativo&&(!c.validade||c.validade>=today())?'Ativo':'Inativo')+'</td></tr>'}).join('')+'</tbody></table></div>'
+ '<div class="card"><div class="card-h"><h2>Cupons</h2><span class="muted" style="font-size:12px">'+cpL.length+' de '+S.data.cupons.length+'</span></div>'+(S.data.cupons.length?cpChips+(cpL.length?'':'<p class="muted" style="margin:10px 0">Nenhum cupom com esse filtro.</p>')+cpBarra(cpL)+xtTabela('cupons',CP_COLS,cpL,c=>'data-edit="cupons" data-id="'+esc(c.id)+'" style="cursor:pointer"',['val',-1]).html
   :empty('Nenhum cupom','Crie cupons para clientes fiéis, influencers ou campanhas. O uso é contado pelo código informado em cada venda.'))+'</div>'+
  '<div class="card"><div class="card-h"><h2>Clientes</h2></div>'+(cl.length?'<div class="tblwrap"><table><thead><tr><th>Cliente</th><th>Local</th><th class="r">Compras</th><th class="r">Total gasto</th><th>Última compra</th><th></th></tr></thead><tbody>'+
   cl.map(c=>'<tr><td><b>'+esc(c.nome)+'</b><small>'+esc(c.contato||'')+'</small></td><td>'+esc([c.cidade,c.uf].filter(Boolean).join(' / ')||'—')+'</td><td class="r num">'+c.n+'</td><td class="r num"><b>'+dm(c.total)+'</b></td><td class="num">'+fdate(c.ult)+'</td><td>'+(c.n>=n(S.cfg.fielMin)?stPill('Cliente fiel'):'')+'</td></tr>').join('')+'</tbody></table></div>'
@@ -2478,6 +2477,46 @@ document.addEventListener('click',async e=>{const b=e.target.closest('[data-cpco
 document.addEventListener('click',e=>{const t=e.target.closest('[data-cpst],[data-cptipo]');if(!t)return;if(t.dataset.cpst!==undefined)CP.st=t.dataset.cpst;else CP.tipo=t.dataset.cptipo;render()});
 let cpT=null;document.addEventListener('input',e=>{if(e.target.id!=='cp-q')return;CP.q=e.target.value;clearTimeout(cpT);cpT=setTimeout(()=>{const pos=e.target.selectionStart;render();const i=document.getElementById('cp-q');if(i){i.focus();try{i.setSelectionRange(pos,pos)}catch(_){}}},250)});
 
+
+/* v75: cupons em tabela tipo Excel (filtro e ordem em cada coluna) + seleção para copiar/baixar vários de uma vez */
+const cpDescTxt=c=>c.tipo==='frete'?'Frete grátis'+(has(c.valor)&&n(c.valor)>0?' (até '+brl(c.valor)+')':''):c.tipo==='%'?n(c.valor)+'%':brl(c.valor);
+const cpStatus=c=>c.ativo&&(!c.validade||c.validade>=today())?'Ativo':'Inativo';
+const CP_COLS=[
+ {k:'sel',l:'<input type="checkbox" data-cpselall aria-label="Selecionar todos do filtro">',nf:true,ns:true,g:()=>'',cell:c=>'<input type="checkbox" data-cpsel="'+esc(c.id)+'"'+(CP.sel.has(c.id)?' checked':'')+' aria-label="Selecionar '+esc(c.codigo)+'">'},
+ {k:'cod',l:'Código',g:c=>c.codigo||'',cell:c=>'<button type="button" class="cp-copia" data-cpcopia="'+esc(c.codigo)+'" title="Clique para copiar o código">'+esc(c.codigo)+' <span aria-hidden="true">⧉</span></button> <button type="button" class="btn sm" data-presente="'+esc(c.codigo)+'" title="Enviar como presente" aria-label="Enviar '+esc(c.codigo)+' como presente">🎁</button>'},
+ {k:'tipo',l:'Tipo',g:c=>c.tipo==='frete'?'Frete grátis':c.tipo==='%'?'%':'R$',cell:c=>esc(c.tipo==='frete'?'Frete':c.tipo==='%'?'%':'R$')},
+ {k:'val',l:'Desconto',t:'n',g:c=>c.tipo==='frete'?0:n(c.valor),fmt:v=>esc(String(v)),cell:c=>cpDescTxt(c),cls:'num'},
+ {k:'pub',l:'Público',g:c=>c.publico||'',cell:c=>esc(c.publico||'')},
+ {k:'val2',l:'Validade',t:'t',g:c=>c.validade||'',fmt:v=>fdate(v),cell:c=>'<span class="num">'+fdate(c.validade)+'</span>'},
+ {k:'uso',l:'Usos',t:'n',g:c=>cupomUsos(c.codigo).length,cell:c=>{const u=cupomUsos(c.codigo);return '<span class="num">'+u.length+(has(c.limite)?' / '+c.limite:'')+'</span>'},cls:'r'},
+ {k:'dado',l:'Desconto dado',t:'n',g:c=>Math.round(cupomUsos(c.codigo).reduce((a,v)=>a+n(v.desconto),0)*100)/100,fmt:v=>brl(Number(v)),cell:c=>'<span class="num">'+brl(cupomUsos(c.codigo).reduce((a,v)=>a+n(v.desconto),0))+'</span>',cls:'r'},
+ {k:'st',l:'Status',g:cpStatus,cell:c=>stPill(cpStatus(c))}
+];
+function cpVisiveis(rows){return xtOrdena('cupons',CP_COLS,xtFiltra('cupons',CP_COLS,rows))}
+function cpBarra(rows){const vis=cpVisiveis(rows),sel=S.data.cupons.filter(c=>CP.sel.has(c.id));
+ return '<div class="cp-bulk" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0">'+
+ '<span class="muted" style="font-size:12px">'+(sel.length?'<b>'+sel.length+' selecionado'+(sel.length>1?'s':'')+'</b>':'Marque os cupons para copiar ou baixar vários de uma vez')+' · '+vis.length+' no filtro</span>'+
+ '<button type="button" class="btn sm" data-cpbulk="todos">Selecionar os '+vis.length+' do filtro</button>'+
+ (sel.length?'<button type="button" class="btn sm" data-cpbulk="codigos">Copiar códigos</button>'+
+  '<label class="muted" style="font-size:12px;display:inline-flex;gap:6px;align-items:center">Presente <select id="cp-mod" data-1c="lista">'+Object.entries(PR_MOD).map(([k,v])=>'<option value="'+k+'"'+(CP.mod===k?' selected':'')+'>'+esc(v[0])+'</option>').join('')+'</select></label>'+
+  '<button type="button" class="btn sm" data-cpbulk="links">Copiar links do presente</button>'+
+  '<button type="button" class="btn sm pri" data-cpbulk="baixar">Baixar planilha</button>'+
+  '<button type="button" class="btn sm" data-cpbulk="limpar">Limpar seleção</button>':'')+'</div>'}
+function cpSelLinhas(){return S.data.cupons.filter(c=>CP.sel.has(c.id)).map(c=>{const p=prDados(c);return{c,p,presente:prLink(p,{m:CP.mod}),direto:prDesc(p)}})}
+document.addEventListener('click',e=>{const t=e.target;
+ if(t.matches&&t.matches('[data-cpsel]')){e.stopPropagation();const id=t.dataset.cpsel;if(t.checked)CP.sel.add(id);else CP.sel.delete(id);render();return}
+ if(t.matches&&t.matches('[data-cpselall]')){e.stopPropagation();const vis=cpVisiveis(cpLista());if(t.checked)vis.forEach(c=>CP.sel.add(c.id));else vis.forEach(c=>CP.sel.delete(c.id));render();return}
+ const b=t.closest&&t.closest('[data-cpbulk]');if(!b)return;e.preventDefault();const a=b.dataset.cpbulk;
+ if(a==='todos'){cpVisiveis(cpLista()).forEach(c=>CP.sel.add(c.id));render();return}
+ if(a==='limpar'){CP.sel.clear();render();return}
+ const L=cpSelLinhas();if(!L.length)return;
+ if(a==='codigos'){copiar(L.map(x=>x.c.codigo).join('\n'),L.length+' códigos copiados');return}
+ if(a==='links'){copiar(L.map(x=>x.c.codigo+' · '+prValor(x.p)+(prFine(x.p)?' · '+prFine(x.p):'')+'\n'+x.presente).join('\n\n'),L.length+' links copiados');return}
+ if(a==='baixar'){const csv=csvOf(['Código','Desconto','Público','Validade','Usos','Limite','Status','Link do presente ('+PR_MOD[CP.mod][0]+')','Link que já aplica o desconto'],
+   L.map(x=>[x.c.codigo,cpDescTxt(x.c),x.c.publico||'',fdate(x.c.validade)||'',cupomUsos(x.c.codigo).length,x.c.limite??'',cpStatus(x.c),x.presente,x.direto]));
+  baixar('cupons-omg-'+today()+'.csv',csv);toast(L.length+' cupons na planilha');return}
+},true);
+document.addEventListener('change',e=>{if(e.target.id==='cp-mod'){CP.mod=e.target.value}});
 /* ---------- Criar cupom no Shopify ---------- */
 const num=v=>{const x=parseFloat(String(v??'').replace(',','.'));return isFinite(x)?x:0};
 function cupomResumo(c){
@@ -4066,6 +4105,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v75','01/11/2026',['Cupons: tabela tipo Excel, com filtro e ordem em cada coluna (código, tipo, desconto, público, validade, usos, desconto dado, status).','Seleção de vários cupons (caixinha em cada linha ou "Selecionar os do filtro"): copiar os códigos, copiar os links do presente (escolha o modelo) ou baixar uma planilha com código, desconto, validade, link do presente e link que já aplica o desconto.']],
  ['v74','01/11/2026',['Novo: Clientes › Visitas agora. Visitas e pessoas do site nas últimas 24 h, 2 dias e 7 dias, direto do Shopify, com Brasil × fora, países, estados e origem (Instagram, Google, direto…). Abre direto pelo link brunotae.github.io/omg-erp/?tela=visitas, bom para salvar na tela do celular.']],
  ['v74','01/11/2026',['Relatório do site: aparece o período coberto (ex.: 31/10/2026, das 00:00 às 23:59, horário de Brasília) e com qual dia está sendo comparado. Vale na tela, no PDF e no e-mail.']],
  ['v73','01/11/2026',['Visual mais profissional: letra Inter no lugar da Poppins (menos arredondada, mais fácil de ler em tabelas) e negrito mais leve em todo o ERP. Tamanhos mantidos.','Painel: saíram os avisos de embalagem (arte pronta / falta cotar), já que Embalagens está oculta.']],
