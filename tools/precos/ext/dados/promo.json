@@ -42,7 +42,11 @@
      "disp": true
     }
    ],
-   "erro": "HTTP Error 503: Service Unavailable"
+   "cupons": [
+    "NUMBUZIN20"
+   ],
+   "trecho_cupom": ".25C12 1.25 21 8.00001 21 14C21 18.9706 16.9706 23 12 23C7.02944 23 3 18.9706 3 14Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/> 50 Peptides, Retinal, Retinol, and NAD+ Sale price $48.00 USD Regular price $64.00 USD $38.40 (SAVE 40%) Use Code: NUMBUZIN20 Code: NUMBUZIN20 ",
+   "pct": "40"
   },
   {
    "url": "https://numbuzinus.com/products/count-on-masks-set-no-1-5",
@@ -70,7 +74,11 @@
      "disp": true
     }
    ],
-   "erro": "HTTP Error 503: Service Unavailable"
+   "cupons": [
+    "NUMBUZIN20"
+   ],
+   "trecho_cupom": "00001 21 14C21 18.9706 16.9706 23 12 23C7.02944 23 3 18.9706 3 14Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/> Glutathione, Niacinamide, Vitamin C, and Tranexamic acid Sale price $39.00 USD Regular price $52.00 USD $31.20 (SAVE 40%) Use Code: NUMBUZIN20 Code: NUMBUZIN20 ",
+   "pct": "40"
   },
   {
    "url": "https://numbuzinus.com/products/mini-serums-travel-set",
@@ -136,7 +144,19 @@
   },
   {
    "url": "https://numbuzinus.com/products/no-1-breakout-free-clear-skin-duo-1",
-   "erro": "HTTP Error 503: Service Unavailable"
+   "variantes": [
+    {
+     "nome": "Default Title",
+     "preco": 39.0,
+     "riscado": 52.0,
+     "disp": true
+    }
+   ],
+   "cupons": [
+    "NUMBUZIN20"
+   ],
+   "trecho_cupom": "stroke\" d=\"M3 14C3 8.00001 12 1.25 12 1.25C12 1.25 21 8.00001 21 14C21 18.9706 16.9706 23 12 23C7.02944 23 3 18.9706 3 14Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/> Sale price $39.00 USD Regular price $52.00 USD $31.20 (SAVE 40%) Use Code: NUMBUZIN20 Code: NUMBUZIN20 ",
+   "pct": "40"
   },
   {
    "url": "https://numbuzinus.com/products/no-1-centella-re-leaf-green-toner-pads",
@@ -156,11 +176,35 @@
   },
   {
    "url": "https://numbuzinus.com/products/no-1-easy-peasy-cleansing-oil-1",
-   "erro": "HTTP Error 503: Service Unavailable"
+   "variantes": [
+    {
+     "nome": "Default Title",
+     "preco": 19.5,
+     "riscado": 26.0,
+     "disp": true
+    }
+   ],
+   "cupons": [
+    "NUMBUZIN20"
+   ],
+   "trecho_cupom": "stroke\" d=\"M3 14C3 8.00001 12 1.25 12 1.25C12 1.25 21 8.00001 21 14C21 18.9706 16.9706 23 12 23C7.02944 23 3 18.9706 3 14Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/> Sale price $19.50 USD Regular price $26.00 USD $15.60 (SAVE 40%) Use Code: NUMBUZIN20 Code: NUMBUZIN20 ",
+   "pct": "40"
   },
   {
    "url": "https://numbuzinus.com/products/no-1-hydration-calming-duo",
-   "erro": "HTTP Error 503: Service Unavailable"
+   "variantes": [
+    {
+     "nome": "Default Title",
+     "preco": 37.44,
+     "riscado": 52.0,
+     "disp": true
+    }
+   ],
+   "cupons": [
+    "NUMBUZIN20"
+   ],
+   "trecho_cupom": "2 1.25C12 1.25 21 8.00001 21 14C21 18.9706 16.9706 23 12 23C7.02944 23 3 18.9706 3 14Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/> Pantothenic Acid and Hyaluronic Acid Sale price $37.44 USD Regular price $52.00 USD $29.95 (SAVE 42%) Use Code: NUMBUZIN20 Code: NUMBUZIN20 ",
+   "pct": "42"
   },
   {
    "url": "https://numbuzinus.com/products/no-1-pantothenic-b5-active-drying-powder",
@@ -250,7 +294,11 @@
      "disp": true
     }
    ],
-   "erro": "HTTP Error 503: Service Unavailable"
+   "cupons": [
+    "NUMBUZIN20"
+   ],
+   "trecho_cupom": "stroke\" d=\"M3 14C3 8.00001 12 1.25 12 1.25C12 1.25 21 8.00001 21 14C21 18.9706 16.9706 23 12 23C7.02944 23 3 18.9706 3 14Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/> Sale price $18.80 USD Regular price $24.00 USD $15.04 (SAVE 37%) Use Code: NUMBUZIN20 Code: NUMBUZIN20 ",
+   "pct": "37"
   },
   {
    "url": "https://numbuzinus.com/products/no-1-sos-clear-skin-rescue-trio",
@@ -262,11 +310,27 @@
      "disp": true
     }
    ],
-   "erro": "HTTP Error 503: Service Unavailable"
+   "cupons": [
+    "NUMBUZIN20"
+   ],
+   "trecho_cupom": " 21 8.00001 21 14C21 18.9706 16.9706 23 12 23C7.02944 23 3 18.9706 3 14Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/> Pantothenic Acid, Hyaluronic Acid, and Niacinamide Sale price $46.23 USD Regular price $67.00 USD $36.98 (SAVE 45%) Use Code: NUMBUZIN20 Code: NUMBUZIN20 ",
+   "pct": "45"
   },
   {
    "url": "https://numbuzinus.com/products/no-2-deep-clean-fresh-cream-cleansing-foam",
-   "erro": "HTTP Error 503: Service Unavailable"
+   "variantes": [
+    {
+     "nome": "Default Title",
+     "preco": 11.0,
+     "riscado": 13.0,
+     "disp": true
+    }
+   ],
+   "cupons": [
+    "NUMBUZIN20"
+   ],
+   "trecho_cupom": "-stroke\" d=\"M3 14C3 8.00001 12 1.25 12 1.25C12 1.25 21 8.00001 21 14C21 18.9706 16.9706 23 12 23C7.02944 23 3 18.9706 3 14Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/> Sale price $11.00 USD Regular price $13.00 USD $8.80 (SAVE 32%) Use Code: NUMBUZIN20 Code: NUMBUZIN20 ",
+   "pct": "32"
   },
   {
    "url": "https://numbuzinus.com/products/no-2-rose-pdrn-collagen-2x-plumping-serum",
@@ -316,7 +380,19 @@
   },
   {
    "url": "https://numbuzinus.com/products/no-2-rose-pdrn-collagen-plumping-sheet-mask-5-sheets",
-   "erro": "HTTP Error 503: Service Unavailable"
+   "variantes": [
+    {
+     "nome": "Default Title",
+     "preco": 13.5,
+     "riscado": 15.0,
+     "disp": true
+    }
+   ],
+   "cupons": [
+    "NUMBUZIN20"
+   ],
+   "trecho_cupom": "3 8.00001 12 1.25 12 1.25C12 1.25 21 8.00001 21 14C21 18.9706 16.9706 23 12 23C7.02944 23 3 18.9706 3 14Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/> PDRN and Collagen Sale price $13.50 USD Regular price $15.00 USD $10.80 (SAVE 28%) Use Code: NUMBUZIN20 Code: NUMBUZIN20 ",
+   "pct": "28"
   },
   {
    "url": "https://numbuzinus.com/products/no-2-rose-pdrn-overnight-collagen-mask",
@@ -366,7 +442,19 @@
   },
   {
    "url": "https://numbuzinus.com/products/no-3-bifida-bakuchiol-zero-pore-milky-moisturizer",
-   "erro": "HTTP Error 503: Service Unavailable"
+   "variantes": [
+    {
+     "nome": "Default Title",
+     "preco": 17.6,
+     "riscado": 22.0,
+     "disp": true
+    }
+   ],
+   "cupons": [
+    "NUMBUZIN20"
+   ],
+   "trecho_cupom": ".25 21 8.00001 21 14C21 18.9706 16.9706 23 12 23C7.02944 23 3 18.9706 3 14Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/> Bakuchiol, Kojic Acid, Bifida, and Galactomyces Sale price $17.60 USD Regular price $22.00 USD $14.08 (SAVE 36%) Use Code: NUMBUZIN20 Code: NUMBUZIN20 ",
+   "pct": "36"
   },
   {
    "url": "https://numbuzinus.com/products/no-3-bifida-bakuchiol-zero-pore-milky-toner-light-6-76-fl-oz",
@@ -804,7 +892,11 @@
      "disp": true
     }
    ],
-   "erro": "HTTP Error 503: Service Unavailable"
+   "cupons": [
+    "NUMBUZIN20"
+   ],
+   "trecho_cupom": "3 8.00001 12 1.25 12 1.25C12 1.25 21 8.00001 21 14C21 18.9706 16.9706 23 12 23C7.02944 23 3 18.9706 3 14Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/> NAD+ and Collagen Sale price $13.20 USD Regular price $18.00 USD $10.56 (SAVE 41%) Use Code: NUMBUZIN20 Code: NUMBUZIN20 ",
+   "pct": "41"
   },
   {
    "url": "https://numbuzinus.com/products/no-9-nad-daily-glow-basic-duo",
@@ -902,7 +994,19 @@
   },
   {
    "url": "https://numbuzinus.com/products/no-9-nad-pdrn-plumping-glow-bubble-mask",
-   "erro": "HTTP Error 503: Service Unavailable"
+   "variantes": [
+    {
+     "nome": "Default Title",
+     "preco": 23.0,
+     "riscado": 23.0,
+     "disp": true
+    }
+   ],
+   "cupons": [
+    "NUMBUZIN20"
+   ],
+   "trecho_cupom": "=\"16\" class=\"icon icon-picto-drop-of-water\" viewBox=\"0 0 24 24\"> NAD+, PDRN, and 50 Peptides Sale price $23.00 USD $18.40 (SAVE 20%) Use Code: NUMBUZIN20 Code: NUMBUZIN20 ",
+   "pct": "20"
   },
   {
    "url": "https://numbuzinus.com/products/no-9-nad-retinal-volumetox-eye-cream",
@@ -1002,7 +1106,19 @@
   },
   {
    "url": "https://numbuzinus.com/products/special-eye-treatment-set",
-   "erro": "HTTP Error 503: Service Unavailable"
+   "variantes": [
+    {
+     "nome": "Default Title",
+     "preco": 42.2,
+     "riscado": 57.0,
+     "disp": true
+    }
+   ],
+   "cupons": [
+    "NUMBUZIN20"
+   ],
+   "trecho_cupom": "12 1.25 12 1.25C12 1.25 21 8.00001 21 14C21 18.9706 16.9706 23 12 23C7.02944 23 3 18.9706 3 14Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/> NAD+, Retinol, and Collagen Sale price $42.20 USD Regular price $57.00 USD $33.76 (SAVE 41%) Use Code: NUMBUZIN20 Code: NUMBUZIN20 ",
+   "pct": "41"
   },
   {
    "url": "https://numbuzinus.com/products/the-advanced-glow-ritual-set-6-items",
@@ -1014,7 +1130,11 @@
      "disp": true
     }
    ],
-   "erro": "HTTP Error 503: Service Unavailable"
+   "cupons": [
+    "NUMBUZIN20"
+   ],
+   "trecho_cupom": "1.25 21 8.00001 21 14C21 18.9706 16.9706 23 12 23C7.02944 23 3 18.9706 3 14Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/> PDRN, 50 Peptides, Retinal, Retinol, and NAD+ Sale price $91.00 USD Regular price $141.00 USD $72.80 (SAVE 48%) Use Code: NUMBUZIN20 Code: NUMBUZIN20 ",
+   "pct": "48"
   },
   {
    "url": "https://numbuzinus.com/products/zero-blemish-double-cleansing-duo-for-acne-prone-skin",
@@ -1036,6 +1156,16 @@
  "jini": [
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-1-creme-calmante-com-ativo-pantotenico-b5-80ml-1xqwg/",
+   "desc": [
+    "incare'                    ]\n    };\n                    LS.variants = [{\"product_id\":352689723,\"price_short\":\"R$219,00\",\"price_long\":\"R$219,00\",\"price_number\":219,\"price_number_raw\":21900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
+    "_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":22.43,\\\"installment_value_cents\\\":2243,\\\"interest\\\":0.229,\\\"total_value\\\":269.15,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
+    "69.15,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceTables = false;\n        LS.template= \"product\";\n    LS.isPreview = false;\n    LS.theme = {\n        code: \"amazonas\",\n     ",
+    "-discounts-container \">\n\n            \n            <div class=\"js-total-promotions cart-promotions text-accent font-weight-bold \">\n                <span class=\"js-promo-discount\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-promo-in\" style=\"display:none;\">em</span>\n                <span class=\"js-promo-all\" style=\"display:none;\">todos os produtos</span>\n                <span class=",
+    "play:none;\"> comprando</span>\n                <span class=\"js-promo-units-or-more\" style=\"display:none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <d",
+    ":none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <div class=\"js-coupon-discount-row cart-coupon-discount text-accent font-weight-bold d-flex justify",
+    "t text-accent font-weight-bold d-flex justify-content-between mb-1\" data-coupon-row=\"non-shipping\" style=\"display:none !important;\">\n                        <span class=\"cart-coupon-discount-label  \">Desconto do cupom:</span>\n            <span class=\"js-coupon-discount-amount cart-coupon-discount-price  text-right\"></span>\n        \n        </div>\n\n        \n                    <div class=\"js-fulfillment-in",
+    "fy-content-between mb-1\" data-store=\"cart-shipping-discount\" data-component=\"cart.shipping_discount\" style=\"display:none !important;\">\n                    <span class=\"cart-shipping-discount-label  \">Desconto no frete</span>\n                    <span class=\"js-shipping-discount-amount cart-shipping-discount-price  text-right\"></span>\n                </div>\n                    \n                <div class=\""
+   ],
    "ld": [
     "219",
     "219",
@@ -1072,6 +1202,16 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-1-mascara-facial-clareadora-com-acido-hialuronico-pantotenico-b5-33ml-q0xtm/",
+   "desc": [
+    "rificadora'                    ]\n    };\n                    LS.variants = [{\"product_id\":353198643,\"price_short\":\"R$29,00\",\"price_long\":\"R$29,00\",\"price_number\":29,\"price_number_raw\":2900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
+    "llments_data\":\"{\\\"PagarMe\\\":{\\\"1\\\":{\\\"installment_value\\\":29,\\\"installment_value_cents\\\":2900,\\\"interest\\\":0,\\\"total_value\\\":29,\\\"without_interests\\\":true,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null},{\"product_id\":353198643,\"price_short\":\"R$139,00\",\"pric",
+    "e\\\":29,\\\"without_interests\\\":true,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null},{\"product_id\":353198643,\"price_short\":\"R$139,00\",\"price_long\":\"R$139,00\",\"price_number\":139,\"price_number_raw\":13900,\"price_with_payment_discount_short\":null,\"price_without_ta",
+    "nt\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null},{\"product_id\":353198643,\"price_short\":\"R$139,00\",\"price_long\":\"R$139,00\",\"price_number\":139,\"price_number_raw\":13900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
+    "d_party\\\":false},\\\"9\\\":{\\\"installment_value\\\":17.17,\\\"installment_value_cents\\\":1717,\\\"interest\\\":0.112,\\\"total_value\\\":154.57,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
+    "54.57,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceTables = false;\n        LS.template= \"product\";\n    LS.isPreview = false;\n    LS.theme = {\n        code: \"amazonas\",\n     ",
+    "-discounts-container \">\n\n            \n            <div class=\"js-total-promotions cart-promotions text-accent font-weight-bold \">\n                <span class=\"js-promo-discount\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-promo-in\" style=\"display:none;\">em</span>\n                <span class=\"js-promo-all\" style=\"display:none;\">todos os produtos</span>\n                <span class=",
+    "play:none;\"> comprando</span>\n                <span class=\"js-promo-units-or-more\" style=\"display:none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <d"
+   ],
    "ld": [
     "29",
     "29",
@@ -1108,6 +1248,16 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-1-oleo-de-limpeza-facial-easy-peasy-200ml-1orl3/",
+   "desc": [
+    "20pele'                    ]\n    };\n                    LS.variants = [{\"product_id\":352689699,\"price_short\":\"R$199,00\",\"price_long\":\"R$199,00\",\"price_number\":199,\"price_number_raw\":19900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
+    "_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":20.38,\\\"installment_value_cents\\\":2038,\\\"interest\\\":0.229,\\\"total_value\\\":244.57,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
+    "44.57,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceTables = false;\n        LS.template= \"product\";\n    LS.isPreview = false;\n    LS.theme = {\n        code: \"amazonas\",\n     ",
+    "-discounts-container \">\n\n            \n            <div class=\"js-total-promotions cart-promotions text-accent font-weight-bold \">\n                <span class=\"js-promo-discount\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-promo-in\" style=\"display:none;\">em</span>\n                <span class=\"js-promo-all\" style=\"display:none;\">todos os produtos</span>\n                <span class=",
+    "play:none;\"> comprando</span>\n                <span class=\"js-promo-units-or-more\" style=\"display:none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <d",
+    ":none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <div class=\"js-coupon-discount-row cart-coupon-discount text-accent font-weight-bold d-flex justify",
+    "t text-accent font-weight-bold d-flex justify-content-between mb-1\" data-coupon-row=\"non-shipping\" style=\"display:none !important;\">\n                        <span class=\"cart-coupon-discount-label  \">Desconto do cupom:</span>\n            <span class=\"js-coupon-discount-amount cart-coupon-discount-price  text-right\"></span>\n        \n        </div>\n\n        \n                    <div class=\"js-fulfillment-in",
+    "fy-content-between mb-1\" data-store=\"cart-shipping-discount\" data-component=\"cart.shipping_discount\" style=\"display:none !important;\">\n                    <span class=\"cart-shipping-discount-label  \">Desconto no frete</span>\n                    <span class=\"js-shipping-discount-amount cart-shipping-discount-price  text-right\"></span>\n                </div>\n                    \n                <div class=\""
+   ],
    "ld": [
     "199",
     "199",
@@ -1144,6 +1294,16 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-1-serum-calmante-com-ativo-pantotenico-b5-50ml-s4aux/",
+   "desc": [
+    "tamina'                    ]\n    };\n                    LS.variants = [{\"product_id\":352689742,\"price_short\":\"R$189,00\",\"price_long\":\"R$189,00\",\"price_number\":189,\"price_number_raw\":18900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
+    "_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":19.36,\\\"installment_value_cents\\\":1936,\\\"interest\\\":0.229,\\\"total_value\\\":232.28,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
+    "32.28,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceTables = false;\n        LS.template= \"product\";\n    LS.isPreview = false;\n    LS.theme = {\n        code: \"amazonas\",\n     ",
+    "-discounts-container \">\n\n            \n            <div class=\"js-total-promotions cart-promotions text-accent font-weight-bold \">\n                <span class=\"js-promo-discount\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-promo-in\" style=\"display:none;\">em</span>\n                <span class=\"js-promo-all\" style=\"display:none;\">todos os produtos</span>\n                <span class=",
+    "play:none;\"> comprando</span>\n                <span class=\"js-promo-units-or-more\" style=\"display:none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <d",
+    ":none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <div class=\"js-coupon-discount-row cart-coupon-discount text-accent font-weight-bold d-flex justify",
+    "t text-accent font-weight-bold d-flex justify-content-between mb-1\" data-coupon-row=\"non-shipping\" style=\"display:none !important;\">\n                        <span class=\"cart-coupon-discount-label  \">Desconto do cupom:</span>\n            <span class=\"js-coupon-discount-amount cart-coupon-discount-price  text-right\"></span>\n        \n        </div>\n\n        \n                    <div class=\"js-fulfillment-in",
+    "fy-content-between mb-1\" data-store=\"cart-shipping-discount\" data-component=\"cart.shipping_discount\" style=\"display:none !important;\">\n                    <span class=\"cart-shipping-discount-label  \">Desconto no frete</span>\n                    <span class=\"js-shipping-discount-amount cart-shipping-discount-price  text-right\"></span>\n                </div>\n                    \n                <div class=\""
+   ],
    "ld": [
     "189",
     "189",
@@ -1180,6 +1340,16 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-1-toner-pad-centella-re-leaf-green-70-pads-190ml-hkapc/",
+   "desc": [
+    "oreano'                    ]\n    };\n                    LS.variants = [{\"product_id\":352689710,\"price_short\":\"R$229,00\",\"price_long\":\"R$229,00\",\"price_number\":229,\"price_number_raw\":22900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
+    "_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":23.45,\\\"installment_value_cents\\\":2345,\\\"interest\\\":0.229,\\\"total_value\\\":281.44,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
+    "81.44,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceTables = false;\n        LS.template= \"product\";\n    LS.isPreview = false;\n    LS.theme = {\n        code: \"amazonas\",\n     ",
+    "-discounts-container \">\n\n            \n            <div class=\"js-total-promotions cart-promotions text-accent font-weight-bold \">\n                <span class=\"js-promo-discount\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-promo-in\" style=\"display:none;\">em</span>\n                <span class=\"js-promo-all\" style=\"display:none;\">todos os produtos</span>\n                <span class=",
+    "play:none;\"> comprando</span>\n                <span class=\"js-promo-units-or-more\" style=\"display:none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <d",
+    ":none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <div class=\"js-coupon-discount-row cart-coupon-discount text-accent font-weight-bold d-flex justify",
+    "t text-accent font-weight-bold d-flex justify-content-between mb-1\" data-coupon-row=\"non-shipping\" style=\"display:none !important;\">\n                        <span class=\"cart-coupon-discount-label  \">Desconto do cupom:</span>\n            <span class=\"js-coupon-discount-amount cart-coupon-discount-price  text-right\"></span>\n        \n        </div>\n\n        \n                    <div class=\"js-fulfillment-in",
+    "fy-content-between mb-1\" data-store=\"cart-shipping-discount\" data-component=\"cart.shipping_discount\" style=\"display:none !important;\">\n                    <span class=\"cart-shipping-discount-label  \">Desconto no frete</span>\n                    <span class=\"js-shipping-discount-amount cart-shipping-discount-price  text-right\"></span>\n                </div>\n                    \n                <div class=\""
+   ],
    "ld": [
     "229",
     "229",
@@ -1216,6 +1386,16 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-2-espuma-de-limpeza-cremosa-clean-fresh-200ml-1oxs3/",
+   "desc": [
+    "impeza'                    ]\n    };\n                    LS.variants = [{\"product_id\":352689766,\"price_short\":\"R$169,00\",\"price_long\":\"R$169,00\",\"price_number\":169,\"price_number_raw\":16900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
+    "d_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":17.31,\\\"installment_value_cents\\\":1731,\\\"interest\\\":0.229,\\\"total_value\\\":207.7,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
+    "207.7,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceTables = false;\n        LS.template= \"product\";\n    LS.isPreview = false;\n    LS.theme = {\n        code: \"amazonas\",\n     ",
+    "-discounts-container \">\n\n            \n            <div class=\"js-total-promotions cart-promotions text-accent font-weight-bold \">\n                <span class=\"js-promo-discount\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-promo-in\" style=\"display:none;\">em</span>\n                <span class=\"js-promo-all\" style=\"display:none;\">todos os produtos</span>\n                <span class=",
+    "play:none;\"> comprando</span>\n                <span class=\"js-promo-units-or-more\" style=\"display:none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <d",
+    ":none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <div class=\"js-coupon-discount-row cart-coupon-discount text-accent font-weight-bold d-flex justify",
+    "t text-accent font-weight-bold d-flex justify-content-between mb-1\" data-coupon-row=\"non-shipping\" style=\"display:none !important;\">\n                        <span class=\"cart-coupon-discount-label  \">Desconto do cupom:</span>\n            <span class=\"js-coupon-discount-amount cart-coupon-discount-price  text-right\"></span>\n        \n        </div>\n\n        \n                    <div class=\"js-fulfillment-in",
+    "fy-content-between mb-1\" data-store=\"cart-shipping-discount\" data-component=\"cart.shipping_discount\" style=\"display:none !important;\">\n                    <span class=\"cart-shipping-discount-label  \">Desconto no frete</span>\n                    <span class=\"js-shipping-discount-amount cart-shipping-discount-price  text-right\"></span>\n                </div>\n                    \n                <div class=\""
+   ],
    "ld": [
     "169",
     "169",
@@ -1252,6 +1432,16 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-3-mascara-facial-suavizante-de-poros-tingle-pore-27ml-11fjk/",
+   "desc": [
+    " 'skincare'                    ]\n    };\n                    LS.variants = [{\"product_id\":353198898,\"price_short\":\"R$29,00\",\"price_long\":\"R$29,00\",\"price_number\":29,\"price_number_raw\":2900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
+    "llments_data\":\"{\\\"PagarMe\\\":{\\\"1\\\":{\\\"installment_value\\\":29,\\\"installment_value_cents\\\":2900,\\\"interest\\\":0,\\\"total_value\\\":29,\\\"without_interests\\\":true,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null},{\"product_id\":353198898,\"price_short\":\"R$139,00\",\"pric",
+    "e\\\":29,\\\"without_interests\\\":true,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null},{\"product_id\":353198898,\"price_short\":\"R$139,00\",\"price_long\":\"R$139,00\",\"price_number\":139,\"price_number_raw\":13900,\"price_with_payment_discount_short\":null,\"price_without_ta",
+    "nt\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null},{\"product_id\":353198898,\"price_short\":\"R$139,00\",\"price_long\":\"R$139,00\",\"price_number\":139,\"price_number_raw\":13900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
+    "d_party\\\":false},\\\"9\\\":{\\\"installment_value\\\":17.17,\\\"installment_value_cents\\\":1717,\\\"interest\\\":0.112,\\\"total_value\\\":154.57,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
+    "54.57,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceTables = false;\n        LS.template= \"product\";\n    LS.isPreview = false;\n    LS.theme = {\n        code: \"amazonas\",\n     ",
+    "-discounts-container \">\n\n            \n            <div class=\"js-total-promotions cart-promotions text-accent font-weight-bold \">\n                <span class=\"js-promo-discount\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-promo-in\" style=\"display:none;\">em</span>\n                <span class=\"js-promo-all\" style=\"display:none;\">todos os produtos</span>\n                <span class=",
+    "play:none;\"> comprando</span>\n                <span class=\"js-promo-units-or-more\" style=\"display:none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <d"
+   ],
    "ld": [
     "29",
     "29",
@@ -1288,6 +1478,16 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-3-oleo-de-limpeza-facial-zero-poros-com-bifida-e-bakuchiol-200ml-1cfp1/",
+   "desc": [
+    "incare'                    ]\n    };\n                    LS.variants = [{\"product_id\":352689812,\"price_short\":\"R$199,00\",\"price_long\":\"R$199,00\",\"price_number\":199,\"price_number_raw\":19900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
+    "_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":20.38,\\\"installment_value_cents\\\":2038,\\\"interest\\\":0.229,\\\"total_value\\\":244.57,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
+    "44.57,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceTables = false;\n        LS.template= \"product\";\n    LS.isPreview = false;\n    LS.theme = {\n        code: \"amazonas\",\n     ",
+    "-discounts-container \">\n\n            \n            <div class=\"js-total-promotions cart-promotions text-accent font-weight-bold \">\n                <span class=\"js-promo-discount\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-promo-in\" style=\"display:none;\">em</span>\n                <span class=\"js-promo-all\" style=\"display:none;\">todos os produtos</span>\n                <span class=",
+    "play:none;\"> comprando</span>\n                <span class=\"js-promo-units-or-more\" style=\"display:none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <d",
+    ":none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <div class=\"js-coupon-discount-row cart-coupon-discount text-accent font-weight-bold d-flex justify",
+    "t text-accent font-weight-bold d-flex justify-content-between mb-1\" data-coupon-row=\"non-shipping\" style=\"display:none !important;\">\n                        <span class=\"cart-coupon-discount-label  \">Desconto do cupom:</span>\n            <span class=\"js-coupon-discount-amount cart-coupon-discount-price  text-right\"></span>\n        \n        </div>\n\n        \n                    <div class=\"js-fulfillment-in",
+    "fy-content-between mb-1\" data-store=\"cart-shipping-discount\" data-component=\"cart.shipping_discount\" style=\"display:none !important;\">\n                    <span class=\"cart-shipping-discount-label  \">Desconto no frete</span>\n                    <span class=\"js-shipping-discount-amount cart-shipping-discount-price  text-right\"></span>\n                </div>\n                    \n                <div class=\""
+   ],
    "ld": [
     "199",
     "199",
@@ -1324,6 +1524,16 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-3-toner-pad-esfoliante-com-bifida-e-bakuchiol-70-pads-150ml-u6crj/",
+   "desc": [
+    "0poros'                    ]\n    };\n                    LS.variants = [{\"product_id\":352689788,\"price_short\":\"R$229,00\",\"price_long\":\"R$229,00\",\"price_number\":229,\"price_number_raw\":22900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
+    "_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":23.45,\\\"installment_value_cents\\\":2345,\\\"interest\\\":0.229,\\\"total_value\\\":281.44,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
+    "81.44,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceTables = false;\n        LS.template= \"product\";\n    LS.isPreview = false;\n    LS.theme = {\n        code: \"amazonas\",\n     ",
+    "-discounts-container \">\n\n            \n            <div class=\"js-total-promotions cart-promotions text-accent font-weight-bold \">\n                <span class=\"js-promo-discount\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-promo-in\" style=\"display:none;\">em</span>\n                <span class=\"js-promo-all\" style=\"display:none;\">todos os produtos</span>\n                <span class=",
+    "play:none;\"> comprando</span>\n                <span class=\"js-promo-units-or-more\" style=\"display:none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <d",
+    ":none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <div class=\"js-coupon-discount-row cart-coupon-discount text-accent font-weight-bold d-flex justify",
+    "t text-accent font-weight-bold d-flex justify-content-between mb-1\" data-coupon-row=\"non-shipping\" style=\"display:none !important;\">\n                        <span class=\"cart-coupon-discount-label  \">Desconto do cupom:</span>\n            <span class=\"js-coupon-discount-amount cart-coupon-discount-price  text-right\"></span>\n        \n        </div>\n\n        \n                    <div class=\"js-fulfillment-in",
+    "fy-content-between mb-1\" data-store=\"cart-shipping-discount\" data-component=\"cart.shipping_discount\" style=\"display:none !important;\">\n                    <span class=\"cart-shipping-discount-label  \">Desconto no frete</span>\n                    <span class=\"js-shipping-discount-amount cart-shipping-discount-price  text-right\"></span>\n                </div>\n                    \n                <div class=\""
+   ],
    "ld": [
     "229",
     "229",
@@ -1360,6 +1570,16 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-5-hidratante-facial-para-manchas-de-vitamina-com-glutationa-50ml-172ax/",
+   "desc": [
+    "tamina'                    ]\n    };\n                    LS.variants = [{\"product_id\":352689823,\"price_short\":\"R$219,00\",\"price_long\":\"R$219,00\",\"price_number\":219,\"price_number_raw\":21900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
+    "_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":22.43,\\\"installment_value_cents\\\":2243,\\\"interest\\\":0.229,\\\"total_value\\\":269.15,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
+    "69.15,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceTables = false;\n        LS.template= \"product\";\n    LS.isPreview = false;\n    LS.theme = {\n        code: \"amazonas\",\n     ",
+    "-discounts-container \">\n\n            \n            <div class=\"js-total-promotions cart-promotions text-accent font-weight-bold \">\n                <span class=\"js-promo-discount\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-promo-in\" style=\"display:none;\">em</span>\n                <span class=\"js-promo-all\" style=\"display:none;\">todos os produtos</span>\n                <span class=",
+    "play:none;\"> comprando</span>\n                <span class=\"js-promo-units-or-more\" style=\"display:none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <d",
+    ":none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <div class=\"js-coupon-discount-row cart-coupon-discount text-accent font-weight-bold d-flex justify",
+    "t text-accent font-weight-bold d-flex justify-content-between mb-1\" data-coupon-row=\"non-shipping\" style=\"display:none !important;\">\n                        <span class=\"cart-coupon-discount-label  \">Desconto do cupom:</span>\n            <span class=\"js-coupon-discount-amount cart-coupon-discount-price  text-right\"></span>\n        \n        </div>\n\n        \n                    <div class=\"js-fulfillment-in",
+    "fy-content-between mb-1\" data-store=\"cart-shipping-discount\" data-component=\"cart.shipping_discount\" style=\"display:none !important;\">\n                    <span class=\"cart-shipping-discount-label  \">Desconto no frete</span>\n                    <span class=\"js-shipping-discount-amount cart-shipping-discount-price  text-right\"></span>\n                </div>\n                    \n                <div class=\""
+   ],
    "ld": [
     "219",
     "219",
@@ -1396,6 +1616,16 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-5-mascara-facial-concentrada-de-vitamina-com-glutationa-27ml-ufjdl/",
+   "desc": [
+    " 'vitamina'                    ]\n    };\n                    LS.variants = [{\"product_id\":353199251,\"price_short\":\"R$29,00\",\"price_long\":\"R$29,00\",\"price_number\":29,\"price_number_raw\":2900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
+    "llments_data\":\"{\\\"PagarMe\\\":{\\\"1\\\":{\\\"installment_value\\\":29,\\\"installment_value_cents\\\":2900,\\\"interest\\\":0,\\\"total_value\\\":29,\\\"without_interests\\\":true,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null},{\"product_id\":353199251,\"price_short\":\"R$139,00\",\"pric",
+    "e\\\":29,\\\"without_interests\\\":true,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null},{\"product_id\":353199251,\"price_short\":\"R$139,00\",\"price_long\":\"R$139,00\",\"price_number\":139,\"price_number_raw\":13900,\"price_with_payment_discount_short\":null,\"price_without_ta",
+    "nt\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null},{\"product_id\":353199251,\"price_short\":\"R$139,00\",\"price_long\":\"R$139,00\",\"price_number\":139,\"price_number_raw\":13900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
+    "d_party\\\":false},\\\"9\\\":{\\\"installment_value\\\":17.17,\\\"installment_value_cents\\\":1717,\\\"interest\\\":0.112,\\\"total_value\\\":154.57,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
+    "54.57,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceTables = false;\n        LS.template= \"product\";\n    LS.isPreview = false;\n    LS.theme = {\n        code: \"amazonas\",\n     ",
+    "-discounts-container \">\n\n            \n            <div class=\"js-total-promotions cart-promotions text-accent font-weight-bold \">\n                <span class=\"js-promo-discount\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-promo-in\" style=\"display:none;\">em</span>\n                <span class=\"js-promo-all\" style=\"display:none;\">todos os produtos</span>\n                <span class=",
+    "play:none;\"> comprando</span>\n                <span class=\"js-promo-units-or-more\" style=\"display:none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <d"
+   ],
    "ld": [
     "29",
     "29",
@@ -1432,6 +1662,16 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-5-serum-concentrado-de-vitamina-com-glutationa-30ml-1f29m/",
+   "desc": [
+    "'serum'                    ]\n    };\n                    LS.variants = [{\"product_id\":352689846,\"price_short\":\"R$189,00\",\"price_long\":\"R$189,00\",\"price_number\":189,\"price_number_raw\":18900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
+    "_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":19.36,\\\"installment_value_cents\\\":1936,\\\"interest\\\":0.229,\\\"total_value\\\":232.28,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
+    "32.28,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceTables = false;\n        LS.template= \"product\";\n    LS.isPreview = false;\n    LS.theme = {\n        code: \"amazonas\",\n     ",
+    "-discounts-container \">\n\n            \n            <div class=\"js-total-promotions cart-promotions text-accent font-weight-bold \">\n                <span class=\"js-promo-discount\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-promo-in\" style=\"display:none;\">em</span>\n                <span class=\"js-promo-all\" style=\"display:none;\">todos os produtos</span>\n                <span class=",
+    "play:none;\"> comprando</span>\n                <span class=\"js-promo-units-or-more\" style=\"display:none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <d",
+    ":none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <div class=\"js-coupon-discount-row cart-coupon-discount text-accent font-weight-bold d-flex justify",
+    "t text-accent font-weight-bold d-flex justify-content-between mb-1\" data-coupon-row=\"non-shipping\" style=\"display:none !important;\">\n                        <span class=\"cart-coupon-discount-label  \">Desconto do cupom:</span>\n            <span class=\"js-coupon-discount-amount cart-coupon-discount-price  text-right\"></span>\n        \n        </div>\n\n        \n                    <div class=\"js-fulfillment-in",
+    "fy-content-between mb-1\" data-store=\"cart-shipping-discount\" data-component=\"cart.shipping_discount\" style=\"display:none !important;\">\n                    <span class=\"cart-shipping-discount-label  \">Desconto no frete</span>\n                    <span class=\"js-shipping-discount-amount cart-shipping-discount-price  text-right\"></span>\n                </div>\n                    \n                <div class=\""
+   ],
    "ld": [
     "189",
     "189",
@@ -1468,6 +1708,16 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-5-toner-pad-concentrado-de-vitamina-com-glutationa-70-pads-180ml-ga56j/",
+   "desc": [
+    "oreano'                    ]\n    };\n                    LS.variants = [{\"product_id\":352689837,\"price_short\":\"R$249,00\",\"price_long\":\"R$249,00\",\"price_number\":249,\"price_number_raw\":24900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
+    "d_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":25.5,\\\"installment_value_cents\\\":2550,\\\"interest\\\":0.229,\\\"total_value\\\":306.02,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
+    "06.02,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceTables = false;\n        LS.template= \"product\";\n    LS.isPreview = false;\n    LS.theme = {\n        code: \"amazonas\",\n     ",
+    "-discounts-container \">\n\n            \n            <div class=\"js-total-promotions cart-promotions text-accent font-weight-bold \">\n                <span class=\"js-promo-discount\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-promo-in\" style=\"display:none;\">em</span>\n                <span class=\"js-promo-all\" style=\"display:none;\">todos os produtos</span>\n                <span class=",
+    "play:none;\"> comprando</span>\n                <span class=\"js-promo-units-or-more\" style=\"display:none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <d",
+    ":none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <div class=\"js-coupon-discount-row cart-coupon-discount text-accent font-weight-bold d-flex justify",
+    "t text-accent font-weight-bold d-flex justify-content-between mb-1\" data-coupon-row=\"non-shipping\" style=\"display:none !important;\">\n                        <span class=\"cart-coupon-discount-label  \">Desconto do cupom:</span>\n            <span class=\"js-coupon-discount-amount cart-coupon-discount-price  text-right\"></span>\n        \n        </div>\n\n        \n                    <div class=\"js-fulfillment-in",
+    "fy-content-between mb-1\" data-store=\"cart-shipping-discount\" data-component=\"cart.shipping_discount\" style=\"display:none !important;\">\n                    <span class=\"cart-shipping-discount-label  \">Desconto no frete</span>\n                    <span class=\"js-shipping-discount-amount cart-shipping-discount-price  text-right\"></span>\n                </div>\n                    \n                <div class=\""
+   ],
    "ld": [
     "249",
     "249",
@@ -1504,6 +1754,16 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-9-creme-para-olhos-volumizador-nad-retinal-20ml-7njbn/",
+   "desc": [
+    "'rugas'                    ]\n    };\n                    LS.variants = [{\"product_id\":353595482,\"price_short\":\"R$219,00\",\"price_long\":\"R$219,00\",\"price_number\":219,\"price_number_raw\":21900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
+    "_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":22.43,\\\"installment_value_cents\\\":2243,\\\"interest\\\":0.229,\\\"total_value\\\":269.15,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
+    "69.15,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceTables = false;\n        LS.template= \"product\";\n    LS.isPreview = false;\n    LS.theme = {\n        code: \"amazonas\",\n     ",
+    "-discounts-container \">\n\n            \n            <div class=\"js-total-promotions cart-promotions text-accent font-weight-bold \">\n                <span class=\"js-promo-discount\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-promo-in\" style=\"display:none;\">em</span>\n                <span class=\"js-promo-all\" style=\"display:none;\">todos os produtos</span>\n                <span class=",
+    "play:none;\"> comprando</span>\n                <span class=\"js-promo-units-or-more\" style=\"display:none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <d",
+    ":none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <div class=\"js-coupon-discount-row cart-coupon-discount text-accent font-weight-bold d-flex justify",
+    "t text-accent font-weight-bold d-flex justify-content-between mb-1\" data-coupon-row=\"non-shipping\" style=\"display:none !important;\">\n                        <span class=\"cart-coupon-discount-label  \">Desconto do cupom:</span>\n            <span class=\"js-coupon-discount-amount cart-coupon-discount-price  text-right\"></span>\n        \n        </div>\n\n        \n                    <div class=\"js-fulfillment-in",
+    "fy-content-between mb-1\" data-store=\"cart-shipping-discount\" data-component=\"cart.shipping_discount\" style=\"display:none !important;\">\n                    <span class=\"cart-shipping-discount-label  \">Desconto no frete</span>\n                    <span class=\"js-shipping-discount-amount cart-shipping-discount-price  text-right\"></span>\n                </div>\n                    \n                <div class=\""
+   ],
    "ld": [
     "219",
     "219",
@@ -1540,6 +1800,16 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-9-creme-para-olhos-volumizador-nad-retinol-10ml-jlpxw/",
+   "desc": [
+    "eringa'                    ]\n    };\n                    LS.variants = [{\"product_id\":352689868,\"price_short\":\"R$179,00\",\"price_long\":\"R$179,00\",\"price_number\":179,\"price_number_raw\":17900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":\"R$199,00\",\"compare_at_price_long\":\"R$199,00\",\"compare_at_price_number\":199,\"compare_at_price_number_raw\":19900,\"has_promotional_price\"",
+    "_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":18.33,\\\"installment_value_cents\\\":1833,\\\"interest\\\":0.229,\\\"total_value\\\":219.99,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
+    "19.99,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceTables = false;\n        LS.template= \"product\";\n    LS.isPreview = false;\n    LS.theme = {\n        code: \"amazonas\",\n     ",
+    "-discounts-container \">\n\n            \n            <div class=\"js-total-promotions cart-promotions text-accent font-weight-bold \">\n                <span class=\"js-promo-discount\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-promo-in\" style=\"display:none;\">em</span>\n                <span class=\"js-promo-all\" style=\"display:none;\">todos os produtos</span>\n                <span class=",
+    "play:none;\"> comprando</span>\n                <span class=\"js-promo-units-or-more\" style=\"display:none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <d",
+    ":none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <div class=\"js-coupon-discount-row cart-coupon-discount text-accent font-weight-bold d-flex justify",
+    "t text-accent font-weight-bold d-flex justify-content-between mb-1\" data-coupon-row=\"non-shipping\" style=\"display:none !important;\">\n                        <span class=\"cart-coupon-discount-label  \">Desconto do cupom:</span>\n            <span class=\"js-coupon-discount-amount cart-coupon-discount-price  text-right\"></span>\n        \n        </div>\n\n        \n                    <div class=\"js-fulfillment-in",
+    "fy-content-between mb-1\" data-store=\"cart-shipping-discount\" data-component=\"cart.shipping_discount\" style=\"display:none !important;\">\n                    <span class=\"cart-shipping-discount-label  \">Desconto no frete</span>\n                    <span class=\"js-shipping-discount-amount cart-shipping-discount-price  text-right\"></span>\n                </div>\n                    \n                <div class=\""
+   ],
    "ld": [
     "179",
     "179",
@@ -1576,6 +1846,16 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-9-essencia-bio-lifting-sil-nad-50ml-sjnn7/",
+   "desc": [
+    "incare'                    ]\n    };\n                    LS.variants = [{\"product_id\":352689909,\"price_short\":\"R$229,00\",\"price_long\":\"R$229,00\",\"price_number\":229,\"price_number_raw\":22900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":\"R$249,00\",\"compare_at_price_long\":\"R$249,00\",\"compare_at_price_number\":249,\"compare_at_price_number_raw\":24900,\"has_promotional_price\"",
+    "_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":23.45,\\\"installment_value_cents\\\":2345,\\\"interest\\\":0.229,\\\"total_value\\\":281.44,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
+    "81.44,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceTables = false;\n        LS.template= \"product\";\n    LS.isPreview = false;\n    LS.theme = {\n        code: \"amazonas\",\n     ",
+    "-discounts-container \">\n\n            \n            <div class=\"js-total-promotions cart-promotions text-accent font-weight-bold \">\n                <span class=\"js-promo-discount\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-promo-in\" style=\"display:none;\">em</span>\n                <span class=\"js-promo-all\" style=\"display:none;\">todos os produtos</span>\n                <span class=",
+    "play:none;\"> comprando</span>\n                <span class=\"js-promo-units-or-more\" style=\"display:none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <d",
+    ":none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <div class=\"js-coupon-discount-row cart-coupon-discount text-accent font-weight-bold d-flex justify",
+    "t text-accent font-weight-bold d-flex justify-content-between mb-1\" data-coupon-row=\"non-shipping\" style=\"display:none !important;\">\n                        <span class=\"cart-coupon-discount-label  \">Desconto do cupom:</span>\n            <span class=\"js-coupon-discount-amount cart-coupon-discount-price  text-right\"></span>\n        \n        </div>\n\n        \n                    <div class=\"js-fulfillment-in",
+    "fy-content-between mb-1\" data-store=\"cart-shipping-discount\" data-component=\"cart.shipping_discount\" style=\"display:none !important;\">\n                    <span class=\"cart-shipping-discount-label  \">Desconto no frete</span>\n                    <span class=\"js-shipping-discount-amount cart-shipping-discount-price  text-right\"></span>\n                </div>\n                    \n                <div class=\""
+   ],
    "ld": [
     "229",
     "229",
@@ -1612,6 +1892,16 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-9-mascara-de-hidrogel-para-os-olhos-com-nad-e-colageno-1epdy/",
+   "desc": [
+    " 'hidrogel'                    ]\n    };\n                    LS.variants = [{\"product_id\":360159193,\"price_short\":\"R$27,00\",\"price_long\":\"R$27,00\",\"price_number\":27,\"price_number_raw\":2700,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
+    "llments_data\":\"{\\\"PagarMe\\\":{\\\"1\\\":{\\\"installment_value\\\":27,\\\"installment_value_cents\\\":2700,\\\"interest\\\":0,\\\"total_value\\\":27,\\\"without_interests\\\":true,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null},{\"product_id\":360159193,\"price_short\":\"R$125,00\",\"pric",
+    "e\\\":27,\\\"without_interests\\\":true,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null},{\"product_id\":360159193,\"price_short\":\"R$125,00\",\"price_long\":\"R$125,00\",\"price_number\":125,\"price_number_raw\":12500,\"price_with_payment_discount_short\":null,\"price_without_ta",
+    "nt\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null},{\"product_id\":360159193,\"price_short\":\"R$125,00\",\"price_long\":\"R$125,00\",\"price_number\":125,\"price_number_raw\":12500,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
+    "d_party\\\":false},\\\"7\\\":{\\\"installment_value\\\":18.46,\\\"installment_value_cents\\\":1846,\\\"interest\\\":0.034,\\\"total_value\\\":129.25,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
+    "29.25,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceTables = false;\n        LS.template= \"product\";\n    LS.isPreview = false;\n    LS.theme = {\n        code: \"amazonas\",\n     ",
+    "-discounts-container \">\n\n            \n            <div class=\"js-total-promotions cart-promotions text-accent font-weight-bold \">\n                <span class=\"js-promo-discount\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-promo-in\" style=\"display:none;\">em</span>\n                <span class=\"js-promo-all\" style=\"display:none;\">todos os produtos</span>\n                <span class=",
+    "play:none;\"> comprando</span>\n                <span class=\"js-promo-units-or-more\" style=\"display:none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <d"
+   ],
    "ld": [
     "27",
     "27",
@@ -1648,6 +1938,16 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-9-mascara-facial-bio-lifting-sil-nad-1vkzb/",
+   "desc": [
+    "0020facial'                    ]\n    };\n                    LS.variants = [{\"product_id\":353199582,\"price_short\":\"R$49,00\",\"price_long\":\"R$49,00\",\"price_number\":49,\"price_number_raw\":4900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
+    "or_is_third_party\\\":false},\\\"2\\\":{\\\"installment_value\\\":24.5,\\\"installment_value_cents\\\":2450,\\\"interest\\\":0,\\\"total_value\\\":49,\\\"without_interests\\\":true,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null},{\"product_id\":353199582,\"price_short\":\"R$189,00\",\"pric",
+    "e\\\":49,\\\"without_interests\\\":true,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null},{\"product_id\":353199582,\"price_short\":\"R$189,00\",\"price_long\":\"R$189,00\",\"price_number\":189,\"price_number_raw\":18900,\"price_with_payment_discount_short\":null,\"price_without_ta",
+    "nt\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null},{\"product_id\":353199582,\"price_short\":\"R$189,00\",\"price_long\":\"R$189,00\",\"price_number\":189,\"price_number_raw\":18900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
+    "_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":19.36,\\\"installment_value_cents\\\":1936,\\\"interest\\\":0.229,\\\"total_value\\\":232.28,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
+    "32.28,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceTables = false;\n        LS.template= \"product\";\n    LS.isPreview = false;\n    LS.theme = {\n        code: \"amazonas\",\n     ",
+    "-discounts-container \">\n\n            \n            <div class=\"js-total-promotions cart-promotions text-accent font-weight-bold \">\n                <span class=\"js-promo-discount\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-promo-in\" style=\"display:none;\">em</span>\n                <span class=\"js-promo-all\" style=\"display:none;\">todos os produtos</span>\n                <span class=",
+    "play:none;\"> comprando</span>\n                <span class=\"js-promo-units-or-more\" style=\"display:none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <d"
+   ],
    "ld": [
     "49",
     "49",
@@ -1684,6 +1984,16 @@
   },
   {
    "url": "https://jinicosmeticos.com.br/produtos/numbuzin-no-9-tonico-iluminador-nad-pdrn-glow-boosting-150ml-wm58a/",
+   "desc": [
+    "tonico'                    ]\n    };\n                    LS.variants = [{\"product_id\":352689895,\"price_short\":\"R$229,00\",\"price_long\":\"R$229,00\",\"price_number\":229,\"price_number_raw\":22900,\"price_with_payment_discount_short\":null,\"price_without_taxes\":null,\"compare_at_price_short\":null,\"compare_at_price_long\":null,\"compare_at_price_number\":null,\"compare_at_price_number_raw\":null,\"has_promotional_price\":false,\"prom",
+    "_party\\\":false},\\\"12\\\":{\\\"installment_value\\\":23.45,\\\"installment_value_cents\\\":2345,\\\"interest\\\":0.229,\\\"total_value\\\":281.44,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceT",
+    "81.44,\\\"without_interests\\\":false,\\\"collector_is_third_party\\\":false}}}\",\"show_payment_discount_disclaimer\":false,\"popup_discount_visibility\":{\"pagarme\":{\"tab_show_discount\":false,\"methods\":[]}},\"max_payment_discount_max_installments\":null}];\n        LS.customer = null;\n    LS.customerHasPriceTables = false;\n        LS.template= \"product\";\n    LS.isPreview = false;\n    LS.theme = {\n        code: \"amazonas\",\n     ",
+    "-discounts-container \">\n\n            \n            <div class=\"js-total-promotions cart-promotions text-accent font-weight-bold \">\n                <span class=\"js-promo-discount\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-promo-in\" style=\"display:none;\">em</span>\n                <span class=\"js-promo-all\" style=\"display:none;\">todos os produtos</span>\n                <span class=",
+    "play:none;\"> comprando</span>\n                <span class=\"js-promo-units-or-more\" style=\"display:none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <d",
+    ":none;\"> ou mais</span>\n                <span class=\"js-cart-discount-automatic\" style=\"display:none;\">Desconto</span>\n                <span class=\"js-cart-discount-with-coupon\" style=\"display:none;\">Desconto do cupom</span>\n                            </div>\n        </div>\n\n                \n                <div class=\"js-coupon-discount-row cart-coupon-discount text-accent font-weight-bold d-flex justify",
+    "t text-accent font-weight-bold d-flex justify-content-between mb-1\" data-coupon-row=\"non-shipping\" style=\"display:none !important;\">\n                        <span class=\"cart-coupon-discount-label  \">Desconto do cupom:</span>\n            <span class=\"js-coupon-discount-amount cart-coupon-discount-price  text-right\"></span>\n        \n        </div>\n\n        \n                    <div class=\"js-fulfillment-in",
+    "fy-content-between mb-1\" data-store=\"cart-shipping-discount\" data-component=\"cart.shipping_discount\" style=\"display:none !important;\">\n                    <span class=\"cart-shipping-discount-label  \">Desconto no frete</span>\n                    <span class=\"js-shipping-discount-amount cart-shipping-discount-price  text-right\"></span>\n                </div>\n                    \n                <div class=\""
+   ],
    "ld": [
     "229",
     "229",
