@@ -149,6 +149,57 @@
   var n=0, t=setInterval(function(){ n++; monta(n>40); if(document.querySelector('.omg-fab') || n>41) clearInterval(t); }, 250);
 })();
 </script>
+
+{%- comment -%} 4) Links de WhatsApp sempre em aba nova (omg-wa-aba) {%- endcomment -%}
+<script>
+(function(){
+  if(window.__omgWa) return; window.__omgWa=1;
+  var SEL='a[href*="wa.me/"],a[href*="api.whatsapp.com"],a[href*="web.whatsapp.com"],a[href^="whatsapp:"]';
+  function marca(r){ (r||document).querySelectorAll(SEL).forEach(function(a){ a.target='_blank'; a.rel='noopener'; }); }
+  document.addEventListener('click',function(e){ var a=e.target.closest&&e.target.closest(SEL); if(a){ a.target='_blank'; a.rel='noopener'; } },true);
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){ marca(); }); else marca();
+})();
+</script>
+
+{%- comment -%} 5) Qualquer link/botão com data-abrir-bomi abre a Bomi (ex.: página Rotina coreana) {%- endcomment -%}
+<script>
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-abrir-bomi]');if(!a)return;e.preventDefault();var b=document.getElementById('bomi-botao');if(b){b.click()}else{var w=document.querySelector('.omg-whats');if(w)window.open(w.href,'_blank','noopener')}});
+</script>
+{%- comment -%} Marcas ativas (30/10): esconde links para marcas sem produto à venda (menu, rodapé, página Marcas). Se abrir uma marca vazia, volta para a página de marcas. {%- endcomment -%}
+<script>
+(function(){
+  var K='omg-marcas-ativas-v1', t=null;
+  function ativas(){
+    try{var c=JSON.parse(sessionStorage.getItem(K)||'null');if(c&&Date.now()-c.t<1800000)return Promise.resolve(c.v)}catch(e){}
+    return fetch('/collections/all?section_id=omg-marcas-ativas').then(function(r){return r.text()}).then(function(h){
+      var m=h.match(/id="omg-marcas-ativas">([\s\S]*?)<\/script>/);var v=m?JSON.parse(m[1]).filter(Boolean):null;
+      if(v&&v.length){try{sessionStorage.setItem(K,JSON.stringify({t:Date.now(),v:v}))}catch(e){}}return v});
+  }
+  function aplica(set){
+    document.querySelectorAll('a[href*="/collections/vendors?q="]').forEach(function(a){
+      var q;try{q=new URL(a.getAttribute('href'),location.origin).searchParams.get('q')}catch(e){return}
+      if(q&&!set.has(q.trim().toLowerCase())){var box=a.closest('li')||a;if(box.style.display!=='none'){box.style.display='none';box.setAttribute('data-omg-marca-off','')}}
+    });
+  }
+  // Marca com coleção própria (ordem escolhida pela OMG): a página automática da marca vai para a coleção.
+  var OMG_MARCA_COL={celimax:'/collections/celimax'};
+  if(location.pathname==='/collections/vendors'){var mq=(new URLSearchParams(location.search).get('q')||'').trim().toLowerCase();if(OMG_MARCA_COL[mq]){location.replace(OMG_MARCA_COL[mq]);return}}
+  if(location.pathname==='/collections/vendors'&&/^404/.test(document.title)){location.replace('/pages/marcas');return}
+  ativas().then(function(v){
+    if(!v||!v.length)return;var set=new Set(v.map(function(x){return String(x).trim().toLowerCase()}));
+    aplica(set);
+    new MutationObserver(function(){if(t)return;t=setTimeout(function(){t=null;aplica(set)},400)}).observe(document.body,{childList:true,subtree:true});
+  }).catch(function(){});
+})();
+</script>
+{%- if template.name == 'collection' -%}
+<style>
+  /* Título das coleções (Skincare, Maquiagem…): mais delicado, na cor da marca, com um traço framboesa (30/10) */
+  #MainContent .text-block h1{font-weight:600;color:#4A2638;letter-spacing:-.02em;line-height:1.08;font-size:clamp(30px,3.2vw,44px)}
+  #MainContent .text-block h1::after{content:"";display:block;width:46px;height:3px;border-radius:3px;background:#D9577F;margin-top:14px}
+  #MainContent .text-block h1 + p,#MainContent .text-block.rte p{color:#7A5566}
+</style>
+{%- endif -%}
 {%- comment -%} Página de marca (coleção): troca o título em texto pelo logo da marca quando existe (Tae · 02/11/2026). Mesma lista de logos da faixa de marcas. {%- endcomment -%}
 {%- if template.name == 'collection' and collection -%}
   {%- assign omg_logos = ',abib,aestura,another-face,anua,arencia,banila-co,beauty-of-joseon,beplain,biodance,celimax,cell-fusion-c,coeval,centellian-24,clio,cosrx,dasique,dr-forhair,dr-melaxin,dr-reju-all,eqqualberry,freshian,fwee,gongskin,hince,kaine,lador,manyo,medicube,mediheal,mise-en-scene,mixsoon,numbuzin,ongredients,purcell,purito-seoul,rejuran,round-lab,skin1004,some-by-mi,sonatural,the-kyeok,tirtir,torriden,vt-cosmetics,' -%}
@@ -170,3 +221,4 @@
 </script>
   {%- endif -%}
 {%- endif -%}
+
