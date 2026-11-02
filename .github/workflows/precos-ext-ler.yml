@@ -1,0 +1,22 @@
+name: Precos - ler varejo do exterior (marca)
+on:
+  push:
+    branches: [main]
+    paths: ['tools/precos/ext/ler_ext.py']
+  workflow_dispatch:
+    inputs:
+      marca: { description: 'Marca (como no buscador)', default: 'numbuzin' }
+permissions:
+  contents: write
+jobs:
+  ler:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/precos/ext/ler_ext.py
+        env: { MARCA: "${{ github.event.inputs.marca || 'numbuzin' }}" }
+      - run: |
+          git config user.name "omg-bot"; git config user.email "bot@ohmygirl.com.br"
+          git add tools/precos/ext/dados
+          git commit -m "Varejo do exterior: leitura" || true
+          git pull --rebase origin main && git push
