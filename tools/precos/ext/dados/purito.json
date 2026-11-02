@@ -1,12 +1,1065 @@
 {
  "lido": "2026-11-02",
- "produtos": [],
- "notas": [
-  "store api: HTTP Error 404: Not Found",
-  "best: HTTP Error 404: Not Found"
+ "total": 52,
+ "ordem_popularidade": [
+  "mighty-bamboo-panthenol-cream",
+  "retinol-retinal-2000-nad-serum",
+  "oat-in-calming-gel-cream",
+  "wonder-releaf-centella-serum-unscented",
+  "txa-6-niacinamide-10-retinal-serum",
+  "daily-soft-touch-sunscreen-spf50-pa",
+  "oat-pdrn-gentle-refining-toner",
+  "azelaic-acid-10-kojic-tea-tree-serum",
+  "acne-intensive-treatment-patch",
+  "acne-intensive-patch",
+  "wonder-releaf-centella-bb-cream",
+  "from-green-cleansing-oil-refill-set",
+  "from-green-cleansing-oil-refill",
+  "sun-day-adventure-sunscreen-spf-50",
+  "mighty-bamboo-panthenol-cream-mist",
+  "multi-pdrn-collagen-egf-serum",
+  "hypochlorous-acid-rescue-spray",
+  "daily-soft-touch-sunscreen-stick-spf50-pa",
+  "from-green-cleansing-oil",
+  "wonder-releaf-centella-daily-sun-lotion-spf50-pa",
+  "retinol-retinal-2000-caffeine-eye-cream",
+  "multi-pdrn-collagen-real-glow-mask",
+  "luminous-ceramide-sleeping-pack",
+  "purito-seoul-best-kit",
+  "oat-in-gentle-exfoliating-face-cleanser",
+  "peel-shot-exfoliating-pad",
+  "wonder-releaf-centella-eye-cream-unscented",
+  "mighty-bamboo-panthenol-cleanser",
+  "wonder-releaf-centella-spot-patch",
+  "luminous-ceramide-moisturizer",
+  "from-green-deep-foaming-cleanser-2",
+  "wonder-releaf-centella-cream-unscented",
+  "wonder-releaf-centella-cream",
+  "galacto-niacin-97-power-essence-2",
+  "timeless-bloom-bakuchiol-serum",
+  "fermented-complex-94-boosting-essence-2",
+  "%ed%94%bc%eb%b6%80-%ec%86%8d%eb%b6%80%ed%84%b0-%eb%ac%bc%ea%b4%91-%ea%b0%80%eb%93%9d-%ec%84%b8%eb%9f%bc",
+  "wonder-releaf-centella-serum",
+  "wonder-releaf-centella-mini-kit-unscented",
+  "wonder-releaf-centella-eye-cream",
+  "wonder-releaf-centella-bb-cushion",
+  "timeless-bloom-retinol-spot-cream",
+  "from-green-avocado-cleansing-balm-2",
+  "from-green-avocado-cleansing-balm",
+  "bamboo-charcoal-konjac-sponge",
+  "luminous-moisture-shea-butter-body-lotion",
+  "wonder-releaf-centella-toner",
+  "pure-vitamin-c-serum",
+  "jeju-volcanic-scoria-konjac-sponge",
+  "mighty-bamboo-panthenol-serum",
+  "4883",
+  "wonder-releaf-centella-toner-unscented"
  ],
- "sitemaps": [
-  "https://purito.com/sitemap-misc.xml",
-  "https://purito.com/page-sitemap.xml"
+ "produtos": [
+  {
+   "handle": "retinol-retinal-2000-nad-serum",
+   "nome": "Retinol Retinal 2000 NAD+ Serum",
+   "preco": 25.0,
+   "selos": [
+    "New",
+    "Best"
+   ],
+   "foto": "https://purito.com/wp-content/uploads/2026/04/thumb-main.png",
+   "tamanhos": [
+    "30 ml",
+    "1.01 fl. oz",
+    "30 mL"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "mighty-bamboo-panthenol-cream",
+   "nome": "Mighty Bamboo Panthenol Cream",
+   "preco": 23.0,
+   "selos": [
+    "Best",
+    "No. 1"
+   ],
+   "foto": "https://purito.com/wp-content/uploads/2025/08/판테놀크림_thumb-1.png",
+   "tamanhos": [
+    "100 mL",
+    "3.38 fl. oz",
+    "100ml"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "oat-in-calming-gel-cream",
+   "nome": "Oat In Calming Gel Cream",
+   "preco": 21.0,
+   "selos": [
+    "Best"
+   ],
+   "foto": "https://purito.com/wp-content/uploads/2025/04/Oat_Cream-thumb-1.png",
+   "tamanhos": [
+    "100 mL",
+    "3.38 fl. oz"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "wonder-releaf-centella-serum-unscented",
+   "nome": "Wonder Releaf Centella Serum Unscented",
+   "preco": 23.0,
+   "selos": [
+    "Best",
+    "No. 1"
+   ],
+   "foto": "https://purito.com/wp-content/uploads/2025/08/언센세럼_thumb-1.png",
+   "tamanhos": [
+    "60 mL",
+    "2.02 fl. oz",
+    "13EA",
+    "60ml",
+    "15 mL",
+    "0.50 fl. oz"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "txa-6-niacinamide-10-retinal-serum",
+   "nome": "TXA 6 Niacinamide 10 Retinal Serum",
+   "preco": 25.0,
+   "selos": [
+    "New",
+    "Best"
+   ],
+   "foto": "https://purito.com/wp-content/uploads/2025/09/thumb-1.png",
+   "tamanhos": [
+    "30 ml",
+    "1.01 fl. oz",
+    "8EA",
+    "30ml",
+    "30 mL"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "azelaic-acid-10-kojic-tea-tree-serum",
+   "nome": "Azelaic Acid 10 Kojic Tea Tree Serum",
+   "preco": 25.0,
+   "selos": [
+    "New",
+    "Best"
+   ],
+   "foto": "https://purito.com/wp-content/uploads/2025/09/thumb-1-1.png",
+   "tamanhos": [
+    "30 ml",
+    "1.01 fl. oz",
+    "4EA",
+    "30ml",
+    "30 mL"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "oat-pdrn-gentle-refining-toner",
+   "nome": "Oat PDRN Gentle Refining Toner",
+   "preco": 23.0,
+   "selos": [
+    "Best"
+   ],
+   "foto": "https://purito.com/wp-content/uploads/2025/08/Panthenol-Cleanser-thumb-1.png",
+   "tamanhos": [
+    "200 mL",
+    "6.76 fl. oz"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "daily-soft-touch-sunscreen-spf50-pa",
+   "nome": "Daily Soft Touch Sunscreen SPF50+ PA++++",
+   "preco": 21.5,
+   "selos": [
+    "Best",
+    "Signature"
+   ],
+   "foto": "https://purito.com/wp-content/uploads/2025/08/DTST_thumb-1.png",
+   "tamanhos": [
+    "60 mL",
+    "2.02 fl. oz",
+    "60ml",
+    "15 mL",
+    "0.50 fl. oz",
+    "15ml"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "acne-intensive-treatment-patch",
+   "nome": "Acne Intensive Treatment Patch",
+   "preco": 19.0,
+   "selos": [
+    "New"
+   ],
+   "foto": "https://purito.com/wp-content/uploads/2026/09/thumb-1.png",
+   "tamanhos": [
+    "0.62g"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "acne-intensive-patch",
+   "nome": "Intensive Care Patch",
+   "preco": 19.0,
+   "selos": [
+    "New"
+   ],
+   "foto": "https://purito.com/wp-content/uploads/2026/09/thumb-1-1.png",
+   "tamanhos": [],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "mighty-bamboo-panthenol-cream-mist",
+   "nome": "Mighty Bamboo Panthenol Cream Mist",
+   "preco": 19.0,
+   "selos": [
+    "New"
+   ],
+   "foto": "https://purito.com/wp-content/uploads/2026/09/Panthenol-Mist-thumb-1.png",
+   "tamanhos": [
+    "100 ml",
+    "3.38 fl. oz",
+    "4EA",
+    "100 mL"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "retinol-retinal-2000-caffeine-eye-cream",
+   "nome": "Retinol Retinal 2000 Caffeine Eye Cream",
+   "preco": 25.0,
+   "selos": [
+    "New"
+   ],
+   "foto": "https://purito.com/wp-content/uploads/2026/06/thumb-main.png",
+   "tamanhos": [
+    "40 ml",
+    "1.35 fl. oz",
+    "5EA",
+    "40 mL"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "wonder-releaf-centella-bb-cream",
+   "nome": "Wonder Releaf Centella BB Cream Natural Fit",
+   "preco": 14.0,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2024/09/원더릴리프센텔라비비크림_thumb-1.png",
+   "tamanhos": [
+    "30 mL",
+    "1.01 fl. oz"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "multi-pdrn-collagen-egf-serum",
+   "nome": "Multi PDRN Collagen EGF Serum",
+   "preco": 25.0,
+   "selos": [
+    "New"
+   ],
+   "foto": "https://purito.com/wp-content/uploads/2026/05/thumb_routine.png",
+   "tamanhos": [
+    "30 ml",
+    "1.01 fl. oz",
+    "30 mL"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "multi-pdrn-collagen-real-glow-mask",
+   "nome": "MULTI PDRN COLLAGEN REAL GLOW MASK",
+   "preco": 20.0,
+   "selos": [
+    "New"
+   ],
+   "foto": "https://purito.com/wp-content/uploads/2026/06/benefit_product-1192x1192.png",
+   "tamanhos": [
+    "100 ml",
+    "3.38 fl. oz",
+    "100 mL"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "pure-vitamin-c-serum",
+   "nome": "Pure Vitamin C Serum",
+   "preco": 18.0,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2025/12/thumb-1-3.png",
+   "tamanhos": [
+    "60 mL",
+    "2.02 fl. oz",
+    "69EA",
+    "60ml"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "from-green-avocado-cleansing-balm-2",
+   "nome": "From Green Avocado Cleansing Balm",
+   "preco": 20.0,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2025/12/thumb-1-6.png",
+   "tamanhos": [
+    "100 mL",
+    "3.38 fl. oz",
+    "100ml"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "oat-in-gentle-exfoliating-face-cleanser",
+   "nome": "Oat In Gentle Exfoliating Face Cleanser",
+   "preco": 22.0,
+   "selos": [
+    "Best",
+    "Signature"
+   ],
+   "foto": "https://purito.com/wp-content/uploads/2025/04/Panthenol-Cleanser-thumb-1.png",
+   "tamanhos": [
+    "150 ml",
+    "5.07 fl. oz",
+    "22EA",
+    "150 mL"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "from-green-deep-foaming-cleanser-2",
+   "nome": "From Green Deep Foaming Cleanser",
+   "preco": 15.0,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2025/12/thumb-1-2.png",
+   "tamanhos": [
+    "150 mL",
+    "5.07 fl. oz",
+    "30ml",
+    "150ml"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "galacto-niacin-97-power-essence-2",
+   "nome": "Galacto Niacin 97 Power Essence",
+   "preco": 22.0,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2025/12/thumb-1-4.png",
+   "tamanhos": [
+    "60 mL",
+    "2.02 fl. oz",
+    "2EA",
+    "60ml"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "fermented-complex-94-boosting-essence-2",
+   "nome": "Fermented Complex 94 Boosting Essence",
+   "preco": 22.0,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2025/12/thumb-1-5.png",
+   "tamanhos": [
+    "150 mL",
+    "5.07 fl. oz",
+    "150ml"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "peel-shot-exfoliating-pad",
+   "nome": "Peel Shot Exfoliating Pad",
+   "preco": 20.0,
+   "selos": [
+    "New",
+    "Best"
+   ],
+   "foto": "https://purito.com/wp-content/uploads/2026/01/thumb-1.png",
+   "tamanhos": [
+    "64 g",
+    "8 pads",
+    "64g"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "luminous-ceramide-sleeping-pack",
+   "nome": "Luminous Ceramide Sleeping Pack",
+   "preco": 20.0,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2025/12/thumb-1.png",
+   "tamanhos": [
+    "100 ml",
+    "3.38 fl. oz",
+    "80ml",
+    "100 mL"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "luminous-ceramide-moisturizer",
+   "nome": "Luminous Ceramide Moisturizer",
+   "preco": 23.0,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2025/12/thumb-1-1.png",
+   "tamanhos": [
+    "100 mL",
+    "3.38 fl. oz",
+    "100ml"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "hypochlorous-acid-rescue-spray",
+   "nome": "Hypochlorous Acid Rescue Spray",
+   "preco": 19.0,
+   "selos": [
+    "New"
+   ],
+   "foto": "https://purito.com/wp-content/uploads/2025/10/thumb-1.png",
+   "tamanhos": [
+    "100 ml",
+    "3.38 fl. oz",
+    "100 mL"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "from-green-cleansing-oil",
+   "nome": "From Green Cleansing Oil",
+   "preco": 21.0,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2024/01/Oat_Cream-thumb-1.png",
+   "tamanhos": [
+    "200 mL",
+    "6.76 fl. oz",
+    "200ml"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "from-green-cleansing-oil-refill-set",
+   "nome": "From Green Cleansing Oil Refill Set",
+   "preco": 35.9,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2025/07/From_Green_Cleansing_Oil_Set_thumb.png",
+   "tamanhos": [
+    "400 mL",
+    "13.52 fl. oz"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "from-green-cleansing-oil-refill",
+   "nome": "From Green Cleansing Oil Refill",
+   "preco": 17.9,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2025/07/From_Green_Cleansing_Oil_Refill_thumb.png",
+   "tamanhos": [
+    "200 mL",
+    "6.76 fl. oz",
+    "200ml"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "sun-day-adventure-sunscreen-spf-50",
+   "nome": "Sun Day Adventure Sunscreen SPF 50",
+   "preco": 21.5,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2025/03/thumb-1.png",
+   "tamanhos": [
+    "50 mL",
+    "1.69 fl. oz",
+    "50ml"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "daily-soft-touch-sunscreen-stick-spf50-pa",
+   "nome": "Daily Soft Touch Sunscreen Stick SPF50+ PA++++",
+   "preco": 21.5,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2025/03/DailySuncsreenStick-thumb-1.png",
+   "tamanhos": [
+    "20 g",
+    "20g"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "mighty-bamboo-panthenol-serum",
+   "nome": "Mighty Bamboo Panthenol Serum",
+   "preco": 22.0,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2025/01/Panthenol-Serum-thumb-1-4.png",
+   "tamanhos": [
+    "30 mL",
+    "1.01 fl. oz",
+    "30ml"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "purito-seoul-best-kit",
+   "nome": "Purito Seoul Best Kit",
+   "preco": 25.0,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2024/12/Best-Kit-thumb-1.png",
+   "tamanhos": [
+    "30mL",
+    "15mL",
+    "30 mL",
+    "15 mL"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "luminous-moisture-shea-butter-body-lotion",
+   "nome": "Luminous Moisture Shea Butter Body Lotion",
+   "preco": 25.0,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2024/10/Body-lotion-thumb-1.png",
+   "tamanhos": [
+    "300 mL",
+    "5735EA"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "mighty-bamboo-panthenol-cleanser",
+   "nome": "Mighty Bamboo Panthenol Cleanser",
+   "preco": 14.0,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2024/08/Panthenol-Cleanser-thumb-1-2.png",
+   "tamanhos": [
+    "150 mL",
+    "5.07 fl. oz",
+    "150ml"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "4883",
+   "nome": "Hydro Wave Deep Sea Cream",
+   "preco": 21.0,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2024/06/Deep-Sea-Cream-thumb-1.png",
+   "tamanhos": [
+    "50 mL",
+    "1.69 fl. oz",
+    "50ml"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "%ed%94%bc%eb%b6%80-%ec%86%8d%eb%b6%80%ed%84%b0-%eb%ac%bc%ea%b4%91-%ea%b0%80%eb%93%9d-%ec%84%b8%eb%9f%bc",
+   "nome": "Hydro Wave Deep Sea Serum",
+   "preco": 23.0,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2024/05/Deep-Sea-Serum-thumb-1.png",
+   "tamanhos": [
+    "60 mL",
+    "2.02 fl. oz",
+    "60ml"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "wonder-releaf-centella-bb-cushion",
+   "nome": "Wonder Releaf Centella BB Cushion",
+   "preco": 30.0,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2024/03/cushion-thumb-1.png",
+   "tamanhos": [
+    "15 g",
+    "2 ea",
+    "15g"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "wonder-releaf-centella-spot-patch",
+   "nome": "Wonder Releaf Centella Spot Patch",
+   "preco": 9.9,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2024/05/Centella-Spot-Patch-thumb-1.png",
+   "tamanhos": [
+    "36 ea",
+    "15 ea",
+    "51ea"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "timeless-bloom-retinol-spot-cream",
+   "nome": "Timeless Bloom Retinol Spot Cream",
+   "preco": 22.0,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2024/05/Retinol-Spot-Cream-thumb-1.png",
+   "tamanhos": [
+    "30 mL",
+    "1.01 fl. oz"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "timeless-bloom-bakuchiol-serum",
+   "nome": "Timeless Bloom Bakuchiol Serum",
+   "preco": 25.0,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2025/08/바쿠치올세럼_thumb-1.png",
+   "tamanhos": [
+    "30 mL",
+    "1.01 fl. oz"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "wonder-releaf-centella-daily-sun-lotion-spf50-pa",
+   "nome": "Wonder Releaf Centella Daily Sun Lotion SPF50+ PA++++",
+   "preco": 21.5,
+   "selos": [
+    "Recommended"
+   ],
+   "foto": "https://purito.com/wp-content/uploads/2024/03/sunlotion-thumb-1.png",
+   "tamanhos": [
+    "60 mL",
+    "2.02 fl. oz",
+    "60ml",
+    "15 mL",
+    "0.50 fl. oz",
+    "15ml"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "wonder-releaf-centella-mini-kit-unscented",
+   "nome": "Wonder Releaf Centella Mini Kit Unscented",
+   "preco": 17.2,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2024/04/centella_minikit_unscented-new.png",
+   "tamanhos": [
+    "30 mL",
+    "15 mL"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "wonder-releaf-centella-toner-unscented",
+   "nome": "Wonder Releaf Centella Toner Unscented",
+   "preco": 24.0,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2025/08/언센토너_thumb-1.png",
+   "tamanhos": [
+    "200 mL",
+    "6.76 fl. oz",
+    "200ml",
+    "30 mL",
+    "1.01 fl. oz",
+    "30ml"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "wonder-releaf-centella-cream-unscented",
+   "nome": "Wonder Releaf Centella Cream Unscented",
+   "preco": 21.0,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2024/02/centella_cream_unscented-thumb-x2-1.png",
+   "tamanhos": [
+    "50 mL",
+    "1.69 fl. oz",
+    "50ml",
+    "15 mL",
+    "0.50 fl. oz",
+    "15ml"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "wonder-releaf-centella-eye-cream-unscented",
+   "nome": "Wonder Releaf Centella Eye Cream Unscented",
+   "preco": 16.0,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2025/08/언센아이크림_thumb-1.png",
+   "tamanhos": [
+    "30 mL",
+    "1.01 fl. oz",
+    "30ml"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "wonder-releaf-centella-toner",
+   "nome": "Wonder Releaf Centella Toner",
+   "preco": 24.0,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2024/02/centella_toner-thumb-x2.png",
+   "tamanhos": [
+    "200 mL",
+    "6.76 fl. oz",
+    "32EA",
+    "200ml"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "wonder-releaf-centella-serum",
+   "nome": "Wonder Releaf Centella Serum",
+   "preco": 23.0,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2024/02/centella_serum-thumb-x2-1.png",
+   "tamanhos": [
+    "60 mL",
+    "2.02 fl. oz",
+    "60ml"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "wonder-releaf-centella-cream",
+   "nome": "Wonder Releaf Centella Cream",
+   "preco": 21.0,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2024/02/centella_cream-thumb-x2.png",
+   "tamanhos": [
+    "50 mL",
+    "1.69 fl. oz",
+    "36EA",
+    "50ml"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "wonder-releaf-centella-eye-cream",
+   "nome": "Wonder Releaf Centella Eye Cream",
+   "preco": 16.0,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2024/02/centella_eyecream-thumb-x2.png",
+   "tamanhos": [
+    "30 mL",
+    "1.01 fl. oz",
+    "30ml"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "from-green-avocado-cleansing-balm",
+   "nome": "From Green Avocado Cleansing Balm",
+   "preco": 20.0,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2024/02/fromgreen_balm-thumb-2.png",
+   "tamanhos": [
+    "100 mL",
+    "3.38 fl. oz",
+    "100ml"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "bamboo-charcoal-konjac-sponge",
+   "nome": "Bamboo Charcoal Konjac Sponge",
+   "preco": 8.0,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2024/03/Bamboo-Charcoal-Konjac-Sponge.png",
+   "tamanhos": [
+    "1ea",
+    "7g"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  },
+  {
+   "handle": "jeju-volcanic-scoria-konjac-sponge",
+   "nome": "JEJU Volcanic Scoria Konjac Sponge",
+   "preco": 8.0,
+   "selos": [],
+   "foto": "https://purito.com/wp-content/uploads/2024/03/JEJU-Volcanic-Scoria-Konjac-Sponge_01.png",
+   "tamanhos": [
+    "1ea",
+    "7g"
+   ],
+   "og": "https://purito.com/wp-content/uploads/2024/02/purito-og-image.jpg",
+   "onde_comprar": [
+    "amazon.com",
+    "stylevana.com",
+    "yesstyle.com"
+   ],
+   "descricao": "We explore the rich culture and boundless creativity of seoul, where nature and urbanity thrive in harmony."
+  }
  ]
 }
