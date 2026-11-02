@@ -680,7 +680,7 @@ async function principal(req: Request): Promise<Response> {
       // Corrige a descrição (HTML) de produtos: b.itens = [{ id, html }] (até 20).
       const res: any[] = [];
       for (const it of (Array.isArray(b.itens) ? b.itens : []).slice(0, 20)) {
-        const d: any = await gql(`mutation($p: ProductUpdateInput!) { productUpdate(product: $p) { product { handle } userErrors { message } } }`, { p: { id: String(it.id), ...(it.html != null ? { descriptionHtml: String(it.html) } : {}), ...(it.titulo ? { title: String(it.titulo) } : {}) } });
+        const d: any = await gql(`mutation($p: ProductUpdateInput!) { productUpdate(product: $p) { product { handle } userErrors { message } } }`, { p: { id: String(it.id), ...(it.html != null ? { descriptionHtml: String(it.html) } : {}), ...(it.titulo ? { title: String(it.titulo) } : {}), ...(it.tipo ? { productType: String(it.tipo) } : {}) } });
         const e = d.productUpdate.userErrors;
         res.push(e.length ? { id: it.id, erro: e.map((x: any) => x.message).join("; ") } : { id: it.id, ok: d.productUpdate.product.handle });
       }
