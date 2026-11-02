@@ -112,7 +112,8 @@ Deno.serve(async (req) => {
           const v = await porSku(String(sku));
           const d: any = await gql(`mutation($p: ID!, $v: [ID!]!) { productVariantsBulkDelete(productId: $p, variantsIds: $v) { userErrors { message } } }`, { p: v.product.id, v: [v.id] });
           if (d.productVariantsBulkDelete.userErrors.length) throw new Error(d.productVariantsBulkDelete.userErrors[0].message);
-          await admin.from("produtos").update({ ativo: false, site_status: "archived" }).eq("sku", String(sku));
+          // sem o id da página: assim o modo "status" (que atualiza por página) não reativa esta linha
+          await admin.from("produtos").update({ ativo: false, site_status: "archived", shopify_product_id: null, shopify_variant_id: null }).eq("sku", String(sku));
           out.push({ sku, ok: true });
         } catch (e) { out.push({ sku, ok: false, erro: erro(e) }); }
       }
