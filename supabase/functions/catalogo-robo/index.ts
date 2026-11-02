@@ -1,10 +1,15 @@
 // Robô de catálogo (ajustes em lote aprovados pelo Tae no chat). Só funciona com o cabeçalho x-chave = config.chave_robo,
-// que é criada para a tarefa e apagada no fim. Nada aqui ativa produto: criar sempre cria em RASCUNHO.
+// que é criada para a tarefa e apagada no fim. "criar" sempre cria em RASCUNHO; só o modo "status" ativa, e só com OK explícito do Tae no chat.
 //   { modo: "fonte", handles: [..], loja?: "numbuzinus.com" } → lê a ficha oficial (Shopify da marca): título, texto, fotos, peso
 //   { modo: "arquivar", ids: [productId] }                     → status ARCHIVED
 //   { modo: "atualizar", itens: [{ id, titulo?, tipo?, tags?, preco?, peso_g? }] } → 1ª variante para preço/peso; tags substitui a lista
 //   { modo: "criar", itens: [{ titulo, handle, vendor, tipo, tags, html | desc, fotos: [url] | fonte (handle na loja oficial), sku, preco, peso_g }] } → cria em DRAFT
 //   { modo: "ler", ids: [productId] }                          → título, tipo, tags, status, preço, peso, nº de fotos
+//   { modo: "completar", itens: [{ sku, preco?, peso_g?, hs?, dim?: [c,l,a], nome_en?, nome_kr? }] } → Shopify (por SKU) + ERP
+//   { modo: "versoes", base, titulo?, opcao?, variantes: [{ sku, nome, preco, peso_g, de?, foto? }] } → junta versões num produto só
+//   { modo: "capa", fase: "por" | "fim", itens } → troca a capa (mesmo fluxo da função capa-foto)
+//   { modo: "status", ids, status: "ACTIVE" | "DRAFT" } → ativa (e publica nos canais de um produto ativo) — só com OK explícito do Tae
+//   { modo: "ler2", ids } → conferência completa por versão
 import { createClient } from "npm:@supabase/supabase-js@2";
 const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
 const SHOP = Deno.env.get("SHOPIFY_SHOP") ?? "", VERSAO = Deno.env.get("SHOPIFY_API_VERSION") ?? "2026-04";
@@ -51,6 +56,11 @@ const erro = (e: unknown) => String((e as Error).message || e).slice(0, 300);
 async function variante1(pid: string) {
   const d: any = await gql(`query($id: ID!) { product(id: $id) { variants(first: 2) { nodes { id } } } }`, { id: pid });
   return d.product.variants.nodes[0]?.id;
+}
+async function porSku(sku: string) {
+  const d: any = await gql(`query($q: String!) { productVariants(first: 5, query: $q) { nodes { id sku product { id } } } }`, { q: "sku:" + sku });
+  const v = d.productVariants.nodes.find((x: any) => x.sku === sku); if (!v) throw new Error("SKU não está no Shopify");
+  return v;
 }
 async function precoPeso(pid: string, vid: string, preco?: number, peso?: number, sku?: string) {
   const v: any = { id: vid };
@@ -136,6 +146,150 @@ Deno.serve(async (req) => {
           out.push({ id, handle: p.handle, titulo: p.title, tipo: p.productType, tags: p.tags, status: p.status, fotos: p.mediaCount?.count,
             imagens: p.media.nodes.map((m: any) => m.image && [m.image.url, m.image.width, m.image.height]).filter(Boolean),
             preco: v.price, sku: v.sku, peso: v.inventoryItem?.measurement?.weight?.value });
+        } catch (e) { out.push({ id, ok: false, erro: erro(e) }); }
+      }
+    } else if (b.modo === "completar") {
+      // por SKU: preço, peso, HS, origem KR, medidas (metafield) no Shopify + mesmos dados e nomes EN/KR no ERP
+      for (const it of (b.itens || []).slice(0, 40)) {
+        try {
+          const v = await porSku(String(it.sku));
+          const ii: any = { countryCodeOfOrigin: "KR" };
+          if (it.peso_g != null) ii.measurement = { weight: { value: Number(it.peso_g), unit: "GRAMS" } };
+          if (it.hs) ii.harmonizedSystemCode = String(it.hs).replace(/\D/g, "");
+          const vv: any = { id: v.id, inventoryItem: ii };
+          if (it.preco != null) vv.price = String(it.preco);
+          if (Array.isArray(it.dim) && it.dim.every((x: any) => x != null)) vv.metafields = [{ namespace: "custom", key: "dimensoes_cm", type: "single_line_text_field", value: it.dim.map((x: any) => String(x).replace(".", ",")).join(" x ") }];
+          const d: any = await gql(`mutation($p: ID!, $v: [ProductVariantsBulkInput!]!) { productVariantsBulkUpdate(productId: $p, variants: $v) { userErrors { message } } }`, { p: v.product.id, v: [vv] });
+          if (d.productVariantsBulkUpdate.userErrors.length) throw new Error(d.productVariantsBulkUpdate.userErrors[0].message);
+          const up: any = { shopify_product_id: v.product.id.split("/").pop(), shopify_variant_id: v.id.split("/").pop() };
+          if (it.preco != null) up.preco = Number(it.preco);
+          if (it.peso_g != null) up.peso_g = Number(it.peso_g);
+          if (it.hs) up.hs = String(it.hs);
+          if (Array.isArray(it.dim)) { up.comp_cm = it.dim[0]; up.larg_cm = it.dim[1]; up.alt_cm = it.dim[2]; }
+          if (it.nome_en) up.nome_en = String(it.nome_en);
+          if (it.nome_kr) up.nome_kr = String(it.nome_kr);
+          const { error } = await admin.from("produtos").update(up).eq("sku", String(it.sku));
+          if (error) throw new Error("ERP: " + error.message);
+          out.push({ sku: it.sku, ok: true });
+        } catch (e) { out.push({ sku: it.sku, ok: false, erro: erro(e) }); }
+      }
+    } else if (b.modo === "versoes") {
+      // { base: productId, titulo?, opcao: "Versão", variantes: [{ sku, nome, preco, peso_g, de?: productId (arquivado depois), foto?: url }] }
+      // a 1ª variante é a que o produto-base já tem; as outras são criadas nele
+      const pid = gid(b.base); const opcao = String(b.opcao || "Versão"); const vs = b.variantes || [];
+      const p0: any = (await gql(`query($id: ID!) { product(id: $id) { title options { id name } media(first: 1) { nodes { id } }
+        variants(first: 10) { nodes { id sku inventoryPolicy inventoryItem { tracked } } } } }`, { id: pid })).product;
+      const v0 = p0.variants.nodes[0];
+      if (v0.sku !== vs[0].sku) throw new Error(`a 1ª versão do produto-base é ${v0.sku}, não ${vs[0].sku}`);
+      if (p0.options.length === 1 && p0.options[0].name === "Title") {
+        const o: any = await gql(`mutation($p: ID!, $o: [OptionCreateInput!]!) { productOptionsCreate(productId: $p, options: $o, variantStrategy: LEAVE_AS_IS) { userErrors { message } } }`,
+          { p: pid, o: [{ name: opcao, values: [{ name: vs[0].nome }] }] });
+        if (o.productOptionsCreate.userErrors.length) throw new Error("opção: " + o.productOptionsCreate.userErrors[0].message);
+      }
+      const novos = vs.slice(1).filter((v: any) => !p0.variants.nodes.some((x: any) => x.sku === v.sku));
+      let criadas: any[] = [];
+      if (novos.length) {
+        const c: any = await gql(`mutation($p: ID!, $v: [ProductVariantsBulkInput!]!) { productVariantsBulkCreate(productId: $p, variants: $v) { productVariants { id sku } userErrors { message } } }`,
+          { p: pid, v: novos.map((v: any) => ({ optionValues: [{ optionName: opcao, name: v.nome }], price: String(v.preco), inventoryPolicy: v0.inventoryPolicy,
+            inventoryItem: { sku: v.sku, tracked: v0.inventoryItem.tracked, countryCodeOfOrigin: "KR", measurement: { weight: { value: Number(v.peso_g), unit: "GRAMS" } } } })) });
+        if (c.productVariantsBulkCreate.userErrors.length) throw new Error("versões: " + c.productVariantsBulkCreate.userErrors[0].message);
+        criadas = c.productVariantsBulkCreate.productVariants;
+      }
+      if (b.titulo) {
+        const t: any = await gql(`mutation($p: ProductUpdateInput!) { productUpdate(product: $p) { userErrors { message } } }`, { p: { id: pid, title: String(b.titulo) } });
+        if (t.productUpdate.userErrors.length) throw new Error("título: " + t.productUpdate.userErrors[0].message);
+      }
+      // fotos das versões
+      const todas: any = (await gql(`query($id: ID!) { product(id: $id) { variants(first: 20) { nodes { id sku } } } }`, { id: pid })).product.variants.nodes;
+      const ligar: any[] = [];
+      if (p0.media.nodes[0]) ligar.push({ variantId: v0.id, mediaIds: [p0.media.nodes[0].id] });
+      for (const v of vs.slice(1)) {
+        if (!v.foto) continue;
+        const vid = todas.find((x: any) => x.sku === v.sku)?.id; if (!vid) continue;
+        const a: any = await gql(`mutation($id: ID!, $m: [CreateMediaInput!]!) { productCreateMedia(productId: $id, media: $m) { media { id } mediaUserErrors { message } } }`,
+          { id: pid, m: [{ originalSource: String(v.foto), alt: `${p0.title} - ${v.nome}`, mediaContentType: "IMAGE" }] });
+        const mid = a.productCreateMedia.media[0]?.id; if (!mid) continue;
+        for (let i = 0; i < 20; i++) { const st: any = await gql(`query($id: ID!) { node(id: $id) { ... on MediaImage { status } } }`, { id: mid }); if (st.node?.status === "READY") break; await new Promise((r) => setTimeout(r, 2000)); }
+        ligar.push({ variantId: vid, mediaIds: [mid] });
+      }
+      if (ligar.length) {
+        const l: any = await gql(`mutation($p: ID!, $vm: [ProductVariantAppendMediaInput!]!) { productVariantAppendMedia(productId: $p, variantMedia: $vm) { userErrors { message } } }`, { p: pid, vm: ligar });
+        if (l.productVariantAppendMedia.userErrors.length) out.push({ aviso: "fotos das versões: " + l.productVariantAppendMedia.userErrors[0].message });
+      }
+      // ERP: cada SKU aponta para o produto-base e sua variante; produtos absorvidos são arquivados
+      for (const v of vs) {
+        const vid = todas.find((x: any) => x.sku === v.sku)?.id;
+        await admin.from("produtos").update({ shopify_product_id: pid.split("/").pop(), shopify_variant_id: vid ? vid.split("/").pop() : null }).eq("sku", String(v.sku));
+      }
+      for (const v of vs) {
+        if (!v.de) continue;
+        const d: any = await gql(`mutation($p: ProductUpdateInput!) { productUpdate(product: $p) { userErrors { message } } }`, { p: { id: gid(v.de), status: "ARCHIVED" } });
+        out.push({ arquivado: v.de, ok: !d.productUpdate.userErrors.length });
+      }
+      out.push({ base: b.base, ok: true, versoes: todas.map((x: any) => x.sku), criadas: criadas.map((x: any) => x.sku) });
+    } else if (b.modo === "capa") {
+      // fase "por": adiciona a capa nova (não espera) · fase "fim": põe a nova em 1º, religa versões que usavam a antiga e apaga a antiga
+      if (b.fase === "por") {
+        for (const it of (b.itens || []).slice(0, 25)) {
+          try {
+            const p: any = (await gql(`query($id: ID!) { product(id: $id) { title media(first: 1) { nodes { id } } } }`, { id: gid(it.id) })).product;
+            const a: any = await gql(`mutation($id: ID!, $m: [CreateMediaInput!]!) { productCreateMedia(productId: $id, media: $m) { media { id } mediaUserErrors { message } } }`,
+              { id: gid(it.id), m: [{ originalSource: String(it.url), alt: p.title, mediaContentType: "IMAGE" }] });
+            if (a.productCreateMedia.mediaUserErrors.length) throw new Error(a.productCreateMedia.mediaUserErrors[0].message);
+            out.push({ id: it.id, ok: true, nova: a.productCreateMedia.media[0]?.id, antiga: p.media.nodes[0]?.id || null });
+          } catch (e) { out.push({ id: it.id, ok: false, erro: erro(e) }); }
+        }
+      } else if (b.fase === "fim") {
+        for (const it of (b.itens || []).slice(0, 25)) {
+          try {
+            const pid = gid(it.id);
+            const st: any = await gql(`query($id: ID!) { node(id: $id) { ... on MediaImage { status } } }`, { id: it.nova });
+            if (st.node?.status !== "READY") throw new Error("capa nova ainda não está pronta: " + st.node?.status);
+            const ro: any = await gql(`mutation($id: ID!, $m: [MoveInput!]!) { productReorderMedia(id: $id, moves: $m) { mediaUserErrors { message } } }`, { id: pid, m: [{ id: it.nova, newPosition: "0" }] });
+            if (ro.productReorderMedia.mediaUserErrors.length) throw new Error(ro.productReorderMedia.mediaUserErrors[0].message);
+            if (it.antiga) {
+              const vs: any = (await gql(`query($id: ID!) { product(id: $id) { variants(first: 20) { nodes { id media(first: 1) { nodes { id } } } } } }`, { id: pid })).product.variants.nodes.filter((v: any) => v.media.nodes[0]?.id === it.antiga);
+              if (vs.length) {
+                await gql(`mutation($p: ID!, $vm: [ProductVariantDetachMediaInput!]!) { productVariantDetachMedia(productId: $p, variantMedia: $vm) { userErrors { message } } }`, { p: pid, vm: vs.map((v: any) => ({ variantId: v.id, mediaIds: [it.antiga] })) });
+                await gql(`mutation($p: ID!, $vm: [ProductVariantAppendMediaInput!]!) { productVariantAppendMedia(productId: $p, variantMedia: $vm) { userErrors { message } } }`, { p: pid, vm: vs.map((v: any) => ({ variantId: v.id, mediaIds: [it.nova] })) });
+              }
+              const del: any = await gql(`mutation($id: ID!, $ids: [ID!]!) { productDeleteMedia(productId: $id, mediaIds: $ids) { mediaUserErrors { message } } }`, { id: pid, ids: [it.antiga] });
+              if (del.productDeleteMedia.mediaUserErrors.length) throw new Error("antiga: " + del.productDeleteMedia.mediaUserErrors[0].message);
+            }
+            out.push({ id: it.id, ok: true });
+          } catch (e) { out.push({ id: it.id, ok: false, erro: erro(e) }); }
+        }
+      } else return resp(400, { erro: "fase: por | fim" });
+    } else if (b.modo === "status") {
+      // { ids, status: "ACTIVE" | "DRAFT" } — ACTIVE também publica nos mesmos canais de um produto já ativo
+      const status = b.status === "ACTIVE" ? "ACTIVE" : "DRAFT";
+      let pubs: string[] = [];
+      if (status === "ACTIVE") {
+        const r: any = await gql(`{ products(first: 1, query: "status:active") { nodes { resourcePublicationsV2(first: 20) { nodes { publication { id } } } } } }`);
+        pubs = (r.products.nodes[0]?.resourcePublicationsV2.nodes || []).map((x: any) => x.publication.id);
+      }
+      for (const id of (b.ids || []).slice(0, 50)) {
+        try {
+          const d: any = await gql(`mutation($p: ProductUpdateInput!) { productUpdate(product: $p) { userErrors { message } } }`, { p: { id: gid(id), status } });
+          if (d.productUpdate.userErrors.length) throw new Error(d.productUpdate.userErrors[0].message);
+          if (pubs.length) {
+            const pb: any = await gql(`mutation($id: ID!, $i: [PublicationInput!]!) { publishablePublish(id: $id, input: $i) { userErrors { message } } }`, { id: gid(id), i: pubs.map((p) => ({ publicationId: p })) });
+            if (pb.publishablePublish.userErrors.length) throw new Error("publicar: " + pb.publishablePublish.userErrors[0].message);
+          }
+          await admin.from("produtos").update({ ativo: status === "ACTIVE", site_status: status.toLowerCase() }).eq("shopify_product_id", String(id));
+          out.push({ id, ok: true, canais: pubs.length });
+        } catch (e) { out.push({ id, ok: false, erro: erro(e) }); }
+      }
+    } else if (b.modo === "ler2") {
+      // conferência completa: todas as versões (sku, preço, peso, HS, origem, medidas), status, nº de fotos, canais
+      for (const id of (b.ids || []).slice(0, 40)) {
+        try {
+          const d: any = await gql(`query($id: ID!) { product(id: $id) { title status mediaCount { count } options { name values } resourcePublicationsV2(first: 10) { nodes { isPublished } }
+            variants(first: 10) { nodes { sku title price media(first: 1) { nodes { id } } metafield(namespace: "custom", key: "dimensoes_cm") { value }
+              inventoryItem { harmonizedSystemCode countryCodeOfOrigin measurement { weight { value } } } } } } }`, { id: gid(id) });
+          const p = d.product;
+          out.push({ id, titulo: p.title, status: p.status, fotos: p.mediaCount?.count, canais: p.resourcePublicationsV2.nodes.filter((x: any) => x.isPublished).length, opcoes: p.options,
+            versoes: p.variants.nodes.map((v: any) => ({ sku: v.sku, nome: v.title, preco: v.price, foto: !!v.media.nodes[0], dim: v.metafield?.value, hs: v.inventoryItem.harmonizedSystemCode, origem: v.inventoryItem.countryCodeOfOrigin, peso: v.inventoryItem.measurement?.weight?.value })) });
         } catch (e) { out.push({ id, ok: false, erro: erro(e) }); }
       }
     } else return resp(400, { erro: "modo desconhecido" });
