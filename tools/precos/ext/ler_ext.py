@@ -18,7 +18,7 @@ for pn in range(1,8):
         tit=re.search(r'itemTitle">(.*?)</div>',bl,re.S); 
         if not tit: continue
         nome=html.unescape(re.sub(r'<[^>]+>','',tit.group(1))).replace(' - ',' - ',1).strip()
-        p1=re.search(r'itemPrice notranslate">US\$ ([\d.,]+)',bl); p2=re.search(r'itemSellPrice notranslate">US\$ ([\d.,]+)',bl)
+        p1=re.search(r'itemPrice notranslate">US\$\s?([\d.,]+)',bl); p2=re.search(r'itemSellPrice notranslate">US\$\s?([\d.,]+)',bl)
         badge=re.search(r'textLimitedDeal[^>]*>([^<]+)<',bl)
         prev=t[:t.find(bl)][-8000:]; hrefs=re.findall(r'href="(/en/[^"]+/info\.html/pid\.\d+)"',prev)
         url="https://www.yesstyle.com"+hrefs[-1] if hrefs else None
