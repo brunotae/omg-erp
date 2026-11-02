@@ -14,6 +14,9 @@ const CFG0 = {
   nome: "Entrega internacional OMG",
   prazo: "De 7 a 15 dias úteis",
   detalhar: true,
+  // Fração do frete (voo + entrega nacional) cobrada como frete; o resto já está embutido no preço do produto.
+  // 1 = como antes. 0,35 = decisão do Tae em 02/11/2026 (65% do frete de SP foi para o preço).
+  frete_fator: 1,
 };
 let CACHE: { t: number; cfg: typeof CFG0; mile: any } | null = null;
 
@@ -88,8 +91,9 @@ export async function calcular(cepTxt: string, ufInf: string | null, itens: { gr
   if (reg.tipo === "proprio" && mile.lm[reg.regiao]) { nacional = faixa(mile.lm[reg.regiao], mile.lm_add?.[reg.regiao], peso); origemNac = "Mile " + reg.regiao; }
   else if (mile.rd[uf]) { nacional = faixa(mile.rd[uf], mile.rd_add?.[uf], peso); origemNac = "Mile redespacho " + uf; }
   else throw new Error("sem preço da Mile para " + reg.regiao);
+  const fator = Number(cfg.frete_fator ?? 1);
   const seguro = merc * Number(cfg.seguro_pct) / 100;
-  const frete = intl + nacional + seguro;
+  const frete = (intl + nacional) * fator + seguro;
   const va = merc + frete;
   const ii = merc <= Number(cfg.ii_isencao_usd) ? 0 : Math.max(0, va * Number(cfg.ii_pct) / 100 - Number(cfg.ii_deducao_usd));
   const icms = (va + ii) * aliq / (100 - aliq);
@@ -98,7 +102,7 @@ export async function calcular(cepTxt: string, ufInf: string | null, itens: { gr
   return {
     cep: String(cep).padStart(8, "0"), uf, regiao: reg.regiao, entrega: reg.tipo, prazo_mile: reg.prazo,
     peso_g: peso, cambio: usd, aliquota_icms: aliq,
-    usd: { mercadoria: r2(merc), frete_internacional: r2(intl), frete_nacional: r2(nacional), seguro: r2(seguro), frete_seguro: r2(frete), valor_aduaneiro: r2(va), ii: r2(ii), icms: r2(icms), total_linha: r2(linhaUSD) },
+    usd: { mercadoria: r2(merc), frete_internacional: r2(intl * fator), frete_nacional: r2(nacional * fator), seguro: r2(seguro), frete_seguro: r2(frete), valor_aduaneiro: r2(va), ii: r2(ii), icms: r2(icms), total_linha: r2(linhaUSD) },
     brl: { mercadoria: r2(mercBRL), frete_seguro: B(frete), ii: B(ii), icms: B(icms), total_linha: B(linhaUSD), total_pedido: r2(mercBRL + B(linhaUSD)) },
     origem_nacional: origemNac,
     cfg: { nome: cfg.nome, prazo: cfg.prazo, detalhar: cfg.detalhar },
