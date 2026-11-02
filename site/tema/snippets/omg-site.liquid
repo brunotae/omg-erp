@@ -149,3 +149,24 @@
   var n=0, t=setInterval(function(){ n++; monta(n>40); if(document.querySelector('.omg-fab') || n>41) clearInterval(t); }, 250);
 })();
 </script>
+{%- comment -%} Página de marca (coleção): troca o título em texto pelo logo da marca quando existe (Tae · 02/11/2026). Mesma lista de logos da faixa de marcas. {%- endcomment -%}
+{%- if template.name == 'collection' and collection -%}
+  {%- assign omg_logos = ',abib,aestura,another-face,anua,arencia,banila-co,beauty-of-joseon,beplain,biodance,celimax,cell-fusion-c,coeval,centellian-24,clio,cosrx,dasique,dr-forhair,dr-melaxin,dr-reju-all,eqqualberry,freshian,fwee,gongskin,hince,kaine,lador,manyo,medicube,mediheal,mise-en-scene,mixsoon,numbuzin,ongredients,purcell,purito-seoul,rejuran,round-lab,skin1004,some-by-mi,sonatural,the-kyeok,tirtir,torriden,vt-cosmetics,' -%}
+  {%- assign omg_lh = collection.handle -%}{%- assign omg_lb = ',' | append: omg_lh | append: ',' -%}
+  {%- unless omg_logos contains omg_lb -%}{%- assign omg_lh = collection.title | handleize -%}{%- assign omg_lb = ',' | append: omg_lh | append: ',' -%}{%- endunless -%}
+  {%- if omg_logos contains omg_lb -%}
+<style>
+  main h1.omg-marca-logo{margin:0;line-height:0}
+  main h1.omg-marca-logo img{display:block;height:72px;width:auto;max-width:min(420px,80vw);object-fit:contain;object-position:left center}
+  @media (max-width:749px){main h1.omg-marca-logo img{height:48px}}
+</style>
+<script>
+(function(){
+  var h=document.querySelector('main h1'); if(!h) return;
+  var img=new Image(); img.alt={{ collection.title | json }}; img.height=72;
+  img.onload=function(){ h.textContent=''; h.appendChild(img); h.classList.add('omg-marca-logo'); };
+  img.src={{ 'omg-logo-' | append: omg_lh | append: '.png' | asset_url | json }};
+})();
+</script>
+  {%- endif -%}
+{%- endif -%}
