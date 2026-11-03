@@ -25,7 +25,7 @@
       L.forEach(function(l,ix){var t=l.querySelector('.variant-option__button-label__text')||l;if(!hex[ix]||l.querySelector('.omg-tom'))return;var s=document.createElement('span');s.className='omg-tom';s.style.background=hex[ix];s.setAttribute('aria-hidden','true');t.parentNode.insertBefore(s,t)});
       var sel=f.querySelector('input:checked'),sh=sel&&cor(sel.value);
       var box=f.querySelector('.omg-tom-sel');if(!box){box=document.createElement('div');box.className='omg-tom-sel';lg.insertAdjacentElement('afterend',box)}
-      box.innerHTML=sh?'<i style="background:'+sh+'"></i><span>Tom escolhido: <b>'+sel.value.replace(/</g,'')+'</b></span>':'';
+      var nh=sh?'<i style="background:'+sh+'"></i><span>Tom escolhido: <b>'+sel.value.replace(/</g,'')+'</b></span>':'';if(box.dataset.v!==nh){box.dataset.v=nh;box.innerHTML=nh}
       if(!f.querySelector('.omg-tom-leg')&&ins.some(function(i){return i&&/\d\s?[CNW]\b/i.test(i.value)})){var p=document.createElement('p');p.className='omg-tom-leg';
         p.innerHTML='<b>C</b> = fundo frio (rosado) · <b>N</b> = neutro · <b>W</b> = quente (dourado). Número menor = tom mais claro. A cor da tela é uma referência e pode variar um pouco.';f.appendChild(p)}
     });
