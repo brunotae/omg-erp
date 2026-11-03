@@ -1,0 +1,39 @@
+{
+ "https://globalvt-cosmetics.com/": {
+  "trechos": [
+   " 10% OFF ",
+   " 20% OFF ",
+   " 22% OFF ",
+   " 25% OFF ",
+   " 30% OFF ",
+   " 35% OFF ",
+   " 38% OFF ",
+   " 40% OFF "
+  ],
+  "moeda": [
+   "USD"
+  ],
+  "codigos": []
+ },
+ "https://globalvt-cosmetics.com/products/vt-reedle-shot-100": {
+  "trechos": [],
+  "moeda": [
+   "USD"
+  ],
+  "codigos": []
+ },
+ "https://globalvt-cosmetics.com/products/pdrn-capsule-cream-100": {
+  "trechos": [],
+  "moeda": [
+   "USD"
+  ],
+  "codigos": []
+ },
+ "https://globalvt-cosmetics.com/products/pdrn-essence-100": {
+  "trechos": [],
+  "moeda": [
+   "USD"
+  ],
+  "codigos": []
+ }
+}
