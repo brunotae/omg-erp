@@ -26,3 +26,6 @@ verify_jwt = true
 
 [functions.catalogo-robo]
 verify_jwt = false
+
+[functions.visitas-agora]
+verify_jwt = true

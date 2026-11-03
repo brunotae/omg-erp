@@ -290,6 +290,7 @@ pre.code{background:var(--surface2);border:1px solid var(--line);border-radius:v
 .chk{display:flex;align-items:center;gap:8px;font-size:13px}
 .items{grid-column:1/-1;display:flex;flex-direction:column;gap:8px}
 .it-prod{position:relative;display:block;min-width:0}.it-prod input{width:100%;padding-right:30px}.it-site{position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:15px;font-weight:700;color:var(--accent,#c2185b);text-decoration:none;padding:2px 5px;border-radius:6px}.it-site:hover{background:rgba(194,24,91,.1)}
+.va-lang{display:inline-flex;gap:4px;margin-right:8px}.va-lang .btn.hot{background:var(--ink,#222);color:#fff;border-color:transparent}
 .items .row{display:grid;grid-template-columns:minmax(0,2.2fr) 64px minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) 32px;gap:6px;align-items:center}
 .items .row.h{font-size:11px;font-weight:500;color:var(--muted)}
 .items input{padding:7px 9px}
@@ -906,7 +907,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v80 · 02/11/2026';
+const VERSAO='v81 · 03/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -3316,9 +3317,29 @@ function monRelatorio(id){
 document.addEventListener('click',e=>{const b=e.target.closest('[data-mon-rel]');if(!b)return;e.preventDefault();e.stopPropagation();monRelatorio(b.dataset.monRel)},true);
 
 /* ================= Visitas agora (v74): visitas e pessoas do site em 24 h, 2 dias e 7 dias, de onde vêm (Brasil × fora, estados, origem) ================= */
-const VA={d:null,loading:false,err:'',win:'h24',at:0};
+const VA={d:null,loading:false,err:'',win:'h24',at:0,lang:(()=>{try{return localStorage['omg-va-lang']||'pt'}catch(_){return 'pt'}})()};
 const VA_PAIS={Brazil:'Brasil','South Korea':'Coreia do Sul','United States':'EUA',China:'China',Japan:'Japão',Portugal:'Portugal',Paraguay:'Paraguai',Argentina:'Argentina',Canada:'Canadá',Mexico:'México',Germany:'Alemanha',France:'França','United Kingdom':'Reino Unido',Spain:'Espanha',Italy:'Itália',Netherlands:'Holanda',Ireland:'Irlanda',Singapore:'Singapura',India:'Índia',Desconhecido:'Desconhecido'};
-const vaOrigem=k=>{const [f,nm]=String(k).split('|');return f==='direct'||!f?'Direto (app, WhatsApp, digitou o endereço)':f==='search'?'Busca'+(nm?' · '+nm:''):f==='social'?'Rede social'+(nm?' · '+nm:''):f==='email'?'E-mail'+(nm?' · '+nm:''):(nm?'Link · '+nm:'Outros')};
+const VA_TX={
+ pt:{tit:'Visitas agora',sub:'Quantas visitas o site teve e de onde vieram, direto do Shopify. "Visita" é cada vez que alguém abre o site; "pessoa" conta cada visitante uma vez só.',
+  atual:'Atualizar',atualizando:'Atualizando…',em:'Atualizado às ',erro:'Não foi possível ler o Shopify',
+  w:{h24:'24 horas',h48:'2 dias',d7:'7 dias',tudo:'Desde o início'},pl:{h24:'hoje',h48:'ontem e hoje',d7:'7 dias',tudo:'desde '},
+  visitas:'visitas',pessoas:'pessoas',dica:'Toque num quadro para ver os detalhes daquele período · Shopify pode levar alguns minutos para contar as visitas mais recentes.',
+  onde:' · de onde vêm',br:'Brasil',fora:'Fora do Brasil',foraS:' · equipe, parceiros e robôs, em geral',dasV:' das visitas',cc:'Carrinho / compras',ccS:'visitas que puseram no carrinho / que compraram',
+  orig:'Origem · como chegaram',origC:'Origem',paises:'Países',paisC:'País',estados:'Brasil por estado',estC:'Estado',nada:'Nenhuma visita neste período.',
+  horas:'Visitas por hora · últimas 48 h',horasS:'Cada barra é uma hora, da mais antiga (esquerda) até agora (direita). Toque numa barra para ver a hora.',
+  dias:'Visitas por dia · desde o início',diasS:'Cada barra é um dia, do primeiro dia com visitas (esquerda) até hoje (direita).',lendo:'Lendo o Shopify…',
+  direto:'Direto (app, WhatsApp, digitou o endereço)',busca:'Busca',social:'Rede social',email:'E-mail',link:'Link',outros:'Outros',loc:'pt-BR'},
+ en:{tit:'Website traffic',sub:'Visits to ohmygirl.com.br and where they came from, straight from Shopify. A "visit" is each time someone opens the site; a "visitor" counts each person once.',
+  atual:'Refresh',atualizando:'Refreshing…',em:'Updated at ',erro:'Could not read Shopify',
+  w:{h24:'24 hours',h48:'2 days',d7:'7 days',tudo:'Since launch'},pl:{h24:'today',h48:'yesterday and today',d7:'7 days',tudo:'since '},
+  visitas:'visits',pessoas:'visitors',dica:'Tap a box to see that period in detail · Shopify may take a few minutes to count the latest visits.',
+  onde:' · where they come from',br:'Brazil',fora:'Outside Brazil',foraS:' · mostly team, partners and bots',dasV:' of visits',cc:'Cart / orders',ccS:'visits that added to cart / that purchased',
+  orig:'Traffic source',origC:'Source',paises:'Countries',paisC:'Country',estados:'Brazil by state',estC:'State',nada:'No visits in this period.',
+  horas:'Visits per hour · last 48 h',horasS:'Each bar is one hour, from oldest (left) to now (right).',
+  dias:'Visits per day · since launch',diasS:'Each bar is one day, from the first day with visits (left) to today (right).',lendo:'Reading Shopify…',
+  direto:'Direct (app, WhatsApp, typed URL)',busca:'Search',social:'Social',email:'Email',link:'Referral',outros:'Other',loc:'en-US'}};
+const vaT=()=>VA_TX[VA.lang]||VA_TX.pt;
+const vaOrigem=k=>{const t=vaT();const [f,nm]=String(k).split('|');return f==='direct'||!f?t.direto:f==='search'?t.busca+(nm?' · '+nm:''):f==='social'?t.social+(nm?' · '+nm:''):f==='email'?t.email+(nm?' · '+nm:''):(nm?t.link+' · '+nm:t.outros)};
 async function vaCarregar(){
  if(VA.loading||!S.db)return;VA.loading=true;VA.err='';if(S.view==='visitas')render();
  try{const {data,error}=await sb.functions.invoke('visitas-agora',{body:{}});
@@ -3329,30 +3350,42 @@ async function vaCarregar(){
 }
 VIEWFN.visitas=()=>{
  if(S.db&&!VA.loading&&!VA.err&&(!VA.d||Date.now()-VA.at>5*60e3))setTimeout(vaCarregar,0);
- const d=VA.d, J=d&&d.janelas||{}, w=J[VA.win]||null, P=d&&d.pessoas||{};
- const nomes={h24:'24 horas',h48:'2 dias',d7:'7 dias'}, pes={h24:P.hoje,h48:P.d2,d7:P.d7}, pesL={h24:'hoje',h48:'ontem e hoje',d7:'7 dias'};
- const tile=k=>{const j=J[k]||{};return '<button type="button" class="kpi va-k'+(VA.win===k?' hot':'')+'" data-vawin="'+k+'"><span class="label">'+nomes[k]+'</span><span class="v num">'+(d?vnum(j.visitas||0):'…')+'</span><span class="s">visitas'+(d?' · '+vnum(pes[k]||0)+' pessoas ('+pesL[k]+')':'')+'</span></button>'};
+ const t=vaT(), en=VA.lang==='en';
+ const d=VA.d, J=d&&d.janelas||{}, P=d&&d.pessoas||{};
+ if(VA.win==='tudo'&&d&&!J.tudo)VA.win='h24';
+ const w=J[VA.win]||null;
+ const ini=d&&d.inicio?new Date(d.inicio+'T12:00:00').toLocaleDateString(t.loc,{day:'2-digit',month:en?'short':'2-digit',year:'numeric'}):'';
+ const pes={h24:P.hoje,h48:P.d2,d7:P.d7,tudo:P.tudo};
+ const vn=x=>Number(x||0).toLocaleString(t.loc);
+ const wins=['h24','h48','d7'].concat(J.tudo||!d?['tudo']:[]);
+ const tile=k=>{const j=J[k]||{};return '<button type="button" class="kpi va-k'+(VA.win===k?' hot':'')+'" data-vawin="'+k+'"><span class="label">'+t.w[k]+'</span><span class="v num">'+(d&&J[k]?vn(j.visitas):'…')+'</span><span class="s">'+t.visitas+(d&&J[k]?' · '+vn(pes[k])+' '+t.pessoas+' ('+t.pl[k]+(k==='tudo'?ini:'')+')':'')+'</span></button>'};
  const br=w?(w.paises||[]).filter(p=>p.nome==='Brazil').reduce((a,p)=>a+p.visitas,0):0, tot=w?w.visitas:0, fora=Math.max(0,tot-br);
  const pc=v=>tot?Math.round(v/tot*100)+'%':'—';
- const tab=(cab,rows)=>'<div class="tblwrap"><table class="va-t"><thead><tr>'+cab.map((c,i)=>'<th'+(i?' class="r"':'')+'>'+c+'</th>').join('')+'</tr></thead><tbody>'+(rows.length?rows.join(''):'<tr><td colspan="'+cab.length+'" class="muted">Nenhuma visita neste período.</td></tr>')+'</tbody></table></div>';
- const lin=(nome,v)=>'<tr><td>'+esc(nome)+'</td><td class="r num"><b>'+vnum(v)+'</b></td><td class="r num">'+pc(v)+'</td></tr>';
- const H=(d&&d.horas)||[], mx=Math.max(1,...H.map(h=>h.visitas));
- const barras=H.length?'<div class="va-bars">'+H.map(h=>{const t=new Date(h.hora);return '<i title="'+esc(t.toLocaleString('pt-BR',{weekday:'short',hour:'2-digit'}))+'h · '+h.visitas+' visitas" style="height:'+Math.max(2,Math.round(h.visitas/mx*100))+'%"></i>'}).join('')+'</div><p class="muted" style="font-size:11px;margin:4px 0 0">Cada barra é uma hora, da mais antiga (esquerda) até agora (direita). Toque numa barra para ver a hora.</p>':'';
- return '<div class="page wide"><div class="col">'+head('Visitas agora','Quantas visitas o site teve e de onde vieram, direto do Shopify. "Visita" é cada vez que alguém abre o site; "pessoa" conta cada visitante uma vez só.','<div class="va-at"><button class="btn sm" type="button" id="va-atual"'+(VA.loading?' disabled':'')+'>'+(VA.loading?'Atualizando…':'Atualizar')+'</button>'+(d?'<span>Atualizado às '+new Date(VA.at).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'</span>':'')+'</div>')+
-  (VA.err?'<div class="note"><span class="label">Não foi possível ler o Shopify</span><p>'+esc(VA.err)+'</p></div>':'')+
-  '<div class="kpis va-kpis">'+tile('h24')+tile('h48')+tile('d7')+'</div>'+
-  (d?'<p class="muted" style="font-size:11.5px;margin:-6px 0 0">Toque num quadro para ver os detalhes daquele período · Shopify pode levar alguns minutos para contar as visitas mais recentes.</p>':'')+
-  (w?'<div class="card"><span class="label">'+nomes[VA.win]+' · de onde vêm</span>'+
-   '<div class="kpis va-in" style="margin-top:10px;grid-template-columns:repeat(3,minmax(0,1fr))">'+kpi('Brasil',vnum(br),pc(br)+' das visitas')+kpi('Fora do Brasil',vnum(fora),pc(fora)+' · equipe, parceiros e robôs, em geral')+kpi('Carrinho / compras',vnum(w.carrinho||0)+' / '+vnum(w.compras||0),'visitas que puseram no carrinho / que compraram')+'</div></div>'+
-   '<div class="card"><span class="label">Origem · como chegaram</span>'+tab(['Origem','Visitas','%'],(w.origem||[]).map(o=>lin(vaOrigem(o.nome),o.visitas)))+'</div>'+
-   '<div class="card"><span class="label">Países</span>'+tab(['País','Visitas','%'],(w.paises||[]).slice(0,10).map(p=>lin(VA_PAIS[p.nome]||p.nome,p.visitas)))+'</div>'+
-   '<div class="card"><span class="label">Brasil por estado</span>'+tab(['Estado','Visitas','%'],(w.estados||[]).map(p=>lin(p.nome,p.visitas)))+'</div>'+
-   (barras?'<div class="card"><span class="label">Visitas por hora · últimas 48 h</span>'+barras+'</div>':''):
-   (VA.loading?'<div class="card"><p class="muted">Lendo o Shopify…</p></div>':''))+
+ const tab=(cab,rows)=>'<div class="tblwrap"><table class="va-t"><thead><tr>'+cab.map((c,i)=>'<th'+(i?' class="r"':'')+'>'+c+'</th>').join('')+'</tr></thead><tbody>'+(rows.length?rows.join(''):'<tr><td colspan="'+cab.length+'" class="muted">'+t.nada+'</td></tr>')+'</tbody></table></div>';
+ const lin=(nome,v)=>'<tr><td>'+esc(nome)+'</td><td class="r num"><b>'+vn(v)+'</b></td><td class="r num">'+pc(v)+'</td></tr>';
+ const graf=(L,lab,tip)=>{const mx=Math.max(1,...L.map(h=>h.visitas));return '<div class="va-bars">'+L.map(h=>'<i title="'+esc(tip(h))+' · '+h.visitas+' '+t.visitas+'" style="height:'+Math.max(2,Math.round(h.visitas/mx*100))+'%"></i>').join('')+'</div>'};
+ let barras='';
+ if(VA.win==='tudo'){const D=(d&&d.dias)||[];if(D.length)barras='<div class="card"><span class="label">'+t.dias+'</span>'+graf(D,0,h=>new Date(h.dia+'T12:00:00').toLocaleDateString(t.loc,{day:'2-digit',month:'short'}))+'<p class="muted" style="font-size:11px;margin:4px 0 0">'+t.diasS+'</p></div>'}
+ else{const H=(d&&d.horas)||[];if(H.length)barras='<div class="card"><span class="label">'+t.horas+'</span>'+graf(H,0,h=>new Date(h.hora).toLocaleString(t.loc,{weekday:'short',hour:'2-digit'})+(en?'':'h'))+'<p class="muted" style="font-size:11px;margin:4px 0 0">'+t.horasS+'</p></div>'}
+ const pais=nm=>en?(nm==='Desconhecido'?'Unknown':nm):(VA_PAIS[nm]||nm);
+ const est=nm=>en?(nm==='Desconhecido'?'Unknown':nm):nm;
+ const langBt='<div class="va-lang" role="group" aria-label="Idioma"><button type="button" class="btn sm'+(en?'':' hot')+'" data-valang="pt">PT</button><button type="button" class="btn sm'+(en?' hot':'')+'" data-valang="en">EN</button></div>';
+ return '<div class="page wide"><div class="col">'+head(t.tit,t.sub,'<div class="va-at">'+langBt+'<button class="btn sm" type="button" id="va-atual"'+(VA.loading?' disabled':'')+'>'+(VA.loading?t.atualizando:t.atual)+'</button>'+(d?'<span>'+t.em+new Date(VA.at).toLocaleTimeString(t.loc,{hour:'2-digit',minute:'2-digit'})+'</span>':'')+'</div>')+
+  (VA.err?'<div class="note"><span class="label">'+t.erro+'</span><p>'+esc(VA.err)+'</p></div>':'')+
+  '<div class="kpis va-kpis" style="grid-template-columns:repeat('+wins.length+',minmax(0,1fr))">'+wins.map(tile).join('')+'</div>'+
+  (d?'<p class="muted" style="font-size:11.5px;margin:-6px 0 0">'+t.dica+'</p>':'')+
+  (w?'<div class="card"><span class="label">'+t.w[VA.win]+t.onde+'</span>'+
+   '<div class="kpis va-in" style="margin-top:10px;grid-template-columns:repeat(3,minmax(0,1fr))">'+kpi(t.br,vn(br),pc(br)+t.dasV)+kpi(t.fora,vn(fora),pc(fora)+t.foraS)+kpi(t.cc,vn(w.carrinho)+' / '+vn(w.compras),t.ccS)+'</div></div>'+
+   '<div class="card"><span class="label">'+t.orig+'</span>'+tab([t.origC,en?'Visits':'Visitas','%'],(w.origem||[]).map(o=>lin(vaOrigem(o.nome),o.visitas)))+'</div>'+
+   '<div class="card"><span class="label">'+t.paises+'</span>'+tab([t.paisC,en?'Visits':'Visitas','%'],(w.paises||[]).slice(0,10).map(p=>lin(pais(p.nome),p.visitas)))+'</div>'+
+   '<div class="card"><span class="label">'+t.estados+'</span>'+tab([t.estC,en?'Visits':'Visitas','%'],(w.estados||[]).map(p=>lin(est(p.nome),p.visitas)))+'</div>'+
+   barras:
+   (VA.loading?'<div class="card"><p class="muted">'+t.lendo+'</p></div>':''))+
  '</div></div>';
 };
 document.addEventListener('click',e=>{
  const k=e.target.closest('[data-vawin]');if(k){VA.win=k.dataset.vawin;render();return}
+ const l=e.target.closest('[data-valang]');if(l){VA.lang=l.dataset.valang;try{localStorage['omg-va-lang']=VA.lang}catch(_){}render();return}
  if(e.target.closest('#va-atual'))vaCarregar();
 });
 
@@ -4182,6 +4215,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v81','03/11/2026',['Visitas agora: novo quadro Desde o início (visitas e pessoas desde o primeiro dia com visitas, com gráfico por dia).','Botão PT / EN no topo da tela: mostra a página inteira em inglês, bom para tirar print e mandar para parceiros. A escolha fica salva neste aparelho.']],
  ['v80','02/11/2026',['Vendas: cada item da venda tem uma setinha ↗ no fim do campo Produto. Clique para abrir a página do produto no site, em outra aba.']],
  ['v79','02/11/2026',['Pricing com frete embutido (Guia v3.3): o site agora cobra só 35% do frete; os outros 65% do frete de SP entram no preço do produto. O preço sugerido já sai assim, tanto com concorrente no Brasil quanto pelo exterior.','Preço que passaria de R$ 269,90 só por causa do frete embutido fica em R$ 269,90, com aviso, para manter a isenção de US$ 50.','Coluna Cliente SP paga usa o frete novo (35% + seguro). Frete cotado continua guardado cheio; Regras do Pricing explicam a divisão.']],
  ['v78','02/11/2026',['Cupons: a coluna Público virou Nome interno, para identificar de quem é cada cupom (ex.: Neiva, Jean IMP). Digite direto na tabela; salva ao sair do campo. Sugere nomes já usados e as influenciadoras.','O Nome interno de quem cria o cupom fica salvo; cupom de influenciadora já vem com o nome dela. "Trazer cupons do Shopify" preenche os que estão sem nome com o nome do Shopify. Quem pode usar continua na ficha do cupom.']],
