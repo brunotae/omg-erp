@@ -339,6 +339,16 @@ Deno.serve(async (req) => {
         const d: any = await gql(`query($id: ID!, $a: String) { collection(id: $id) { products(first: 250, after: $a) { nodes { id } pageInfo { hasNextPage endCursor } } } }`, { id: c.id, a });
         d.collection.products.nodes.forEach((x: any) => dentro.add(x.id)); a = d.collection.products.pageInfo.hasNextPage ? d.collection.products.pageInfo.endCursor : null;
       } while (a);
+      // coleção manual (sem regra): acrescenta os produtos da lista que ainda não estão nela
+      let somados = 0;
+      if (!c.ruleSet) {
+        const faltam = (b.ids || []).map((x: any) => gid(x)).filter((g: string) => !dentro.has(g));
+        if (faltam.length) {
+          const ad: any = await gql(`mutation($id: ID!, $p: [ID!]!) { collectionAddProducts(id: $id, productIds: $p) { userErrors { message } } }`, { id: c.id, p: faltam });
+          if (ad.collectionAddProducts.userErrors.length) throw new Error("coleção (adicionar): " + ad.collectionAddProducts.userErrors[0].message);
+          faltam.forEach((g: string) => dentro.add(g)); somados = faltam.length;
+        }
+      }
       const gids = (b.ids || []).map((x: any) => gid(x)).filter((g: string) => dentro.has(g));
       let err = "";
       for (let t = 0; t < 4 && gids.length; t++) {
@@ -346,7 +356,7 @@ Deno.serve(async (req) => {
         err = r.collectionReorderProducts.userErrors.map((x: any) => x.message).join("; "); if (!err) break;
         await new Promise((ok) => setTimeout(ok, 3000));
       }
-      out.push({ colecao: c.title, criada, na_colecao: dentro.size, ordenados: gids.length, erro: err || null });
+      out.push({ colecao: c.title, criada, manual: !c.ruleSet, somados, na_colecao: dentro.size, ordenados: gids.length, erro: err || null });
     } else if (b.modo === "tema") {
       // tema publicado: { ler: [arquivo] } → conteúdo (texto) · { gravar: [{ arquivo, texto? , url? }] } → grava (url = imagem do repositório)
       const t: any = await gql(`{ themes(first: 1, roles: [MAIN]) { nodes { id name } } }`);
