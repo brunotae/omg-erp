@@ -20,7 +20,7 @@ def montar(d, sku='', marca=''):
     det = [f'Marca: {marca}' if marca else '', 'Fabricado em: Coreia do Sul', f'SKU: {sku}' if sku else '']
     h.append(sec('Detalhes', ul(det)))
     if d.get('sobre_marca'): h.append(sec('Sobre a marca', f'<p>{E(d["sobre_marca"])}</p>'))
-    h.append('<p style="border-top:1px solid rgba(0,0,0,.12);padding-top:14px"><small>Produto importado da Coreia do Sul. Será registrada uma Declaração de Importação e o pedido está sujeito aos tributos federais e estaduais, calculados no checkout.</small></p>')
+    h.append('<p style="border-top:1px solid rgba(0,0,0,.12);padding-top:14px"><small>Produto proveniente do exterior. Será importado e será registrada uma Declaração de Importação. Está sujeito à tributação federal e estadual.</small></p>')
     h.append('</div>')
     return '\n'.join(h)
 if __name__ == '__main__':

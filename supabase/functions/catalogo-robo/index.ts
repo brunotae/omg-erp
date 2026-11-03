@@ -50,7 +50,7 @@ function montar(d: any, sku = "", marca = "") {
   if (ing) h.push(sec("Ingredientes", ing));
   h.push(sec("Detalhes", ul([marca ? `Marca: ${marca}` : "", "Fabricado em: Coreia do Sul", sku ? `SKU: ${sku}` : ""])));
   if (d.sobre_marca) h.push(sec("Sobre a marca", `<p>${E(d.sobre_marca)}</p>`));
-  h.push('<p style="border-top:1px solid rgba(0,0,0,.12);padding-top:14px"><small>Produto importado da Coreia do Sul. Será registrada uma Declaração de Importação e o pedido está sujeito aos tributos federais e estaduais, calculados no checkout.</small></p>');
+  h.push('<p style="border-top:1px solid rgba(0,0,0,.12);padding-top:14px"><small>Produto proveniente do exterior. Será importado e será registrada uma Declaração de Importação. Está sujeito à tributação federal e estadual.</small></p>');
   h.push("</div>");
   return h.join("\n");
 }
