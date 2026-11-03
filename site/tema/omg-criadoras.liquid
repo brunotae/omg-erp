@@ -101,7 +101,7 @@
         (p.cupom?'<div class="omg-cr__copia"><p class="omg-cr__rot">Seu cupom</p><span class="omg-cr__v">'+esc(p.cupom)+'</span><span class="omg-cr__meta">'+esc(cupomTxt||'Cupom da sua parceria')+'</span><button class="omg-cr__cp" type="button" data-cp="'+esc(p.cupom)+'">Copiar cupom</button></div>':'')+
       '</div>'+
       '<div class="omg-cr__nums">'+
-        '<div class="omg-cr__n"><span>Cliques</span><b>'+cliques+'</b><i>'+pessoas+' pessoas abriram o link</i></div>'+
+        '<div class="omg-cr__n"><span>Cliques</span><b>'+cliques+'</b><i>'+(pessoas===1?'1 pessoa abriu':pessoas+' pessoas abriram')+' o link</i></div>'+
         '<div class="omg-cr__n"><span>Pedidos</span><b>'+ok.length+'</b><i>pelo seu link ou cupom</i></div>'+
         '<div class="omg-cr__n"><span>Vendas</span><b>'+brl(vendas)+'</b><i>valor dos produtos</i></div>'+
         '<div class="omg-cr__n"><span>Conversão</span><b>'+conv+'</b><i>pessoas que clicaram e compraram</i></div>'+
