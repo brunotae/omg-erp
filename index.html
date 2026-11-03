@@ -908,7 +908,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v85 · 03/11/2026';
+const VERSAO='v86 · 03/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -3035,21 +3035,32 @@ VIEWFN.links=()=>{
   '<div class="chips" style="margin:6px 0 12px">'+tabs+(LK.atrCarregando?'<span class="muted" style="font-size:12px">Atualizando vendas…</span>':'')+'</div>'+corpo+'</div></div>';
 };
 function lkTabInf(A,I){
- if(!I.length)return '<div class="card">'+empty('Nenhum influenciador','Cadastre o influenciador com e-mail, cupom e %. O ERP cria o link curto dele (ohmygirl.com.br/a/código) e ele acompanha tudo no painel.')+'</div>';
- return '<div class="card"><div class="tblwrap"><table><thead><tr><th>Influenciador</th><th>Cupom · link</th><th class="r">%</th><th class="r">Cliques</th><th class="r">Pedidos</th><th class="r">Conversão</th><th class="r">Vendas</th><th class="r">Comissão em aberto</th><th class="r">Já pago</th><th>Situação</th></tr></thead><tbody>'+
-  I.filter(match).sort((a,b)=>Number(infAtivo(b))-Number(infAtivo(a))||String(a.nome).localeCompare(String(b.nome))).map(i=>{
-   const ls=S.data.links_utm.filter(l=>l.influenciador===i.id), ids=new Set(ls.map(l=>l.id));
-   const cl=lkCliques(r=>ids.has(r.link)), as=A.filter(a=>a.influenciador===i.id&&!a.excluida);
-   const aberto=as.filter(a=>lkComissao(a).st==='Em aberto').reduce((s,a)=>s+lkComissao(a).valor,0);
-   const pago=S.data.comissoes_fechamentos.filter(f=>f.influenciador===i.id&&f.status==='Pago').reduce((s,f)=>s+n(f.total),0);
-   const lp=ls.find(l=>l.slug===i.codigo)||ls[0];
-   return '<tr data-edit="influenciadores" data-id="'+esc(i.id)+'"><td>'+(lp?'<b class="inf-cp" data-copy="'+esc(lkCurto(lp))+'" title="Clique para copiar o link">'+esc(i.nome)+' ⧉</b>':'<b>'+esc(i.nome)+'</b>')+'<small>'+esc([i.arroba,i.senha?'senha '+i.senha:'sem senha do painel'].filter(Boolean).join(' · '))+'</small></td>'+
-    '<td><b class="num">'+esc(i.cupom||'sem cupom')+'</b><small>'+(lp?esc('/a/'+lp.slug)+' '+lkCopia(lkCurto(lp),'Copiar'):'sem link')+'</small></td>'+
-    '<td class="r num">'+n(i.comissao_pct)+'%</td><td class="r num">'+vnum(cl.c)+'<small>'+vnum(cl.v)+' pessoas</small></td><td class="r num">'+as.length+'</td>'+
-    '<td class="r num">'+(cl.v?pct(as.filter(a=>a.via==='link').length/cl.v):'—')+'</td><td class="r num">'+brl(as.reduce((s,a)=>s+n(a.base),0))+'</td>'+
-    '<td class="r num"><b>'+brl(aberto)+'</b></td><td class="r num">'+brl(pago)+'</td>'+
-    '<td>'+stPill(infAtivo(i)?'Ativo':'Inativo')+'<small>'+(i.pix_chave?'Pix '+esc(i.pix_tipo||'')+' ok':'sem Pix')+'</small></td></tr>'}).join('')+
-  '</tbody></table></div><p class="muted" style="font-size:12px;margin:10px 0 0">Conversão = pedidos que vieram pelo link ÷ pessoas que clicaram. Pedidos com o cupom contam mesmo sem clique.</p></div>';
+ if(!I.length)return '<div class="card">'+empty('Nenhum influenciador','Cadastre o influenciador com cupom e senha. O ERP cria o link curto dele (ohmygirl.com.br/a/código) e ele acompanha tudo no painel das criadoras.')+'</div>';
+ // v86: tabela com filtro em cada coluna e ordenação pelo título (mesma da Vendas/Cupons)
+ const R=I.filter(match).map(i=>{
+  const ls=S.data.links_utm.filter(l=>l.influenciador===i.id), ids=new Set(ls.map(l=>l.id));
+  const cl=lkCliques(r=>ids.has(r.link)), as=A.filter(a=>a.influenciador===i.id&&!a.excluida);
+  const aberto=as.filter(a=>lkComissao(a).st==='Em aberto').reduce((s,a)=>s+lkComissao(a).valor,0);
+  const pago=S.data.comissoes_fechamentos.filter(f=>f.influenciador===i.id&&f.status==='Pago').reduce((s,f)=>s+n(f.total),0);
+  const lp=ls.find(l=>l.slug===i.codigo)||ls[0], viaL=as.filter(a=>a.via==='link').length;
+  return {i,lp,cliques:cl.c,pessoas:cl.v,pedidos:as.length,conv:cl.v?viaL/cl.v*100:null,vendas:as.reduce((s,a)=>s+n(a.base),0),aberto,pago,sit:infAtivo(i)?'Ativo':'Inativo'}});
+ const cols=[
+  {k:'nome',l:'Influenciador',g:r=>r.i.nome,cell:r=>(r.lp?'<b class="inf-cp" data-copy="'+esc(lkCurto(r.lp))+'" title="Clique para copiar o link">'+esc(r.i.nome)+' ⧉</b>':'<b>'+esc(r.i.nome)+'</b>')+'<small>'+esc([r.i.arroba,r.i.senha?'senha '+r.i.senha:'sem senha do painel'].filter(Boolean).join(' · '))+'</small>'},
+  {k:'cupom',l:'Cupom',g:r=>r.i.cupom||'',cell:r=>'<b class="num">'+esc(r.i.cupom||'sem cupom')+'</b>'},
+  {k:'link',l:'Link',g:r=>r.lp?'/a/'+r.lp.slug:'',cell:r=>r.lp?esc('/a/'+r.lp.slug)+' '+lkCopia(lkCurto(r.lp),'Copiar'):'<span class="muted">sem link</span>'},
+  {k:'pct',l:'%',t:'n',cls:'r num',g:r=>n(r.i.comissao_pct),cell:r=>n(r.i.comissao_pct)+'%'},
+  {k:'cliques',l:'Cliques',t:'n',cls:'r num',g:r=>r.cliques,cell:r=>vnum(r.cliques)},
+  {k:'pessoas',l:'Pessoas',t:'n',cls:'r num',g:r=>r.pessoas,cell:r=>vnum(r.pessoas)},
+  {k:'pedidos',l:'Pedidos',t:'n',cls:'r num',g:r=>r.pedidos,cell:r=>vnum(r.pedidos)},
+  {k:'conv',l:'Conversão',t:'n',cls:'r num',g:r=>r.conv==null?null:Math.round(r.conv*10)/10,cell:r=>r.conv==null?'—':pct(r.conv/100)},
+  {k:'vendas',l:'Vendas',t:'n',cls:'r num',g:r=>Math.round(r.vendas*100)/100,cell:r=>brl(r.vendas)},
+  {k:'aberto',l:'Comissão em aberto',t:'n',cls:'r num',g:r=>Math.round(r.aberto*100)/100,cell:r=>'<b>'+brl(r.aberto)+'</b>'},
+  {k:'pago',l:'Já pago',t:'n',cls:'r num',g:r=>Math.round(r.pago*100)/100,cell:r=>brl(r.pago)},
+  {k:'sit',l:'Situação',g:r=>r.sit,cell:r=>stPill(r.sit)+'<small>'+(r.i.pix_chave?'Pix '+esc(r.i.pix_tipo||'')+' ok':'sem Pix')+'</small>'}];
+ const T=xtTabela('inf',cols,R,r=>'data-edit="influenciadores" data-id="'+esc(r.i.id)+'"',['sit',1]);
+ const tot=R.reduce((o,r)=>(o.c+=r.cliques,o.p+=r.pedidos,o.v+=r.vendas,o),{c:0,p:0,v:0});
+ return '<div class="card"><p class="muted" style="font-size:12px;margin:0 0 8px">'+T.n+' de '+R.length+' influenciadoras'+(T.fil?' no filtro':'')+' · '+vnum(tot.c)+' cliques · '+vnum(tot.p)+' pedidos · '+brl(tot.v)+' em vendas. Clique no título da coluna para ordenar; no campo embaixo, para filtrar.</p>'+T.html+
+  '<p class="muted" style="font-size:12px;margin:10px 0 0">Conversão = pedidos que vieram pelo link ÷ pessoas que clicaram. Pedidos com o cupom contam mesmo sem clique. Painel das criadoras: ohmygirl.com.br/pages/criadoras (código + senha).</p></div>';
 }
 function lkTabLinks(L){
  if(!L.length)return '<div class="card">'+empty('Nenhum link','Crie links para posts, anúncios, e-mail, WhatsApp. Todo link vira ohmygirl.com.br/a/código e conta os cliques.')+'</div>';
@@ -4221,6 +4232,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v86','03/11/2026',['Links e influenciadores › Influenciadores: filtro em cada coluna e ordenação clicando no título (igual Vendas e Cupons). Colunas separadas para cupom, link e pessoas, e um resumo com total de cliques, pedidos e vendas no topo.']],
  ['v85','03/11/2026',['Links e influenciadores: clicar no nome da influenciadora copia o link dela (ohmygirl.com.br/a/código).','Painel das criadoras: cada uma entra em ohmygirl.com.br/pages/criadoras com o código + uma senha simples (omg + 4 números). A senha aparece embaixo do nome e se troca na ficha. Lá ela vê link e cupom para copiar, cliques, pedidos, valor vendido e a lista de pedidos, sem dado de cliente.']],
  ['v84','03/11/2026',['Instagram novo da OMG: @ohmygirl.com.br nas fichas e documentos gerados pelo ERP.']],
  ['v83','03/11/2026',['Clientes e cupons: o status dos cupons agora se atualiza sozinho com o Shopify ao abrir a tela (no máximo a cada 5 min). Antes, um cupom desativado direto no Shopify só mudava no ERP clicando em Trazer cupons do Shopify.']],
