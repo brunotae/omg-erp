@@ -1,6 +1,7 @@
 // Robô de catálogo (ajustes em lote aprovados pelo Tae no chat). Só funciona com o cabeçalho x-chave = config.chave_robo,
 // que é criada para a tarefa e apagada no fim. "criar" sempre cria em RASCUNHO; só o modo "status" ativa, e só com OK explícito do Tae no chat.
 //   { modo: "fonte", handles: [..], loja?: "numbuzinus.com" } → lê a ficha oficial (Shopify da marca): título, texto, fotos, peso
+//   { modo: "remover_foto", id, posicoes: [n] }               → apaga só essas fotos da página (1 = capa)
 //   { modo: "arquivar", ids: [productId] }                     → status ARCHIVED
 //   { modo: "remover_versao", skus: [sku] }                    → apaga só a versão (variante) da página; ERP: linha arquivada
 //   { modo: "atualizar", itens: [{ id, titulo?, tipo?, tags?, preco?, peso_g?, sku? }] } → 1ª variante para preço/peso; tags substitui a lista
@@ -117,6 +118,19 @@ Deno.serve(async (req) => {
           out.push({ sku, ok: true });
         } catch (e) { out.push({ sku, ok: false, erro: erro(e) }); }
       }
+    } else if (b.modo === "remover_foto") {
+      // { modo: "remover_foto", id: productId, posicoes: [2] } → apaga só essas fotos (posição 1 = capa); desliga das versões antes
+      const pid = gid(b.id);
+      const p: any = (await gql(`query($id: ID!) { product(id: $id) { media(first: 50) { nodes { id ... on MediaImage { image { url } } } }
+        variants(first: 50) { nodes { id media(first: 5) { nodes { id } } } } } }`, { id: pid })).product;
+      const alvo = (b.posicoes || []).map((n: any) => p.media.nodes[Number(n) - 1]).filter(Boolean);
+      if (!alvo.length) throw new Error("posição sem foto");
+      const ids = alvo.map((m: any) => m.id);
+      const vm = p.variants.nodes.flatMap((v: any) => v.media.nodes.filter((m: any) => ids.includes(m.id)).map((m: any) => ({ variantId: v.id, mediaIds: [m.id] })));
+      if (vm.length) await gql(`mutation($p: ID!, $vm: [ProductVariantDetachMediaInput!]!) { productVariantDetachMedia(productId: $p, variantMedia: $vm) { userErrors { message } } }`, { p: pid, vm });
+      const del: any = await gql(`mutation($id: ID!, $ids: [ID!]!) { productDeleteMedia(productId: $id, mediaIds: $ids) { mediaUserErrors { message } } }`, { id: pid, ids });
+      if (del.productDeleteMedia.mediaUserErrors.length) throw new Error(del.productDeleteMedia.mediaUserErrors[0].message);
+      out.push({ id: b.id, ok: true, apagadas: alvo.map((m: any) => m.image?.url), restam: p.media.nodes.length - ids.length });
     } else if (b.modo === "atualizar") {
       for (const it of (b.itens || []).slice(0, 40)) {
         try {
