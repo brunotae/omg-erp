@@ -5,6 +5,7 @@
 //   4) se "apagar" vier: as versões que usavam essa foto passam a usar a nova, e ela é apagada
 //   { status: true, produto } → só lê as fotos (id, url, status) e as versões com foto
 //   { opcoes_ler: true, produto } → opções e valores; { produto, opcao: { id, nome?, valores?: [{id, nome}] } } → renomeia (ex.: Size → Tamanho)
+//   { produto, handle_novo } → troca o endereço do produto e redireciona o antigo
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
@@ -67,6 +68,14 @@ Deno.serve(async (req) => {
     if (b.opcoes_ler) {
       const o: any = await gql(`query($id: ID!) { product(id: $id) { options { id name optionValues { id name } } } }`, { id: pid });
       return resp(200, { ok: true, opcoes: o.product.options });
+    }
+    if (b.handle_novo) {
+      // Troca o endereço (handle) do produto e cria o redirecionamento do endereço antigo.
+      const h = String(b.handle_novo).toLowerCase();
+      if (!/^[a-z0-9-]{3,120}$/.test(h)) return resp(400, { erro: "endereço inválido" });
+      const r: any = await gql(`mutation($p: ProductUpdateInput!) { productUpdate(product: $p) { product { handle } userErrors { message } } }`, { p: { id: pid, handle: h, redirectNewHandle: true } });
+      const ue = r.productUpdate.userErrors; if (ue.length) return resp(422, { erro: ue.map((x: any) => x.message).join("; ") });
+      return resp(200, { ok: true, handle: r.productUpdate.product.handle });
     }
     if (b.opcao) {
       // Renomeia uma opção e/ou os valores dela. { produto, opcao: { id, nome? , valores?: [{ id, nome }] } }
