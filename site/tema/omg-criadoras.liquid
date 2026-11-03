@@ -1,0 +1,127 @@
+{%- comment -%}
+  OMG · Painel das criadoras (Tae 03/11/2026). Página /pages/criadoras.
+  A criadora entra com o código (ex.: petala) e a senha simples criada pela OMG (ERP › Links e influenciadores).
+  Vê: link e cupom para copiar, data de criação, cliques, pessoas, pedidos, valor vendido e a lista de pedidos (sem dados de cliente).
+  Dados: função criadora_painel do Supabase (chave publicável; a função confere a senha e bloqueia após 8 erros em 30 min).
+{%- endcomment -%}
+<div class="omg-cr" id="omg-cr">
+  <form class="omg-cr__login" id="cr-login" autocomplete="on">
+    <p class="omg-cr__marca">OMG! <small>Painel das criadoras</small></p>
+    <label for="cr-cod">Seu código<input id="cr-cod" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="ex.: petala" required></label>
+    <label for="cr-senha">Senha<input id="cr-senha" name="password" type="password" autocomplete="current-password" required></label>
+    <button class="omg-cr__btn" type="submit" id="cr-entrar">Entrar</button>
+    <p class="omg-cr__erro" id="cr-erro" hidden></p>
+    <p class="omg-cr__mini">Esqueceu a senha? Fale com a equipe da OMG.</p>
+  </form>
+  <div class="omg-cr__painel" id="cr-painel" hidden></div>
+</div>
+<style>
+  .omg-cr{--r:#B83D66;--rs:#F8E3EB;--ink:#2E1A24;--mut:#8A7480;--ln:#EED9E2;--ok:#1E6B47;--oks:#DDF1E8;max-width:980px;margin:28px auto 56px;padding-inline:16px;color:var(--ink);font-size:14px;line-height:1.5}
+  .omg-cr *{box-sizing:border-box}
+  .omg-cr__login{max-width:360px;margin:0 auto;background:#fff;border:1px solid var(--ln);border-radius:22px;padding:24px;display:grid;gap:14px}
+  .omg-cr__marca{margin:0;font-size:30px;font-weight:800;color:var(--r);line-height:1}
+  .omg-cr__marca small{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);font-weight:700;margin-top:6px}
+  .omg-cr label{display:grid;gap:5px;font-size:12px;font-weight:600;color:var(--mut)}
+  .omg-cr input{font:inherit;font-size:16px;border:1px solid var(--ln);border-radius:10px;padding:11px 12px;color:var(--ink);background:#FBF5F7}
+  .omg-cr__btn{font:inherit;font-weight:700;border:0;border-radius:999px;padding:12px 18px;background:var(--r);color:#fff;cursor:pointer}
+  .omg-cr__btn:disabled{opacity:.6}
+  .omg-cr__erro{margin:0;color:#A3263F;font-weight:600;font-size:13px}
+  .omg-cr__mini{margin:0;font-size:12px;color:var(--mut)}
+  .omg-cr__painel{background:#fff;border:1px solid var(--ln);border-radius:22px;padding:22px;display:grid;gap:18px}
+  .omg-cr__topo{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-end}
+  .omg-cr__topo h1{margin:0;font-size:28px;line-height:1.1}
+  .omg-cr__topo p{margin:4px 0 0;color:var(--mut)}
+  .omg-cr__sair{font:inherit;font-size:12px;color:var(--mut);border:1px solid var(--ln);border-radius:999px;padding:6px 12px;background:none;cursor:pointer}
+  .omg-cr__copias{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .omg-cr__copia{border:1px dashed var(--r);border-radius:14px;padding:14px;display:grid;gap:8px;background:var(--rs);min-width:0}
+  .omg-cr__rot{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);font-weight:700;margin:0}
+  .omg-cr__v{font-weight:700;font-size:16px;word-break:break-all}
+  .omg-cr__meta{font-size:12px;color:var(--mut)}
+  .omg-cr__cp{justify-self:start;font:inherit;font-size:13px;font-weight:700;border:0;border-radius:999px;padding:8px 14px;background:var(--r);color:#fff;cursor:pointer}
+  .omg-cr__cp.ok{background:var(--ok)}
+  .omg-cr__nums{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+  .omg-cr__n{border:1px solid var(--ln);border-radius:14px;padding:12px 14px;display:grid;gap:2px}
+  .omg-cr__n span{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);font-weight:700}
+  .omg-cr__n b{font-size:24px;font-variant-numeric:tabular-nums;line-height:1.2}
+  .omg-cr__n i{font-style:normal;font-size:12px;color:var(--mut)}
+  .omg-cr h2{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin:0 0 10px}
+  .omg-cr__graf{display:flex;align-items:flex-end;gap:3px;height:110px;border-bottom:1px solid var(--ln)}
+  .omg-cr__graf div{flex:1;background:var(--r);border-radius:3px 3px 0 0;min-width:0;opacity:.85}
+  .omg-cr__graf div.z{background:var(--ln);opacity:1}
+  .omg-cr__eixo{display:flex;justify-content:space-between;font-size:11px;color:var(--mut);margin-top:6px}
+  .omg-cr__tw{overflow-x:auto}
+  .omg-cr table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;min-width:420px}
+  .omg-cr th,.omg-cr td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--ln)}
+  .omg-cr th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+  .omg-cr .r{text-align:right}
+  .omg-cr__pill{display:inline-block;font-size:11px;font-weight:700;border-radius:999px;padding:3px 9px;background:var(--rs);color:var(--r)}
+  .omg-cr__pill.ok{background:var(--oks);color:var(--ok)}
+  .omg-cr__pill.x{background:#EEE;color:#777}
+  .omg-cr__vazio{color:var(--mut);margin:0}
+  .omg-cr__rod{font-size:12px;color:var(--mut);margin:0}
+  @media(max-width:700px){.omg-cr__copias{grid-template-columns:minmax(0,1fr)}.omg-cr__nums{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+<script>
+(function(){
+  var API='https://nzsiuniabovvptuqmkmi.supabase.co/rest/v1/rpc/criadora_painel', KEY='sb_publishable_9Nl_ZRXEmLMhDMBP8oKP_w_FuDXaYMq', SITE='ohmygirl.com.br';
+  var $=function(id){return document.getElementById(id)};
+  var brl=function(v){return 'R$ '+Number(v||0).toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.')};
+  var dt=function(s){if(!s)return '—';var d=String(s).slice(0,10).split('-');return d[2]+'/'+d[1]+'/'+d[0]};
+  var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+  function salvo(){try{return JSON.parse(localStorage.getItem('omg-criadora')||'null')}catch(e){return null}}
+  function guardar(v){try{v?localStorage.setItem('omg-criadora',JSON.stringify(v)):localStorage.removeItem('omg-criadora')}catch(e){}}
+  async function entrar(cod,senha,quieto){
+    var b=$('cr-entrar');b.disabled=true;b.textContent='Entrando…';$('cr-erro').hidden=true;
+    try{
+      var r=await fetch(API,{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify({p_codigo:cod,p_senha:senha})});
+      var j=await r.json();
+      if(!j||!j.ok){guardar(null);if(!quieto){$('cr-erro').textContent=(j&&j.erro)||'Não deu para entrar agora. Tente de novo.';$('cr-erro').hidden=false}return}
+      guardar({c:cod,s:senha});mostrar(j);
+    }catch(e){$('cr-erro').textContent='Sem conexão. Tente de novo.';$('cr-erro').hidden=false}
+    finally{b.disabled=false;b.textContent='Entrar'}
+  }
+  function mostrar(j){
+    var p=j.perfil||{},L=j.links||[],P=j.pedidos||[],ci=j.cupom_info;
+    var cliques=L.reduce(function(a,l){return a+(+l.cliques||0)},0), pessoas=L.reduce(function(a,l){return a+(+l.pessoas||0)},0);
+    var ok=P.filter(function(x){return x.situacao!=='Cancelado'}), vendas=ok.reduce(function(a,x){return a+(+x.valor||0)},0);
+    var viaLink=ok.filter(function(x){return x.via==='link'}).length;
+    var conv=pessoas?(viaLink/pessoas*100).toFixed(1).replace('.',',')+'%':'—';
+    var link=L[0]?SITE+'/a/'+L[0].slug:'';
+    var cupomTxt=ci?(ci.tipo==='%'?ci.valor+'% de desconto':ci.tipo==='frete'?'Frete grátis':brl(ci.valor)+' de desconto')+(ci.limite?' · '+ci.limite+(ci.limite>1?' usos':' uso'):'')+(ci.validade?' · até '+dt(ci.validade):''):'';
+    // cliques dos últimos 14 dias
+    var D=j.cliques_dia||{},dias=[],hoje=new Date();for(var i=13;i>=0;i--){var x=new Date(hoje.getTime()-i*864e5);var k=x.toLocaleDateString('en-CA',{timeZone:'America/Sao_Paulo'});dias.push([k,+D[k]||0])}
+    var mx=Math.max.apply(null,dias.map(function(d){return d[1]}).concat([1]));
+    var graf=dias.map(function(d){return '<div'+(d[1]?'':' class="z"')+' title="'+dt(d[0])+' · '+d[1]+' cliques" style="height:'+Math.max(3,Math.round(d[1]/mx*100))+'%"></div>'}).join('');
+    var pill=function(s){return '<span class="omg-cr__pill'+(s==='Entregue'?' ok':s==='Cancelado'?' x':'')+'">'+esc(s)+'</span>'};
+    $('cr-painel').innerHTML=
+      '<div class="omg-cr__topo"><div><h1>Oi, '+esc((p.nome||'').split(' ')[0])+' 💗</h1><p>'+esc(p.arroba||'')+' · parceria desde '+dt(p.inicio)+'</p></div><button class="omg-cr__sair" type="button" id="cr-sair">Sair</button></div>'+
+      '<div class="omg-cr__copias">'+
+        (link?'<div class="omg-cr__copia"><p class="omg-cr__rot">Seu link</p><span class="omg-cr__v">'+esc(link)+'</span><span class="omg-cr__meta">Criado em '+dt(L[0].criado)+' · use na bio, nos stories e no TikTok</span><button class="omg-cr__cp" type="button" data-cp="https://'+esc(link)+'">Copiar link</button></div>':'')+
+        (p.cupom?'<div class="omg-cr__copia"><p class="omg-cr__rot">Seu cupom</p><span class="omg-cr__v">'+esc(p.cupom)+'</span><span class="omg-cr__meta">'+esc(cupomTxt||'Cupom da sua parceria')+'</span><button class="omg-cr__cp" type="button" data-cp="'+esc(p.cupom)+'">Copiar cupom</button></div>':'')+
+      '</div>'+
+      '<div class="omg-cr__nums">'+
+        '<div class="omg-cr__n"><span>Cliques</span><b>'+cliques+'</b><i>'+pessoas+' pessoas abriram o link</i></div>'+
+        '<div class="omg-cr__n"><span>Pedidos</span><b>'+ok.length+'</b><i>pelo seu link ou cupom</i></div>'+
+        '<div class="omg-cr__n"><span>Vendas</span><b>'+brl(vendas)+'</b><i>valor dos produtos</i></div>'+
+        '<div class="omg-cr__n"><span>Conversão</span><b>'+conv+'</b><i>pessoas que clicaram e compraram</i></div>'+
+      '</div>'+
+      '<div><h2>Cliques nos últimos 14 dias</h2><div class="omg-cr__graf">'+graf+'</div><div class="omg-cr__eixo"><span>'+dt(dias[0][0]).slice(0,5)+'</span><span>hoje</span></div></div>'+
+      '<div><h2>Pedidos</h2>'+(P.length?'<div class="omg-cr__tw"><table><thead><tr><th>Data</th><th>Pedido</th><th>Veio por</th><th class="r">Produtos</th><th>Situação</th></tr></thead><tbody>'+
+        P.map(function(x){return '<tr><td>'+dt(x.data)+'</td><td>'+esc(x.pedido)+'</td><td>'+(x.via==='cupom'?'Cupom':'Link')+'</td><td class="r">'+brl(x.valor)+'</td><td>'+pill(x.situacao)+'</td></tr>'}).join('')+
+        '</tbody></table></div>':'<p class="omg-cr__vazio">Ainda não tem pedido. Assim que alguém comprar pelo seu link ou cupom, aparece aqui.</p>')+'</div>'+
+      '<p class="omg-cr__rod">Os números se atualizam sozinhos. Pedido cancelado não entra no total. Valor dos produtos, sem frete e impostos.</p>';
+    $('cr-login').hidden=true;$('cr-painel').hidden=false;
+  }
+  $('cr-login').addEventListener('submit',function(e){e.preventDefault();entrar($('cr-cod').value.trim().toLowerCase(),$('cr-senha').value.trim())});
+  document.addEventListener('click',function(e){
+    if(e.target.closest('#cr-sair')){guardar(null);$('cr-painel').hidden=true;$('cr-login').hidden=false;$('cr-senha').value='';return}
+    var b=e.target.closest('.omg-cr__cp');if(!b)return;var t=b.dataset.cp,old=b.textContent;
+    var feito=function(){b.textContent='Copiado ✓';b.classList.add('ok');setTimeout(function(){b.textContent=old;b.classList.remove('ok')},1500)};
+    if(navigator.clipboard)navigator.clipboard.writeText(t).then(feito,function(){window.prompt('Copie:',t)});else window.prompt('Copie:',t);
+  });
+  var s=salvo();if(s&&s.c){$('cr-cod').value=s.c;entrar(s.c,s.s,true)}
+})();
+</script>
+{% schema %}
+{ "name": "OMG · Painel das criadoras", "settings": [] }
+{% endschema %}
