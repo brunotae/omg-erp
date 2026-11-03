@@ -1,6 +1,6 @@
 {%- comment -%}
   Carimbo "sem imposto de importação até US$ 50" (Tae · 03/11/2026): fixo no canto superior direito, logo abaixo do cabeçalho.
-  A cada 6 s cai carimbando (flash + estrelinhas), fica ~2,5 s e some. Clique abre a explicação (ICMS continua).
+  A cada 6 s cai carimbando (flash + estrelinhas), fica ~2,5 s e some. Repete 3 vezes na 1ª página da visita e 1 vez nas seguintes; depois desaparece. Clique abre a explicação (ICMS continua).
   Também põe o selinho verde nos cartões de produto até R$ 240 (US$ 50 ≈ R$ 270 menos uma folga para o frete).
 {%- endcomment -%}
 <style>
@@ -40,6 +40,11 @@
 <script>
 (function(){
   var s=document.getElementById('omg-selo'); if(!s) return; document.body.appendChild(s);
+  // aparece 3 vezes na 1ª página da visita e 1 vez nas páginas seguintes; depois some
+  var vezes=3; try{ if(sessionStorage.getItem('omg_selo_visto')) vezes=1; sessionStorage.setItem('omg_selo_visto','1'); }catch(_){}
+  var anims=[s].concat([].slice.call(s.querySelectorAll('.omg-selo__flash, .omg-selo__b i')));
+  anims.forEach(function(el){ el.style.animationIterationCount=vezes; });
+  setTimeout(function(){ if(!s.classList.contains('on-click')) s.style.display='none'; }, 1500 + vezes*6000 + 500);
   function topo(){var h=document.querySelector('header-component')||document.querySelector('header.header-section')||document.querySelector('header');var b=h?h.getBoundingClientRect().bottom:0;document.documentElement.style.setProperty('--omg-selo-top',Math.max(12,Math.round(b)+12)+'px')}
   topo(); addEventListener('scroll',topo,{passive:true}); addEventListener('resize',topo); setTimeout(topo,800);
   var pop=null;
