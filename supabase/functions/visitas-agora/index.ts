@@ -23,16 +23,30 @@ async function token() {
   tk = { v: j.access_token, exp: Date.now() + ((Number(j.expires_in) || 86399) - 300) * 1000 };
   return tk.v;
 }
-async function ql(q: string): Promise<any[]> {
+// ShopifyQL tem limite de "custo" por minuto: as leituras vão uma de cada vez e, se o Shopify pedir pausa (THROTTLED),
+// espera a janela liberar e tenta de novo.
+async function ql(q: string, tent = 0): Promise<any[]> {
   const r = await fetch(`https://${SHOP}/admin/api/${VERSAO}/graphql.json`, { method: "POST",
     headers: { "content-type": "application/json", "x-shopify-access-token": await token() },
     body: JSON.stringify({ query: `query($q: String!) { shopifyqlQuery(query: $q) { tableData { rows } parseErrors } }`, variables: { q } }) });
-  const j = await r.json();
-  if (!r.ok || j.errors) throw new Error("Shopify: " + JSON.stringify(j.errors ?? r.status).slice(0, 300));
+  const j = await r.json().catch(() => ({}));
+  const thr = r.status === 429 || (j.errors ?? []).some((e: any) => e?.extensions?.code === "THROTTLED");
+  if (thr && tent < 4) {
+    const reset = Date.parse((j.errors ?? [])[0]?.extensions?.cost?.windowResetAt ?? "");
+    const ms = isFinite(reset) ? Math.min(25000, Math.max(1500, reset - Date.now() + 500)) : 4000 * (tent + 1);
+    await new Promise((res) => setTimeout(res, ms));
+    return ql(q, tent + 1);
+  }
+  if (!r.ok || j.errors) throw new Error(thr ? "O Shopify pediu uma pausa nas leituras; tente de novo em 1 minuto." : "Shopify: " + JSON.stringify(j.errors ?? r.status).slice(0, 300));
   const s = j.data.shopifyqlQuery;
   if (s.parseErrors?.length) throw new Error("ShopifyQL: " + s.parseErrors.join("; ") + " · " + q);
   return s.tableData?.rows ?? [];
 }
+// uma leitura por vez
+async function emFila(qs: string[]) { const out: any[][] = []; for (const q of qs) out.push(await ql(q)); return out; }
+// guarda o resultado por um tempo para não gastar o limite do Shopify a cada clique
+let cache: { t: number; v: any } = { t: 0, v: null };
+let cacheTudo: { t: number; v: any } = { t: 0, v: null };
 const n = (x: any) => Number(x) || 0;
 
 async function membro(req: Request) {
@@ -53,12 +67,12 @@ const lista = (rows: any[], chave: (r: any) => string) => {
 // Desde o início: o último ano inteiro, por dia (a loja é mais nova que isso, então pega tudo).
 async function desdeInicio() {
   const T = " SINCE -365d UNTIL today";
-  const [dias, pais, est, ori, pes] = await Promise.all([
-    ql("FROM sessions SHOW sessions, sessions_with_cart_additions, sessions_that_completed_checkout GROUP BY day" + T + " ORDER BY day"),
-    ql("FROM sessions SHOW sessions GROUP BY session_country" + T),
-    ql("FROM sessions SHOW sessions GROUP BY session_country, session_region" + T),
-    ql("FROM sessions SHOW sessions GROUP BY referrer_source, referrer_name" + T),
-    ql("FROM sessions SHOW online_store_visitors" + T),
+  const [dias, pais, est, ori, pes] = await emFila([
+    "FROM sessions SHOW sessions, sessions_with_cart_additions, sessions_that_completed_checkout GROUP BY day" + T + " ORDER BY day",
+    "FROM sessions SHOW sessions GROUP BY session_country" + T,
+    "FROM sessions SHOW sessions GROUP BY session_country, session_region" + T,
+    "FROM sessions SHOW sessions GROUP BY referrer_source, referrer_name" + T,
+    "FROM sessions SHOW online_store_visitors" + T,
   ]);
   const comVisita = dias.filter((r: any) => n(r.sessions) > 0);
   return {
@@ -82,16 +96,22 @@ Deno.serve(async (req) => {
   try {
     if (!(await membro(req))) return resp(403, { erro: "Só membros do ERP" });
     const W = " SINCE -7d UNTIL today";
-    const [hrs, pais, est, ori, p1, p2, p7, tudo] = await Promise.all([
-      ql("FROM sessions SHOW sessions, sessions_with_cart_additions, sessions_that_completed_checkout GROUP BY hour" + W + " ORDER BY hour"),
-      ql("FROM sessions SHOW sessions GROUP BY hour, session_country" + W),
-      ql("FROM sessions SHOW sessions GROUP BY hour, session_country, session_region" + W),
-      ql("FROM sessions SHOW sessions GROUP BY hour, referrer_source, referrer_name" + W),
-      ql("FROM sessions SHOW online_store_visitors SINCE today UNTIL today"),
-      ql("FROM sessions SHOW online_store_visitors SINCE -1d UNTIL today"),
-      ql("FROM sessions SHOW online_store_visitors SINCE -6d UNTIL today"),
-      desdeInicio().catch((e) => ({ erro: String((e as Error).message || e) })),
+    if (cache.v && Date.now() - cache.t < 60e3) return resp(200, { ...cache.v, cache: true });
+    const [hrs, pais, est, ori, p1, p2, p7] = await emFila([
+      "FROM sessions SHOW sessions, sessions_with_cart_additions, sessions_that_completed_checkout GROUP BY hour" + W + " ORDER BY hour",
+      "FROM sessions SHOW sessions GROUP BY hour, session_country" + W,
+      "FROM sessions SHOW sessions GROUP BY hour, session_country, session_region" + W,
+      "FROM sessions SHOW sessions GROUP BY hour, referrer_source, referrer_name" + W,
+      "FROM sessions SHOW online_store_visitors SINCE today UNTIL today",
+      "FROM sessions SHOW online_store_visitors SINCE -1d UNTIL today",
+      "FROM sessions SHOW online_store_visitors SINCE -6d UNTIL today",
     ]);
+    // desde o início muda devagar: lê de novo a cada 30 min
+    let tudo: any = cacheTudo.v;
+    if (!tudo || Date.now() - cacheTudo.t > 30 * 60e3) {
+      try { tudo = await desdeInicio(); cacheTudo = { t: Date.now(), v: tudo }; }
+      catch (e) { tudo = cacheTudo.v ?? { erro: String((e as Error).message || e) }; }
+    }
     const agora = Date.now();
     const JAN: Record<string, number> = { h24: 24, h48: 48, d7: 168 };
     const dentro = (h: string, k: string) => { const t = Date.parse(h); return isFinite(t) && t > agora - JAN[k] * 3600e3 - 3600e3 && t <= agora; };
@@ -112,8 +132,10 @@ Deno.serve(async (req) => {
     const t: any = tudo;
     if (t && !t.erro) { out.janelas.tudo = t.janela; out.pessoas.tudo = t.pessoas; out.inicio = t.inicio; out.dias = t.dias; }
     else out.erro_tudo = t?.erro ?? "sem dados";
+    cache = { t: Date.now(), v: out };
     return resp(200, out);
   } catch (e) {
+    if (cache.v) return resp(200, { ...cache.v, antigo: true, aviso: String((e as Error).message || e) });
     return resp(500, { erro: String((e as Error).message || e) });
   }
 });
