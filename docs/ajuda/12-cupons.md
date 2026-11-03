@@ -20,11 +20,11 @@ Infelizmente o cupom precisa ser aplicado no checkout, antes do pagamento. Se a 
 
 ### Vocês têm programa de fidelidade?
 
-Ainda não, mas está nos nossos planos! Estamos preparando um clube de fidelidade para premiar quem compra com a gente com frequência. Quando lançar, avisamos aqui no site e na newsletter 💗
+Ainda não, mas está nos nossos planos! Estamos preparando um clube de fidelidade para premiar quem compra com a gente com frequência. Quando lançar, avisamos no site e no Instagram @ohmygirl.com.br 💗
 
 ### Como fico sabendo das promoções?
 
-Assine a nossa newsletter no rodapé do site. As promoções também aparecem na página inicial.
+Siga @ohmygirl.com.br no Instagram e assine a nossa newsletter no rodapé do site. As promoções também aparecem na página inicial.
 
 ### O preço baixou depois que eu comprei. Recebo a diferença?
 
@@ -32,8 +32,8 @@ Os preços variam com câmbio e promoções, e vale o preço do momento da compr
 
 ### Tem cupom de primeira compra?
 
-Lançamos cupons e promoções com frequência, inclusive para quem está chegando. Assine a newsletter no rodapé do site para não perder.
+Lançamos cupons e promoções com frequência, inclusive para quem está chegando. Assine a newsletter no rodapé do site e siga @ohmygirl.com.br para não perder.
 
 ### Tem cupom de aniversário?
 
-Ainda não temos cupom de aniversário, mas lançamos promoções com frequência. Assine a newsletter.
+Ainda não temos cupom de aniversário, mas lançamos promoções com frequência. Assine a newsletter e siga @ohmygirl.com.br.

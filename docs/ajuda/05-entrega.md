@@ -22,7 +22,7 @@ Cada etapa tem o seu tempo, por isso o prazo oficial é de **até 15 dias úteis
 
 ### Quanto custa o frete?
 
-O frete é calculado no checkout, pelo seu CEP. Não trabalhamos com frete grátis, mas sempre temos cupons e promoções: assine a newsletter.
+O frete é calculado no checkout, pelo seu CEP. Não trabalhamos com frete grátis, mas sempre temos cupons e promoções: siga @ohmygirl.com.br e assine a newsletter.
 
 ### Quem faz a entrega?
 

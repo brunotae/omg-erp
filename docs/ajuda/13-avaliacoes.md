@@ -16,4 +16,4 @@ As avaliações passam por uma moderação rápida. Não publicamos avaliações
 
 ### Posso marcar a OMG nas redes sociais?
 
-Pode e a gente ama! Nosso novo perfil no Instagram chega em breve.
+Pode e a gente ama! Marque @ohmygirl.com.br no Instagram.
