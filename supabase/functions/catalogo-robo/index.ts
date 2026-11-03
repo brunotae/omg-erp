@@ -334,6 +334,20 @@ Deno.serve(async (req) => {
       } else if (c.sortOrder !== "MANUAL") {
         await gql(`mutation($c: CollectionInput!) { collectionUpdate(input: $c) { userErrors { message } } }`, { c: { id: c.id, sortOrder: "MANUAL" } });
       }
+      // coleção que já existia pode não estar publicada na loja (abre "Page not found"): publica nos mesmos canais da "mais-pedidos"
+      let publicou = 0;
+      if (!criada) {
+        const ref: any = await gql(`{ collections(first: 5, query: "handle:mais-pedidos") { nodes { resourcePublicationsV2(first: 20) { nodes { publication { id } } } } } }`);
+        const quer = (ref.collections.nodes[0]?.resourcePublicationsV2.nodes || []).map((x: any) => x.publication.id);
+        const tem: any = await gql(`query($id: ID!) { collection(id: $id) { resourcePublicationsV2(first: 20) { nodes { isPublished publication { id } } } } }`, { id: c.id });
+        const ja = new Set((tem.collection.resourcePublicationsV2.nodes || []).filter((x: any) => x.isPublished).map((x: any) => x.publication.id));
+        const faltam = quer.filter((p: string) => !ja.has(p));
+        if (faltam.length) {
+          const pb: any = await gql(`mutation($id: ID!, $i: [PublicationInput!]!) { publishablePublish(id: $id, input: $i) { userErrors { message } } }`, { id: c.id, i: faltam.map((p: string) => ({ publicationId: p })) });
+          if (pb.publishablePublish.userErrors.length) throw new Error("publicar coleção: " + pb.publishablePublish.userErrors[0].message);
+          publicou = faltam.length;
+        }
+      }
       const dentro = new Set<string>(); let a: string | null = null;
       do {
         const d: any = await gql(`query($id: ID!, $a: String) { collection(id: $id) { products(first: 250, after: $a) { nodes { id } pageInfo { hasNextPage endCursor } } } }`, { id: c.id, a });
@@ -356,7 +370,7 @@ Deno.serve(async (req) => {
         err = r.collectionReorderProducts.userErrors.map((x: any) => x.message).join("; "); if (!err) break;
         await new Promise((ok) => setTimeout(ok, 3000));
       }
-      out.push({ colecao: c.title, criada, manual: !c.ruleSet, somados, na_colecao: dentro.size, ordenados: gids.length, erro: err || null });
+      out.push({ colecao: c.title, criada, publicou, manual: !c.ruleSet, somados, na_colecao: dentro.size, ordenados: gids.length, erro: err || null });
     } else if (b.modo === "tema") {
       // tema publicado: { ler: [arquivo] } → conteúdo (texto) · { gravar: [{ arquivo, texto? , url? }] } → grava (url = imagem do repositório)
       const t: any = await gql(`{ themes(first: 1, roles: [MAIN]) { nodes { id name } } }`);
