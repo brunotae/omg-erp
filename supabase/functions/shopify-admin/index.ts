@@ -528,6 +528,12 @@ async function principal(req: Request): Promise<Response> {
       return resp(200, { ok: true, n: d.products.nodes.length, achados, proximo: d.products.pageInfo.hasNextPage ? d.products.pageInfo.endCursor : null });
     }
 
+    if (b.acao === "desc_ler") {
+      // Lê a descrição (HTML) de 100 produtos por chamada, de qualquer status (b.after; b.q = filtro opcional).
+      const d: any = await gql(`query($a: String, $q: String) { products(first: 100, after: $a, query: $q) { nodes { id handle status descriptionHtml } pageInfo { hasNextPage endCursor } } }`, { a: b.after ?? null, q: b.q ?? null });
+      return resp(200, { ok: true, itens: d.products.nodes, proximo: d.products.pageInfo.hasNextPage ? d.products.pageInfo.endCursor : null });
+    }
+
     if (b.acao === "colecao_topo") {
       // Põe produtos no topo de uma coleção (ordem manual). { handle, ids: [id numérico], tag?: "omg-home-mais" }
       // Coleção manual: adiciona os produtos. Coleção automática por tag: passe a tag, que é colocada nos produtos.
