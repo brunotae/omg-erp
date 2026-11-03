@@ -7,7 +7,8 @@
   .variant-option__button-label:has(.omg-tom){display:inline-flex;align-items:center}
   .omg-tom-leg{margin:6px 0 0;font-size:12px;color:#8a7480;line-height:1.45}
   .omg-tom-leg b{color:#4A2638}
-  .omg-tom-sel{display:flex;align-items:center;gap:10px;margin:2px 0 8px;font-size:13px;color:#4A2638}
+  .omg-tom-sel{display:flex;align-items:center;gap:10px;margin:10px 0 0;font-size:13px;color:#4A2638}
+  .omg-tom-sel:empty{display:none}
   .omg-tom-sel i{width:34px;height:34px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.14);flex:none}
 </style>
 <script>
@@ -24,10 +25,10 @@
       if(ok<2||ok<L.length*0.6)return;
       L.forEach(function(l,ix){var t=l.querySelector('.variant-option__button-label__text')||l;if(!hex[ix]||l.querySelector('.omg-tom'))return;var s=document.createElement('span');s.className='omg-tom';s.style.background=hex[ix];s.setAttribute('aria-hidden','true');t.parentNode.insertBefore(s,t)});
       var sel=f.querySelector('input:checked'),sh=sel&&cor(sel.value);
-      var box=f.querySelector('.omg-tom-sel');if(!box){box=document.createElement('div');box.className='omg-tom-sel';lg.insertAdjacentElement('afterend',box)}
+      var nx=f.nextElementSibling,box=nx&&nx.classList.contains('omg-tom-sel')?nx:null;if(!box){box=document.createElement('div');box.className='omg-tom-sel';f.insertAdjacentElement('afterend',box)}
       var nh=sh?'<i style="background:'+sh+'"></i><span>Tom escolhido: <b>'+sel.value.replace(/</g,'')+'</b></span>':'';if(box.dataset.v!==nh){box.dataset.v=nh;box.innerHTML=nh}
-      if(!f.querySelector('.omg-tom-leg')&&ins.some(function(i){return i&&/\d\s?[CNW]\b/i.test(i.value)})){var p=document.createElement('p');p.className='omg-tom-leg';
-        p.innerHTML='<b>C</b> = fundo frio (rosado) · <b>N</b> = neutro · <b>W</b> = quente (dourado). Número menor = tom mais claro. A cor da tela é uma referência e pode variar um pouco.';f.appendChild(p)}
+      if(!(box.nextElementSibling&&box.nextElementSibling.classList.contains('omg-tom-leg'))&&ins.some(function(i){return i&&/\d\s?[CNW]\b/i.test(i.value)})){var p=document.createElement('p');p.className='omg-tom-leg';
+        p.innerHTML='<b>C</b> = fundo frio (rosado) · <b>N</b> = neutro · <b>W</b> = quente (dourado). Número menor = tom mais claro. A cor da tela é uma referência e pode variar um pouco.';box.insertAdjacentElement('afterend',p)}
     });
   }
   var tm;var obs=new MutationObserver(function(){clearTimeout(tm);tm=setTimeout(pinta,60)});
