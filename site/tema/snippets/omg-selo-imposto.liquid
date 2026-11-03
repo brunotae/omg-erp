@@ -20,7 +20,7 @@
   .omg-selo-pop b{color:#1D7A4F}
   .omg-selo-pop button{position:absolute;top:6px;right:8px;border:0;background:none;font-size:18px;color:#8a7a82;cursor:pointer}
   .omg-mini-imp{position:absolute;left:8px;bottom:8px;z-index:3;background:#E3F3EA;color:#1D7A4F;font-size:11px;font-weight:700;border-radius:999px;padding:3px 8px;box-shadow:0 1px 4px rgba(29,122,79,.2);pointer-events:none;white-space:nowrap}
-  @media (max-width:749px){.omg-selo{width:92px;height:92px;right:10px}.omg-mini-imp{font-size:10px;padding:3px 6px}}
+  @media (max-width:749px){.omg-selo{width:92px;height:92px;right:10px}.omg-mini-imp{font-size:9.5px;padding:3px 6px;left:6px;bottom:6px}}
   @media (prefers-reduced-motion:reduce){.omg-selo{animation:none;opacity:1;pointer-events:auto;transform:rotate(-10deg)}.omg-selo__flash,.omg-selo__b i{animation:none}}
 </style>
 <button type="button" class="omg-selo" id="omg-selo" aria-label="Sem imposto de importação em compras até US$ 50. Saiba mais">
@@ -60,7 +60,7 @@
       if(v==null) return; c.dataset.omgImp='1'; if(v>LIM) return;
       var img=c.querySelector('.omg-cartao__img, .product-card__image, [class*="media"], a');if(!img) return;
       if(getComputedStyle(img).position==='static') img.style.position='relative';
-      var t=document.createElement('span');t.className='omg-mini-imp';t.textContent=innerWidth<750?'✓ Sem imposto':'✓ Sem imposto de importação';img.appendChild(t);
+      var t=document.createElement('span');t.className='omg-mini-imp';t.textContent='✓ Sem imposto de importação';img.appendChild(t);
     });
   }
   marca(); setTimeout(marca,1500); setTimeout(marca,4000);
