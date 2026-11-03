@@ -3339,7 +3339,7 @@ const VA_TX={
   dias:'Visits per day · since launch',diasS:'Each bar is one day, from the first day with visits (left) to today (right).',lendo:'Reading Shopify…',
   direto:'Direct (app, WhatsApp, typed URL)',busca:'Search',social:'Social',email:'Email',link:'Referral',outros:'Other',loc:'en-US'}};
 const vaT=()=>VA_TX[VA.lang]||VA_TX.pt;
-const vaOrigem=k=>{const t=vaT();const [f,nm]=String(k).split('|');return f==='direct'||!f?t.direto:f==='search'?t.busca+(nm?' · '+nm:''):f==='social'?t.social+(nm?' · '+nm:''):f==='email'?t.email+(nm?' · '+nm:''):(nm?t.link+' · '+nm:t.outros)};
+const vaOrigem=k=>{const t=vaT();let [f,nm]=String(k).split('|');if(VA.lang==='en'&&/belle|skyroad|mile|janice/i.test(nm||''))nm='partner';return f==='direct'||!f?t.direto:f==='search'?t.busca+(nm?' · '+nm:''):f==='social'?t.social+(nm?' · '+nm:''):f==='email'?t.email+(nm?' · '+nm:''):(nm?t.link+' · '+nm:t.outros)};
 async function vaCarregar(){
  if(VA.loading||!S.db)return;VA.loading=true;VA.err='';if(S.view==='visitas')render();
  try{const {data,error}=await sb.functions.invoke('visitas-agora',{body:{}});
@@ -4215,7 +4215,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
- ['v81','03/11/2026',['Visitas agora: novo quadro Desde o início (visitas e pessoas desde o primeiro dia com visitas, com gráfico por dia).','Botão PT / EN no topo da tela: mostra a página inteira em inglês, bom para tirar print e mandar para parceiros. A escolha fica salva neste aparelho.']],
+ ['v81','03/11/2026',['Visitas agora: novo quadro Desde o início (visitas e pessoas desde o primeiro dia com visitas, com gráfico por dia).','Botão PT / EN no topo da tela: mostra a página inteira em inglês, bom para tirar print e mandar para parceiros. A escolha fica salva neste aparelho. Em inglês, links de parceiros internos aparecem só como "partner".']],
  ['v80','02/11/2026',['Vendas: cada item da venda tem uma setinha ↗ no fim do campo Produto. Clique para abrir a página do produto no site, em outra aba.']],
  ['v79','02/11/2026',['Pricing com frete embutido (Guia v3.3): o site agora cobra só 35% do frete; os outros 65% do frete de SP entram no preço do produto. O preço sugerido já sai assim, tanto com concorrente no Brasil quanto pelo exterior.','Preço que passaria de R$ 269,90 só por causa do frete embutido fica em R$ 269,90, com aviso, para manter a isenção de US$ 50.','Coluna Cliente SP paga usa o frete novo (35% + seguro). Frete cotado continua guardado cheio; Regras do Pricing explicam a divisão.']],
  ['v78','02/11/2026',['Cupons: a coluna Público virou Nome interno, para identificar de quem é cada cupom (ex.: Neiva, Jean IMP). Digite direto na tabela; salva ao sair do campo. Sugere nomes já usados e as influenciadoras.','O Nome interno de quem cria o cupom fica salvo; cupom de influenciadora já vem com o nome dela. "Trazer cupons do Shopify" preenche os que estão sem nome com o nome do Shopify. Quem pode usar continua na ficha do cupom.']],
