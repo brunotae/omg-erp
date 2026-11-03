@@ -1,0 +1,20 @@
+{
+ "mediheal.us": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081)>",
+ "medihealus.com": {
+  "ok": 133,
+  "final": "https://medihealus.com/products.json?limit=250&page=1"
+ },
+ "cupons_home": [
+  "DC145ZYHR8",
+  "F9F8F4",
+  "TX58B834"
+ ],
+ "textos_off": [
+  " as you add. Exclusive to the official online store — up to 20% off when you build your bundle."
+ ],
+ "sephora_br": "HTTP Error 403: Forbidden",
+ "sephora_br2": "HTTP Error 410: Gone",
+ "ml_mediheal": "HTTP Error 403: Forbidden",
+ "mlhtml_mediheal": 41898,
+ "amz_mediheal": "HTTP Error 503: Service Unavailable"
+}
