@@ -40,7 +40,7 @@
 <script>
 (function(){
   var s=document.getElementById('omg-selo'); if(!s) return; document.body.appendChild(s);
-  function topo(){var h=document.querySelector('#header-group, .header-section, header');var b=h?h.getBoundingClientRect().bottom:0;document.documentElement.style.setProperty('--omg-selo-top',Math.max(12,Math.round(b)+12)+'px')}
+  function topo(){var h=document.querySelector('header-component')||document.querySelector('header.header-section')||document.querySelector('header');var b=h?h.getBoundingClientRect().bottom:0;document.documentElement.style.setProperty('--omg-selo-top',Math.max(12,Math.round(b)+12)+'px')}
   topo(); addEventListener('scroll',topo,{passive:true}); addEventListener('resize',topo); setTimeout(topo,800);
   var pop=null;
   function fecha(){if(pop){pop.remove();pop=null;s.classList.remove('on-click')}}
