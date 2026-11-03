@@ -4,6 +4,7 @@
 //   1) adiciona a foto nova  2) espera ficar pronta  3) põe em 1º lugar
 //   4) se "apagar" vier: as versões que usavam essa foto passam a usar a nova, e ela é apagada
 //   { status: true, produto } → só lê as fotos (id, url, status) e as versões com foto
+//   { opcoes_ler: true, produto } → opções e valores; { produto, opcao: { id, nome?, valores?: [{id, nome}] } } → renomeia (ex.: Size → Tamanho)
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
@@ -63,6 +64,18 @@ Deno.serve(async (req) => {
     const fotos = (p: any) => p.media.nodes.map((m: any) => ({ id: m.id, status: m.status, url: m.image?.url || "" }));
     const versoes = (p: any) => p.variants.nodes.map((v: any) => ({ id: v.id, nome: v.title, foto: v.media.nodes[0]?.id || null }));
     if (b.status) return resp(200, { ok: true, fotos: fotos(p0), versoes: versoes(p0) });
+    if (b.opcoes_ler) {
+      const o: any = await gql(`query($id: ID!) { product(id: $id) { options { id name optionValues { id name } } } }`, { id: pid });
+      return resp(200, { ok: true, opcoes: o.product.options });
+    }
+    if (b.opcao) {
+      // Renomeia uma opção e/ou os valores dela. { produto, opcao: { id, nome? , valores?: [{ id, nome }] } }
+      const op = b.opcao || {};
+      const r: any = await gql(`mutation($p: ID!, $o: OptionUpdateInput!, $v: [OptionValueUpdateInput!]) { productOptionUpdate(productId: $p, option: $o, optionValuesToUpdate: $v) { userErrors { field message } } }`,
+        { p: pid, o: { id: String(op.id), ...(op.nome ? { name: String(op.nome) } : {}) }, v: (Array.isArray(op.valores) ? op.valores : []).map((x: any) => ({ id: String(x.id), name: String(x.nome) })) });
+      const ue = r.productOptionUpdate.userErrors; if (ue.length) return resp(422, { erro: ue.map((x: any) => x.message).join("; ") });
+      return resp(200, { ok: true });
+    }
     if (Array.isArray(b.limpar)) {
       // Limpeza: apaga fotos repetidas (ids da lista que existem no produto e não estão ligadas a uma versão); { primeira?: id } põe essa em 1º lugar
       const ligadas = new Set(versoes(p0).map((v: any) => v.foto).filter(Boolean));
