@@ -60,7 +60,16 @@ Deno.serve(async (req) => {
         // ICMS sai na linha "Impostos" do Shopify; aqui só frete + seguro (+ imposto de importação, quando houver).
         const linha = x.brl.frete_seguro + x.brl.ii;
         const nm = (x.frete_gratis ? "Frete grátis" : "Entrega") + (x.brl.ii > 0 ? " + imposto de importação" : "") + ` · ${prazo}`;
-        const ds = x.brl.ii > 0 ? `${fr} · Imposto de importação ${fmt(x.brl.ii)}` : `${fr} · ICMS na linha de impostos`;
+        // PRC: o checkout tem de mostrar imposto de importação, ICMS, CBS, IBS e o câmbio praticado (exigência RFB · 03/11/2026).
+        const pc = (v: number) => String(v).replace(".", ",") + "%";
+        const ds = [
+          fr,
+          `Imposto de importação ${fmt(x.brl.ii)}` + (x.brl.ii > 0 ? "" : ` (isento até US$ ${x.cfg.ii_isencao_usd})`),
+          `ICMS ${pc(x.aliquota_icms)} ${fmt(x.brl.icms)} (em Tributos)`,
+          `CBS ${fmt(x.brl.cbs)}` + (x.cfg.cbs_pct ? ` (${pc(x.cfg.cbs_pct)})` : ""),
+          `IBS ${fmt(x.brl.ibs)}` + (x.cfg.ibs_pct ? ` (${pc(x.cfg.ibs_pct)})` : ""),
+          `Câmbio US$ 1 = R$ ${Number(x.cambio).toFixed(2).replace(".", ",")}`,
+        ].join(" · ");
         return json(200, { rates: [{ service_name: nm, service_code: "OMG_INTL", total_price: String(Math.round(linha * 100)), currency: "BRL", description: ds }] });
       }
       const nome = `${x.frete_gratis ? "Frete grátis" : "Entrega"} + impostos · ${prazo}`;

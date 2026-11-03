@@ -22,6 +22,9 @@ const CFG0 = {
   // true = o ICMS é cobrado pelo próprio Shopify (Impostos, alíquota por estado, também sobre o frete);
   // a linha de entrega leva só frete + seguro + imposto de importação.
   icms_shopify: false,
+  // CBS e IBS (Reforma Tributária) — mostrados no checkout por exigência do PRC. Alíquota em % sobre (VA + II).
+  // 0 = sem cobrança. Mudar na config 'frete_omg' (cbs_pct, ibs_pct) quando houver cobrança.
+  cbs_pct: 0, ibs_pct: 0,
 };
 let CACHE: { t: number; cfg: typeof CFG0; mile: any } | null = null;
 
@@ -111,9 +114,9 @@ export async function calcular(cepTxt: string, ufInf: string | null, itens: { gr
     peso_g: peso, cambio: usd, aliquota_icms: aliq,
     frete_gratis: gratis, frete_gratis_min: gMin, frete_gratis_falta: gMin > 0 && !gratis ? r2(gMin - mercBRL) : 0,
     usd: { mercadoria: r2(merc), frete_internacional: gratis ? 0 : r2(intl * fator), frete_nacional: gratis ? 0 : r2(nacional * fator), seguro: r2(seguro), frete_seguro: r2(frete), valor_aduaneiro: r2(va), ii: r2(ii), icms: r2(icms), total_linha: r2(linhaUSD) },
-    brl: { mercadoria: r2(mercBRL), frete_seguro: B(frete), ii: B(ii), icms: B(icms), total_linha: B(linhaUSD), total_pedido: r2(mercBRL + B(linhaUSD)) },
+    brl: { mercadoria: r2(mercBRL), frete_seguro: B(frete), ii: B(ii), icms: B(icms), total_linha: B(linhaUSD), total_pedido: r2(mercBRL + B(linhaUSD)), cbs: B((va + ii) * (Number(cfg.cbs_pct) || 0) / 100), ibs: B((va + ii) * (Number(cfg.ibs_pct) || 0) / 100) },
     origem_nacional: origemNac,
-    cfg: { nome: cfg.nome, prazo: cfg.prazo, detalhar: cfg.detalhar, frete_fator: fator, icms_shopify: !!cfg.icms_shopify },
+    cfg: { nome: cfg.nome, prazo: cfg.prazo, detalhar: cfg.detalhar, frete_fator: fator, icms_shopify: !!cfg.icms_shopify, cbs_pct: Number(cfg.cbs_pct) || 0, ibs_pct: Number(cfg.ibs_pct) || 0, ii_isencao_usd: Number(cfg.ii_isencao_usd) },
   };
 }
 
