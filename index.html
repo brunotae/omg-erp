@@ -291,6 +291,7 @@ pre.code{background:var(--surface2);border:1px solid var(--line);border-radius:v
 .items{grid-column:1/-1;display:flex;flex-direction:column;gap:8px}
 .it-prod{position:relative;display:block;min-width:0}.it-prod input{width:100%;padding-right:30px}.it-site{position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:15px;font-weight:700;color:var(--accent,#c2185b);text-decoration:none;padding:2px 5px;border-radius:6px}.it-site:hover{background:rgba(194,24,91,.1)}
 .va-lang{display:inline-flex;gap:4px;margin-right:8px}.va-lang .btn.hot{background:var(--ink,#222);color:#fff;border-color:transparent}
+.inf-cp{cursor:pointer;border-bottom:1px dashed currentColor}.inf-cp:hover{color:var(--accent,#B83D66)}
 .items .row{display:grid;grid-template-columns:minmax(0,2.2fr) 64px minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) 32px;gap:6px;align-items:center}
 .items .row.h{font-size:11px;font-weight:500;color:var(--muted)}
 .items input{padding:7px 9px}
@@ -907,7 +908,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v84 · 03/11/2026';
+const VERSAO='v85 · 03/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -3042,7 +3043,7 @@ function lkTabInf(A,I){
    const aberto=as.filter(a=>lkComissao(a).st==='Em aberto').reduce((s,a)=>s+lkComissao(a).valor,0);
    const pago=S.data.comissoes_fechamentos.filter(f=>f.influenciador===i.id&&f.status==='Pago').reduce((s,f)=>s+n(f.total),0);
    const lp=ls.find(l=>l.slug===i.codigo)||ls[0];
-   return '<tr data-edit="influenciadores" data-id="'+esc(i.id)+'"><td><b>'+esc(i.nome)+'</b><small>'+esc([i.arroba,i.email].filter(Boolean).join(' · ')||'sem e-mail: não entra no painel')+'</small></td>'+
+   return '<tr data-edit="influenciadores" data-id="'+esc(i.id)+'"><td>'+(lp?'<b class="inf-cp" data-copy="'+esc(lkCurto(lp))+'" title="Clique para copiar o link">'+esc(i.nome)+' ⧉</b>':'<b>'+esc(i.nome)+'</b>')+'<small>'+esc([i.arroba,i.senha?'senha '+i.senha:'sem senha do painel'].filter(Boolean).join(' · '))+'</small></td>'+
     '<td><b class="num">'+esc(i.cupom||'sem cupom')+'</b><small>'+(lp?esc('/a/'+lp.slug)+' '+lkCopia(lkCurto(lp),'Copiar'):'sem link')+'</small></td>'+
     '<td class="r num">'+n(i.comissao_pct)+'%</td><td class="r num">'+vnum(cl.c)+'<small>'+vnum(cl.v)+' pessoas</small></td><td class="r num">'+as.length+'</td>'+
     '<td class="r num">'+(cl.v?pct(as.filter(a=>a.via==='link').length/cl.v):'—')+'</td><td class="r num">'+brl(as.reduce((s,a)=>s+n(a.base),0))+'</td>'+
@@ -3095,7 +3096,8 @@ async function lkGarantirCurto(l){try{await chamarShop({acao:'link_curto',slug:l
 FORMS.influenciadores={title:['Novo influenciador','Influenciador'],col:'influenciadores',secs:[
  ['Quem é',[{k:'nome',l:'Nome',req:1},{k:'arroba',l:'@ (Instagram / TikTok)',hint:'Ex.: @jenikang. O código do link sai daqui sozinho.'},
   {k:'rede',l:'Onde ele mais posta',t:'select',o:['instagram','tiktok','youtube','kwai','facebook'],hint:'Vira a origem do link principal dele.'},
-  {k:'email',l:'E-mail (login do painel)',hint:'Ele cria a senha no painel com este e-mail.'},{k:'telefone',l:'WhatsApp'}]],
+  {k:'email',l:'E-mail (opcional)'},{k:'telefone',l:'WhatsApp'},
+  {k:'senha',l:'Senha do painel das criadoras',hint:'Entra em ohmygirl.com.br/pages/criadoras com o código do link + esta senha. Formato simples: omg + 4 números.'}]],
  ['Comissão e cupom',[{k:'comissao_pct',l:'Comissão (%)',t:'number',req:1,fav:'10,15,20',un:'%',hint:'Sobre os produtos, já com desconto, sem frete e sem imposto.'},
   {k:'cupom_novo',l:'Cupom de desconto para os seguidores',t:'select',o:['Não criar','5%','10%','15%','20%'],hint:'Cria o cupom no site na hora (ex.: JENI10), 1 uso por cliente. Pedido com ele é do influenciador.'},
   {k:'cupom',l:'Ou use um cupom que já existe',hint:'Código de um cupom já criado em Clientes e cupons.'},
@@ -3104,7 +3106,7 @@ FORMS.influenciadores={title:['Novo influenciador','Influenciador'],col:'influen
   {k:'ativo',l:'Ativo',t:'bool'},{k:'parceiro',l:'Parceiro no financeiro (opcional)',t:'parc',none:'— nenhum —',hint:'Para os pagamentos entrarem no extrato dele.'}]],
  ['Pagamento (opcional: o influenciador preenche no painel)',[{k:'pix_tipo',l:'Tipo da chave Pix',t:'select',o:['','CPF','CNPJ','E-mail','Celular','Chave aleatória']},{k:'pix_chave',l:'Chave Pix'},
   {k:'titular',l:'Titular da conta'},{k:'documento',l:'CPF ou CNPJ do titular'},{k:'banco',l:'Banco'},{k:'agencia',l:'Agência'},{k:'conta',l:'Conta'},{k:'obs',l:'Observações',t:'textarea',full:1}]]],
- def:()=>({ativo:true,comissao_pct:10,inicio:today(),rede:'instagram',cupom_novo:'10%'}),
+ def:()=>({ativo:true,comissao_pct:10,inicio:today(),rede:'instagram',cupom_novo:'10%',senha:'omg'+String(Math.floor(1000+Math.random()*9000))}),
  wire:(form,rec)=>{
   // código do link sai do @ (ou do nome) enquanto ninguém mexer nele à mão
   let mexeu=!!rec;
@@ -3923,7 +3925,7 @@ const COLS={
  cupons:['codigo','tipo','valor','publico','validade','limite','ativo','obs','nome_interno'],
  fornecedores:['codigo','nome','tipo','moeda','pais','contato','canal','obs'],
  metricas:['semana','visitas','carrinhos','checkouts','pedidos','fonte'],
- influenciadores:['codigo','nome','arroba','email','telefone','cupom','comissao_pct','ativo','inicio','fim','pix_tipo','pix_chave','titular','documento','banco','agencia','conta','parceiro','obs'],
+ influenciadores:['codigo','nome','arroba','email','telefone','senha','cupom','comissao_pct','ativo','inicio','fim','pix_tipo','pix_chave','titular','documento','banco','agencia','conta','parceiro','obs'],
  links_utm:['slug','nome','influenciador','destino','utm_source','utm_medium','utm_campaign','utm_content','utm_term','ativo','inicio','fim','custo','obs'],
  comissoes_fechamentos:['status','pago_em','forma','obs'],
  link_cliques_dia:[],
@@ -4219,6 +4221,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v85','03/11/2026',['Links e influenciadores: clicar no nome da influenciadora copia o link dela (ohmygirl.com.br/a/código).','Painel das criadoras: cada uma entra em ohmygirl.com.br/pages/criadoras com o código + uma senha simples (omg + 4 números). A senha aparece embaixo do nome e se troca na ficha. Lá ela vê link e cupom para copiar, cliques, pedidos, valor vendido e a lista de pedidos, sem dado de cliente.']],
  ['v84','03/11/2026',['Instagram novo da OMG: @ohmygirl.com.br nas fichas e documentos gerados pelo ERP.']],
  ['v83','03/11/2026',['Clientes e cupons: o status dos cupons agora se atualiza sozinho com o Shopify ao abrir a tela (no máximo a cada 5 min). Antes, um cupom desativado direto no Shopify só mudava no ERP clicando em Trazer cupons do Shopify.']],
  ['v82','03/11/2026',['Visitas agora: corrigido o erro "Rate limited" do Shopify. As leituras agora vão uma de cada vez, o resultado fica guardado 1 minuto (Desde o início, 30 min) e, se o Shopify pedir pausa, a tela continua mostrando os últimos números.']],
