@@ -1,7 +1,7 @@
 {%- comment -%}
   Carimbo "sem imposto de importação até US$ 50" (Tae · 03/11/2026): fixo no canto superior direito, logo abaixo do cabeçalho.
   A cada 6 s cai carimbando (flash + estrelinhas), fica ~2,5 s e some. Repete 3 vezes na 1ª página da visita e 1 vez nas seguintes; depois desaparece. Clique abre a explicação (ICMS continua).
-  Também põe o selinho verde nos cartões de produto até R$ 240 (US$ 50 ≈ R$ 270 menos uma folga para o frete).
+  (O selinho verde nos cartões foi retirado a pedido do Tae em 03/11/2026.)
 {%- endcomment -%}
 <style>
   .omg-carimbo{position:fixed;right:max(16px,env(safe-area-inset-right,0px));top:var(--omg-selo-top,150px);width:118px;height:118px;z-index:45;cursor:pointer;border:0;background:none;padding:0;opacity:0;pointer-events:none;transform-origin:center;animation:omgCarimba 6s ease-in-out 1.5s infinite}
@@ -55,20 +55,5 @@
     pop.querySelector('button').onclick=fecha;document.body.appendChild(pop);s.classList.add('on-click')});
   document.addEventListener('click',function(e){if(pop&&!pop.contains(e.target))fecha()});
   document.addEventListener('keydown',function(e){if(e.key==='Escape')fecha()});
-  // selinho verde nos cartões até R$ 240
-  var LIM=240;
-  function preco(t){var m=String(t||'').replace(/\s/g,' ').match(/R\$\s*([\d.]+,\d{2})/);return m?parseFloat(m[1].replace(/\./g,'').replace(',','.')):null}
-  function marca(){
-    document.querySelectorAll('product-card, .omg-cartao').forEach(function(c){
-      if(c.dataset.omgImp) return;
-      var pr=c.querySelector('price, .price, [class*="price"], .omg-cartao__preco');var v=preco(pr?pr.textContent:c.textContent);
-      if(v==null) return; c.dataset.omgImp='1'; if(v>LIM) return;
-      var img=c.querySelector('.omg-cartao__img, .product-card__image, [class*="media"], a');if(!img) return;
-      if(getComputedStyle(img).position==='static') img.style.position='relative';
-      var t=document.createElement('span');t.className='omg-mini-imp';t.textContent='✓ Sem imposto de importação';img.appendChild(t);
-    });
-  }
-  marca(); setTimeout(marca,1500); setTimeout(marca,4000);
-  new MutationObserver(function(){clearTimeout(window.__omgImpT);window.__omgImpT=setTimeout(marca,300)}).observe(document.body,{childList:true,subtree:true});
 })();
 </script>
