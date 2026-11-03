@@ -289,6 +289,7 @@ pre.code{background:var(--surface2);border:1px solid var(--line);border-radius:v
 @media (max-width:780px){.vlist label{grid-template-columns:20px minmax(0,1fr)}.vlist label>span{grid-column:2}.anx-it{grid-template-columns:minmax(0,1fr) auto 32px}.anx-it .tag{grid-column:1/-1;justify-self:start}}
 .chk{display:flex;align-items:center;gap:8px;font-size:13px}
 .items{grid-column:1/-1;display:flex;flex-direction:column;gap:8px}
+.it-prod{position:relative;display:block;min-width:0}.it-prod input{width:100%;padding-right:30px}.it-site{position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:15px;font-weight:700;color:var(--accent,#c2185b);text-decoration:none;padding:2px 5px;border-radius:6px}.it-site:hover{background:rgba(194,24,91,.1)}
 .items .row{display:grid;grid-template-columns:minmax(0,2.2fr) 64px minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) 32px;gap:6px;align-items:center}
 .items .row.h{font-size:11px;font-weight:500;color:var(--muted)}
 .items input{padding:7px 9px}
@@ -905,7 +906,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v79 · 02/11/2026';
+const VERSAO='v80 · 02/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -3619,8 +3620,12 @@ function openForm(key,id){
 }
 
 /* ---------- formulário de venda ---------- */
-function itemRow(i,ro){i=i||{};const r=ro?' readonly':'';
- return '<div class="row it"><input aria-label="Produto" list="dl-sku" data-k="produto" value="'+esc(i.produto||'')+'" placeholder="SKU · produto"'+r+'><input aria-label="Qtd" type="number" step="1" min="0" data-k="qtd" value="'+esc(i.qtd??1)+'"'+r+'><input aria-label="Preço unitário R$" type="number" step="any" data-k="preco" value="'+esc(i.preco??'')+'" placeholder="R$"'+r+'><input class="kr" aria-label="Preço La Belle ₩" type="number" step="any" data-k="custoLB" value="'+esc(i.custoLB??'')+'" placeholder="₩ La Belle"'+r+'><input class="kr" aria-label="Custo fábrica ₩" type="number" step="any" data-k="custoFab" value="'+esc(i.custoFab??'')+'" placeholder="₩ fábrica"'+r+'>'+(ro?'<span></span>':'<button class="iconbtn" type="button" data-rmitem aria-label="Remover item"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>')+'</div>';
+function itemLink(txt){const t=String(txt||'').trim();if(!t)return '';const sku=t.split(' · ')[0].trim();
+ const p=S.data.produtos.find(p=>p.sku===sku)||S.data.produtos.find(p=>(p.sku+' · '+p.nome)===t);
+ if(p&&p.shopify_variant_id)return 'https://ohmygirl.com.br/variants/'+p.shopify_variant_id;
+ const nome=t.includes(' · ')?t.split(' · ').slice(1).join(' · '):t;return 'https://ohmygirl.com.br/search?q='+encodeURIComponent(nome)}
+function itemRow(i,ro){i=i||{};const r=ro?' readonly':'';const u=itemLink(i.produto);
+ return '<div class="row it"><span class="it-prod"><input aria-label="Produto" list="dl-sku" data-k="produto" value="'+esc(i.produto||'')+'" placeholder="SKU · produto"'+r+'><a class="it-site" data-itlink href="'+esc(u||'#')+'" target="_blank" rel="noopener" title="Abrir a página do produto no site"'+(u?'':' hidden')+'>↗</a></span><input aria-label="Qtd" type="number" step="1" min="0" data-k="qtd" value="'+esc(i.qtd??1)+'"'+r+'><input aria-label="Preço unitário R$" type="number" step="any" data-k="preco" value="'+esc(i.preco??'')+'" placeholder="R$"'+r+'><input class="kr" aria-label="Preço La Belle ₩" type="number" step="any" data-k="custoLB" value="'+esc(i.custoLB??'')+'" placeholder="₩ La Belle"'+r+'><input class="kr" aria-label="Custo fábrica ₩" type="number" step="any" data-k="custoFab" value="'+esc(i.custoFab??'')+'" placeholder="₩ fábrica"'+r+'>'+(ro?'<span></span>':'<button class="iconbtn" type="button" data-rmitem aria-label="Remover item"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>')+'</div>';
 }
 function openVenda(id){
  const rec=id?S.data.vendas.find(r=>r.id===id):null, ro=!can();
@@ -3655,6 +3660,7 @@ function openVenda(id){
  upd();
  form.addEventListener('input',ev=>{
   const t=ev.target;
+  if(t.dataset.k==='produto'){const a=t.parentNode.querySelector('[data-itlink]');if(a){const u=itemLink(t.value);a.hidden=!u;a.href=u||'#'}}
   if(t.dataset.k==='produto'){const p=S.data.produtos.find(p=>(p.sku+' · '+p.nome)===t.value);if(p){const r=t.closest('.it');const set=(k,val)=>{const el=r.querySelector('[data-k="'+k+'"]');if(el&&el.value===''&&has(val))el.value=val};set('preco',p.preco);set('custoLB',p.custoLB);set('custoFab',p.custoFab)}}
   if(t.dataset.step!==undefined)t.closest('.stepg').classList.toggle('on',!!t.value);
   upd();
@@ -4176,6 +4182,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v80','02/11/2026',['Vendas: cada item da venda tem uma setinha ↗ no fim do campo Produto. Clique para abrir a página do produto no site, em outra aba.']],
  ['v79','02/11/2026',['Pricing com frete embutido (Guia v3.3): o site agora cobra só 35% do frete; os outros 65% do frete de SP entram no preço do produto. O preço sugerido já sai assim, tanto com concorrente no Brasil quanto pelo exterior.','Preço que passaria de R$ 269,90 só por causa do frete embutido fica em R$ 269,90, com aviso, para manter a isenção de US$ 50.','Coluna Cliente SP paga usa o frete novo (35% + seguro). Frete cotado continua guardado cheio; Regras do Pricing explicam a divisão.']],
  ['v78','02/11/2026',['Cupons: a coluna Público virou Nome interno, para identificar de quem é cada cupom (ex.: Neiva, Jean IMP). Digite direto na tabela; salva ao sair do campo. Sugere nomes já usados e as influenciadoras.','O Nome interno de quem cria o cupom fica salvo; cupom de influenciadora já vem com o nome dela. "Trazer cupons do Shopify" preenche os que estão sem nome com o nome do Shopify. Quem pode usar continua na ficha do cupom.']],
  ['v77','02/11/2026',['Visitas agora: o horário da última atualização fica embaixo do botão Atualizar.']],
