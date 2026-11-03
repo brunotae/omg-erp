@@ -64,7 +64,7 @@ Deno.serve(async (req) => {
         const pc = (v: number) => String(v).replace(".", ",") + "%";
         const ds = [
           fr,
-          `Imposto de importação ${fmt(x.brl.ii)}` + (x.brl.ii > 0 ? "" : ` (isento até US$ ${x.cfg.ii_isencao_usd})`),
+          `Imposto de importação ${fmt(x.brl.ii)}`,
           `ICMS ${pc(x.aliquota_icms)} ${fmt(x.brl.icms)} (em Tributos)`,
           `CBS ${fmt(x.brl.cbs)}` + (x.cfg.cbs_pct ? ` (${pc(x.cfg.cbs_pct)})` : ""),
           `IBS ${fmt(x.brl.ibs)}` + (x.cfg.ibs_pct ? ` (${pc(x.cfg.ibs_pct)})` : ""),
