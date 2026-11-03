@@ -69,7 +69,9 @@ Deno.serve(async (req) => {
           `CBS ${fmt(x.brl.cbs)}` + (x.cfg.cbs_pct ? ` (${pc(x.cfg.cbs_pct)})` : ""),
           `IBS ${fmt(x.brl.ibs)}` + (x.cfg.ibs_pct ? ` (${pc(x.cfg.ibs_pct)})` : ""),
           `Câmbio US$ 1 = R$ ${Number(x.cambio).toFixed(2).replace(".", ",")}`,
-        ].join(" · ");
+        ].join(" · ") +
+          // Aviso obrigatório no checkout (Rafael · 03/11/2026, texto que a Shipsmart mostrava).
+          " — Atenção: Você não terá despesas adicionais. Os valores de frete e seguro, assim como as demais despesas, estão inclusas no preço final.";
         return json(200, { rates: [{ service_name: nm, service_code: "OMG_INTL", total_price: String(Math.round(linha * 100)), currency: "BRL", description: ds }] });
       }
       const nome = `${x.frete_gratis ? "Frete grátis" : "Entrega"} + impostos · ${prazo}`;
