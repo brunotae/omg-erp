@@ -907,7 +907,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v82 · 03/11/2026';
+const VERSAO='v83 · 03/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -2464,6 +2464,8 @@ function cpLista(){const q=String(CP.q||'').trim().toLowerCase(),qd=q.replace(/\
   if(q){const t=[c.codigo,c.nome_interno,c.publico,c.obs].join(' ').toLowerCase();if(!t.includes(q)&&!(qd.length>=3&&t.replace(/\D/g,'').includes(qd)))return false}
   return true}).sort((a,b)=>(cpAtivo(b)-cpAtivo(a))||String(b.criado_em||'').localeCompare(String(a.criado_em||''))||String(a.codigo).localeCompare(String(b.codigo)))}
 VIEWFN.clientes=()=>{
+ // v83: status dos cupons sincroniza sozinho com o Shopify ao abrir a tela (no máximo a cada 5 min)
+ if(S.db&&can()&&Date.now()-CP_SYNC>5*60e3)setTimeout(()=>cuponsImportar(null,true),0);
  const cl=clientes().filter(match), fiel=cl.filter(c=>c.n>=n(S.cfg.fielMin));
  const uso=cupomUsos;
  const cpL=cpLista(),ct=f=>S.data.cupons.filter(f).length;
@@ -3192,8 +3194,9 @@ FORMS.cupons.pre=rec=>{
    :'<p class="muted" style="margin:0">Nenhum pedido usou este cupom ainda.</p>')+'</div></div>'+
   '<div class="sec"><span class="label">Histórico do cupom</span><div style="grid-column:1/-1;min-width:0" id="cp-hist"><p class="muted" style="margin:0">Carregando…</p></div></div>';
 };
-async function cuponsImportar(btn){
- btn.disabled=true;const t=btn.textContent;btn.textContent='Lendo o Shopify…';
+let CP_SYNC=0;
+async function cuponsImportar(btn,quieto){
+ CP_SYNC=Date.now();btn=btn||{};btn.disabled=true;const t=btn.textContent;btn.textContent='Lendo o Shopify…';
  try{
   const d=await chamarShop({acao:'cupons_listar'});const lista=d.cupons||[];let novos=0,atual=0;
   for(const c of lista){
@@ -3206,8 +3209,8 @@ async function cuponsImportar(btn){
     obs:'Trazido do Shopify'+(c.titulo&&c.titulo!==c.codigo?' ("'+c.titulo+'")':'')+' · '+resumo+(c.minimo?' a partir de '+brl(c.minimo):'')+(c.uma_vez?' · 1 vez por cliente':'')+' · usos no Shopify: '+(c.usos??0)+' · Shopify: '+c.id});
    const {error}=await sb.from('historico').insert({tabela:'cupons',acao:'importado',registro:cod,quem:S.email});novos++;
   }
-  toast(lista.length+' cupons no Shopify · '+novos+' novos no ERP · '+atual+' atualizados');await loadAll();
- }catch(e){alert('Não deu para trazer os cupons: '+e.message)}
+  if(!quieto||novos||atual){toast(quieto?'Cupons sincronizados com o site · '+novos+' novos · '+atual+' atualizados':lista.length+' cupons no Shopify · '+novos+' novos no ERP · '+atual+' atualizados');await loadAll()}
+ }catch(e){if(!quieto)alert('Não deu para trazer os cupons: '+e.message)}
  btn.disabled=false;btn.textContent=t;
 }
 document.addEventListener('click',e=>{const b=e.target.closest('#cupom-imp');if(b)cuponsImportar(b)});
@@ -4216,6 +4219,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v83','03/11/2026',['Clientes e cupons: o status dos cupons agora se atualiza sozinho com o Shopify ao abrir a tela (no máximo a cada 5 min). Antes, um cupom desativado direto no Shopify só mudava no ERP clicando em Trazer cupons do Shopify.']],
  ['v82','03/11/2026',['Visitas agora: corrigido o erro "Rate limited" do Shopify. As leituras agora vão uma de cada vez, o resultado fica guardado 1 minuto (Desde o início, 30 min) e, se o Shopify pedir pausa, a tela continua mostrando os últimos números.']],
  ['v81','03/11/2026',['Visitas agora: novo quadro Desde o início (visitas e pessoas desde o primeiro dia com visitas, com gráfico por dia).','Botão PT / EN no topo da tela: mostra a página inteira em inglês, bom para tirar print e mandar para parceiros. A escolha fica salva neste aparelho. Em inglês, links de parceiros internos aparecem só como "partner".']],
  ['v80','02/11/2026',['Vendas: cada item da venda tem uma setinha ↗ no fim do campo Produto. Clique para abrir a página do produto no site, em outra aba.']],
