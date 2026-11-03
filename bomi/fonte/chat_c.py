@@ -5,7 +5,7 @@ C = {
 "entrega-02": ("Porque vem da Coreia do Sul ✈️ O pedido é separado no nosso estoque em Seul, passa pela alfândega de lá, voa até aqui, é liberado na Receita e vai pra sua casa. Em troca, preço menor e muito mais variedade 💗",
   "É uma viagem longa: Seul → alfândega coreana → voo → Receita no Brasil → sua casa. Por isso o prazo de até 15 dias úteis.",
   ["pq demora tanto", "15 dias é muito", "nao tem mais rapido", "entrega expressa"]),
-"entrega-03": ("O frete é calculado no checkout pelo seu CEP 😊 Frete grátis a gente não tem, mas sempre rolam cupons e promoções: segue a @omg_ohmygirlbr pra não perder!",
+"entrega-03": ("O frete é calculado no checkout pelo seu CEP 😊 Frete grátis a gente não tem, mas sempre rolam cupons e promoções: segue a @ohmygirl.com.br pra não perder!",
   "Você vê o frete no checkout, pelo CEP. Não temos frete grátis, mas sempre tem cupom por aí 😉",
   ["valor do frete", "frete gratis", "quanto é o frete", "frete caro"]),
 "entrega-04": ("Aqui no Brasil quem entrega é a nossa parceira de logística (hoje, a Mile Express). O nome certinho aparece no seu rastreio 😊",

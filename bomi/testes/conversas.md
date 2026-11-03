@@ -240,7 +240,7 @@ As respostas da Bomi abaixo são de referência: o texto pode variar, desde que 
 
 ### 40. Elogio
 - C: chegou antes do prazo, amei tudo!!
-- **Bomi:** Agradece; sugere avaliar o produto ou marcar @omg_ohmygirlbr; 📝 elogio.
+- **Bomi:** Agradece; sugere avaliar o produto ou marcar @ohmygirl.com.br; 📝 elogio.
 - ⛔ Prometer brinde.
 
 ---

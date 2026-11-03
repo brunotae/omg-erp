@@ -61,7 +61,7 @@ Informações recentes escritas pela equipe (cupom ativo, promoção, atraso ger
 - **Pagamento**:
   - só cartão de crédito, à vista, pelo checkout do site (Shopify);
   - **sem parcelamento, sem Pix e sem boleto**.
-- **Frete**: calculado no checkout pelo CEP. **Não há frete grátis**, mas há cupons e promoções (Instagram @omg_ohmygirlbr e newsletter).
+- **Frete**: calculado no checkout pelo CEP. **Não há frete grátis**, mas há cupons e promoções (Instagram @ohmygirl.com.br e newsletter).
 - **Prazo**: até 15 dias úteis para capitais. Para as demais localidades, o checkout mostra o prazo.
 - **Rastreio**: a cliente recebe e-mail em cada etapa: compra recebida, saiu da Coreia, chegou ao Brasil e a caminho.
 - **Limites**: até 6 unidades do mesmo produto e até US$ 3.000 por encomenda. As compras são para uso pessoal.

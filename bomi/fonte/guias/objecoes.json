@@ -19,7 +19,7 @@
     "resposta_chat_alt": "Sobre outras lojas eu não consigo opinar, tá? O que te garanto é: original do nosso estoque oficial, imposto já calculado no checkout e 7 dias pra desistir depois de receber.",
     "escalar_humano": false,
     "quando_escalar": "",
-    "notas_internas": "Nunca falar mal de outras lojas ou marketplaces; não citar nomes de concorrentes como exemplo negativo. Argumentos verdadeiros: (1) produtos originais, do nosso estoque oficial na Coreia do Sul, abastecido por marcas e distribuidores oficiais; (2) o preço final mostrado no checkout já inclui Imposto de Importação e ICMS, sem cobrança na entrega; (3) direito de arrependimento em 7 dias após receber, com frete de devolução pago pela OMG e reembolso total, inclusive impostos; (4) rastreio por e-mail. Se a cliente insistir que outro lugar é mais barato, dizer apenas que não dá para garantir a origem de tudo que se vende por aí e que preço muito abaixo do mercado merece atenção. Não prometer cobertura de preço nem inventar desconto; pode lembrar dos cupons do @omg_ohmygirlbr e da newsletter.",
+    "notas_internas": "Nunca falar mal de outras lojas ou marketplaces; não citar nomes de concorrentes como exemplo negativo. Argumentos verdadeiros: (1) produtos originais, do nosso estoque oficial na Coreia do Sul, abastecido por marcas e distribuidores oficiais; (2) o preço final mostrado no checkout já inclui Imposto de Importação e ICMS, sem cobrança na entrega; (3) direito de arrependimento em 7 dias após receber, com frete de devolução pago pela OMG e reembolso total, inclusive impostos; (4) rastreio por e-mail. Se a cliente insistir que outro lugar é mais barato, dizer apenas que não dá para garantir a origem de tudo que se vende por aí e que preço muito abaixo do mercado merece atenção. Não prometer cobertura de preço nem inventar desconto; pode lembrar dos cupons do @ohmygirl.com.br e da newsletter.",
     "links": []
   },
   {
@@ -62,10 +62,10 @@
       "compensa pagar o imposto"
     ],
     "resposta_chat": "Depende do que você procura 😊 Aqui é original, tem muita variedade e o total com imposto aparece antes de pagar. Quer que eu procure opções no seu orçamento?",
-    "resposta_chat_alt": "Super justo pensar nisso! O checkout mostra o valor final com imposto antes de você pagar, sem compromisso. E sempre rola cupom no @omg_ohmygirlbr 💗",
+    "resposta_chat_alt": "Super justo pensar nisso! O checkout mostra o valor final com imposto antes de você pagar, sem compromisso. E sempre rola cupom no @ohmygirl.com.br 💗",
     "escalar_humano": false,
     "quando_escalar": "",
-    "notas_internas": "Resposta honesta, sem pressão: a decisão é da cliente. Pontos reais: produto original do nosso estoque oficial na Coreia do Sul; variedade grande de marcas; o total (produtos + frete + Imposto de Importação + ICMS) aparece no checkout antes do pagamento, então ela pode montar o carrinho e ver o valor sem compromisso. Exemplo ilustrativo da Central de Ajuda (SP, câmbio R$ 5,40): compra de R$ 200 = US$ 37,04, Imposto de Importação R$ 0, ICMS 17% por dentro = R$ 40,96, total R$ 240,96. O valor exato é sempre o do checkout. Pode mencionar cupons (@omg_ohmygirlbr e newsletter), sem inventar códigos ou percentuais.",
+    "notas_internas": "Resposta honesta, sem pressão: a decisão é da cliente. Pontos reais: produto original do nosso estoque oficial na Coreia do Sul; variedade grande de marcas; o total (produtos + frete + Imposto de Importação + ICMS) aparece no checkout antes do pagamento, então ela pode montar o carrinho e ver o valor sem compromisso. Exemplo ilustrativo da Central de Ajuda (SP, câmbio R$ 5,40): compra de R$ 200 = US$ 37,04, Imposto de Importação R$ 0, ICMS 17% por dentro = R$ 40,96, total R$ 240,96. O valor exato é sempre o do checkout. Pode mencionar cupons (@ohmygirl.com.br e newsletter), sem inventar códigos ou percentuais.",
     "links": []
   },
   {
@@ -154,10 +154,10 @@
       "de onde vcs sao"
     ],
     "resposta_chat": "Prazer! 💗 A OMG é uma loja online de cosméticos coreanos originais, que saem do nosso estoque oficial na Coreia direto pro Brasil, com imposto já no checkout. Quer conhecer alguma marca?",
-    "resposta_chat_alt": "Somos a OMG (Oh My Girl): K-beauty original, da Coreia pra sua casa. Dá uma olhada no nosso Instagram @omg_ohmygirlbr pra conhecer a gente!",
+    "resposta_chat_alt": "Somos a OMG (Oh My Girl): K-beauty original, da Coreia pra sua casa. Dá uma olhada no nosso Instagram @ohmygirl.com.br pra conhecer a gente!",
     "escalar_humano": false,
     "quando_escalar": "",
-    "notas_internas": "A OMG (Oh My Girl) é uma loja online de cosméticos coreanos originais que vende para o Brasil pelo Programa Remessa Conforme. A vendedora é a MPOEMA INC, empresa dos EUA certificada pela Receita Federal. Os produtos saem do nosso estoque oficial na Coreia do Sul, abastecido por marcas e distribuidores oficiais. Site oficial: ohmygirl.com.br; Instagram: @omg_ohmygirlbr; atendimento humano pelo WhatsApp +55 11 99304-9122 e info.br@ohmygirl.com.br, seg–sex 9h–18h. Não inventar data de fundação, número de clientes ou avaliações.",
+    "notas_internas": "A OMG (Oh My Girl) é uma loja online de cosméticos coreanos originais que vende para o Brasil pelo Programa Remessa Conforme. A vendedora é a MPOEMA INC, empresa dos EUA certificada pela Receita Federal. Os produtos saem do nosso estoque oficial na Coreia do Sul, abastecido por marcas e distribuidores oficiais. Site oficial: ohmygirl.com.br; Instagram: @ohmygirl.com.br; atendimento humano pelo WhatsApp +55 11 99304-9122 e info.br@ohmygirl.com.br, seg–sex 9h–18h. Não inventar data de fundação, número de clientes ou avaliações.",
     "links": []
   },
   {
@@ -245,11 +245,11 @@
       "da pra fazer mais barato",
       "iguala o valor"
     ],
-    "resposta_chat": "A gente não faz cobertura de preço 😕 Mas sempre rola cupom e promoção: segue a @omg_ohmygirlbr e assina a newsletter no rodapé do site pra não perder! 💗",
-    "resposta_chat_alt": "Cobertura de preço a gente não tem. A dica é ficar de olho nos cupons do Instagram @omg_ohmygirlbr e da newsletter.",
+    "resposta_chat": "A gente não faz cobertura de preço 😕 Mas sempre rola cupom e promoção: segue a @ohmygirl.com.br e assina a newsletter no rodapé do site pra não perder! 💗",
+    "resposta_chat_alt": "Cobertura de preço a gente não tem. A dica é ficar de olho nos cupons do Instagram @ohmygirl.com.br e da newsletter.",
     "escalar_humano": false,
     "quando_escalar": "",
-    "notas_internas": "A OMG não faz cobertura nem igualação de preço de outras lojas. A Bomi não dá desconto pelo chat e nunca inventa cupom, código ou percentual. Caminho: cupons e promoções divulgados no Instagram @omg_ohmygirlbr, na newsletter (rodapé do site) e na página inicial. Não comentar o preço ou a confiabilidade da outra loja; no máximo lembrar que o produto da OMG é original, do nosso estoque oficial na Coreia do Sul, e que o preço já inclui impostos.",
+    "notas_internas": "A OMG não faz cobertura nem igualação de preço de outras lojas. A Bomi não dá desconto pelo chat e nunca inventa cupom, código ou percentual. Caminho: cupons e promoções divulgados no Instagram @ohmygirl.com.br, na newsletter (rodapé do site) e na página inicial. Não comentar o preço ou a confiabilidade da outra loja; no máximo lembrar que o produto da OMG é original, do nosso estoque oficial na Coreia do Sul, e que o preço já inclui impostos.",
     "links": []
   },
   {
@@ -337,11 +337,11 @@
       "parcela no cartao?",
       "so a vista?"
     ],
-    "resposta_chat": "Ainda não 😕 Por ser compra internacional pelo Remessa Conforme, o pagamento é no cartão de crédito à vista. Mas fica de olho nos cupons do @omg_ohmygirlbr pra economizar 💗",
+    "resposta_chat": "Ainda não 😕 Por ser compra internacional pelo Remessa Conforme, o pagamento é no cartão de crédito à vista. Mas fica de olho nos cupons do @ohmygirl.com.br pra economizar 💗",
     "resposta_chat_alt": "Hoje é só à vista no cartão de crédito. Parcelamento ainda não temos.",
     "escalar_humano": false,
     "quando_escalar": "",
-    "notas_internas": "Não há parcelamento: o pagamento é no cartão de crédito à vista, pelo checkout do Shopify. Talvez no futuro, com um parceiro de pagamento, mas sem data prometida. Não sugerir que o banco 'parcela depois' nem dar orientação sobre fatura; isso depende do banco da cliente. Pode lembrar dos cupons (@omg_ohmygirlbr e newsletter), sem inventar valores.",
+    "notas_internas": "Não há parcelamento: o pagamento é no cartão de crédito à vista, pelo checkout do Shopify. Talvez no futuro, com um parceiro de pagamento, mas sem data prometida. Não sugerir que o banco 'parcela depois' nem dar orientação sobre fatura; isso depende do banco da cliente. Pode lembrar dos cupons (@ohmygirl.com.br e newsletter), sem inventar valores.",
     "links": []
   },
   {

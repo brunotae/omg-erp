@@ -907,7 +907,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v83 · 03/11/2026';
+const VERSAO='v84 · 03/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -3562,7 +3562,7 @@ function acSheetHTML(r){
   '<div class="sh-sec"><h2>Resultado</h2><div class="sh-res">'+[['seg_antes','Seguidores início'],['seg_depois','Seguidores fim'],['comentarios','Participações']].map(([k,l])=>'<div><span class="sh-k">'+l+'</span><b class="num">'+(m[k]!=null&&m[k]!==''?Number(m[k]).toLocaleString('pt-BR'):'')+'</b></div>').join('')+
    '<div><span class="sh-k">Vendas</span><b class="num">'+(V?V.n+' · '+brl(V.total):(m.vendas!=null&&m.vendas!==''?Number(m.vendas).toLocaleString('pt-BR'):''))+'</b></div></div>'+
   (r.resultado?'<div class="sh-txt" style="margin-top:2mm">'+esc(r.resultado)+'</div>':'')+'</div>'+
-  '<div class="sh-foot"><span>OMG! Oh My Girl · @omg_ohmygirlbr</span><span>Gerada em '+fdate(today())+' · uso interno da equipe</span></div></div>';
+  '<div class="sh-foot"><span>OMG! Oh My Girl · @ohmygirl.com.br</span><span>Gerada em '+fdate(today())+' · uso interno da equipe</span></div></div>';
 }
 function acOpenSheet(id){
  const r=(S.data.acoes_mkt||[]).find(x=>x.id===id);if(!r)return;close();acCloseSheet();
@@ -4219,6 +4219,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v84','03/11/2026',['Instagram novo da OMG: @ohmygirl.com.br nas fichas e documentos gerados pelo ERP.']],
  ['v83','03/11/2026',['Clientes e cupons: o status dos cupons agora se atualiza sozinho com o Shopify ao abrir a tela (no máximo a cada 5 min). Antes, um cupom desativado direto no Shopify só mudava no ERP clicando em Trazer cupons do Shopify.']],
  ['v82','03/11/2026',['Visitas agora: corrigido o erro "Rate limited" do Shopify. As leituras agora vão uma de cada vez, o resultado fica guardado 1 minuto (Desde o início, 30 min) e, se o Shopify pedir pausa, a tela continua mostrando os últimos números.']],
  ['v81','03/11/2026',['Visitas agora: novo quadro Desde o início (visitas e pessoas desde o primeiro dia com visitas, com gráfico por dia).','Botão PT / EN no topo da tela: mostra a página inteira em inglês, bom para tirar print e mandar para parceiros. A escolha fica salva neste aparelho. Em inglês, links de parceiros internos aparecem só como "partner".']],
