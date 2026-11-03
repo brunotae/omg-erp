@@ -1,0 +1,29 @@
+{
+ "vtcosmetics.us": "HTTP Error 404: Not Found",
+ "www.vtcosmetics.us": "HTTP Error 404: Not Found",
+ "us.vtcosmetics.com": "<urlopen error [Errno -2] Name or service not known>",
+ "globalvt-cosmetics.com": {
+  "ok": 95,
+  "final": "https://globalvt-cosmetics.com/products.json?limit=250&page=1"
+ },
+ "cupons_home": [
+  "VTPDRNCREAM100",
+  "WELCOME10"
+ ],
+ "textos_off": [
+  "10% OFF",
+  "20% OFF",
+  "22% OFF",
+  "25% OFF",
+  "30% OFF",
+  "35% OFF",
+  "38% OFF",
+  "40% OFF",
+  "\\u003cp\\u003eGet 10% OFF your first purchase!\\u003c\\/p\\u003e\\u003cp\\u003eUse Code: W"
+ ],
+ "sephora_br": "HTTP Error 403: Forbidden",
+ "sephora_br2": "HTTP Error 410: Gone",
+ "ml_vt": "HTTP Error 403: Forbidden",
+ "mlhtml_vt": 41862,
+ "amz_vt": "HTTP Error 503: Service Unavailable"
+}
