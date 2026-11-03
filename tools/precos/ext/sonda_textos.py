@@ -10,7 +10,9 @@ for u in URLS:
         t = b.decode("utf-8", "replace")
         txt = html.unescape(re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " | ", re.sub(r"(?s)<(script|style)[^>]*>.*?</\1>", " ", t))))
         tr = sorted(set(m.group(0) for m in re.finditer(r"[^|]{0,120}(?i:\b\d{1,2}\s?% ?off\b|coupon|promo code|use code|code:|discount)[^|]{0,120}", txt)))
-        out[u] = tr[:40]
+        moeda = sorted(set(re.findall(r'"(?:currency|currencyCode|priceCurrency)"\s*:\s*"([A-Z]{3})"', t)))[:5]
+        cod = sorted(set(m.group(0) for m in re.finditer(r"[^|]{0,100}\b[A-Z]{4,}[0-9]{2,4}\b[^|]{0,100}", txt)))[:10]
+        out[u] = {"trechos": tr[:40], "moeda": moeda, "codigos": cod}
     except Exception as e: out[u] = str(e)[:200]
     time.sleep(3)
 os.makedirs("tools/precos/ext/dados", exist_ok=True)
