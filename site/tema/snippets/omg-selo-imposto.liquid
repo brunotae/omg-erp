@@ -1,0 +1,69 @@
+{%- comment -%}
+  Carimbo "sem imposto de importação até US$ 50" (Tae · 03/11/2026): fixo no canto superior direito, logo abaixo do cabeçalho.
+  A cada 6 s cai carimbando (flash + estrelinhas), fica ~2,5 s e some. Clique abre a explicação (ICMS continua).
+  Também põe o selinho verde nos cartões de produto até R$ 240 (US$ 50 ≈ R$ 270 menos uma folga para o frete).
+{%- endcomment -%}
+<style>
+  .omg-selo{position:fixed;right:max(16px,env(safe-area-inset-right,0px));top:var(--omg-selo-top,150px);width:118px;height:118px;z-index:45;cursor:pointer;border:0;background:none;padding:0;opacity:0;pointer-events:none;transform-origin:center;animation:omgCarimba 6s ease-in-out 1.5s infinite}
+  .omg-selo.on-click,.omg-selo:hover{animation-play-state:paused}
+  .omg-selo svg{width:100%;height:100%;display:block;filter:drop-shadow(0 6px 14px rgba(29,122,79,.35))}
+  .omg-selo__flash{position:absolute;inset:-14px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.95) 0 30%,rgba(255,236,170,.6) 50%,rgba(255,255,255,0) 70%);opacity:0;animation:omgSeloFlash 6s ease-out 1.5s infinite;pointer-events:none}
+  .omg-selo__b i{position:absolute;font-style:normal;opacity:0;line-height:1;text-shadow:0 0 6px rgba(255,210,74,.9);animation:omgSeloFaisca 6s ease-out 1.5s infinite}
+  .omg-selo__b i:nth-child(1){left:-10px;top:8px;color:#FFD24A;font-size:18px}
+  .omg-selo__b i:nth-child(2){right:-10px;top:-6px;color:#E0578A;font-size:14px;animation-delay:1.58s}
+  .omg-selo__b i:nth-child(3){right:-6px;bottom:4px;color:#2FA36B;font-size:16px;animation-delay:1.66s}
+  .omg-selo__b i:nth-child(4){left:40%;top:-16px;color:#FFD24A;font-size:12px;animation-delay:1.62s}
+  @keyframes omgCarimba{0%{opacity:0;pointer-events:none;transform:rotate(-24deg) scale(1.9)}6%{opacity:1;pointer-events:auto;transform:rotate(-8deg) scale(.9)}9%{transform:rotate(-12deg) scale(1.06)}12%{transform:rotate(-10deg) scale(1)}50%{opacity:1;pointer-events:auto;transform:rotate(-10deg) scale(1)}58%{opacity:0;pointer-events:none;transform:rotate(-10deg) scale(.85)}100%{opacity:0;pointer-events:none;transform:rotate(-10deg) scale(.85)}}
+  @keyframes omgSeloFlash{0%,5%{opacity:0;transform:scale(.6)}7%{opacity:1;transform:scale(1)}14%{opacity:0;transform:scale(1.3)}100%{opacity:0}}
+  @keyframes omgSeloFaisca{0%,6%{opacity:0;transform:scale(.3)}10%{opacity:1;transform:scale(1.2) rotate(45deg)}22%{opacity:0;transform:translateY(-12px) scale(.6) rotate(90deg)}100%{opacity:0}}
+  .omg-selo-pop{position:fixed;right:max(16px,env(safe-area-inset-right,0px));top:calc(var(--omg-selo-top,150px) + 126px);z-index:46;width:min(300px,calc(100vw - 32px));background:#fff;border:1px solid #CFE8DA;border-radius:14px;box-shadow:0 12px 30px rgba(29,122,79,.2);padding:14px 16px;font-size:13.5px;line-height:1.45;color:#2b1520}
+  .omg-selo-pop b{color:#1D7A4F}
+  .omg-selo-pop button{position:absolute;top:6px;right:8px;border:0;background:none;font-size:18px;color:#8a7a82;cursor:pointer}
+  .omg-mini-imp{position:absolute;left:8px;top:8px;z-index:3;background:#E3F3EA;color:#1D7A4F;font-size:11px;font-weight:700;border-radius:999px;padding:3px 8px;box-shadow:0 1px 4px rgba(29,122,79,.2);pointer-events:none;white-space:nowrap}
+  @media (max-width:749px){.omg-selo{width:92px;height:92px;right:10px}.omg-mini-imp{font-size:10px;padding:3px 6px}}
+  @media (prefers-reduced-motion:reduce){.omg-selo{animation:none;opacity:1;pointer-events:auto;transform:rotate(-10deg)}.omg-selo__flash,.omg-selo__b i{animation:none}}
+</style>
+<button type="button" class="omg-selo" id="omg-selo" aria-label="Sem imposto de importação em compras até US$ 50. Saiba mais">
+  <span class="omg-selo__flash"></span>
+  <svg viewBox="0 0 120 120" aria-hidden="true">
+    <defs><path id="omg-selo-c" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/></defs>
+    <circle cx="60" cy="60" r="57" fill="#fff"/>
+    <circle cx="60" cy="60" r="54" fill="none" stroke="#1D7A4F" stroke-width="3.5"/>
+    <circle cx="60" cy="60" r="36" fill="none" stroke="#1D7A4F" stroke-width="1.6" stroke-dasharray="3 3"/>
+    <text font-family="Inter,Arial,sans-serif" font-size="10.5" font-weight="800" fill="#1D7A4F" letter-spacing="1.3"><textPath href="#omg-selo-c">SEM IMPOSTO DE IMPORTAÇÃO ✦ ATÉ US$ 50 ✦</textPath></text>
+    <text x="60" y="54" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" font-weight="900" fill="#1D7A4F">LIBERADO</text>
+    <text x="60" y="71" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="15" font-weight="900" fill="#B83D66">US$ 50</text>
+    <text x="60" y="83" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="7.5" font-weight="700" fill="#1D7A4F">≈ R$ 270</text>
+  </svg>
+  <span class="omg-selo__b" aria-hidden="true"><i>✦</i><i>✦</i><i>✦</i><i>✧</i></span>
+</button>
+<script>
+(function(){
+  var s=document.getElementById('omg-selo'); if(!s) return; document.body.appendChild(s);
+  function topo(){var h=document.querySelector('#header-group, .header-section, header');var b=h?h.getBoundingClientRect().bottom:0;document.documentElement.style.setProperty('--omg-selo-top',Math.max(12,Math.round(b)+12)+'px')}
+  topo(); addEventListener('scroll',topo,{passive:true}); addEventListener('resize',topo); setTimeout(topo,800);
+  var pop=null;
+  function fecha(){if(pop){pop.remove();pop=null;s.classList.remove('on-click')}}
+  s.addEventListener('click',function(e){e.stopPropagation();if(pop){fecha();return}
+    pop=document.createElement('div');pop.className='omg-selo-pop';pop.setAttribute('role','dialog');
+    pop.innerHTML='<button type="button" aria-label="Fechar">×</button><b>Fim da taxa das blusinhas</b><br>Compras de até <b>US$ 50 (≈ R$ 270)</b> não pagam imposto de importação. O ICMS do seu estado continua e já aparece no preço final estimado, sem surpresa na entrega.';
+    pop.querySelector('button').onclick=fecha;document.body.appendChild(pop);s.classList.add('on-click')});
+  document.addEventListener('click',function(e){if(pop&&!pop.contains(e.target))fecha()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')fecha()});
+  // selinho verde nos cartões até R$ 240
+  var LIM=240;
+  function preco(t){var m=String(t||'').replace(/\s/g,' ').match(/R\$\s*([\d.]+,\d{2})/);return m?parseFloat(m[1].replace(/\./g,'').replace(',','.')):null}
+  function marca(){
+    document.querySelectorAll('product-card, .omg-cartao').forEach(function(c){
+      if(c.dataset.omgImp) return;
+      var pr=c.querySelector('price, .price, [class*="price"], .omg-cartao__preco');var v=preco(pr?pr.textContent:c.textContent);
+      if(v==null) return; c.dataset.omgImp='1'; if(v>LIM) return;
+      var img=c.querySelector('.omg-cartao__img, .product-card__image, [class*="media"], a');if(!img) return;
+      if(getComputedStyle(img).position==='static') img.style.position='relative';
+      var t=document.createElement('span');t.className='omg-mini-imp';t.textContent=innerWidth<750?'✓ Sem imposto':'✓ Sem imposto de importação';img.appendChild(t);
+    });
+  }
+  marca(); setTimeout(marca,1500); setTimeout(marca,4000);
+  new MutationObserver(function(){clearTimeout(window.__omgImpT);window.__omgImpT=setTimeout(marca,300)}).observe(document.body,{childList:true,subtree:true});
+})();
+</script>
