@@ -1,0 +1,15 @@
+{
+ "abib.us": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'abib.us'. (_ssl.c:1081)>",
+ "us.abib.com": "<urlopen error [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1081)>",
+ "abib.com": "HTTP Error 404: Not Found",
+ "www.abib.com": "HTTP Error 404: Not Found",
+ "global.abib.com": "<urlopen error [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1081)>",
+ "abibglobal.com": "<urlopen error [Errno -5] No address associated with hostname>",
+ "abib-us.com": "<urlopen error [Errno -2] Name or service not known>",
+ "abib.co.kr": "HTTP Error 404: Not Found",
+ "sephora_br": "HTTP Error 403: Forbidden",
+ "sephora_br2": "HTTP Error 410: Gone",
+ "ml_abib": "HTTP Error 403: Forbidden",
+ "mlhtml_abib": 41874,
+ "amz_abib": 2208
+}
