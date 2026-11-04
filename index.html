@@ -908,7 +908,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v88 · 03/11/2026';
+const VERSAO='v89 · 03/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1132,14 +1132,16 @@ const pmAwb=c=>String(c.awb||'').trim();
 const pmAwbNorm=a=>String(a||'').replace(/\D/g,'');
 // parametrizações que vão juntas no mesmo AWB
 function pmGrupo(c){const a=pmAwbNorm(c.awb);return a?(S.data.cortes||[]).filter(x=>pmAwbNorm(x.awb)===a).sort((x,y)=>String(x.numero).localeCompare(String(y.numero))):[c]}
+const pmSeq=c=>c.seq?String(c.seq).padStart(4,'0'):'—';
 const PM_COLS=[
- {k:'num',l:'Parametrização',g:c=>c.numero||'',cell:c=>'<b>'+esc(c.numero||'')+'</b>'},
+ {k:'num',l:'Parametrização',g:c=>pmSeq(c),cell:c=>'<b class="num" style="font-size:15px">'+esc(pmSeq(c))+'</b><small>'+esc(c.numero||'')+'</small>'},
  {k:'data',l:'Corte',t:'t',g:c=>spDate(Date.parse(c.corteEm)||c.createdAt||Date.now()),fmt:v=>fdate(v),cell:c=>esc(cutLabel(cutoffFor(Date.parse(c.corteEm)||c.createdAt)))},
- {k:'vendas',l:'Vendas',t:'n',g:c=>corteVendas(c).length,cell:c=>'<span class="num">'+corteVendas(c).length+'</span>',cls:'r'},
+ {k:'vendas',l:'Pedidos',t:'n',g:c=>corteVendas(c).length,cell:c=>'<span class="num">'+corteVendas(c).length+'</span>',cls:'r'},
  {k:'un',l:'Unidades',t:'n',g:c=>aggItems(corteVendas(c)).reduce((s,a)=>s+a.qtd,0),cell:c=>'<span class="num">'+aggItems(corteVendas(c)).reduce((s,a)=>s+a.qtd,0)+'</span>',cls:'r'},
  {k:'awb',l:'AWB',g:c=>pmAwb(c)||'(sem AWB)',cell:c=>pmAwb(c)?'<b class="num">'+esc(pmAwb(c))+'</b>':'<span class="muted">aguardando booking</span>'},
  {k:'junto',l:'Mesmo AWB',g:c=>pmGrupo(c).filter(x=>x.id!==c.id).map(x=>x.numero).join(', '),cell:c=>esc(pmGrupo(c).filter(x=>x.id!==c.id).map(x=>x.numero).join(', '))},
  {k:'env',l:'Enviada',g:c=>c.enviadoEm?'Enviada':'Pendente',cell:c=>stPill(c.enviadoEm?'Enviada':'Pendente')},
+ {k:'link',l:'Link Janice',nf:1,ns:1,g:c=>'',cell:c=>'<button class="btn sm pri" type="button" data-jlink="'+esc(c.id)+'" title="Gera ou atualiza a página e copia o link">Copiar link</button>'},
  {k:'compra',l:'Compra Janice',t:'n',g:c=>compraTotal(c).total,fmt:v=>krw(Number(v)),cell:c=>{const t=compraTotal(c);return t.base?'<b class="num">'+krw(t.total)+'</b><small>'+dm(t.total*n(S.cfg.krw))+'</small>':'<span class="muted">aguardando</span>'},cls:'r'}
 ];
 // código HS sugerido pelo tipo do produto (vale até alguém preencher o HS no catálogo)
@@ -2430,6 +2432,7 @@ async function rxPublicar(m){
  }catch(e){alert('Não deu para publicar '+m+': '+e.message)}
  RXUI.pub=false;render();
 }
+document.addEventListener('click',e=>{const b=e.target.closest('[data-jlink]');if(!b)return;e.preventDefault();e.stopImmediatePropagation();const rec=(S.data.cortes||[]).find(c=>c.id===b.dataset.jlink);if(rec)janiceLink(rec,b)},true);
 document.addEventListener('click',async e=>{const b=e.target.closest('[data-copy]');if(!b)return;e.preventDefault();e.stopImmediatePropagation();
  try{await navigator.clipboard.writeText(b.dataset.copy);toast('Copiado: '+b.dataset.copy.slice(0,70))}catch(_){prompt('Copie:',b.dataset.copy)}},true);
 document.addEventListener('click',async e=>{const t=e.target.closest('[data-lk-tab],#lk-fechar');if(!t)return;
@@ -3869,32 +3872,31 @@ async function janiceMontar(rec){
  const url=l=>l.prod&&l.prod.shopify_variant_id?'https://ohmygirl.com.br/variants/'+l.prod.shopify_variant_id:'';
  const opc=l=>{const x=l.prod&&info[String(l.prod.shopify_variant_id)];return x&&x.variante&&!/default/i.test(x.variante)?x.variante:''};
  const presente=v=>/^OMG-(7INFLU|IMP)/i.test(String(v.cupom||''));
- const css='*{box-sizing:border-box}body{font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;color:#2E1A24;margin:0;padding:24px;max-width:960px;margin:auto;font-size:13px;line-height:1.5}'+
-  'h1{font-size:24px;margin:0}h2{font-size:16px;margin:28px 0 10px;padding-bottom:6px;border-bottom:2px solid #B83D66}.pt{color:#8a7480;font-weight:400;font-size:.85em}'+
-  '.top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}.logo{font-weight:800;color:#B83D66;font-size:22px}'+
-  '.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}.kpi div{border:1px solid #EED9E2;border-radius:10px;padding:10px}.kpi b{display:block;font-size:20px}'+
-  'table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid #EED9E2;padding:8px 6px;text-align:left;vertical-align:middle}th{font-size:11px;color:#8a7480;background:#FBF5F7;white-space:nowrap}'+
-  '.r{text-align:right}.q{font-size:18px;font-weight:800;text-align:center;white-space:nowrap}.ck{width:22px;height:22px;border:2px solid #2E1A24;border-radius:4px;display:inline-block}'+
-  'img{width:64px;height:64px;object-fit:contain;border-radius:8px;background:#f5f5f5}.kr{font-weight:700;font-size:14px}.en{color:#8a7480;font-size:11.5px}a{color:#B83D66}'+
-  '.ped{border:1px solid #EED9E2;border-radius:12px;padding:12px 14px;margin:10px 0;break-inside:avoid}.ped h3{margin:0 0 6px;font-size:15px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}'+
-  '.tag{font-size:11px;background:#F8E3EB;color:#B83D66;border-radius:999px;padding:2px 8px;font-weight:700}.won{width:110px;border-bottom:1px solid #999;display:inline-block;height:18px}'+
-  '.nota{background:#FBF5F7;border-radius:10px;padding:12px 14px;margin-top:14px}.print{background:#B83D66;margin-top:8px;color:#fff;border:0;border-radius:999px;padding:10px 18px;font-weight:700;cursor:pointer}'+
-  '@media print{.print{display:none}body{padding:0}a{color:#2E1A24;text-decoration:none}h2{break-after:avoid}.pg{break-before:page}@page{size:A4;margin:12mm}}'+
-  '@media(max-width:640px){.kpi{grid-template-columns:repeat(2,1fr)}}';
+ const css='*{box-sizing:border-box}body{font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;color:#2E1A24;margin:0;padding:14px;max-width:900px;margin:auto;font-size:11px;line-height:1.35}'+
+  'h1{font-size:16px;margin:0}h2{font-size:12.5px;margin:12px 0 4px;padding-bottom:3px;border-bottom:1.5px solid #B83D66}.pt{color:#8a7480;font-weight:400;font-size:.9em}'+
+  '.top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}.logo{font-weight:800;color:#B83D66;font-size:13px}.seq{font-size:22px;font-weight:800;color:#B83D66;margin-right:6px}'+
+  '.kpi{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px;font-size:11px}.kpi b{font-size:13px}'+
+  'table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid #EED9E2;padding:3px 4px;text-align:left;vertical-align:middle}th{font-size:9.5px;color:#8a7480;background:#FBF5F7;white-space:nowrap}'+
+  '.r{text-align:right}.q{font-size:13px;font-weight:800;text-align:center;white-space:nowrap}.ck{width:13px;height:13px;border:1.5px solid #2E1A24;border-radius:3px;display:inline-block;vertical-align:middle}'+
+  'img{width:34px;height:34px;object-fit:contain;border-radius:5px;background:#f5f5f5;display:block}.kr{font-weight:700;font-size:11.5px}.en{color:#8a7480;font-size:9.5px}a{color:#B83D66}'+
+  '.peds{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.ped{border:1px solid #EED9E2;border-radius:8px;padding:6px 8px;break-inside:avoid}.ped h3{margin:0 0 3px;font-size:11.5px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}.ped td{padding:2px 3px}'+
+  '.tag{font-size:9px;background:#F8E3EB;color:#B83D66;border-radius:999px;padding:1px 6px;font-weight:700}'+
+  '.print{background:#B83D66;color:#fff;border:0;border-radius:999px;padding:6px 12px;font-weight:700;cursor:pointer;font-size:11px;margin-top:4px}'+
+  '@media print{.print{display:none}body{padding:0}a{color:#2E1A24;text-decoration:none}@page{size:A4;margin:8mm}}'+
+  '@media(max-width:640px){.peds{grid-template-columns:1fr}}';
  const corpo='<style>'+css+'</style>'+
   '<div class="top"><div><div class="logo">OMG! Oh My Girl</div><h1>파라미터 '+e(rec.numero)+' · 구매/포장 요약</h1><p class="pt">Resumo da parametrização para a Janice</p></div>'+
   '<div class="r"><p style="margin:0">마감: <b>'+e(tz(corte,'Asia/Seoul'))+'</b> (한국)<br><span class="pt">'+e(tz(corte,'America/Sao_Paulo'))+' (브라질)</span></p><button class="print" onclick="print()">인쇄 · Imprimir</button></div></div>'+
-  '<div class="kpi"><div>주문<b>'+vs.length+'건</b></div><div>상품 수량<b>'+un+'개</b></div><div>제품 종류<b>'+A.length+'종</b></div><div>예상 무게<b>'+(kg?(kg).toFixed(2)+' kg':'—')+'</b></div></div>'+
-  '<h2>1. 구매 목록 <span class="pt">· Lista de compra (somada)</span></h2><table><thead><tr><th></th><th>사진</th><th>제품</th><th class="r">수량</th><th>주문</th><th>원가 (₩/개)</th></tr></thead><tbody>'+
-  A.map(a=>{const l=a.l,u=url(l),op=opc(l);return '<tr><td><span class="ck"></span></td><td>'+(im(l)?'<img src="'+e(im(l))+'" alt="">':'')+'</td><td><div class="en"><b>'+e(l.i.marca)+'</b> · SKU '+e(l.i.sku||'—')+'</div><div class="kr">'+e(l.i.kr||l.i.en)+'</div><div class="en">'+e(l.i.en)+(op?' · <b>옵션: '+e(op)+'</b>':'')+'</div>'+(u?'<a href="'+e(u)+'" target="_blank">상품 페이지 보기 ↗</a>':'')+'</td><td class="q">'+a.qtd+'</td><td class="en">'+[...a.ped].join('<br>')+'</td><td><span class="won"></span></td></tr>'}).join('')+
+  '<div class="kpi"><span>주문 <b>'+vs.length+'건</b></span><span>상품 <b>'+un+'개</b></span><span>제품 <b>'+A.length+'종</b></span>'+(kg?'<span>예상 무게 <b>'+kg.toFixed(2)+' kg</b></span>':'')+'</div>'+
+  '<h2>1. 구매 목록 <span class="pt">· Lista de compra (somada)</span></h2><table><thead><tr><th></th><th>사진</th><th>제품</th><th class="r">수량</th><th>주문</th></tr></thead><tbody>'+
+  A.map(a=>{const l=a.l,u=url(l),op=opc(l);return '<tr><td><span class="ck"></span></td><td>'+(im(l)?'<img src="'+e(im(l))+'" alt="">':'')+'</td><td><div class="kr">'+e(l.i.kr||l.i.en)+(op?' <span class="tag">'+e(op)+'</span>':'')+'</div><div class="en"><b>'+e(l.i.marca)+'</b> · '+e(l.i.en)+' · SKU '+e(l.i.sku||'—')+(u?' · <a href="'+e(u)+'" target="_blank">상품 보기 ↗</a>':'')+'</div></td><td class="q">'+a.qtd+'</td><td class="en">'+[...a.ped].join(', ')+'</td></tr>'}).join('')+
   '</tbody></table>'+
-  '<div class="pg"></div><h2>2. 주문별 포장 <span class="pt">· Embalar por pedido (1 caixa por pedido)</span></h2>'+
+  '<h2>2. 주문별 포장 <span class="pt">· 1 caixa por pedido</span></h2><div class="peds">'+
   vs.map(v=>{const it=L.filter(l=>l.v===v),g=it.reduce((s,l)=>s+(n(l.i.kg)||0)*l.qtd,0);return '<div class="ped"><h3><span class="ck"></span> 주문 '+e(vnum(v.numero))+(v.pedidoSite?' <span class="pt">'+e(v.pedidoSite)+'</span>':'')+' · '+e([v.cidade,v.uf].filter(Boolean).join(' / '))+(presente(v)?' <span class="tag">인플루언서 협찬 · presente</span>':'')+'</h3>'+
-   '<table><tbody>'+it.map(l=>{const op=opc(l);return '<tr><td style="width:30px"><span class="ck"></span></td><td style="width:72px">'+(im(l)?'<img src="'+e(im(l))+'" alt="">':'')+'</td><td><div class="kr">'+e(l.i.kr||l.i.en)+'</div><div class="en">'+e(l.i.marca)+' · '+e(l.i.en)+(op?' · 옵션: '+e(op):'')+' · SKU '+e(l.i.sku||'—')+'</div></td><td class="q">× '+l.qtd+'</td></tr>'}).join('')+'</tbody></table>'+
-   (g?'<p class="en" style="margin:6px 0 0">예상 무게 '+g.toFixed(2)+' kg</p>':'')+'</div>'}).join('')+
-  '<div class="nota"><b>요청 사항</b><br>1) 각 제품의 원가(₩/개)를 위 표에 적어 주세요.<br>2) 포장비·국내 운송비 등 기타 비용은 따로 알려 주세요.<br>3) 주문마다 1박스로 포장하고, 주문번호를 박스에 표시해 주세요.<br><span class="pt">Custo de cada item em ₩ na tabela; despesas (embalagem, transporte) separadas; 1 caixa por pedido com o número do pedido.</span></div>'+
+   '<table><tbody>'+it.map(l=>{const op=opc(l);return '<tr><td style="width:18px"><span class="ck"></span></td><td><div class="kr" style="font-size:10.5px">'+e(l.i.kr||l.i.en)+(op?' <span class="tag">'+e(op)+'</span>':'')+'</div><div class="en">'+e(l.i.marca)+' · SKU '+e(l.i.sku||'—')+'</div></td><td class="q">×'+l.qtd+'</td></tr>'}).join('')+'</tbody></table>'+
+   (g?'<p class="en" style="margin:3px 0 0">예상 무게 '+g.toFixed(2)+' kg</p>':'')+'</div>'}).join('')+'</div>'+
   '<p class="en" style="margin-top:16px">OMG ERP · '+e(new Date().toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo'}))+'</p>';
- const titulo=rec.numero+' · 구매/포장 요약';
+ const titulo='#'+pmSeq(rec)+' · '+rec.numero+' · 구매/포장 요약';
  return {titulo,corpo,html:'<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+e(titulo)+'</title></head><body>'+corpo+'</body></html>'};
 }
 async function janiceResumo(rec){
@@ -4297,6 +4299,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v89','03/11/2026',['Parametrização: número simples em sequência (#0001, #0002…) na primeira coluna, com o P-AAMMDD embaixo. Coluna Vendas virou Pedidos.','Nova coluna Link Janice: o botão Copiar link cria ou atualiza a página do dia e copia o link para mandar à Janice.','Página da Janice mais compacta (cabe numa folha A4), sem campo de preço e sem a lista de pedidos no final.']],
  ['v88','03/11/2026',['Parametrização: botão "Gerar link para a Janice". Cria (ou atualiza) uma página com o resumo em coreano num endereço secreto do site (ohmygirl.com.br/pages/resumo-p-…), fora do menu e sem aparecer no Google. O link é copiado na hora para mandar no Kakao ou WhatsApp. Clique de novo depois de mudar algo para atualizar a mesma página.']],
  ['v87','03/11/2026',['Parametrização: botão "Abrir resumo para a Janice (한국어)". Abre uma página em coreano para imprimir ou mandar: lista de compra somada com foto, nome em coreano, opção e link do produto, embalagem por pedido (1 caixa por pedido, marca de presente de influenciadora) e campo para ela escrever o custo em ₩.','Corrigido: SKU com final -1 (ex.: CX0043-1) agora puxa os dados do catálogo na Master List e no manifesto.']],
  ['v86','03/11/2026',['Links e influenciadores › Influenciadores: filtro em cada coluna e ordenação clicando no título (igual Vendas e Cupons). Colunas separadas para cupom, link e pessoas, e um resumo com total de cliques, pedidos e vendas no topo.']],
