@@ -75,7 +75,8 @@ const ufDoCep = (cep: number) => (UF_CEP.find(([a, z]) => cep >= a && cep <= z) 
 
 const r2 = (x: number) => Math.round(x * 100) / 100;
 
-export async function calcular(cepTxt: string, ufInf: string | null, itens: { grams: number; price: number; quantity: number }[]) {
+// opts.base_gratis: valor dos produtos ANTES do cupom (regra do frete grátis); sem ele, usa a soma dos itens.
+export async function calcular(cepTxt: string, ufInf: string | null, itens: { grams: number; price: number; quantity: number }[], opts: { base_gratis?: number } = {}) {
   const { cfg, mile } = await dados();
   if (!mile) throw new Error("tabela da Mile não carregada");
   const cep = parseInt(String(cepTxt || "").replace(/\D/g, ""), 10);
@@ -101,7 +102,7 @@ export async function calcular(cepTxt: string, ufInf: string | null, itens: { gr
   else throw new Error("sem preço da Mile para " + reg.regiao);
   const fator = Number(cfg.frete_fator ?? 1);
   const gMin = Number(cfg.frete_gratis_min || 0);
-  const gratis = gMin > 0 && mercBRL >= gMin - 0.005;
+  const gratis = gMin > 0 && (opts.base_gratis ?? mercBRL) >= gMin - 0.005;
   const seguro = gratis ? 0 : merc * Number(cfg.seguro_pct) / 100;
   const frete = gratis ? 0 : (intl + nacional) * fator + seguro;
   const va = merc + frete;

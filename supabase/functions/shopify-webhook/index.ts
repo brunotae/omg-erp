@@ -21,14 +21,20 @@ usarBanco(sb);
 // Frete OMG: o checkout cobra frete + seguro + II + ICMS numa linha só. Refaz a mesma conta para o ERP
 // guardar cada parte (declaração, manifesto, lucratividade). Se não bater com o cobrado, avisa na obs.
 async function separarFreteOMG(pedido: any, venda: any) {
-  const linha = (pedido.shipping_lines || []).find((l: any) => /OMG_INTL/i.test(l.code || "") || /Entrega internacional OMG/i.test(l.title || ""));
+  const linha = (pedido.shipping_lines || []).find((l: any) => /OMG_INTL/i.test(l.code || "") || /Entrega internacional OMG|imposto de importa|dias úteis/i.test(l.title || ""));
   if (!linha) return;
   const ad = pedido.shipping_address || {};
   const itens = (pedido.line_items || []).filter((li: any) => li.requires_shipping !== false)
-    .map((li: any) => ({ grams: Number(li.grams) || 0, price: Math.round(Number(li.price) * 100), quantity: Number(li.quantity) || 1 }));
+    .map((li: any) => {
+      // Imposto de importação e ICMS saem do valor JÁ com o cupom (PRC · Rafael 04/11/2026): tira o desconto rateado no item.
+      const q = Number(li.quantity) || 1;
+      const desc = (li.discount_allocations || []).reduce((t: number, d: any) => t + (Number(d.amount_set?.shop_money?.amount ?? d.amount) || 0), 0);
+      return { grams: Number(li.grams) || 0, price: Math.round(Math.max(0, Number(li.price) * q - desc) / q * 100), quantity: q };
+    });
+  const bruto = (pedido.line_items || []).filter((li: any) => li.requires_shipping !== false).reduce((t: number, li: any) => t + Number(li.price) * (Number(li.quantity) || 1), 0);
   const cobrado = Number(linha.price_set?.shop_money?.amount ?? linha.price) || 0;
   try {
-    const c = await calcular(ad.zip, ad.province_code || null, itens);
+    const c = await calcular(ad.zip, ad.province_code || null, itens, { base_gratis: bruto });
     // Com ICMS cobrado pelo Shopify (tax_lines), a linha de entrega é só frete + seguro + II.
     const taxICMS = Math.round((pedido.tax_lines || []).reduce((t: number, x: any) => t + (Number(x.price_set?.shop_money?.amount ?? x.price) || 0), 0) * 100) / 100;
     const viaShopify = !!c.cfg.icms_shopify && taxICMS > 0;

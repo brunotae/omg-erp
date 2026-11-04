@@ -17,6 +17,9 @@
 //        → refaz a fila de fotos com a regra rígida; quem não passa e já tinha foto nova volta para a original
 //   { acao: "marca_publicar", marca?, aplicar? } → página Marcas com todas as marcas no ar (+ imagem) e fichas da Bomi da marca
 //   { acao: "link_curto", slug, apagar? }   → ohmygirl.com.br/a/<slug> (link curto das parcerias, conta cliques)
+//   { acao: "pedido_desconto", criar?, cep, uf?, itens: [{ sku, qtd }], desconto: { tipo: "R$"|"%", valor }, cliente: { nome, email, telefone }, ref }
+//        → pedido com desconto (presente, influenciadora, teste): imposto de importação e ICMS sobre o valor JÁ com desconto.
+//          criar:false só calcula; criar:true cria o rascunho de pedido no Shopify e devolve o link de pagamento (precisa de write_draft_orders)
 //   { acao: "cupons_listar" }               → todos os cupons de código do Shopify (para importar no ERP)
 //   { acao: "tema_duplicar" | "tema_copiar" | "colecao_criar" | "menu_arvore" } → ver cada bloco abaixo
 //   { acao: "conc_ler", urls: [..] }                 → lê preço da KS/Jini/Sephora BR (até 20 links) e grava em conc_catalogo
@@ -29,9 +32,11 @@ import { gravarProdutos, gravarProdutosLote, produtoParaLinhas } from "../_share
 import { lerPagina, gravarLeitura } from "../_shared/concorrentes.ts";
 import { syncIncremental, syncCompleta } from "../_shared/catalogo.ts";
 import { cpfDoPedido } from "../_shared/shopify_gql.ts";
+import { calcular, usarBanco } from "../_shared/frete_calc.ts";
 
 const URL_SB = Deno.env.get("SUPABASE_URL")!;
 const admin = createClient(URL_SB, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
+usarBanco(admin);
 const SHOP = Deno.env.get("SHOPIFY_SHOP") ?? "";
 const TOKEN_FIXO = Deno.env.get("SHOPIFY_ADMIN_TOKEN") ?? "";
 const CLIENT_ID = Deno.env.get("SHOPIFY_CLIENT_ID") ?? "";
@@ -982,6 +987,60 @@ async function principal(req: Request): Promise<Response> {
 
     // Troca ou apaga fotos avulsas de um produto sem mexer nas outras (mantém a posição da foto trocada).
     // itens: [{ handle, trocar: [{ de: "<nome do arquivo>", para: "https://..." }], apagar: ["<nome do arquivo>"] }]
+    if (b.acao === "pedido_desconto") {
+      // Cupom de código no checkout não chega ao cálculo do frete (o Shopify manda o preço cheio), então o imposto de
+      // importação sairia sobre o valor sem desconto. Pedido com desconto é feito pelo ERP: a conta é feita aqui com o
+      // valor já descontado e o pedido vai como rascunho com a linha de entrega fixa (frete + imposto de importação).
+      const itensIn = (Array.isArray(b.itens) ? b.itens : []).filter((i: any) => i?.sku && Number(i.qtd) > 0).slice(0, 30);
+      if (!itensIn.length) return resp(400, { erro: "escolha ao menos 1 produto" });
+      const cep = String(b.cep || "").replace(/\D/g, "");
+      if (cep.length !== 8) return resp(400, { erro: "CEP inválido" });
+      const skus = [...new Set(itensIn.map((i: any) => String(i.sku).trim()))];
+      const vq: any = await gql(`query($q: String!) { productVariants(first: 50, query: $q) { nodes { id sku price title
+          inventoryItem { measurement { weight { value unit } } } product { title status } } } }`, { q: skus.map((x) => "sku:" + x).join(" OR ") });
+      const porSku = new Map(vq.productVariants.nodes.map((v: any) => [String(v.sku), v]));
+      const faltam = skus.filter((x) => !porSku.has(x));
+      if (faltam.length) return resp(400, { erro: "SKU não encontrado no site: " + faltam.join(", ") });
+      const gramas = (v: any) => { const w = v.inventoryItem?.measurement?.weight; if (!w) return 0; const k: any = { GRAMS: 1, KILOGRAMS: 1000, OUNCES: 28.3495, POUNDS: 453.592 }; return Number(w.value) * (k[w.unit] || 1); };
+      const linhas = itensIn.map((i: any) => { const v: any = porSku.get(String(i.sku).trim()); return { v, qtd: Math.round(Number(i.qtd)), preco: Number(v.price), g: gramas(v) }; });
+      const bruto = Math.round(linhas.reduce((t: number, l: any) => t + l.preco * l.qtd, 0) * 100) / 100;
+      const d = b.desconto || {};
+      const dv = Math.max(0, Number(d.valor) || 0);
+      const desc = Math.round(Math.min(bruto, d.tipo === "%" ? bruto * Math.min(dv, 100) / 100 : dv) * 100) / 100;
+      const fat = bruto > 0 ? (bruto - desc) / bruto : 1;
+      const c = await calcular(cep, b.uf || null, linhas.map((l: any) => ({ grams: l.g, price: Math.round(l.preco * fat * 100), quantity: l.qtd })), { base_gratis: bruto });
+      const prazo = String(c.cfg.prazo || "").replace(/^De /, "");
+      const linhaEntrega = c.cfg.icms_shopify ? Math.round((c.brl.frete_seguro + c.brl.ii) * 100) / 100 : c.brl.total_linha;
+      const titulo = (c.frete_gratis ? "Frete grátis" : "Entrega") + (c.brl.ii > 0 ? " + imposto de importação" : "") + " · " + prazo;
+      const conta = {
+        produtos: bruto, desconto: desc, produtos_com_desconto: Math.round((bruto - desc) * 100) / 100,
+        dolar: c.cambio, valor_aduaneiro_usd: c.usd.valor_aduaneiro, frete: c.brl.frete_seguro, frete_gratis: c.frete_gratis,
+        ii: c.brl.ii, icms: c.brl.icms, aliquota_icms: c.aliquota_icms, cbs: c.brl.cbs, ibs: c.brl.ibs, uf: c.uf,
+        linha_entrega: linhaEntrega, total: Math.round((bruto - desc + c.brl.total_linha) * 100) / 100, titulo_entrega: titulo,
+        itens: linhas.map((l: any) => ({ sku: l.v.sku, nome: l.v.product.title + (l.v.title && l.v.title !== "Default Title" ? " · " + l.v.title : ""), qtd: l.qtd, preco: l.preco, status: l.v.product.status })),
+      };
+      if (!b.criar) return resp(200, { ok: true, conta });
+      const cli = b.cliente || {};
+      const nome = String(cli.nome || "").trim().split(/\s+/);
+      const ref = String(b.ref || "").trim().slice(0, 80);
+      const input: any = {
+        lineItems: linhas.map((l: any) => ({ variantId: l.v.id, quantity: l.qtd })),
+        ...(desc > 0 ? { appliedDiscount: { valueType: "FIXED_AMOUNT", value: desc, title: ref ? "Desconto OMG · " + ref : "Desconto OMG" } } : {}),
+        shippingLine: { title: titulo, priceWithCurrency: { amount: linhaEntrega.toFixed(2), currencyCode: "BRL" } },
+        shippingAddress: { zip: cep.replace(/(\d{5})(\d{3})/, "$1-$2"), provinceCode: c.uf, countryCode: "BR", ...(nome[0] ? { firstName: nome[0], lastName: nome.slice(1).join(" ") || nome[0] } : {}) },
+        ...(cli.email ? { email: String(cli.email).trim() } : {}),
+        ...(cli.telefone ? { phone: String(cli.telefone).trim() } : {}),
+        note: "Pedido com desconto criado pelo ERP" + (ref ? " · " + ref : "") +
+          ` · imposto de importação R$ ${c.brl.ii.toFixed(2)} · ICMS ${c.aliquota_icms}% R$ ${c.brl.icms.toFixed(2)} (em Tributos) · CBS R$ ${c.brl.cbs.toFixed(2)} · IBS R$ ${c.brl.ibs.toFixed(2)} · câmbio US$ 1 = R$ ${Number(c.cambio).toFixed(2)}`,
+        tags: ["pedido-desconto", ...(ref ? ["ref:" + ref.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 40)] : [])],
+      };
+      const r: any = await gql(`mutation($i: DraftOrderInput!) { draftOrderCreate(input: $i) { draftOrder { id name invoiceUrl
+          totalPriceSet { shopMoney { amount } } totalTaxSet { shopMoney { amount } } } userErrors { field message } } }`, { i: input });
+      const ue = r.draftOrderCreate.userErrors; if (ue.length) return resp(422, { erro: ue.map((x: any) => x.message).join("; "), conta });
+      const dr = r.draftOrderCreate.draftOrder;
+      return resp(200, { ok: true, conta, pedido: { id: dr.id, nome: dr.name, link: dr.invoiceUrl, total: Number(dr.totalPriceSet?.shopMoney?.amount), tributos: Number(dr.totalTaxSet?.shopMoney?.amount) } });
+    }
+
     if (b.acao === "fotos_editar") {
       const resultados: any[] = [];
       const nomeArq = (u: string) => String(u || "").split("?")[0].split("/").pop() || "";

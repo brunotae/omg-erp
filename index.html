@@ -918,7 +918,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v90 · 04/11/2026';
+const VERSAO='v91 · 04/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -2486,7 +2486,8 @@ VIEWFN.clientes=()=>{
  const cpChips='<div class="cp-filtro"><input id="cp-q" type="search" value="'+esc(CP.q)+'" placeholder="Buscar código, nome interno ou CPF" aria-label="Buscar cupom" data-1c="off">'+
   '<div class="chips">'+[['ativos','Ativos',ct(cpAtivo)],['inativos','Inativos',ct(c=>!cpAtivo(c))],['usados','Já usados',ct(c=>cupomUsos(c.codigo).length>0)],['nunca','Nunca usados',ct(c=>!cupomUsos(c.codigo).length)],['','Todos',S.data.cupons.length]].map(([v,l,k])=>'<button type="button" class="chip'+(CP.st===v?' on':'')+'" data-cpst="'+v+'">'+l+' · '+k+'</button>').join('')+
   '<span class="cp-sep"></span>'+[['','Qualquer tipo'],['%','%'],['R$','R$'],['frete','Frete grátis']].map(([v,l])=>'<button type="button" class="chip'+(CP.tipo===v?' on':'')+'" data-cptipo="'+esc(v)+'">'+l+'</button>').join('')+'</div></div>';
- return '<div class="page wide"><div class="col">'+head('Clientes e cupons','Clientes saem das vendas. Quem compra '+n(S.cfg.fielMin)+' vezes ou mais vira cliente fiel e pode receber cupom exclusivo. Cupons criados aqui já valem no site.','<button class="btn" type="button" id="cupom-imp"'+(can()?'':' disabled')+' title="Traz os cupons criados direto no Shopify e atualiza o status de todos">Trazer cupons do Shopify</button> <button class="btn pri" type="button" id="cupom-shop"'+(can()?'':' disabled')+'>+ Criar cupom no site</button>')+
+ return '<div class="page wide"><div class="col">'+head('Clientes e cupons','Clientes saem das vendas. Quem compra '+n(S.cfg.fielMin)+' vezes ou mais vira cliente fiel e pode receber cupom exclusivo. Cupons criados aqui já valem no site.','<button class="btn" type="button" id="cupom-imp"'+(can()?'':' disabled')+' title="Traz os cupons criados direto no Shopify e atualiza o status de todos">Trazer cupons do Shopify</button> <button class="btn" type="button" id="cupom-shop" disabled title="Suspenso: cupom de código no checkout faz o imposto de importação sair sobre o valor cheio. Use Pedido com desconto.">+ Criar cupom no site</button> <button class="btn pri" type="button" id="pd-novo"'+(can()?'':' disabled')+'>+ Pedido com desconto</button>')+
+ '<div class="note" style="margin:0 0 12px"><b>Cupons de código suspensos (04/11/2026).</b> No checkout, o cupom não entra na conta do imposto de importação (o Shopify manda o preço cheio para o cálculo do frete). Para presente, influenciadora ou teste, use <b>Pedido com desconto</b>: o ERP calcula o imposto sobre o valor já com desconto e gera o link de pagamento.</div>'+
  '<div class="kpis">'+kpi('Clientes',cl.length,'Com ao menos 1 compra')+kpi('Clientes fiéis',fiel.length,cl.length?pct(fiel.length/cl.length)+' da base':'—')+kpi('Cupons ativos',S.data.cupons.filter(c=>c.ativo).length,S.data.cupons.length+' cadastrados')+kpi('Desconto concedido',dm(S.data.vendas.filter(v=>!isCancel(v)).reduce((a,v)=>a+n(v.desconto),0)),'Todas as vendas')+'</div>'+
  '<div class="card"><div class="card-h"><h2>Cupons</h2><span class="muted" style="font-size:12px">'+cpL.length+' de '+S.data.cupons.length+'</span></div>'+(S.data.cupons.length?cpChips+(cpL.length?'':'<p class="muted" style="margin:10px 0">Nenhum cupom com esse filtro.</p>')+cpNomeDl('cp-nome-dl')+cpBarra(cpL)+xtTabela('cupons',CP_COLS,cpL,c=>'data-edit="cupons" data-id="'+esc(c.id)+'" style="cursor:pointer"',[null,1]).html
   :empty('Nenhum cupom','Crie cupons para clientes fiéis, influencers ou campanhas. O uso é contado pelo código informado em cada venda.'))+'</div>'+
@@ -2654,6 +2655,54 @@ function cupomCpfLista(r,titulo){const ok=r.filter(x=>x.codigo),rot=x=>x.cpf?cpf
   r.map(x=>'<tr><td class="num">'+esc(rot(x))+'</td><td class="num">'+(x.codigo?'<b>'+esc(x.codigo)+'</b>':'<span style="color:#B3261E">'+esc(x.erro)+'</span>')+'</td></tr>').join('')+'</tbody></table></div>'+
   '<p class="hint" style="grid-column:1/-1;margin:6px 0 0"><button class="btn sm" type="button" id="cp-copia">Copiar lista</button> '+(titulo?'Cada código tem as mesmas regras.':'O Shopify não confere o CPF no checkout: o código é a chave. Por isso cada um vale uma vez só.')+'</p></div>',null,true);
  const bt=$('#cp-copia');if(bt)bt.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(txt);toast('Lista copiada')}catch(_){toast('Não consegui copiar')}})}
+
+
+/* ---------- v91: Pedido com desconto (substitui cupom de código no checkout) ---------- */
+const PD={itens:[{sku:'',qtd:1}],tipo:'R$',valor:'',cep:'',nome:'',email:'',tel:'',ref:'',conta:null,link:''};
+function pdProdDl(){return '<datalist id="pd-dl">'+(S.data.produtos||[]).filter(p=>p.shopify_variant_id&&p.ativo).map(p=>'<option value="'+esc(p.sku)+'">'+esc((p.marca||'')+' · '+(p.nome||''))+'</option>').join('')+'</datalist>'}
+function pdNomeSku(sku){const p=(S.data.produtos||[]).find(x=>x.sku===sku);return p?(p.marca||'')+' · '+(p.nome||'')+' · '+brl(p.preco):''}
+function pdHTML(){
+ const it=PD.itens.map((x,i)=>'<div class="pd-it" style="grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) 70px 34px;gap:8px;align-items:end">'+
+  '<div class="f"><label for="pd-sku-'+i+'">Produto (SKU)</label><input id="pd-sku-'+i+'" list="pd-dl" data-pdsku="'+i+'" value="'+esc(x.sku)+'" placeholder="Digite SKU, marca ou nome"><span class="hint" id="pd-nm-'+i+'">'+esc(pdNomeSku(x.sku))+'</span></div>'+
+  '<div class="f"><label for="pd-q-'+i+'">Qtd</label><input id="pd-q-'+i+'" type="number" min="1" data-pdq="'+i+'" value="'+x.qtd+'"></div>'+
+  '<button type="button" class="iconbtn" data-pdrm="'+i+'" aria-label="Tirar produto" style="margin-bottom:6px">×</button></div>').join('');
+ const C=PD.conta;
+ const res=C?'<div class="sec"><span class="label">Conta (imposto sobre o valor já com desconto)</span><div style="grid-column:1/-1"><table><tbody>'+
+  [['Produtos',brl(C.produtos)],['Desconto','− '+brl(C.desconto)],['Produtos com desconto',brl(C.produtos_com_desconto)],['Valor aduaneiro','US$ '+C.valor_aduaneiro_usd.toFixed(2)+(C.valor_aduaneiro_usd<=50?' · até US$ 50: sem imposto de importação':'')],
+   ['Frete',C.frete_gratis?'grátis':brl(C.frete)],['Imposto de importação',brl(C.ii)],['ICMS '+C.aliquota_icms+'% ('+C.uf+')',brl(C.icms)],['CBS / IBS',brl(C.cbs)+' / '+brl(C.ibs)],['Câmbio','US$ 1 = '+brl(C.dolar)],['<b>Total a pagar</b>','<b>'+brl(C.total)+'</b>']]
+  .map(r=>'<tr><td>'+r[0]+'</td><td class="r num">'+r[1]+'</td></tr>').join('')+'</tbody></table>'+
+  (C.itens.some(x=>x.status!=='ACTIVE')?'<p class="hint" style="color:#B83D66">Atenção: há produto fora do site (rascunho). A cliente consegue pagar, mas confira.</p>':'')+'</div></div>':'';
+ const lk=PD.link?'<div class="sec"><span class="label">Link de pagamento</span><div class="f full" style="grid-column:1/-1"><input readonly id="pd-link" value="'+esc(PD.link)+'"><span class="hint">Copiado. Mande para a cliente pelo WhatsApp; ela paga direto no checkout, já com o desconto.</span></div></div>':'';
+ return pdProdDl()+'<div class="sec"><span class="label">Produtos</span>'+it+'<div style="grid-column:1/-1"><button type="button" class="btn sm" id="pd-add">+ Produto</button></div></div>'+
+ '<div class="sec"><span class="label">Desconto</span><div class="f"><label for="pd-tipo">Tipo</label><select id="pd-tipo"><option'+(PD.tipo==='R$'?' selected':'')+'>R$</option><option'+(PD.tipo==='%'?' selected':'')+'>%</option></select></div>'+
+ '<div class="f"><label for="pd-val">Valor</label><input id="pd-val" type="number" min="0" step="0.01" value="'+esc(PD.valor)+'" placeholder="ex.: 150"></div>'+
+ '<div class="f full" style="grid-column:1/-1"><label for="pd-ref">Para quem / motivo</label><input id="pd-ref" value="'+esc(PD.ref)+'" placeholder="ex.: Presente Petala · teste Daolu"></div></div>'+
+ '<div class="sec"><span class="label">Cliente</span><div class="f"><label for="pd-cep">CEP de entrega</label><input id="pd-cep" inputmode="numeric" value="'+esc(PD.cep)+'" placeholder="00000-000"></div>'+
+ '<div class="f"><label for="pd-nome">Nome</label><input id="pd-nome" value="'+esc(PD.nome)+'"></div><div class="f"><label for="pd-email">E-mail</label><input id="pd-email" type="email" value="'+esc(PD.email)+'"></div><div class="f"><label for="pd-tel">Telefone</label><input id="pd-tel" value="'+esc(PD.tel)+'"></div></div>'+res+lk;
+}
+function pdLer(){PD.itens=PD.itens.map((x,i)=>({sku:(($('#pd-sku-'+i)||{}).value||'').trim().toUpperCase(),qtd:Math.max(1,parseInt(($('#pd-q-'+i)||{}).value)||1)}));
+ PD.tipo=$('#pd-tipo').value;PD.valor=$('#pd-val').value;PD.ref=$('#pd-ref').value.trim();PD.cep=$('#pd-cep').value.trim();PD.nome=$('#pd-nome').value.trim();PD.email=$('#pd-email').value.trim();PD.tel=$('#pd-tel').value.trim()}
+function pdCorpo(criar){return{acao:'pedido_desconto',criar,cep:PD.cep,itens:PD.itens.filter(x=>x.sku),desconto:{tipo:PD.tipo,valor:parseFloat(PD.valor)||0},ref:PD.ref,cliente:{nome:PD.nome,email:PD.email,telefone:PD.tel}}}
+function pdDesenha(){const f=$('#mform');if(!f)return;const err=$('#m-err');f.innerHTML=pdHTML();f.appendChild(err)}
+async function pdChamar(criar,btn){pdLer();const e=$('#m-err');e.textContent='';
+ if(!PD.itens.some(x=>x.sku)){e.textContent='Escolha ao menos 1 produto.';return}
+ if(String(PD.cep).replace(/\D/g,'').length!==8){e.textContent='Preencha o CEP de entrega.';return}
+ const t=btn.textContent;btn.disabled=true;btn.textContent=criar?'Criando…':'Calculando…';
+ try{const {data,error}=await sb.functions.invoke('shopify-admin',{body:pdCorpo(criar)});
+  if(error){let m=error.message;try{const j=await error.context.json();m=j.erro||m}catch(_){}throw new Error(m)}
+  if(!data||!data.ok)throw new Error((data&&data.erro)||'falhou');
+  PD.conta=data.conta;if(criar&&data.pedido){PD.link=data.pedido.link;copiar(PD.link,'Pedido '+data.pedido.nome+' criado · link copiado')}
+  pdDesenha()}
+ catch(x){e.textContent=/draft|access denied|scope/i.test(String(x.message))?'O app do Shopify ainda não tem permissão para criar pedidos (write_draft_orders). Libere no Dev Dashboard.':'Não deu: '+(x.message||x)}
+ finally{btn.disabled=false;btn.textContent=t}}
+function pedidoDesconto(){Object.assign(PD,{itens:[{sku:'',qtd:1}],tipo:'R$',valor:'',cep:'',nome:'',email:'',tel:'',ref:'',conta:null,link:''});
+ shell('Pedido com desconto',pdHTML(),null,true,'<button class="btn" type="button" id="pd-calc">Calcular</button><button class="btn pri" type="button" id="pd-criar">Criar pedido e copiar link</button>');
+ $('#mform').addEventListener('submit',e=>e.preventDefault());
+ $('#pd-calc').addEventListener('click',e=>pdChamar(false,e.currentTarget));$('#pd-criar').addEventListener('click',e=>pdChamar(true,e.currentTarget));}
+document.addEventListener('click',e=>{const t=e.target;if(!t.closest||!t.closest('#mform'))return;
+ if(t.id==='pd-add'){pdLer();PD.itens.push({sku:'',qtd:1});PD.conta=null;pdDesenha();return}
+ if(t.dataset&&t.dataset.pdrm!=null){pdLer();PD.itens.splice(+t.dataset.pdrm,1);if(!PD.itens.length)PD.itens.push({sku:'',qtd:1});PD.conta=null;pdDesenha()}});
+document.addEventListener('input',e=>{const t=e.target;if(t.dataset&&t.dataset.pdsku!=null){const h=$('#pd-nm-'+t.dataset.pdsku);if(h)h.textContent=pdNomeSku(t.value.trim().toUpperCase())}});
 
 /* ---------- v69: cupom em formato de presente (página ohmygirl.com.br/pages/presente) ---------- */
 const PR_MOD={boas:['Boas-vindas','#F48FB1','Presente de boas-vindas'],aniv:['Aniversário','#9EDFC4','Feliz aniversário'],presente:['Presente','#F48FB1','Presente da OMG'],influ:['Influenciador','#F7C6D6','Presente especial'],desc:['Desculpa pelo atraso','#FFD9A8','Um carinho da OMG']};
@@ -4301,6 +4350,7 @@ document.addEventListener('click',e=>{
  if(t.id==='shop-rodape'){arrumarRodape();return}
  if(t.id==='shop-ativar'){ativarLote1();return}
  if(t.id==='cupom-shop'){openCupomShopify();return}
+ if(t.id==='pd-novo'){pedidoDesconto();return}
  if(t.id==='logout'||t.hasAttribute('data-logout')){sb.auth.signOut();return}
  if(t.id==='copy-schema'){const txt=$('#schema').textContent;const sel=()=>{const r=document.createRange();r.selectNodeContents($('#schema'));const s=getSelection();s.removeAllRanges();s.addRange(r);toast('Texto selecionado. Copie com Ctrl/Cmd + C')};
   try{navigator.clipboard.writeText(txt).then(()=>toast('Formato copiado'),sel)}catch(_){sel()}}
@@ -4309,6 +4359,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v91','04/11/2026',['Clientes e cupons: novo botão Pedido com desconto. Escolha os produtos, o desconto e o CEP; o ERP calcula imposto de importação e ICMS sobre o valor JÁ com desconto (regra do PRC) e gera o link de pagamento para a cliente.','Cupons de código suspensos: no checkout o cupom não entrava na conta do imposto de importação. Criar cupom no site fica desligado.']],
  ['v90','04/11/2026',['Visitas agora: os 4 quadros (24 horas, 2 dias, 7 dias, desde o início) em degradê crescente da cor do tema, do mais claro ao mais escuro.']],
  ['v89','03/11/2026',['Parametrização: número simples em sequência (#0001, #0002…) na primeira coluna, com o P-AAMMDD embaixo. Coluna Vendas virou Pedidos.','Nova coluna Link Janice: o botão Copiar link cria ou atualiza a página do dia e copia o link para mandar à Janice.','Página da Janice mais compacta (cabe numa folha A4), sem campo de preço e sem a lista de pedidos no final.']],
  ['v88','03/11/2026',['Parametrização: botão "Gerar link para a Janice". Cria (ou atualiza) uma página com o resumo em coreano num endereço secreto do site (ohmygirl.com.br/pages/resumo-p-…), fora do menu e sem aparecer no Google. O link é copiado na hora para mandar no Kakao ou WhatsApp. Clique de novo depois de mudar algo para atualizar a mesma página.']],
