@@ -918,7 +918,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v91 · 04/11/2026';
+const VERSAO='v92 · 04/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1141,7 +1141,13 @@ async function pmCfgLoad(){if(PM.loading)return;PM.loading=true;try{const {data}
 const pmAwb=c=>String(c.awb||'').trim();
 const pmAwbNorm=a=>String(a||'').replace(/\D/g,'');
 // parametrizações que vão juntas no mesmo AWB
-function pmGrupo(c){const a=pmAwbNorm(c.awb);return a?(S.data.cortes||[]).filter(x=>pmAwbNorm(x.awb)===a).sort((x,y)=>String(x.numero).localeCompare(String(y.numero))):[c]}
+function pmGrupo(c){const a=pmAwbNorm(c.awb),o=(x,y)=>String(x.numero).localeCompare(String(y.numero));
+ if(a)return (S.data.cortes||[]).filter(x=>pmAwbNorm(x.awb)===a).sort(o);
+ // v92: sem AWB, parametrizações marcadas para ir juntas (mesma chave 'envio') saem num arquivo só
+ if(c.envio)return (S.data.cortes||[]).filter(x=>x.envio===c.envio&&!pmAwbNorm(x.awb)).sort(o);
+ return [c]}
+const pmGrupoVendas=c=>pmGrupo(c).flatMap(x=>corteVendas(x));
+const pmGrupoSeq=c=>pmGrupo(c).map(x=>'#'+pmSeq(x)).join(' + ');
 const pmSeq=c=>c.seq?String(c.seq).padStart(4,'0'):'—';
 const PM_COLS=[
  {k:'num',l:'Parametrização',g:c=>pmSeq(c),cell:c=>'<b class="num" style="font-size:15px">#'+esc(pmSeq(c))+'</b><br><small class="muted">'+esc(c.numero||'')+'</small>'},
@@ -1149,7 +1155,7 @@ const PM_COLS=[
  {k:'vendas',l:'Pedidos',t:'n',g:c=>corteVendas(c).length,cell:c=>'<span class="num">'+corteVendas(c).length+'</span>',cls:'r'},
  {k:'un',l:'Unidades',t:'n',g:c=>aggItems(corteVendas(c)).reduce((s,a)=>s+a.qtd,0),cell:c=>'<span class="num">'+aggItems(corteVendas(c)).reduce((s,a)=>s+a.qtd,0)+'</span>',cls:'r'},
  {k:'awb',l:'AWB',g:c=>pmAwb(c)||'(sem AWB)',cell:c=>pmAwb(c)?'<b class="num">'+esc(pmAwb(c))+'</b>':'<span class="muted">aguardando booking</span>'},
- {k:'junto',l:'Mesmo AWB',g:c=>pmGrupo(c).filter(x=>x.id!==c.id).map(x=>x.numero).join(', '),cell:c=>esc(pmGrupo(c).filter(x=>x.id!==c.id).map(x=>x.numero).join(', '))},
+ {k:'junto',l:'Vai junto com',g:c=>pmGrupo(c).filter(x=>x.id!==c.id).map(x=>x.numero).join(', '),cell:c=>esc(pmGrupo(c).filter(x=>x.id!==c.id).map(x=>x.numero).join(', '))},
  {k:'env',l:'Enviada',g:c=>c.enviadoEm?'Enviada':'Pendente',cell:c=>stPill(c.enviadoEm?'Enviada':'Pendente')},
  {k:'link',l:'Link Janice',nf:1,ns:1,g:c=>'',cell:c=>'<button class="btn sm pri" type="button" data-jlink="'+esc(c.id)+'" title="Gera ou atualiza a página e copia o link">Copiar link</button>'},
  {k:'compra',l:'Compra Janice',t:'n',g:c=>compraTotal(c).total,fmt:v=>krw(Number(v)),cell:c=>{const t=compraTotal(c);return t.base?'<b class="num">'+krw(t.total)+'</b><small>'+dm(t.total*n(S.cfg.krw))+'</small>':'<span class="muted">aguardando</span>'},cls:'r'}
@@ -3908,7 +3914,9 @@ function pmBloco(rec){
  const outros=g.filter(x=>x.id!==rec.id);
  return '<div class="sec"><span class="label">Planilhas · Mile (Brasil) e Skyroad (Coreia)</span>'+
  '<div class="f"><label for="c-awb">AWB</label><input id="c-awb" value="'+esc(pmAwb(rec))+'" placeholder="ex.: 020-9303-8610"'+(ro?' readonly':'')+'><span class="hint">Sai 2 a 3 dias depois, com o booking</span></div>'+
- '<div class="f"><label>Neste AWB</label><div style="padding:9px 0">'+(outros.length?'<b>'+esc(g.map(x=>x.numero).join(' + '))+'</b><span class="hint" style="display:block">Planilhas consolidadas num arquivo só</span>':'só esta parametrização')+'</div></div>'+
+ '<div class="f"><label>Neste envio</label><div style="padding:9px 0">'+(outros.length?'<b>'+esc(g.map(x=>'#'+pmSeq(x)+' '+x.numero).join(' + '))+'</b><span class="hint" style="display:block">Planilhas e página da Janice saem juntas, num arquivo só</span>':'só esta parametrização')+'</div></div>'+
+ (pmAwb(rec)?'':(()=>{const cand=(S.data.cortes||[]).filter(x=>x.id!==rec.id&&!pmAwbNorm(x.awb)&&(!x.enviadoEm||(rec.envio&&x.envio===rec.envio))).sort((a,b)=>String(a.numero).localeCompare(String(b.numero)));
+  return cand.length?'<div class="f full" style="grid-column:1/-1"><label>Enviar junto com (antes do AWB)</label><div style="display:flex;flex-wrap:wrap;gap:6px 16px;padding:6px 0">'+cand.map(x=>'<label class="chk" style="margin:0"><input type="checkbox" data-pmjunto="'+esc(x.id)+'"'+(rec.envio&&x.envio===rec.envio?' checked':'')+(ro?' disabled':'')+'> #'+esc(pmSeq(x))+' '+esc(x.numero)+' <span class="muted">· '+corteVendas(x).length+' pedidos'+(x.enviadoEm?' · enviada':'')+'</span></label>').join('')+'</div><span class="hint">Marque e salve: Master List, planilha da Mile e página da Janice saem concatenadas. Quando sair o AWB, vale o AWB.</span></div>':''})())+
  (av.length?'<div class="note full" style="grid-column:1/-1;margin:0"><span class="label">Conferir antes de mandar ('+av.length+')</span>'+av.slice(0,14).map(x=>'<p style="margin:2px 0;font-size:11.5px">• '+esc(x)+'</p>').join('')+(av.length>14?'<p class="muted" style="font-size:11.5px">e mais '+(av.length-14)+'</p>':'')+'</div>':'')+
  '<div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm pri" type="button" data-pmx="mile">Baixar planilha da Mile (Brasil)</button><button class="btn sm pri" type="button" data-pmx="coreia">Baixar Master List (Coreia)</button></div>'+
  '<p class="muted" style="grid-column:1/-1;margin:0;font-size:11.5px">Mile: uma linha por item de cada venda, valor do produto pago em US$ (câmbio do checkout), frete sem seguro. Master List: agrupada por produto, valor '+n((PM.cfg||PM_PAD).desconto)+'% abaixo do vendido. Brindes desligados.</p></div>';
@@ -3917,7 +3925,7 @@ function pmBloco(rec){
 /* ---------- formulário da lista do dia ---------- */
 /* v87: resumo da parametrização para a Janice (HTML em coreano, para imprimir) */
 async function janiceMontar(rec){
- const vs=corteVendas(rec).filter(v=>!isCancel(v));
+ const vs=pmGrupoVendas(rec).filter(v=>!isCancel(v));
  const L=[];vs.forEach(v=>(v.itens||[]).forEach(it=>{const i=pmItem(it);const prod=i.sku?(S.data.produtos||[]).find(x=>x.sku===i.sku):null;L.push({v,it,i,prod,qtd:n(it.qtd)||1})}));
  const vids=[...new Set(L.map(l=>l.prod&&l.prod.shopify_variant_id).filter(Boolean).map(String))];
  let info={};try{if(vids.length)info=(await chamarShop({acao:'variantes_info',ids:vids})).itens||{}}catch(_){}
@@ -3944,7 +3952,7 @@ async function janiceMontar(rec){
   '@media print{.print{display:none}body{padding:0}a{color:#2E1A24;text-decoration:none}@page{size:A4;margin:8mm}}'+
   '@media(max-width:640px){.peds{columns:1}}@media screen and (min-width:760px){html{zoom:1.35}}';
  const corpo='<style>'+css+'</style>'+
-  '<div class="top"><div><div class="logo">OMG! Oh My Girl</div><h1><span class="seq">#'+e(pmSeq(rec))+'</span> 파라미터 '+e(rec.numero)+' · 구매/포장 요약</h1></div>'+
+  '<div class="top"><div><div class="logo">OMG! Oh My Girl</div><h1><span class="seq">'+e(pmGrupoSeq(rec))+'</span> 파라미터 '+e(pmGrupo(rec).map(x=>x.numero).join(' + '))+' · 구매/포장 요약</h1></div>'+
   '<div class="r"><p style="margin:0">마감: <b>'+e(tz(corte,'Asia/Seoul'))+'</b> (한국)<br><span class="pt">'+e(tz(corte,'America/Sao_Paulo'))+' (브라질)</span></p><button class="print" onclick="print()">인쇄 · Imprimir</button></div></div>'+
   '<div class="kpi"><span>주문 <b>'+vs.length+'건</b></span><span>상품 <b>'+un+'개</b></span><span>제품 <b>'+A.length+'종</b></span>'+(kg?'<span>예상 무게 <b>'+kg.toFixed(2)+' kg</b></span>':'')+'</div>'+
   '<h2>1. 구매 목록 <span class="pt">· Lista de compra (somada)</span></h2><table><thead><tr><th></th><th>사진</th><th>제품</th><th class="r">수량</th><th>주문</th></tr></thead><tbody>'+
@@ -3955,7 +3963,7 @@ async function janiceMontar(rec){
    '<table><tbody>'+it.map(l=>{const op=opc(l),u=url(l);return '<tr><td style="width:18px"><span class="ck"></span></td><td><div class="kr" style="font-size:10.5px">'+(u?'<a class="pl" href="'+e(u)+'" target="_blank">'+e(l.i.kr||l.i.en)+' ↗</a>':e(l.i.kr||l.i.en))+(op?' <span class="tag">'+e(op)+'</span>':'')+'</div><div class="en">'+e(l.i.marca)+' · SKU '+e(l.i.sku||'—')+'</div></td><td class="q">×'+l.qtd+'</td></tr>'}).join('')+'</tbody></table>'+
    (g?'<p class="en" style="margin:3px 0 0">예상 무게 '+g.toFixed(2)+' kg</p>':'')+'</div>'}).join('')+'</div>'+
   '<p class="en" style="margin-top:16px">OMG ERP · '+e(new Date().toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo'}))+'</p>';
- const titulo='#'+pmSeq(rec)+' · '+rec.numero+' · 구매/포장 요약';
+ const titulo=pmGrupoSeq(rec)+' · '+pmGrupo(rec).map(x=>x.numero).join(' + ')+' · 구매/포장 요약';
  return {titulo,corpo,html:'<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+e(titulo)+'</title></head><body>'+corpo+'</body></html>'};
 }
 async function janiceResumo(rec){
@@ -3964,7 +3972,7 @@ async function janiceResumo(rec){
  const r=await janiceMontar(rec);w.document.open();w.document.write(r.html);w.document.close();
 }
 // v88: página no site (endereço secreto, sem o tema da loja) para mandar o link à Janice
-const janiceHandle=rec=>'resumo-'+String(rec.numero||'').toLowerCase().replace(/[^a-z0-9]+/g,'-')+'-'+String(rec.id||'').replace(/-/g,'').slice(0,10);
+const janiceHandle=rec0=>{const rec=pmGrupo(rec0)[0]||rec0;return 'resumo-'+String(rec.numero||'').toLowerCase().replace(/[^a-z0-9]+/g,'-')+(pmGrupo(rec0).length>1?'-junto':'')+'-'+String(rec.id||'').replace(/-/g,'').slice(0,10)};
 const janiceUrl=rec=>'https://ohmygirl.com.br/pages/'+janiceHandle(rec);
 async function janiceLink(rec,btn){
  btn.disabled=true;const t=btn.textContent;btn.textContent='Gerando…';
@@ -4017,7 +4025,23 @@ function openCorte(id){
   if(env&&!rec.enviadoEm)vals.enviadoEm=new Date().toISOString();
   if(!env&&rec.enviadoEm)vals.enviadoEm=null;
   if(compra.length&&!rec.compraEm)vals.compraEm=new Date().toISOString();
+  // v92: enviar junto (antes do AWB)
+  const jIds=[...document.querySelectorAll('[data-pmjunto]')].filter(x=>x.checked).map(x=>x.dataset.pmjunto);
+  if(document.querySelector('[data-pmjunto]')){
+   const antes=(S.data.cortes||[]).filter(x=>rec.envio&&x.envio===rec.envio&&x.id!==rec.id);
+   if(jIds.length){const outrosK=jIds.map(id=>(S.data.cortes||[]).find(x=>x.id===id)).filter(Boolean);
+    const chave=rec.envio||(outrosK.find(x=>x.envio)||{}).envio||('E-'+String(rec.id).slice(0,8));
+    vals.envio=chave;
+    for(const x of outrosK)if(x.envio!==chave)await save('cortes',x,{envio:chave});
+    for(const x of antes)if(!jIds.includes(x.id))await save('cortes',x,{envio:null});
+   }else if(rec.envio){vals.envio=null;for(const x of antes){const resto=antes.filter(y=>y.id!==x.id);if(!resto.length)await save('cortes',x,{envio:null})}}
+  }
   await save('cortes',rec,vals);
+  // enviada: vale para todas as parametrizações do mesmo envio
+  if(env){const chave=vals.envio!==undefined?vals.envio:rec.envio;
+   if(chave)for(const x of (S.data.cortes||[]).filter(y=>y.envio===chave&&y.id!==rec.id&&!y.enviadoEm)){
+    await save('cortes',x,{enviadoEm:new Date().toISOString()});
+    for(const v of corteVendas(x))if(!(v.etapas||{}).skyroad)await save('vendas',v,{etapas:{...(v.etapas||{}),skyroad:today()}})}}
   // custo final por unidade = custo × (1 + despesas / valor dos itens)
   const base=compra.reduce((s,i)=>s+i.qtd*i.custo,0), un=compra.reduce((s,i)=>s+i.qtd,0);
   const fat=base>0?1+n(D)/base:1, porUn=base>0?0:(un?n(D)/un:0);
@@ -4052,7 +4076,7 @@ const MAP={dataCompra:'data_compra',custoMile:'custo_mile',custo3PL:'custo_3pl',
 const RMAP=Object.fromEntries(Object.entries(MAP).map(([a,b])=>[b,a]));
 const COLS={
  vendas:['numero','data_compra','canal','cliente','cpf','contato','cidade','uf','cupom','itens','desconto','frete','ii','icms','custo_mile','custo_3pl','caixa','outros_custos','etiqueta_mile','invoice','carga_coreia','carga_brasil','rastreio','obs','etapas','cancelada','lote','awb','baixa_embalagem','corte'],
- cortes:['numero','corte_em','vendas','enviado_em','compra','despesas_krw','compra_em','obs','awb'],
+ cortes:['numero','corte_em','vendas','enviado_em','compra','despesas_krw','compra_em','obs','awb','envio'],
  lotes:['numero','awb','cia','caixa','peso_kg','volumes','custo_3pl','frete_aereo','despacho','custo_mercadoria','pago_por','parceiro_pagador','obs','vendas','etapas'],
  lancamentos:['data','tipo','descricao','categoria','conta','valor','moeda','valor_destino','status','ref','parceiro'],
  devolucoes:['numero','data','venda','status','itens','motivo','local','destino','reembolso','custo_retorno','obs'],
@@ -4359,6 +4383,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v92','04/11/2026',['Parametrização: "Enviar junto com". Antes de sair o AWB, marque outra parametrização ainda não enviada e salve: a Master List (Skyroad), a planilha da Mile e a página da Janice saem concatenadas num arquivo só (#0001 + #0002). Marcar como enviada vale para todas do envio.','A coluna Mesmo AWB virou Vai junto com.']],
  ['v91','04/11/2026',['Clientes e cupons: novo botão Pedido com desconto. Escolha os produtos, o desconto e o CEP; o ERP calcula imposto de importação e ICMS sobre o valor JÁ com desconto (regra do PRC) e gera o link de pagamento para a cliente.','Cupons de código suspensos: no checkout o cupom não entrava na conta do imposto de importação. Criar cupom no site fica desligado.']],
  ['v90','04/11/2026',['Visitas agora: os 4 quadros (24 horas, 2 dias, 7 dias, desde o início) em degradê crescente da cor do tema, do mais claro ao mais escuro.']],
  ['v89','03/11/2026',['Parametrização: número simples em sequência (#0001, #0002…) na primeira coluna, com o P-AAMMDD embaixo. Coluna Vendas virou Pedidos.','Nova coluna Link Janice: o botão Copiar link cria ou atualiza a página do dia e copia o link para mandar à Janice.','Página da Janice mais compacta (cabe numa folha A4), sem campo de preço e sem a lista de pedidos no final.']],
