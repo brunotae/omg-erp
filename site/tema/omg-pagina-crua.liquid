@@ -1,0 +1,19 @@
+{%- comment -%}
+  OMG · página "crua" (sem o tema da loja), usada pelos resumos de parametrização para a Janice (ERP v88).
+  O conteúdo vem inteiro da página (HTML com estilo próprio). Não aparece no Google.
+{%- endcomment -%}
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>{{ page.title | escape }}</title>
+</head>
+<body>
+{{ page.content }}
+</body>
+</html>
+{% schema %}
+{ "name": "OMG · Página crua", "settings": [] }
+{% endschema %}

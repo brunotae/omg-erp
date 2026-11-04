@@ -908,7 +908,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v87 · 03/11/2026';
+const VERSAO='v88 · 03/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -3854,9 +3854,7 @@ function pmBloco(rec){
 
 /* ---------- formulário da lista do dia ---------- */
 /* v87: resumo da parametrização para a Janice (HTML em coreano, para imprimir) */
-async function janiceResumo(rec){
- const w=window.open('','_blank');if(!w){toast('Libere pop-ups para abrir o resumo');return}
- w.document.write('<p style="font:16px sans-serif;padding:24px">불러오는 중… (carregando)</p>');
+async function janiceMontar(rec){
  const vs=corteVendas(rec).filter(v=>!isCancel(v));
  const L=[];vs.forEach(v=>(v.itens||[]).forEach(it=>{const i=pmItem(it);const prod=i.sku?(S.data.produtos||[]).find(x=>x.sku===i.sku):null;L.push({v,it,i,prod,qtd:n(it.qtd)||1})}));
  const vids=[...new Set(L.map(l=>l.prod&&l.prod.shopify_variant_id).filter(Boolean).map(String))];
@@ -3883,7 +3881,7 @@ async function janiceResumo(rec){
   '.nota{background:#FBF5F7;border-radius:10px;padding:12px 14px;margin-top:14px}.print{background:#B83D66;margin-top:8px;color:#fff;border:0;border-radius:999px;padding:10px 18px;font-weight:700;cursor:pointer}'+
   '@media print{.print{display:none}body{padding:0}a{color:#2E1A24;text-decoration:none}h2{break-after:avoid}.pg{break-before:page}@page{size:A4;margin:12mm}}'+
   '@media(max-width:640px){.kpi{grid-template-columns:repeat(2,1fr)}}';
- const html='<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+e(rec.numero)+' · 구매/포장 요약</title><style>'+css+'</style></head><body>'+
+ const corpo='<style>'+css+'</style>'+
   '<div class="top"><div><div class="logo">OMG! Oh My Girl</div><h1>파라미터 '+e(rec.numero)+' · 구매/포장 요약</h1><p class="pt">Resumo da parametrização para a Janice</p></div>'+
   '<div class="r"><p style="margin:0">마감: <b>'+e(tz(corte,'Asia/Seoul'))+'</b> (한국)<br><span class="pt">'+e(tz(corte,'America/Sao_Paulo'))+' (브라질)</span></p><button class="print" onclick="print()">인쇄 · Imprimir</button></div></div>'+
   '<div class="kpi"><div>주문<b>'+vs.length+'건</b></div><div>상품 수량<b>'+un+'개</b></div><div>제품 종류<b>'+A.length+'종</b></div><div>예상 무게<b>'+(kg?(kg).toFixed(2)+' kg':'—')+'</b></div></div>'+
@@ -3895,9 +3893,28 @@ async function janiceResumo(rec){
    '<table><tbody>'+it.map(l=>{const op=opc(l);return '<tr><td style="width:30px"><span class="ck"></span></td><td style="width:72px">'+(im(l)?'<img src="'+e(im(l))+'" alt="">':'')+'</td><td><div class="kr">'+e(l.i.kr||l.i.en)+'</div><div class="en">'+e(l.i.marca)+' · '+e(l.i.en)+(op?' · 옵션: '+e(op):'')+' · SKU '+e(l.i.sku||'—')+'</div></td><td class="q">× '+l.qtd+'</td></tr>'}).join('')+'</tbody></table>'+
    (g?'<p class="en" style="margin:6px 0 0">예상 무게 '+g.toFixed(2)+' kg</p>':'')+'</div>'}).join('')+
   '<div class="nota"><b>요청 사항</b><br>1) 각 제품의 원가(₩/개)를 위 표에 적어 주세요.<br>2) 포장비·국내 운송비 등 기타 비용은 따로 알려 주세요.<br>3) 주문마다 1박스로 포장하고, 주문번호를 박스에 표시해 주세요.<br><span class="pt">Custo de cada item em ₩ na tabela; despesas (embalagem, transporte) separadas; 1 caixa por pedido com o número do pedido.</span></div>'+
-  '<p class="en" style="margin-top:16px">OMG ERP · '+e(new Date().toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo'}))+'</p></body></html>';
- w.document.open();w.document.write(html);w.document.close();
+  '<p class="en" style="margin-top:16px">OMG ERP · '+e(new Date().toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo'}))+'</p>';
+ const titulo=rec.numero+' · 구매/포장 요약';
+ return {titulo,corpo,html:'<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+e(titulo)+'</title></head><body>'+corpo+'</body></html>'};
 }
+async function janiceResumo(rec){
+ const w=window.open('','_blank');if(!w){toast('Libere pop-ups para abrir o resumo');return}
+ w.document.write('<p style="font:16px sans-serif;padding:24px">불러오는 중… (carregando)</p>');
+ const r=await janiceMontar(rec);w.document.open();w.document.write(r.html);w.document.close();
+}
+// v88: página no site (endereço secreto, sem o tema da loja) para mandar o link à Janice
+const janiceHandle=rec=>'resumo-'+String(rec.numero||'').toLowerCase().replace(/[^a-z0-9]+/g,'-')+'-'+String(rec.id||'').replace(/-/g,'').slice(0,10);
+const janiceUrl=rec=>'https://ohmygirl.com.br/pages/'+janiceHandle(rec);
+async function janiceLink(rec,btn){
+ btn.disabled=true;const t=btn.textContent;btn.textContent='Gerando…';
+ try{const r=await janiceMontar(rec);const d=await chamarShop({acao:'paginas',itens:[{handle:janiceHandle(rec),titulo:r.titulo,html:r.corpo,template:'janice'}]});
+  const x=(d.resultados||[])[0]||{};if(!x.ok)throw new Error(x.erro||'não deu para criar a página');
+  const u=janiceUrl(rec);const o=$('#c-janice-url');if(o){o.innerHTML='<a href="'+esc(u)+'" target="_blank" rel="noopener">'+esc(u)+'</a> '+lkCopia(u,'Copiar link')}
+  try{await navigator.clipboard.writeText(u);toast('Link copiado. Mande para a Janice.')}catch(_){toast('Link pronto')}
+ }catch(e){toast(errMsg(e))}
+ btn.disabled=false;btn.textContent=t;
+}
+
 function openCorte(id){
  const rec=(S.data.cortes||[]).find(r=>r.id===id);if(!rec)return;
  const ro=!can(), vs=corteVendas(rec), A=aggItems(vs);
@@ -3906,7 +3923,7 @@ function openCorte(id){
  const bloco=(k,t,sub)=>'<div class="sec"><span class="label">'+t+'</span><p class="muted full" style="grid-column:1/-1;margin:0;font-size:11.5px">'+sub+'</p><pre class="code" style="grid-column:1/-1;max-height:200px">'+esc(L[k].txt)+'</pre><div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" type="button" data-lcopy="'+k+'">Copiar texto</button><button class="btn sm" type="button" data-lcsv="'+k+'">Baixar planilha</button></div></div>';
  const body='<div class="sec"><span class="label">Resumo</span><p style="grid-column:1/-1;margin:0">'+vs.length+' vendas · '+A.reduce((s,a)=>s+a.qtd,0)+' unidades · corte '+esc(cutLabel(cutoffFor(Date.parse(rec.corteEm)||rec.createdAt)))+'</p>'+
   '<label class="chk full" style="grid-column:1/-1"><input type="checkbox" id="c-env"'+(rec.enviadoEm?' checked':'')+(ro?' disabled':'')+'> Enviada para Janice, Skyroad e Mile'+(rec.enviadoEm?' <span class="muted">· '+esc(new Date(rec.enviadoEm).toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo'}))+'</span>':'')+'</label></div>'+
-  '<div class="sec"><span class="label">Para a Janice · resumo em coreano</span><p class="muted" style="grid-column:1/-1;margin:0;font-size:11.5px">Página para imprimir ou mandar: lista de compra somada (com foto, nome em coreano e link do produto), embalagem por pedido e campo para ela escrever o custo em ₩.</p><div style="grid-column:1/-1"><button class="btn pri sm" type="button" id="c-janice">Abrir resumo para a Janice (한국어)</button></div></div>'+
+  '<div class="sec"><span class="label">Para a Janice · resumo em coreano</span><p class="muted" style="grid-column:1/-1;margin:0;font-size:11.5px">Página para imprimir ou mandar: lista de compra somada (com foto, nome em coreano e link do produto), embalagem por pedido e campo para ela escrever o custo em ₩.</p><div style="grid-column:1/-1"><button class="btn pri sm" type="button" id="c-janice-link">Gerar link para a Janice</button> <button class="btn sm" type="button" id="c-janice">Abrir aqui</button><p class="muted" id="c-janice-url" style="margin:8px 0 0;font-size:12px;word-break:break-all">Link: '+esc(janiceUrl(rec))+' (clique em Gerar para criar ou atualizar)</p></div></div>'+
   bloco('janice','Para a Janice · o que comprar','Itens somados de todas as vendas da lista.')+
   pmBloco(rec)+
   '<div class="sec"><span class="label">Compra da Janice · custo em ₩</span><p class="muted" style="grid-column:1/-1;margin:0;font-size:11.5px">Custo unitário de cada item e as despesas na Coreia (embalagem, transporte local). As despesas são rateadas pelo valor dos itens e o custo final entra no campo "₩ La Belle" de cada venda.</p>'+
@@ -3921,6 +3938,7 @@ function openCorte(id){
  const tot=()=>{let b=0;A.forEach((a,i)=>{const u=parseFloat(f.querySelector('[data-cprod="'+i+'"]').value);const s=isFinite(u)?u*a.qtd:0;b+=s;f.querySelector('[data-csub="'+i+'"]').textContent=isFinite(u)?krw(s):'—'});const d=parseFloat($('#c-desp').value)||0;$('#c-tot').textContent=b||d?krw(b+d)+' ≈ '+dm((b+d)*n(S.cfg.krw)):'—'};
  f.addEventListener('input',tot);tot();
  $('#c-janice')&&$('#c-janice').addEventListener('click',()=>janiceResumo(rec));
+ $('#c-janice-link')&&$('#c-janice-link').addEventListener('click',e=>janiceLink(rec,e.currentTarget));
  $('#ov').addEventListener('click',e=>{const b=e.target.closest('[data-lcopy],[data-lcsv]');if(!b)return;
   if(b.dataset.lcopy)copiar(L[b.dataset.lcopy].txt,'Lista copiada');else baixar(rec.numero+'-'+b.dataset.lcsv+'.csv',L[b.dataset.lcsv].csv)});
  $('#ov').addEventListener('click',async e=>{const b=e.target.closest('[data-pmx]');if(!b)return;
@@ -4279,6 +4297,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v88','03/11/2026',['Parametrização: botão "Gerar link para a Janice". Cria (ou atualiza) uma página com o resumo em coreano num endereço secreto do site (ohmygirl.com.br/pages/resumo-p-…), fora do menu e sem aparecer no Google. O link é copiado na hora para mandar no Kakao ou WhatsApp. Clique de novo depois de mudar algo para atualizar a mesma página.']],
  ['v87','03/11/2026',['Parametrização: botão "Abrir resumo para a Janice (한국어)". Abre uma página em coreano para imprimir ou mandar: lista de compra somada com foto, nome em coreano, opção e link do produto, embalagem por pedido (1 caixa por pedido, marca de presente de influenciadora) e campo para ela escrever o custo em ₩.','Corrigido: SKU com final -1 (ex.: CX0043-1) agora puxa os dados do catálogo na Master List e no manifesto.']],
  ['v86','03/11/2026',['Links e influenciadores › Influenciadores: filtro em cada coluna e ordenação clicando no título (igual Vendas e Cupons). Colunas separadas para cupom, link e pessoas, e um resumo com total de cliques, pedidos e vendas no topo.']],
  ['v85','03/11/2026',['Links e influenciadores: clicar no nome da influenciadora copia o link dela (ohmygirl.com.br/a/código).','Painel das criadoras: cada uma entra em ohmygirl.com.br/pages/criadoras com o código + uma senha simples (omg + 4 números). A senha aparece embaixo do nome e se troca na ficha. Lá ela vê link e cupom para copiar, cliques, pedidos, valor vendido e a lista de pedidos, sem dado de cliente.']],
