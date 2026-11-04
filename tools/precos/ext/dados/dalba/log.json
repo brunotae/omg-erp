@@ -1,0 +1,21 @@
+{
+ "dalbaglobal.com": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1081)>",
+ "www.dalbaglobal.com": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1081)>",
+ "us.dalba.com": "<urlopen error [SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1081)>",
+ "dalba.us": "Expecting value: line 1 column 1 (char 0)",
+ "dalbaus.com": "<urlopen error [Errno -2] Name or service not known>",
+ "global.dalba.com": "<urlopen error [SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1081)>",
+ "dalba.com": {
+  "ok": 56,
+  "final": "https://dalba.com/products.json?limit=250&page=1"
+ },
+ "cupons_home": [
+  "F3F3F3"
+ ],
+ "textos_off": [],
+ "sephora_br": "HTTP Error 403: Forbidden",
+ "sephora_br2": "HTTP Error 410: Gone",
+ "ml_dalba": "HTTP Error 403: Forbidden",
+ "mlhtml_dalba": 41880,
+ "amz_dalba": 2216
+}
