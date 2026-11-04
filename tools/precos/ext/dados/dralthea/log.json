@@ -1,0 +1,14 @@
+{
+ "dralthea.us": "<urlopen error [Errno -2] Name or service not known>",
+ "us.dralthea.com": "<urlopen error [Errno -2] Name or service not known>",
+ "dralthea.com": "<urlopen error [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1081)>",
+ "www.dralthea.com": "<urlopen error [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1081)>",
+ "dr-althea.com": "<urlopen error [Errno -2] Name or service not known>",
+ "dralthea.co.kr": "<urlopen error [Errno -2] Name or service not known>",
+ "www.dralthea.co.kr": "<urlopen error [Errno -2] Name or service not known>",
+ "sephora_br": "HTTP Error 403: Forbidden",
+ "sephora_br2": "HTTP Error 410: Gone",
+ "ml_dralthea": "HTTP Error 403: Forbidden",
+ "mlhtml_dralthea": 41898,
+ "amz_dralthea": "HTTP Error 503: Service Unavailable"
+}
