@@ -1,0 +1,21 @@
+name: sonda-url
+# Ferramenta interna: lê páginas que só abrem fora daqui e mostra no log links de produto e de imagem.
+on:
+  workflow_dispatch:
+    inputs:
+      urls: { description: "URLs separadas por espaço", required: true }
+jobs:
+  ler:
+    runs-on: ubuntu-latest
+    steps:
+      - env: { URLS: "${{ inputs.urls }}" }
+        run: |
+          for u in $URLS; do
+            echo "=== $u"
+            curl -sSL -m 40 -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36" \
+              -H "Accept-Language: ko-KR,ko;q=0.9" -H "Accept: text/html,application/json,*/*" -o p.html -w "status %{http_code} size %{size_download}\n" "$u" || true
+            head -c 1500 p.html; echo
+            grep -oE 'https?://shop-phinf\.pstatic\.net/[^"\\ ]+' p.html | sort -u | head -60
+            grep -oE '"(name|productName|channelProductName)":"[^"]{2,120}"' p.html | sort -u | head -60
+            grep -oE '/products/[0-9]{6,}' p.html | sort -u | head -60
+          done
