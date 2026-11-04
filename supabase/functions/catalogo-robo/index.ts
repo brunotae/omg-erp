@@ -4,7 +4,7 @@
 //   { modo: "remover_foto", id, posicoes: [n] }               → apaga só essas fotos da página (1 = capa)
 //   { modo: "arquivar", ids: [productId] }                     → status ARCHIVED
 //   { modo: "remover_versao", skus: [sku] }                    → apaga só a versão (variante) da página; ERP: linha arquivada
-//   { modo: "atualizar", itens: [{ id, titulo?, tipo?, tags?, preco?, peso_g?, sku? }] } → 1ª variante para preço/peso; tags substitui a lista
+//   { modo: "atualizar", itens: [{ id, titulo?, tipo?, tags?, preco?, peso_g?, sku?, desc? | html?, fotos? | fonte + fonte_loja }] } → 1ª variante para preço/peso; tags substitui a lista; fotos entram no fim
 //   { modo: "criar", itens: [{ titulo, handle, vendor, tipo, tags, html | desc, fotos: [url] | fonte (handle na loja oficial), sku, preco, peso_g }] } → cria em DRAFT
 //   { modo: "ler", ids: [productId] }                          → título, tipo, tags, status, preço, peso, nº de fotos
 //   { modo: "completar", itens: [{ sku, preco?, peso_g?, hs?, dim?: [c,l,a], nome_en?, nome_kr? }] } → Shopify (por SKU) + ERP
@@ -138,9 +138,20 @@ Deno.serve(async (req) => {
           if (it.titulo) p.title = String(it.titulo);
           if (it.tipo) p.productType = String(it.tipo);
           if (Array.isArray(it.tags)) p.tags = it.tags.map(String);
+          if (it.html || it.desc) p.descriptionHtml = it.html || montar(it.desc, it.sku_desc || "", it.vendor || "");
           if (Object.keys(p).length > 1) {
             const d: any = await gql(`mutation($p: ProductUpdateInput!) { productUpdate(product: $p) { userErrors { message } } }`, { p });
             if (d.productUpdate.userErrors.length) throw new Error(d.productUpdate.userErrors[0].message);
+          }
+          // fotos novas no fim da galeria (para página sem foto): fotos: [url] ou fonte + fonte_loja (loja oficial)
+          if (!it.fotos?.length && it.fonte) {
+            const r = await fetch(`https://${String(it.fonte_loja || "numbuzinus.com")}/products/${encodeURIComponent(it.fonte)}.json`, { headers: { "user-agent": "Mozilla/5.0" } });
+            it.fotos = ((await r.json()).product?.images || []).map((i: any) => i.src);
+          }
+          if (it.fotos?.length) {
+            const m = it.fotos.slice(0, 20).map((u: string) => ({ originalSource: u, alt: it.titulo || "", mediaContentType: "IMAGE" }));
+            const a: any = await gql(`mutation($id: ID!, $m: [CreateMediaInput!]!) { productCreateMedia(productId: $id, media: $m) { media { id } mediaUserErrors { message } } }`, { id: pid, m });
+            if (a.productCreateMedia.mediaUserErrors.length) throw new Error("fotos: " + a.productCreateMedia.mediaUserErrors[0].message);
           }
           if (it.sku) await precoPeso(pid, await variante1(pid), undefined, undefined, String(it.sku));
           if (it.preco != null || it.peso_g != null) {
@@ -170,13 +181,13 @@ Deno.serve(async (req) => {
     } else if (b.modo === "ler") {
       for (const id of (b.ids || []).slice(0, 80)) {
         try {
-          const d: any = await gql(`query($id: ID!) { product(id: $id) { handle title productType tags status mediaCount { count }
+          const d: any = await gql(`query($id: ID!) { product(id: $id) { handle title productType tags status descriptionHtml mediaCount { count }
             media(first: 20) { nodes { ... on MediaImage { image { url width height } } } }
             variants(first: 1) { nodes { price sku inventoryItem { measurement { weight { value unit } } } } } } }`, { id: gid(id) });
           const p = d.product; const v = p.variants.nodes[0] || {};
           out.push({ id, handle: p.handle, titulo: p.title, tipo: p.productType, tags: p.tags, status: p.status, fotos: p.mediaCount?.count,
             imagens: p.media.nodes.map((m: any) => m.image && [m.image.url, m.image.width, m.image.height]).filter(Boolean),
-            preco: v.price, sku: v.sku, peso: v.inventoryItem?.measurement?.weight?.value });
+            preco: v.price, sku: v.sku, peso: v.inventoryItem?.measurement?.weight?.value, desc: b.desc ? p.descriptionHtml : (p.descriptionHtml || "").length });
         } catch (e) { out.push({ id, ok: false, erro: erro(e) }); }
       }
     } else if (b.modo === "completar") {
