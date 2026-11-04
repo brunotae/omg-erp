@@ -635,6 +635,16 @@ table.rel-t{width:100%;border-collapse:collapse;font-size:7.4pt}
 .lnk{border:0;background:none;padding:0;margin-top:4px;font:inherit;font-size:11.5px;font-weight:500;color:var(--accent,#B83D66);text-decoration:underline;cursor:pointer}
 .va-at{display:flex;flex-direction:column;align-items:flex-end;gap:4px}.va-at span{font-size:11.5px;color:var(--muted);white-space:nowrap}
 .va-k{cursor:pointer;text-align:left}.va-k.hot{outline:2px solid var(--accent,#B83D66)}
+/* v90: os 4 quadros em degradê crescente da cor do tema (claro → escuro) */
+.va-kpis .kpi.va-k{border-color:transparent;filter:none}
+.va-kpis .kpi.va-k:nth-child(1){background:color-mix(in srgb,var(--pri) 10%,var(--surface))}
+.va-kpis .kpi.va-k:nth-child(2){background:color-mix(in srgb,var(--pri) 26%,var(--surface))}
+.va-kpis .kpi.va-k:nth-child(3){background:color-mix(in srgb,var(--pri) 50%,var(--surface))}
+.va-kpis .kpi.va-k:nth-child(4){background:color-mix(in srgb,var(--pri) 82%,var(--surface))}
+.va-kpis .kpi.va-k:nth-child(3) .label,.va-kpis .kpi.va-k:nth-child(3) .s,.va-kpis .kpi.va-k:nth-child(3) .v{color:var(--ink)}
+.va-kpis .kpi.va-k:nth-child(4) .label,.va-kpis .kpi.va-k:nth-child(4) .s,.va-kpis .kpi.va-k:nth-child(4) .v{color:#fff}
+.va-kpis .kpi.va-k.hot{outline:2px solid var(--ink);outline-offset:2px}
+.va-kpis .kpi.va-k:hover{filter:brightness(.97)}
 .va-t{min-width:0}.va-t td,.va-t th{padding:7px 8px}
 .va-bars{display:flex;align-items:flex-end;gap:2px;height:96px;margin-top:10px}.va-bars i{flex:1;min-width:2px;background:#E7A3B9;border-radius:2px 2px 0 0}.va-bars i:last-child{background:#B83D66}
 @media(max-width:780px){.va-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important}.va-kpis .kpi{padding:9px 8px}.va-kpis .kpi .label{font-size:9px;letter-spacing:.04em}.va-kpis .kpi .s{font-size:10.5px}.va-in{grid-template-columns:repeat(2,minmax(0,1fr))!important}.va-in .kpi:last-child{grid-column:1/-1}}
@@ -908,7 +918,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v89 · 03/11/2026';
+const VERSAO='v90 · 04/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -4299,6 +4309,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v90','04/11/2026',['Visitas agora: os 4 quadros (24 horas, 2 dias, 7 dias, desde o início) em degradê crescente da cor do tema, do mais claro ao mais escuro.']],
  ['v89','03/11/2026',['Parametrização: número simples em sequência (#0001, #0002…) na primeira coluna, com o P-AAMMDD embaixo. Coluna Vendas virou Pedidos.','Nova coluna Link Janice: o botão Copiar link cria ou atualiza a página do dia e copia o link para mandar à Janice.','Página da Janice mais compacta (cabe numa folha A4), sem campo de preço e sem a lista de pedidos no final.']],
  ['v88','03/11/2026',['Parametrização: botão "Gerar link para a Janice". Cria (ou atualiza) uma página com o resumo em coreano num endereço secreto do site (ohmygirl.com.br/pages/resumo-p-…), fora do menu e sem aparecer no Google. O link é copiado na hora para mandar no Kakao ou WhatsApp. Clique de novo depois de mudar algo para atualizar a mesma página.']],
  ['v87','03/11/2026',['Parametrização: botão "Abrir resumo para a Janice (한국어)". Abre uma página em coreano para imprimir ou mandar: lista de compra somada com foto, nome em coreano, opção e link do produto, embalagem por pedido (1 caixa por pedido, marca de presente de influenciadora) e campo para ela escrever o custo em ₩.','Corrigido: SKU com final -1 (ex.: CX0043-1) agora puxa os dados do catálogo na Master List e no manifesto.']],
