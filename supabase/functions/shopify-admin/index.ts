@@ -980,6 +980,59 @@ async function principal(req: Request): Promise<Response> {
       return resp(200, { ok: true, preco });
     }
 
+    // Troca ou apaga fotos avulsas de um produto sem mexer nas outras (mantém a posição da foto trocada).
+    // itens: [{ handle, trocar: [{ de: "<nome do arquivo>", para: "https://..." }], apagar: ["<nome do arquivo>"] }]
+    if (b.acao === "fotos_editar") {
+      const resultados: any[] = [];
+      const nomeArq = (u: string) => String(u || "").split("?")[0].split("/").pop() || "";
+      for (const it of (Array.isArray(b.itens) ? b.itens : []).slice(0, 10)) {
+        try {
+          const ler = async () => {
+            const d: any = await gql(`query($q: String!) { products(first: 1, query: $q) { nodes { id title
+              media(first: 100) { nodes { id status ... on MediaImage { image { url } } } } } } }`, { q: "handle:" + it.handle });
+            const p = d.products.nodes[0]; if (!p) throw new Error("produto não encontrado");
+            return p;
+          };
+          let p = await ler();
+          const acha = (arq: string) => {
+            const alvo = nomeArq(arq);
+            const m = p.media.nodes.find((x: any) => nomeArq(x.image?.url) === alvo);
+            if (!m) throw new Error("foto não encontrada: " + alvo);
+            return m;
+          };
+          const trocar = (Array.isArray(it.trocar) ? it.trocar : []).filter((t: any) => /^https:\/\//.test(String(t.para || "")));
+          const apagar: string[] = (Array.isArray(it.apagar) ? it.apagar : []).map((a: string) => acha(a).id);
+          const velhas = trocar.map((t: any) => ({ id: acha(t.de).id, pos: p.media.nodes.findIndex((x: any) => nomeArq(x.image?.url) === nomeArq(t.de)) }));
+          const antes = new Set(p.media.nodes.map((m: any) => m.id));
+          if (trocar.length) {
+            const add: any = await gql(`mutation($p: ProductUpdateInput!, $m: [CreateMediaInput!]) {
+                productUpdate(product: $p, media: $m) { product { id } userErrors { message } } }`,
+              { p: { id: p.id }, m: trocar.map((t: any) => ({ originalSource: t.para, alt: p.title, mediaContentType: "IMAGE" })) });
+            if (add.productUpdate.userErrors.length) throw new Error(add.productUpdate.userErrors[0].message);
+            let novas: any[] = [];
+            for (let i = 0; i < 20; i++) {
+              p = await ler();
+              novas = p.media.nodes.filter((m: any) => !antes.has(m.id));
+              if (novas.some((m: any) => m.status === "FAILED")) throw new Error("foto nova não carregou; nada foi apagado");
+              if (novas.length >= trocar.length && novas.every((m: any) => m.status === "READY")) break;
+              if (i === 19) throw new Error("foto nova ainda processando; nada foi apagado");
+              await new Promise((r) => setTimeout(r, 3000));
+            }
+            const moves = novas.map((m: any, i: number) => ({ id: m.id, newPosition: String(velhas[i].pos) }));
+            const ro: any = await gql(`mutation($id: ID!, $m: [MoveInput!]!) { productReorderMedia(id: $id, moves: $m) { mediaUserErrors { message } } }`, { id: p.id, m: moves });
+            if (ro.productReorderMedia.mediaUserErrors.length) throw new Error("reordenar: " + ro.productReorderMedia.mediaUserErrors[0].message);
+          }
+          const del = [...velhas.map((v: any) => v.id), ...apagar];
+          if (del.length) {
+            const d: any = await gql(`mutation($id: ID!, $ids: [ID!]!) { productDeleteMedia(productId: $id, mediaIds: $ids) { deletedMediaIds mediaUserErrors { message } } }`, { id: p.id, ids: del });
+            if (d.productDeleteMedia.mediaUserErrors.length) throw new Error("apagar: " + d.productDeleteMedia.mediaUserErrors[0].message);
+          }
+          resultados.push({ handle: it.handle, ok: true, trocadas: trocar.length, apagadas: apagar.length });
+        } catch (e) { resultados.push({ handle: it.handle, ok: false, erro: String((e as Error).message || e).slice(0, 300) }); }
+      }
+      return resp(200, { ok: true, resultados });
+    }
+
     if (b.acao === "fotos") {
       const itens = Array.isArray(b.itens) ? b.itens.slice(0, 25) : [];
       const resultados = [];
