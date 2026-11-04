@@ -1,14 +1,36 @@
 {
- "dralthea.us": "<urlopen error [Errno -2] Name or service not known>",
- "us.dralthea.com": "<urlopen error [Errno -2] Name or service not known>",
- "dralthea.com": "<urlopen error [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1081)>",
- "www.dralthea.com": "<urlopen error [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1081)>",
- "dr-althea.com": "<urlopen error [Errno -2] Name or service not known>",
- "dralthea.co.kr": "<urlopen error [Errno -2] Name or service not known>",
- "www.dralthea.co.kr": "<urlopen error [Errno -2] Name or service not known>",
+ "doctoraltheaglobal.com": {
+  "ok": 73,
+  "final": "https://doctoraltheaglobal.com/products.json?limit=250&page=1"
+ },
+ "cupons_home": [
+  "ADDBB3",
+  "B5B5B5",
+  "C93400",
+  "CDFEE1",
+  "D0D0D0",
+  "D0D0D4",
+  "D1D1D1",
+  "D6D6D6",
+  "E0E0E0",
+  "E7E7E7",
+  "F0F0F0",
+  "F1F1F1",
+  "F3F3F3",
+  "F5F5F5",
+  "F6F6F6",
+  "F72119",
+  "F7F7F7",
+  "FFAA00",
+  "MBT5FG5"
+ ],
+ "textos_off": [
+  "FIRST ORDER: 10% OFF + FREE GIFT\n",
+  "Subscribe & Get an Extra 10% Off Your First Order!"
+ ],
  "sephora_br": "HTTP Error 403: Forbidden",
  "sephora_br2": "HTTP Error 410: Gone",
  "ml_dralthea": "HTTP Error 403: Forbidden",
  "mlhtml_dralthea": 41898,
- "amz_dralthea": "HTTP Error 503: Service Unavailable"
+ "amz_dralthea": 2230
 }
