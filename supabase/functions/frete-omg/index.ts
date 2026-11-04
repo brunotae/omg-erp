@@ -88,8 +88,17 @@ Deno.serve(async (req) => {
           " — Atenção: Você não terá despesas adicionais. Os valores de frete e seguro, assim como as demais despesas, estão inclusas no preço final.";
         return json(200, { rates: [{ service_name: nm, service_code: "OMG_INTL", total_price: String(Math.round(linha * 100)), currency: "BRL", description: ds }] });
       }
-      const nome = `${x.frete_gratis ? "Frete grátis" : "Entrega"} + impostos · ${prazo}`;
-      const desc = trib > 0 ? `${fr} · Impostos ${fmt(trib)} (detalhes no carrinho)` : `${fr} · sem impostos`;
+      // ICMS dentro da linha "Demais custos" (Rafael 04/11/2026: uma linha só com frete + II + ICMS; sem a linha Tributos do Shopify).
+      const pc2 = (v: number) => String(v).replace(".", ",") + "%";
+      const nome = `${x.frete_gratis ? "Frete grátis" : "Frete"} + ${x.brl.ii > 0 ? "imposto de importação + ICMS" : "ICMS"} · ${prazo}`;
+      const desc = [
+        x.frete_gratis ? "Frete grátis" : `Frete ${fmt(x.brl.frete_seguro)}`,
+        `Imposto de importação ${fmt(x.brl.ii)}`,
+        `ICMS ${pc2(x.aliquota_icms)} ${fmt(x.brl.icms)}`,
+        `CBS ${fmt(x.brl.cbs)}` + (x.cfg.cbs_pct ? ` (${pc2(x.cfg.cbs_pct)})` : ""),
+        `IBS ${fmt(x.brl.ibs)}` + (x.cfg.ibs_pct ? ` (${pc2(x.cfg.ibs_pct)})` : ""),
+        `Câmbio US$ 1 = R$ ${Number(x.cambio).toFixed(2).replace(".", ",")}`,
+      ].join(" · ") + " — Atenção: Você não terá despesas adicionais. Os valores de frete e seguro, assim como as demais despesas, estão inclusas no preço final.";
       return json(200, { rates: [{ service_name: nome, service_code: "OMG_INTL", total_price: String(Math.round(x.brl.total_linha * 100)), currency: "BRL", description: desc }] });
     } catch (e) {
       console.error("frete-omg", String((e as Error).message || e));
