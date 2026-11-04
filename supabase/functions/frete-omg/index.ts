@@ -47,8 +47,22 @@ Deno.serve(async (req) => {
     const d = b.rate.destination || {};
     if (String(d.country || "BR").toUpperCase() !== "BR") return json(200, { rates: [] });
     try {
-      const itens = (b.rate.items || []).filter((i: any) => i.requires_shipping !== false);
-      const x = await calcular(d.postal_code, d.province || null, itens);
+      const itens0 = (b.rate.items || []).filter((i: any) => i.requires_shipping !== false);
+      // Cupom: desde nov/2025 o Shopify manda order_totals (com o desconto) no pedido de frete. O imposto de importação
+      // e o ICMS saem sobre o valor JÁ com desconto (PRC · Rafael 04/11/2026). O frete grátis continua olhando o valor antes do cupom.
+      const ot = b.rate.order_totals || null;
+      const brutoC = itens0.reduce((t: number, i: any) => t + (Number(i.price) || 0) * (Number(i.quantity) || 1), 0);
+      let descC = 0;
+      if (ot) {
+        const sub = Number(ot.subtotal_price), dsc = Number(ot.discount_amount ?? ot.total_discounts ?? 0);
+        // unidade: centavos (como o preço dos itens) ou reais
+        const emReais = sub > 0 && Math.abs(sub * 100 - brutoC) < Math.abs(sub - brutoC);
+        descC = Math.max(0, Math.min(brutoC, (emReais ? dsc * 100 : dsc) || 0));
+      }
+      console.log("frete-omg order_totals", JSON.stringify({ ot, brutoC, descC }));
+      const fat = brutoC > 0 ? (brutoC - descC) / brutoC : 1;
+      const itens = itens0.map((i: any) => ({ ...i, price: Math.round((Number(i.price) || 0) * fat) }));
+      const x = await calcular(d.postal_code, d.province || null, itens, { base_gratis: brutoC / 100 });
       // Nome da linha = o que aparece no checkout, no e-mail do pedido e na página do pedido:
       // deixa claro que não é só frete — tem tributo pago (Tae · 31/10/2026).
       // Checkout só aceita texto corrido (sem quebra de linha nem negrito): nome curto + descrição em blocos curtos.
