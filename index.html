@@ -1134,7 +1134,7 @@ const pmAwbNorm=a=>String(a||'').replace(/\D/g,'');
 function pmGrupo(c){const a=pmAwbNorm(c.awb);return a?(S.data.cortes||[]).filter(x=>pmAwbNorm(x.awb)===a).sort((x,y)=>String(x.numero).localeCompare(String(y.numero))):[c]}
 const pmSeq=c=>c.seq?String(c.seq).padStart(4,'0'):'—';
 const PM_COLS=[
- {k:'num',l:'Parametrização',g:c=>pmSeq(c),cell:c=>'<b class="num" style="font-size:15px">'+esc(pmSeq(c))+'</b><small>'+esc(c.numero||'')+'</small>'},
+ {k:'num',l:'Parametrização',g:c=>pmSeq(c),cell:c=>'<b class="num" style="font-size:15px">#'+esc(pmSeq(c))+'</b><br><small class="muted">'+esc(c.numero||'')+'</small>'},
  {k:'data',l:'Corte',t:'t',g:c=>spDate(Date.parse(c.corteEm)||c.createdAt||Date.now()),fmt:v=>fdate(v),cell:c=>esc(cutLabel(cutoffFor(Date.parse(c.corteEm)||c.createdAt)))},
  {k:'vendas',l:'Pedidos',t:'n',g:c=>corteVendas(c).length,cell:c=>'<span class="num">'+corteVendas(c).length+'</span>',cls:'r'},
  {k:'un',l:'Unidades',t:'n',g:c=>aggItems(corteVendas(c)).reduce((s,a)=>s+a.qtd,0),cell:c=>'<span class="num">'+aggItems(corteVendas(c)).reduce((s,a)=>s+a.qtd,0)+'</span>',cls:'r'},
@@ -3885,7 +3885,7 @@ async function janiceMontar(rec){
   '@media print{.print{display:none}body{padding:0}a{color:#2E1A24;text-decoration:none}@page{size:A4;margin:8mm}}'+
   '@media(max-width:640px){.peds{grid-template-columns:1fr}}';
  const corpo='<style>'+css+'</style>'+
-  '<div class="top"><div><div class="logo">OMG! Oh My Girl</div><h1>파라미터 '+e(rec.numero)+' · 구매/포장 요약</h1><p class="pt">Resumo da parametrização para a Janice</p></div>'+
+  '<div class="top"><div><div class="logo">OMG! Oh My Girl</div><h1><span class="seq">#'+e(pmSeq(rec))+'</span> 파라미터 '+e(rec.numero)+' · 구매/포장 요약</h1></div>'+
   '<div class="r"><p style="margin:0">마감: <b>'+e(tz(corte,'Asia/Seoul'))+'</b> (한국)<br><span class="pt">'+e(tz(corte,'America/Sao_Paulo'))+' (브라질)</span></p><button class="print" onclick="print()">인쇄 · Imprimir</button></div></div>'+
   '<div class="kpi"><span>주문 <b>'+vs.length+'건</b></span><span>상품 <b>'+un+'개</b></span><span>제품 <b>'+A.length+'종</b></span>'+(kg?'<span>예상 무게 <b>'+kg.toFixed(2)+' kg</b></span>':'')+'</div>'+
   '<h2>1. 구매 목록 <span class="pt">· Lista de compra (somada)</span></h2><table><thead><tr><th></th><th>사진</th><th>제품</th><th class="r">수량</th><th>주문</th></tr></thead><tbody>'+
