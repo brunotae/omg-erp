@@ -3875,18 +3875,17 @@ async function janiceResumo(rec){
   'h1{font-size:24px;margin:0}h2{font-size:16px;margin:28px 0 10px;padding-bottom:6px;border-bottom:2px solid #B83D66}.pt{color:#8a7480;font-weight:400;font-size:.85em}'+
   '.top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}.logo{font-weight:800;color:#B83D66;font-size:22px}'+
   '.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}.kpi div{border:1px solid #EED9E2;border-radius:10px;padding:10px}.kpi b{display:block;font-size:20px}'+
-  'table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid #EED9E2;padding:8px 6px;text-align:left;vertical-align:middle}th{font-size:11px;color:#8a7480;background:#FBF5F7}'+
+  'table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid #EED9E2;padding:8px 6px;text-align:left;vertical-align:middle}th{font-size:11px;color:#8a7480;background:#FBF5F7;white-space:nowrap}'+
   '.r{text-align:right}.q{font-size:18px;font-weight:800;text-align:center}.ck{width:22px;height:22px;border:2px solid #2E1A24;border-radius:4px;display:inline-block}'+
   'img{width:64px;height:64px;object-fit:contain;border-radius:8px;background:#f5f5f5}.kr{font-weight:700;font-size:14px}.en{color:#8a7480;font-size:11.5px}a{color:#B83D66}'+
   '.ped{border:1px solid #EED9E2;border-radius:12px;padding:12px 14px;margin:10px 0;break-inside:avoid}.ped h3{margin:0 0 6px;font-size:15px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}'+
   '.tag{font-size:11px;background:#F8E3EB;color:#B83D66;border-radius:999px;padding:2px 8px;font-weight:700}.won{width:110px;border-bottom:1px solid #999;display:inline-block;height:18px}'+
-  '.nota{background:#FBF5F7;border-radius:10px;padding:12px 14px;margin-top:14px}.print{position:fixed;right:20px;top:20px;background:#B83D66;color:#fff;border:0;border-radius:999px;padding:10px 18px;font-weight:700;cursor:pointer}'+
+  '.nota{background:#FBF5F7;border-radius:10px;padding:12px 14px;margin-top:14px}.print{background:#B83D66;margin-top:8px;color:#fff;border:0;border-radius:999px;padding:10px 18px;font-weight:700;cursor:pointer}'+
   '@media print{.print{display:none}body{padding:0}a{color:#2E1A24;text-decoration:none}h2{break-after:avoid}.pg{break-before:page}@page{size:A4;margin:12mm}}'+
   '@media(max-width:640px){.kpi{grid-template-columns:repeat(2,1fr)}}';
  const html='<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+e(rec.numero)+' · 구매/포장 요약</title><style>'+css+'</style></head><body>'+
-  '<button class="print" onclick="print()">인쇄 · Imprimir</button>'+
   '<div class="top"><div><div class="logo">OMG! Oh My Girl</div><h1>파라미터 '+e(rec.numero)+' · 구매/포장 요약</h1><p class="pt">Resumo da parametrização para a Janice</p></div>'+
-  '<div class="r"><p style="margin:0">마감: <b>'+e(tz(corte,'Asia/Seoul'))+'</b> (한국)<br><span class="pt">'+e(tz(corte,'America/Sao_Paulo'))+' (브라질)</span></p></div></div>'+
+  '<div class="r"><p style="margin:0">마감: <b>'+e(tz(corte,'Asia/Seoul'))+'</b> (한국)<br><span class="pt">'+e(tz(corte,'America/Sao_Paulo'))+' (브라질)</span></p><button class="print" onclick="print()">인쇄 · Imprimir</button></div></div>'+
   '<div class="kpi"><div>주문<b>'+vs.length+'건</b></div><div>상품 수량<b>'+un+'개</b></div><div>제품 종류<b>'+A.length+'종</b></div><div>예상 무게<b>'+(kg?(kg).toFixed(2)+' kg':'—')+'</b></div></div>'+
   '<h2>1. 구매 목록 <span class="pt">· Lista de compra (somada)</span></h2><table><thead><tr><th></th><th>사진</th><th>제품</th><th class="r">수량</th><th>주문</th><th>원가 (₩/개)</th></tr></thead><tbody>'+
   A.map(a=>{const l=a.l,u=url(l),op=opc(l);return '<tr><td><span class="ck"></span></td><td>'+(im(l)?'<img src="'+e(im(l))+'" alt="">':'')+'</td><td><div class="en"><b>'+e(l.i.marca)+'</b> · SKU '+e(l.i.sku||'—')+'</div><div class="kr">'+e(l.i.kr||l.i.en)+'</div><div class="en">'+e(l.i.en)+(op?' · <b>옵션: '+e(op)+'</b>':'')+'</div>'+(u?'<a href="'+e(u)+'" target="_blank">상품 페이지 보기 ↗</a>':'')+'</td><td class="q">'+a.qtd+'</td><td class="en">'+[...a.ped].join('<br>')+'</td><td><span class="won"></span></td></tr>'}).join('')+
