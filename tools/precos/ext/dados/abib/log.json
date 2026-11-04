@@ -1,15 +1,36 @@
 {
- "abib.us": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'abib.us'. (_ssl.c:1081)>",
- "us.abib.com": "<urlopen error [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1081)>",
- "abib.com": "HTTP Error 404: Not Found",
- "www.abib.com": "HTTP Error 404: Not Found",
- "global.abib.com": "<urlopen error [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1081)>",
- "abibglobal.com": "<urlopen error [Errno -5] No address associated with hostname>",
- "abib-us.com": "<urlopen error [Errno -2] Name or service not known>",
- "abib.co.kr": "HTTP Error 404: Not Found",
+ "en.abib.com": {
+  "ok": 160,
+  "final": "https://en.abib.com/products.json?limit=250&page=1"
+ },
+ "cupons_home": [
+  "ABIBPRIME5",
+  "B5B5B5",
+  "CDFEE1",
+  "D0D0D0",
+  "D4D4D4",
+  "E0E0E0",
+  "E4E4E4",
+  "E7E7E7",
+  "F0F0F0",
+  "F1F1F1",
+  "F3F3F3",
+  "F5F5F5",
+  "F6F6F6",
+  "F72119",
+  "FFAA00",
+  "FFFFFF00",
+  "PROMO123"
+ ],
+ "textos_off": [
+  "Review & Get 5% off",
+  "Welcome 20% Off",
+  "ics  🤍 Prime day discount only on amazon use ABIBPRIME5 for 5% off ad #glowyskin #skincare #lipmask",
+  "y grail sun stick!! Available on YesStyle! Use SUNYUHAN for 12% off for orders over $39 in June! @Abib Cosmetics glutathione vi"
+ ],
  "sephora_br": "HTTP Error 403: Forbidden",
  "sephora_br2": "HTTP Error 410: Gone",
  "ml_abib": "HTTP Error 403: Forbidden",
  "mlhtml_abib": 41874,
- "amz_abib": 2208
+ "amz_abib": "HTTP Error 503: Service Unavailable"
 }
