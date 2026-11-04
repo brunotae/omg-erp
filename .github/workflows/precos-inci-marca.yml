@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: python3 tools/precos/ext/inci_marca.py
-        env: { LOJA: "${{ github.event.inputs.loja }}", MARCA: "${{ github.event.inputs.marca }}", HANDLES: "${{ github.event.inputs.handles }}" }
+        env: { LOJA: "${{ github.event.inputs.loja }}", MARCA: "${{ github.event.inputs.marca }}", HANDLES: "${{ github.event.inputs.handles }}", TEXTO: "1" }
       - run: |
           git config user.name "omg-bot"; git config user.email "bot@ohmygirl.com.br"
           git add tools/precos/ext/dados

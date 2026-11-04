@@ -17,7 +17,11 @@ for h in os.environ["HANDLES"].split(","):
         t = get(f"https://{LOJA}/products/{h}")
         txt = html.unescape(re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " | ", re.sub(r"(?s)<(script|style)[^>]*>.*?</\1>", " ", t))))
         i = [m.start() for m in re.finditer(r"(?i)ingredients", txt)]
-        out[h] = {"trechos": [txt[k:k + 2500] for k in i[:6]], "como_usar": [txt[m.start():m.start() + 800] for m in re.finditer(r"(?i)how to use", txt)][:3]}
+        out[h] = {"trechos": [txt[k:k + 2500] for k in i[:6]], "como_usar": [txt[m.start():m.start() + 800] for m in re.finditer(r"(?i)how to use|application", txt)][:4]}
+        if os.environ.get("TEXTO"):  # texto da página a partir do 1º "What It Is"/título, para kits e tamanhos
+            k0 = next((m.start() for m in re.finditer(r"(?i)what it is|what's inside|includes|set includes", txt)), 0)
+            out[h]["texto"] = txt[max(0, k0 - 3000):k0 + 9000]
+            out[h]["tamanhos"] = sorted(set(re.findall(r"(?i)\b\d+(?:[.,]\d+)?\s?(?:ml|g|fl\.? ?oz|pcs|sheets|ea)\b", txt)))[:40]
     except Exception as e: out[h] = str(e)[:200]
     time.sleep(4)
 os.makedirs(f"tools/precos/ext/dados/{M}", exist_ok=True)
