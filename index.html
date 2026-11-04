@@ -3883,7 +3883,7 @@ async function janiceMontar(rec){
   '.tag{font-size:9px;background:#F8E3EB;color:#B83D66;border-radius:999px;padding:1px 6px;font-weight:700}'+
   '.print{background:#B83D66;color:#fff;border:0;border-radius:999px;padding:6px 12px;font-weight:700;cursor:pointer;font-size:11px;margin-top:4px}'+
   '@media print{.print{display:none}body{padding:0}a{color:#2E1A24;text-decoration:none}@page{size:A4;margin:8mm}}'+
-  '@media(max-width:640px){.peds{columns:1}}';
+  '@media(max-width:640px){.peds{columns:1}}@media screen and (min-width:760px){html{zoom:1.35}}';
  const corpo='<style>'+css+'</style>'+
   '<div class="top"><div><div class="logo">OMG! Oh My Girl</div><h1><span class="seq">#'+e(pmSeq(rec))+'</span> 파라미터 '+e(rec.numero)+' · 구매/포장 요약</h1></div>'+
   '<div class="r"><p style="margin:0">마감: <b>'+e(tz(corte,'Asia/Seoul'))+'</b> (한국)<br><span class="pt">'+e(tz(corte,'America/Sao_Paulo'))+' (브라질)</span></p><button class="print" onclick="print()">인쇄 · Imprimir</button></div></div>'+
