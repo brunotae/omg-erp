@@ -123,6 +123,16 @@ async function trocarFotos(it: { handle: string; fotos: string[]; peso_g?: numbe
 }
 
 async function editor(req: Request) {
+  // Chave temporária do robô (config.chave_robo, criada para uma tarefa aprovada pelo Tae e apagada no fim):
+  // vale só para "marca_publicar", para o Claude publicar a marca (página Marcas + Bomi) no fim da subida de uma marca.
+  const xc = req.headers.get("x-chave");
+  if (xc) {
+    const corpo: any = await req.clone().json().catch(() => ({}));
+    if (corpo?.acao !== "marca_publicar") return null;
+    const { data: k } = await admin.from("config").select("valor").eq("chave", "chave_robo").maybeSingle();
+    const chave = String((k as any)?.valor?.chave || "");
+    return chave && xc === chave ? "robo-catalogo" : null;
+  }
   const jwt = (req.headers.get("authorization") ?? "").replace(/^Bearer\s+/i, "");
   if (!jwt) return null;
   const { data } = await admin.auth.getUser(jwt);
