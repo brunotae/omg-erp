@@ -1,5 +1,5 @@
 {%- comment -%} OMG · faixa de marcas passando (tipo letreiro da bolsa). Para quando o mouse passa por cima. {%- endcomment -%}
-{%- assign logos = ',abib,aestura,another-face,anua,arencia,banila-co,beauty-of-joseon,beplain,biodance,celimax,cell-fusion-c,coeval,centellian-24,clio,cosrx,dasique,dr-forhair,dr-melaxin,dr-reju-all,eqqualberry,freshian,fwee,gongskin,hince,kaine,lador,manyo,medicube,mediheal,mise-en-scene,mixsoon,numbuzin,ongredients,purcell,purito-seoul,rejuran,round-lab,skin1004,some-by-mi,sonatural,the-kyeok,tirtir,torriden,vt-cosmetics,' -%}
+{%- assign logos = ',abib,aestura,another-face,anua,arencia,banila-co,beauty-of-joseon,beplain,biodance,celimax,cell-fusion-c,coeval,centellian-24,clio,cosrx,dasique,dr-althea,dr-forhair,dr-melaxin,dr-reju-all,eqqualberry,freshian,fwee,gongskin,hince,kaine,lador,manyo,medicube,mediheal,mise-en-scene,mixsoon,numbuzin,ongredients,purcell,purito-seoul,rejuran,round-lab,skin1004,some-by-mi,sonatural,the-kyeok,tirtir,torriden,vt-cosmetics,' -%}
 {%- assign marcas = section.settings.marcas | newline_to_br | replace: '<br />', ',' | split: ',' -%}
 <div class="omg-tk" style="--omg-tk-bg:{{ section.settings.cor_fundo }};--omg-tk-fg:{{ section.settings.cor_texto }};--omg-tk-dur:{{ marcas.size | times: section.settings.segundos_por_marca }}s">
   <div class="omg-tk__trilho">
