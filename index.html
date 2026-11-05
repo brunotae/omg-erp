@@ -985,7 +985,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v100 · 05/11/2026';
+const VERSAO='v101 · 05/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1013,7 +1013,7 @@ VIEWFN.painel=()=>{
  // lowStock().forEach(i=>alerts.push(['bad',i.codigo+' abaixo do mínimo',n(i.estoque)+' em estoque · mínimo '+n(i.minimo),'insumos']));
  S.data.devolucoes.filter(d=>d.destino==='Indefinido'&&d.status!=='Resolvida').forEach(d=>alerts.push(['',d.numero+' sem destino definido','Venda '+vnum(d.venda)+' · revender ou voltar à Coreia','devolucoes']));
  open.forEach(v=>{const c=curStep(v);if(c<0)return;const d=v.etapas[SK[c]];const lim=c<=1?2:c<=7?5:c<=9?3:7;if(daysSince(d)>lim)alerts.push(['bad','Venda '+vnum(v.numero)+' parada',daysSince(d)+' dias em "'+STEPS[c][1]+'"','vendas'])});
- pendingGroups().filter(g=>g.c.ms<Date.now()).forEach(g=>alerts.push(['bad','Parametrização de '+cutLabel(g.c)+' não fechada',g.vs.length+' vendas esperando a parametrização','cortes']));
+ // v101: sem alerta de corte vencido (parametrização é manual)
  S.data.cortes.filter(c=>!c.enviadoEm).forEach(c=>alerts.push(['',c.numero+' ainda não enviada','Mandar para Janice, Skyroad e Mile','cortes']));
  S.data.lotes.filter(l=>(l.etapas||{}).awb&&!(l.etapas||{}).rfkr).forEach(l=>alerts.push(['',l.numero+' aguardando RF Coreia','AWB '+(l.awb||'—'),'lotes']));
  S.data.lotes.filter(l=>(l.etapas||{}).embarcado&&!(l.etapas||{}).manifesto).forEach(l=>alerts.push(['bad',l.numero+': enviar manifesto à Mile','Embarcou em '+fdate(l.etapas.embarcado),'lotes']));
@@ -1141,10 +1141,13 @@ const cutLabel=c=>DIAS[c.dow]+' '+fdate(c.dia)+' · 18h';
 const paidMs=v=>Date.parse(v.pagoEm||'')||Date.parse((v.etapas||{}).pago?v.criado_em||'':'')||v.createdAt||Date.now();
 const awaitingCut=v=>!isCancel(v)&&!!(v.etapas||{}).pago&&!v.corte&&curStep(v)<=1;
 const corteOf=v=>v.corte?(S.data.cortes||[]).find(c=>c.id===v.corte):null;
+// v101: parametrização MANUAL (decisão do Tae, 05/11/2026). Sem corte automático: todas as vendas pagas ficam num grupo só
+// até alguém clicar em Fechar parametrização. O número sai da data do fechamento (P-AAMMDD).
 function pendingGroups(){
- const g={};S.data.vendas.filter(awaitingCut).forEach(v=>{const c=cutoffFor(paidMs(v));(g[c.dia]=g[c.dia]||{c,vs:[]}).vs.push(v)});
- return Object.values(g).sort((a,b)=>a.c.ms-b.c.ms);
+ const vs=S.data.vendas.filter(awaitingCut).sort((a,b)=>paidMs(a)-paidMs(b));if(!vs.length)return [];
+ const d=spDate(Date.now());return [{c:{dia:d,ms:Infinity,dow:new Date(d+'T12:00:00-03:00').getUTCDay(),manual:true},vs}];
 }
+const fechLabel=c=>{const ms=Date.parse(c.corteEm||'')||c.createdAt||Date.now();return fdate(spDate(ms))+' · '+new Intl.DateTimeFormat('pt-BR',{timeZone:'America/Sao_Paulo',hour:'2-digit',minute:'2-digit'}).format(new Date(ms))};
 const prodKey=i=>String(i.produto||'').trim()||'(sem nome)';
 function aggItems(vs){
  const m=new Map();vs.forEach(v=>(v.itens||[]).forEach(i=>{const k=prodKey(i);const a=m.get(k)||{produto:k,qtd:0,vendas:new Set()};a.qtd+=n(i.qtd)||0;a.vendas.add(v.numero);m.set(k,a)}));
@@ -1157,44 +1160,43 @@ function baixar(nome,txt){const b=new Blob([txt],{type:'text/csv;charset=utf-8'}
 function copiar(txt,ok){try{navigator.clipboard.writeText(txt).then(()=>toast(ok||'Copiado'),()=>toast('Não deu para copiar. Use Baixar planilha.'))}catch(_){toast('Não deu para copiar. Use Baixar planilha.')}}
 // três listas a partir das vendas do corte
 function listaJanice(c,vs){const A=aggItems(vs);return{csv:csvOf(['Produto','Qtd','Vendas'],A.map(a=>[a.produto,a.qtd,[...a.vendas].map(vnum).join(', ')])),
- txt:'OMG · '+c.numero+' · corte '+cutLabel(cutoffFor(Date.parse(c.corteEm)))+'\nComprar ('+A.reduce((s,a)=>s+a.qtd,0)+' unidades, '+vs.length+' vendas):\n'+A.map(a=>'• '+a.qtd+'× '+a.produto).join('\n')+'\n\nPor favor, me mande o custo de cada item em ₩ e as despesas (embalagem, transporte) separadas.'}}
+ txt:'OMG · '+c.numero+' · fechada em '+fechLabel(c)+'\nComprar ('+A.reduce((s,a)=>s+a.qtd,0)+' unidades, '+vs.length+' vendas):\n'+A.map(a=>'• '+a.qtd+'× '+a.produto).join('\n')+'\n\nPor favor, me mande o custo de cada item em ₩ e as despesas (embalagem, transporte) separadas.'}}
 function listaSkyroad(c,vs){return{csv:csvOf(['Venda','Pedido site','Cliente','Cidade','UF','Itens','Etiqueta Mile'],vs.map(v=>[vnum(v.numero),v.pedidoSite||'',v.cliente,v.cidade,v.uf,itensTxt(v),v.etiquetaMile||''])),
  txt:'OMG · '+c.numero+' · '+vs.length+' pacotes (1 por venda)\n'+vs.map(v=>'• '+vnum(v.numero)+' · '+(v.cliente||'')+' · '+[v.cidade,v.uf].filter(Boolean).join('/')+'\n   '+itensTxt(v)+(v.etiquetaMile?'\n   Etiqueta Mile: '+v.etiquetaMile:'')).join('\n')}}
 function listaMile(c,vs){return{csv:csvOf(['Venda','Pedido site','Cliente','CPF','Cidade','UF','Total R$','II R$','ICMS R$','Itens'],vs.map(v=>{const k=calc(v);return[vnum(v.numero),v.pedidoSite||'',v.cliente,v.cpf,v.cidade,v.uf,k.total.toFixed(2).replace('.',','),n(v.ii).toFixed(2).replace('.',','),n(v.icms).toFixed(2).replace('.',','),itensTxt(v)]})),
  txt:'OMG · '+c.numero+' · '+vs.length+' vendas para etiqueta e DIR\n'+vs.map(v=>'• '+vnum(v.numero)+(v.pedidoSite?' ('+v.pedidoSite+')':'')+' · '+(v.cliente||'')+' · CPF '+(v.cpf||'FALTANDO')+' · '+[v.cidade,v.uf].filter(Boolean).join('/')).join('\n')}}
 
 VIEWFN.cortes=()=>{
- const G=pendingGroups(), now=Date.now(), nextC=cutoffFor(now);
- const falta=Math.max(0,nextC.ms-now), hh=Math.floor(falta/36e5), mm=Math.floor(falta%36e5/6e4);
+ const G=pendingGroups(), now=Date.now();
  const missing=S.missing&&S.missing.cortes;
  if(!PM.cfg&&!PM.loading)setTimeout(pmCfgLoad,0);
  if(!CT.med)setTimeout(ctMed,0);
  const grpHTML=G.length?G.map(({c,vs})=>{const venc=c.ms<now;
-  return '<div class="card"><div class="card-h"><h2>'+(venc?'Parametrização de ':'Próxima parametrização · ')+esc(cutLabel(c))+'</h2>'+(can()&&!missing?'<button class="btn '+(venc?'pri':'')+' sm" type="button" data-cut="'+esc(c.dia)+'">'+(venc?'Fechar parametrização':'Fechar agora')+'</button>':'')+'</div>'+
-  '<p class="muted" style="margin:0 0 8px;font-size:11.5px">'+vs.length+' venda'+(vs.length>1?'s':'')+' · '+(u=>u+(u===1?' unidade':' unidades'))(aggItems(vs).reduce((s,a)=>s+a.qtd,0))+(venc?' · <b style="color:var(--bad)">horário do corte já passou</b>':'')+'</p>'+
-  tblVendas(vs)+'</div>'}).join(''):'<div class="card">'+empty('Nenhuma venda esperando corte','Vendas pagas entram aqui sozinhas e saem na parametrização do próximo corte das 18h.')+'</div>';
+  return '<div class="card"><div class="card-h"><h2>Vendas esperando parametrização</h2>'+(can()&&!missing?'<button class="btn pri sm" type="button" data-cut="'+esc(c.dia)+'">Fechar parametrização</button>':'')+'</div>'+
+  '<p class="muted" style="margin:0 0 8px;font-size:11.5px">'+vs.length+' venda'+(vs.length>1?'s':'')+' · '+(u=>u+(u===1?' unidade':' unidades'))(aggItems(vs).reduce((s,a)=>s+a.qtd,0))+' · fecha só quando você clicar</p>'+
+  tblVendas(vs)+'</div>'}).join(''):'<div class="card">'+empty('Nenhuma venda esperando parametrização','Vendas pagas entram aqui sozinhas e ficam esperando até você fechar a parametrização.')+'</div>';
  const rows=(S.data.cortes||[]).filter(match);
  const T=rows.length?xtTabela('param',PM_COLS,rows,c=>'data-edit="cortes" data-id="'+esc(c.id)+'" style="cursor:pointer"',['data',-1]):null;
  const P=PM.cfg||PM_PAD;
- return '<div class="page wide"><div class="col">'+head('Parametrização','Cada parametrização é um lote de vendas que sai da Coreia no mesmo AWB. Corte às 18h (Brasília), domingo a quinta; pedidos de quinta 18:01 a domingo 18:00 saem juntos no domingo. Cada uma gera a planilha da Mile (Brasil) e a Master List da Skyroad (Coreia).')+
+ return '<div class="page wide"><div class="col">'+head('Parametrização','Cada parametrização é um lote de vendas que sai da Coreia no mesmo AWB. Não há corte automático: as vendas pagas ficam esperando até alguém fechar a parametrização. Cada uma gera a planilha da Mile (Brasil) e a Master List da Skyroad (Coreia).')+
  (missing?'<div class="note"><span class="label">Falta um passo no banco</span><p>Rode o SQL <b>20261024b_lista_do_dia.sql</b> no Supabase (SQL Editor) para salvar as parametrizações.</p></div>':'')+
  grpHTML+
  '<div class="card" style="padding:8px"><div class="card-h"><h2>Parametrizações fechadas</h2></div>'+pmBarraSel()+(T&&T.fil?'<p class="muted" style="margin:0 0 6px;font-size:11.5px"><b>'+T.n+' de '+rows.length+'</b> · <a href="#" data-xtlimpa="param">limpar filtros das colunas</a></p>':'')+
- (rows.length?T.html:empty('Nenhuma parametrização fechada ainda','Feche depois das 18h. Ela fica guardada aqui com as planilhas da Mile e da Skyroad.'))+'</div></div>'+
- '<aside class="rail"><div class="note"><span class="label">Próximo corte</span><p><b>'+esc(cutLabel(nextC))+'</b></p><p class="muted">faltam '+hh+'h'+String(mm).padStart(2,'0')+'</p></div>'+
- '<div class="note"><span class="label">Rotina</span><p>1. Às 18h, feche a parametrização (número P-AAMMDD).</p><p>2. Baixe a <b>Master List</b> (Coreia) para a Skyroad e a planilha da <b>Mile</b> (Brasil).</p><p>3. Marque como enviada: as vendas passam para "Documentos enviados à Skyroad".</p><p>4. Quando sair o booking (2 a 3 dias), digite o AWB. Se outra parametrização tiver o mesmo AWB, as planilhas saem consolidadas num arquivo só.</p></div>'+
+ (rows.length?T.html:empty('Nenhuma parametrização fechada ainda','Quando fechar, ela fica guardada aqui com as planilhas da Mile e da Skyroad.'))+'</div></div>'+
+ '<aside class="rail">'+
+ '<div class="note"><span class="label">Rotina</span><p>1. Quando decidir mandar, feche a parametrização (número P-AAMMDD do dia do fechamento).</p><p>2. Baixe a <b>Master List</b> (Coreia) para a Skyroad e a planilha da <b>Mile</b> (Brasil).</p><p>3. Marque como enviada: as vendas passam para "Documentos enviados à Skyroad".</p><p>4. Quando sair o booking (2 a 3 dias), digite o AWB. Se outra parametrização tiver o mesmo AWB, as planilhas saem consolidadas num arquivo só.</p></div>'+
  '<div class="note"><span class="label">Remetente (Shipper)</span><p><b>'+esc(P.shipNome)+'</b></p><p class="muted" style="font-size:11.5px">'+esc(P.shipEnd)+'</p><p class="muted" style="font-size:11.5px">Valor na Master List: '+n(P.desconto)+'% abaixo do vendido</p>'+(can()?'<p><button class="btn sm" type="button" data-pmcfg>Alterar</button></p>':'')+'</div></aside></div>';
 };
 function compraTotal(c){const it=Array.isArray(c.compra)?c.compra:[];const base=it.reduce((s,i)=>s+n(i.qtd)*n(i.custo),0);return{base,desp:n(c.despesasKrw),total:base+n(c.despesasKrw)}}
 async function fecharLista(dia){
  const G=pendingGroups().find(g=>g.c.dia===dia);if(!G)return;
  const c=G.c, num='P-'+dia.slice(2).replace(/-/g,'');
- if(c.ms>Date.now()&&!confirm('Ainda não deu 18h. Fechar a parametrização mesmo assim? Vendas pagas depois disso vão para a próxima.'))return;
+ if(!confirm('Fechar a parametrização com '+G.vs.length+' venda'+(G.vs.length>1?'s':'')+'? Vendas pagas depois disso vão para a próxima.'))return;
  try{
   // v99: parametrização fechada é fixa. Se já existe uma do mesmo dia, as vendas novas viram outra (P-AAMMDD-2, -3…).
   let numF=num;for(let k=2;(S.data.cortes||[]).some(x=>x.numero===numF);k++)numF=num+'-'+k;
   const ids=G.vs.map(v=>v.id);
-  const cid=await save('cortes',null,{numero:numF,corteEm:new Date(Math.min(c.ms,Date.now())).toISOString(),vendas:ids});
+  const cid=await save('cortes',null,{numero:numF,corteEm:new Date().toISOString(),vendas:ids});
   for(const v of G.vs)await save('vendas',v,{corte:cid});
   toast('Parametrização '+numF+' fechada · '+ids.length+' vendas');await loadAll();openCorte(cid);
  }catch(e){toast(errMsg(e))}
@@ -1258,7 +1260,7 @@ const PMS=new Set();
 const PM_COLS=[
  {k:'sel',l:'<input type="checkbox" data-pmselall aria-label="Selecionar todas">',nf:true,ns:true,g:()=>'',cell:c=>'<input type="checkbox" data-pmsel="'+esc(c.id)+'"'+(PMS.has(c.id)?' checked':'')+' aria-label="Selecionar '+esc(c.numero||'')+'">'},
  {k:'num',l:'Parametrização',g:c=>pmSeq(c),cell:c=>'<b class="num" style="font-size:15px">#'+esc(pmSeq(c))+'</b><br><small class="muted">'+esc(c.numero||'')+'</small>'},
- {k:'data',l:'Corte',t:'t',g:c=>spDate(Date.parse(c.corteEm)||c.createdAt||Date.now()),fmt:v=>fdate(v),cell:c=>esc(cutLabel(cutoffFor(Date.parse(c.corteEm)||c.createdAt)))},
+ {k:'data',l:'Fechada em',t:'t',g:c=>spDate(Date.parse(c.corteEm)||c.createdAt||Date.now()),fmt:v=>fdate(v),cell:c=>esc(fechLabel(c))},
  {k:'vendas',l:'Pedidos',t:'n',g:c=>corteVendas(c).length,cell:c=>'<span class="num">'+corteVendas(c).length+'</span>',cls:'r'},
  {k:'un',l:'Unidades',t:'n',g:c=>aggItems(corteVendas(c)).reduce((s,a)=>s+a.qtd,0),cell:c=>'<span class="num">'+aggItems(corteVendas(c)).reduce((s,a)=>s+a.qtd,0)+'</span>',cls:'r'},
  {k:'awb',l:'AWB',g:c=>pmAwb(c)||'(sem AWB)',cell:c=>pmAwb(c)?'<b class="num">'+esc(pmAwb(c))+'</b>':'<span class="muted">aguardando booking</span>'},
@@ -4331,7 +4333,7 @@ function openCorte(id){
  const prev=new Map((Array.isArray(rec.compra)?rec.compra:[]).map(i=>[i.produto,i]));
  const L={janice:listaJanice(rec,vs),skyroad:listaSkyroad(rec,vs),mile:listaMile(rec,vs)};
  const bloco=(k,t,sub)=>'<div class="sec"><span class="label">'+t+'</span><p class="muted full" style="grid-column:1/-1;margin:0;font-size:11.5px">'+sub+'</p><pre class="code" style="grid-column:1/-1;max-height:200px">'+esc(L[k].txt)+'</pre><div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" type="button" data-lcopy="'+k+'">Copiar texto</button><button class="btn sm" type="button" data-lcsv="'+k+'">Baixar planilha</button></div></div>';
- const body='<div class="sec"><span class="label">Resumo</span><p style="grid-column:1/-1;margin:0">'+vs.length+' vendas · '+A.reduce((s,a)=>s+a.qtd,0)+' unidades · corte '+esc(cutLabel(cutoffFor(Date.parse(rec.corteEm)||rec.createdAt)))+'</p>'+
+ const body='<div class="sec"><span class="label">Resumo</span><p style="grid-column:1/-1;margin:0">'+vs.length+' vendas · '+A.reduce((s,a)=>s+a.qtd,0)+' unidades · fechada em '+esc(fechLabel(rec))+'</p>'+
   '<label class="chk full" style="grid-column:1/-1"><input type="checkbox" id="c-env"'+(rec.enviadoEm?' checked':'')+(ro?' disabled':'')+'> Enviada para Janice, Skyroad e Mile'+(rec.enviadoEm?' <span class="muted">· '+esc(new Date(rec.enviadoEm).toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo'}))+'</span>':'')+'</label></div>'+
   '<div class="sec"><span class="label">Para a Janice · resumo em coreano</span><p class="muted" style="grid-column:1/-1;margin:0;font-size:11.5px">Página para imprimir ou mandar: lista de compra somada (com foto, nome em coreano e link do produto), embalagem por pedido e campo para ela escrever o custo em ₩.</p><div style="grid-column:1/-1"><button class="btn pri sm" type="button" id="c-janice-link">Gerar link para a Janice</button> <button class="btn sm" type="button" id="c-janice">Abrir aqui</button><p class="muted" id="c-janice-url" style="margin:8px 0 0;font-size:12px;word-break:break-all">Link: '+esc(janiceUrl(rec))+' (clique em Gerar para criar ou atualizar)</p></div></div>'+
   bloco('janice','Para a Janice · o que comprar','Itens somados de todas as vendas da lista.')+
@@ -4725,6 +4727,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v101','05/11/2026',['Parametrização manual: acabou o corte automático das 18h. As vendas pagas ficam todas num grupo só até alguém clicar em Fechar parametrização; o número (P-AAMMDD) é o dia do fechamento.']],
  ['v100','05/11/2026',['Ocorrências de compra: botão Copiar link para a diretora. O link abre a planilha sem login (quem tem o link vê e edita Decisão, Responsável, Data e Status). Abre em coreano.']],
  ['v99','05/11/2026',['Parametrização fechada é fixa: não recebe mais vendas. Vendas pagas depois de uma parametrização fechada antes da hora viram outra (ex.: P-261105-2), com número próprio.','As vendas 100.001.012 e 100.001.013 saíram da #0003 e formam a #0004 (P-261105-2).','Ocorrências de compra: botão Copiar link da aba aberta.']],
  ['v98','05/11/2026',['Ficha da venda mostra De onde veio: origem da visita no Shopify (direto, Google, Instagram, link com UTM), página por onde entrou, número de visitas e de quem é o cupom usado.']],
