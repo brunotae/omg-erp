@@ -985,7 +985,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v98 · 05/11/2026';
+const VERSAO='v99 · 05/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1191,11 +1191,12 @@ async function fecharLista(dia){
  const c=G.c, num='P-'+dia.slice(2).replace(/-/g,'');
  if(c.ms>Date.now()&&!confirm('Ainda não deu 18h. Fechar a parametrização mesmo assim? Vendas pagas depois disso vão para a próxima.'))return;
  try{
-  const ex=(S.data.cortes||[]).find(x=>x.numero===num);
+  // v99: parametrização fechada é fixa. Se já existe uma do mesmo dia, as vendas novas viram outra (P-AAMMDD-2, -3…).
+  let numF=num;for(let k=2;(S.data.cortes||[]).some(x=>x.numero===numF);k++)numF=num+'-'+k;
   const ids=G.vs.map(v=>v.id);
-  const cid=ex?await save('cortes',ex,{vendas:[...new Set([...(ex.vendas||[]),...ids])]}):await save('cortes',null,{numero:num,corteEm:new Date(Math.min(c.ms,Date.now())).toISOString(),vendas:ids});
+  const cid=await save('cortes',null,{numero:numF,corteEm:new Date(Math.min(c.ms,Date.now())).toISOString(),vendas:ids});
   for(const v of G.vs)await save('vendas',v,{corte:cid});
-  toast('Parametrização '+num+' fechada · '+ids.length+' vendas');await loadAll();openCorte(cid);
+  toast('Parametrização '+numF+' fechada · '+ids.length+' vendas');await loadAll();openCorte(cid);
  }catch(e){toast(errMsg(e))}
 }
 
@@ -3678,7 +3679,7 @@ VIEWFN.ocorrencias=()=>{
  const t=OC_T[OC.lang], lotes=ocLotes();
  if(!OC.lote||!lotes.includes(OC.lote))OC.lote=lotes[0]||null;
  const lg='<div class="oc-lang" role="group" aria-label="언어 / Idioma">'+[['ko','한국어'],['pt','Português']].map(([k,l])=>'<button type="button" data-oc-lang="'+k+'" aria-pressed="'+(OC.lang===k)+'">'+l+'</button>').join('')+'</div>';
- const acts=lg+(can()?'<button class="btn pri" type="button" data-oc-new>'+esc(t.novo)+'</button>':'');
+ const acts=lg+(OC.lote?'<button class="btn" type="button" data-copy="'+esc(location.origin+location.pathname+'?tela=ocorrencias&lote='+encodeURIComponent(OC.lote))+'">'+(OC.lang==='ko'?'링크 복사':'Copiar link')+'</button>':'')+(can()?'<button class="btn pri" type="button" data-oc-new>'+esc(t.novo)+'</button>':'');
  const sub=OC.lang==='ko'?'배치(P-YYMMDD)별 한국 구매 문제와 처리 이력. 문제가 있는 상품만 기록합니다. 결정 · 담당 · 처리일 · 상태 칸은 바로 입력할 수 있습니다.':'Histórico, por lote, dos problemas de compra na Coreia e de como cada um foi resolvido. Só entram itens com problema. As colunas Decisão, Responsável, Data e Status são editadas direto na célula.';
  if(loading('ocorrencias_compra'))return '<div class="page wide"><div class="col">'+head(esc(t.title),sub,acts)+'<p class="muted">Carregando…</p></div></div>';
  if(S.missing.ocorrencias_compra)return '<div class="page wide"><div class="col">'+head(esc(t.title),sub,'')+'<div class="card">'+empty('Tabela não encontrada','Rode o SQL omg-supabase-10-ocorrencias.sql no Supabase.')+'</div></div></div>';
@@ -4723,6 +4724,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v99','05/11/2026',['Parametrização fechada é fixa: não recebe mais vendas. Vendas pagas depois de uma parametrização fechada antes da hora viram outra (ex.: P-261105-2), com número próprio.','As vendas 100.001.012 e 100.001.013 saíram da #0003 e formam a #0004 (P-261105-2).','Ocorrências de compra: botão Copiar link da aba aberta.']],
  ['v98','05/11/2026',['Ficha da venda mostra De onde veio: origem da visita no Shopify (direto, Google, Instagram, link com UTM), página por onde entrou, número de visitas e de quem é o cupom usado.']],
  ['v97','05/11/2026',['Botão Abrir no Shopify na ficha da venda (abre o pedido no painel da loja).','Ficha da venda mostra o endereço de entrega completo (rua, complemento, cidade, UF, CEP e telefone).','Abrir uma venda agora mostra a ficha da venda: cabe numa tela, com as fotos grandes dos produtos, quantidade, preço, cliente, etapa e o total pago. Clique na foto para abrir o produto no site.','O formulário completo continua no botão Editar tudo.']],
  ['v96','05/11/2026',['Nova tela Operação › Ocorrências de compra (구매 이슈): planilha bilíngue (한국어 / Português) com os problemas de compra na Coreia, uma aba por lote.','Decisão, Responsável, Data e Status são editados direto na célula; escrever a decisão muda o status de Aberta para Em andamento. Linha resolvida fica cinza.','Endereço direto: index.html?tela=ocorrencias&lote=P-261103. Lote P-261103 já carregado com as 8 ocorrências relatadas pela diretora.']],
