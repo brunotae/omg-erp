@@ -687,6 +687,32 @@ tr.oc-done td:not(.rn):not(.oc-st){color:var(--muted)}
 .oc-tabs button{border:0;border-right:1px solid var(--line);background:none;padding:5px 16px;font:inherit;font-size:12px;color:var(--muted);white-space:nowrap;cursor:pointer}
 .oc-tabs button[aria-selected="true"]{background:var(--surface);color:var(--pri);box-shadow:inset 0 -2px 0 var(--pri)}
 .oc-foot{padding:4px 10px;background:var(--surface2);border-top:1px solid var(--line);font-size:11px;color:var(--muted)}
+/* v97 · ficha da venda */
+.modal.vd{width:min(860px,100%);max-height:calc(100dvh - 48px);overflow:hidden}
+.vd-h{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:14px 18px 10px;border-bottom:1px solid var(--line)}
+.vd-h h2{margin:0;font-size:19px;display:flex;align-items:center;gap:8px}.vd-h p{margin:3px 0 0;color:var(--muted);font-size:12.5px}
+.vd-ha{display:flex;gap:8px;align-items:center}
+.vd-b{padding:12px 18px 16px;overflow:auto;display:flex;flex-direction:column;gap:10px}
+.vd-cli{display:grid;grid-template-columns:1.2fr 1fr;gap:4px 16px;font-size:12.5px;background:var(--surface2);border-radius:12px;padding:10px 12px}
+.vd-cli>div{display:flex;flex-direction:column;gap:1px;min-width:0}.vd-cli b{font-size:14.5px}.vd-cli span{color:var(--muted);overflow:hidden;text-overflow:ellipsis}
+.vd-cli .vd-prog{grid-column:1/-1;margin-top:4px}
+.vd-warn{color:var(--warn)!important;font-size:11.5px}
+.vd-lbl{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.vd-ps{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.vd-p{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface);text-decoration:none;color:inherit;transition:box-shadow .15s,transform .15s}
+a.vd-p[href]:hover{box-shadow:var(--shadow);transform:translateY(-1px)}
+.vd-ph{position:relative;aspect-ratio:1/1;background:#fff;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--line)}
+.vd-ph img{width:100%;height:100%;object-fit:contain;padding:8px}
+.vd-ph:not(:has(img))::after{content:'';width:34%;aspect-ratio:1;border-radius:50%;background:var(--surface2)}
+.vd-q{position:absolute;top:8px;left:8px;background:var(--pri);color:var(--on-pri,#fff);border-radius:999px;padding:2px 9px;font-size:13px;font-weight:600;z-index:1}
+.vd-pt{padding:8px 10px 10px;display:flex;flex-direction:column;gap:2px;font-size:12.5px;line-height:1.3}
+.vd-mk{font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--accent,var(--pri))}
+.vd-nm{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.vd-sk{color:var(--muted);font-size:11.5px}.vd-sk b{color:var(--ink)}
+.vd-tot{display:flex;flex-wrap:wrap;gap:6px 22px;align-items:baseline;border-top:1px solid var(--line);padding-top:10px;font-size:12.5px}
+.vd-tot>div{display:flex;flex-direction:column}.vd-tot span{color:var(--muted);font-size:11px}.vd-tot b{font-size:14px;font-weight:600}
+.vd-tot .vd-total{margin-left:auto;text-align:right}.vd-tot .vd-total b{font-size:20px;color:var(--pri)}
+@media (max-width:640px){.vd-cli{grid-template-columns:1fr}.vd-ps{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.vd-h h2{font-size:17px}}
 </style>
 </head>
 <body>
@@ -958,7 +984,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v96 · 05/11/2026';
+const VERSAO='v97 · 05/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -3977,7 +4003,43 @@ function itemLink(txt){const t=String(txt||'').trim();if(!t)return '';const sku=
 function itemRow(i,ro){i=i||{};const r=ro?' readonly':'';const u=itemLink(i.produto);
  return '<div class="row it"><span class="it-prod"><input aria-label="Produto" list="dl-sku" data-k="produto" value="'+esc(i.produto||'')+'" placeholder="SKU · produto"'+r+'><a class="it-site" data-itlink href="'+esc(u||'#')+'" target="_blank" rel="noopener" title="Abrir a página do produto no site"'+(u?'':' hidden')+'>↗</a></span><input aria-label="Qtd" type="number" step="1" min="0" data-k="qtd" value="'+esc(i.qtd??1)+'"'+r+'><input aria-label="Preço unitário R$" type="number" step="any" data-k="preco" value="'+esc(i.preco??'')+'" placeholder="R$"'+r+'><input class="kr" aria-label="Preço La Belle ₩" type="number" step="any" data-k="custoLB" value="'+esc(i.custoLB??'')+'" placeholder="₩ La Belle"'+r+'><input class="kr" aria-label="Custo fábrica ₩" type="number" step="any" data-k="custoFab" value="'+esc(i.custoFab??'')+'" placeholder="₩ fábrica"'+r+'>'+(ro?'<span></span>':'<button class="iconbtn" type="button" data-rmitem aria-label="Remover item"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>')+'</div>';
 }
+/* ---------- v97: ficha da venda (abre primeiro; cabe numa tela, fotos grandes dos produtos) ---------- */
+const VD_IMG={};
+async function vdFotos(vids){
+ const falta=vids.filter(id=>!(id in VD_IMG));
+ if(falta.length){try{const d=await chamarShop({acao:'variantes_info',ids:falta});falta.forEach(id=>{VD_IMG[id]=(d.itens||{})[id]||null})}catch(_){falta.forEach(id=>{VD_IMG[id]=null})}}
+}
+function vdResumo(id){
+ const v=S.data.vendas.find(r=>r.id===id);if(!v)return;
+ const c=calc(v), its=(v.itens||[]).map(it=>{const i=pmItem(it);const prod=i.sku?(S.data.produtos||[]).find(x=>x.sku===i.sku):null;return {it,i,prod,vid:prod&&prod.shopify_variant_id?String(prod.shopify_variant_id):''}});
+ const un=its.reduce((s,x)=>s+(n(x.it.qtd)||1),0);
+ const end=pmEnd(v)||{}, cid=/^\d+$/.test(String(v.cidade||'').trim())?'':v.cidade;
+ const cidT=cid||(end.cidade&&!/^\d+$/.test(end.cidade)?end.cidade:'');
+ const ped=v.pedidoSite||(v.dados_site||{}).pedido||'';
+ const card=(x,k)=>{const nm=x.i.en||String(x.it.produto||'').split(' · ').slice(1).join(' · ')||x.it.produto;const url=x.vid?'https://ohmygirl.com.br/variants/'+x.vid:'';
+  return '<a class="vd-p"'+(url?' href="'+esc(url)+'" target="_blank" rel="noopener"':'')+'><div class="vd-ph" data-vdimg="'+esc(x.vid)+'"><span class="vd-q num">'+(n(x.it.qtd)||1)+'×</span></div>'+
+   '<div class="vd-pt">'+(x.i.marca?'<span class="vd-mk">'+esc(x.i.marca)+'</span>':'')+'<span class="vd-nm">'+esc(nm)+'</span><span class="vd-sk">'+esc(x.i.sku||'—')+' · <b class="num">'+brl(n(x.it.preco))+'</b>'+((n(x.it.qtd)||1)>1?' cada':'')+'</span></div></a>'};
+ const avisoCid=!cid&&v.cidade?'<span class="vd-warn" title="A cliente digitou só números no campo cidade no checkout">cidade “'+esc(v.cidade)+'” · confira</span>':'';
+ const linha=(l,val,cls)=>has(val)&&val!==0||cls?'<div class="'+(cls||'')+'"><span>'+l+'</span><b class="num">'+brl(val)+'</b></div>':'';
+ $('#modal-root').innerHTML='<div class="ov" id="ov"><div class="modal vd" role="dialog" aria-modal="true" aria-labelledby="m-t">'+
+  '<div class="vd-h"><div><h2 id="m-t">Venda <span class="num">'+vnum(v.numero)+'</span>'+(v.cancelada?' '+stPill('Cancelada'):'')+'</h2>'+
+   '<p>'+fdate(v.dataCompra)+' · '+esc(v.canal||'—')+(ped?' · pedido '+esc(ped):'')+(v.cupom?' · cupom <b>'+esc(v.cupom)+'</b>':'')+'</p></div>'+
+   '<div class="vd-ha">'+(can()?'<button class="btn sm" type="button" data-vd-edit="'+esc(v.id)+'">Editar tudo</button>':'')+'<button class="iconbtn" type="button" data-close aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div></div>'+
+  '<div class="vd-b">'+
+   '<div class="vd-cli"><div><b>'+esc(v.cliente||'—')+'</b><span>'+esc([cidT,v.uf].filter(Boolean).join(' / ')||'')+(end.cep?' · CEP '+esc(end.cep):'')+'</span>'+avisoCid+'</div>'+
+    '<div><span>CPF '+esc(v.cpf||'faltando')+'</span><span>'+esc(v.contato||'')+'</span></div><div class="vd-prog">'+prog(v)+'</div></div>'+
+   '<div class="vd-lbl">'+its.length+' produto'+(its.length===1?'':'s')+' · '+un+' unidade'+(un===1?'':'s')+'</div>'+
+   '<div class="vd-ps">'+(its.length?its.map(card).join(''):'<p class="muted">Sem itens</p>')+'</div>'+
+   '<div class="vd-tot">'+linha('Produtos',c.sub,'k')+(n(v.desconto)?linha('Desconto',-n(v.desconto)):'')+linha('Frete',n(v.frete),'k')+linha('Imposto de importação',n(v.ii),'k')+linha('ICMS',n(v.icms),'k')+linha('Total pago',c.total,'k vd-total')+'</div>'+
+  '</div></div></div>';
+ const vids=[...new Set(its.map(x=>x.vid).filter(Boolean))];
+ const pinta=()=>document.querySelectorAll('#modal-root [data-vdimg]').forEach(el=>{const x=VD_IMG[el.dataset.vdimg];if(x&&x.img&&!el.querySelector('img')){const im=document.createElement('img');im.alt='';im.loading='lazy';im.src=x.img+(x.img.includes('?')?'&':'?')+'width=480';el.prepend(im)}});
+ pinta();vdFotos(vids).then(pinta);
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-vd-edit]');if(!b)return;e.preventDefault();const id=b.dataset.vdEdit;close();VD_FORM=true;openVenda(id)});
+let VD_FORM=false;
 function openVenda(id){
+ if(id&&!VD_FORM){vdResumo(id);return}VD_FORM=false;
  const rec=id?S.data.vendas.find(r=>r.id===id):null, ro=!can();
  const v=rec?JSON.parse(JSON.stringify(rec)):{numero:nextVenda(),dataCompra:today(),canal:'Site',itens:[{qtd:1}],cargaCoreia:'Skyroad',cargaBrasil:'Mile Express',etapas:{}};
  const e=v.etapas||{};
@@ -4616,6 +4678,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v97','05/11/2026',['Abrir uma venda agora mostra a ficha da venda: cabe numa tela, com as fotos grandes dos produtos, quantidade, preço, cliente, etapa e o total pago. Clique na foto para abrir o produto no site.','O formulário completo continua no botão Editar tudo.']],
  ['v96','05/11/2026',['Nova tela Operação › Ocorrências de compra (구매 이슈): planilha bilíngue (한국어 / Português) com os problemas de compra na Coreia, uma aba por lote.','Decisão, Responsável, Data e Status são editados direto na célula; escrever a decisão muda o status de Aberta para Em andamento. Linha resolvida fica cinza.','Endereço direto: index.html?tela=ocorrencias&lote=P-261103. Lote P-261103 já carregado com as 8 ocorrências relatadas pela diretora.']],
  ['v95','04/11/2026',['Parametrização e página da Janice: produtos com versão de letra no SKU (ex.: MB003225-STRONG) agora saem com foto, nome, marca e link.']],
  ['v94','04/11/2026',['Parametrizações fechadas: caixinha em cada linha. Marque as que quer mandar juntas e use os botões que aparecem em cima da tabela: Planilha da Mile, Master List (Skyroad), Link da diretora, Ver página da diretora e Marcar como enviadas. Tudo sai concatenado num arquivo só.']],
