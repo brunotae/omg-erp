@@ -985,7 +985,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v99 · 05/11/2026';
+const VERSAO='v100 · 05/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -3679,7 +3679,7 @@ VIEWFN.ocorrencias=()=>{
  const t=OC_T[OC.lang], lotes=ocLotes();
  if(!OC.lote||!lotes.includes(OC.lote))OC.lote=lotes[0]||null;
  const lg='<div class="oc-lang" role="group" aria-label="언어 / Idioma">'+[['ko','한국어'],['pt','Português']].map(([k,l])=>'<button type="button" data-oc-lang="'+k+'" aria-pressed="'+(OC.lang===k)+'">'+l+'</button>').join('')+'</div>';
- const acts=lg+(OC.lote?'<button class="btn" type="button" data-copy="'+esc(location.origin+location.pathname+'?tela=ocorrencias&lote='+encodeURIComponent(OC.lote))+'">'+(OC.lang==='ko'?'링크 복사':'Copiar link')+'</button>':'')+(can()?'<button class="btn pri" type="button" data-oc-new>'+esc(t.novo)+'</button>':'');
+ const acts=lg+(OC.lote?'<button class="btn" type="button" data-oc-link>'+(OC.lang==='ko'?'공개 링크 복사':'Copiar link para a diretora')+'</button>':'')+(can()?'<button class="btn pri" type="button" data-oc-new>'+esc(t.novo)+'</button>':'');
  const sub=OC.lang==='ko'?'배치(P-YYMMDD)별 한국 구매 문제와 처리 이력. 문제가 있는 상품만 기록합니다. 결정 · 담당 · 처리일 · 상태 칸은 바로 입력할 수 있습니다.':'Histórico, por lote, dos problemas de compra na Coreia e de como cada um foi resolvido. Só entram itens com problema. As colunas Decisão, Responsável, Data e Status são editadas direto na célula.';
  if(loading('ocorrencias_compra'))return '<div class="page wide"><div class="col">'+head(esc(t.title),sub,acts)+'<p class="muted">Carregando…</p></div></div>';
  if(S.missing.ocorrencias_compra)return '<div class="page wide"><div class="col">'+head(esc(t.title),sub,'')+'<div class="card">'+empty('Tabela não encontrada','Rode o SQL omg-supabase-10-ocorrencias.sql no Supabase.')+'</div></div></div>';
@@ -3734,6 +3734,7 @@ document.addEventListener('click',e=>{if(S.view!=='ocorrencias')return;const b=e
  if(b.dataset.ocLang){OC.lang=b.dataset.ocLang;try{localStorage.setItem('omg-oc-lang',OC.lang)}catch(_){}render();return}
  if(b.dataset.ocTab){OC.lote=b.dataset.ocTab;try{history.replaceState(null,'','?tela=ocorrencias&lote='+encodeURIComponent(OC.lote))}catch(_){}render();return}
  if(b.hasAttribute('data-oc-new')){ocForm();return}
+ if(b.hasAttribute('data-oc-link')){(async()=>{try{const {data,error}=await sb.rpc('ocorrencias_token');if(error)throw error;const u=location.origin+location.pathname.replace(/[^/]*$/,'')+'ocorrencias.html?k='+data+'&lote='+encodeURIComponent(OC.lote);try{await navigator.clipboard.writeText(u);toast('Link copiado · abre sem login')}catch(_){prompt('Copie:',u)}}catch(e){toast(errMsg(e))}})();return}
  if(b.dataset.ocEdit){ocForm(b.dataset.ocEdit);return}
 });
 document.addEventListener('focusin',e=>{if(S.view!=='ocorrencias')return;const td=e.target.closest&&e.target.closest('.oc-xl tbody td');if(td)ocFx(td)});
@@ -4724,6 +4725,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v100','05/11/2026',['Ocorrências de compra: botão Copiar link para a diretora. O link abre a planilha sem login (quem tem o link vê e edita Decisão, Responsável, Data e Status). Abre em coreano.']],
  ['v99','05/11/2026',['Parametrização fechada é fixa: não recebe mais vendas. Vendas pagas depois de uma parametrização fechada antes da hora viram outra (ex.: P-261105-2), com número próprio.','As vendas 100.001.012 e 100.001.013 saíram da #0003 e formam a #0004 (P-261105-2).','Ocorrências de compra: botão Copiar link da aba aberta.']],
  ['v98','05/11/2026',['Ficha da venda mostra De onde veio: origem da visita no Shopify (direto, Google, Instagram, link com UTM), página por onde entrou, número de visitas e de quem é o cupom usado.']],
  ['v97','05/11/2026',['Botão Abrir no Shopify na ficha da venda (abre o pedido no painel da loja).','Ficha da venda mostra o endereço de entrega completo (rua, complemento, cidade, UF, CEP e telefone).','Abrir uma venda agora mostra a ficha da venda: cabe numa tela, com as fotos grandes dos produtos, quantidade, preço, cliente, etapa e o total pago. Clique na foto para abrir o produto no site.','O formulário completo continua no botão Editar tudo.']],
