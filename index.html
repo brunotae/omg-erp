@@ -4024,7 +4024,7 @@ function vdResumo(id){
  $('#modal-root').innerHTML='<div class="ov" id="ov"><div class="modal vd" role="dialog" aria-modal="true" aria-labelledby="m-t">'+
   '<div class="vd-h"><div><h2 id="m-t">Venda <span class="num">'+vnum(v.numero)+'</span>'+(v.cancelada?' '+stPill('Cancelada'):'')+'</h2>'+
    '<p>'+fdate(v.dataCompra)+' · '+esc(v.canal||'—')+(ped?' · pedido '+esc(ped):'')+(v.cupom?' · cupom <b>'+esc(v.cupom)+'</b>':'')+'</p></div>'+
-   '<div class="vd-ha">'+(can()?'<button class="btn sm" type="button" data-vd-edit="'+esc(v.id)+'">Editar tudo</button>':'')+'<button class="iconbtn" type="button" data-close aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div></div>'+
+   '<div class="vd-ha">'+(ped?'<a class="btn sm" href="https://admin.shopify.com/store/mundo-beleza-9571/orders?query='+encodeURIComponent(ped)+'" target="_blank" rel="noopener">Abrir no Shopify ↗</a>':'')+(can()?'<button class="btn sm" type="button" data-vd-edit="'+esc(v.id)+'">Editar tudo</button>':'')+'<button class="iconbtn" type="button" data-close aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div></div>'+
   '<div class="vd-b">'+
    '<div class="vd-cli"><div class="vd-c1"><span class="vd-k">Cliente</span><b>'+esc(v.cliente||'—')+'</b><span>CPF '+esc(v.cpf||'faltando')+'</span><span>'+esc(v.contato||'')+'</span></div>'+
     '<div class="vd-c1"><span class="vd-k">Entrega'+(end.nome&&end.nome!==v.cliente?' · para '+esc(end.nome):'')+'</span>'+
@@ -4682,7 +4682,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
- ['v97','05/11/2026',['Ficha da venda mostra o endereço de entrega completo (rua, complemento, cidade, UF, CEP e telefone).','Abrir uma venda agora mostra a ficha da venda: cabe numa tela, com as fotos grandes dos produtos, quantidade, preço, cliente, etapa e o total pago. Clique na foto para abrir o produto no site.','O formulário completo continua no botão Editar tudo.']],
+ ['v97','05/11/2026',['Botão Abrir no Shopify na ficha da venda (abre o pedido no painel da loja).','Ficha da venda mostra o endereço de entrega completo (rua, complemento, cidade, UF, CEP e telefone).','Abrir uma venda agora mostra a ficha da venda: cabe numa tela, com as fotos grandes dos produtos, quantidade, preço, cliente, etapa e o total pago. Clique na foto para abrir o produto no site.','O formulário completo continua no botão Editar tudo.']],
  ['v96','05/11/2026',['Nova tela Operação › Ocorrências de compra (구매 이슈): planilha bilíngue (한국어 / Português) com os problemas de compra na Coreia, uma aba por lote.','Decisão, Responsável, Data e Status são editados direto na célula; escrever a decisão muda o status de Aberta para Em andamento. Linha resolvida fica cinza.','Endereço direto: index.html?tela=ocorrencias&lote=P-261103. Lote P-261103 já carregado com as 8 ocorrências relatadas pela diretora.']],
  ['v95','04/11/2026',['Parametrização e página da Janice: produtos com versão de letra no SKU (ex.: MB003225-STRONG) agora saem com foto, nome, marca e link.']],
  ['v94','04/11/2026',['Parametrizações fechadas: caixinha em cada linha. Marque as que quer mandar juntas e use os botões que aparecem em cima da tabela: Planilha da Mile, Master List (Skyroad), Link da diretora, Ver página da diretora e Marcar como enviadas. Tudo sai concatenado num arquivo só.']],
