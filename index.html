@@ -15,7 +15,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700;800&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap">
 <style>
 /* Layout: menu com faixa bojagi | painel central | coluna de alertas. Manual de Identidade OMG v1.2: creme 60%, rosa 25%, ameixa 10%, menta 5%. Tema claro único, de propósito. */
 :root{
@@ -648,6 +648,45 @@ table.rel-t{width:100%;border-collapse:collapse;font-size:7.4pt}
 .va-t{min-width:0}.va-t td,.va-t th{padding:7px 8px}
 .va-bars{display:flex;align-items:flex-end;gap:2px;height:96px;margin-top:10px}.va-bars i{flex:1;min-width:2px;background:#E7A3B9;border-radius:2px 2px 0 0}.va-bars i:last-child{background:#B83D66}
 @media(max-width:780px){.va-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important}.va-kpis .kpi{padding:9px 8px}.va-kpis .kpi .label{font-size:9px;letter-spacing:.04em}.va-kpis .kpi .s{font-size:10.5px}.va-in{grid-template-columns:repeat(2,minmax(0,1fr))!important}.va-in .kpi:last-child{grid-column:1/-1}}
+/* v96 · Ocorrências de compra (planilha estilo Excel, letra fina) */
+.oc-sheet{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--surface);font-family:"Noto Sans KR",var(--f-text,system-ui),sans-serif;font-weight:300;font-size:12px;min-width:0}
+.oc-sheet b,.oc-sheet th{font-weight:400}
+.oc-lang{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.oc-lang button{border:0;background:var(--surface);padding:6px 12px;font:inherit;font-size:12px;cursor:pointer;color:var(--muted)}
+.oc-lang button[aria-pressed="true"]{background:var(--pri);color:var(--on-pri,#fff)}
+.oc-tools{display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--surface2);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.oc-tools label{color:var(--muted)}
+.oc-tools select{border:1px solid var(--line);background:var(--surface);border-radius:3px;padding:2px 6px;font:inherit;font-size:12px;color:var(--ink)}
+.oc-info{color:var(--muted);font-size:11.5px}.oc-info a{color:var(--pri)}
+.oc-fx{display:flex;align-items:stretch;border-bottom:1px solid var(--line);min-height:26px;background:var(--surface)}
+.oc-nb{width:70px;border-right:1px solid var(--line);padding:4px 8px;color:var(--muted);font-size:11.5px}
+.oc-fi{font-style:italic;color:var(--muted);padding:4px 8px;border-right:1px solid var(--line)}
+.oc-fv{flex:1;padding:4px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.oc-grid{overflow:auto;max-height:calc(100dvh - 300px);min-height:240px;background:var(--surface)}
+@media (max-width:780px){.oc-grid{max-height:calc(100dvh - 330px)}}
+table.oc-xl{border-collapse:separate;border-spacing:0;table-layout:fixed;width:max-content}
+.oc-xl th,.oc-xl td{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:4px 6px;vertical-align:top;line-height:1.45;word-break:keep-all;overflow-wrap:anywhere;font-weight:300;color:var(--ink);text-align:left}
+.oc-xl thead th{position:sticky;z-index:3;background:var(--surface2);color:var(--muted);text-align:center;font-size:11px;font-weight:400}
+.oc-xl thead tr.oc-let th{top:0;height:20px;padding:2px}
+.oc-xl thead tr.oc-nm th{top:20px;background:var(--soft,var(--surface2));color:var(--ink);text-align:left;font-size:11.5px;height:28px;vertical-align:middle}
+.oc-xl .rn{background:var(--surface2);color:var(--muted);text-align:center;position:sticky;left:0;z-index:1;font-size:11px}
+.oc-xl thead .rn{z-index:4}
+.oc-rn{border:0;background:none;color:var(--muted);font:inherit;font-size:11px;cursor:pointer;padding:0;text-decoration:underline dotted}
+.oc-xl td{background:var(--surface)}.oc-xl td.c{text-align:center}.oc-xl td.nw{white-space:nowrap;overflow-wrap:normal}
+.oc-wrap{white-space:normal}
+.oc-xl td.oc-e{outline:0;background:var(--warn-bg);background:color-mix(in srgb,var(--warn-bg) 45%,var(--surface))}
+.oc-xl td.oc-e:empty::before{content:attr(data-ph);color:var(--muted);opacity:.6}
+.oc-xl td:focus,.oc-xl td:focus-within{box-shadow:inset 0 0 0 2px var(--pri)}
+.oc-xl td select,.oc-xl td input[type=date]{width:100%;border:0;background:transparent;font:inherit;font-size:12px;padding:0;color:inherit;min-height:0}
+td.oc-st.s-aberta{background:var(--bad-bg)!important;color:var(--bad)}
+td.oc-st.s-andamento{background:var(--warn-bg)!important;color:var(--warn)}
+td.oc-st.s-resolvida{background:var(--ok-bg)!important;color:var(--ok)}
+tr.oc-done td:not(.rn):not(.oc-st){color:var(--muted)}
+.oc-gift{color:var(--ok);font-size:11px}.oc-orig{color:var(--muted);font-size:10.5px}
+.oc-tabs{display:flex;background:var(--surface2);border-top:1px solid var(--line);overflow-x:auto;min-height:30px}
+.oc-tabs button{border:0;border-right:1px solid var(--line);background:none;padding:5px 16px;font:inherit;font-size:12px;color:var(--muted);white-space:nowrap;cursor:pointer}
+.oc-tabs button[aria-selected="true"]{background:var(--surface);color:var(--pri);box-shadow:inset 0 -2px 0 var(--pri)}
+.oc-foot{padding:4px 10px;background:var(--surface2);border-top:1px solid var(--line);font-size:11px;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -731,7 +770,7 @@ function contasList(){
 const MOEDAS=['BRL','USD','KRW'];
 
 const S={db:null,canWrite:true,status:'connecting',view:(/^#relatorios/.test(location.hash)?'relatorios':'painel'),q:'',
- data:{vendas:[],cortes:[],lotes:[],lancamentos:[],devolucoes:[],insumos:[],compras:[],produtos:[],cupons:[],fornecedores:[],metricas:[],acoes_mkt:[],influenciadores:[],links_utm:[],link_cliques_dia:[],comissoes_fechamentos:[],monitoramentos:[],monitor_execucoes:[]},
+ data:{vendas:[],cortes:[],lotes:[],lancamentos:[],devolucoes:[],insumos:[],compras:[],produtos:[],cupons:[],fornecedores:[],metricas:[],acoes_mkt:[],influenciadores:[],links_utm:[],link_cliques_dia:[],comissoes_fechamentos:[],monitoramentos:[],monitor_execucoes:[],ocorrencias_compra:[]},
  loaded:{},missing:{},cfg:{krw:0.0039,usd:5.40,desc:12,markup:40,fielMin:2},
  f:{vendas:'abertas',fin:'mes',doc:'identidade'}};
 
@@ -739,6 +778,7 @@ const ICONS={
  monitor:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><path d="M12 12l6-6"/><circle cx="12" cy="12" r=".8"/>',
  visitas:'<path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
  links:'<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
+ ocorrencias:'<path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17v.01"/>',
  acoes:'<path d="M12 3c.6 4.2 2.3 5.9 6.5 6.5-4.2.6-5.9 2.3-6.5 6.5-.6-4.2-2.3-5.9-6.5-6.5C9.7 8.9 11.4 7.2 12 3z"/><path d="M19 15c.3 1.8 1 2.6 2.8 2.8-1.8.3-2.5 1-2.8 2.8-.3-1.8-1-2.5-2.8-2.8 1.8-.2 2.5-1 2.8-2.8z"/>',
  painel:'<path d="M4 13h6V4H4zM14 20h6v-9h-6zM4 20h6v-4H4zM14 8h6V4h-6z"/>',
  vendas:'<path d="M6 7h12l-1 13H7z"/><path d="M9 7a3 3 0 0 1 6 0"/>',
@@ -763,7 +803,7 @@ const ICONS={
  fornecedores:'<path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/>',
  config:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/>'
 };
-const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Parametrização'],['','lotes','Embarques'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['','pricing','Pricing'],['','precos','Concorrentes'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','cadastros','Cadastros do site'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['','relatorios','Relatório do site'],['','visitas','Visitas agora'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Automação','monitor','Monitoramentos'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
+const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Parametrização'],['','ocorrencias','Ocorrências de compra'],['','lotes','Embarques'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['','pricing','Pricing'],['','precos','Concorrentes'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','cadastros','Cadastros do site'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['','relatorios','Relatório do site'],['','visitas','Visitas agora'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Automação','monitor','Monitoramentos'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
 
 /* ================= utilidades ================= */
 const $=s=>document.querySelector(s);
@@ -918,7 +958,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v95 · 04/11/2026';
+const VERSAO='v96 · 05/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -3567,6 +3607,160 @@ document.addEventListener('click',async e=>{
  t.disabled=false;
 });
 
+/* ================= Ocorrências de compra · 구매 이슈 (v96) ================= */
+// Histórico, por lote (P-AAMMDD), dos problemas de compra na Coreia. Planilha bilíngue (한국어 / Português).
+// Colunas I–L (decisão, responsável, data, status) podem ser editadas por qualquer membro (função ocorrencia_atualizar);
+// o resto da linha só por editores.
+const OC_T={
+ ko:{title:'구매 이슈',filter:'상태',all:'전체',cutoff:'마감',orders:'주문',items:'상품',reporter:'보고',source:'원본 요약',
+  cols:['#','유형','브랜드','상품','SKU','주문','상황','제안 해결책','결정 · 조치','담당','처리일','상태'],
+  ph:'입력',st:{aberta:'열림',andamento:'진행 중',resolvida:'해결'},gift:'협찬 / Influenciadora',orig:'(원문)',
+  cnt:(n,o,d,k)=>'이슈 '+n+' · 열림 '+o+' · 진행 중 '+d+' · 해결 '+k,saved:'저장됨',none:'이슈가 있는 배치가 아직 없습니다',
+  novo:'+ 이슈 추가',edit:'수정',together:'함께 발송'},
+ pt:{title:'Ocorrências de compra',filter:'Status',all:'Todos',cutoff:'Corte',orders:'Pedidos',items:'Produtos',reporter:'Relatado por',source:'Resumo do lote',
+  cols:['#','Tipo','Marca','Produto','SKU','Pedido','Situação','Solução sugerida','Decisão · ação tomada','Responsável','Data','Status'],
+  ph:'Digite',st:{aberta:'Aberta',andamento:'Em andamento',resolvida:'Resolvida'},gift:'협찬 / Influenciadora',orig:'(original)',
+  cnt:(n,o,d,k)=>'Ocorrências '+n+' · Abertas '+o+' · Em andamento '+d+' · Resolvidas '+k,saved:'Salvo',none:'Nenhum lote com ocorrência ainda',
+  novo:'+ Nova ocorrência',edit:'Editar',together:'vai junto com'}
+};
+const OC_TIPOS={notkr:{ko:'한국 미판매',pt:'Não vende na Coreia'},disc:{ko:'단종 · 리뉴얼',pt:'Descontinuado'},mism:{ko:'구성 · 이미지 불일치',pt:'Kit ou foto não confere'},sold:{ko:'품절',pt:'Esgotado'},unit:{ko:'판매 단위',pt:'Unidade de venda'},delay:{ko:'구매 지연',pt:'Atraso na compra'},outro:{ko:'기타',pt:'Outro'}};
+const OC_W=[34,104,92,190,112,118,270,270,250,90,112,104];
+const OC_LET='ABCDEFGHIJKLMNOP';
+const OC={lote:null,f:'all',lang:(()=>{try{return localStorage.getItem('omg-oc-lang')||'pt'}catch(_){return 'pt'}})()};
+const ocRows=()=>S.data.ocorrencias_compra||[];
+const ocLotes=()=>[...new Set(ocRows().map(r=>r.lote))].sort((a,b)=>String(b).localeCompare(String(a)));
+const ocPed=p=>{const d=String(p||'').replace(/\D/g,'');return d.length===9?d.slice(0,3)+'.'+d.slice(3,6)+'.'+d.slice(6):String(p||'')};
+// texto no idioma escolhido; se só existir no outro, mostra esse com a marca (원문)/(original)
+function ocTx(r,campo){const lg=OC.lang,o=lg==='ko'?'pt':'ko',a=r[campo+'_'+lg],b=r[campo+'_'+o];
+ if(a)return esc(a);if(b)return esc(b)+' <span class="oc-orig">'+OC_T[lg].orig+'</span>';return ''}
+function ocInfoLote(lote){
+ const c=(S.data.cortes||[]).find(x=>x.numero===lote);if(!c)return null;
+ const g=pmGrupo(c), vs=g.flatMap(x=>corteVendas(x)), it=vs.reduce((a,v)=>a+(v.itens||[]).reduce((s,i)=>s+n(i.qtd),0),0);
+ const d=c.corteEm||c.corte_em, f=(tz)=>{try{return new Date(d).toLocaleString('pt-BR',{timeZone:tz,day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}catch(_){return ''}};
+ return {c,g,pedidos:vs.length,itens:it,corte:d?f('America/Sao_Paulo')+' BRT / '+f('Asia/Seoul')+' KST':'',url:janiceUrl(c),
+  peds:vs.map(v=>v.numero)};
+}
+function ocPedCell(r,t,info){
+ if(r.escopo==='lote'){const p=(info&&info.peds||[]).slice().sort((a,b)=>a-b);
+  return '<span class="oc-wrap">'+(p.length?(OC.lang==='ko'?'전체 '+p.length+'건 ('+ocPed(p[0])+' ~ '+ocPed(p[p.length-1])+')':'Todos os '+p.length+' ('+ocPed(p[0])+' a '+ocPed(p[p.length-1])+')'):(OC.lang==='ko'?'배치 전체':'Lote inteiro'))+'</span>'}
+ if(r.escopo==='nao_identificado'&&!(r.pedidos||[]).length)return '<span class="oc-wrap">'+(OC.lang==='ko'?'상품 확인 후 기재':'Preencher quando a diretora informar o produto')+'</span>';
+ const ps=(r.pedidos||[]);if(!ps.length)return '—';
+ return ps.map(p=>esc(ocPed(p))).join('<br>')+(r.presente?'<br><span class="oc-gift">'+esc(t.gift)+'</span>':'');
+}
+VIEWFN.ocorrencias=()=>{
+ const t=OC_T[OC.lang], lotes=ocLotes();
+ if(!OC.lote||!lotes.includes(OC.lote))OC.lote=lotes[0]||null;
+ const lg='<div class="oc-lang" role="group" aria-label="언어 / Idioma">'+[['ko','한국어'],['pt','Português']].map(([k,l])=>'<button type="button" data-oc-lang="'+k+'" aria-pressed="'+(OC.lang===k)+'">'+l+'</button>').join('')+'</div>';
+ const acts=lg+(can()?'<button class="btn pri" type="button" data-oc-new>'+esc(t.novo)+'</button>':'');
+ const sub=OC.lang==='ko'?'배치(P-YYMMDD)별 한국 구매 문제와 처리 이력. 문제가 있는 상품만 기록합니다. 결정 · 담당 · 처리일 · 상태 칸은 바로 입력할 수 있습니다.':'Histórico, por lote, dos problemas de compra na Coreia e de como cada um foi resolvido. Só entram itens com problema. As colunas Decisão, Responsável, Data e Status são editadas direto na célula.';
+ if(loading('ocorrencias_compra'))return '<div class="page wide"><div class="col">'+head(esc(t.title),sub,acts)+'<p class="muted">Carregando…</p></div></div>';
+ if(S.missing.ocorrencias_compra)return '<div class="page wide"><div class="col">'+head(esc(t.title),sub,'')+'<div class="card">'+empty('Tabela não encontrada','Rode o SQL omg-supabase-10-ocorrencias.sql no Supabase.')+'</div></div></div>';
+ if(!OC.lote)return '<div class="page wide"><div class="col">'+head(esc(t.title),sub,acts)+'<div class="card">'+empty(esc(t.none),'')+'</div></div></div>';
+ const all=ocRows().filter(r=>r.lote===OC.lote).sort((a,b)=>n(a.ordem)-n(b.ordem)||String(a.numero).localeCompare(String(b.numero)));
+ const rows=all.filter(r=>(OC.f==='all'||r.status===OC.f)&&match(r));
+ const info=ocInfoLote(OC.lote), rel=[...new Set(all.map(r=>r.relatado_por).filter(Boolean))].join(', ');
+ const junto=info&&info.g.length>1?' · '+esc(t.together)+' '+info.g.filter(x=>x.numero!==OC.lote).map(x=>esc(x.numero)).join(', '):'';
+ const tools='<label for="oc-flt">'+esc(t.filter)+'</label><select id="oc-flt" data-1c="off">'+[['all',t.all],['aberta',t.st.aberta],['andamento',t.st.andamento],['resolvida',t.st.resolvida]].map(([k,v])=>'<option value="'+k+'"'+(OC.f===k?' selected':'')+'>'+esc(v)+'</option>').join('')+'</select>'+
+  '<span class="oc-info">'+(info?esc(t.cutoff)+' '+esc(info.corte)+' · '+esc(t.orders)+' '+info.pedidos+' · '+esc(t.items)+' '+info.itens+junto+' · ':'')+(rel?esc(t.reporter)+' '+esc(rel)+' · ':'')+(info?'<a href="'+esc(info.url)+'" target="_blank" rel="noopener">'+esc(t.source)+' ↗</a>':'')+'</span>';
+ const ed=can();
+ let h='<colgroup><col style="width:36px">'+OC_W.map(w=>'<col style="width:'+w+'px">').join('')+'</colgroup>';
+ h+='<thead><tr class="oc-let"><th class="rn"></th>'+OC_W.map((_,i)=>'<th>'+OC_LET[i]+'</th>').join('')+'</tr>';
+ h+='<tr class="oc-nm"><th class="rn">1</th>'+t.cols.map(c=>'<th>'+esc(c)+'</th>').join('')+'</tr></thead><tbody>';
+ rows.forEach((r,i)=>{const st=r.status||'aberta';
+  h+='<tr class="'+(st==='resolvida'?'oc-done':'')+'" data-oc-id="'+esc(r.id)+'"><td class="rn">'+(ed?'<button type="button" class="oc-rn" data-oc-edit="'+esc(r.id)+'" title="'+esc(t.edit+' '+r.numero)+'">'+(i+2)+'</button>':(i+2))+'</td>'+
+   '<td class="c" title="'+esc(r.numero)+'">'+n(r.ordem||i+1)+'</td><td>'+esc((OC_TIPOS[r.tipo]||OC_TIPOS.outro)[OC.lang])+'</td><td class="nw">'+esc(r.marca||'—')+'</td><td>'+(ocTx(r,'produto')||'—')+'</td>'+
+   '<td class="nw">'+esc(r.sku||'—')+'</td><td class="nw">'+ocPedCell(r,t,info)+'</td>'+
+   '<td>'+ocTx(r,'situacao')+'</td><td>'+ocTx(r,'sugestao')+'</td>'+
+   '<td class="oc-e" contenteditable="true" data-oc-k="decisao" data-ph="'+esc(t.ph)+'">'+esc(r.decisao||'')+'</td>'+
+   '<td class="oc-e" contenteditable="true" data-oc-k="responsavel" data-ph="'+esc(t.ph)+'">'+esc(r.responsavel||'')+'</td>'+
+   '<td><input type="date" data-oc-k="data_acao" data-1c="off" value="'+esc(r.data_acao||'')+'" aria-label="'+esc(t.cols[10])+'"></td>'+
+   '<td class="oc-st s-'+st+'"><select data-oc-k="status" data-1c="off" aria-label="'+esc(t.cols[11])+'">'+['aberta','andamento','resolvida'].map(k=>'<option value="'+k+'"'+(st===k?' selected':'')+'>'+esc(t.st[k])+'</option>').join('')+'</select></td></tr>';
+ });
+ for(let k=rows.length+2;k<rows.length+8;k++)h+='<tr class="oc-vazia"><td class="rn">'+k+'</td>'+OC_W.map(()=>'<td>&nbsp;</td>').join('')+'</tr>';
+ const c={aberta:0,andamento:0,resolvida:0};all.forEach(r=>c[r.status||'aberta']++);
+ return '<div class="page wide"><div class="col">'+head(esc(t.title),sub,acts)+
+  '<div class="oc-sheet" lang="'+(OC.lang==='ko'?'ko':'pt-BR')+'"><div class="oc-tools">'+tools+'</div>'+
+  '<div class="oc-fx"><span class="oc-nb" id="oc-nb">A1</span><span class="oc-fi">fx</span><span class="oc-fv" id="oc-fv"></span></div>'+
+  '<div class="oc-grid"><table class="oc-xl">'+h+'</tbody></table></div>'+
+  '<div class="oc-tabs" role="tablist">'+lotes.map(x=>'<button role="tab" type="button" data-oc-tab="'+esc(x)+'" aria-selected="'+(x===OC.lote)+'">'+esc(x)+'</button>').join('')+'</div>'+
+  '<div class="oc-foot">'+esc(t.cnt(all.length,c.aberta,c.andamento,c.resolvida))+'</div></div></div></div>';
+};
+function ocCellRef(td){const tr=td.parentElement,ci=[...tr.children].indexOf(td),rn=tr.querySelector('.rn');return (OC_LET[ci-1]||'')+(rn?rn.textContent.trim():'')}
+const ocFx=td=>{const a=$('#oc-nb'),b=$('#oc-fv');if(!a||!td||td.classList.contains('rn'))return;a.textContent=ocCellRef(td);const s=td.querySelector('select'),i=td.querySelector('input');b.textContent=s?s.options[s.selectedIndex].text:i?i.value:td.innerText.trim()};
+async function ocSalvar(tr,patch){
+ const r=ocRows().find(x=>x.id===tr.dataset.ocId);if(!r)return;
+ const v={decisao:r.decisao||'',responsavel:r.responsavel||'',data_acao:r.data_acao||null,status:r.status||'aberta',...patch};
+ if(patch.decisao!==undefined&&String(patch.decisao).trim()&&v.status==='aberta')v.status='andamento';
+ const {data,error}=await sb.rpc('ocorrencia_atualizar',{p_id:r.id,p_decisao:String(v.decisao||'').trim(),p_responsavel:String(v.responsavel||'').trim(),p_data:v.data_acao||null,p_status:v.status});
+ if(error){toast(errMsg(error));return}
+ Object.assign(r,fromDb('ocorrencias_compra',data));
+ const td=tr.querySelector('.oc-st');if(td){td.className='oc-st s-'+r.status;td.querySelector('select').value=r.status}
+ tr.classList.toggle('oc-done',r.status==='resolvida');
+ const all=ocRows().filter(x=>x.lote===r.lote),c={aberta:0,andamento:0,resolvida:0};all.forEach(x=>c[x.status||'aberta']++);
+ const f=document.querySelector('.oc-foot');if(f)f.textContent=OC_T[OC.lang].cnt(all.length,c.aberta,c.andamento,c.resolvida);
+ toast(OC_T[OC.lang].saved);
+}
+document.addEventListener('click',e=>{if(S.view!=='ocorrencias')return;const b=e.target.closest('button');
+ const td=e.target.closest('.oc-xl tbody td');if(td)ocFx(td);
+ if(!b)return;
+ if(b.dataset.ocLang){OC.lang=b.dataset.ocLang;try{localStorage.setItem('omg-oc-lang',OC.lang)}catch(_){}render();return}
+ if(b.dataset.ocTab){OC.lote=b.dataset.ocTab;try{history.replaceState(null,'','?tela=ocorrencias&lote='+encodeURIComponent(OC.lote))}catch(_){}render();return}
+ if(b.hasAttribute('data-oc-new')){ocForm();return}
+ if(b.dataset.ocEdit){ocForm(b.dataset.ocEdit);return}
+});
+document.addEventListener('focusin',e=>{if(S.view!=='ocorrencias')return;const td=e.target.closest&&e.target.closest('.oc-xl tbody td');if(td)ocFx(td)});
+document.addEventListener('input',e=>{const el=e.target;if(S.view!=='ocorrencias'||!el.closest||!el.closest('.oc-xl'))return;const td=el.closest('td');ocFx(td)});
+document.addEventListener('focusout',e=>{const el=e.target;if(S.view!=='ocorrencias'||!el.matches||!el.matches('.oc-e'))return;
+ const tr=el.closest('tr'),r=ocRows().find(x=>x.id===tr.dataset.ocId);if(!r)return;const k=el.dataset.ocK,v=el.innerText.replace(/\n+$/,'');
+ if((r[k]||'')===v)return;ocSalvar(tr,{[k]:v})});
+document.addEventListener('keydown',e=>{if(S.view!=='ocorrencias'||!e.target.matches||!e.target.matches('.oc-e[data-oc-k=responsavel]'))return;if(e.key==='Enter'){e.preventDefault();e.target.blur()}});
+document.addEventListener('change',e=>{const el=e.target;if(S.view!=='ocorrencias')return;
+ if(el.id==='oc-flt'){OC.f=el.value;render();return}
+ if(el.closest&&el.closest('.oc-xl')&&el.dataset.ocK){const tr=el.closest('tr');ocSalvar(tr,{[el.dataset.ocK]:el.value||null})}});
+// cadastro (editores): o que veio da diretora — tipo, produto, pedidos, situação e sugestão nos dois idiomas
+function ocForm(id){
+ const rec=id?ocRows().find(r=>r.id===id):null, ro=!can();
+ const v=rec||{lote:OC.lote||((S.data.cortes||[]).slice().sort((a,b)=>String(b.numero).localeCompare(String(a.numero)))[0]||{}).numero||'',tipo:'notkr',escopo:'item',relatado_por:'Janice',pedidos:[]};
+ const lotes=[...new Set([...(S.data.cortes||[]).map(c=>c.numero),...ocLotes()])].filter(Boolean).sort((a,b)=>String(b).localeCompare(String(a)));
+ const ch=(name,opts,val)=>'<div class="acm-ch" data-chips="'+name+'">'+opts.map(([k,l])=>'<button type="button" data-v="'+esc(k)+'" aria-pressed="'+(val===k)+'">'+esc(l)+'</button>').join('')+'</div>';
+ const inp=(k,l,val,o)=>{o=o||{};return '<div class="f'+(o.full?' full':'')+'"><label for="oc-'+k+'">'+esc(l)+'</label>'+(o.ta?'<textarea id="oc-'+k+'" name="'+k+'">'+esc(val||'')+'</textarea>':'<input id="oc-'+k+'" name="'+k+'" value="'+esc(val||'')+'"'+(o.list?' list="'+o.list+'"':'')+' data-1c="off">')+(o.hint?'<span class="hint">'+esc(o.hint)+'</span>':'')+'</div>'};
+ const body='<fieldset style="border:0;padding:0;margin:0;display:flex;flex-direction:column;gap:18px;min-width:0"'+(ro?' disabled':'')+'>'+
+  '<div class="sec"><span class="label">'+(rec?esc(rec.numero):'Número OC-0001… gerado ao salvar')+'</span>'+
+   '<div class="f"><label for="oc-lote">Lote (parametrização)</label><select id="oc-lote" name="lote" data-1c="lista">'+lotes.map(l=>'<option'+(l===v.lote?' selected':'')+'>'+esc(l)+'</option>').join('')+'</select></div>'+
+   inp('ordem','Ordem na planilha',rec?rec.ordem:'',{hint:'Vazio = vai para o fim'})+
+   '<div class="f full"><span class="lb">Tipo</span>'+ch('tipo',Object.entries(OC_TIPOS).map(([k,x])=>[k,x.pt+' · '+x.ko]),v.tipo)+'</div>'+
+   '<div class="f full"><span class="lb">Vale para</span>'+ch('escopo',[['item','Um produto'],['lote','O lote inteiro'],['nao_identificado','Produto ainda não identificado']],v.escopo)+'</div></div>'+
+  '<div class="sec"><span class="label">Produto</span>'+inp('sku','SKU',v.sku,{list:'oc-dl-sku',hint:'Escolha o SKU e a marca e os nomes se preenchem sozinhos'})+inp('marca','Marca',v.marca)+
+   inp('produto_pt','Produto (português)',v.produto_pt,{full:1})+inp('produto_ko','상품 (한국어)',v.produto_ko,{full:1})+
+   inp('pedidos','Pedidos',(v.pedidos||[]).map(ocPed).join(', '),{hint:'Separe por vírgula. Ex.: 100.001.002, 100.001.011'})+
+   '<div class="f"><span class="lb">Influenciadora</span><label style="display:flex;gap:6px;align-items:center"><input type="checkbox" name="presente"'+(v.presente?' checked':'')+'> Pedido de influenciadora (협찬)</label></div></div>'+
+  '<div class="sec"><span class="label">O que aconteceu</span>'+inp('situacao_pt','Situação (português)',v.situacao_pt,{full:1,ta:1})+inp('situacao_ko','상황 (한국어)',v.situacao_ko,{full:1,ta:1})+
+   inp('sugestao_pt','Solução sugerida (português)',v.sugestao_pt,{full:1,ta:1})+inp('sugestao_ko','제안 해결책 (한국어)',v.sugestao_ko,{full:1,ta:1,hint:'Se escrever num idioma só, a planilha mostra esse texto com "(original)".'})+
+   inp('relatado_por','Relatado por',v.relatado_por)+'</div>'+
+  '</fieldset><datalist id="oc-dl-sku">'+(S.data.produtos||[]).filter(p=>p.sku).map(p=>'<option value="'+esc(p.sku)+'">'+esc((p.marca||'')+' · '+(p.nome||''))+'</option>').join('')+'</datalist>';
+ shell(rec?rec.numero+' · editar ocorrência':'Nova ocorrência de compra',body,rec,ro,'');
+ const form=$('#mform');
+ form.addEventListener('click',e=>{const c=e.target.closest('[data-chips] button');if(!c)return;c.parentElement.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed','false'));c.setAttribute('aria-pressed','true')});
+ form.elements.sku.addEventListener('change',()=>{const p=(S.data.produtos||[]).find(x=>x.sku===form.elements.sku.value.trim());if(!p)return;
+  if(!form.elements.marca.value)form.elements.marca.value=p.marca||'';if(!form.elements.produto_pt.value)form.elements.produto_pt.value=p.nome||'';if(!form.elements.produto_ko.value&&p.nomeKr)form.elements.produto_ko.value=p.nomeKr;else if(!form.elements.produto_ko.value&&p.nome_kr)form.elements.produto_ko.value=p.nome_kr});
+ const del=$('#m-del');
+ if(del)del.addEventListener('click',async()=>{if(!del.classList.contains('armed')){del.classList.add('armed');del.textContent='Confirmar exclusão';return}
+  del.disabled=true;const {error}=await sb.from('ocorrencias_compra').delete().eq('id',rec.id);if(error){$('#m-err').textContent=errMsg(error);del.disabled=false;return}close();toast('Ocorrência excluída');loadAll()});
+ wireSubmit(async f=>{
+  const g=nm=>(f.querySelector('[data-chips="'+nm+'"] [aria-pressed="true"]')||{}).dataset?.v;
+  const val=k=>String((f.elements[k]||{}).value||'').trim();
+  const lote=val('lote');
+  let ordem=parseInt(val('ordem'),10);if(!(ordem>0))ordem=rec&&rec.lote===lote&&rec.ordem?rec.ordem:Math.max(0,...ocRows().filter(r=>r.lote===lote).map(r=>n(r.ordem)))+1;
+  const b={lote,ordem,tipo:g('tipo')||'outro',escopo:g('escopo')||'item',sku:val('sku')||null,marca:val('marca')||null,produto_pt:val('produto_pt')||null,produto_ko:val('produto_ko')||null,
+   pedidos:val('pedidos').split(/[,;\s]+/).map(x=>x.replace(/\D/g,'')).filter(Boolean).map(ocPed),presente:f.elements.presente.checked,
+   situacao_pt:val('situacao_pt')||null,situacao_ko:val('situacao_ko')||null,sugestao_pt:val('sugestao_pt')||null,sugestao_ko:val('sugestao_ko')||null,relatado_por:val('relatado_por')||null};
+  if(!lote)throw {field:{k:'lote',l:'Lote'}};
+  if(!b.situacao_pt&&!b.situacao_ko)throw {field:{k:'situacao_pt',l:'Situação'}};
+  const {data,error}=rec?await sb.from('ocorrencias_compra').update(b).eq('id',rec.id).select('numero').single():await sb.from('ocorrencias_compra').insert(b).select('numero').single();
+  if(error)throw error;OC.lote=lote;toast(rec?'Ocorrência salva':'Ocorrência '+data.numero+' criada');
+ });
+}
+
 /* ================= Ações de marketing (v23: dentro do ERP; antes era acoes.html) ================= */
 const AC_TIPOS=['Concurso cultural','Sorteio','Post','Reels','Story','Vídeo','Anúncio Meta','Live','Influenciadora','Cupom','Outro'];
 const AC_CANAIS=['Instagram','TikTok','WhatsApp','Site','Meta Ads','Google','YouTube'];
@@ -4128,7 +4322,8 @@ const COLS={
  links_utm:['slug','nome','influenciador','destino','utm_source','utm_medium','utm_campaign','utm_content','utm_term','ativo','inicio','fim','custo','obs'],
  comissoes_fechamentos:['status','pago_em','forma','obs'],
  link_cliques_dia:[],
- acoes_mkt:[]
+ acoes_mkt:[],
+ ocorrencias_compra:[]
 };
 const DATES=new Set(['data_compra','data','previsao','validade','semana','inicio','fim','pago_em']);
 const itemsTo=a=>(Array.isArray(a)?a:[]).map(i=>({produto:i.produto||'',qtd:i.qtd??null,preco:i.preco??null,custo_lb:i.custoLB??null,custo_fab:i.custoFab??null}));
@@ -4421,6 +4616,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v96','05/11/2026',['Nova tela Operação › Ocorrências de compra (구매 이슈): planilha bilíngue (한국어 / Português) com os problemas de compra na Coreia, uma aba por lote.','Decisão, Responsável, Data e Status são editados direto na célula; escrever a decisão muda o status de Aberta para Em andamento. Linha resolvida fica cinza.','Endereço direto: index.html?tela=ocorrencias&lote=P-261103. Lote P-261103 já carregado com as 8 ocorrências relatadas pela diretora.']],
  ['v95','04/11/2026',['Parametrização e página da Janice: produtos com versão de letra no SKU (ex.: MB003225-STRONG) agora saem com foto, nome, marca e link.']],
  ['v94','04/11/2026',['Parametrizações fechadas: caixinha em cada linha. Marque as que quer mandar juntas e use os botões que aparecem em cima da tabela: Planilha da Mile, Master List (Skyroad), Link da diretora, Ver página da diretora e Marcar como enviadas. Tudo sai concatenado num arquivo só.']],
  ['v93','04/11/2026',['Criar cupom no site voltou: o checkout já calcula o imposto de importação e o ICMS sobre o valor com desconto. Cupom de frete grátis saiu da lista (zeraria o imposto junto com o frete).']],
@@ -4627,7 +4823,7 @@ async function loadAll(){
   const cols=Object.keys(S.data);
   const res=await Promise.all([...cols.map(c=>selectAll(c)),sb.from('config').select('*').eq('chave','geral')]);
   let failed=false;
-  cols.forEach((col,i)=>{const {data,error}=res[i];if(error){if(col==='cortes'||col==='monitoramentos'||col==='monitor_execucoes'){S.missing[col]=true;S.loaded[col]=true;return}failed=true;return}S.missing[col]=false;
+  cols.forEach((col,i)=>{const {data,error}=res[i];if(error){if(col==='cortes'||col==='monitoramentos'||col==='monitor_execucoes'||col==='ocorrencias_compra'){S.missing[col]=true;S.loaded[col]=true;return}failed=true;return}S.missing[col]=false;
    S.data[col]=(data||[]).map(r=>fromDb(col,r)).sort((a,b)=>ORD[col]?String(a[ORD[col]]||'').localeCompare(String(b[ORD[col]]||'')):col==='vendas'?n(b.numero)-n(a.numero):n(b.createdAt)-n(a.createdAt));
    S.loaded[col]=true});
   const cfg=res[cols.length];if(cfg&&cfg.data&&cfg.data[0])S.cfg={...S.cfg,...cfg.data[0].valor};
@@ -4653,7 +4849,7 @@ async function enter(session){
  S.canWrite=data[0].papel==='editor';S.db=sb;S.email=email;
  $('#me-email').textContent=email+(S.canWrite?'':' · consulta');
  $('#gate').hidden=true;$('#app').hidden=false;
- const qs=new URLSearchParams(location.search);if(qs.get('tela')==='acoes'||qs.get('acao'))S.view='acoes';if(qs.get('tela')==='visitas')S.view='visitas';
+ const qs=new URLSearchParams(location.search);if(qs.get('tela')==='acoes'||qs.get('acao'))S.view='acoes';if(qs.get('tela')==='visitas')S.view='visitas';if(qs.get('tela')==='ocorrencias'){S.view='ocorrencias';if(qs.get('lote'))OC.lote=qs.get('lote').toUpperCase()}
  render();await loadAll();
  if(qs.get('acao')){const r=(S.data.acoes_mkt||[]).find(x=>String(x.numero).toUpperCase()===qs.get('acao').toUpperCase());if(r)acOpenSheet(r.id)}
 }
