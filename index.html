@@ -694,7 +694,7 @@ tr.oc-done td:not(.rn):not(.oc-st){color:var(--muted)}
 .vd-ha{display:flex;gap:8px;align-items:center}
 .vd-b{padding:12px 18px 16px;overflow:auto;display:flex;flex-direction:column;gap:10px}
 .vd-cli{display:grid;grid-template-columns:1.2fr 1fr;gap:4px 16px;font-size:12.5px;background:var(--surface2);border-radius:12px;padding:10px 12px}
-.vd-cli>div{display:flex;flex-direction:column;gap:1px;min-width:0}.vd-cli b{font-size:14.5px}.vd-cli span{color:var(--muted);overflow:hidden;text-overflow:ellipsis}
+.vd-cli>div{display:flex;flex-direction:column;gap:1px;min-width:0}.vd-cli b{font-size:14.5px}.vd-cli .vd-end{color:var(--ink);white-space:normal}.vd-cli .vd-end b{font-size:13px}.vd-k{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase}.vd-cli span{color:var(--muted);overflow:hidden;text-overflow:ellipsis}
 .vd-cli .vd-prog{grid-column:1/-1;margin-top:4px}
 .vd-warn{color:var(--warn)!important;font-size:11.5px}
 .vd-lbl{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
@@ -4026,8 +4026,12 @@ function vdResumo(id){
    '<p>'+fdate(v.dataCompra)+' · '+esc(v.canal||'—')+(ped?' · pedido '+esc(ped):'')+(v.cupom?' · cupom <b>'+esc(v.cupom)+'</b>':'')+'</p></div>'+
    '<div class="vd-ha">'+(can()?'<button class="btn sm" type="button" data-vd-edit="'+esc(v.id)+'">Editar tudo</button>':'')+'<button class="iconbtn" type="button" data-close aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div></div>'+
   '<div class="vd-b">'+
-   '<div class="vd-cli"><div><b>'+esc(v.cliente||'—')+'</b><span>'+esc([cidT,v.uf].filter(Boolean).join(' / ')||'')+(end.cep?' · CEP '+esc(end.cep):'')+'</span>'+avisoCid+'</div>'+
-    '<div><span>CPF '+esc(v.cpf||'faltando')+'</span><span>'+esc(v.contato||'')+'</span></div><div class="vd-prog">'+prog(v)+'</div></div>'+
+   '<div class="vd-cli"><div class="vd-c1"><span class="vd-k">Cliente</span><b>'+esc(v.cliente||'—')+'</b><span>CPF '+esc(v.cpf||'faltando')+'</span><span>'+esc(v.contato||'')+'</span></div>'+
+    '<div class="vd-c1"><span class="vd-k">Entrega'+(end.nome&&end.nome!==v.cliente?' · para '+esc(end.nome):'')+'</span>'+
+     (end.rua?'<span class="vd-end">'+esc(end.rua)+(end.compl?' · '+esc(end.compl):'')+'</span>':'')+
+     '<span class="vd-end"><b>'+esc(cidT||(v.cidade||'—'))+'</b>'+(v.uf||end.uf?' / '+esc(v.uf||end.uf):'')+(end.cep?' · CEP '+esc(end.cep):'')+'</span>'+avisoCid+
+     (end.fone?'<span>Tel. '+esc(end.fone)+'</span>':'')+(!end.rua&&!end.cep?'<span class="vd-warn">Sem endereço do site nesta venda</span>':'')+'</div>'+
+    '<div class="vd-prog">'+prog(v)+'</div></div>'+
    '<div class="vd-lbl">'+its.length+' produto'+(its.length===1?'':'s')+' · '+un+' unidade'+(un===1?'':'s')+'</div>'+
    '<div class="vd-ps">'+(its.length?its.map(card).join(''):'<p class="muted">Sem itens</p>')+'</div>'+
    '<div class="vd-tot">'+linha('Produtos',c.sub,'k')+(n(v.desconto)?linha('Desconto',-n(v.desconto)):'')+linha('Frete',n(v.frete),'k')+linha('Imposto de importação',n(v.ii),'k')+linha('ICMS',n(v.icms),'k')+linha('Total pago',c.total,'k vd-total')+'</div>'+
@@ -4678,7 +4682,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
- ['v97','05/11/2026',['Abrir uma venda agora mostra a ficha da venda: cabe numa tela, com as fotos grandes dos produtos, quantidade, preço, cliente, etapa e o total pago. Clique na foto para abrir o produto no site.','O formulário completo continua no botão Editar tudo.']],
+ ['v97','05/11/2026',['Ficha da venda mostra o endereço de entrega completo (rua, complemento, cidade, UF, CEP e telefone).','Abrir uma venda agora mostra a ficha da venda: cabe numa tela, com as fotos grandes dos produtos, quantidade, preço, cliente, etapa e o total pago. Clique na foto para abrir o produto no site.','O formulário completo continua no botão Editar tudo.']],
  ['v96','05/11/2026',['Nova tela Operação › Ocorrências de compra (구매 이슈): planilha bilíngue (한국어 / Português) com os problemas de compra na Coreia, uma aba por lote.','Decisão, Responsável, Data e Status são editados direto na célula; escrever a decisão muda o status de Aberta para Em andamento. Linha resolvida fica cinza.','Endereço direto: index.html?tela=ocorrencias&lote=P-261103. Lote P-261103 já carregado com as 8 ocorrências relatadas pela diretora.']],
  ['v95','04/11/2026',['Parametrização e página da Janice: produtos com versão de letra no SKU (ex.: MB003225-STRONG) agora saem com foto, nome, marca e link.']],
  ['v94','04/11/2026',['Parametrizações fechadas: caixinha em cada linha. Marque as que quer mandar juntas e use os botões que aparecem em cima da tabela: Planilha da Mile, Master List (Skyroad), Link da diretora, Ver página da diretora e Marcar como enviadas. Tudo sai concatenado num arquivo só.']],
