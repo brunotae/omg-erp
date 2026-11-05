@@ -918,7 +918,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v93 · 04/11/2026';
+const VERSAO='v94 · 04/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1112,7 +1112,7 @@ VIEWFN.cortes=()=>{
  return '<div class="page wide"><div class="col">'+head('Parametrização','Cada parametrização é um lote de vendas que sai da Coreia no mesmo AWB. Corte às 18h (Brasília), domingo a quinta; pedidos de quinta 18:01 a domingo 18:00 saem juntos no domingo. Cada uma gera a planilha da Mile (Brasil) e a Master List da Skyroad (Coreia).')+
  (missing?'<div class="note"><span class="label">Falta um passo no banco</span><p>Rode o SQL <b>20261024b_lista_do_dia.sql</b> no Supabase (SQL Editor) para salvar as parametrizações.</p></div>':'')+
  grpHTML+
- '<div class="card" style="padding:8px"><div class="card-h"><h2>Parametrizações fechadas</h2></div>'+(T&&T.fil?'<p class="muted" style="margin:0 0 6px;font-size:11.5px"><b>'+T.n+' de '+rows.length+'</b> · <a href="#" data-xtlimpa="param">limpar filtros das colunas</a></p>':'')+
+ '<div class="card" style="padding:8px"><div class="card-h"><h2>Parametrizações fechadas</h2></div>'+pmBarraSel()+(T&&T.fil?'<p class="muted" style="margin:0 0 6px;font-size:11.5px"><b>'+T.n+' de '+rows.length+'</b> · <a href="#" data-xtlimpa="param">limpar filtros das colunas</a></p>':'')+
  (rows.length?T.html:empty('Nenhuma parametrização fechada ainda','Feche depois das 18h. Ela fica guardada aqui com as planilhas da Mile e da Skyroad.'))+'</div></div>'+
  '<aside class="rail"><div class="note"><span class="label">Próximo corte</span><p><b>'+esc(cutLabel(nextC))+'</b></p><p class="muted">faltam '+hh+'h'+String(mm).padStart(2,'0')+'</p></div>'+
  '<div class="note"><span class="label">Rotina</span><p>1. Às 18h, feche a parametrização (número P-AAMMDD).</p><p>2. Baixe a <b>Master List</b> (Coreia) para a Skyroad e a planilha da <b>Mile</b> (Brasil).</p><p>3. Marque como enviada: as vendas passam para "Documentos enviados à Skyroad".</p><p>4. Quando sair o booking (2 a 3 dias), digite o AWB. Se outra parametrização tiver o mesmo AWB, as planilhas saem consolidadas num arquivo só.</p></div>'+
@@ -1132,6 +1132,43 @@ async function fecharLista(dia){
  }catch(e){toast(errMsg(e))}
 }
 
+
+/* v94: marcar parametrizações e gerar os documentos das marcadas, concatenados */
+function pmBarraSel(){const sel=(S.data.cortes||[]).filter(c=>PMS.has(c.id)).sort((a,b)=>String(a.numero).localeCompare(String(b.numero)));
+ return '<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:4px 0 10px">'+
+ (sel.length?'<b style="font-size:13px">'+sel.map(c=>'#'+pmSeq(c)).join(' + ')+'</b>'+
+  '<button class="btn sm pri" type="button" data-pmsx="mile">Planilha da Mile</button>'+
+  '<button class="btn sm pri" type="button" data-pmsx="coreia">Master List (Skyroad)</button>'+
+  '<button class="btn sm pri" type="button" data-pmsx="janice">Link da diretora (copiar)</button>'+
+  '<button class="btn sm" type="button" data-pmsx="abrir">Ver página da diretora</button>'+
+  '<button class="btn sm" type="button" data-pmsx="enviada">Marcar como enviadas</button>'+
+  '<button class="btn sm" type="button" data-pmsx="limpar">Limpar</button>'
+  :'<span class="muted" style="font-size:12px">Marque as parametrizações para gerar os documentos de uma vez: planilha da Mile, Master List da Skyroad e página da diretora, tudo num arquivo só.</span>')+'</div>'}
+async function pmJuntarSel(){const sel=(S.data.cortes||[]).filter(c=>PMS.has(c.id)).sort((a,b)=>String(a.numero).localeCompare(String(b.numero)));
+ if(!sel.length)throw new Error('marque ao menos 1 parametrização');
+ const awbs=[...new Set(sel.map(c=>pmAwbNorm(c.awb)).filter(Boolean))];
+ if(awbs.length)throw new Error('há parametrização marcada que já tem AWB: com AWB, o que vale é o AWB (abra a parametrização)');
+ const chave=sel.length>1?'E-'+sel.map(c=>pmSeq(c)).join('-'):null;
+ // quem estava junto com uma marcada e não foi marcado sai do grupo
+ const velhas=new Set(sel.map(c=>c.envio).filter(Boolean));
+ for(const x of (S.data.cortes||[]))if(x.envio&&velhas.has(x.envio)&&!PMS.has(x.id)){await save('cortes',x,{envio:null});x.envio=null}
+ for(const c of sel)if((c.envio||null)!==chave){await save('cortes',c,{envio:chave});c.envio=chave}
+ return sel[0]}
+document.addEventListener('click',async e=>{const t=e.target;
+ if(t.matches&&t.matches('[data-pmsel]')){e.stopPropagation();const id=t.dataset.pmsel;if(t.checked)PMS.add(id);else PMS.delete(id);render();return}
+ if(t.matches&&t.matches('[data-pmselall]')){e.stopPropagation();(S.data.cortes||[]).forEach(c=>t.checked?PMS.add(c.id):PMS.delete(c.id));render();return}
+ const b=t.closest&&t.closest('[data-pmsx]');if(!b)return;e.preventDefault();e.stopPropagation();const a=b.dataset.pmsx;
+ if(a==='limpar'){PMS.clear();render();return}
+ const txt=b.textContent;b.disabled=true;b.textContent='Gerando…';
+ try{const c=await pmJuntarSel();
+  if(a==='mile')await pmManifesto(c);
+  else if(a==='coreia')await pmMaster(c);
+  else if(a==='janice')await janiceLink(c,b);
+  else if(a==='abrir')await janiceResumo(c);
+  else if(a==='enviada'){const g=pmGrupo(c),agora=new Date().toISOString();for(const x of g){if(!x.enviadoEm)await save('cortes',x,{enviadoEm:agora});for(const v of corteVendas(x))if(!(v.etapas||{}).skyroad)await save('vendas',v,{etapas:{...(v.etapas||{}),skyroad:today()}})}toast(g.length+' parametrizações marcadas como enviadas');PMS.clear();await loadAll();return}
+ }catch(x){toast(errMsg(x))}
+ b.disabled=false;b.textContent=txt;render()},true);
+
 /* ---------- Parametrização: planilha da Mile (Brasil) e Master List da Skyroad (Coreia) ---------- */
 // Um arquivo por AWB: parametrizações com o mesmo AWB saem consolidadas. Sem AWB, um arquivo por parametrização.
 const PM_PAD={shipNome:'La Belle',shipEnd:'Suite 415, 26 Hakdong-ro 101-gil, Gangnam-gu, Seoul, Republic of Korea',desconto:25,cia:'TBD',
@@ -1149,7 +1186,9 @@ function pmGrupo(c){const a=pmAwbNorm(c.awb),o=(x,y)=>String(x.numero).localeCom
 const pmGrupoVendas=c=>pmGrupo(c).flatMap(x=>corteVendas(x));
 const pmGrupoSeq=c=>pmGrupo(c).map(x=>'#'+pmSeq(x)).join(' + ');
 const pmSeq=c=>c.seq?String(c.seq).padStart(4,'0'):'—';
+const PMS=new Set();
 const PM_COLS=[
+ {k:'sel',l:'<input type="checkbox" data-pmselall aria-label="Selecionar todas">',nf:true,ns:true,g:()=>'',cell:c=>'<input type="checkbox" data-pmsel="'+esc(c.id)+'"'+(PMS.has(c.id)?' checked':'')+' aria-label="Selecionar '+esc(c.numero||'')+'">'},
  {k:'num',l:'Parametrização',g:c=>pmSeq(c),cell:c=>'<b class="num" style="font-size:15px">#'+esc(pmSeq(c))+'</b><br><small class="muted">'+esc(c.numero||'')+'</small>'},
  {k:'data',l:'Corte',t:'t',g:c=>spDate(Date.parse(c.corteEm)||c.createdAt||Date.now()),fmt:v=>fdate(v),cell:c=>esc(cutLabel(cutoffFor(Date.parse(c.corteEm)||c.createdAt)))},
  {k:'vendas',l:'Pedidos',t:'n',g:c=>corteVendas(c).length,cell:c=>'<span class="num">'+corteVendas(c).length+'</span>',cls:'r'},
@@ -4382,6 +4421,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v94','04/11/2026',['Parametrizações fechadas: caixinha em cada linha. Marque as que quer mandar juntas e use os botões que aparecem em cima da tabela: Planilha da Mile, Master List (Skyroad), Link da diretora, Ver página da diretora e Marcar como enviadas. Tudo sai concatenado num arquivo só.']],
  ['v93','04/11/2026',['Criar cupom no site voltou: o checkout já calcula o imposto de importação e o ICMS sobre o valor com desconto. Cupom de frete grátis saiu da lista (zeraria o imposto junto com o frete).']],
  ['v92','04/11/2026',['Parametrização: "Enviar junto com". Antes de sair o AWB, marque outra parametrização ainda não enviada e salve: a Master List (Skyroad), a planilha da Mile e a página da Janice saem concatenadas num arquivo só (#0001 + #0002). Marcar como enviada vale para todas do envio.','A coluna Mesmo AWB virou Vai junto com.']],
  ['v91','04/11/2026',['Clientes e cupons: novo botão Pedido com desconto. Escolha os produtos, o desconto e o CEP; o ERP calcula imposto de importação e ICMS sobre o valor JÁ com desconto (regra do PRC) e gera o link de pagamento para a cliente.','Cupons de código suspensos: no checkout o cupom não entrava na conta do imposto de importação. Criar cupom no site fica desligado.']],
