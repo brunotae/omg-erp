@@ -918,7 +918,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v94 · 04/11/2026';
+const VERSAO='v95 · 04/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1203,7 +1203,7 @@ const PM_COLS=[
 const HS_CLASSE={batom:'3304.10','olhos make':'3304.20',lapis:'3304.20',shampoo:'3305.10',capilar:'3305.90','sabonete barra':'3401.11'};
 function pmItem(i){
  const p=String(i.produto||'').split(' · ').map(x=>x.trim());
- const sku=/^[A-Z]{2}\d{3,}(-\d+)?$/.test(p[0])?p[0]:'';const r=sku?p.slice(1):p;
+ const sku=/^[A-Z]{2}\d{3,}(-[A-Z0-9]+)?$/.test(p[0])?p[0]:'';const r=sku?p.slice(1):p;
  const tit=r[0]||'', vn=r.slice(1).join(' · ');
  const prod=sku?(S.data.produtos||[]).find(x=>x.sku===sku):null, med=((CT.med||{})[sku])||{};
  const en=(prod&&prod.nome_en)||(tit.split(':')[0].trim()+(vn&&!/default/i.test(vn)?' '+vn:''));
@@ -4421,6 +4421,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v95','04/11/2026',['Parametrização e página da Janice: produtos com versão de letra no SKU (ex.: MB003225-STRONG) agora saem com foto, nome, marca e link.']],
  ['v94','04/11/2026',['Parametrizações fechadas: caixinha em cada linha. Marque as que quer mandar juntas e use os botões que aparecem em cima da tabela: Planilha da Mile, Master List (Skyroad), Link da diretora, Ver página da diretora e Marcar como enviadas. Tudo sai concatenado num arquivo só.']],
  ['v93','04/11/2026',['Criar cupom no site voltou: o checkout já calcula o imposto de importação e o ICMS sobre o valor com desconto. Cupom de frete grátis saiu da lista (zeraria o imposto junto com o frete).']],
  ['v92','04/11/2026',['Parametrização: "Enviar junto com". Antes de sair o AWB, marque outra parametrização ainda não enviada e salve: a Master List (Skyroad), a planilha da Mile e a página da Janice saem concatenadas num arquivo só (#0001 + #0002). Marcar como enviada vale para todas do envio.','A coluna Mesmo AWB virou Vai junto com.']],
