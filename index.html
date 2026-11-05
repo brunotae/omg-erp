@@ -697,6 +697,7 @@ tr.oc-done td:not(.rn):not(.oc-st){color:var(--muted)}
 .vd-cli>div{display:flex;flex-direction:column;gap:1px;min-width:0}.vd-cli b{font-size:14.5px}.vd-cli .vd-end{color:var(--ink);white-space:normal}.vd-cli .vd-end b{font-size:13px}.vd-k{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase}.vd-cli span{color:var(--muted);overflow:hidden;text-overflow:ellipsis}
 .vd-cli .vd-prog{grid-column:1/-1;margin-top:4px}
 .vd-warn{color:var(--warn)!important;font-size:11.5px}
+.vd-ori{display:flex;flex-wrap:wrap;gap:3px 14px;align-items:baseline;font-size:12.5px;border:1px dashed var(--line);border-radius:12px;padding:8px 12px}.vd-ori .vd-k{width:100%;color:var(--muted)}.vd-ori a{color:var(--pri)}.vd-ori>span:nth-child(2){width:100%}
 .vd-lbl{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .vd-ps{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
 .vd-p{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface);text-decoration:none;color:inherit;transition:box-shadow .15s,transform .15s}
@@ -984,7 +985,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v97 · 05/11/2026';
+const VERSAO='v98 · 05/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -4034,14 +4035,54 @@ function vdResumo(id){
     '<div class="vd-prog">'+prog(v)+'</div></div>'+
    '<div class="vd-lbl">'+its.length+' produto'+(its.length===1?'':'s')+' · '+un+' unidade'+(un===1?'':'s')+'</div>'+
    '<div class="vd-ps">'+(its.length?its.map(card).join(''):'<p class="muted">Sem itens</p>')+'</div>'+
+   '<div class="vd-ori" id="vd-ori"><span class="vd-k">De onde veio</span><span class="muted">Consultando o Shopify…</span></div>'+
    '<div class="vd-tot">'+linha('Produtos',c.sub,'k')+(n(v.desconto)?linha('Desconto',-n(v.desconto)):'')+linha('Frete',n(v.frete),'k')+linha('Imposto de importação',n(v.ii),'k')+linha('ICMS',n(v.icms),'k')+linha('Total pago',c.total,'k vd-total')+'</div>'+
   '</div></div></div>';
  const vids=[...new Set(its.map(x=>x.vid).filter(Boolean))];
  const pinta=()=>document.querySelectorAll('#modal-root [data-vdimg]').forEach(el=>{const x=VD_IMG[el.dataset.vdimg];if(x&&x.img&&!el.querySelector('img')){const im=document.createElement('img');im.alt='';im.loading='lazy';im.src=x.img+(x.img.includes('?')?'&':'?')+'width=480';el.prepend(im)}});
  pinta();vdFotos(vids).then(pinta);
+ vdOrigem(v,ped);
 }
 document.addEventListener('click',e=>{const b=e.target.closest('[data-vd-edit]');if(!b)return;e.preventDefault();const id=b.dataset.vdEdit;close();VD_FORM=true;openVenda(id)});
 let VD_FORM=false;
+
+// v98: de onde veio a venda — origem da visita no Shopify (UTM, site de origem, página de entrada) + dono do cupom
+const VD_ORI={};
+async function vdOrigem(v,ped){
+ const el=()=>document.getElementById('vd-ori');
+ const nome=String(ped||'').trim()||('#'+v.numero);
+ let o=VD_ORI[nome];
+ if(o===undefined){try{const d=await chamarShop({acao:'pedidos_periodo',desde:String(v.dataCompra||today()).slice(0,10)});(d.pedidos||[]).forEach(p=>{VD_ORI[p.name]=p});o=VD_ORI[nome]||null;if(!o)VD_ORI[nome]=null}catch(_){o=null}}
+ const box=el();if(!box)return;
+ const host=u=>{try{return new URL(u).hostname.replace(/^www\./,'')}catch(_){return ''}};
+ const path=u=>{try{const x=new URL(u);return x.pathname+(x.search||'')}catch(_){return u||''}};
+ const FONTE={direct:'Direto',google:'Google',instagram:'Instagram',facebook:'Facebook',tiktok:'TikTok',youtube:'YouTube',email:'E-mail',whatsapp:'WhatsApp',bing:'Bing',pinterest:'Pinterest'};
+ const cj=o&&o.customerJourneySummary, fv=cj&&cj.firstVisit, lv=cj&&cj.lastVisit;
+ const utmTxt=u=>u?[u.source,u.medium,u.campaign].filter(Boolean).join(' · '):'';
+ // cupom: de quem é (influenciadora, ação de marketing ou nome interno do cupom)
+ const cup=String(v.cupom||'').split(',').map(x=>x.trim()).filter(Boolean);
+ const dono=c=>{const C=c.toUpperCase();
+  const inf=(S.data.influenciadores||[]).find(i=>i.cupom&&(C===String(i.cupom).toUpperCase()||C.startsWith(String(i.cupom).toUpperCase()+'-')));
+  const ac=(S.data.acoes_mkt||[]).find(a=>a.cupom&&C===String(a.cupom).toUpperCase());
+  const cp=(S.data.cupons||[]).find(x=>String(x.codigo).toUpperCase()===C);
+  return inf?'influenciadora '+inf.nome:ac?'ação '+ac.numero+' · '+ac.titulo:cp&&(cp.nome_interno||cp.nomeInterno||cp.obs)?(cp.nome_interno||cp.nomeInterno||cp.obs):''};
+ const rows=[];
+ let resumo;
+ const u1=fv&&fv.utmParameters, u2=lv&&lv.utmParameters;
+ if(u1||u2)resumo='Link com UTM: '+utmTxt(u2||u1);
+ else if(fv&&fv.source&&fv.source!=='direct')resumo=(FONTE[String(fv.source).toLowerCase()]||fv.source)+(host(fv.referrerUrl)?' ('+host(fv.referrerUrl)+')':'');
+ else if(fv)resumo='Direto: digitou o site, favorito ou link dentro de app (Instagram, WhatsApp, TikTok)';
+ else resumo=o?'O Shopify não registrou a visita (pedido criado sem navegação, ex.: link de pagamento ou checkout direto)':'Sem dados do Shopify para este pedido';
+ rows.push('<b>'+esc(resumo)+'</b>');
+ if(cup.length)rows.push('Cupom '+cup.map(c=>'<b>'+esc(c)+'</b>'+(dono(c)?' · '+esc(dono(c)):'')).join(', '));
+ if(fv){
+  if(fv.landingPage)rows.push('Entrou por <a href="'+esc(fv.landingPage)+'" target="_blank" rel="noopener">'+esc(path(fv.landingPage))+'</a>');
+  if(fv.referrerUrl&&!/ohmygirl\.com\.br/.test(host(fv.referrerUrl)))rows.push('Veio de '+esc(host(fv.referrerUrl)));
+  if(lv&&(lv.source!==fv.source||utmTxt(lv.utmParameters)!==utmTxt(fv.utmParameters)))rows.push('Última visita: '+esc((FONTE[String(lv.source).toLowerCase()]||lv.source||'—')+(utmTxt(lv.utmParameters)?' · '+utmTxt(lv.utmParameters):'')));
+  const nv=cj.momentsCount&&cj.momentsCount.count;rows.push((nv?nv+' visita'+(nv===1?'':'s'):'')+(cj.daysToConversion!=null?' · comprou em '+cj.daysToConversion+' dia'+(cj.daysToConversion===1?'':'s'):''));
+ }
+ box.innerHTML='<span class="vd-k">De onde veio</span>'+rows.filter(Boolean).map(r=>'<span>'+r+'</span>').join('');
+}
 function openVenda(id){
  if(id&&!VD_FORM){vdResumo(id);return}VD_FORM=false;
  const rec=id?S.data.vendas.find(r=>r.id===id):null, ro=!can();
@@ -4682,6 +4723,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v98','05/11/2026',['Ficha da venda mostra De onde veio: origem da visita no Shopify (direto, Google, Instagram, link com UTM), página por onde entrou, número de visitas e de quem é o cupom usado.']],
  ['v97','05/11/2026',['Botão Abrir no Shopify na ficha da venda (abre o pedido no painel da loja).','Ficha da venda mostra o endereço de entrega completo (rua, complemento, cidade, UF, CEP e telefone).','Abrir uma venda agora mostra a ficha da venda: cabe numa tela, com as fotos grandes dos produtos, quantidade, preço, cliente, etapa e o total pago. Clique na foto para abrir o produto no site.','O formulário completo continua no botão Editar tudo.']],
  ['v96','05/11/2026',['Nova tela Operação › Ocorrências de compra (구매 이슈): planilha bilíngue (한국어 / Português) com os problemas de compra na Coreia, uma aba por lote.','Decisão, Responsável, Data e Status são editados direto na célula; escrever a decisão muda o status de Aberta para Em andamento. Linha resolvida fica cinza.','Endereço direto: index.html?tela=ocorrencias&lote=P-261103. Lote P-261103 já carregado com as 8 ocorrências relatadas pela diretora.']],
  ['v95','04/11/2026',['Parametrização e página da Janice: produtos com versão de letra no SKU (ex.: MB003225-STRONG) agora saem com foto, nome, marca e link.']],
