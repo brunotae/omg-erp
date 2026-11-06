@@ -29,7 +29,7 @@ Deno.serve(async (req) => {
   let b: any; try { b = await req.json(); } catch { return json(400, { erro: "JSON inválido" }); }
 
   if (b?.simular) {
-    try { return json(200, { ok: true, detalhe: await calcular(b.simular.cep, b.simular.uf || null, b.simular.itens || []) }); }
+    try { const bg = Number(b.simular.base_gratis); return json(200, { ok: true, detalhe: await calcular(b.simular.cep, b.simular.uf || null, b.simular.itens || [], bg > 0 ? { base_gratis: bg } : {}) }); }
     catch (e) { return json(200, { ok: false, erro: String((e as Error).message || e) }); }
   }
 
