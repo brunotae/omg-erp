@@ -985,7 +985,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v101 · 05/11/2026';
+const VERSAO='v102 · 06/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -4279,7 +4279,10 @@ async function janiceMontar(rec){
  const tz=(d,z)=>new Date(d).toLocaleString('ko-KR',{timeZone:z,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false});
  const corte=Date.parse(rec.corteEm)||Date.now();
  const im=l=>{const x=l.prod&&info[String(l.prod.shopify_variant_id)];return x&&x.img?x.img+(x.img.includes('?')?'&':'?')+'width=160':''};
- const url=l=>l.prod&&l.prod.shopify_variant_id?'https://ohmygirl.com.br/variants/'+l.prod.shopify_variant_id:'';
+ // v102: produto fora do site (rascunho, ex.: kits tirados em 04/11) não abre no site: o link vai para a busca no Naver Shopping
+ const url=l=>{const p=l.prod;if(p&&p.shopify_variant_id&&p.ativo)return 'https://ohmygirl.com.br/variants/'+p.shopify_variant_id;
+  const q=[(p&&p.marca)||l.i.marca,(p&&p.nome_en)||l.i.en||(p&&String(p.nome||'').split(':')[0])].filter(Boolean).join(' ').replace(/^(\S+) \1 /i,'$1 ');
+  return q?'https://search.shopping.naver.com/search/all?query='+encodeURIComponent(q):''};
  const opc=l=>{const x=l.prod&&info[String(l.prod.shopify_variant_id)];return x&&x.variante&&!/default/i.test(x.variante)?x.variante:''};
  const presente=v=>/^OMG-(7INFLU|IMP)/i.test(String(v.cupom||''));
  const css='*{box-sizing:border-box}body{font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;color:#2E1A24;margin:0;padding:14px;max-width:900px;margin:auto;font-size:11px;line-height:1.35}'+
@@ -4727,6 +4730,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v102','06/11/2026',['Página da diretora: produto que saiu do site (rascunho) não tinha link que abrisse. Agora o "상품 보기" desses produtos abre a busca no Naver Shopping.']],
  ['v101','05/11/2026',['Parametrização manual: acabou o corte automático das 18h. As vendas pagas ficam todas num grupo só até alguém clicar em Fechar parametrização; o número (P-AAMMDD) é o dia do fechamento.']],
  ['v100','05/11/2026',['Ocorrências de compra: botão Copiar link para a diretora. O link abre a planilha sem login (quem tem o link vê e edita Decisão, Responsável, Data e Status). Abre em coreano.']],
  ['v99','05/11/2026',['Parametrização fechada é fixa: não recebe mais vendas. Vendas pagas depois de uma parametrização fechada antes da hora viram outra (ex.: P-261105-2), com número próprio.','As vendas 100.001.012 e 100.001.013 saíram da #0003 e formam a #0004 (P-261105-2).','Ocorrências de compra: botão Copiar link da aba aberta.']],
