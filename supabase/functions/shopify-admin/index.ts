@@ -1402,6 +1402,25 @@ async function principal(req: Request): Promise<Response> {
       return resp(200, { ok: true, colecoes: out });
     }
 
+    if (b.acao === "variante_vender") {
+      // Tira (ou volta) uma variante da venda sem apagar: estoque 0 (ou 9999). { itens: [{ sku, vender: false|true }] }
+      const out: any[] = [];
+      for (const it of (Array.isArray(b.itens) ? b.itens : []).slice(0, 20)) {
+        try {
+          const q: any = await gql(`query($q: String!) { productVariants(first: 2, query: $q) { nodes { id sku inventoryPolicy inventoryItem { id tracked inventoryLevels(first: 5) { nodes { location { id } } } } } } }`, { q: "sku:" + String(it.sku) });
+          const v = q.productVariants.nodes.find((x: any) => x.sku === String(it.sku)); if (!v) throw new Error("SKU não está no Shopify");
+          const locs = (v.inventoryItem.inventoryLevels.nodes || []).map((n: any) => n.location.id);
+          if (!locs.length) throw new Error("variante sem local de estoque");
+          const qtd = it.vender ? 9999 : 0;
+          const d: any = await gql(`mutation($i: InventorySetQuantitiesInput!) { inventorySetQuantities(input: $i) { userErrors { message } } }`,
+            { i: { name: "available", reason: "correction", ignoreCompareQuantity: true, quantities: locs.map((l: string) => ({ inventoryItemId: v.inventoryItem.id, locationId: l, quantity: qtd })) } });
+          if (d.inventorySetQuantities.userErrors.length) throw new Error(d.inventorySetQuantities.userErrors[0].message);
+          out.push({ sku: it.sku, ok: true, estoque: qtd, rastreado: v.inventoryItem.tracked, politica: v.inventoryPolicy });
+        } catch (e) { out.push({ sku: it.sku, ok: false, erro: String((e as Error).message || e).slice(0, 300) }); }
+      }
+      return resp(200, { ok: true, resultados: out });
+    }
+
     if (b.acao === "menu_item_adicionar") {
       // Acrescenta um link dentro de um item do menu, sem mexer no resto (mantém a árvore e os ids):
       // { menu: "main-menu", pai: "Ingredientes", titulo: "NAD+", url: "/collections/ingrediente-nad" }
