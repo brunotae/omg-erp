@@ -1402,6 +1402,23 @@ async function principal(req: Request): Promise<Response> {
       return resp(200, { ok: true, colecoes: out });
     }
 
+    if (b.acao === "menu_item_adicionar") {
+      // Acrescenta um link dentro de um item do menu, sem mexer no resto (mantém a árvore e os ids):
+      // { menu: "main-menu", pai: "Ingredientes", titulo: "NAD+", url: "/collections/ingrediente-nad" }
+      const q: any = await gql(`{ menus(first: 50) { nodes { id handle title items { id title type url resourceId tags items { id title type url resourceId tags items { id title type url resourceId tags } } } } } }`);
+      const m = q.menus.nodes.find((x: any) => x.handle === String(b.menu || "main-menu"));
+      if (!m) return resp(404, { erro: "menu não encontrado" });
+      const conv = (it: any): any => ({ id: it.id, title: it.title, type: it.type, url: it.url, ...(it.resourceId ? { resourceId: it.resourceId } : {}), tags: it.tags || [], items: (it.items || []).map(conv) });
+      const arv = m.items.map(conv);
+      const pai = arv.find((i: any) => i.title.trim().toLowerCase() === String(b.pai).trim().toLowerCase());
+      if (!pai) return resp(404, { erro: "item pai não encontrado" });
+      if (pai.items.some((i: any) => i.url === String(b.url) || i.title === String(b.titulo))) return resp(200, { ok: true, ja_tinha: true });
+      pai.items.push({ title: String(b.titulo), type: "HTTP", url: String(b.url), items: [] });
+      const d: any = await gql(`mutation($id: ID!, $t: String!, $h: String, $i: [MenuItemUpdateInput!]!) { menuUpdate(id: $id, title: $t, handle: $h, items: $i) { menu { id } userErrors { message } } }`, { id: m.id, t: m.title, h: m.handle, i: arv });
+      if (d.menuUpdate.userErrors.length) return resp(422, { erro: d.menuUpdate.userErrors.map((x: any) => x.message).join("; ") });
+      return resp(200, { ok: true });
+    }
+
     if (b.acao === "menu_salvar") {
       // Cria ou substitui um menu inteiro: { handle, titulo, itens: [{ titulo, url }] } (links HTTP).
       const itens = (Array.isArray(b.itens) ? b.itens : []).map((i: any) => ({ title: String(i.titulo), type: "HTTP", url: String(i.url), items: [] }));
