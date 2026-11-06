@@ -986,7 +986,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v103 · 06/11/2026';
+const VERSAO='v104 · 06/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1599,11 +1599,36 @@ async function mudarAtend(id,st){
 // Itens que a diretora não conseguiu comprar na Coreia (tabela contatos_cliente). A Isa fala com a cliente e registra a solução.
 const CC={loaded:false,rows:[],missing:false,ver:'abertos'};
 const CC_ST={a_contatar:'A contatar',contatado:'Mensagem enviada',troca:'Aceitou troca',reembolso:'Reembolso do item',cancelado:'Pedido cancelado',resolvido:'Resolvido'};
-const ccAberto=r=>r.status!=='resolvido'&&r.status!=='cancelado';
+const ccOc=r=>(S.data.ocorrencias_compra||[]).find(o=>o.numero===r.ocorrencia);
+const ccAberto=r=>r.status!=='resolvido'&&r.status!=='cancelado'&&!((ccOc(r)||{}).status==='resolvida');
+// v104: cada ocorrência em aberto de item com pedido gera (sozinha) um contato por pedido; quem é editor cria a linha.
+async function ccSync(){
+ if(!can())return;const oc=(S.data.ocorrencias_compra||[]).filter(o=>o.status!=='resolvida'&&o.escopo==='item'&&(o.pedidos||[]).length);
+ const novos=[];oc.forEach(o=>(o.pedidos||[]).forEach(p=>{const v=Number(String(p).replace(/\D/g,''));if(!v)return;
+  if(CC.rows.some(r=>r.ocorrencia===o.numero&&Number(r.venda)===v))return;
+  novos.push({venda:v,sku:o.sku,produto:[o.marca,o.produto_pt].filter(Boolean).join(' '),qtd:1,motivo:o.situacao_pt||null,ocorrencia:o.numero,lote:o.lote})}));
+ if(!novos.length)return;const {data,error}=await sb.from('contatos_cliente').insert(novos).select();if(!error&&data){CC.rows=CC.rows.concat(data);render()}
+}
+// o que a Isa combina vai para a coluna Decisão da ocorrência; resolvido/cancelado fecha a ocorrência
+async function ccParaOc(r){
+ const o=ccOc(r);if(!o)return;const v=(S.data.vendas||[]).find(x=>Number(x.numero)===Number(r.venda))||{};
+ const val=r.valor_reembolso!=null?brl(Number(r.valor_reembolso)):(v.itens?brl(ccValorItem(v,r.sku)):'');
+ const hoje=new Date().toLocaleDateString('pt-BR',{timeZone:'America/Sao_Paulo',day:'2-digit',month:'2-digit'});
+ const txt={a_contatar:'',contatado:'Isa: mensagem enviada ao cliente ('+hoje+').',troca:'Isa: cliente aceitou trocar'+(r.troca_por?' por '+r.troca_por:'')+'.',
+  reembolso:'Isa: reembolso do item'+(val?' ('+val+')':'')+'.',cancelado:'Isa: pedido cancelado com reembolso total ('+hoje+').',
+  resolvido:'Isa: resolvido ('+hoje+')'+(r.troca_por?' · troca por '+r.troca_por:r.valor_reembolso!=null?' · reembolso '+val:'')+'.'}[r.status]||'';
+ const st=r.status==='a_contatar'?'aberta':(r.status==='resolvido'||r.status==='cancelado')?'resolvida':'andamento';
+ // ocorrência com mais de um pedido só fecha quando todos os contatos dela fecharem
+ const irmaos=CC.rows.filter(x=>x.ocorrencia===r.ocorrencia);const stF=st==='resolvida'&&irmaos.some(x=>x.status!=='resolvido'&&x.status!=='cancelado')?'andamento':st;
+ const dec=[txt,r.obs?'Obs.: '+r.obs:''].filter(Boolean).join(' ');
+ const {data,error}=await sb.rpc('ocorrencia_atualizar',{p_id:o.id,p_decisao:dec,p_responsavel:'Isa',p_data:new Date().toISOString().slice(0,10),p_status:stF});
+ if(error){toast('Contato salvo, mas a ocorrência não atualizou: '+errMsg(error));return}
+ Object.assign(o,fromDb('ocorrencias_compra',data));
+}
 async function loadCC(){
  const {data,error}=await sb.from('contatos_cliente').select('*').order('venda');
  if(error){CC.missing=true;CC.loaded=true;render();return}
- CC.rows=data||[];CC.loaded=true;render();
+ CC.rows=data||[];CC.loaded=true;render();ccSync();
 }
 const ccSku=s=>String(s||'').split(' · ')[0].trim();
 function ccFone(v){const d=v.dados_site&&v.dados_site.endereco&&v.dados_site.endereco.fone;const t=String(d||String(v.contato||'').split('·').pop()||'').replace(/\D/g,'');
@@ -1639,18 +1664,18 @@ function ccMsg(v,rs){
 }
 VIEWFN.contatos=()=>{
  if(!CC.loaded&&S.db)setTimeout(loadCC,0);
- const sub='Itens que a diretora não conseguiu comprar na Coreia. Fale com cada cliente pelo WhatsApp (a mensagem já vem pronta), ofereça troca ou reembolso do item e registre o que foi combinado.';
+ const sub='Ligado às Ocorrências de compra: cada ocorrência em aberto com pedido vira um contato aqui, e o que você combinar com a cliente vai para a coluna Decisão da ocorrência (Resolvido fecha a ocorrência). Itens que a diretora não conseguiu comprar na Coreia. Fale com cada cliente pelo WhatsApp (a mensagem já vem pronta), ofereça troca ou reembolso do item e registre o que foi combinado.';
  if(!CC.loaded)return '<div class="page wide"><div class="col">'+head('Contato com clientes',sub,'')+'<p class="muted">Carregando…</p></div></div>';
  if(CC.missing)return '<div class="page wide"><div class="col">'+head('Contato com clientes',sub,'')+'<div class="card">'+empty('Tabela não encontrada','Rode o SQL omg-supabase-11-contatos-cliente.sql no Supabase.')+'</div></div></div>';
- const vend=k=>(S.data.vendas||[]).find(v=>n(v.numero)===n(k));
+ const vend=k=>(S.data.vendas||[]).find(v=>Number(v.numero)===Number(k));
  const grupos={};CC.rows.forEach(r=>(grupos[r.venda]=grupos[r.venda]||[]).push(r));
- let ks=Object.keys(grupos).sort((a,b)=>n(a)-n(b));
+ let ks=Object.keys(grupos).sort((a,b)=>Number(a)-Number(b));
  if(CC.ver==='abertos')ks=ks.filter(k=>grupos[k].some(ccAberto));
  const abertos=CC.rows.filter(ccAberto), aCont=CC.rows.filter(r=>r.status==='a_contatar');
  const maxRe=abertos.reduce((a,r)=>{const v=vend(r.venda);return a+(v?ccValorItem(v,r.sku):0)},0);
  const acts='<button class="btn" type="button" data-cc-rel>Copiar resumo</button>';
  const cards=ks.map(k=>{const rs=grupos[k], v=vend(k);
-  if(!v)return '<div class="card"><b>Venda '+esc(vnum(n(k)))+'</b> <span class="muted">não encontrada no ERP</span></div>';
+  if(!v)return '<div class="card"><b>Venda '+esc(vnum(Number(k)))+'</b> <span class="muted">não encontrada no ERP</span></div>';
   const fone=ccFone(v), mail=ccEmail(v), msg=ccMsg(v,rs.filter(ccAberto).length?rs.filter(ccAberto):rs);
   const outros=(v.itens||[]).filter(i=>!rs.some(r=>r.sku===ccSku(i.produto)));
   const tot=rs.reduce((a,r)=>a+ccValorItem(v,r.sku),0);
@@ -1661,7 +1686,7 @@ VIEWFN.contatos=()=>{
    (!outros.length?'<p style="margin:0 0 8px;color:var(--bad);font-size:12.5px"><b>Era o único item do pedido:</b> se a cliente não quiser trocar, é cancelamento com reembolso total de '+brl(tot)+'.</p>':'')+
    rs.map(r=>{const sg=ccSugestoes(v,r.sku), val=ccValorItem(v,r.sku), ed=!!S.db;
     return '<div style="border-top:1px solid var(--line,#eee);padding:10px 0" data-cc-id="'+esc(r.id)+'">'+
-     '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:baseline"><b>'+esc(r.qtd>1?r.qtd+'× ':'')+esc(r.produto||r.sku)+'</b><span class="muted" style="font-size:12px">'+esc(r.sku||'')+(r.ocorrencia?' · '+esc(r.ocorrencia):'')+' · '+esc(r.numero)+'</span></div>'+
+     '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:baseline"><b>'+esc(r.qtd>1?r.qtd+'× ':'')+esc(r.produto||r.sku)+'</b><span class="muted" style="font-size:12px">'+esc(r.sku||'')+(r.ocorrencia?' · ocorrência '+esc(r.ocorrencia)+((ccOc(r)||{}).status?' ('+esc({aberta:'aberta',andamento:'em andamento',resolvida:'resolvida'}[ccOc(r).status])+')':''):'')+' · '+esc(r.numero)+'</span></div>'+
      '<p style="margin:2px 0;font-size:12.5px">Motivo: '+esc(r.motivo||'—')+' · <b>Reembolso do item: '+brl(val)+'</b></p>'+
      (sg.length?'<p style="margin:2px 0;font-size:12.5px">Sugestões de troca: '+sg.map(s=>'<a href="'+esc(s.url)+'" target="_blank" rel="noopener">'+esc(s.nome)+'</a> ('+brl(s.preco)+')').join(' · ')+'</p>':'<p class="muted" style="margin:2px 0;font-size:12px">Sem sugestão automática de troca.</p>')+
      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;margin-top:6px">'+
@@ -1684,12 +1709,12 @@ async function ccSalvar(el){
  if(k==='status'&&!val)return;if((r[k]??null)===val)return;
  const b={[k]:val};if(k==='status'){if(val==='contatado'&&!r.contato_em)b.contato_em=new Date().toISOString();if((val==='resolvido'||val==='cancelado')&&!r.resolvido_em)b.resolvido_em=new Date().toISOString();b.responsavel=(S.nome||S.email||r.responsavel||'')}
  const {data,error}=await sb.from('contatos_cliente').update(b).eq('id',r.id).select().single();
- if(error){toast(errMsg(error));return}Object.assign(r,data);toast('Salvo');if(k==='status')render();
+ if(error){toast(errMsg(error));return}Object.assign(r,data);if(k==='status'||k==='obs'||k==='troca_por'||k==='valor_reembolso')await ccParaOc(r);toast('Salvo');if(k==='status')render();
 }
 document.addEventListener('change',e=>{if(S.view!=='contatos')return;const el=e.target;if(el.matches&&el.matches('[data-cc-k]'))ccSalvar(el)});
 document.addEventListener('click',e=>{if(S.view!=='contatos')return;const b=e.target.closest('button');if(!b)return;
  if(b.dataset.ccVer){CC.ver=b.dataset.ccVer;render();return}
- if(b.hasAttribute('data-cc-rel')){const vend=k=>(S.data.vendas||[]).find(v=>n(v.numero)===n(k));
+ if(b.hasAttribute('data-cc-rel')){const vend=k=>(S.data.vendas||[]).find(v=>Number(v.numero)===Number(k));
   const ab=CC.rows.filter(ccAberto);const g={};ab.forEach(r=>(g[r.venda]=g[r.venda]||[]).push(r));
   const t='OMG · Contato com clientes · '+Object.keys(g).length+' pedidos em aberto\n\n'+Object.keys(g).sort().map(k=>{const v=vend(k)||{};return (v.pedidoSite||k)+' · '+(v.cliente||'')+' · '+(ccFone(v)?'+'+ccFone(v):'sem telefone')+'\n'+g[k].map(r=>'  • '+r.produto+' → '+CC_ST[r.status]+' · reembolso '+brl(v.itens?ccValorItem(v,r.sku):0)).join('\n')}).join('\n\n');
   navigator.clipboard.writeText(t).then(()=>toast('Resumo copiado'),()=>toast('Não deu para copiar'))}
@@ -3757,7 +3782,7 @@ const OC_T={
 const OC_TIPOS={notkr:{ko:'한국 미판매',pt:'Não vende na Coreia'},disc:{ko:'단종 · 리뉴얼',pt:'Descontinuado'},mism:{ko:'구성 · 이미지 불일치',pt:'Kit ou foto não confere'},sold:{ko:'품절',pt:'Esgotado'},unit:{ko:'판매 단위',pt:'Unidade de venda'},nocomp:{ko:'구매 불가',pt:'Não conseguiu comprar'},delay:{ko:'구매 지연',pt:'Atraso na compra'},outro:{ko:'기타',pt:'Outro'}};
 const OC_W=[34,104,92,190,112,118,270,270,250,90,112,104];
 const OC_LET='ABCDEFGHIJKLMNOP';
-const OC={lote:null,f:'all',lang:(()=>{try{return localStorage.getItem('omg-oc-lang')||'pt'}catch(_){return 'pt'}})()};
+const OC={lote:null,f:'pend',lang:(()=>{try{return localStorage.getItem('omg-oc-lang')||'pt'}catch(_){return 'pt'}})()};
 const ocRows=()=>S.data.ocorrencias_compra||[];
 const ocLotes=()=>[...new Set(ocRows().map(r=>r.lote))].sort((a,b)=>String(b).localeCompare(String(a)));
 const ocPed=p=>{const d=String(p||'').replace(/\D/g,'');return d.length===9?d.slice(0,3)+'.'+d.slice(3,6)+'.'+d.slice(6):String(p||'')};
@@ -3788,10 +3813,10 @@ VIEWFN.ocorrencias=()=>{
  if(S.missing.ocorrencias_compra)return '<div class="page wide"><div class="col">'+head(esc(t.title),sub,'')+'<div class="card">'+empty('Tabela não encontrada','Rode o SQL omg-supabase-10-ocorrencias.sql no Supabase.')+'</div></div></div>';
  if(!OC.lote)return '<div class="page wide"><div class="col">'+head(esc(t.title),sub,acts)+'<div class="card">'+empty(esc(t.none),'')+'</div></div></div>';
  const all=ocRows().filter(r=>r.lote===OC.lote).sort((a,b)=>n(a.ordem)-n(b.ordem)||String(a.numero).localeCompare(String(b.numero)));
- const rows=all.filter(r=>(OC.f==='all'||r.status===OC.f)&&match(r));
+ const rows=all.filter(r=>(OC.f==='all'||(OC.f==='pend'?r.status!=='resolvida':r.status===OC.f))&&match(r));
  const info=ocInfoLote(OC.lote), rel=[...new Set(all.map(r=>r.relatado_por).filter(Boolean))].join(', ');
  const junto=info&&info.g.length>1?' · '+esc(t.together)+' '+info.g.filter(x=>x.numero!==OC.lote).map(x=>esc(x.numero)).join(', '):'';
- const tools='<label for="oc-flt">'+esc(t.filter)+'</label><select id="oc-flt" data-1c="off">'+[['all',t.all],['aberta',t.st.aberta],['andamento',t.st.andamento],['resolvida',t.st.resolvida]].map(([k,v])=>'<option value="'+k+'"'+(OC.f===k?' selected':'')+'>'+esc(v)+'</option>').join('')+'</select>'+
+ const tools='<label for="oc-flt">'+esc(t.filter)+'</label><select id="oc-flt" data-1c="off">'+[['pend',OC.lang==='ko'?'미해결':'Em aberto'],['all',t.all],['aberta',t.st.aberta],['andamento',t.st.andamento],['resolvida',t.st.resolvida]].map(([k,v])=>'<option value="'+k+'"'+(OC.f===k?' selected':'')+'>'+esc(v)+'</option>').join('')+'</select>'+
   '<span class="oc-info">'+(info?esc(t.cutoff)+' '+esc(info.corte)+' · '+esc(t.orders)+' '+info.pedidos+' · '+esc(t.items)+' '+info.itens+junto+' · ':'')+(rel?esc(t.reporter)+' '+esc(rel)+' · ':'')+(info?'<a href="'+esc(info.url)+'" target="_blank" rel="noopener">'+esc(t.source)+' ↗</a>':'')+'</span>';
  const ed=can();
  let h='<colgroup><col style="width:36px">'+OC_W.map(w=>'<col style="width:'+w+'px">').join('')+'</colgroup>';
@@ -4831,6 +4856,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v104','06/11/2026',['Contato com clientes ligado às Ocorrências de compra: ocorrência em aberto com pedido vira contato sozinha; a Situação que a Isa marca vai para a Decisão da ocorrência (Mensagem enviada/Troca/Reembolso = em andamento; Resolvido/Cancelado = resolvida); ocorrência resolvida some da lista em aberto.','Ocorrências de compra abrem no filtro Em aberto.','Corrigido: os pedidos apareciam como "Venda 0 não encontrada".']],
  ['v103','06/11/2026',['Clientes › Contato com clientes: relatório para a Isa com os itens que a diretora não conseguiu comprar. Por pedido: cliente, WhatsApp com mensagem pronta (item, motivo, sugestões de troca do site e valor do reembolso), e-mail, o que segue normalmente e os campos Situação, Trocar por, Reembolso e Observação.','Ocorrências: tipo novo "Não conseguiu comprar" (구매 불가).']],
  ['v102','06/11/2026',['Página da diretora: produto que saiu do site (rascunho) não tinha link que abrisse. Agora o "상품 보기" desses produtos abre a busca no Naver Shopping.']],
  ['v101','05/11/2026',['Parametrização manual: acabou o corte automático das 18h. As vendas pagas ficam todas num grupo só até alguém clicar em Fechar parametrização; o número (P-AAMMDD) é o dia do fechamento.']],
