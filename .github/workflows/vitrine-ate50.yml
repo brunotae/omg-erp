@@ -13,3 +13,8 @@ jobs:
           R=$(curl -sS -m 140 -X POST https://nzsiuniabovvptuqmkmi.supabase.co/functions/v1/vitrine-sync -H 'content-type: application/json' -d '{"modo":"ate50"}')
           echo "$R"
           echo "$R" | grep -q '"ok":true' || { echo "::error::$R"; exit 1; }
+      - name: Vitrine Até R$ 100 (valor final com frete e impostos)
+        run: |
+          R=$(curl -sS -m 140 -X POST https://nzsiuniabovvptuqmkmi.supabase.co/functions/v1/vitrine-sync -H 'content-type: application/json' -d '{"modo":"ate100"}')
+          echo "$R"
+          echo "$R" | grep -q '"ok":true' || { echo "::error::$R"; exit 1; }
