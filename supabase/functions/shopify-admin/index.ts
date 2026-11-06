@@ -1413,7 +1413,7 @@ async function principal(req: Request): Promise<Response> {
           if (!locs.length) throw new Error("variante sem local de estoque");
           const qtd = it.vender ? 9999 : 0;
           const d: any = await gql(`mutation($i: InventorySetQuantitiesInput!) { inventorySetQuantities(input: $i) { userErrors { message } } }`,
-            { i: { name: "available", reason: "correction", ignoreCompareQuantity: true, quantities: locs.map((l: string) => ({ inventoryItemId: v.inventoryItem.id, locationId: l, quantity: qtd })) } });
+            { i: { name: "available", reason: "correction", quantities: locs.map((l: string) => ({ inventoryItemId: v.inventoryItem.id, locationId: l, quantity: qtd, changeFromQuantity: null })) } });
           if (d.inventorySetQuantities.userErrors.length) throw new Error(d.inventorySetQuantities.userErrors[0].message);
           out.push({ sku: it.sku, ok: true, estoque: qtd, rastreado: v.inventoryItem.tracked, politica: v.inventoryPolicy });
         } catch (e) { out.push({ sku: it.sku, ok: false, erro: String((e as Error).message || e).slice(0, 300) }); }
