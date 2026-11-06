@@ -825,12 +825,13 @@ const ICONS={
  analises:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
  cadastros:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M17 11h5M19.5 8.5v5"/>',
  relatorios:'<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 17v-3M13 17v-5M16 17v-2"/>',
+ contatos:'<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>',
  atendimentos:'<path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/>',
  avisos:'<path d="M4 10v4h3l5 4V6L7 10z"/><path d="M16 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"/>',
  fornecedores:'<path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/>',
  config:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/>'
 };
-const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Parametrização'],['','ocorrencias','Ocorrências de compra'],['','lotes','Embarques'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['','pricing','Pricing'],['','precos','Concorrentes'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','cadastros','Cadastros do site'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['','relatorios','Relatório do site'],['','visitas','Visitas agora'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Automação','monitor','Monitoramentos'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
+const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Parametrização'],['','ocorrencias','Ocorrências de compra'],['','lotes','Embarques'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['','pricing','Pricing'],['','precos','Concorrentes'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','cadastros','Cadastros do site'],['','contatos','Contato com clientes'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['','relatorios','Relatório do site'],['','visitas','Visitas agora'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Automação','monitor','Monitoramentos'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
 
 /* ================= utilidades ================= */
 const $=s=>document.querySelector(s);
@@ -985,7 +986,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v102 · 06/11/2026';
+const VERSAO='v103 · 06/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1593,6 +1594,106 @@ async function mudarAtend(id,st){
  const {error}=await sb.from('bomi_atendimentos').update({status:st,resolvido_por:S.email||'',atualizado_em:new Date().toISOString()}).eq('id',id);if(error){toast(errMsg(error));return}
  r.status=st;toast(st==='resolvido'?'Marcado como resolvido':'Marcado como respondido');render();
 }
+
+/* ---------- Contato com clientes (relatório para a Isa) · v103 ---------- */
+// Itens que a diretora não conseguiu comprar na Coreia (tabela contatos_cliente). A Isa fala com a cliente e registra a solução.
+const CC={loaded:false,rows:[],missing:false,ver:'abertos'};
+const CC_ST={a_contatar:'A contatar',contatado:'Mensagem enviada',troca:'Aceitou troca',reembolso:'Reembolso do item',cancelado:'Pedido cancelado',resolvido:'Resolvido'};
+const ccAberto=r=>r.status!=='resolvido'&&r.status!=='cancelado';
+async function loadCC(){
+ const {data,error}=await sb.from('contatos_cliente').select('*').order('venda');
+ if(error){CC.missing=true;CC.loaded=true;render();return}
+ CC.rows=data||[];CC.loaded=true;render();
+}
+const ccSku=s=>String(s||'').split(' · ')[0].trim();
+function ccFone(v){const d=v.dados_site&&v.dados_site.endereco&&v.dados_site.endereco.fone;const t=String(d||String(v.contato||'').split('·').pop()||'').replace(/\D/g,'');
+ if(!t)return '';return t.length<=11?'55'+t:t}
+const ccEmail=v=>(String(v.contato||'').match(/[^\s·]+@[^\s·]+/)||[''])[0];
+// valor pago pelo item: parte do total pago, na proporção do preço (desconto, frete e impostos rateados)
+function ccValorItem(v,sku){const it=v.itens||[],sub=it.reduce((a,i)=>a+n(i.qtd)*n(i.preco),0);const x=it.find(i=>ccSku(i.produto)===sku);
+ if(!x||!sub)return 0;return Math.round(calc(v).total*n(x.qtd)*n(x.preco)/sub*100)/100}
+function ccSugestoes(v,sku){
+ const p=(S.data.produtos||[]).find(x=>x.sku===sku);if(!p)return [];
+ const naVenda=new Set((v.itens||[]).map(i=>ccSku(i.produto)));
+ const ok=x=>x.ativo&&x.shopify_variant_id&&x.sku!==sku&&!naVenda.has(x.sku)&&(x.site_status?x.site_status==='active':true);
+ const alvo=n(p.preco)||1;
+ let c=(S.data.produtos||[]).filter(x=>ok(x)&&x.marca===p.marca&&x.categoria===p.categoria&&n(x.preco)>=alvo*.5&&n(x.preco)<=alvo*1.6);
+ if(c.length<3)c=c.concat((S.data.produtos||[]).filter(x=>ok(x)&&x.categoria===p.categoria&&x.marca!==p.marca&&n(x.preco)>=alvo*.6&&n(x.preco)<=alvo*1.4&&!c.includes(x)));
+ const vistos=new Set();
+ return c.sort((a,b)=>(a.marca===p.marca?0:1)-(b.marca===p.marca?0:1)||Math.abs(n(a.preco)-alvo)-Math.abs(n(b.preco)-alvo))
+  .filter(x=>{const k=x.shopify_product_id||x.sku;if(vistos.has(k))return false;vistos.add(k);return true}).slice(0,3)
+  .map(x=>({nome:(x.marca?x.marca+' ':'')+String(x.nome||'').split(':')[0],preco:n(x.preco),url:'https://ohmygirl.com.br/variants/'+x.shopify_variant_id}));
+}
+function ccMsg(v,rs){
+ const nome=String(v.cliente||'').trim().split(/\s+/)[0]||'';
+ const outros=(v.itens||[]).filter(i=>!rs.some(r=>r.sku===ccSku(i.produto)));
+ const tot=rs.reduce((a,r)=>a+ccValorItem(v,r.sku),0), pedidoTodo=!outros.length;
+ let m='Oi, '+nome+'! Aqui é a Isa, da OH MY GIRL 💕\n\nSobre o seu pedido '+(v.pedidoSite||('#'+v.numero))+': infelizmente não conseguimos comprar na Coreia '+(rs.length>1?'estes itens':'este item')+':\n';
+ rs.forEach(r=>{m+='• '+r.produto+(r.motivo&&!/^não conseguimos comprar/i.test(r.motivo)?' ('+r.motivo.replace(/\.$/,'').replace(/^./,c=>c.toLowerCase())+')':'')+'\n'});
+ if(!pedidoTodo)m+='\nOs outros itens do seu pedido já foram comprados e seguem normalmente ✨\n';
+ m+='\nPara resolver, você prefere:\n1) Trocar por outro produto';
+ const sg=rs.flatMap(r=>ccSugestoes(v,r.sku)).slice(0,3);
+ if(sg.length)m+='. Algumas sugestões:\n'+sg.map(s=>'   – '+s.nome+' ('+brl(s.preco)+'): '+s.url).join('\n')+'\n';else m+='\n';
+ m+=pedidoTodo?'2) Cancelar o pedido com reembolso total de '+brl(tot)+'\n':'2) Receber o reembolso de '+brl(tot)+' referente a '+(rs.length>1?'esses itens':'esse item')+'\n';
+ return m+'\nÉ só me responder aqui que eu resolvo para você. Desculpa pelo transtorno!';
+}
+VIEWFN.contatos=()=>{
+ if(!CC.loaded&&S.db)setTimeout(loadCC,0);
+ const sub='Itens que a diretora não conseguiu comprar na Coreia. Fale com cada cliente pelo WhatsApp (a mensagem já vem pronta), ofereça troca ou reembolso do item e registre o que foi combinado.';
+ if(!CC.loaded)return '<div class="page wide"><div class="col">'+head('Contato com clientes',sub,'')+'<p class="muted">Carregando…</p></div></div>';
+ if(CC.missing)return '<div class="page wide"><div class="col">'+head('Contato com clientes',sub,'')+'<div class="card">'+empty('Tabela não encontrada','Rode o SQL omg-supabase-11-contatos-cliente.sql no Supabase.')+'</div></div></div>';
+ const vend=k=>(S.data.vendas||[]).find(v=>n(v.numero)===n(k));
+ const grupos={};CC.rows.forEach(r=>(grupos[r.venda]=grupos[r.venda]||[]).push(r));
+ let ks=Object.keys(grupos).sort((a,b)=>n(a)-n(b));
+ if(CC.ver==='abertos')ks=ks.filter(k=>grupos[k].some(ccAberto));
+ const abertos=CC.rows.filter(ccAberto), aCont=CC.rows.filter(r=>r.status==='a_contatar');
+ const maxRe=abertos.reduce((a,r)=>{const v=vend(r.venda);return a+(v?ccValorItem(v,r.sku):0)},0);
+ const acts='<button class="btn" type="button" data-cc-rel>Copiar resumo</button>';
+ const cards=ks.map(k=>{const rs=grupos[k], v=vend(k);
+  if(!v)return '<div class="card"><b>Venda '+esc(vnum(n(k)))+'</b> <span class="muted">não encontrada no ERP</span></div>';
+  const fone=ccFone(v), mail=ccEmail(v), msg=ccMsg(v,rs.filter(ccAberto).length?rs.filter(ccAberto):rs);
+  const outros=(v.itens||[]).filter(i=>!rs.some(r=>r.sku===ccSku(i.produto)));
+  const tot=rs.reduce((a,r)=>a+ccValorItem(v,r.sku),0);
+  const cupom=v.cupom?' · cupom '+esc(v.cupom):'';
+  return '<div class="card" style="margin-bottom:12px"><div class="card-h"><h2>Pedido '+esc(v.pedidoSite||vnum(v.numero))+' · '+esc(v.cliente||'')+'</h2>'+stPill(rs.every(r=>!ccAberto(r))?'Resolvido':CC_ST[rs[0].status]||'A contatar')+'</div>'+
+   '<p class="muted" style="margin:0 0 8px;font-size:12px">Venda '+esc(vnum(v.numero))+' · '+fdate(v.dataCompra)+' · '+esc([v.cidade,v.uf].filter(Boolean).join('/'))+' · pago '+brl(calc(v).total)+cupom+' · '+esc(rs.map(r=>r.lote).filter(Boolean).filter((x,i,a)=>a.indexOf(x)===i).join(', '))+'</p>'+
+   '<p style="margin:0 0 8px">'+(fone?'<a class="btn pri sm" target="_blank" rel="noopener" href="https://wa.me/'+fone+'?text='+encodeURIComponent(msg)+'">Abrir no WhatsApp</a> ':'')+lkCopia(msg,'Copiar mensagem')+' <span class="muted" style="font-size:12px">'+(fone?'+'+esc(fone):'sem telefone')+(mail?' · <a href="mailto:'+esc(mail)+'?subject='+encodeURIComponent('Seu pedido '+(v.pedidoSite||'')+' · OH MY GIRL')+'&body='+encodeURIComponent(msg)+'">'+esc(mail)+'</a>':'')+'</span></p>'+
+   (!outros.length?'<p style="margin:0 0 8px;color:var(--bad);font-size:12.5px"><b>Era o único item do pedido:</b> se a cliente não quiser trocar, é cancelamento com reembolso total de '+brl(tot)+'.</p>':'')+
+   rs.map(r=>{const sg=ccSugestoes(v,r.sku), val=ccValorItem(v,r.sku), ed=!!S.db;
+    return '<div style="border-top:1px solid var(--line,#eee);padding:10px 0" data-cc-id="'+esc(r.id)+'">'+
+     '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:baseline"><b>'+esc(r.qtd>1?r.qtd+'× ':'')+esc(r.produto||r.sku)+'</b><span class="muted" style="font-size:12px">'+esc(r.sku||'')+(r.ocorrencia?' · '+esc(r.ocorrencia):'')+' · '+esc(r.numero)+'</span></div>'+
+     '<p style="margin:2px 0;font-size:12.5px">Motivo: '+esc(r.motivo||'—')+' · <b>Reembolso do item: '+brl(val)+'</b></p>'+
+     (sg.length?'<p style="margin:2px 0;font-size:12.5px">Sugestões de troca: '+sg.map(s=>'<a href="'+esc(s.url)+'" target="_blank" rel="noopener">'+esc(s.nome)+'</a> ('+brl(s.preco)+')').join(' · ')+'</p>':'<p class="muted" style="margin:2px 0;font-size:12px">Sem sugestão automática de troca.</p>')+
+     '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;margin-top:6px">'+
+      '<label class="muted" style="font-size:11px">Situação<select data-cc-k="status"'+(ed?'':' disabled')+' data-1c="off">'+Object.entries(CC_ST).map(([k2,l])=>'<option value="'+k2+'"'+(r.status===k2?' selected':'')+'>'+l+'</option>').join('')+'</select></label>'+
+      '<label class="muted" style="font-size:11px">Trocar por<input data-cc-k="troca_por" value="'+esc(r.troca_por||'')+'" placeholder="produto escolhido"'+(ed?'':' disabled')+'></label>'+
+      '<label class="muted" style="font-size:11px">Reembolso (R$)<input data-cc-k="valor_reembolso" type="number" step="0.01" value="'+(r.valor_reembolso!=null?esc(r.valor_reembolso):'')+'" placeholder="'+val.toFixed(2)+'"'+(ed?'':' disabled')+'></label>'+
+      '<label class="muted" style="font-size:11px;grid-column:1/-1">O que a cliente disse / combinado<textarea data-cc-k="obs" rows="2"'+(ed?'':' disabled')+'>'+esc(r.obs||'')+'</textarea></label>'+
+     '</div></div>'}).join('')+
+   (outros.length?'<p class="muted" style="margin:6px 0 0;font-size:12px">Seguem normalmente: '+outros.map(i=>esc((n(i.qtd)>1?n(i.qtd)+'× ':'')+String(i.produto||'').split(' · ').slice(1).join(' · ').split(':')[0])).join(' · ')+'</p>':'')+
+   '</div>'}).join('');
+ return '<div class="page wide"><div class="col">'+head('Contato com clientes',sub,acts)+
+  '<div class="chips" style="margin:0 0 10px"><button class="chip'+(CC.ver==='abertos'?' on':'')+'" type="button" data-cc-ver="abertos">Em aberto</button><button class="chip'+(CC.ver==='todos'?' on':'')+'" type="button" data-cc-ver="todos">Todos</button></div>'+
+  (cards||'<div class="card">'+empty('Nada pendente','Quando a diretora não conseguir comprar um item, ele aparece aqui para a equipe falar com a cliente.')+'</div>')+'</div>'+
+  '<aside class="rail"><div class="note"><span class="label">Resumo</span><p><b>'+Object.keys(grupos).filter(k=>grupos[k].some(ccAberto)).length+'</b> pedidos em aberto · <b>'+aCont.length+'</b> itens a contatar</p><p class="muted">Se todos pedirem reembolso: '+brl(maxRe)+'</p></div>'+
+  '<div class="note"><span class="label">Como usar</span><p>1. Abra no WhatsApp: a mensagem já vem com o item, o motivo, sugestões de troca e o valor do reembolso.</p><p>2. Mude a Situação para "Mensagem enviada".</p><p>3. Quando a cliente responder, anote o combinado e mude para "Aceitou troca", "Reembolso do item" ou "Pedido cancelado". Depois de fazer a troca ou o reembolso, marque "Resolvido".</p><p class="muted">O reembolso do item é a parte dele no valor pago (desconto, frete e impostos rateados pelo preço).</p></div></aside></div>';
+};
+async function ccSalvar(el){
+ const box=el.closest('[data-cc-id]');if(!box)return;const r=CC.rows.find(x=>x.id===box.dataset.ccId);if(!r)return;
+ const k=el.dataset.ccK;let val=el.value;if(k==='valor_reembolso')val=val===''?null:Number(val);else val=String(val).trim()||null;
+ if(k==='status'&&!val)return;if((r[k]??null)===val)return;
+ const b={[k]:val};if(k==='status'){if(val==='contatado'&&!r.contato_em)b.contato_em=new Date().toISOString();if((val==='resolvido'||val==='cancelado')&&!r.resolvido_em)b.resolvido_em=new Date().toISOString();b.responsavel=(S.nome||S.email||r.responsavel||'')}
+ const {data,error}=await sb.from('contatos_cliente').update(b).eq('id',r.id).select().single();
+ if(error){toast(errMsg(error));return}Object.assign(r,data);toast('Salvo');if(k==='status')render();
+}
+document.addEventListener('change',e=>{if(S.view!=='contatos')return;const el=e.target;if(el.matches&&el.matches('[data-cc-k]'))ccSalvar(el)});
+document.addEventListener('click',e=>{if(S.view!=='contatos')return;const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.ccVer){CC.ver=b.dataset.ccVer;render();return}
+ if(b.hasAttribute('data-cc-rel')){const vend=k=>(S.data.vendas||[]).find(v=>n(v.numero)===n(k));
+  const ab=CC.rows.filter(ccAberto);const g={};ab.forEach(r=>(g[r.venda]=g[r.venda]||[]).push(r));
+  const t='OMG · Contato com clientes · '+Object.keys(g).length+' pedidos em aberto\n\n'+Object.keys(g).sort().map(k=>{const v=vend(k)||{};return (v.pedidoSite||k)+' · '+(v.cliente||'')+' · '+(ccFone(v)?'+'+ccFone(v):'sem telefone')+'\n'+g[k].map(r=>'  • '+r.produto+' → '+CC_ST[r.status]+' · reembolso '+brl(v.itens?ccValorItem(v,r.sku):0)).join('\n')}).join('\n\n');
+  navigator.clipboard.writeText(t).then(()=>toast('Resumo copiado'),()=>toast('Não deu para copiar'))}
+});
 
 /* ---------- Devoluções ---------- */
 VIEWFN.devolucoes=()=>{
@@ -3653,7 +3754,7 @@ const OC_T={
   cnt:(n,o,d,k)=>'Ocorrências '+n+' · Abertas '+o+' · Em andamento '+d+' · Resolvidas '+k,saved:'Salvo',none:'Nenhum lote com ocorrência ainda',
   novo:'+ Nova ocorrência',edit:'Editar',together:'vai junto com'}
 };
-const OC_TIPOS={notkr:{ko:'한국 미판매',pt:'Não vende na Coreia'},disc:{ko:'단종 · 리뉴얼',pt:'Descontinuado'},mism:{ko:'구성 · 이미지 불일치',pt:'Kit ou foto não confere'},sold:{ko:'품절',pt:'Esgotado'},unit:{ko:'판매 단위',pt:'Unidade de venda'},delay:{ko:'구매 지연',pt:'Atraso na compra'},outro:{ko:'기타',pt:'Outro'}};
+const OC_TIPOS={notkr:{ko:'한국 미판매',pt:'Não vende na Coreia'},disc:{ko:'단종 · 리뉴얼',pt:'Descontinuado'},mism:{ko:'구성 · 이미지 불일치',pt:'Kit ou foto não confere'},sold:{ko:'품절',pt:'Esgotado'},unit:{ko:'판매 단위',pt:'Unidade de venda'},nocomp:{ko:'구매 불가',pt:'Não conseguiu comprar'},delay:{ko:'구매 지연',pt:'Atraso na compra'},outro:{ko:'기타',pt:'Outro'}};
 const OC_W=[34,104,92,190,112,118,270,270,250,90,112,104];
 const OC_LET='ABCDEFGHIJKLMNOP';
 const OC={lote:null,f:'all',lang:(()=>{try{return localStorage.getItem('omg-oc-lang')||'pt'}catch(_){return 'pt'}})()};
@@ -4730,6 +4831,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v103','06/11/2026',['Clientes › Contato com clientes: relatório para a Isa com os itens que a diretora não conseguiu comprar. Por pedido: cliente, WhatsApp com mensagem pronta (item, motivo, sugestões de troca do site e valor do reembolso), e-mail, o que segue normalmente e os campos Situação, Trocar por, Reembolso e Observação.','Ocorrências: tipo novo "Não conseguiu comprar" (구매 불가).']],
  ['v102','06/11/2026',['Página da diretora: produto que saiu do site (rascunho) não tinha link que abrisse. Agora o "상품 보기" desses produtos abre a busca no Naver Shopping.']],
  ['v101','05/11/2026',['Parametrização manual: acabou o corte automático das 18h. As vendas pagas ficam todas num grupo só até alguém clicar em Fechar parametrização; o número (P-AAMMDD) é o dia do fechamento.']],
  ['v100','05/11/2026',['Ocorrências de compra: botão Copiar link para a diretora. O link abre a planilha sem login (quem tem o link vê e edita Decisão, Responsável, Data e Status). Abre em coreano.']],
