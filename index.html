@@ -986,7 +986,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v104 · 06/11/2026';
+const VERSAO='v105 · 07/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -4856,6 +4856,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v105','07/11/2026',['Quando o ERP fica "Sem conexão com o banco" porque a sessão venceu (ex.: computador dormiu), ele renova a sessão sozinho e carrega de novo.']],
  ['v104','06/11/2026',['Contato com clientes ligado às Ocorrências de compra: ocorrência em aberto com pedido vira contato sozinha; a Situação que a Isa marca vai para a Decisão da ocorrência (Mensagem enviada/Troca/Reembolso = em andamento; Resolvido/Cancelado = resolvida); ocorrência resolvida some da lista em aberto.','Ocorrências de compra abrem no filtro Em aberto.','Corrigido: os pedidos apareciam como "Venda 0 não encontrada".']],
  ['v103','06/11/2026',['Clientes › Contato com clientes: relatório para a Isa com os itens que a diretora não conseguiu comprar. Por pedido: cliente, WhatsApp com mensagem pronta (item, motivo, sugestões de troca do site e valor do reembolso), e-mail, o que segue normalmente e os campos Situação, Trocar por, Reembolso e Observação.','Ocorrências: tipo novo "Não conseguiu comprar" (구매 불가).']],
  ['v102','06/11/2026',['Página da diretora: produto que saiu do site (rascunho) não tinha link que abrisse. Agora o "상품 보기" desses produtos abre a busca no Naver Shopping.']],
@@ -5078,6 +5079,9 @@ async function loadAll(){
   S.status=failed?'off':'on';
  }catch(_){S.status='off'}
  loadingNow=false;
+ // v105: sessão vencida (computador dormiu) dá 'Sem conexão'. Renova a sessão e tenta de novo, uma vez.
+ if(S.status==='off'&&!loadAll._tentou){loadAll._tentou=true;try{await sb.auth.refreshSession()}catch(_){}setTimeout(()=>{loadAll()},300);return}
+ if(S.status==='on')loadAll._tentou=false;
  if(!document.querySelector('#ov'))render();else renderNav();
 }
 const gateMsg=(t,ok)=>{const m=$('#l-msg');m.textContent=t||'';m.classList.toggle('ok',!!ok)};
