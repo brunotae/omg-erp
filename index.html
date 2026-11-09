@@ -986,7 +986,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v106 · 08/11/2026';
+const VERSAO='v107 · 09/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -3749,7 +3749,7 @@ document.addEventListener('click',e=>{
 /* ================= Avisos à cliente por e-mail (v76): aviso 2 "Preparado na Coreia" e aviso 4 "Chegou ao Brasil e foi liberado" ================= */
 // Os avisos 1, 3, 5 e 6 saem pelo Shopify (envio_sync). Estes dois saem pela função avisos-cliente e ficam em avisos_cliente.
 const AVC={cfg:null,cfgLoaded:false};
-const AVC_TIT={preparado:'2 · Preparado na Coreia',liberado:'4 · Chegou ao Brasil e foi liberado'};
+const AVC_TIT={separando:'Estamos separando seus produtos',preparado:'2 · Preparado na Coreia',liberado:'4 · Chegou ao Brasil e foi liberado'};
 async function avChamar(body){
  const {data,error}=await sb.functions.invoke('avisos-cliente',{body});
  if(error){let m='';try{m=(await error.context.json()).erro}catch(_){}throw new Error(m||error.message)}
@@ -3767,7 +3767,8 @@ function avcCard(){
   '<p class="muted" style="margin:4px 0 10px;font-size:12.5px">O Shopify manda: 1 pedido confirmado, 3 saiu da Coreia (com rastreio), 5 saiu para entrega e 6 entregue. O ERP manda: <b>2 · Preparado na Coreia</b> (quando a venda chega em "Embalado") e <b>4 · Chegou ao Brasil e foi liberado</b> (em "Desembaraço"). Cada aviso sai uma vez só por pedido e fica registrado na ficha da venda.</p>'+
   '<div class="chips" style="align-items:center"><button type="button" class="mon-sw" id="avc-tog" role="switch" aria-checked="'+on+'"'+(can()&&c?'':' disabled')+'><i></i><span>'+(on?'Ligado':'Desligado')+'</span></button>'+
   '<span class="muted" style="font-size:12px">Remetente: '+esc(c?c.de||'':'…')+'</span></div>'+
-  (can()?'<div class="chips" style="margin-top:10px"><button class="btn sm" type="button" data-avcteste="preparado">Me mandar exemplo do aviso 2</button><button class="btn sm" type="button" data-avcteste="liberado">Me mandar exemplo do aviso 4</button><button class="btn sm" type="button" id="avc-pend">Enviar pendentes agora</button></div>':'')+
+  (can()?'<div class="chips" style="margin-top:10px"><button class="btn sm" type="button" data-avcteste="preparado">Me mandar exemplo do aviso 2</button><button class="btn sm" type="button" data-avcteste="liberado">Me mandar exemplo do aviso 4</button><button class="btn sm" type="button" id="avc-pend">Enviar pendentes agora</button></div>'+
+  '<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--line)"><b style="font-size:13px">Aviso avulso: "Estamos separando seus produtos"</b><p class="muted" style="margin:2px 0 8px;font-size:12px">Vai para as vendas do site que não estão canceladas, ainda não foram embaladas e não receberam este aviso. Primeiro mostra a lista; só manda depois que você confirmar.</p><div class="chips"><button class="btn sm" type="button" data-avcteste="separando">Me mandar exemplo</button><button class="btn sm pri" type="button" id="avc-sep">Ver quem recebe e mandar</button></div><div id="avc-sep-lista"></div></div>':'')+
   '<p class="muted" id="avc-res" style="margin:8px 0 0;font-size:12px"></p></div>';
 }
 // ficha da venda: lista de avisos (Shopify + ERP)
@@ -3791,6 +3792,19 @@ document.addEventListener('click',async e=>{
  if(tg){if(!can()||!AVC.cfg)return;tg.disabled=true;const novo={...AVC.cfg,ativo:!AVC.cfg.ativo};
   const {error}=await sb.from('config').update({valor:novo}).eq('chave','avisos');
   if(error){toast(errMsg(error));tg.disabled=false;return}AVC.cfg=novo;toast(novo.ativo?'Avisos por e-mail ligados':'Avisos por e-mail desligados');render();return}
+ const sp=e.target.closest('#avc-sep,#avc-sep-ok');
+ if(sp){const box=document.getElementById('avc-sep-lista');sp.disabled=true;
+  try{
+   if(sp.id==='avc-sep'){const r=await avChamar({manual:'separando',previa:true});const rc=r.recebem||[],fo=r.fora||[];AVC.sep=rc.length;
+    if(box)box.innerHTML='<p style="margin:10px 0 4px;font-size:13px"><b>'+rc.length+' cliente'+(rc.length===1?'':'s')+' recebe'+(rc.length===1?'':'m')+'</b>'+(fo.length?' · '+fo.length+' fora':'')+'</p>'+
+     (rc.length?'<div class="tblwrap"><table><thead><tr><th>Venda</th><th>Pedido</th><th>Cliente</th><th>E-mail</th></tr></thead><tbody>'+rc.map(x=>'<tr><td>'+esc(vnum(x.numero))+'</td><td>'+esc(x.pedido)+'</td><td>'+esc(x.cliente||'')+'</td><td><small>'+esc(x.para)+'</small></td></tr>').join('')+'</tbody></table></div>':'')+
+     (fo.length?'<details style="margin-top:6px"><summary class="muted" style="font-size:12px;cursor:pointer">Quem fica de fora e por quê</summary><div class="tblwrap"><table><tbody>'+fo.map(x=>'<tr><td>'+esc(vnum(x.numero))+'</td><td>'+esc(x.cliente||'')+'</td><td><small>'+esc(x.motivo)+'</small></td></tr>').join('')+'</tbody></table></div></details>':'')+
+     (rc.length?'<div class="chips" style="margin-top:8px"><button class="btn sm pri" type="button" id="avc-sep-ok">Mandar agora para '+rc.length+'</button></div>':'')}
+   else{if(!confirm('Mandar "Estamos separando seus produtos" para '+(AVC.sep||0)+' cliente(s)? Não dá para desfazer.')){sp.disabled=false;return}
+    const r=await avChamar({manual:'separando'});const rs=r.resultados||[];const ok=rs.filter(x=>x.status==='enviado').length,er=rs.filter(x=>x.status==='erro');
+    if(box)box.innerHTML='<p style="margin:10px 0 0;font-size:13px">'+(r.desligado?'Os avisos estão desligados: ligue a chave acima para mandar.':'<b>'+ok+' enviado'+(ok===1?'':'s')+'</b>'+(er.length?' · '+er.length+' com erro: '+esc(er.map(x=>vnum(x.numero)+' ('+(x.info||'')+')').join(', ')):''))+'</p>'}
+  }catch(err){if(box)box.innerHTML='<p class="muted" style="font-size:12px">Não deu: '+esc(err.message||err)+'</p>'}
+  sp.disabled=false;return}
  const t=e.target.closest('[data-avcteste],#avc-pend');if(!t)return;
  const out=document.getElementById('avc-res');t.disabled=true;
  try{
@@ -4894,6 +4908,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v107','09/11/2026',['Ajustes e integração → Avisos à cliente: novo aviso avulso "Estamos separando seus produtos". Botão para mandar um exemplo para você e botão que mostra quem recebe (vendas do site não canceladas, ainda não embaladas e que não receberam este aviso) antes de mandar. Cada cliente recebe uma vez só; o envio fica na ficha da venda.']],
  ['v106','08/11/2026',['Visitas agora: botão Imprimir. Abre um relatório completo em aba nova (resumo dos 4 períodos com % de carrinho e compra, visitas por hora e por dia, e origem, países e estados de cada período), pronto para imprimir ou salvar em PDF.']],
  ['v105','07/11/2026',['Quando o ERP fica "Sem conexão com o banco" porque a sessão venceu (ex.: computador dormiu), ele renova a sessão sozinho e carrega de novo.']],
  ['v104','06/11/2026',['Contato com clientes ligado às Ocorrências de compra: ocorrência em aberto com pedido vira contato sozinha; a Situação que a Isa marca vai para a Decisão da ocorrência (Mensagem enviada/Troca/Reembolso = em andamento; Resolvido/Cancelado = resolvida); ocorrência resolvida some da lista em aberto.','Ocorrências de compra abrem no filtro Em aberto.','Corrigido: os pedidos apareciam como "Venda 0 não encontrada".']],
