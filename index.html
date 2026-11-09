@@ -986,7 +986,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v107 · 09/11/2026';
+const VERSAO='v108 · 09/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -3358,7 +3358,8 @@ function lkTabInf(A,I){
   {k:'vendas',l:'Vendas',t:'n',cls:'r num',g:r=>Math.round(r.vendas*100)/100,cell:r=>brl(r.vendas)},
   {k:'aberto',l:'Comissão em aberto',t:'n',cls:'r num',g:r=>Math.round(r.aberto*100)/100,cell:r=>'<b>'+brl(r.aberto)+'</b>'},
   {k:'pago',l:'Já pago',t:'n',cls:'r num',g:r=>Math.round(r.pago*100)/100,cell:r=>brl(r.pago)},
-  {k:'sit',l:'Situação',g:r=>r.sit,cell:r=>stPill(r.sit)+'<small>'+(r.i.pix_chave?'Pix '+esc(r.i.pix_tipo||'')+' ok':'sem Pix')+'</small>'}];
+  {k:'sit',l:'Situação',g:r=>r.sit,cell:r=>stPill(r.sit)+'<small>'+(r.i.pix_chave?'Pix '+esc(r.i.pix_tipo||'')+' ok':'sem Pix')+'</small>'},
+  {k:'rel',l:'Relatório',g:r=>'',cell:r=>'<button class="btn sm" type="button" data-relinf="'+esc(r.i.id)+'">Abrir ↗</button>'}];
  const T=xtTabela('inf',cols,R,r=>'data-edit="influenciadores" data-id="'+esc(r.i.id)+'"',['sit',1]);
  const tot=R.reduce((o,r)=>(o.c+=r.cliques,o.p+=r.pedidos,o.v+=r.vendas,o),{c:0,p:0,v:0});
  return '<div class="card"><p class="muted" style="font-size:12px;margin:0 0 8px">'+T.n+' de '+R.length+' influenciadoras'+(T.fil?' no filtro':'')+' · '+vnum(tot.c)+' cliques · '+vnum(tot.p)+' pedidos · '+brl(tot.v)+' em vendas. Clique no título da coluna para ordenar; no campo embaixo, para filtrar.</p>'+T.html+
@@ -4856,6 +4857,9 @@ async function advance(id){
  try{await save('vendas',v,{etapas:{...(v.etapas||{}),[k]:today()}});toast(vnum(v.numero)+': '+STEPS[c+1][1]);await loadAll()}catch(e){toast(errMsg(e))}
 }
 
+// v108: relatório completo da parceira (relatorio.html). Lá dentro tem "Copiar link para ela" (link público por token).
+document.addEventListener('click',e=>{const t=e.target.closest('[data-relinf]');if(!t)return;e.stopPropagation();window.open('relatorio.html?i='+encodeURIComponent(t.dataset.relinf),'_blank','noopener')},true);
+
 /* ================= eventos ================= */
 document.addEventListener('click',e=>{
  const t=e.target.closest('button,tr[data-edit],[data-edit]');if(!t)return;
@@ -4908,6 +4912,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v108','09/11/2026',['Links e influenciadores → Influenciadores: nova coluna Relatório. Abre o relatório completo da parceira: capa com os números, conquistas, funil do clique à compra, dia a dia, horários e dias que mais clicam, de onde vêm os cliques, produtos com foto, estados e cidades, links, comparação anônima com as outras parceiras, sugestões para o próximo post, pedidos e ganhos. Tem Salvar em PDF, Card para o story (imagem 1080×1920) e Copiar link para ela (abre sem senha).']],
  ['v107','09/11/2026',['Ajustes e integração → Avisos à cliente: novo aviso avulso "Estamos separando seus produtos". Botão para mandar um exemplo para você e botão que mostra quem recebe (vendas do site não canceladas, ainda não embaladas e que não receberam este aviso) antes de mandar. Cada cliente recebe uma vez só; o envio fica na ficha da venda.']],
  ['v106','08/11/2026',['Visitas agora: botão Imprimir. Abre um relatório completo em aba nova (resumo dos 4 períodos com % de carrinho e compra, visitas por hora e por dia, e origem, países e estados de cada período), pronto para imprimir ou salvar em PDF.']],
  ['v105','07/11/2026',['Quando o ERP fica "Sem conexão com o banco" porque a sessão venceu (ex.: computador dormiu), ele renova a sessão sozinho e carrega de novo.']],

@@ -104,7 +104,7 @@ label.f input:focus,label.f select:focus{outline:2px solid var(--rosa);outline-o
 </main>
 <script>
 (function(){
-const VERSAO='v1 · 29/10/2026';
+const VERSAO='v2 · 09/11/2026';
 const SB_URL='https://nzsiuniabovvptuqmkmi.supabase.co', SB_KEY='sb_publishable_9Nl_ZRXEmLMhDMBP8oKP_w_FuDXaYMq', SITE='https://ohmygirl.com.br';
 const sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,storageKey:'omg-erp-auth'}});
 const $=s=>document.querySelector(s);
@@ -187,7 +187,7 @@ function render(){
  const pix=P.pix_chave?'<span class="pill p-ok">Pix cadastrado</span>':'<span class="pill p-bad">Falta cadastrar o Pix</span>';
  const h=
  '<div class="hello"><div><h1>Oi, '+esc(String(P.nome).split(' ')[0])+'!</h1><p>'+esc(P.arroba||'')+(P.arroba?' · ':'')+'Comissão de <b>'+n(P.comissao_pct).toLocaleString('pt-BR')+'%</b> sobre os produtos</p></div>'+
- '<div style="display:flex;gap:8px;flex-wrap:wrap">'+(P.ativo?'<span class="pill p-ok">Parceria ativa</span>':'<span class="pill p-mute">Parceria pausada</span>')+pix+'</div></div>'+
+ '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><a class="btn pri sm" href="relatorio.html" style="text-decoration:none">Ver meu relatório completo</a>'+(P.ativo?'<span class="pill p-ok">Parceria ativa</span>':'<span class="pill p-mute">Parceria pausada</span>')+pix+'</div></div>'+
 
  '<div class="card"><h2>Seus links</h2><p class="sub">Use o link curto nos posts, stories e bio. Cada clique conta e o pedido feito depois do clique é seu.</p><div class="links">'+
  (D.links.length?D.links.map(l=>{const curto=SITE+'/a/'+l.slug, comp=completo(l);

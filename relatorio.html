@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Relatório da parceria · OMG!</title>
+<meta name="theme-color" content="#4A2638">
+<meta name="robots" content="noindex">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--pri:#B83D66;--fram:#D9577F;--rosa:#F48FB1;--bebe:#FDE4EC;--creme:#FFF9F6;--ameixa:#4A2638;--menta:#9EDFC4;--linha:#F3DCE4;--muted:#7A5566;--ok:#2E8B62;--okbg:#E3F5EC;--card:#fff;--ouro:#E8B04B}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--creme);color:var(--ameixa);font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-size:14.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,select{font:inherit;color:inherit}
+a{color:var(--pri)}
+.num{font-variant-numeric:tabular-nums}
+.wrap{max-width:1000px;margin:0 auto;padding:0 16px 60px}
+.bar{position:sticky;top:0;z-index:5;background:rgba(255,249,246,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--linha)}
+.bar .in{max-width:1000px;margin:0 auto;padding:10px 16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.bar .logo{font-weight:800;font-size:20px;color:var(--fram);text-decoration:none;margin-right:auto}
+.btn{border:1px solid var(--linha);background:#fff;border-radius:999px;padding:7px 14px;font-weight:600;font-size:13px;cursor:pointer;min-height:36px;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{border-color:var(--rosa)}
+.btn.pri{background:var(--pri);border-color:var(--pri);color:#fff}
+.btn:disabled{opacity:.55;cursor:default}
+.periodos{display:flex;gap:6px;overflow-x:auto;padding:12px 0 4px;scrollbar-width:none}
+.periodos button{flex:0 0 auto;border:1px solid var(--linha);background:#fff;border-radius:999px;padding:6px 13px;font-size:13px;cursor:pointer}
+.periodos button[aria-pressed="true"]{background:var(--ameixa);border-color:var(--ameixa);color:#fff}
+
+/* capa */
+.capa{position:relative;overflow:hidden;border-radius:26px;margin:14px 0 16px;padding:30px 26px 26px;color:#fff;background:radial-gradient(120% 140% at 0% 0%,#F48FB1 0%,#D9577F 38%,#8E2E55 72%,#4A2638 100%)}
+.capa:after{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.10)}
+.capa:before{content:"";position:absolute;right:60px;bottom:-90px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.07)}
+.capa .k{font-size:12px;letter-spacing:.16em;text-transform:uppercase;opacity:.85;font-weight:600}
+.capa h1{font-size:clamp(28px,6vw,44px);line-height:1.08;margin:8px 0 4px;letter-spacing:-.02em}
+.capa .sub{opacity:.92;font-size:14px}
+.capa .big{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:22px;position:relative;z-index:1}
+@media(max-width:700px){.capa .big{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.capa .big div{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:16px;padding:12px 14px}
+.capa .big span{display:block;font-size:12px;opacity:.88}
+.capa .big b{display:block;font-size:clamp(22px,4.4vw,30px);line-height:1.15;margin-top:2px}
+.capa .frase{position:relative;z-index:1;margin-top:18px;font-size:15.5px;font-weight:500;max-width:720px}
+
+.sec{margin:26px 0 10px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.sec h2{font-size:20px;margin:0;letter-spacing:-.01em}
+.sec p{margin:0;color:var(--muted);font-size:13px}
+.card{background:var(--card);border:1px solid var(--linha);border-radius:18px;padding:18px;margin:0 0 14px;break-inside:avoid}
+.card h3{font-size:15px;margin:0 0 2px}
+.card .s{color:var(--muted);font-size:12.5px;margin:0 0 12px}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media(max-width:760px){.g2,.g3{grid-template-columns:minmax(0,1fr)}}
+.g2>.card,.g3>.card{margin:0}
+
+/* conquistas */
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.badge{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--linha);border-radius:16px;padding:14px;break-inside:avoid}
+.badge .ic{flex:0 0 44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:22px;background:var(--bebe)}
+.badge.ouro .ic{background:#FCEFD2}
+.badge b{display:block;font-size:14px;line-height:1.3}
+.badge span{display:block;font-size:12.5px;color:var(--muted);margin-top:2px}
+
+/* funil */
+.funil{display:grid;gap:8px}
+.fl{display:grid;grid-template-columns:120px minmax(0,1fr) 70px;gap:10px;align-items:center;font-size:13px}
+.fl .tr{height:30px;border-radius:9px;background:#F7EDF1;overflow:hidden}
+.fl .tr i{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,var(--fram),var(--pri))}
+.fl b{text-align:right}
+.nota{font-size:12px;color:var(--muted);margin:10px 0 0}
+
+/* barras horizontais */
+.hb{display:grid;gap:7px}
+.hb .r{display:grid;grid-template-columns:minmax(0,150px) minmax(0,1fr) 54px;gap:8px;align-items:center;font-size:13px}
+.hb .r span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hb .t{height:12px;border-radius:6px;background:#F7EDF1;overflow:hidden}
+.hb .t i{display:block;height:100%;background:var(--fram);border-radius:6px}
+.hb .r b{text-align:right;font-weight:600}
+
+/* produtos */
+.prods{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.prod{border:1px solid var(--linha);border-radius:16px;overflow:hidden;background:#fff;display:flex;flex-direction:column;text-decoration:none;color:inherit;break-inside:avoid;position:relative}
+.prod .im{aspect-ratio:1;background:#FBF3F6;display:grid;place-items:center}
+.prod .im img{width:100%;height:100%;object-fit:cover}
+.prod .tx{padding:9px 11px 11px;font-size:12.5px;line-height:1.35}
+.prod .tx small{display:block;color:var(--muted);font-size:11.5px;margin-top:3px}
+.prod .rk{position:absolute;left:8px;top:8px;background:var(--ameixa);color:#fff;border-radius:999px;font-size:11.5px;font-weight:700;padding:2px 9px}
+
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;text-align:left;padding:7px 8px;border-bottom:1px solid var(--linha)}
+.tbl td{padding:9px 8px;border-bottom:1px solid var(--linha);vertical-align:top}
+.tbl .r{text-align:right}
+.tbl small{display:block;color:var(--muted);font-size:11.5px}
+.tblw{overflow-x:auto}
+.pill{display:inline-flex;border-radius:999px;padding:2px 9px;font-size:11.5px;font-weight:600;white-space:nowrap;background:var(--bebe);color:var(--pri)}
+.pill.ok{background:var(--okbg);color:var(--ok)}.pill.mu{background:#F2EDEF;color:var(--muted)}
+
+/* ranking */
+.rank{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media(max-width:700px){.rank{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.rank div{border:1px solid var(--linha);border-radius:14px;padding:12px;text-align:center;background:#fff}
+.rank b{display:block;font-size:26px;color:var(--pri);line-height:1.1}
+.rank span{font-size:12px;color:var(--muted)}
+.strip{margin-top:14px}
+
+.dicas{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.dicas li{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--linha);border-left:4px solid var(--fram);border-radius:12px;padding:12px 14px;font-size:13.5px}
+.dicas li i{font-style:normal;font-size:18px}
+
+.chart{width:100%;height:auto;display:block}
+.leg{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:6px}
+.leg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.vazio{color:var(--muted);font-size:13px;padding:6px 0}
+.foot{text-align:center;color:var(--muted);font-size:12px;margin-top:28px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ameixa);color:#fff;border-radius:999px;padding:10px 18px;font-size:13.5px;z-index:50;max-width:calc(100vw - 32px)}
+.estado{max-width:460px;margin:60px auto;text-align:center}
+.estado h1{font-size:22px}
+.estado p{color:var(--muted)}
+.cardstory{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.cardstory canvas{width:150px;height:auto;border-radius:14px;box-shadow:0 8px 24px rgba(74,38,56,.18)}
+[hidden]{display:none!important}
+@media print{
+ @page{size:A4;margin:12mm}
+ body{background:#fff;font-size:12px}
+ .bar,.periodos,.noprint{display:none!important}
+ .wrap{max-width:none;padding:0}
+ .capa{-webkit-print-color-adjust:exact;print-color-adjust:exact;margin-top:0}
+ .card,.badge,.prod,.fl .tr i,.hb .t i,.badge .ic,.pill{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .sec{break-after:avoid}
+}
+</style>
+</head>
+<body>
+<header class="bar"><div class="in"><a class="logo" href="https://ohmygirl.com.br" target="_blank" rel="noopener">OMG!</a>
+ <button class="btn" type="button" id="b-story" hidden>Card para o story</button>
+ <button class="btn" type="button" id="b-link" hidden>Copiar link para ela</button>
+ <button class="btn" type="button" id="b-share" hidden>Compartilhar</button>
+ <button class="btn pri" type="button" id="b-pdf">Salvar em PDF</button>
+</div></header>
+<main class="wrap" id="app"><div class="estado"><h1>Preparando seu relatório…</h1><p>Um instante.</p></div></main>
+<script>
+(function(){
+const VERSAO='v1 · 09/11/2026';
+const SB_URL='https://nzsiuniabovvptuqmkmi.supabase.co', SB_KEY='sb_publishable_9Nl_ZRXEmLMhDMBP8oKP_w_FuDXaYMq', SITE='https://ohmygirl.com.br';
+const sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,storageKey:'omg-erp-auth'}});
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const n=v=>Number(v)||0;
+const brl=v=>n(v).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const int=v=>n(v).toLocaleString('pt-BR');
+const pct=v=>isFinite(v)&&v!==null?(v*100).toLocaleString('pt-BR',{maximumFractionDigits:1})+'%':'—';
+const MESES=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+const MES3=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+const DSEM=['domingo','segunda','terça','quarta','quinta','sexta','sábado'];
+const DS3=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const mesNome=m=>{const [a,b]=String(m).split('-');return MESES[+b-1]+' de '+a};
+const fdata=d=>{const p=String(d).slice(0,10).split('-');return +p[2]+' de '+MESES[+p[1]-1]};
+const fcurta=d=>{const p=String(d).slice(0,10).split('-');return p[2]+'/'+p[1]};
+const hoje=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'America/Sao_Paulo'}).format(new Date());
+const addDia=(d,k)=>{const x=new Date(d+'T12:00:00Z');x.setUTCDate(x.getUTCDate()+k);return x.toISOString().slice(0,10)};
+const dsem=d=>new Date(d.slice(0,10)+'T12:00:00Z').getUTCDay();
+const plural=(q,s,p)=>int(q)+' '+(n(q)===1?s:p);
+function toast(t){const el=document.createElement('div');el.className='toast';el.textContent=t;document.body.appendChild(el);setTimeout(()=>el.remove(),2600)}
+const qs=new URLSearchParams(location.search);
+const K=qs.get('k'), INF=qs.get('i');
+let D=null, PER=qs.get('p')||'tudo', MEMBRO=false;
+
+const ORIG=o=>{o=String(o||'').toLowerCase();
+ if(/instagram/.test(o))return 'Instagram';if(/tiktok/.test(o))return 'TikTok';if(/facebook|fb\./.test(o))return 'Facebook';
+ if(/whatsapp|wa\.me/.test(o))return 'WhatsApp';if(/youtube/.test(o))return 'YouTube';if(/google/.test(o))return 'Google';if(/t\.co|twitter|x\.com/.test(o))return 'X (Twitter)';
+ return 'Direto (apps, WhatsApp, bio)'};
+
+async function carregar(){
+ let r;
+ if(K)r=await sb.rpc('parceiro_relatorio',{p_k:K});
+ else{const {data:{session}}=await sb.auth.getSession();
+  if(!session){estado('Entre para ver o relatório','Abra o painel do parceiro e entre com seu e-mail e senha.','<a class="btn pri" href="parceiro.html">Ir para o painel</a>');return}
+  if(INF){const m=await sb.rpc('eh_membro');MEMBRO=!!m.data}
+  r=await sb.rpc('parceiro_relatorio',INF?{p_inf:INF}:{})}
+ if(r.error||!r.data||!r.data.ok){estado('Não encontramos este relatório','O link pode estar incompleto. Peça um link novo para a equipe OMG.');return}
+ D=r.data;prep();render();
+ if(MEMBRO){$('#b-link').hidden=false}
+ if(K&&navigator.share)$('#b-share').hidden=false;
+ $('#b-story').hidden=false;
+}
+function estado(t,p,extra){$('#app').innerHTML='<div class="estado"><h1>'+esc(t)+'</h1><p>'+esc(p)+'</p>'+(extra||'')+'</div>'}
+
+function prep(){
+ const pf=D.fechamentos||[];
+ D.pedidos.forEach(p=>{
+  let c=null;for(const f of pf){const v=(f.vendas||[]).find(x=>x.id===p.id);if(v){c={valor:n(v.comissao),st:f.status==='Pago'?'Pago':'A receber'};break}}
+  if(!c)c=p.excluida?{valor:0,st:'Cancelado'}:{valor:Math.round(n(p.base)*n(D.perfil.comissao_pct))/100,st:'Em aberto'};
+  p.com=c;p.dia=String(p.quando||p.data).slice(0,10);p.hora=+(String(p.quando||'').slice(11,13)||12);
+  p.qtd=(p.itens||[]).reduce((s,i)=>s+n(i.qtd),0);
+ });
+ D.cl=(D.cliques||[]).map(c=>({dia:c[0].slice(0,10),h:+c[0].slice(11,13),link:c[1],v:c[2],o:ORIG(c[3])}));
+}
+function periodos(){
+ const ms=new Set([...D.cl.map(c=>c.dia.slice(0,7)),...D.pedidos.map(p=>p.dia.slice(0,7))]);ms.add(hoje().slice(0,7));
+ return ['tudo','30d',...[...ms].sort().reverse()];
+}
+function faixa(){
+ const h=hoje();
+ if(PER==='30d')return [addDia(h,-29),h];
+ if(/^\d{4}-\d{2}$/.test(PER)){const ini=PER+'-01';const [a,m]=PER.split('-').map(Number);const fim=new Date(Date.UTC(a,m,0)).toISOString().slice(0,10);return [ini,fim<h?fim:h]}
+ const dias=[...D.cl.map(c=>c.dia),...D.pedidos.map(p=>p.dia)];if(D.perfil.inicio)dias.push(String(D.perfil.inicio).slice(0,10));
+ const ini=dias.length?dias.sort()[0]:h;return [ini<h?ini:h,h];
+}
+const nomePer=()=>PER==='tudo'?'desde o início da parceria':PER==='30d'?'nos últimos 30 dias':'em '+mesNome(PER);
+
+function calc(){
+ const [ini,fim]=faixa(), den=d=>d>=ini&&d<=fim;
+ const cl=D.cl.filter(c=>den(c.dia));
+ const todos=D.pedidos.filter(p=>den(p.dia));
+ const pres=todos.filter(p=>p.presente&&!p.excluida);
+ const ps=todos.filter(p=>!p.excluida&&!p.presente);
+ const pessoas=new Set(cl.map(c=>c.v)).size;
+ const viaLink=ps.filter(p=>p.via==='link').length;
+ const vendas=ps.reduce((s,p)=>s+n(p.base),0);
+ const com=ps.reduce((s,p)=>s+p.com.valor,0);
+ const itens=ps.reduce((s,p)=>s+p.qtd,0);
+ const novas=ps.filter(p=>p.nova).length, voltam=ps.filter(p=>p.volta).length;
+ // dias
+ const dias=[];for(let d=ini;d<=fim;d=addDia(d,1))dias.push(d);
+ const porDia={};dias.forEach(d=>porDia[d]={c:0,p:0});cl.forEach(c=>{if(porDia[c.dia])porDia[c.dia].c++});ps.forEach(p=>{if(porDia[p.dia])porDia[p.dia].p++});
+ // heatmap 7 x 12 (2h)
+ const hm=Array.from({length:7},()=>Array(12).fill(0));cl.forEach(c=>hm[dsem(c.dia)][Math.floor(c.h/2)]++);
+ // origem
+ const orig={};cl.forEach(c=>orig[c.o]=(orig[c.o]||0)+1);
+ // links
+ const lk=D.links.map(l=>{const c=cl.filter(x=>x.link===l.id);const pp=ps.filter(p=>p.via==='link'&&p.ref===String(l.slug).toLowerCase());
+  return {l,c:c.length,v:new Set(c.map(x=>x.v)).size,p:pp.length,s:pp.reduce((s,p)=>s+n(p.base),0)}});
+ // produtos e marcas
+ const prod={},marca={};
+ ps.forEach(p=>(p.itens||[]).forEach(i=>{const k=i.sku||i.produto;prod[k]=prod[k]||{nome:i.produto,img:i.img,handle:i.handle,marca:i.marca,q:0,ped:0,s:0};prod[k].q+=n(i.qtd);prod[k].ped++;prod[k].s+=n(i.qtd)*n(i.preco);
+  if(i.marca)marca[i.marca]=(marca[i.marca]||0)+n(i.qtd)}));
+ const est={},cid={};ps.forEach(p=>{if(p.uf)est[p.uf]=(est[p.uf]||0)+1;if(p.cidade)cid[p.cidade+(p.uf?' · '+p.uf:'')]=(cid[p.cidade+(p.uf?' · '+p.uf:'')]||0)+1});
+ // loja (ticket médio do site nos meses do período)
+ let lp=0,lt=0;Object.entries(D.loja||{}).forEach(([m,x])=>{if(m>=ini.slice(0,7)&&m<=fim.slice(0,7)){lp+=n(x.pedidos);lt+=n(x.pedidos)*n(x.ticket)}});
+ // comparação anônima
+ const bm={};(D.bench||[]).forEach(b=>{if(b.m<ini.slice(0,7)||b.m>fim.slice(0,7))return;const x=bm[b.k]=bm[b.k]||{eu:b.eu,c:0,v:0,p:0,pl:0,s:0};['c','v','p','pl','s'].forEach(k=>x[k]+=n(b[k]))});
+ const par=Object.values(bm).filter(x=>x.c||x.p);
+ return {ini,fim,cl,ps,pres,pessoas,viaLink,vendas,com,itens,novas,voltam,dias,porDia,hm,orig,lk,prod,marca,est,cid,lojaTicket:lp?lt/lp:null,par};
+}
+function posicao(par,f,min){const v=par.filter(x=>!min||min(x));const eu=v.find(x=>x.eu);if(!eu)return null;const val=f(eu);const pos=v.filter(x=>f(x)>val).length+1;return {pos,de:v.length,val}}
+
+/* ---------- gráficos SVG ---------- */
+function grafDias(C){
+ const W=900,H=220,pl=34,pb=26,pt=14,N=C.dias.length;if(!N)return '';
+ const maxC=Math.max(1,...C.dias.map(d=>C.porDia[d].c));const bw=(W-pl-8)/N;
+ const y=v=>H-pb-(v/maxC)*(H-pb-pt);
+ let g='';
+ const passos=[0,Math.ceil(maxC/2),maxC].filter((v,i,a)=>a.indexOf(v)===i);
+ passos.forEach(v=>{g+='<line x1="'+pl+'" x2="'+(W-4)+'" y1="'+y(v)+'" y2="'+y(v)+'" stroke="#F3DCE4"/><text x="'+(pl-6)+'" y="'+(y(v)+4)+'" font-size="11" text-anchor="end" fill="#7A5566">'+v+'</text>'});
+ const cada=Math.max(1,Math.ceil(N/12));
+ C.dias.forEach((d,i)=>{const x=pl+i*bw,c=C.porDia[d].c,p=C.porDia[d].p;
+  if(c)g+='<rect x="'+(x+bw*.12)+'" y="'+y(c)+'" width="'+Math.max(1,bw*.76)+'" height="'+(H-pb-y(c))+'" rx="'+Math.min(4,bw/3)+'" fill="#F48FB1"><title>'+fcurta(d)+': '+c+' cliques'+(p?', '+p+' pedido(s)':'')+'</title></rect>';
+  if(p)g+='<circle cx="'+(x+bw/2)+'" cy="'+(y(c)-9)+'" r="6" fill="#4A2638"/><text x="'+(x+bw/2)+'" y="'+(y(c)-5.5)+'" font-size="8.5" text-anchor="middle" fill="#fff" font-weight="700">'+p+'</text>';
+  if(i%cada===0)g+='<text x="'+(x+bw/2)+'" y="'+(H-8)+'" font-size="11" text-anchor="middle" fill="#7A5566">'+fcurta(d)+'</text>'});
+ return '<svg class="chart" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Cliques por dia">'+g+'</svg><div class="leg"><span><i style="background:#F48FB1"></i>Cliques no link</span><span><i style="background:#4A2638;border-radius:50%"></i>Pedidos no dia</span></div>';
+}
+function grafHeat(C){
+ const max=Math.max(1,...C.hm.flat());const cw=56,ch=30,l=40,t=22,W=l+cw*12+4,H=t+ch*7+4;let g='';
+ for(let j=0;j<12;j++)g+='<text x="'+(l+j*cw+cw/2)+'" y="14" font-size="11" text-anchor="middle" fill="#7A5566">'+String(j*2).padStart(2,'0')+'h</text>';
+ const ord=[1,2,3,4,5,6,0];
+ ord.forEach((d,i)=>{g+='<text x="'+(l-8)+'" y="'+(t+i*ch+ch/2+4)+'" font-size="11" text-anchor="end" fill="#7A5566">'+DS3[d]+'</text>';
+  for(let j=0;j<12;j++){const v=C.hm[d][j],a=v?.12+.88*(v/max):0;
+   g+='<rect x="'+(l+j*cw+2)+'" y="'+(t+i*ch+2)+'" width="'+(cw-4)+'" height="'+(ch-4)+'" rx="6" fill="'+(v?'rgba(184,61,102,'+a.toFixed(2)+')':'#F7EDF1')+'"><title>'+DSEM[d]+', '+(j*2)+'h–'+(j*2+2)+'h: '+v+' cliques</title></rect>';
+   if(v&&v/max>.45)g+='<text x="'+(l+j*cw+cw/2)+'" y="'+(t+i*ch+ch/2+4)+'" font-size="11" text-anchor="middle" fill="#fff" font-weight="700">'+v+'</text>'}});
+ return '<svg class="chart" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Cliques por dia da semana e horário">'+g+'</svg>';
+}
+function hbars(obj,fmt,lim){const e=Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,lim||8);if(!e.length)return '<p class="vazio">Ainda sem dados neste período.</p>';const max=e[0][1];
+ return '<div class="hb">'+e.map(([k,v])=>'<div class="r"><span title="'+esc(k)+'">'+esc(k)+'</span><div class="t"><i style="width:'+Math.max(3,v/max*100)+'%"></i></div><b class="num">'+(fmt?fmt(v):int(v))+'</b></div>').join('')+'</div>'}
+function strip(par,f,rot){
+ const v=par.map(f),max=Math.max(1,...v);const W=900,H=56;let g='<line x1="20" x2="'+(W-20)+'" y1="28" y2="28" stroke="#F3DCE4" stroke-width="6" stroke-linecap="round"/>';
+ par.forEach(x=>{const cx=20+(f(x)/max)*(W-40);g+=x.eu?'':'<circle cx="'+cx+'" cy="28" r="7" fill="#E9C9D5"/>'});
+ const eu=par.find(x=>x.eu);if(eu){const cx=20+(f(eu)/max)*(W-40);g+='<circle cx="'+cx+'" cy="28" r="11" fill="#B83D66" stroke="#fff" stroke-width="3"/><text x="'+Math.min(W-30,Math.max(30,cx))+'" y="52" font-size="12" text-anchor="middle" fill="#B83D66" font-weight="700">você</text>'}
+ return '<div class="strip"><small style="color:var(--muted);font-size:12px">'+esc(rot)+' · cada bolinha é uma parceira (sem nomes)</small><svg class="chart" viewBox="0 0 '+W+' '+H+'">'+g+'</svg></div>'}
+
+/* ---------- textos automáticos ---------- */
+function conquistas(C,rk){
+ const b=[];const P=D.pedidos.filter(p=>!p.excluida&&!p.presente);
+ if(P.length){const pr=P[0];b.push(['🎉','Primeira venda','Em '+fdata(pr.dia)+(pr.cidade?', para '+pr.cidade:'')+'.',1])}
+ const best=C.dias.reduce((a,d)=>C.porDia[d].c>(a?C.porDia[a].c:0)?d:a,null);
+ if(best&&C.porDia[best].c>=3)b.push(['🔥','Dia recorde de cliques',plural(C.porDia[best].c,'clique','cliques')+' em '+fdata(best)+' ('+DSEM[dsem(best)]+').']);
+ if(C.pessoas>=10)b.push(['💗',plural(C.pessoas,'pessoa conheceu','pessoas conheceram')+' a OMG por você','Pessoas diferentes que tocaram no seu link '+nomePer()+'.']);
+ if(C.ps.length&&C.novas)b.push(['✨',plural(C.novas,'cliente nova','clientes novas')+' para a OMG',pct(C.novas/C.ps.length)+' dos seus pedidos foram a primeira compra da pessoa na loja.',1]);
+ if(C.voltam)b.push(['🔁',plural(C.voltam,'cliente voltou','clientes voltaram')+' a comprar','Quem comprou com você gostou e fez outro pedido depois.',1]);
+ const ne=Object.keys(C.est).length;if(ne>=2)b.push(['🗺️','Alcance em '+ne+' estados','Suas seguidoras compraram de '+Object.keys(C.est).slice(0,6).join(', ')+(ne>6?'…':'')+'.']);
+ const top=Object.values(C.prod).sort((a,b)=>b.q-a.q)[0];if(top&&top.q>=2)b.push(['👑','Queridinho das suas seguidoras',top.nome.split(':')[0]+' · '+plural(top.q,'unidade','unidades')+'.']);
+ const maior=C.ps.slice().sort((a,b)=>n(b.base)-n(a.base))[0];if(maior&&C.ps.length>=2)b.push(['💎','Maior pedido',brl(maior.base)+' em produtos, em '+fdata(maior.dia)+'.']);
+ if(rk.s&&rk.s.pos<=3&&rk.s.de>=3&&rk.s.val>0)b.push(['🏆','Top '+rk.s.pos+' em vendas','Entre '+rk.s.de+' parceiras OMG '+nomePer()+'.',1]);
+ if(rk.cv&&rk.cv.pos<=3&&rk.cv.de>=3&&rk.cv.val>0)b.push(['🎯','Top '+rk.cv.pos+' em conversão','Quem clica no seu link compra mais do que a média.',1]);
+ if(rk.c&&rk.c.pos<=3&&rk.c.de>=3&&rk.c.val>0)b.push(['📣','Top '+rk.c.pos+' em cliques','Entre '+rk.c.de+' parceiras OMG '+nomePer()+'.',1]);
+ return b;
+}
+function dicas(C,mediaConv){
+ const d=[];
+ // melhor janela
+ let mx=0,md=0,mh=0;C.hm.forEach((r,i)=>r.forEach((v,j)=>{if(v>mx){mx=v;md=i;mh=j}}));
+ if(C.cl.length>=15){const tot=C.cl.length;const noDia=C.hm[md].reduce((s,v)=>s+v,0);
+  d.push(['⏰','Seu público responde mais '+(md===0||md===6?'no ':'na ')+DSEM[md]+', entre '+(mh*2)+'h e '+(mh*2+2)+'h. '+pct(noDia/tot)+' dos cliques caíram '+(md===0||md===6?'no ':'na ')+DSEM[md]+'. Publicar perto desse horário costuma render mais.'])}
+ const o=Object.entries(C.orig).sort((a,b)=>b[1]-a[1]);
+ if(o.length&&C.cl.length>=10)d.push(['📱',pct(o[0][1]/C.cl.length)+' dos cliques vieram de '+o[0][0]+'. '+(o[0][0]==='Instagram'?'Link no story com figurinha de link e na bio é o que mais traz gente.':'Vale repetir o link onde ele já funciona.')]);
+ const top=Object.values(C.prod).sort((a,b)=>b.q-a.q)[0];
+ if(top)d.push(['🧴','O produto que mais saiu com você foi '+top.nome.split(':')[0]+'. Um conteúdo só dele (antes e depois, textura, rotina) tende a converter bem.']);
+ const conv=C.pessoas?C.viaLink/C.pessoas:null;
+ if(C.pessoas>=20&&conv!==null&&mediaConv!==null&&conv<mediaConv*.7)d.push(['💡','Muita gente clica e pouca finaliza. Mostrar o preço, o produto em uso e o cupom no mesmo story ajuda quem chega a decidir.']);
+ if(C.ps.length>=3&&C.ps.filter(p=>p.via==='cupom').length/C.ps.length>.6)d.push(['🏷️','A maioria compra digitando o seu cupom. Colocar o link junto ajuda a gente a mostrar de qual post veio cada venda.']);
+ const lk=C.lk.filter(x=>x.v>=5).sort((a,b)=>(b.p/b.v)-(a.p/a.v));
+ if(lk.length>=2&&lk[0].p>0)d.push(['🔗','O link "'+(lk[0].l.nome||lk[0].l.slug)+'" foi o que mais converteu: '+pct(lk[0].p/lk[0].v)+' de quem clicou comprou.']);
+ if(!C.cl.length&&!C.ps.length)d.push(['🚀','Ainda não há cliques neste período. Que tal um story com o link curto e o cupom? Assim que alguém tocar, aparece aqui.']);
+ return d.slice(0,5);
+}
+function frase(C,rk){
+ const nome=String(D.perfil.nome).split(' ')[0];
+ if(C.ps.length)return 'Obrigada, '+esc(nome)+'! Com o seu conteúdo, '+plural(C.pessoas,'pessoa chegou','pessoas chegaram')+' até a OMG e '+plural(C.ps.length,'pedido foi feito','pedidos foram feitos')+' '+nomePer()+'. Isso é muita gente cuidando da pele com K-beauty de verdade por sua causa. 💗';
+ if(C.pessoas)return 'Obrigada, '+esc(nome)+'! '+plural(C.pessoas,'pessoa conheceu','pessoas conheceram')+' a OMG pelo seu link '+nomePer()+'. As primeiras vendas costumam vir quando o público vê o produto em uso. Bora juntas! 💗';
+ return 'Oi, '+esc(nome)+'! Seu relatório vai ganhar vida assim que suas seguidoras começarem a tocar no seu link. Estamos juntas nessa! 💗';
+}
+
+/* ---------- página ---------- */
+function render(){
+ const C=calc(), P=D.perfil, temCom=n(P.comissao_pct)>0;
+ const conv=C.pessoas?C.viaLink/C.pessoas:null;
+ const tk=C.ps.length?C.vendas/C.ps.length:null;
+ const outras=C.par.filter(x=>!x.eu&&x.v>=5);const mediaConv=outras.length?outras.reduce((s,x)=>s+x.pl/x.v,0)/outras.length:null;
+ const rk={s:posicao(C.par,x=>x.s),p:posicao(C.par,x=>x.p),c:posicao(C.par,x=>x.c),cv:posicao(C.par,x=>x.v?x.pl/x.v:0,x=>x.v>=5)};
+ const bd=conquistas(C,rk), dc=dicas(C,mediaConv);
+ const per='<div class="periodos noprint">'+periodos().map(m=>'<button type="button" data-p="'+m+'" aria-pressed="'+(PER===m)+'">'+(m==='tudo'?'Desde o início':m==='30d'?'Últimos 30 dias':MESES[+m.slice(5)-1].replace(/^./,c=>c.toUpperCase())+' '+m.slice(0,4))+'</button>').join('')+'</div>';
+ let h=per+
+ '<section class="capa"><div class="k">Relatório da parceria · OMG! oh my girl</div><h1>'+esc(P.nome)+'</h1>'+
+ '<div class="sub">'+esc(P.arroba||'')+(P.arroba?' · ':'')+'De '+fdata(C.ini)+' a '+fdata(C.fim)+(P.cupom?' · cupom '+esc(P.cupom):'')+'</div>'+
+ '<div class="big"><div><span>Cliques no seu link</span><b class="num">'+int(C.cl.length)+'</b></div><div><span>Pessoas alcançadas</span><b class="num">'+int(C.pessoas)+'</b></div><div><span>Pedidos</span><b class="num">'+int(C.ps.length)+'</b></div><div><span>'+(temCom?'Sua comissão':'Vendas geradas')+'</span><b class="num">'+(temCom?brl(C.com):brl(C.vendas))+'</b></div></div>'+
+ '<div class="frase">'+frase(C,rk)+'</div></section>';
+
+ if(bd.length)h+='<div class="sec"><h2>Suas conquistas</h2><p>'+nomePer()+'</p></div><div class="badges">'+bd.map(x=>'<div class="badge'+(x[3]?' ouro':'')+'"><div class="ic">'+x[0]+'</div><div><b>'+esc(x[1])+'</b><span>'+esc(x[2])+'</span></div></div>').join('')+'</div>';
+
+ // funil
+ const fmax=Math.max(1,C.cl.length);
+ h+='<div class="sec"><h2>Do clique à compra</h2><p>O caminho de quem veio por você</p></div><div class="g2"><div class="card"><div class="funil">'+
+  [['Cliques',C.cl.length],['Pessoas',C.pessoas],['Compraram pelo link',C.viaLink],['Compraram pelo cupom',C.ps.length-C.viaLink]].map(([l,v])=>'<div class="fl"><span>'+l+'</span><div class="tr"><i style="width:'+(v?Math.max(2,v/fmax*100):0)+'%"></i></div><b class="num">'+int(v)+'</b></div>').join('')+'</div>'+
+  '<p class="nota">Pessoas = cada aparelho conta uma vez, mesmo que toque várias vezes. Pedido pelo cupom conta mesmo sem clique no link.</p></div>'+
+  '<div class="card"><div class="g2" style="gap:10px">'+
+  kp('Conversão do link',conv===null?'—':pct(conv),mediaConv!==null&&conv!==null?(conv>=mediaConv?'acima':'abaixo')+' da média das parceiras ('+pct(mediaConv)+')':'pedidos pelo link ÷ pessoas')+
+  kp('Vendas geradas',brl(C.vendas),'produtos com desconto, sem frete e imposto')+
+  kp('Ticket médio',tk===null?'—':brl(tk),C.lojaTicket&&tk!==null?'loja toda: '+brl(C.lojaTicket):'')+
+  kp('Produtos vendidos',int(C.itens),C.ps.length?(C.itens/C.ps.length).toLocaleString('pt-BR',{maximumFractionDigits:1})+' por pedido':'')+
+  '</div></div></div>';
+
+ // linha do tempo
+ h+='<div class="sec"><h2>Dia a dia</h2><p>Cliques e pedidos de '+fcurta(C.ini)+' a '+fcurta(C.fim)+'</p></div><div class="card">'+(C.cl.length||C.ps.length?grafDias(C):'<p class="vazio">Ainda sem cliques neste período.</p>')+'</div>';
+
+ // quando e de onde
+ h+='<div class="sec"><h2>Quando e de onde</h2><p>Os horários em que seu público mais toca no link</p></div><div class="card">'+(C.cl.length?grafHeat(C):'<p class="vazio">Ainda sem cliques neste período.</p>')+'</div>'+
+  '<div class="g2"><div class="card"><h3>De onde vieram os cliques</h3><p class="s">App ou site em que a pessoa estava</p>'+hbars(C.orig)+'</div>'+
+  '<div class="card"><h3>Dias da semana</h3><p class="s">Cliques somados por dia</p>'+hbars(Object.fromEntries([1,2,3,4,5,6,0].map(d=>[DSEM[d].replace(/^./,c=>c.toUpperCase()),C.hm[d].reduce((s,v)=>s+v,0)]).filter(x=>x[1])))+'</div></div>';
+
+ // produtos
+ const pr=Object.values(C.prod).sort((a,b)=>b.q-a.q||b.s-a.s);
+ h+='<div class="sec"><h2>O que suas seguidoras compraram</h2><p>'+plural(C.itens,'produto','produtos')+' '+nomePer()+'</p></div><div class="card">'+
+  (pr.length?'<div class="prods">'+pr.slice(0,12).map((x,i)=>'<a class="prod" href="'+(x.handle?SITE+'/products/'+esc(x.handle):SITE)+'" target="_blank" rel="noopener"><span class="rk">'+(i+1)+'º</span><div class="im">'+(x.img?'<img loading="lazy" alt="" src="'+esc(x.img)+(x.img.includes('?')?'&':'?')+'width=400">':'')+'</div><div class="tx">'+esc(x.nome.split(':')[0])+'<small>'+esc(x.marca||'')+(x.marca?' · ':'')+plural(x.q,'unidade','unidades')+'</small></div></a>').join('')+'</div>'+
+   (Object.keys(C.marca).length>1?'<h3 style="margin-top:16px">Marcas</h3><p class="s">Unidades vendidas por marca</p>'+hbars(C.marca):'')
+  :'<p class="vazio">Assim que sair o primeiro pedido, os produtos aparecem aqui com foto.</p>')+'</div>';
+
+ // onde
+ h+='<div class="sec"><h2>Onde estão suas clientes</h2><p>Cidade de entrega dos pedidos</p></div><div class="g2"><div class="card"><h3>Estados</h3>'+hbars(C.est,v=>plural(v,'pedido','pedidos'))+'</div><div class="card"><h3>Cidades</h3>'+hbars(C.cid,v=>plural(v,'pedido','pedidos'))+'</div></div>';
+
+ // links
+ if(C.lk.length)h+='<div class="sec"><h2>Seus links</h2><p>Qual link trouxe mais gente</p></div><div class="card"><div class="tblw"><table class="tbl"><thead><tr><th>Link</th><th class="r">Cliques</th><th class="r">Pessoas</th><th class="r">Pedidos</th><th class="r">Conversão</th><th class="r">Vendas</th></tr></thead><tbody>'+
+  C.lk.map(x=>'<tr><td><b>'+esc(x.l.nome||x.l.slug)+'</b><small>ohmygirl.com.br/a/'+esc(x.l.slug)+'</small></td><td class="r num">'+int(x.c)+'</td><td class="r num">'+int(x.v)+'</td><td class="r num">'+int(x.p)+'</td><td class="r num">'+(x.v?pct(x.p/x.v):'—')+'</td><td class="r num">'+brl(x.s)+'</td></tr>').join('')+'</tbody></table></div></div>';
+
+ // comparação
+ if(C.par.length>=3){h+='<div class="sec"><h2>Você entre as parceiras OMG</h2><p>'+C.par.length+' parceiras com movimento '+nomePer()+' · comparação anônima</p></div><div class="card"><div class="rank">'+
+  [['Cliques',rk.c],['Pedidos',rk.p],['Vendas',rk.s],['Conversão',rk.cv]].map(([l,r])=>'<div><b>'+(r?r.pos+'º':'—')+'</b><span>'+l+(r?' · de '+r.de:'')+'</span></div>').join('')+'</div>'+
+  strip(C.par,x=>x.c,'Cliques')+strip(C.par,x=>x.s,'Vendas')+'</div>'}
+
+ // dicas
+ if(dc.length)h+='<div class="sec"><h2>Sugestões para o próximo post</h2><p>Feitas a partir dos seus números</p></div><ul class="dicas">'+dc.map(x=>'<li><i>'+x[0]+'</i><span>'+esc(x[1])+'</span></li>').join('')+'</ul>';
+
+ // pedidos
+ h+='<div class="sec"><h2>Pedidos</h2><p>Por privacidade, não mostramos quem comprou</p></div><div class="card">'+
+  (C.ps.length?'<div class="tblw"><table class="tbl"><thead><tr><th>Pedido</th><th>Produtos</th><th class="r">Vendas</th>'+(temCom?'<th class="r">Comissão</th>':'')+'<th>Situação</th></tr></thead><tbody>'+
+   C.ps.slice().reverse().map(p=>'<tr><td><b class="num">'+esc(p.pedido)+'</b><small>'+fcurta(p.dia)+' · '+(p.uf||'—')+' · pelo '+(p.via==='cupom'?'cupom':'link')+(p.nova?' · cliente nova':'')+'</small></td><td>'+(p.itens||[]).map(i=>esc((n(i.qtd)>1?n(i.qtd)+'× ':'')+String(i.produto).split(':')[0])).join('<br>')+'</td><td class="r num">'+brl(p.base)+'</td>'+(temCom?'<td class="r num"><b>'+brl(p.com.valor)+'</b></td>':'')+'<td><span class="pill '+(p.entregue?'ok':'')+'">'+(p.entregue?'Entregue':'A caminho')+'</span>'+(temCom?'<small>comissão: '+esc(p.com.st)+'</small>':'')+'</td></tr>').join('')+'</tbody></table></div>'
+  :'<p class="vazio">Nenhum pedido '+nomePer()+'.</p>')+'</div>';
+
+ // comissões
+ if(temCom){const F=D.fechamentos||[];const rec=F.filter(f=>f.status==='Pago').reduce((s,f)=>s+n(f.total),0),ar=F.filter(f=>f.status!=='Pago').reduce((s,f)=>s+n(f.total),0);
+  const ab=D.pedidos.filter(p=>p.com.st==='Em aberto').reduce((s,p)=>s+p.com.valor,0);
+  h+='<div class="sec"><h2>Seus ganhos</h2><p>Comissão de '+n(P.comissao_pct).toLocaleString('pt-BR')+'% sobre os produtos</p></div><div class="card"><div class="g3" style="gap:10px">'+kp('Já recebido',brl(rec),'por Pix')+kp('Fechado, a receber',brl(ar),'pago até o dia 10')+kp('Em aberto',brl(ab),'fecha no dia 1º')+'</div></div>'}
+
+ // presentes
+ if(C.pres.length){const it=C.pres.flatMap(p=>p.itens||[]);
+  h+='<div class="sec"><h2>Seus produtos OMG</h2><p>O que você recebeu para conhecer e mostrar (não entra nas contas acima)</p></div><div class="card"><div class="prods">'+it.map(x=>'<a class="prod" href="'+(x.handle?SITE+'/products/'+esc(x.handle):SITE)+'" target="_blank" rel="noopener"><div class="im">'+(x.img?'<img loading="lazy" alt="" src="'+esc(x.img)+(x.img.includes('?')?'&':'?')+'width=400">':'')+'</div><div class="tx">'+esc(String(x.produto).split(':')[0])+'<small>'+esc(x.marca||'')+'</small></div></a>').join('')+'</div></div>'}
+
+ h+='<div class="card noprint cardstory" id="story-box" hidden></div>';
+ h+='<p class="foot">Gerado em '+new Date(D.gerado).toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo',dateStyle:'short',timeStyle:'short'})+' · OMG! oh my girl · relatório '+VERSAO.split(' ')[0]+'<br>Cliques e pedidos contados do mesmo jeito do seu painel. Pedido cancelado ou devolvido não entra.</p>';
+ $('#app').innerHTML=h;
+ window.__C=C;
+}
+function kp(l,v,s){return '<div style="border:1px solid var(--linha);border-radius:14px;padding:12px 14px"><span style="display:block;font-size:12px;color:var(--muted)">'+esc(l)+'</span><b class="num" style="display:block;font-size:22px;line-height:1.25">'+esc(v)+'</b>'+(s?'<small style="display:block;color:var(--muted);font-size:11.5px">'+esc(s)+'</small>':'')+'</div>'}
+
+/* ---------- card para o story (1080×1920) ---------- */
+async function story(){
+ const C=window.__C,P=D.perfil;const cv=document.createElement('canvas');cv.width=1080;cv.height=1920;const x=cv.getContext('2d');
+ await document.fonts.ready;
+ const g=x.createLinearGradient(0,0,1080,1920);g.addColorStop(0,'#F48FB1');g.addColorStop(.45,'#D9577F');g.addColorStop(1,'#4A2638');x.fillStyle=g;x.fillRect(0,0,1080,1920);
+ x.fillStyle='rgba(255,255,255,.10)';x.beginPath();x.arc(960,170,300,0,7);x.fill();x.beginPath();x.arc(120,1750,260,0,7);x.fill();
+ x.fillStyle='#fff';x.textAlign='center';
+ x.font='800 96px Poppins';x.fillText('OMG!',540,230);
+ x.font='600 38px Poppins';x.globalAlpha=.9;x.fillText(PER==='tudo'?'Minha parceria com a OMG':PER==='30d'?'Meus últimos 30 dias com a OMG':'Meu '+MESES[+PER.slice(5)-1]+' com a OMG',540,320);x.globalAlpha=1;
+ x.font='700 64px Poppins';x.fillText(String(P.arroba||P.nome),540,430);
+ const caixas=[['pessoas alcançadas',int(C.pessoas)],['cliques no link',int(C.cl.length)],['pedidos',int(C.ps.length)],['produtos vendidos',int(C.itens)]];
+ caixas.forEach((c,i)=>{const cx=i%2?560:80,cy=520+Math.floor(i/2)*300;x.fillStyle='rgba(255,255,255,.16)';rr(x,cx,cy,440,260,40);x.fill();
+  x.fillStyle='#fff';x.font='800 110px Poppins';x.fillText(c[1],cx+220,cy+150);x.font='500 34px Poppins';x.fillText(c[0],cx+220,cy+210)});
+ const top=Object.values(C.prod).sort((a,b)=>b.q-a.q)[0];
+ let y=1180;
+ if(top){x.font='600 36px Poppins';x.fillText('O queridinho das minhas seguidoras',540,y);
+  if(top.img){try{const im=await carregaImg(top.img+(top.img.includes('?')?'&':'?')+'width=600');x.save();rr(x,340,y+40,400,400,40);x.clip();x.drawImage(im,340,y+40,400,400);x.restore()}catch(_){}}
+  x.font='700 40px Poppins';quebra(x,top.nome.split(':')[0],540,y+510,900,50)}
+ x.font='600 40px Poppins';x.fillText(P.cupom?'Use meu cupom '+P.cupom:'ohmygirl.com.br',540,1820);
+ const url=cv.toDataURL('image/png');
+ const box=$('#story-box');box.hidden=false;
+ box.innerHTML='<img src="'+url+'" alt="Card para o story" style="width:150px;border-radius:14px;box-shadow:0 8px 24px rgba(74,38,56,.18)"><div><h3>Card para o story</h3><p class="s" style="max-width:420px">Imagem 1080×1920 com os números da parceria (sem valores em reais). Baixe e poste no story marcando a @ da OMG.</p><a class="btn pri" download="omg-'+esc(P.codigo||'parceria')+'.png" href="'+url+'">Baixar imagem</a></div>';
+ box.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function rr(x,a,b,w,h,r){x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath()}
+function carregaImg(src){return new Promise((ok,no)=>{const i=new Image();i.crossOrigin='anonymous';i.onload=()=>ok(i);i.onerror=no;i.src=src})}
+function quebra(x,t,cx,y,w,lh){const ps=String(t).split(' ');let l='';const ls=[];ps.forEach(p=>{const tt=l?l+' '+p:p;if(x.measureText(tt).width>w&&l){ls.push(l);l=p}else l=tt});if(l)ls.push(l);ls.slice(0,3).forEach((s,i)=>x.fillText(s,cx,y+i*lh))}
+
+document.addEventListener('click',async e=>{
+ const p=e.target.closest('[data-p]');if(p){PER=p.dataset.p;const u=new URL(location.href);u.searchParams.set('p',PER);history.replaceState(null,'',u);render();return}
+ if(e.target.closest('#b-pdf')){window.print();return}
+ if(e.target.closest('#b-story')){const b=$('#b-story');b.disabled=true;try{await story()}catch(err){toast('Não deu para gerar o card agora')}b.disabled=false;return}
+ if(e.target.closest('#b-share')){try{await navigator.share({title:'Meu relatório OMG',url:location.href})}catch(_){}return}
+ if(e.target.closest('#b-link')){const b=$('#b-link');b.disabled=true;
+  const {data,error}=await sb.rpc('parceiro_relatorio_token',{p_inf:D.perfil.id});b.disabled=false;
+  if(error||!data){toast('Não deu para gerar o link');return}
+  const url=location.origin+location.pathname+'?k='+data;
+  try{await navigator.clipboard.writeText(url);toast('Link copiado: mande para ela no WhatsApp')}catch(_){prompt('Copie o link:',url)}}
+});
+carregar();
+})();
+</script>
+</body>
+</html>
