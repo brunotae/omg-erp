@@ -172,7 +172,7 @@ let D=null, PER=qs.get('p')||'tudo', MEMBRO=false;
 const ORIG=o=>{o=String(o||'').toLowerCase();
  if(/instagram/.test(o))return 'Instagram';if(/tiktok/.test(o))return 'TikTok';if(/facebook|fb\./.test(o))return 'Facebook';
  if(/whatsapp|wa\.me/.test(o))return 'WhatsApp';if(/youtube/.test(o))return 'YouTube';if(/google/.test(o))return 'Google';if(/t\.co|twitter|x\.com/.test(o))return 'X (Twitter)';
- return 'Direto (apps, WhatsApp, bio)'};
+ return 'Direto / apps'};
 
 async function carregar(){
  let r;
@@ -305,7 +305,8 @@ function dicas(C,mediaConv){
  if(C.cl.length>=15){const tot=C.cl.length;const noDia=C.hm[md].reduce((s,v)=>s+v,0);
   d.push(['⏰','Seu público responde mais '+(md===0||md===6?'no ':'na ')+DSEM[md]+', entre '+(mh*2)+'h e '+(mh*2+2)+'h. '+pct(noDia/tot)+' dos cliques caíram '+(md===0||md===6?'no ':'na ')+DSEM[md]+'. Publicar perto desse horário costuma render mais.'])}
  const o=Object.entries(C.orig).sort((a,b)=>b[1]-a[1]);
- if(o.length&&C.cl.length>=10)d.push(['📱',pct(o[0][1]/C.cl.length)+' dos cliques vieram de '+o[0][0]+'. '+(o[0][0]==='Instagram'?'Link no story com figurinha de link e na bio é o que mais traz gente.':'Vale repetir o link onde ele já funciona.')]);
+ if(o.length&&C.cl.length>=10)d.push(['📱',o[0][0]==='Direto / apps'?pct(o[0][1]/C.cl.length)+' dos cliques chegaram direto (link copiado, WhatsApp ou app que não informa a origem). Compartilhar o link em grupos e conversas está funcionando: vale continuar.':pct(o[0][1]/C.cl.length)+' dos cliques vieram de '+o[0][0]+'. '+(o[0][0]==='Instagram'?'Link no story com figurinha de link e na bio é o que mais traz gente.':'Vale repetir o link onde ele já funciona.')]);
+ if(C.pessoas>=3&&!C.ps.length)d.unshift(['🌱','Teve gente clicando e ainda nenhuma compra. Um story mostrando o produto em uso, o preço e o seu cupom costuma destravar a primeira venda.']);
  const top=Object.values(C.prod).sort((a,b)=>b.q-a.q)[0];
  if(top)d.push(['🧴','O produto que mais saiu com você foi '+top.nome.split(':')[0]+'. Um conteúdo só dele (antes e depois, textura, rotina) tende a converter bem.']);
  const conv=C.pessoas?C.viaLink/C.pessoas:null;
@@ -346,7 +347,7 @@ function render(){
   [['Cliques',C.cl.length],['Pessoas',C.pessoas],['Compraram pelo link',C.viaLink],['Compraram pelo cupom',C.ps.length-C.viaLink]].map(([l,v])=>'<div class="fl"><span>'+l+'</span><div class="tr"><i style="width:'+(v?Math.max(2,v/fmax*100):0)+'%"></i></div><b class="num">'+int(v)+'</b></div>').join('')+'</div>'+
   '<p class="nota">Pessoas = cada aparelho conta uma vez, mesmo que toque várias vezes. Pedido pelo cupom conta mesmo sem clique no link.</p></div>'+
   '<div class="card"><div class="g2" style="gap:10px">'+
-  kp('Conversão do link',conv===null?'—':pct(conv),mediaConv!==null&&conv!==null?(conv>=mediaConv?'acima':'abaixo')+' da média das parceiras ('+pct(mediaConv)+')':'pedidos pelo link ÷ pessoas')+
+  kp('Conversão do link',conv===null?'—':pct(conv),mediaConv&&conv!==null&&C.pessoas>=5?(conv>=mediaConv?'acima':'abaixo')+' da média das parceiras ('+pct(mediaConv)+')':'pedidos pelo link ÷ pessoas')+
   kp('Vendas geradas',brl(C.vendas),'produtos com desconto, sem frete e imposto')+
   kp('Ticket médio',tk===null?'—':brl(tk),C.lojaTicket&&tk!==null?'loja toda: '+brl(C.lojaTicket):'')+
   kp('Produtos vendidos',int(C.itens),C.ps.length?(C.itens/C.ps.length).toLocaleString('pt-BR',{maximumFractionDigits:1})+' por pedido':'')+
@@ -376,8 +377,8 @@ function render(){
 
  // comparação
  if(C.par.length>=3){h+='<div class="sec"><h2>Você entre as parceiras OMG</h2><p>'+C.par.length+' parceiras com movimento '+nomePer()+' · comparação anônima</p></div><div class="card"><div class="rank">'+
-  [['Cliques',rk.c],['Pedidos',rk.p],['Vendas',rk.s],['Conversão',rk.cv]].map(([l,r])=>'<div><b>'+(r?r.pos+'º':'—')+'</b><span>'+l+(r?' · de '+r.de:'')+'</span></div>').join('')+'</div>'+
-  strip(C.par,x=>x.c,'Cliques')+strip(C.par,x=>x.s,'Vendas')+'</div>'}
+  [['Cliques',rk.c],['Pedidos',rk.p],['Vendas',rk.s],['Conversão',rk.cv]].map(([l,r])=>'<div><b>'+(r&&r.val>0?r.pos+'º':'—')+'</b><span>'+l+(r?' · de '+r.de:'')+'</span></div>').join('')+'</div>'+
+  (C.par.some(x=>x.c)?strip(C.par,x=>x.c,'Cliques'):'')+(C.par.some(x=>x.s)?strip(C.par,x=>x.s,'Vendas'):'')+'</div>'}
 
  // dicas
  if(dc.length)h+='<div class="sec"><h2>Sugestões para o próximo post</h2><p>Feitas a partir dos seus números</p></div><ul class="dicas">'+dc.map(x=>'<li><i>'+x[0]+'</i><span>'+esc(x[1])+'</span></li>').join('')+'</ul>';
