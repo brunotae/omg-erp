@@ -1225,6 +1225,22 @@ async function principal(req: Request): Promise<Response> {
       return resp(200, { ok: true, status: st, res });
     }
 
+    if (b.acao === "sku_fotos_sync") {
+      // Foto e handle de cada SKU (relatório das parceiras). Grava em sku_fotos. Até 4 páginas de 250 variantes por chamada (b.after).
+      let after: string | null = b.after ?? null, total = 0;
+      for (let pg = 0; pg < 4; pg++) {
+        const d: any = await gql(`query($a: String) { productVariants(first: 250, after: $a) { nodes { sku image { url } product { handle title vendor featuredImage { url } } } pageInfo { hasNextPage endCursor } } }`, { a: after });
+        const rows = (d.productVariants.nodes || []).filter((v: any) => v.sku).map((v: any) => ({ sku: String(v.sku).trim(), handle: v.product.handle, titulo: v.product.title, marca: v.product.vendor,
+          img: v.image?.url || v.product.featuredImage?.url || null, atualizado: new Date().toISOString() }));
+        const uniq = [...new Map(rows.map((r: any) => [r.sku, r])).values()];
+        if (uniq.length) { const { error } = await admin.from("sku_fotos").upsert(uniq, { onConflict: "sku" }); if (error) throw error; }
+        total += uniq.length;
+        after = d.productVariants.pageInfo.hasNextPage ? d.productVariants.pageInfo.endCursor : null;
+        if (!after) break;
+      }
+      return resp(200, { ok: true, total, proximo: after });
+    }
+
     if (b.acao === "catalogo") {
       // Raio-x do catálogo: todos os produtos (qualquer status), 250 por chamada (b.after).
       const d: any = await gql(`query($a: String) { products(first: 250, after: $a) { nodes { legacyResourceId handle title vendor status productType tags totalInventory
