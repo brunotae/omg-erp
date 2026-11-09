@@ -415,15 +415,15 @@ async function story(){
  x.font='800 96px Poppins';x.fillText('OMG!',540,230);
  x.font='600 38px Poppins';x.globalAlpha=.9;x.fillText(PER==='tudo'?'Minha parceria com a OMG':PER==='30d'?'Meus últimos 30 dias com a OMG':'Meu '+MESES[+PER.slice(5)-1]+' com a OMG',540,320);x.globalAlpha=1;
  x.font='700 64px Poppins';x.fillText(String(P.arroba||P.nome),540,430);
- const caixas=[['pessoas alcançadas',int(C.pessoas)],['cliques no link',int(C.cl.length)],['pedidos',int(C.ps.length)],['produtos vendidos',int(C.itens)]];
+ const caixas=[['pessoas alcançadas',int(C.pessoas)],['cliques no link',int(C.cl.length)]].concat(C.ps.length?[['pedidos',int(C.ps.length)],['produtos vendidos',int(C.itens)]]:[]);
  caixas.forEach((c,i)=>{const cx=i%2?560:80,cy=520+Math.floor(i/2)*300;x.fillStyle='rgba(255,255,255,.16)';rr(x,cx,cy,440,260,40);x.fill();
   x.fillStyle='#fff';x.font='800 110px Poppins';x.fillText(c[1],cx+220,cy+150);x.font='500 34px Poppins';x.fillText(c[0],cx+220,cy+210)});
  const top=Object.values(C.prod).sort((a,b)=>b.q-a.q)[0];
- let y=1180;
+ let y=C.ps.length?1180:900;
  if(top){x.font='600 36px Poppins';x.fillText('O queridinho das minhas seguidoras',540,y);
   if(top.img){try{const im=await carregaImg(top.img+(top.img.includes('?')?'&':'?')+'width=600');x.save();rr(x,340,y+40,400,400,40);x.clip();x.drawImage(im,340,y+40,400,400);x.restore()}catch(_){}}
   x.font='700 40px Poppins';quebra(x,top.nome.split(':')[0],540,y+510,900,50)}
- x.font='600 40px Poppins';x.fillText(P.cupom?'Use meu cupom '+P.cupom:'ohmygirl.com.br',540,1820);
+ const lk=(D.links.find(l=>l.slug===P.codigo)||D.links[0]);x.font='600 40px Poppins';x.fillText(lk?'ohmygirl.com.br/a/'+lk.slug:'ohmygirl.com.br',540,1820);
  const url=cv.toDataURL('image/png');
  const box=$('#story-box');box.hidden=false;
  box.innerHTML='<img src="'+url+'" alt="Card para o story" style="width:150px;border-radius:14px;box-shadow:0 8px 24px rgba(74,38,56,.18)"><div><h3>Card para o story</h3><p class="s" style="max-width:420px">Imagem 1080×1920 com os números da parceria (sem valores em reais). Baixe e poste no story marcando a @ da OMG.</p><a class="btn pri" download="omg-'+esc(P.codigo||'parceria')+'.png" href="'+url+'">Baixar imagem</a></div>';
