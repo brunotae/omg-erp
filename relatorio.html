@@ -335,7 +335,7 @@ function render(){
  const per='<div class="periodos noprint">'+periodos().map(m=>'<button type="button" data-p="'+m+'" aria-pressed="'+(PER===m)+'">'+(m==='tudo'?'Desde o início':m==='30d'?'Últimos 30 dias':MESES[+m.slice(5)-1].replace(/^./,c=>c.toUpperCase())+' '+m.slice(0,4))+'</button>').join('')+'</div>';
  let h=per+
  '<section class="capa"><div class="k">Relatório da parceria · OMG! oh my girl</div><h1>'+esc(P.nome)+'</h1>'+
- '<div class="sub">'+esc(P.arroba||'')+(P.arroba?' · ':'')+'De '+fdata(C.ini)+' a '+fdata(C.fim)+(P.cupom?' · cupom '+esc(P.cupom):'')+'</div>'+
+ '<div class="sub">'+esc(P.arroba||'')+(P.arroba?' · ':'')+'De '+fdata(C.ini)+' a '+fdata(C.fim)+'</div>'+
  '<div class="big"><div><span>Cliques no seu link</span><b class="num">'+int(C.cl.length)+'</b></div><div><span>Pessoas alcançadas</span><b class="num">'+int(C.pessoas)+'</b></div><div><span>Pedidos</span><b class="num">'+int(C.ps.length)+'</b></div><div><span>'+(temCom?'Sua comissão':'Vendas geradas')+'</span><b class="num">'+(temCom?brl(C.com):brl(C.vendas))+'</b></div></div>'+
  '<div class="frase">'+frase(C,rk)+'</div></section>';
 
