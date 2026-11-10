@@ -986,7 +986,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v108 · 09/11/2026';
+const VERSAO='v109 · 09/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -3532,10 +3532,19 @@ async function cuponsImportar(btn,quieto){
 document.addEventListener('click',e=>{const b=e.target.closest('#cupom-imp');if(b)cuponsImportar(b)});
 
 /* ================= Monitoramentos (v59): tarefas agendadas do Claude, com código, liga/desliga e custo ================= */
+/* v109: botão PT | 한국어. Em coreano usa monitoramentos.ko (cadastro) e monitor_execucoes.resumo_ko / detalhes_ko (gravados pela tarefa). Sem versão coreana, mostra o português. */
+const MON={lang:(()=>{try{return localStorage['omg-mon-lang']==='ko'?'ko':'pt'}catch(_){return 'pt'}})()};
+const monKo=()=>MON.lang==='ko';
+const MT=(pt,ko)=>monKo()?ko:pt;
+const monF=(m,k)=>monKo()&&m&&m.ko&&m.ko[k]?m.ko[k]:(m?m[k]:'');
+const monRes=e=>monKo()&&e.resumo_ko?e.resumo_ko:(e.resumo||'');
+const monDet=e=>monKo()&&e.detalhes_ko?e.detalhes_ko:(e.detalhes||{});
 const MON_ST={'Sem mudança':'p-ok','Mudança encontrada':'p-warn','Base montada':'p-info','Pulado (desligado)':'p-mute','Erro':'p-bad'};
-const monPill=s=>'<span class="pill '+(MON_ST[s]||'p-info')+'">'+esc(s||'—')+'</span>';
-const monDur=s=>!has(s)?'—':s<60?s+' s':s<3600?(Math.round(s/6)/10).toLocaleString('pt-BR')+' min':(Math.round(s/360)/10).toLocaleString('pt-BR')+' h';
-const monQuando=t=>{if(!t)return'—';const d=new Date(t);if(isNaN(d))return'—';return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'})+' '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})};
+const MON_ST_KO={'Sem mudança':'변동 없음','Mudança encontrada':'변동 있음','Base montada':'기준 데이터 생성','Pulado (desligado)':'건너뜀 (꺼짐)','Erro':'오류'};
+const monPill=s=>'<span class="pill '+(MON_ST[s]||'p-info')+'">'+esc((monKo()&&MON_ST_KO[s])||s||'—')+'</span>';
+const monDur=s=>{if(!has(s))return'—';const L=monKo()?'ko-KR':'pt-BR';return s<60?s+(monKo()?'초':' s'):s<3600?(Math.round(s/6)/10).toLocaleString(L)+(monKo()?'분':' min'):(Math.round(s/360)/10).toLocaleString(L)+(monKo()?'시간':' h')};
+const monQuando=t=>{if(!t)return'—';const d=new Date(t);if(isNaN(d))return'—';const L=monKo()?'ko-KR':'pt-BR';return d.toLocaleDateString(L,{day:'2-digit',month:'2-digit'})+' '+d.toLocaleTimeString(L,{hour:'2-digit',minute:'2-digit',hour12:false})};
+const monLangBt=()=>'<div class="va-lang" role="group" aria-label="Idioma"><button type="button" class="btn sm'+(monKo()?'':' hot')+'" data-monlang="pt">PT</button><button type="button" class="btn sm'+(monKo()?' hot':'')+'" data-monlang="ko">한국어</button></div>';
 function monExecs(cod){return (S.data.monitor_execucoes||[]).filter(e=>e.codigo===cod).sort((a,b)=>String(b.inicio).localeCompare(String(a.inicio)))}
 function monMedia(cod){const L=monExecs(cod).filter(e=>has(e.duracao_seg)&&e.status!=='Pulado (desligado)').slice(0,10);return L.length?L.reduce((s,e)=>s+e.duracao_seg,0)/L.length:null}
 // próxima execução a partir do cron simples "CRON_TZ=America/Sao_Paulo M H * * D" (Brasília = UTC−3, sem horário de verão)
@@ -3546,7 +3555,7 @@ function monProxima(m){
   if(dows&&!dows.includes(d.getUTCDay()))continue;if(doms&&!doms.includes(d.getUTCDate()))continue;const t=Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate(),h+3,mi);if(t>agora)return new Date(t)}
  return null;
 }
-function monSwitch(m){if(m.executor==='Servidor')return '<span class="pill p-info" title="Roda no servidor (GitHub Actions + Supabase). Para ligar ou desligar, peça ao Claude.">Servidor · ligado</span>';return '<button type="button" class="mon-sw" data-mon-tog="'+esc(m.codigo)+'" role="switch" aria-checked="'+(!!m.ligado)+'"'+(can()?'':' disabled')+' title="'+(m.ligado?'Ligado · clique para desligar':'Desligado · clique para ligar')+'"><i></i><span>'+(m.ligado?'Ligado':'Desligado')+'</span></button>'}
+function monSwitch(m){if(m.executor==='Servidor')return '<span class="pill p-info" title="'+MT('Roda no servidor (GitHub Actions + Supabase). Para ligar ou desligar, peça ao Claude.','서버에서 실행 (GitHub Actions + Supabase). 켜기·끄기는 Claude에게 요청하세요.')+'">'+MT('Servidor · ligado','서버 · 켜짐')+'</span>';return '<button type="button" class="mon-sw" data-mon-tog="'+esc(m.codigo)+'" role="switch" aria-checked="'+(!!m.ligado)+'"'+(can()?'':' disabled')+' title="'+(m.ligado?MT('Ligado · clique para desligar','켜짐 · 누르면 꺼짐'):MT('Desligado · clique para ligar','꺼짐 · 누르면 켜짐'))+'"><i></i><span>'+(m.ligado?MT('Ligado','켜짐'):MT('Desligado','꺼짐'))+'</span></button>'}
 VIEWFN.monitor=()=>{
  if(S.missing.monitoramentos)return '<div class="page wide"><div class="col">'+head('Monitoramentos','Falta criar as tabelas no Supabase (omg-supabase-06-monitoramentos.sql).')+'</div></div>';
  const M=(S.data.monitoramentos||[]).filter(match).slice().sort((a,b)=>String(a.codigo).localeCompare(String(b.codigo)));
@@ -3557,37 +3566,39 @@ VIEWFN.monitor=()=>{
  const ult=E.filter(e=>e.status==='Mudança encontrada').sort((a,b)=>String(b.inicio).localeCompare(String(a.inicio)))[0];
  // previsão do mês: tempo médio × execuções por semana × 4,3
  const prev=(S.data.monitoramentos||[]).filter(m=>m.ligado&&m.executor!=='Servidor').reduce((s,m)=>{const md=monMedia(m.codigo);const p=String(m.agenda_cron||'').replace(/^CRON_TZ=\S+\s+/,'').trim().split(/\s+/);const pm=p[2]&&p[2]!=='*'?p[2].split(',').filter(Boolean).length:(p[4]==='*'?30:((p[4]||'').split(',').filter(Boolean).length||1)*4.3);return s+(md==null?300:md)*pm},0);
- return '<div class="page wide"><div class="col">'+head('Monitoramentos','Cada monitoramento é uma tarefa do Claude que roda sozinha no horário marcado, lê as fontes, grava o resultado aqui e avisa no celular e no e-mail. Nada é alterado no site. Desligado aqui, ele acorda, vê que está desligado e para em segundos.')+
- '<div class="kpis">'+kpi('Ligados',lig+' de '+(S.data.monitoramentos||[]).length,'Liga e desliga na chave de cada um')+kpi('Execuções no mês',Em.length,'Sem contar as puladas')+kpi('Tempo do Claude no mês',monDur(seg),'Previsão: cerca de '+monDur(Math.round(prev))+' por mês')+kpi('Custo extra','R$ 0','Incluído no plano do Claude (usa a cota de uso) · Supabase grátis')+'</div>'+
- (ult?'<div class="card mon-ult"><span class="label">Última mudança encontrada</span><p><b class="num">'+esc(ult.codigo)+'</b> · '+monQuando(ult.inicio)+' · '+esc(ult.resumo)+'</p></div>':'')+
- '<div class="card">'+(loading('monitoramentos')?'<p class="muted">Carregando…</p>':M.length?'<div class="tblwrap"><table class="mon-t"><thead><tr><th>Código</th><th>Monitoramento</th><th>Frequência</th><th>Última execução</th><th class="r">Tempo médio</th><th>Chave</th></tr></thead><tbody>'+
+ const tot=(S.data.monitoramentos||[]).length;
+ return '<div class="page wide"><div class="col">'+head(MT('Monitoramentos','모니터링'),MT('Cada monitoramento é uma tarefa do Claude que roda sozinha no horário marcado, lê as fontes, grava o resultado aqui e avisa no celular e no e-mail. Nada é alterado no site. Desligado aqui, ele acorda, vê que está desligado e para em segundos.','모니터링은 정해진 시간에 Claude가 자동으로 실행하는 작업입니다. 출처를 읽고 결과를 여기에 저장하며, 휴대폰과 이메일로 알려줍니다. 사이트는 전혀 바꾸지 않습니다. 여기서 끄면 실행 시간에 꺼진 것을 확인하고 몇 초 만에 멈춥니다.'),monLangBt())+
+ '<div class="kpis">'+kpi(MT('Ligados','켜짐'),MT(lig+' de '+tot,tot+'개 중 '+lig+'개'),MT('Liga e desliga na chave de cada um','각 항목의 스위치로 켜고 끕니다'))+kpi(MT('Execuções no mês','이번 달 실행'),Em.length,MT('Sem contar as puladas','건너뛴 회차 제외'))+kpi(MT('Tempo do Claude no mês','이번 달 Claude 사용 시간'),monDur(seg),MT('Previsão: cerca de ','예상: 월 약 ')+monDur(Math.round(prev))+MT(' por mês',''))+kpi(MT('Custo extra','추가 비용'),MT('R$ 0','0원'),MT('Incluído no plano do Claude (usa a cota de uso) · Supabase grátis','Claude 요금제에 포함 (사용량 한도 내) · Supabase 무료'))+'</div>'+
+ (ult?'<div class="card mon-ult"><span class="label">'+MT('Última mudança encontrada','최근 변동')+'</span><p><b class="num">'+esc(ult.codigo)+'</b> · '+monQuando(ult.inicio)+' · '+esc(monRes(ult))+'</p></div>':'')+
+ '<div class="card">'+(loading('monitoramentos')?'<p class="muted">'+MT('Carregando…','불러오는 중…')+'</p>':M.length?'<div class="tblwrap"><table class="mon-t"><thead><tr><th>'+MT('Código','코드')+'</th><th>'+MT('Monitoramento','모니터링')+'</th><th>'+MT('Frequência','주기')+'</th><th>'+MT('Última execução','최근 실행')+'</th><th class="r">'+MT('Tempo médio','평균 시간')+'</th><th>'+MT('Chave','스위치')+'</th></tr></thead><tbody>'+
   M.map(m=>{const e=monExecs(m.codigo)[0], md=monMedia(m.codigo), px=monProxima(m);
-   return '<tr data-mon-open="'+esc(m.codigo)+'"><td><b class="num">'+esc(m.codigo)+'</b><small>'+esc(m.area||'')+'</small></td>'+
-    '<td><b>'+esc(m.nome)+'</b><small>'+esc(m.descricao)+'</small></td>'+
-    '<td>'+esc(m.frequencia||'—')+'<small>'+(m.agendado===false?'<b style="color:var(--warn)">agenda parada · peça ao Claude: religar '+esc(m.codigo)+'</b>':m.ligado?(px?'próxima: '+monQuando(px):''):'parado')+'</small></td>'+
-    '<td>'+(e?monPill(e.status)+(e.relatorio?' <button type="button" class="btn sm" data-mon-rel="'+esc(e.id)+'">Relatório</button>':'')+'<small>'+monQuando(e.inicio)+' · '+esc((e.resumo||'').slice(0,90))+'</small>':'<span class="muted">Ainda não rodou</span>')+'<small><button type="button" class="lnk" data-mon-hist="'+esc(m.codigo)+'">Histórico e relatórios ('+monExecs(m.codigo).length+')</button></small></td>'+
-    '<td class="r num">'+(md!=null?monDur(Math.round(md)):'<span class="muted">'+esc(m.tempo_estimado||'—')+'</span>')+'</td>'+
-    '<td>'+monSwitch(m)+'</td></tr>'}).join('')+'</tbody></table></div>':empty('Nenhum monitoramento','Peça ao Claude para criar um. Ele ganha um código (M-003…) e aparece aqui.'))+'</div>'+
- '<div class="card"><span class="label">Como mudar</span><p class="muted" style="margin:6px 0 0;font-size:12.5px">Ligar e desligar: pela chave, na hora. Mudar frequência, horário, fontes ou criar um novo: peça ao Claude citando o código (ex.: "M-002: incluir a Celimax" ou "M-001: rodar toda segunda e quinta").</p></div>'+
+   return '<tr data-mon-open="'+esc(m.codigo)+'"><td><b class="num">'+esc(m.codigo)+'</b><small>'+esc(monF(m,'area')||'')+'</small></td>'+
+    '<td><b>'+esc(monF(m,'nome'))+'</b><small>'+esc(monF(m,'descricao'))+'</small></td>'+
+    '<td>'+esc(monF(m,'frequencia')||'—')+'<small>'+(m.agendado===false?'<b style="color:var(--warn)">'+MT('agenda parada · peça ao Claude: religar ','일정 중지됨 · Claude에게 요청: religar ')+esc(m.codigo)+'</b>':m.ligado?(px?MT('próxima: ','다음 실행: ')+monQuando(px):''):MT('parado','중지'))+'</small></td>'+
+    '<td>'+(e?monPill(e.status)+(e.relatorio?' <button type="button" class="btn sm" data-mon-rel="'+esc(e.id)+'">'+MT('Relatório','리포트')+'</button>':'')+'<small>'+monQuando(e.inicio)+' · '+esc(monRes(e).slice(0,90))+'</small>':'<span class="muted">'+MT('Ainda não rodou','아직 실행 전')+'</span>')+'<small><button type="button" class="lnk" data-mon-hist="'+esc(m.codigo)+'">'+MT('Histórico e relatórios','실행 기록·리포트')+' ('+monExecs(m.codigo).length+')</button></small></td>'+
+    '<td class="r num">'+(md!=null?monDur(Math.round(md)):'<span class="muted">'+esc(monF(m,'tempo_estimado')||'—')+'</span>')+'</td>'+
+    '<td>'+monSwitch(m)+'</td></tr>'}).join('')+'</tbody></table></div>':empty(MT('Nenhum monitoramento','모니터링 없음'),MT('Peça ao Claude para criar um. Ele ganha um código (M-003…) e aparece aqui.','Claude에게 만들어 달라고 하세요. 코드(M-003…)가 붙어 여기에 나타납니다.')))+'</div>'+
+ '<div class="card"><span class="label">'+MT('Como mudar','변경 방법')+'</span><p class="muted" style="margin:6px 0 0;font-size:12.5px">'+MT('Ligar e desligar: pela chave, na hora. Mudar frequência, horário, fontes ou criar um novo: peça ao Claude citando o código (ex.: "M-002: incluir a Celimax" ou "M-001: rodar toda segunda e quinta").','켜기·끄기: 스위치로 바로. 주기·시간·출처 변경이나 새 모니터링 추가: 코드를 적어 Claude에게 요청하세요 (예: "M-002: Celimax 추가", "M-001: 매주 월·목 실행").')+'</p></div>'+
  '</div></div>';
 };
 function monOpen(cod){
  const m=(S.data.monitoramentos||[]).find(x=>x.codigo===cod);if(!m)return;
  const L=monExecs(cod), md=monMedia(cod), px=monProxima(m), fontes=Array.isArray(m.fontes)?m.fontes:[];
  const lin=(l,v)=>'<div class="mon-li"><span class="label">'+l+'</span><div>'+v+'</div></div>';
- const det=e=>{const d=e.detalhes||{};const it=[].concat(d.novos||[],d.sairam||[],d.precos||[],d.itens||[]);return it.length?'<ul class="mon-ul">'+it.slice(0,40).map(x=>'<li>'+(x.link?'<a href="'+esc(x.link)+'" target="_blank" rel="noopener">'+esc(x.nome||x.titulo||x.link)+'</a>':esc(x.nome||x.titulo||String(x)))+(x.obs?' <span class="muted">· '+esc(x.obs)+'</span>':'')+'</li>').join('')+'</ul>':''};
- shell(m.codigo+' · '+m.nome,
-  '<div class="sec">'+lin('O que faz',esc(m.descricao))+
-  lin('Chave',monSwitch(m)+(m.atualizado_por?' <span class="muted" style="font-size:11.5px">mudou por último: '+esc(m.atualizado_por)+' · '+monQuando(m.atualizado_em)+'</span>':''))+
-  lin('Frequência',esc(m.frequencia||'—')+(m.agendado===false?' <b style="color:var(--warn)">· agenda parada no Claude: para voltar a rodar, peça "religar '+esc(m.codigo)+'"</b>':'')+(m.ligado&&px?' <span class="muted">· próxima: '+monQuando(px)+'</span>':''))+
-  lin('Avisa',esc(m.avisa||'—'))+
-  lin('Fontes',fontes.length?fontes.map(f=>'<a href="'+esc(f.url)+'" target="_blank" rel="noopener">'+esc(f.marca||f.nome||f.url)+'</a>').join(' · '):'—')+
-  lin('Tempo',md!=null?'média de '+monDur(Math.round(md))+' por execução (últimas '+Math.min(10,L.filter(e=>has(e.duracao_seg)&&e.status!=='Pulado (desligado)').length)+')':esc(m.tempo_estimado||'—'))+
-  lin('Custo',esc(m.custo||'—'))+
-  (m.referencia?lin('Referência',/^https?:/.test(m.referencia)?'<a href="'+esc(m.referencia)+'" target="_blank" rel="noopener">abrir</a>':esc(m.referencia)):'')+
-  (m.obs?lin('Observação',esc(m.obs)):'')+'</div>'+
-  '<div class="sec"><span class="label" style="grid-column:1/-1">Histórico ('+L.length+')</span><div style="grid-column:1/-1;min-width:0">'+(L.length?'<div class="tblwrap"><table class="mon-h"><thead><tr><th>Quando</th><th>Resultado</th><th class="r">Tempo</th><th>Resumo</th></tr></thead><tbody>'+
-   L.slice(0,60).map(e=>'<tr><td class="num">'+monQuando(e.inicio)+'</td><td>'+monPill(e.status)+(e.avisou?'<small>avisou</small>':'')+'</td><td class="r num">'+monDur(e.duracao_seg)+'</td><td>'+esc(e.resumo||'')+(e.relatorio?' <button type="button" class="btn sm" data-mon-rel="'+esc(e.id)+'">Relatório</button>':'')+det(e)+'</td></tr>').join('')+'</tbody></table></div>':'<p class="muted mon-hist" style="margin:0">Ainda não rodou.</p>')+'</div></div>',
+ const det=e=>{const d=monDet(e);const it=[].concat(d.novos||[],d.sairam||[],d.precos||[],d.itens||[]);return it.length?'<ul class="mon-ul">'+it.slice(0,40).map(x=>'<li>'+(x.link?'<a href="'+esc(x.link)+'" target="_blank" rel="noopener">'+esc(x.nome||x.titulo||x.link)+'</a>':esc(x.nome||x.titulo||String(x)))+(x.obs?' <span class="muted">· '+esc(x.obs)+'</span>':'')+'</li>').join('')+'</ul>':''};
+ const nv=L.filter(e=>has(e.duracao_seg)&&e.status!=='Pulado (desligado)').length, ref=monF(m,'referencia')||m.referencia;
+ shell(m.codigo+' · '+monF(m,'nome'),
+  '<div class="sec"><div style="grid-column:1/-1;display:flex;justify-content:flex-end">'+monLangBt()+'</div>'+lin(MT('O que faz','하는 일'),esc(monF(m,'descricao')))+
+  lin(MT('Chave','스위치'),monSwitch(m)+(m.atualizado_por?' <span class="muted" style="font-size:11.5px">'+MT('mudou por último: ','최근 변경: ')+esc(m.atualizado_por)+' · '+monQuando(m.atualizado_em)+'</span>':''))+
+  lin(MT('Frequência','주기'),esc(monF(m,'frequencia')||'—')+(m.agendado===false?' <b style="color:var(--warn)">· '+MT('agenda parada no Claude: para voltar a rodar, peça "religar ','Claude 일정 중지됨: 다시 실행하려면 "religar ')+esc(m.codigo)+'"</b>':'')+(m.ligado&&px?' <span class="muted">· '+MT('próxima: ','다음 실행: ')+monQuando(px)+'</span>':''))+
+  lin(MT('Avisa','알림'),esc(monF(m,'avisa')||'—'))+
+  lin(MT('Fontes','출처'),fontes.length?fontes.map(f=>'<a href="'+esc(f.url)+'" target="_blank" rel="noopener">'+esc(f.marca||f.nome||f.url)+'</a>').join(' · '):'—')+
+  lin(MT('Tempo','소요 시간'),md!=null?MT('média de '+monDur(Math.round(md))+' por execução (últimas '+Math.min(10,nv)+')','1회 평균 '+monDur(Math.round(md))+' (최근 '+Math.min(10,nv)+'회)'):esc(monF(m,'tempo_estimado')||'—'))+
+  lin(MT('Custo','비용'),esc(monF(m,'custo')||'—'))+
+  (ref?lin(MT('Referência','참고 자료'),/^https?:/.test(m.referencia||'')?'<a href="'+esc(m.referencia)+'" target="_blank" rel="noopener">'+MT('abrir','열기')+'</a>':esc(ref)):'')+
+  (monF(m,'obs')?lin(MT('Observação','비고'),esc(monF(m,'obs'))):'')+'</div>'+
+  '<div class="sec"><span class="label" style="grid-column:1/-1">'+MT('Histórico','실행 기록')+' ('+L.length+')</span><div style="grid-column:1/-1;min-width:0">'+(L.length?'<div class="tblwrap"><table class="mon-h"><thead><tr><th>'+MT('Quando','일시')+'</th><th>'+MT('Resultado','결과')+'</th><th class="r">'+MT('Tempo','시간')+'</th><th>'+MT('Resumo','요약')+'</th></tr></thead><tbody>'+
+   L.slice(0,60).map(e=>'<tr><td class="num">'+monQuando(e.inicio)+'</td><td>'+monPill(e.status)+(e.avisou?'<small>'+MT('avisou','알림 보냄')+'</small>':'')+(e.email_em?'<small>'+MT('e-mail PT + 한국어','이메일 발송 (PT+KO)')+'</small>':'')+'</td><td class="r num">'+monDur(e.duracao_seg)+'</td><td>'+esc(monRes(e))+(e.relatorio?' <button type="button" class="btn sm" data-mon-rel="'+esc(e.id)+'">'+MT('Relatório','리포트')+'</button>':'')+det(e)+'</td></tr>').join('')+'</tbody></table></div>':'<p class="muted mon-hist" style="margin:0">'+MT('Ainda não rodou.','아직 실행 전입니다.')+'</p>')+'</div></div>',
   null,true);
 }
 async function monToggle(cod,btn){
@@ -3595,11 +3606,14 @@ async function monToggle(cod,btn){
  const novo=!m.ligado;if(btn)btn.disabled=true;
  const {error}=await sb.from('monitoramentos').update({ligado:novo}).eq('codigo',cod);
  if(error){toast(errMsg(error));if(btn)btn.disabled=false;return}
- m.ligado=novo;toast(cod+(novo?(m.agendado===false?' ligado no ERP · para rodar, peça ao Claude: religar '+cod:' ligado'):' desligado'));
+ m.ligado=novo;toast(cod+(novo?(m.agendado===false?MT(' ligado no ERP · para rodar, peça ao Claude: religar ',' ERP에서 켜짐 · 실행하려면 Claude에게: religar ')+cod:MT(' ligado',' 켜짐')):MT(' desligado',' 꺼짐')));
  if(document.querySelector('#ov')){const b=document.querySelector('#ov [data-mon-tog="'+cod+'"]');if(b)b.outerHTML=monSwitch(m)}
  render();loadAll();
 }
 document.addEventListener('click',e=>{
+ const lg=e.target.closest('[data-monlang]');if(lg){e.preventDefault();e.stopPropagation();MON.lang=lg.dataset.monlang==='ko'?'ko':'pt';try{localStorage['omg-mon-lang']=MON.lang}catch(_){}
+  const t0=document.querySelector('#ov .mon-li')?document.querySelector('#m-t'):null;render();
+  if(t0)monOpen(String(t0.textContent).split(' · ')[0].trim());return}
  const t=e.target.closest('[data-mon-tog]');if(t){e.preventDefault();e.stopPropagation();monToggle(t.dataset.monTog,t);return}
  const hb=e.target.closest('[data-mon-hist]');if(hb){e.preventDefault();e.stopPropagation();monOpen(hb.dataset.monHist);setTimeout(()=>{const h=document.querySelector('#ov .mon-h,#ov .mon-hist');if(h)h.scrollIntoView({block:'start'})},60);return}
  const o=e.target.closest('tr[data-mon-open]');if(o&&S.view==='monitor'&&!e.target.closest('a'))monOpen(o.dataset.monOpen);
@@ -4912,6 +4926,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v109','09/11/2026',['Monitoramentos: botão PT | 한국어 no topo da tela e dentro de cada monitoramento. Em coreano aparecem a tela, o cadastro de cada monitoramento e o resumo e a lista de cada execução. A escolha fica salva neste aparelho.','M-002: quando acha mudança ou erro, além do aviso no celular, chega um e-mail em português + coreano para bruno@mintess.com e info.br@ohmygirl.com.br. No histórico aparece "e-mail PT + 한국어".']],
  ['v108','09/11/2026',['Links e influenciadores → Influenciadores: nova coluna Relatório. Abre o relatório completo da parceira: capa com os números, conquistas, funil do clique à compra, dia a dia, horários e dias que mais clicam, de onde vêm os cliques, produtos com foto, estados e cidades, links, comparação anônima com as outras parceiras, sugestões para o próximo post, pedidos e ganhos. Tem Salvar em PDF, Card para o story (imagem 1080×1920) e Copiar link para ela (abre sem senha).']],
  ['v107','09/11/2026',['Ajustes e integração → Avisos à cliente: novo aviso avulso "Estamos separando seus produtos". Botão para mandar um exemplo para você e botão que mostra quem recebe (vendas do site não canceladas, ainda não embaladas e que não receberam este aviso) antes de mandar. Cada cliente recebe uma vez só; o envio fica na ficha da venda.']],
  ['v106','08/11/2026',['Visitas agora: botão Imprimir. Abre um relatório completo em aba nova (resumo dos 4 períodos com % de carrinho e compra, visitas por hora e por dia, e origem, países e estados de cada período), pronto para imprimir ou salvar em PDF.']],
