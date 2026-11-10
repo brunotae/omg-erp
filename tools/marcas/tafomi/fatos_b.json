@@ -1,0 +1,820 @@
+[
+ {
+  "nome": "TAFOMI Calming Tam Sheet Mask",
+  "ml_por_folha": "30ml (tabela 'Volume 30ml'; caixa '30ml / 1.01 fl.oz' — tabela não diz explicitamente se é por folha)",
+  "folhas_por_caixa": "10 ('1box in 10ea' na caixa)",
+  "tipo_de_folha": {
+   "material": "Tencel (eucalipto) — 'Eucalyptus sheet / Biodegradable, Nature-friendly Tencel sheet'",
+   "texto": "It is an eco-friendly method using eucalyptus wood as a basic raw material, and is a soft Tensel skin material similar to silk. It is not burdensome even if it touches the skin every day and has a high moisture absorption rate, providing excellent adhesion."
+  },
+  "ingredientes_chave": [
+   {
+    "nome": "Panthenol",
+    "dose": "20,000ppm"
+   },
+   {
+    "nome": "CICA-COMPLEX (5 types of Centella asiatica)",
+    "itens": [
+     "Centella asiatica Extract",
+     "Madecassic Acid",
+     "Madecassoside",
+     "Asiatic Acid",
+     "Asiaticoside"
+    ],
+    "dose": "não informado"
+   },
+   {
+    "nome": "16 Peptide",
+    "grupos": {
+     "SKIN REGENERATION": "sh-Oligopeptide-1: EGF, sh-Polpeptide-11: aFGF, sh-Polpeptide-1: bFGF, sh-Oligopeptide-2: IGF-1",
+     "SKIN VITALITY": "sh-Polpeptide-3: KGF-1, sh-Polypeptide-16: PGF, sh-Polypeptide-4: SCF, sh-Polypeptide-81: HSP70",
+     "SOOTHING SKIN": "sh-Polypeptide-8: PDGF-A, sh-Polypeptide-59: PDGF-B, sh-Polypeptide-9: VEGF, sh-Polypeptide-60: SOD-1",
+     "MOISTURE ON THE SKIN": "sh-Polypeptide-2: TRX, sh-Polypeptide-22: TGF-beta1, sh-Polypeptide-69: COL3A1, sh-Polypeptide-64: AQP"
+    },
+    "dose": "não informado"
+   },
+   {
+    "nome": "8-layer hyaluronic acid",
+    "dose": "não informado",
+    "alegacao": "Improves inner moisture, improves inner dryness"
+   },
+   {
+    "nome": "Ceramide NP",
+    "dose": "não informado",
+    "alegacao": "moisture balance control"
+   }
+  ],
+  "alegacoes": [
+   "Strong skin barrier with #16-peptide and panthenol",
+   "Barrier-strengthening solution for my skin that has lost its strength",
+   "Panthenol: Keep your skin's natural strength healthy. It turns into vitamin B, which helps skin regeneration, and directly supplies the moisture that the skin lacks. It also protects itchy and red skin from external stimulation, making the skin healthy.",
+   "Centella: Effective Soothing. Five centella asiatica-derived ingredients strengthen the skin barrier and promote oil-water balance, while also locking in moisture in the skin, helping to make the skin firmer.",
+   "Embalagem: 'REFRESHING & SOOTHING SHEET MASK / ONE STEP FOR MILD SKIN CALMING CARE'; '16-PEPTIDE / CALMING / PANTHENOL'",
+   "Lineup: 'For tired and weak skin #Strong barrier care'",
+   "Tighten your skin core with 16 types of peptides!",
+   "The 16 peptides signal the components in the skin to do their job.",
+   "04 Built up one by one — Perfectly locks moisture: Moisture lock that fills the skin with moisture from the inside to the surface",
+   "Hypoallergenic / for sensitive skin (Verification of TAFOMI)",
+   "Biodegradable, Nature-friendly Tencel sheet",
+   "* Limited to the properties of the raw materials (* 상기는 원료적 성분 특성에 한함)"
+  ],
+  "como_usar": {
+   "passos": [
+    "Condition skin with toner after cleansing the face.",
+    "Take the sheet mask out, spread it open, and apply on the face.",
+    "Remove the sheet mask after 10-20 minutes",
+    "and pat the remaining essence on the face to promote absorption."
+   ],
+   "tempo_no_rosto": "10-20 minutes"
+  },
+  "tipo_de_pele": "All skin type (tabela); 'For tired and weak skin' (lineup); 'suitable for use even on sensitive skin'",
+  "cuidados": [
+   "1. If you experience any of the following abnormalities during use of this product, discontinue use and consult a specialist.",
+   "2. Do not use the product on areas with cuts, eczema, or dermatitis.",
+   "3. Storing and Handling Precaution A) Keep out of reach of children. B) Avoid placing the product in high or low temperature and direct sunlight.",
+   "4. Avoid contact with eyes."
+  ],
+  "validade": "Shelf-life: 'Use immediately after opening' — prazo de validade fechado não informado",
+  "inci": "Water, Butylene Glycol, Glycerin, Panthenol, Ceramide NP, Centella Asiatica Extract, Zea Mays (Corn) Leaf Extract, Beta-Glucan, Portulaca Oleracea Extract, Chamomilla Recutita (Matricaria) Flower Extract, Betaine, Sodium Hyaluronate, Madecassoside, Madecassic Acid, Asiaticoside, Asiatic Acid, sh-Oligopeptide-1, sh-Polypeptide-11, sh-Polypeptide-1, sh-Oligopeptide-2, sh-Polypeptide-3, sh-Polypeptide-16, sh-Polypeptide-4, sh-Polypeptide-81, sh-Polypeptide-8, sh-Polypeptide-59, sh-Polypeptide-9, sh-Polypeptide-60, sh-Polypeptide-2, sh-Polypeptide-22, sh-Polypeptide-69, sh-Polypeptide-64, Dipropylene glycol, Hydroxyacetophenone, Caprylyl Glycol, Acrylates/C10-30 Alkyl Acrylate Crosspolymer, Tromethamine, Xanthan Gum, Allantoin, Disodium EDTA, 1,2-Hexanediol, Hydrogenated Lecithin, Caprylic/Capric Triglyceride, Diethoxyethyl Succinate, Tocopheryl Acetate, Polyquaternium-51, Phospholipids, Dipotassium Glycyrrhizate, PEG-32, PEG-60 Hydrogenated Castor Oil, Fragrance",
+  "testes": [
+   {
+    "teste": "Passed skin irritation test",
+    "resultado": "As a result of a human skin irritation test, it was judged to be hypoallergenic with a skin reaction of 0.00, suitable for use even on sensitive skin.",
+    "laboratorio": "SKINEMED Skin Research Center / Skin reaction standard",
+    "data": "Oct 19th - Oct 21th, 2021",
+    "amostra": "30 female and male adults aged 20-60"
+   },
+   {
+    "teste": "Passed Dermatest of Germany",
+    "resultado": "In the sensitive skin irritation test, it received the highest grade of “Excellent’ in a test using strict standards and verification procedures.",
+    "detalhe": "German Derma test / 24, 48 hours, after 72 hours of post-stimulation test",
+    "data": "August 2, 2022",
+    "amostra": "30 adult men and women with sensitive skin",
+    "selo": "dermatest ORIGINAL EXCELLENT 08 2022"
+   },
+   {
+    "teste": "Functional screening test",
+    "resultado": "None"
+   }
+  ],
+  "fabricante": {
+   "fabricante": "Oneskin cosmetic Co., Ltd.",
+   "distribuidor": "DY Global Koera Co., Ltd. (sic)",
+   "origem": "Republic of Korea",
+   "sac": "+82-70-8835-7294"
+  },
+  "fonte": "034_0ba9916ab6012.jpg (com tabela/INCI); 035_c444de34fe6d3.jpg (mesmo conteúdo, sem tabela)",
+  "imagens": {
+   "034_00": {
+    "nota": "Hero: logo tafomi, 'Strong skin barrier with #16-peptide and panthenol', 3 caixas pretas 'Calming Tam Sheet Mask' (30ml / 1.01 fl.oz, 1box in 10ea, with 16 peptide & Panthenol 20,000ppm) sobre fundo desfocado",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": true
+   },
+   "034_01": {
+    "nota": "Modelo asiática segurando máscara branca no rosto; 'Tighten your skin core with 16 types of peptides! Barrier-strengthening solution...'; 3 ícones Panthenol / Centella asiatica / 16 types of Peptide",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "034_02": {
+    "nota": "01 Panthenol 20,000ppm — texto + infográfico de camadas da pele (aging skin → healthy skin); início de 02",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "034_03": {
+    "nota": "02 CICA-COMPLEX (5 derivados de centella) + foto de folhas; início de 03 16 Peptide",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "034_04": {
+    "nota": "Diagrama 4 círculos dos 16 peptídeos (nota '* 상기는 원료적 성분 특성에 한함'); 04 'Perfectly locks moisture' com mão segurando sachê",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": true,
+    "is_clean_product_or_texture_shot": false
+   },
+   "034_05": {
+    "nota": "Sachês pretos empilhados (packshot); 8-layer hyaluronic acid e Ceramide NP; início de 05 Hypoallergenic",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": true
+   },
+   "034_06": {
+    "nota": "05 Verification of TAFOMI: selo '일차자극테스트완료' e selo dermatest EXCELLENT 2022 ('독일 민감성 더마 테스트 완료'); Eucalyptus/Tencel sheet com mão",
+    "has_third_party_brand": true,
+    "has_before_after": false,
+    "has_korean_text": true,
+    "is_clean_product_or_texture_shot": false,
+    "obs_terceiros": "selo Dermatest (laboratório alemão) — logo de terceiro"
+   },
+   "034_07": {
+    "nota": "Close de folha Tencel com essência (textura); How To Use; mão abrindo sachê",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": true
+   },
+   "034_08": {
+    "nota": "Mão segurando sachê na parede; lineup '16-peptide TAFOMI Tam Sheet Mask' (Calming destacado, Hyaluron, Vita)",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": true
+   },
+   "034_09": {
+    "nota": "Lineup Hyaluron/Vita/Cica/Tea Tree; tabela de informações do produto (Product name, Volume 30ml, Skin type, Shelf-life, Manufacturer...) e início do INCI",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "034_10": {
+    "nota": "Final do INCI (texto)",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "035_00..035_09": {
+    "nota": "Arquivo 035 = mesma página que 034 (slices 00-09 visualmente idênticos), porém SEM a tabela de informações/INCI no final; termina no lineup das 5 variantes. Mesmos flags que 034 (selo dermatest e textos coreanos em 035_04/035_06)",
+    "has_third_party_brand": true,
+    "has_before_after": false,
+    "has_korean_text": true,
+    "is_clean_product_or_texture_shot": false
+   },
+   "023": {
+    "nota": "foto de cliente (UGC) — caixa preta + sachê sobre cobertor",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "024": {
+    "nota": "screenshot de review de cliente (UI de plataforma coreana não identificada, sem logo; estrelas, data, nick mascarado, '신고') 5★ hpho**** 22.03.21 — elogia efeito calmante, essência abundante, pouco pegajoso, preço bom",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": true,
+    "is_clean_product_or_texture_shot": false
+   },
+   "025": {
+    "nota": "foto de cliente (UGC) — caixa + 3 sachês sobre móvel",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "026": {
+    "nota": "screenshot de review de cliente (UI de plataforma coreana não identificada, sem logo; estrelas, data, nick mascarado, '신고') 5★ jjjs**** 22.03.22 — hidratação, maquiagem assenta bem",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": true,
+    "is_clean_product_or_texture_shot": false
+   },
+   "027": {
+    "nota": "foto de cliente (UGC) — selfie de cliente com máscara aplicada (rosto)",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "028": {
+    "nota": "screenshot de review de cliente (UI de plataforma coreana não identificada, sem logo; estrelas, data, nick mascarado, '신고') 5★ ej**** 22.03.21 — acalmou trouble, ampola em excesso usada no corpo",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": true,
+    "is_clean_product_or_texture_shot": false
+   },
+   "029": {
+    "nota": "foto de cliente (UGC) — selfie com máscara aplicada",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "030": {
+    "nota": "screenshot de review de cliente (UI de plataforma coreana não identificada, sem logo; estrelas, data, nick mascarado, '신고') 5★ smil*** 22.03.23 — leve, não escorre",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": true,
+    "is_clean_product_or_texture_shot": false
+   },
+   "031": {
+    "nota": "foto de cliente (UGC) — close de rosto com máscara aplicada (pele molhada)",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "032": {
+    "nota": "screenshot de review de cliente (UI de plataforma coreana não identificada, sem logo; estrelas, data, nick mascarado, '신고') 5★ tpgu**** 22.03.22 — folha continua úmida após 20 min, essência sobra",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": true,
+    "is_clean_product_or_texture_shot": false
+   }
+  },
+  "observacoes_gerais": [
+   "Nenhuma imagem de antes/depois encontrada.",
+   "Nenhum logo hwahae/Olive Young/Amazon/prêmio/revista; único selo de terceiro = Dermatest (Alemanha).",
+   "Small PNGs: metade são fotos de clientes (UGC), metade screenshots de reviews coreanos (2022-2023) — não são fotos limpas de estúdio.",
+   "Texto da página em inglês; coreano só nos selos e na nota '* 상기는 원료적 성분 특성에 한함'.",
+   "'Distributor: DY Global Koera' está escrito assim (typo) na imagem."
+  ]
+ },
+ {
+  "nome": "TAFOMI Hyaluron Tam Sheet Mask",
+  "ml_por_folha": "30ml (tabela 'Volume 30ml'; caixa '30ml / 1.01 fl.oz')",
+  "folhas_por_caixa": "10 ('1box in 10ea' na caixa)",
+  "tipo_de_folha": {
+   "material": "Tencel (eucalipto) — 'Eucalyptus sheet / Biodegradable, Nature-friendly Tencel sheet'",
+   "texto": "It is an eco-friendly method using eucalyptus wood as a basic raw material, and is a soft Tensel skin material similar to silk. It is not burdensome even if it touches the skin every day and has a high moisture absorption rate, providing excellent adhesion."
+  },
+  "ingredientes_chave": [
+   {
+    "nome": "8-layer hyaluronic acid (embalagem: 'Hyaldeca complex')",
+    "dose": "não informado",
+    "camadas": {
+     "01 Polymer — Attracts moisture and forms a protective film on the skin surfa[ce]": [
+      "Hyaluronic Acid",
+      "Hydrolyzed Hyaluronic Acid"
+     ],
+     "02 Medium molecule — Increased moisture retention in the skin": [
+      "Potassium Hyaluronate",
+      "Sodium Acetylated Hyaluronate",
+      "Hydroxypropyltrimonium Hyaluronate",
+      "3 Type Sodium Hyaluronate"
+     ],
+     "03 Low molecule — Microscopic size directly supplies moisture": [
+      "Sodium Hyaluronate Crosspolymer",
+      "Hydrolyzed Sodium Hyaluronate"
+     ]
+    }
+   },
+   {
+    "nome": "Trehalose",
+    "dose": "não informado"
+   },
+   {
+    "nome": "16 Peptide",
+    "grupos": {
+     "SKIN REGENERATION": "sh-Oligopeptide-1: EGF, sh-Polpeptide-11: aFGF, sh-Polpeptide-1: bFGF, sh-Oligopeptide-2: IGF-1",
+     "SKIN VITALITY": "sh-Polpeptide-3: KGF-1, sh-Polypeptide-16: PGF, sh-Polypeptide-4: SCF, sh-Polypeptide-81: HSP70",
+     "SOOTHING SKIN": "sh-Polypeptide-8: PDGF-A, sh-Polypeptide-59: PDGF-B, sh-Polypeptide-9: VEGF, sh-Polypeptide-60: SOD-1",
+     "MOISTURE ON THE SKIN": "sh-Polypeptide-2: TRX, sh-Polypeptide-22: TGF-beta1, sh-Polypeptide-69: COL3A1, sh-Polypeptide-64: AQP"
+    },
+    "dose": "não informado"
+   },
+   {
+    "nome": "Portulaca Oleracea Extract",
+    "dose": "não informado",
+    "alegacao": "Moisture retention, Antioxidant effect"
+   },
+   {
+    "nome": "Ceramide NP",
+    "dose": "não informado",
+    "alegacao": "Moisture balance control"
+   }
+  ],
+  "alegacoes": [
+   "Moisture elasticity with #16-peptide and 8-layer hyaluronic acid",
+   "Moisture replenishment solution for dry and dull skin",
+   "8-layer Hyaluronic acid: Moisturized from the inside to the outside!",
+   "Trehalose prevents moisture evaporation. Trehalose, which has the powerful moisture vitality of cactus, absorbs moisture to improve dryness, is effective in increasing skin elasticity with its high moisturizing ability, and helps prevent skin damage caused by external stimulation.",
+   "TREHALOSE: Powerful water lock on a cactus",
+   "Embalagem: 'DEEP MOISTURE & HYDRATING SHEET MASK / ONE STEP FOR MILD SKIN HYALURON CARE'; '16-PEPTIDE / MOISTURE / HYALDECA COMPLEX'",
+   "Lineup: 'For dry and dull skin #Moist moisture care'",
+   "Tighten your skin core with 16 types of peptides!",
+   "The 16 peptides signal the components in the skin to do their job.",
+   "04 Built up one by one — Perfectly locks moisture: Moisture lock that fills the skin with moisture from the inside to the surface",
+   "Hypoallergenic / for sensitive skin (Verification of TAFOMI)",
+   "Biodegradable, Nature-friendly Tencel sheet",
+   "* Limited to the properties of the raw materials (* 상기는 원료적 성분 특성에 한함)"
+  ],
+  "como_usar": {
+   "passos": [
+    "Condition skin with toner after cleansing the face.",
+    "Take the sheet mask out, spread it open, and apply on the face.",
+    "Remove the sheet mask after 10-20 minutes",
+    "and pat the remaining essence on the face to promote absorption."
+   ],
+   "tempo_no_rosto": "10-20 minutes"
+  },
+  "tipo_de_pele": "All skin type (tabela); 'For dry and dull skin' (lineup); 'suitable for use even on sensitive skin'",
+  "cuidados": [
+   "1. If you experience any of the following abnormalities during use of this product, discontinue use and consult a specialist.",
+   "2. Do not use the product on areas with cuts, eczema, or dermatitis.",
+   "3. Storing and Handling Precaution A) Keep out of reach of children. B) Avoid placing the product in high or low temperature and direct sunlight.",
+   "4. Avoid contact with eyes."
+  ],
+  "validade": "Shelf-life: 'Use immediately after opening' — prazo de validade fechado não informado",
+  "inci": "Water, Butylene Glycol, Glycerin, Trehalose, Betaine, Portulaca Oleracea Extract, Panthenol, Chamomilla Recutita (Matricaria) Flower Extract, Sodium Hyaluronate, Hamamelis Virginiana (Witch Hazel) Leaf Extract, Beta-Glucan, Dipotassium Glycyrrhizate, Ceramide NP, Hydroxypropyltrimonium Hyaluronate, Hydrolyzed Hyaluronic Acid, Sodium Acetylated Hyaluronate, Hyaluronic Acid, Sodium Hyaluronate Crosspolymer, Hydrolyzed Sodium Hyaluronate, Potassium Hyaluronate, 1,2-Hexanediol, sh-Oligopeptide-1, sh-Polypeptide-11, sh-Polypeptide-1, sh-Oligopeptide-2, sh-Polypeptide-3, sh-Polypeptide-16, sh-Polypeptide-4, sh-Polypeptide-81, sh-Polypeptide-8, sh-Polypeptide-59, sh-Polypeptide-9, sh-Polypeptide-60, sh-Polypeptide-2, sh-Polypeptide-22, sh-Polypeptide-69, sh-Polypeptide-64, Dipropylene glycol, Hydroxyacetophenone, Caprylyl Glycol, Acrylates/C10-30 Alkyl Acrylate Crosspolymer, Tromethamine, Xanthan Gum, Allantoin, Hydrogenated Lecithin, Caprylic/Capric Triglyceride, Diethoxyethyl Succinate, Disodium EDTA, Polyquaternium-51, Phospholipids, Tocopheryl Acetate, PEG-60 Hydrogenated Castor Oil, PEG-32, Fragrance",
+  "testes": [
+   {
+    "teste": "Passed skin irritation test",
+    "resultado": "As a result of a human skin irritation test, it was judged to be hypoallergenic with a skin reaction of 0.00, suitable for use even on sensitive skin.",
+    "laboratorio": "SKINEMED Skin Research Center / Skin reaction standard",
+    "data": "Oct 19th - Oct 21th, 2021",
+    "amostra": "30 female and male adults aged 20-60"
+   },
+   {
+    "teste": "Passed Dermatest of Germany",
+    "resultado": "In the sensitive skin irritation test, it received the highest grade of “Excellent’ in a test using strict standards and verification procedures.",
+    "detalhe": "German Derma test / 24, 48 hours, after 72 hours of post-stimulation test",
+    "data": "August 2, 2022",
+    "amostra": "30 adult men and women with sensitive skin",
+    "selo": "dermatest ORIGINAL EXCELLENT 08 2022"
+   },
+   {
+    "teste": "Functional screening test",
+    "resultado": "None"
+   }
+  ],
+  "fabricante": {
+   "fabricante": "Oneskin cosmetic Co., Ltd.",
+   "distribuidor": "DY Global Koera Co., Ltd. (sic)",
+   "origem": "Republic of Korea",
+   "sac": "+82-70-8835-7294"
+  },
+  "fonte": "049_8d49bd932d9ac.jpg (com tabela/INCI); 050_4a80408b82f30.jpg (mesmo conteúdo, sem tabela)",
+  "imagens": {
+   "049_00": {
+    "nota": "Hero: 'Moisture elasticity with #16-peptide and 8-layer hyaluronic acid'; caixa branca (with 16 peptide & Hyaldeca complex) + sachê",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": true
+   },
+   "049_01": {
+    "nota": "Modelo com máscara; 'Moisture replenishment solution for dry and dull skin'; ícones 8-layer Hyaluronic acid / TREHALOSE / 16 types of Peptide",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "049_02": {
+    "nota": "01 8-layer hyaluronic acid: Polymer / Medium molecule / Low molecule com nomes dos HA",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "049_03": {
+    "nota": "02 TREHALOSE com foto de cacto; início de 03 16 Peptide",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "049_04": {
+    "nota": "Diagrama dos 16 peptídeos; 04 Perfectly locks moisture (caixas ao fundo)",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "049_05": {
+    "nota": "Caixas brancas (packshot, '30ml / 1.01 fl.oz', '1box in 10ea'); Portulaca Oleracea Extract e Ceramide NP",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": true
+   },
+   "049_06": {
+    "nota": "05 Verification of TAFOMI (selos irritação + dermatest 08/2022, textos coreanos nos selos); Eucalyptus/Tencel sheet",
+    "has_third_party_brand": true,
+    "has_before_after": false,
+    "has_korean_text": true,
+    "is_clean_product_or_texture_shot": false,
+    "obs_terceiros": "selo Dermatest"
+   },
+   "049_07": {
+    "nota": "Textura da folha com essência; How To Use; mão abrindo sachê branco",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": true
+   },
+   "049_08": {
+    "nota": "Mão segurando sachê; lineup (Hyaluron destacado)",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": true
+   },
+   "049_09": {
+    "nota": "Lineup Calming/Vita/Cica/Tea Tree; tabela de informações + início INCI",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "049_10": {
+    "nota": "Final do INCI (texto)",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "050_00..050_09": {
+    "nota": "Arquivo 050 = mesma página que 049 (visualmente idêntica), SEM tabela/INCI final",
+    "has_third_party_brand": true,
+    "has_before_after": false,
+    "has_korean_text": true,
+    "is_clean_product_or_texture_shot": false
+   },
+   "038": {
+    "nota": "foto de cliente (UGC) — 5 sachês brancos sobre bancada",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "039": {
+    "nota": "screenshot de review de cliente (UI de plataforma coreana não identificada, sem logo; estrelas, data, nick mascarado, '신고') 5★ bbob******* 22.03.22 — pele áspera, maquiagem assenta",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": true,
+    "is_clean_product_or_texture_shot": false
+   },
+   "040": {
+    "nota": "foto de cliente (UGC) — mão segurando caixa branca",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "041": {
+    "nota": "screenshot de review de cliente (UI de plataforma coreana não identificada, sem logo; estrelas, data, nick mascarado, '신고') 5★ imhu***** 22.03.21 — muita essência, não pegajoso",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": true,
+    "is_clean_product_or_texture_shot": false
+   },
+   "042": {
+    "nota": "foto de cliente (UGC) — mão segurando sachê",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "043": {
+    "nota": "screenshot de review de cliente (UI de plataforma coreana não identificada, sem logo; estrelas, data, nick mascarado, '신고') 5★ pyj1**** 22.03.28 — acalmou trouble no nariz, sem irritação",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": true,
+    "is_clean_product_or_texture_shot": false
+   },
+   "044": {
+    "nota": "foto de cliente (UGC) — sachê sobre caixa",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "045": {
+    "nota": "screenshot de review de cliente (UI de plataforma coreana não identificada, sem logo; estrelas, data, nick mascarado, '신고') 5★ zuzu**** 22.03.22 — pele muito seca, hidratou",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": true,
+    "is_clean_product_or_texture_shot": false
+   },
+   "046": {
+    "nota": "foto de cliente (UGC) — folha aberta na mão com essência, caixa ao fundo (texto coreano na lateral da caixa visível)",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": true,
+    "is_clean_product_or_texture_shot": false
+   },
+   "047": {
+    "nota": "screenshot de review de cliente (UI de plataforma coreana não identificada, sem logo; estrelas, data, nick mascarado, '신고') 4★ pooh******** 22.03.26 — muita essência",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": true,
+    "is_clean_product_or_texture_shot": false
+   }
+  },
+  "observacoes_gerais": [
+   "Nenhuma imagem de antes/depois encontrada.",
+   "Nenhum logo hwahae/Olive Young/Amazon/prêmio/revista; único selo de terceiro = Dermatest (Alemanha).",
+   "Small PNGs: metade são fotos de clientes (UGC), metade screenshots de reviews coreanos (2022-2023) — não são fotos limpas de estúdio.",
+   "Texto da página em inglês; coreano só nos selos e na nota '* 상기는 원료적 성분 특성에 한함'.",
+   "'Distributor: DY Global Koera' está escrito assim (typo) na imagem."
+  ]
+ },
+ {
+  "nome": "TAFOMI Vita Tam Sheet Mask",
+  "ml_por_folha": "27ml (tabela 'Volume 27ml'; caixa '27ml / 0.91 fl.oz.')",
+  "folhas_por_caixa": "10 ('10 Masks' na caixa)",
+  "tipo_de_folha": {
+   "material": "Tencel (eucalipto) — 'Eucalyptus sheet / Biodegradable, Nature-friendly Tencel sheet'",
+   "texto": "It is an eco-friendly method using eucalyptus wood as a basic raw material, and is a soft Tensel skin material similar to silk. It is not burdensome even if it touches the skin every day and has a high moisture absorption rate, providing excellent adhesion."
+  },
+  "ingredientes_chave": [
+   {
+    "nome": "Niacinamide",
+    "dose": "20,000ppm (página); INCI: 'Niacinamide(20001ppm)'"
+   },
+   {
+    "nome": "13 types of Vitamin Complex",
+    "itens": {
+     "Vitamin A": "Beta-Carotene",
+     "Vitamin B": "B1. Thiamine HCL, B2. Riboflavin, B3. Niacinamide, B5. Panthenol, B6. Pyridoxine, B7. Biotin, B12. Cyanocobalamin, B Complex. Folic Acid",
+     "Vitamin C": "C derivative. Sodium ascorbyl phosphate",
+     "Vitamin E": "E. Tocopherol, E. Tocopheryl Acetate",
+     "Vitamin F": "F. Linoleic Acid"
+    },
+    "doses_INCI": "Panthenol(1010ppm), Tocopheryl Acetate(100ppm), Sodium Ascorbyl Phosphate(5ppm), Biotin(0.1ppm), Pyridoxine(0.1ppm), Folic Acid(0.1ppm), Cyanocobalamin(0.01ppm), Tocopherol(0.01ppm), Thiamine HCl(0.001ppm), Beta-Carotene(0.001ppm), Linoleic Acid(0.001ppm), Riboflavin(0.001ppm)"
+   },
+   {
+    "nome": "16 Peptide",
+    "grupos": {
+     "SKIN REGENERATION": "sh-Oligopeptide-1: EGF, sh-Polpeptide-11: aFGF, sh-Polpeptide-1: bFGF, sh-Oligopeptide-2: IGF-1",
+     "SKIN VITALITY": "sh-Polpeptide-3: KGF-1, sh-Polypeptide-16: PGF, sh-Polypeptide-4: SCF, sh-Polypeptide-81: HSP70",
+     "SOOTHING SKIN": "sh-Polypeptide-8: PDGF-A, sh-Polypeptide-59: PDGF-B, sh-Polypeptide-9: VEGF, sh-Polypeptide-60: SOD-1",
+     "MOISTURE ON THE SKIN": "sh-Polypeptide-2: TRX, sh-Polypeptide-22: TGF-beta1, sh-Polypeptide-69: COL3A1, sh-Polypeptide-64: AQP"
+    },
+    "dose": "não informado"
+   },
+   {
+    "nome": "Ceramide NP",
+    "alegacao": "Moisture balance control"
+   },
+   {
+    "nome": "Portulaca Oleracea Extract",
+    "alegacao": "Moisture retention, Antioxidant effect"
+   },
+   {
+    "nome": "Matricaria flower extract",
+    "alegacao": "Moisture evaporation block, forming a protective film"
+   },
+   {
+    "nome": "Beta-glucan",
+    "alegacao": "Protects skin barrier, recharges moisture"
+   },
+   {
+    "nome": "Betaine",
+    "alegacao": "Skin protection, moisturizing"
+   }
+  ],
+  "alegacoes": [
+   "Glow whitening with #16 peptides and 13 vitamins",
+   "A radiant whitening solution for my dull and dull skin",
+   "Niacinamide: Brighter and brighter. With its excellent whitening effect, it blocks pigmentation, brightens skin tone, suppresses the occurrence of skin troubles, tightens pores, and helps smooth skin texture.",
+   "Infográfico: Formation of melanin pigment due to ultraviolet rays → Application of niacinamide ingredient → Decomposition of melanin and blocking its movement path",
+   "13 types of vitamin complex adds vitality and vitality to dull and dark skin, making it shiny and bright.",
+   "Embalagem: 'DEEP MOISTURE & BRIGHTENING SHEET MASK / ONE STEP FOR MILD SKIN WHITENING CARE'; 'NIACINAMIDE / 16-PEPTIDE / BRIGHTENING'",
+   "Lineup: 'For dull and lifeless skin #Clear vitality care'",
+   "Functional screening test (Coreia): Skin-Lightening cosmetics",
+   "Tighten your skin core with 16 types of peptides!",
+   "The 16 peptides signal the components in the skin to do their job.",
+   "04 Built up one by one — Perfectly locks moisture: Moisture lock that fills the skin with moisture from the inside to the surface",
+   "Hypoallergenic / for sensitive skin (Verification of TAFOMI)",
+   "Biodegradable, Nature-friendly Tencel sheet",
+   "* Limited to the properties of the raw materials (* 상기는 원료적 성분 특성에 한함)"
+  ],
+  "como_usar": {
+   "passos": [
+    "Condition skin with toner after cleansing the face.",
+    "Take the sheet mask out, spread it open, and apply on the face.",
+    "Remove the sheet mask after 10-20 minutes",
+    "and pat the remaining essence on the face to promote absorption."
+   ],
+   "tempo_no_rosto": "10-20 minutes"
+  },
+  "tipo_de_pele": "All skin type (tabela); 'For dull and lifeless skin' (lineup); 'suitable for use even on sensitive skin'",
+  "cuidados": [
+   "1. If you experience any of the following abnormalities during use of this product, discontinue use and consult a specialist.",
+   "2. Do not use the product on areas with cuts, eczema, or dermatitis.",
+   "3. Storing and Handling Precaution A) Keep out of reach of children. B) Avoid placing the product in high or low temperature and direct sunlight.",
+   "4. Avoid contact with eyes."
+  ],
+  "validade": "Shelf-life: 'Use immediately after opening' — prazo de validade fechado não informado",
+  "inci": "Water, Butylene Glycol, Glycerin, Niacinamide(20001ppm), Chamomilla Recutita (Matricaria) Flower Extract, Ceramide NP, Beta-Glucan, Betaine, Portulaca Oleracea Extract, 1,2-Hexanediol, Tromethamine, Allantoin, PEG-60 Hydrogenated Castor Oil, Hydrogenated Lecithin, Disodium EDTA, Caprylic/Capric Triglyceride, Diethoxyethyl Succinate, Acrylates/C10-30 Alkyl Acrylate Crosspolymer, Dipropylene glycol, Hydroxyacetophenone, PEG-32, Caprylyl Glycol, Xanthan Gum, Polyquaternium-51, Phospholipids, Sodium Hyaluronate, Polyglyceryl-10 Stearate, Panthenol(1010ppm), Dipotassium Glycyrrhizate, Tocopheryl Acetate(100ppm), Sodium Ascorbyl Phosphate(5ppm), Biotin(0.1ppm), Pyridoxine(0.1ppm), Folic Acid(0.1ppm), Cyanocobalamin(0.01ppm), Tocopherol(0.01ppm), Thiamine HCl(0.001ppm), Beta-Carotene(0.001ppm), Linoleic Acid(0.001ppm), Riboflavin(0.001ppm), sh-Oligopeptide-1, sh-Polypeptide-11, sh-Polypeptide-1, sh-Oligopeptide-2, sh-Polypeptide-3, sh-Polypeptide-16, sh-Polypeptide-4, sh-Polypeptide-81, sh-Polypeptide-8, sh-Polypeptide-59, sh-Polypeptide-9, sh-Polypeptide-60, sh-Polypeptide-2, sh-Polypeptide-22, sh-Polypeptide-69, sh-Polypeptide-64, Fragrance",
+  "testes": [
+   {
+    "teste": "Passed skin irritation test",
+    "resultado": "As a result of a human skin irritation test, it was judged to be hypoallergenic with a skin reaction of 0.00, suitable for use even on sensitive skin.",
+    "laboratorio": "P&K Skin Research Center / Skin reaction standard",
+    "data": "Nov. 2nd – Nov 4th, 2022",
+    "amostra": "30 female and male adults aged 20-55"
+   },
+   {
+    "teste": "Passed Dermatest of Germany",
+    "resultado": "In the sensitive skin irritation test, it received the highest grade of “Excellent’ in a test using strict standards and verification procedures.",
+    "detalhe": "German Derma test / 24, 48 hours, after 72 hours of post-stimulation test",
+    "data": "December 06, 2022",
+    "amostra": "30 adult men and women with sensitive skin",
+    "selo": "dermatest ORIGINAL EXCELLENT 12 2022"
+   },
+   {
+    "teste": "Functional screening test",
+    "resultado": "Skin-Lightening cosmetics"
+   }
+  ],
+  "fabricante": {
+   "fabricante": "Oneskin cosmetic Co., Ltd.",
+   "distribuidor": "DY Global Koera Co., Ltd. (sic)",
+   "origem": "Republic of Korea",
+   "sac": "+82-70-8835-7294"
+  },
+  "fonte": "062_d023f08e0bd6a.jpg (com tabela/INCI); 063_18e14f6452d31.jpg (mesmo conteúdo, sem tabela)",
+  "imagens": {
+   "062_00": {
+    "nota": "Hero: 'Glow whitening with #16 peptides and 13 vitamins'; caixa amarela (with Niacinamide & 16 peptide, 27ml / 0.91 fl.oz., 10 Masks) + limões",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": true
+   },
+   "062_01": {
+    "nota": "Modelo com máscara; 'A radiant whitening solution for my dull and dull skin'; ícones Niacinamide / Vitamin Complex (13 Vitamin Complexes) / 16 types of Peptide",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "062_02": {
+    "nota": "01 Niacinamide 20,000ppm + infográfico melanina; início 02 13 types of Vitamin Complex",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "062_03": {
+    "nota": "Tabela VITAMIN COMPLEX (A, B1-B12, C, E, F); início 03 16 Peptide",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "062_04": {
+    "nota": "Diagrama 16 peptídeos; 04 Perfectly locks moisture com limão e caixa",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "062_05": {
+    "nota": "Caixa amarela com limões (packshot); Ceramide NP, Portulaca, Matricaria, Beta-glucan",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": true
+   },
+   "062_06": {
+    "nota": "Betaine; 05 Verification of TAFOMI (P&K, dermatest 12/2022; textos coreanos nos selos)",
+    "has_third_party_brand": true,
+    "has_before_after": false,
+    "has_korean_text": true,
+    "is_clean_product_or_texture_shot": false,
+    "obs_terceiros": "selo Dermatest"
+   },
+   "062_07": {
+    "nota": "Eucalyptus/Tencel sheet, textura da folha com essência; título How To Use",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": true
+   },
+   "062_08": {
+    "nota": "Texto How To Use; mãos abrindo sachê amarelo; início lineup",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": true
+   },
+   "062_09": {
+    "nota": "Lineup (Vita destacado, Calming, Hyaluron, Cica, Tea Tree); início da tabela",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "062_10": {
+    "nota": "Tabela de informações (Volume 27ml, Functional screening test: Skin-Lightening cosmetics) + INCI completo com ppm",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "063_00..063_09": {
+    "nota": "Arquivo 063 = mesma página que 062 (visualmente idêntica), SEM tabela/INCI final",
+    "has_third_party_brand": true,
+    "has_before_after": false,
+    "has_korean_text": true,
+    "is_clean_product_or_texture_shot": false
+   },
+   "053": {
+    "nota": "foto de cliente (UGC) — caixas amarelas dentro de caixa de papelão",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "054": {
+    "nota": "screenshot de review de cliente (UI de plataforma coreana não identificada, sem logo; estrelas, data, nick mascarado, '신고') 5★ love**** 22.12.09 — 'bom' repetido",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": true,
+    "is_clean_product_or_texture_shot": false
+   },
+   "055": {
+    "nota": "foto de cliente (UGC) — mão segurando sachê amarelo",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "056": {
+    "nota": "screenshot de review de cliente (UI de plataforma coreana não identificada, sem logo; estrelas, data, nick mascarado, '신고') 5★ dksg******** 23.02.05 — uso diário (1일1팩)",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": true,
+    "is_clean_product_or_texture_shot": false
+   },
+   "057": {
+    "nota": "foto de cliente (UGC) — mão segurando caixa (27ml / 0.91 fl.oz, 10 Masks visível)",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "058": {
+    "nota": "screenshot de review de cliente (UI de plataforma coreana não identificada, sem logo; estrelas, data, nick mascarado, '신고') 4★ rlat***** 23.03.19 — tag '한달사용기' (uso de 1 mês); bom custo",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": true,
+    "is_clean_product_or_texture_shot": false
+   },
+   "059": {
+    "nota": "foto de cliente (UGC) — caixa amarela em pé",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": false,
+    "is_clean_product_or_texture_shot": false
+   },
+   "060": {
+    "nota": "screenshot de review de cliente (UI de plataforma coreana não identificada, sem logo; estrelas, data, nick mascarado, '신고') 5★ danb****** 23.02.11 — muita essência, folha fina, boa aderência, aroma suave",
+    "has_third_party_brand": false,
+    "has_before_after": false,
+    "has_korean_text": true,
+    "is_clean_product_or_texture_shot": false
+   }
+  },
+  "observacoes_gerais": [
+   "Nenhuma imagem de antes/depois encontrada.",
+   "Nenhum logo hwahae/Olive Young/Amazon/prêmio/revista; único selo de terceiro = Dermatest (Alemanha).",
+   "Small PNGs: metade são fotos de clientes (UGC), metade screenshots de reviews coreanos (2022-2023) — não são fotos limpas de estúdio.",
+   "Texto da página em inglês; coreano só nos selos e na nota '* 상기는 원료적 성분 특성에 한함'.",
+   "'Distributor: DY Global Koera' está escrito assim (typo) na imagem."
+  ]
+ }
+]
