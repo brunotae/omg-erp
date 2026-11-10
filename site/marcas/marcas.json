@@ -556,5 +556,14 @@
   "lote1": 0,
   "tile": "padrao",
   "cena": "decorativa"
+ },
+ {
+  "marca": "TAFOMI",
+  "slug": "tafomi",
+  "tipo": "logo",
+  "produtos": 9,
+  "lote1": 0,
+  "tile": "padrao",
+  "cena": "foto"
  }
 ]

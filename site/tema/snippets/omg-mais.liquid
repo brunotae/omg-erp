@@ -175,7 +175,7 @@
 
   /* Marca pequena à direita, na altura do preço */
   {% assign omg_mh = product.vendor | handleize %}{% assign omg_mc = collections[omg_mh] %}
-  const MARCA_LOGO = {% assign omg_logos = ',abib,aestura,another-face,anua,arencia,banila-co,beauty-of-joseon,beplain,biodance,celimax,cell-fusion-c,coeval,centellian-24,clio,cosrx,dasique,dr-forhair,dr-melaxin,dr-reju-all,eqqualberry,freshian,fwee,gongskin,hince,kaine,lador,manyo,medicube,mediheal,mise-en-scene,mixsoon,numbuzin,ongredients,purcell,purito-seoul,rejuran,round-lab,skin1004,some-by-mi,sonatural,the-kyeok,tirtir,torriden,vt-cosmetics,' %}{% assign omg_busca = ',' | append: omg_mh | append: ',' %}{% if omg_logos contains omg_busca %}{{ 'omg-logo-' | append: omg_mh | append: '.png' | asset_url | json }}{% else %}null{% endif %};
+  const MARCA_LOGO = {% assign omg_logos = ',abib,aestura,another-face,anua,arencia,banila-co,beauty-of-joseon,beplain,biodance,celimax,cell-fusion-c,coeval,centellian-24,clio,cosrx,dasique,dr-forhair,dr-melaxin,dr-reju-all,eqqualberry,freshian,fwee,gongskin,hince,kaine,lador,manyo,medicube,mediheal,mise-en-scene,mixsoon,numbuzin,ongredients,purcell,purito-seoul,rejuran,round-lab,skin1004,some-by-mi,sonatural,tafomi,the-kyeok,tirtir,torriden,vt-cosmetics,' %}{% assign omg_busca = ',' | append: omg_mh | append: ',' %}{% if omg_logos contains omg_busca %}{{ 'omg-logo-' | append: omg_mh | append: '.png' | asset_url | json }}{% else %}null{% endif %};
   const MARCA_URL = {% assign omg_qtd = omg_mc.products_count | plus: 0 %}{% if omg_mc.url != blank and omg_qtd > 0 %}{{ omg_mc.url | json }}{% else %}{{ product.vendor | url_for_vendor | json }}{% endif %};
   function marca() {
     if (!ATUAL.m) return;
