@@ -9,7 +9,7 @@
 //   POST { manual: "separando", previa?: true, ids?: [...] } → "Estamos separando": vendas do site, não canceladas,
 //        ainda sem "embalado" e que não receberam este aviso. previa: só lista quem receberia, não manda.
 //   POST { teste: "separando"|"preparado"|"liberado" } → manda um exemplo para o e-mail de quem clicou
-// Config: config.avisos = { ativo: true|false, de: "OMG! oh my girl <pedidos@...>", responder: "...", whatsapp: "..." }
+// Config: config.avisos = { ativo: true|false, de: "OMG! oh my girl <pedidos@...>", responder: "...", whatsapp: "...", copia: "e-mail em cópia oculta" }
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
@@ -64,6 +64,7 @@ async function mandar(para: string, t: { assunto: string; html: string; txt: str
   if (!RESEND) throw new Error("sem RESEND_API_KEY");
   const body: any = { from: cfg.de || "OMG! oh my girl <pedidos@mintess.com>", to: [para], subject: t.assunto, html: t.html, text: t.txt };
   if (cfg.responder) body.reply_to = cfg.responder;
+  if (cfg.copia) body.bcc = (Array.isArray(cfg.copia) ? cfg.copia : [cfg.copia]).map(String); // cópia oculta (config.avisos.copia)
   const r = await fetch("https://api.resend.com/emails", { method: "POST", headers: { authorization: "Bearer " + RESEND, "content-type": "application/json" }, body: JSON.stringify(body) });
   const j = await r.json().catch(() => ({}));
   if (!r.ok) throw new Error("Resend " + r.status + ": " + JSON.stringify(j).slice(0, 200));
@@ -164,7 +165,7 @@ Deno.serve(async (req) => {
         const para = emailDe(v.contato);
         const base = { venda: v.id, numero: v.numero, tipo, canal: "email", para };
         if (T.depois.some((k) => e[k])) { await admin.from("avisos_cliente").insert({ ...base, status: "pulado", info: "o pedido já passou desta etapa" }); resultados.push({ numero: v.numero, tipo, status: "pulado" }); continue; }
-        if (!para) { if (semEmail.has(v.id + "|" + tipo)) continue; await admin.from("avisos_cliente").insert({ ...base, status: "erro", info: "venda sem e-mail" }); resultados.push({ numero: v.numero, tipo, status: "erro", info: "sem e-mail" }); continue; }
+        if (!para) { if (semEmail.has(v.id + "|" + tipo)) continue; await admin.from("avisos_cliente").insert({ ...base, status: "erro", info: "venda sem e-mail" }); resultados.push({ numero: v.numero, tipo, status: "erro", info: "venda sem e-mail" }); continue; }
         await enviarUm(v, tipo, cfg, resultados);
       }
     }
