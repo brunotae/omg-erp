@@ -30,12 +30,14 @@ for c in cate_ids:
         try: t = get(f"{BASE}/product/list.html?cate_no={c}&page={pg}")
         except Exception as e: log[f"lista_{c}_{pg}"] = str(e)[:120]; break
         if pg == 1: cats[c] = txt((re.findall(r"<title>(.*?)</title>", t, re.S) or [""])[0])
-        achou = re.findall(r"product_no=(\d+)", t)
+        if pg == 1 and c == "81": open(OUT + "/html/lista81.html", "w").write(t)
+        achou = re.findall(r"product_no=(\d+)", t) + re.findall(r"/product/[^\"'\s]*?/(\d+)/category/", t)
         novos = [x for x in achou if x not in nos]
         for x in achou: nos.setdefault(x, set()).add(c)
         if not novos and pg > 1: break
         if not achou: break
         time.sleep(1)
+for x in re.findall(r"product_no=(\d+)", home) + re.findall(r"/product/[^\"'\s]*?/(\d+)/category/", home): nos.setdefault(x, set()).add("home")
 log["categorias"] = cats; log["produtos"] = len(nos)
 
 # 2) cada produto
@@ -51,7 +53,7 @@ for no in sorted(nos, key=int):
     d["descricao_curta"] = txt((re.findall(r'<meta property="og:description" content="([^"]*)"', t) or [""])[0])
     # preço: variáveis JS do Cafe24
     for k in ["product_price", "product_sale_price", "product_price_content", "option_type", "item_listing_type", "is_soldout_icon", "product_name"]:
-        m = re.search(r"\bvar\s+" + k + r"\s*=\s*'([^']*)'", t) or re.search(r"\b" + k + r"\s*[:=]\s*'([^']*)'", t)
+        m = re.search(r"\bvar\s+" + k + r"\s*=\s*'([^']*)'", t) or re.search(r"\bvar\s+" + k + r"\s*=\s*([0-9.]+)\s*;", t)
         if m: d[k] = m.group(1)
     m = re.search(r"var\s+option_stock_data\s*=\s*'(.*?)';", t, re.S)
     if m:
@@ -59,7 +61,7 @@ for no in sorted(nos, key=int):
             raw = m.group(1).encode().decode("unicode_escape").encode("latin-1").decode("utf-8", "replace")
             d["opcoes"] = [{"codigo": k, "valor": v.get("option_value_orginal") or v.get("option_value"), "nome": v.get("option_name"),
                             "preco_extra": v.get("option_price"), "estoque": v.get("stock_number"), "vende": v.get("is_selling"),
-                            "esgotado": v.get("is_auto_soldout") or v.get("is_soldout"), "mostra": v.get("is_display")} for k, v in json.loads(raw).items()]
+                            "usa_estoque": v.get("use_stock"), "usa_esgotado": v.get("use_soldout"), "esgotado": v.get("is_auto_soldout") or v.get("is_soldout"), "mostra": v.get("is_display")} for k, v in json.loads(raw).items()]
         except Exception as e: d["opcoes_erro"] = str(e)[:150]; d["opcoes_raw"] = m.group(1)[:3000]
     # tabela de informações (xans-product-detaildesign)
     info = {}
