@@ -4871,7 +4871,7 @@ VIEWFN.etapas=()=>{
  const barra=ed?'<div class="card" style="margin-bottom:10px;padding:10px 12px"><div class="chips" style="align-items:center;gap:8px;flex-wrap:wrap">'+
   '<b style="font-size:13px">Nos '+nSel+' pedidos marcados:</b> marcar a etapa <select class="chip" data-et-etapa>'+STEPS.map(([k,l],i)=>'<option value="'+k+'"'+(ET.etapa===k?' selected':'')+'>'+(i+1)+'. '+esc(l)+(ET_EMAIL[k]?' ✉':'')+'</option>').join('')+'</select>'+
   ' com a data <input type="date" class="chip" data-et-data value="'+esc(ET.data)+'">'+
-  '<label style="font-size:12px;display:flex;gap:4px;align-items:center"><input type="checkbox" data-et-ant'+(ET.ant?' checked':'')+'> preencher também as etapas anteriores vazias</label>'+
+  '<label style="font-size:12px;display:flex;gap:4px;align-items:center"><input type="checkbox" data-et-ant'+(ET.ant?' checked':'')+'> preencher também as etapas anteriores vazias (menos Etiqueta)</label>'+
   '<button class="btn sm pri" type="button" data-et-aplicar'+(nSel?'':' disabled')+'>Aplicar</button><button class="btn sm" type="button" data-et-limpasel'+(nSel?'':' disabled')+'>Limpar seleção</button></div></div>':'';
  return '<div class="page wide"><div class="col">'+head('Etapas dos pedidos',sub,acts)+
   '<div class="chips" style="margin:0 0 10px;align-items:center"><button class="chip'+(ET.ver==='abertos'?' on':'')+'" type="button" data-et-ver="abertos">Em andamento</button><button class="chip'+(ET.ver==='todos'?' on':'')+'" type="button" data-et-ver="todos">Todos</button>'+
@@ -4881,7 +4881,7 @@ VIEWFN.etapas=()=>{
 };
 function etAplicar(){const k=ET.etapa,d=ET.data||today(),i0=SK.indexOf(k);
  for(const id of ET.sel){const v=(S.data.vendas||[]).find(x=>x.id===id);if(!v)continue;const e=etNova(v);
-  if(!e[k])etSet(v,k,d);if(ET.ant)SK.slice(0,i0).forEach(kk=>{if(!etNova(v)[kk])etSet(v,kk,d)})}
+  if(!e[k])etSet(v,k,d);if(ET.ant)SK.slice(0,i0).forEach(kk=>{if(kk!=='docs'&&!etNova(v)[kk])etSet(v,kk,d)})}
  render()}
 async function etSalvar(){
  const ids=Object.keys(ET.mud);if(!ids.length)return;const av=ET.av||{};
