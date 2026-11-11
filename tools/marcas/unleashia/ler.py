@@ -47,7 +47,7 @@ for no in sorted(nos, key=int):
     try: t = get(u)
     except Exception as e: prods.append({"no": no, "erro": str(e)[:150]}); continue
     open(f"{OUT}/html/p{no}.html", "w").write(t)
-    d = {"no": no, "url": u, "cats": sorted(nos[no], key=int)}
+    d = {"no": no, "url": u, "cats": sorted(nos[no], key=lambda x: (not x.isdigit(), int(x) if x.isdigit() else 0))}
     d["nome"] = txt((re.findall(r'<meta property="og:title" content="([^"]*)"', t) or [""])[0])
     d["og_img"] = (re.findall(r'<meta property="og:image" content="([^"]*)"', t) or [""])[0]
     d["descricao_curta"] = txt((re.findall(r'<meta property="og:description" content="([^"]*)"', t) or [""])[0])
@@ -86,18 +86,33 @@ def salvar(nome, u, hdr=None):
     except Exception as e: log[nome] = str(e)[:150]; return ""
 EN = {"accept-language": "en-US,en;q=0.9"}
 jol = []
-for pg in range(1, 6):
+for pg in range(1, 10):
     t = salvar(f"jolse_{pg}", f"https://jolse.com/product/search.html?banner_action=&keyword=unleashia&page={pg}", EN)
-    if not t: break
-    blocos = re.findall(r'product_no=(\d+)[^"]*"[^>]*>.*?</li>', t, re.S)
-    if not re.search(r"product_no=", t): break
+    if not t or "anchorBoxId_" not in t: break
+    for bl in re.split(r'<li id="anchorBoxId_', t)[1:]:
+        nm = re.search(r'font-weight:bold;">([^<]+)</span></a></strong>', bl); hr = re.search(r'href="(/product/[^"]+)"', bl)
+        jol.append({"id": bl.split('"')[0], "nome": H.unescape(nm.group(1)) if nm else "", "precos": re.findall(r"USD ([0-9.]+)", bl)[:2],
+                    "url": "https://jolse.com" + hr.group(1) if hr else "", "esgotado": "soldout" in bl.lower() and "displaynone" not in bl.lower().split("soldout")[0][-80:]})
     time.sleep(2)
+json.dump(jol, open(OUT + "/jolse.json", "w"), ensure_ascii=False, indent=1)
+ys = []
+for pg in range(1, 6):
+    t = salvar(f"yesstyle_{pg}", f"https://www.yesstyle.com/en/list.html?q=unleashia&bt=1&pn={pg}", EN)
+    novos = []
+    for bl in t.split('_itemTitle">')[1:]:
+        nm = bl.split("</div>")[0]; p1 = re.search(r"_itemPrice[^>]*>US\$\s*([0-9.]+)", bl[:1500]); p2 = re.search(r"_itemSellPrice[^>]*>US\$\s*([0-9.]+)", bl[:1500])
+        novos.append((nm, p1.group(1) if p1 else "", p2.group(1) if p2 else ""))
+    hrefs = re.findall(r'href="([^"]*info\.html/pid\.\d+)"', t)
+    if not novos: break
+    for nm, p1, p2 in novos: ys.append({"nome": txt(nm), "preco": p1, "de": p2})
+    ys.append({"_links_pagina": pg, "links": list(dict.fromkeys(hrefs))})
+    time.sleep(2)
+json.dump(ys, open(OUT + "/yesstyle.json", "w"), ensure_ascii=False, indent=1)
 # Soko Glam (Shopify): coleção da marca
 try:
     t = get("https://sokoglam.com/collections/unleashia/products.json?limit=250", 60, EN)
     open(f"{OUT}/sokoglam.json", "w").write(t); log["sokoglam"] = len(json.loads(t).get("products", []))
 except Exception as e: log["sokoglam"] = str(e)[:150]
-salvar("yesstyle_busca", "https://www.yesstyle.com/en/list.html?q=unleashia&bt=1", EN)
 salvar("stylevana", "https://www.stylevana.com/en_US/brands/unleashia.html", EN)
 salvar("oy_global", "https://global.oliveyoung.com/display/search?query=unleashia", EN)
 salvar("sephora_us", "https://www.sephora.com/brand/unleashia", EN)
