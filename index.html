@@ -809,6 +809,7 @@ const ICONS={
  acoes:'<path d="M12 3c.6 4.2 2.3 5.9 6.5 6.5-4.2.6-5.9 2.3-6.5 6.5-.6-4.2-2.3-5.9-6.5-6.5C9.7 8.9 11.4 7.2 12 3z"/><path d="M19 15c.3 1.8 1 2.6 2.8 2.8-1.8.3-2.5 1-2.8 2.8-.3-1.8-1-2.5-2.8-2.8 1.8-.2 2.5-1 2.8-2.8z"/>',
  painel:'<path d="M4 13h6V4H4zM14 20h6v-9h-6zM4 20h6v-4H4zM14 8h6V4h-6z"/>',
  vendas:'<path d="M6 7h12l-1 13H7z"/><path d="M9 7a3 3 0 0 1 6 0"/>',
+ etapas:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10M15 10v10"/><path d="m6 7 1 1 2-2"/>',
  documentos:'<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
  fotos:'<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-8 8"/>',
  cortes:'<path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6h.01M4 12h.01M4 18h.01"/>',
@@ -831,7 +832,7 @@ const ICONS={
  fornecedores:'<path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/>',
  config:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/>'
 };
-const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','cortes','Parametrização'],['','ocorrencias','Ocorrências de compra'],['','lotes','Embarques'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['','pricing','Pricing'],['','precos','Concorrentes'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','cadastros','Cadastros do site'],['','contatos','Contato com clientes'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['','relatorios','Relatório do site'],['','visitas','Visitas agora'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Automação','monitor','Monitoramentos'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
+const NAV=[['','painel','Painel'],['Operação','vendas','Vendas'],['','etapas','Etapas dos pedidos'],['','cortes','Parametrização'],['','ocorrencias','Ocorrências de compra'],['','lotes','Embarques'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['','pricing','Pricing'],['','precos','Concorrentes'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','cadastros','Cadastros do site'],['','contatos','Contato com clientes'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['','relatorios','Relatório do site'],['','visitas','Visitas agora'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Automação','monitor','Monitoramentos'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
 
 /* ================= utilidades ================= */
 const $=s=>document.querySelector(s);
@@ -986,7 +987,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v109 · 09/11/2026';
+const VERSAO='v110 · 10/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -4838,6 +4839,81 @@ async function finishAnexos(col,id){
  if(falhou)toast(/bucket/i.test(falhou.message||'')?'Salvo, mas a pasta de documentos ainda não existe. Rode o SQL de documentos no Supabase.':'Salvo, mas '+(anexos.length?'alguns documentos':'os documentos')+' não subiram. Abra de novo e anexe outra vez.');
 }
 
+/* ================= Etapas dos pedidos (v110) ================= */
+// Planilha: um pedido por linha, uma etapa por coluna. Clique numa célula para marcar (data de hoje) ou desmarcar;
+// ou marque vários pedidos e aplique uma etapa com data. Nada vai para o banco até clicar em "Salvar e enviar avisos":
+// aí cada venda é salva como no formulário (Shopify recebe a etapa e o ERP manda os avisos 2 e 4).
+const ET={ver:'abertos',sel:new Set(),mud:{},av:null,avLoading:false,q:'',etapa:'embalado',data:'',ant:true};
+const ET_CURTO={pago:'Pago',docs:'Etiqueta',skyroad:'Skyroad',separado:'Separado',embalado:'Embalado',consolidado:'Consolid.',awb:'AWB',rfkr:'RF Coreia',embarcado:'Embarcado',manifesto:'Manifesto',desembaraco:'Desemb.',lastmile:'Em rota',entregue:'Entregue'};
+const ET_EMAIL={embalado:'ERP: Preparado na Coreia',embarcado:'Shopify: saiu da Coreia (rastreio)',desembaraco:'ERP: Chegou ao Brasil e foi liberado',lastmile:'Shopify: saiu para entrega',entregue:'Shopify: entregue'};
+async function etLoadAv(){if(ET.avLoading||!S.db)return;ET.avLoading=true;
+ try{const {data}=await sb.from('avisos_cliente').select('venda,tipo,status');const m={};(data||[]).forEach(a=>{if(a.status==='enviado'||a.status==='pulado')(m[a.venda]=m[a.venda]||{})[a.tipo]=a.status});ET.av=m}catch(_){ET.av={}}
+ ET.avLoading=false;if(S.view==='etapas')render()}
+const etNova=v=>{const e={...(v.etapas||{})},m=ET.mud[v.id]||{};Object.entries(m).forEach(([k,d])=>{if(d)e[k]=d;else delete e[k]});return e};
+function etSet(v,k,d){const atual=(v.etapas||{})[k]||'';const m=ET.mud[v.id]=ET.mud[v.id]||{};if((d||'')===atual)delete m[k];else m[k]=d||'';if(!Object.keys(m).length)delete ET.mud[v.id]}
+const etRows=()=>{let L=(S.data.vendas||[]).filter(v=>!v.cancelada);if(ET.ver==='abertos')L=L.filter(v=>!(v.etapas||{}).entregue||ET.mud[v.id]);
+ const q=ET.q.trim().toLowerCase();if(q)L=L.filter(v=>[v.numero,v.pedidoSite,v.cliente,v.contato].join(' ').toLowerCase().includes(q));
+ return L.sort((a,b)=>Number(a.numero)-Number(b.numero))};
+VIEWFN.etapas=()=>{
+ if(!ET.av&&S.db)setTimeout(etLoadAv,0);if(!ET.data)ET.data=today();
+ const ed=can(), L=etRows(), nMud=Object.keys(ET.mud).length, nSel=[...ET.sel].filter(id=>L.some(v=>v.id===id)).length;
+ const sub='Um pedido por linha, uma etapa por coluna. Clique numa célula para marcar com a data de hoje (ou desmarcar). Nada é gravado até você clicar em Salvar e enviar avisos. ✉ = etapa que manda e-mail para a cliente.';
+ const acts=ed?'<button class="btn" type="button" data-et-desf'+(nMud?'':' disabled')+'>Desfazer</button><button class="btn pri" type="button" data-et-salvar'+(nMud?'':' disabled')+'>Salvar e enviar avisos'+(nMud?' ('+nMud+')':'')+'</button>':'';
+ const th='<th style="width:28px"><input type="checkbox" data-et-todos'+(L.length&&nSel===L.length?' checked':'')+(ed?'':' disabled')+' aria-label="Marcar todos"></th><th>Pedido</th><th>Cliente</th>'+
+  STEPS.map(([k,l],i)=>'<th class="c" title="'+esc((i+1)+'. '+l+(ET_EMAIL[k]?' · e-mail: '+ET_EMAIL[k]:''))+'" style="font-size:10.5px;line-height:1.2;white-space:normal;min-width:62px">'+(i+1)+'<br>'+esc(ET_CURTO[k])+(ET_EMAIL[k]?' ✉':'')+'</th>').join('')+'<th>E-mails do ERP</th>';
+ const rows=L.map(v=>{const e=v.etapas||{},m=ET.mud[v.id]||{},av=(ET.av||{})[v.id]||{};
+  const cells=STEPS.map(([k])=>{const has=k in m,d=has?m[k]:e[k];
+   const st=has?(d?'background:#FFF2CC;color:#7F6000;font-weight:700':'background:#F4CCCC;color:#990000;text-decoration:line-through'):(d?'background:var(--soft);color:var(--accent)':'color:#bbb');
+   const txt=has&&!d?fdate(e[k]).slice(0,5):(d?fdate(d).slice(0,5):'·');
+   return '<td class="c" style="padding:2px"><button type="button" data-et-c="'+esc(v.id)+'|'+k+'" style="width:100%;border:0;border-radius:6px;padding:5px 2px;font:inherit;font-size:11.5px;cursor:'+(ed?'pointer':'default')+';'+st+'"'+(ed?'':' disabled')+'>'+txt+'</button></td>'}).join('');
+  const avTxt=[av.preparado?'Preparado ✓':'',av.liberado?'Liberado ✓':''].filter(Boolean).join(' · ')||'<span class="muted">—</span>';
+  return '<tr'+(ET.mud[v.id]?' style="background:#FFFBEA"':'')+'><td><input type="checkbox" data-et-sel="'+esc(v.id)+'"'+(ET.sel.has(v.id)?' checked':'')+(ed?'':' disabled')+'></td><td style="white-space:nowrap"><a href="#" data-et-abrir="'+esc(v.id)+'">'+esc(v.pedidoSite||vnum(v.numero))+'</a></td><td style="white-space:nowrap;max-width:180px;overflow:hidden;text-overflow:ellipsis">'+esc(v.cliente||'')+'</td>'+cells+'<td style="font-size:11.5px;white-space:nowrap">'+avTxt+'</td></tr>'}).join('');
+ const barra=ed?'<div class="card" style="margin-bottom:10px;padding:10px 12px"><div class="chips" style="align-items:center;gap:8px;flex-wrap:wrap">'+
+  '<b style="font-size:13px">Nos '+nSel+' pedidos marcados:</b> marcar a etapa <select class="chip" data-et-etapa>'+STEPS.map(([k,l],i)=>'<option value="'+k+'"'+(ET.etapa===k?' selected':'')+'>'+(i+1)+'. '+esc(l)+(ET_EMAIL[k]?' ✉':'')+'</option>').join('')+'</select>'+
+  ' com a data <input type="date" class="chip" data-et-data value="'+esc(ET.data)+'">'+
+  '<label style="font-size:12px;display:flex;gap:4px;align-items:center"><input type="checkbox" data-et-ant'+(ET.ant?' checked':'')+'> preencher também as etapas anteriores vazias</label>'+
+  '<button class="btn sm pri" type="button" data-et-aplicar'+(nSel?'':' disabled')+'>Aplicar</button><button class="btn sm" type="button" data-et-limpasel'+(nSel?'':' disabled')+'>Limpar seleção</button></div></div>':'';
+ return '<div class="page wide"><div class="col">'+head('Etapas dos pedidos',sub,acts)+
+  '<div class="chips" style="margin:0 0 10px;align-items:center"><button class="chip'+(ET.ver==='abertos'?' on':'')+'" type="button" data-et-ver="abertos">Em andamento</button><button class="chip'+(ET.ver==='todos'?' on':'')+'" type="button" data-et-ver="todos">Todos</button>'+
+  '<input class="chip" style="min-width:220px" placeholder="Buscar pedido ou cliente" data-et-q value="'+esc(ET.q)+'"><span class="muted" style="font-size:12px">'+L.length+' pedidos</span></div>'+barra+
+  (L.length?'<div class="tblwrap"><table style="min-width:1200px"><thead><tr>'+th+'</tr></thead><tbody>'+rows+'</tbody></table></div>':'<div class="card">'+empty('Nenhum pedido','Nada em andamento.')+'</div>')+
+  '<p class="muted" style="font-size:12px;margin-top:8px">Amarelo = vai ser marcado · vermelho riscado = vai ser desmarcado. Cada aviso sai uma vez só por pedido. Os e-mails de saiu da Coreia, saiu para entrega e entregue saem pelo Shopify (sem cópia para você).</p></div></div>';
+};
+function etAplicar(){const k=ET.etapa,d=ET.data||today(),i0=SK.indexOf(k);
+ for(const id of ET.sel){const v=(S.data.vendas||[]).find(x=>x.id===id);if(!v)continue;const e=etNova(v);
+  if(!e[k])etSet(v,k,d);if(ET.ant)SK.slice(0,i0).forEach(kk=>{if(!etNova(v)[kk])etSet(v,kk,d)})}
+ render()}
+async function etSalvar(){
+ const ids=Object.keys(ET.mud);if(!ids.length)return;const av=ET.av||{};
+ const linhas=[],mails=[];
+ for(const id of ids){const v=(S.data.vendas||[]).find(x=>x.id===id);if(!v)continue;const m=ET.mud[id];
+  linhas.push((v.pedidoSite||vnum(v.numero))+' '+(String(v.cliente||'').split(' ')[0])+': '+Object.entries(m).map(([k,d])=>(d?'+':'−')+ET_CURTO[k]).join(', '));
+  Object.entries(m).forEach(([k,d])=>{if(!d||!ET_EMAIL[k])return;if(k==='embalado'&&(av[id]||{}).preparado)return;if(k==='desembaraco'&&(av[id]||{}).liberado)return;mails.push((v.pedidoSite||vnum(v.numero))+' · '+ET_EMAIL[k])})}
+ if(!confirm('Salvar as etapas de '+linhas.length+' pedido(s)?\n\n'+linhas.join('\n')+'\n\n'+(mails.length?'E-mails que vão sair para as clientes ('+mails.length+'):\n'+mails.join('\n'):'Nenhum e-mail novo vai sair.')))return;
+ let ok=0,er=0;
+ for(const id of ids){const v=(S.data.vendas||[]).find(x=>x.id===id);if(!v)continue;
+  try{await save('vendas',v,{etapas:etNova(v)});delete ET.mud[id];ok++}catch(e){er++;toast('Não salvou '+(v.pedidoSite||vnum(v.numero))+': '+(e.message||e))}}
+ ET.sel.clear();toast(ok+' pedido(s) salvos'+(mails.length?' · os e-mails saem em alguns segundos':'')+(er?' · '+er+' com erro':''));render();
+ setTimeout(()=>{ET.av=null;if(S.view==='etapas')render()},6000)}
+document.addEventListener('input',e=>{if(S.view!=='etapas')return;const el=e.target;if(el.matches&&el.matches('[data-et-q]')){ET.q=el.value;const p=el.selectionStart;render();const n=document.querySelector('[data-et-q]');if(n){n.focus();try{n.setSelectionRange(p,p)}catch(_){}}}});
+document.addEventListener('change',e=>{if(S.view!=='etapas')return;const el=e.target;if(!el.matches)return;
+ if(el.matches('[data-et-sel]')){el.checked?ET.sel.add(el.dataset.etSel):ET.sel.delete(el.dataset.etSel);render()}
+ else if(el.matches('[data-et-todos]')){const L=etRows();if(el.checked)L.forEach(v=>ET.sel.add(v.id));else L.forEach(v=>ET.sel.delete(v.id));render()}
+ else if(el.matches('[data-et-etapa]'))ET.etapa=el.value;
+ else if(el.matches('[data-et-data]'))ET.data=el.value;
+ else if(el.matches('[data-et-ant]'))ET.ant=el.checked});
+document.addEventListener('click',e=>{if(S.view!=='etapas')return;const b=e.target.closest('button,a[data-et-abrir]');if(!b)return;
+ if(b.dataset.etVer){ET.ver=b.dataset.etVer;render();return}
+ if(b.dataset.etAbrir){e.preventDefault();const v=(S.data.vendas||[]).find(x=>x.id===b.dataset.etAbrir);if(v)openVenda(v.id);return}
+ if(!can())return;
+ if(b.dataset.etC){const [id,k]=b.dataset.etC.split('|');const v=(S.data.vendas||[]).find(x=>x.id===id);if(!v)return;const m=ET.mud[id]||{};
+  if(k in m)delete m[k],(Object.keys(m).length||delete ET.mud[id]);else if((v.etapas||{})[k])etSet(v,k,'');else etSet(v,k,today());render();return}
+ if('etAplicar' in b.dataset){etAplicar();return}
+ if('etLimpasel' in b.dataset){ET.sel.clear();render();return}
+ if('etDesf' in b.dataset){ET.mud={};render();return}
+ if('etSalvar' in b.dataset){b.disabled=true;etSalvar();return}
+});
+
 /* ================= gravação ================= */
 async function save(col,rec,vals){
  const r=await save0(col,rec,vals);
@@ -4926,6 +5002,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v110','10/11/2026',['Nova tela Operação › Etapas dos pedidos: uma planilha com um pedido por linha e as 13 etapas nas colunas. Clique numa célula para marcar com a data de hoje (ou desmarcar), ou marque vários pedidos e aplique uma etapa com data de uma vez (opção de preencher as etapas anteriores vazias).','Nada é gravado até clicar em Salvar e enviar avisos: antes aparece a lista do que muda e quais e-mails vão sair para as clientes. As etapas com ✉ mandam e-mail (Embalado e Desembaraço pelo ERP; Embarcado, Em rota e Entregue pelo Shopify).','Coluna E-mails do ERP mostra quem já recebeu Preparado na Coreia e Chegou ao Brasil.']],
  ['v109','09/11/2026',['Monitoramentos: botão PT | 한국어 no topo da tela e dentro de cada monitoramento. Em coreano aparecem a tela, o cadastro de cada monitoramento e o resumo e a lista de cada execução. A escolha fica salva neste aparelho.','M-002: quando acha mudança ou erro, além do aviso no celular, chega um e-mail em português + coreano para bruno@mintess.com e info.br@ohmygirl.com.br. No histórico aparece "e-mail PT + 한국어".']],
  ['v108','09/11/2026',['Links e influenciadores → Influenciadores: nova coluna Relatório. Abre o relatório completo da parceira: capa com os números, conquistas, funil do clique à compra, dia a dia, horários e dias que mais clicam, de onde vêm os cliques, produtos com foto, estados e cidades, links, comparação anônima com as outras parceiras, sugestões para o próximo post, pedidos e ganhos. Tem Salvar em PDF, Card para o story (imagem 1080×1920) e Copiar link para ela (abre sem senha).']],
  ['v107','09/11/2026',['Ajustes e integração → Avisos à cliente: novo aviso avulso "Estamos separando seus produtos". Botão para mandar um exemplo para você e botão que mostra quem recebe (vendas do site não canceladas, ainda não embaladas e que não receberam este aviso) antes de mandar. Cada cliente recebe uma vez só; o envio fica na ficha da venda.']],
