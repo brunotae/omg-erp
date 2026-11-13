@@ -5248,6 +5248,7 @@ async function enter(session){
  const {data,error}=await sb.from('membros').select('papel,nome').eq('email',email);
  if(error){showGate('Não foi possível conferir seu acesso agora. Verifique a conexão e abra o app de novo.',true);return}
  if(!data||!data.length){try{const r=await sb.rpc('parceiro_painel');if(r.data&&r.data.cadastrado){location.replace('parceiro.html');return}}catch(_){}
+  try{const a=await sb.rpc('eh_atendente');if(a.data===true){location.replace('atendimento.html');return}}catch(_){}
   showGate('Sua conta ('+email+') foi criada, mas ainda não tem acesso ao ERP. Peça ao Tae para liberar.',true);return}
  S.canWrite=data[0].papel==='editor';S.db=sb;S.email=email;
  $('#me-email').textContent=email+(S.canWrite?'':' · consulta');

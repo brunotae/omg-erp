@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Atendimento · OMG!</title>
+<meta name="theme-color" content="#FFF9F6">
+<meta name="robots" content="noindex">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--pri:#B83D66;--fram:#D9577F;--rosa:#F48FB1;--bebe:#FDE4EC;--creme:#FFF9F6;--ameixa:#4A2638;--menta:#9EDFC4;--linha:#F3DCE4;--muted:#7A5566;--ok:#2E8B62;--okbg:#E3F5EC;--bad:#C0392B;--badbg:#FBE9E7;--warn:#B7791F;--warnbg:#FDF3E1;--card:#fff}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--creme);color:var(--ameixa);font-family:Poppins,"Helvetica Neue",Arial,sans-serif;font-size:14.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+a{color:var(--pri)}
+.num{font-variant-numeric:tabular-nums}
+.top{position:sticky;top:0;z-index:5;background:rgba(255,249,246,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--linha)}
+.top .in{max-width:980px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:12px}
+.logo{font-weight:800;font-size:22px;color:var(--fram);letter-spacing:-.02em;text-decoration:none}
+.top .t{font-size:13px;color:var(--muted);flex:1}
+.wrap{max-width:980px;margin:0 auto;padding:18px 16px 60px}
+.btn{border:1px solid var(--linha);background:#fff;border-radius:999px;padding:9px 16px;font-weight:600;font-size:13.5px;cursor:pointer;min-height:40px;display:inline-flex;align-items:center;gap:6px;justify-content:center}
+.btn:hover{border-color:var(--rosa)}
+.btn.pri{background:var(--pri);border-color:var(--pri);color:#fff}
+.btn.pri:hover{background:#a23258}
+.btn.sm{padding:6px 12px;min-height:34px;font-size:13px}
+.btn:disabled{opacity:.55;cursor:default}
+.btn.link{border:0;background:none;color:var(--pri);padding:6px 4px;min-height:0;text-decoration:underline}
+.card{background:var(--card);border:1px solid var(--linha);border-radius:16px;padding:18px;margin:0 0 14px}
+.card h2{font-size:16px;margin:0 0 4px}
+.card .sub{color:var(--muted);font-size:13px;margin:0 0 12px}
+.hello{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:flex-end;justify-content:space-between;margin:4px 0 16px}
+.hello h1{font-size:clamp(22px,4vw,28px);margin:0;line-height:1.2}
+.hello p{margin:2px 0 0;color:var(--muted);font-size:13.5px}
+.pill{display:inline-flex;align-items:center;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:600;white-space:nowrap}
+.p-ok{background:var(--okbg);color:var(--ok)}.p-bad{background:var(--badbg);color:var(--bad)}.p-warn{background:var(--warnbg);color:var(--warn)}.p-mute{background:#F2EDEF;color:var(--muted)}.p-rosa{background:var(--bebe);color:var(--pri)}
+.links{display:grid;gap:12px}
+.lk{border:1px solid var(--linha);border-radius:14px;padding:14px;display:grid;gap:8px;background:linear-gradient(180deg,#fff, #fffafb)}
+.lk .u{font-size:clamp(16px,3.6vw,20px);font-weight:700;word-break:break-all;color:var(--pri)}
+.lk .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.lk small{color:var(--muted);font-size:12px}
+.cupom{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--bebe);border-radius:14px;padding:12px 14px;margin-top:12px}
+.cupom b{font-size:18px;letter-spacing:.06em}
+.meses{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px;scrollbar-width:none}
+.meses button{flex:0 0 auto;border:1px solid var(--linha);background:#fff;border-radius:999px;padding:6px 12px;font-size:13px;cursor:pointer}
+.meses button[aria-pressed="true"]{background:var(--ameixa);border-color:var(--ameixa);color:#fff}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media(max-width:640px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpi{border:1px solid var(--linha);border-radius:14px;padding:12px 14px;background:#fff}
+.kpi span{display:block;font-size:12px;color:var(--muted)}
+.kpi b{display:block;font-size:22px;line-height:1.25;margin-top:2px}
+.kpi.hi{background:var(--ameixa);border-color:var(--ameixa);color:#fff}.kpi.hi span{color:#E9D5DE}
+.funil{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-top:12px}
+.funil i{font-style:normal;color:var(--rosa)}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.tbl th{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;text-align:left;padding:8px 8px;border-bottom:1px solid var(--linha)}
+.tbl td{padding:10px 8px;border-bottom:1px solid var(--linha);vertical-align:top}
+.tbl .r{text-align:right}
+.tbl small{display:block;color:var(--muted);font-size:12px}
+.tblw{overflow-x:auto;margin:0 -4px}
+.empty{color:var(--muted);font-size:13.5px;padding:8px 0}
+form.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media(max-width:640px){form.grid{grid-template-columns:minmax(0,1fr)}}
+label.f{display:grid;gap:4px;font-size:12.5px;font-weight:600;color:var(--muted)}
+label.f input,label.f select{border:1px solid var(--linha);border-radius:10px;padding:10px 12px;font-size:15px;font-weight:400;color:var(--ameixa);background:#fff;min-height:44px;width:100%}
+label.f input:focus,label.f select:focus{outline:2px solid var(--rosa);outline-offset:1px;border-color:var(--rosa)}
+.full{grid-column:1/-1}
+.msg{font-size:13px;min-height:18px;margin:0}
+.msg.err{color:var(--bad)}.msg.ok{color:var(--ok)}
+.gate{max-width:420px;margin:40px auto 0}
+.gate h1{font-size:24px;margin:0 0 6px}
+.gate p{color:var(--muted);margin:0 0 16px;font-size:14px}
+.gate form{display:grid;gap:12px}
+.gate .acts{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.regras{margin:0;padding-left:18px;font-size:13.5px}
+.regras li{margin:5px 0}
+.foot{text-align:center;color:var(--muted);font-size:12px;margin-top:22px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ameixa);color:#fff;border-radius:999px;padding:10px 18px;font-size:13.5px;z-index:50;box-shadow:0 8px 24px rgba(74,38,56,.25);max-width:calc(100vw - 32px)}
+[hidden]{display:none!important}
+
+.tabs{display:flex;gap:8px;margin:0 0 14px;flex-wrap:wrap}
+.tabs button{border:1px solid var(--linha);background:#fff;border-radius:999px;padding:8px 14px;font-weight:600;font-size:13.5px;cursor:pointer;min-height:40px}
+.tabs button[aria-pressed="true"]{background:var(--ameixa);border-color:var(--ameixa);color:#fff}
+.tabs b{display:inline-block;min-width:20px;margin-left:4px;padding:0 6px;border-radius:999px;background:var(--fram);color:#fff;font-size:12px}
+.busca{width:100%;border:1px solid var(--linha);border-radius:12px;padding:11px 14px;font-size:15px;min-height:46px;background:#fff;margin:0 0 12px}
+.busca:focus{outline:2px solid var(--rosa);outline-offset:1px}
+.ped{border:1px solid var(--linha);border-radius:14px;background:#fff;margin:0 0 10px}
+.ped>summary{list-style:none;cursor:pointer;padding:12px 14px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;align-items:center}
+.ped>summary::-webkit-details-marker{display:none}
+.ped .nm{font-weight:700;overflow-wrap:anywhere}
+.ped .sm{font-size:12.5px;color:var(--muted)}
+.ped .bd{padding:0 14px 14px;border-top:1px solid var(--linha)}
+.acts{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.its{margin:8px 0 0;padding:0;list-style:none;font-size:13.5px}
+.its li{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px dashed var(--linha)}
+.tl{list-style:none;margin:10px 0 0;padding:0;font-size:13px}
+.tl li{display:flex;gap:10px;padding:4px 0;color:var(--muted)}
+.tl li.ok{color:var(--ameixa)}
+.tl li i{flex:0 0 18px;font-style:normal;text-align:center}
+.tl li span.d{margin-left:auto;font-variant-numeric:tabular-nums}
+.av{border:1px solid var(--linha);border-radius:14px;padding:14px;background:#fff;margin:0 0 10px;display:grid;gap:6px}
+.av.feito{opacity:.7}
+.av .top2{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;justify-content:space-between}
+.av .diz{background:var(--bebe);border-radius:10px;padding:10px 12px;font-size:13.5px}
+.av textarea{border:1px solid var(--linha);border-radius:10px;padding:8px 10px;font:inherit;font-size:14px;min-height:44px;width:100%;resize:vertical}
+.av .hist{font-size:12px;color:var(--muted);white-space:pre-wrap}
+a.btn{text-decoration:none;color:var(--ameixa)}a.btn.pri{color:#fff}
+.obs{font-size:12.5px;color:var(--muted);white-space:pre-wrap;margin-top:8px}
+</style>
+</head>
+<body>
+<header class="top"><div class="in"><a class="logo" href="https://ohmygirl.com.br" aria-label="OMG! loja">OMG!</a><span class="t">Atendimento</span><button class="btn sm" type="button" id="sair" hidden>Sair</button></div></header>
+<main class="wrap" id="app">
+ <section class="gate" id="gate" hidden>
+  <h1 id="g-tit">Entrar</h1>
+  <p id="g-txt">Use o e-mail que você passou para a OMG.</p>
+  <form id="g-form" novalidate>
+   <label class="f">E-mail<input type="email" id="g-email" autocomplete="email" required></label>
+   <label class="f" id="g-senha-w">Senha<input type="password" id="g-senha" autocomplete="current-password" minlength="6" required></label>
+   <label class="f" id="g-senha2-w" hidden>Repita a senha<input type="password" id="g-senha2" autocomplete="new-password" minlength="6"></label>
+   <p class="msg" id="g-msg" role="status"></p>
+   <div class="acts"><button class="btn pri" type="submit" id="g-ok">Entrar</button><button class="btn link" type="button" id="g-modo">Primeiro acesso? Criar senha</button><button class="btn link" type="button" id="g-esqueci">Esqueci a senha</button></div>
+  </form>
+ </section>
+ <section id="painel" hidden></section>
+ <p class="foot">OMG! · Oh My Girl · Atendimento · <span id="versao"></span></p>
+</main>
+<script>
+(function(){
+const VERSAO='v1 · 13/11/2026';
+const SB_URL='https://nzsiuniabovvptuqmkmi.supabase.co', SB_KEY='sb_publishable_9Nl_ZRXEmLMhDMBP8oKP_w_FuDXaYMq';
+const sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,storageKey:'omg-erp-auth'}});
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const n=v=>Number(v)||0;
+const brl=v=>n(v).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const fdate=d=>{if(!d)return '—';const p=String(d).slice(0,10).split('-');return p[2]+'/'+p[1]+'/'+p[0]};
+const fdh=d=>{if(!d)return '';const x=new Date(d);return x.toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})};
+function toast(t){const el=document.createElement('div');el.className='toast';el.textContent=t;document.body.appendChild(el);setTimeout(()=>el.remove(),2600)}
+const produto=p=>{const s=String(p||'').split(' · ');return (s.length>1&&/^[A-Z0-9][A-Z0-9-]{2,}$/.test(s[0])?s.slice(1):s).join(' · ')};
+$('#versao').textContent=VERSAO;
+let D=null, ABA='avisar', Q='', modo='entrar';
+// ---------- login ----------
+function gate(m){
+ modo=m||'entrar';$('#gate').hidden=false;$('#painel').hidden=true;$('#sair').hidden=modo!=='nova';
+ const T={entrar:['Entrar','Use o e-mail que você passou para a OMG.','Entrar'],criar:['Criar senha','Primeiro acesso: use o e-mail que você passou para a OMG e escolha uma senha (mínimo 6 caracteres).','Criar senha'],nova:['Nova senha','Escolha a nova senha.','Salvar senha']}[modo];
+ $('#g-tit').textContent=T[0];$('#g-txt').textContent=T[1];$('#g-ok').textContent=T[2];
+ $('#g-email').closest('label').hidden=modo==='nova';$('#g-senha2-w').hidden=modo==='entrar';
+ $('#g-senha').autocomplete=modo==='entrar'?'current-password':'new-password';
+ $('#g-modo').textContent=modo==='entrar'?'Primeiro acesso? Criar senha':'Já tenho senha';$('#g-modo').hidden=modo==='nova';$('#g-esqueci').hidden=modo!=='entrar';
+ msg('');
+}
+const msg=(t,ok)=>{const m=$('#g-msg');m.textContent=t||'';m.className='msg'+(t?(ok?' ok':' err'):'')};
+$('#g-modo').addEventListener('click',()=>gate(modo==='entrar'?'criar':'entrar'));
+$('#g-esqueci').addEventListener('click',async()=>{
+ const email=$('#g-email').value.trim();if(!email){msg('Escreva seu e-mail e toque de novo em Esqueci a senha.');return}
+ const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});
+ msg(error?'Não deu para enviar agora. Tente de novo em alguns minutos ou fale com a OMG.':'Enviamos um link para '+email+'. Abra o e-mail e toque no link para criar a nova senha.',!error);
+});
+$('#g-form').addEventListener('submit',async e=>{
+ e.preventDefault();msg('');
+ const email=$('#g-email').value.trim(),s1=$('#g-senha').value,s2=$('#g-senha2').value;
+ if(modo!=='nova'&&!email){msg('Preencha o e-mail.');return}
+ if(s1.length<6){msg('A senha precisa de pelo menos 6 caracteres.');return}
+ if(modo!=='entrar'&&s1!==s2){msg('As duas senhas não são iguais.');return}
+ $('#g-ok').disabled=true;
+ try{
+  if(modo==='entrar'){const {error}=await sb.auth.signInWithPassword({email,password:s1});
+   if(error)msg(/Invalid login/i.test(error.message)?'E-mail ou senha incorretos. Primeiro acesso? Toque em Criar senha.':/confirm/i.test(error.message)?'Confirme seu e-mail pelo link que chegou na sua caixa de entrada.':'Não deu para entrar agora. Tente de novo.')}
+  else if(modo==='criar'){const {data,error}=await sb.auth.signUp({email,password:s1,options:{emailRedirectTo:location.origin+location.pathname}});
+   if(error)msg(/registered|exists/i.test(error.message)?'Este e-mail já tem senha. Toque em Já tenho senha.':'Não deu para criar agora. Tente de novo.');
+   else if(!data.session)msg('Quase lá: enviamos um e-mail para '+email+'. Toque no link do e-mail e depois entre com sua senha.',true)}
+  else{const {error}=await sb.auth.updateUser({password:s1});if(error)msg('Não deu para salvar a senha. Peça um novo link.');else{modo='entrar';history.replaceState(null,'',location.pathname);toast('Senha salva');carregar()}}
+ }finally{$('#g-ok').disabled=false}
+});
+$('#sair').addEventListener('click',()=>sb.auth.signOut());
+
+// ---------- painel ----------
+const ETAPAS=[['pago','Pedido pago'],['separado','Produtos separados na Coreia'],['embalado','Embalado na Coreia'],['embarcado','Saiu da Coreia'],['desembaraco','Chegou ao Brasil e foi liberado'],['lastmile','Saiu para entrega'],['entregue','Entregue']];
+const AVISO={confirmado:'Pedido confirmado',preparado:'Preparado na Coreia',saiu_coreia:'Saiu da Coreia',liberado:'Chegou ao Brasil',saiu_entrega:'Saiu para entrega',entregue:'Entregue'};
+const ST={a_contatar:['Avisar','p-bad'],contatado:['Avisada','p-ok'],troca:['Troca','p-warn'],reembolso:['Reembolso','p-warn'],cancelado:['Cancelado','p-mute'],resolvido:['Resolvido','p-ok']};
+const emailDe=v=>{const m=String(v.contato||'').match(/[^\s·,;]+@[^\s·,;]+/);return m?m[0]:''};
+const foneDe=v=>{let d=String(v.fone||'').replace(/\D/g,'');if(!d){const m=String(v.contato||'').replace(/[^\d·]/g,' ').match(/\d{10,13}/);d=m?m[0]:''}if(!d)return '';if(d.length<=11)d='55'+d;return d};
+const foneTxt=d=>{const x=d.replace(/^55/,'');return x.length===11?'('+x.slice(0,2)+') '+x.slice(2,7)+'-'+x.slice(7):x.length===10?'('+x.slice(0,2)+') '+x.slice(2,6)+'-'+x.slice(6):x};
+const primeiro=v=>String(v.cliente||'').split(' ')[0];
+function etapaAtual(v){let a='Aguardando';for(const [k,l] of ETAPAS)if(v.etapas&&v.etapas[k])a=l;return a}
+function botoes(v){const f=foneDe(v),e=emailDe(v);
+ return '<div class="acts">'+(f?'<a class="btn pri sm" target="_blank" rel="noopener" href="https://wa.me/'+f+'?text='+encodeURIComponent('Oi '+primeiro(v)+', tudo bem? Aqui é a Isa, da OMG! 💗 Sobre o seu pedido '+v.pedido+': ')+'">WhatsApp '+esc(foneTxt(f))+'</a><button class="btn sm" type="button" data-copy="'+esc(foneTxt(f))+'">Copiar telefone</button>':'<span class="pill p-mute">Sem telefone</span>')+
+ (e?'<a class="btn sm" href="mailto:'+esc(e)+'?subject='+encodeURIComponent('Seu pedido OMG '+v.pedido)+'">E-mail</a><button class="btn sm" type="button" data-copy="'+esc(e)+'">Copiar e-mail</button>':'')+'</div>'}
+async function carregar(){
+ const {data,error}=await sb.rpc('atend_painel',{p_dias:120});
+ $('#sair').hidden=false;$('#gate').hidden=true;$('#painel').hidden=false;
+ if(error){$('#painel').innerHTML='<div class="card"><h2>Não deu para abrir agora</h2><p class="sub">Verifique a internet e abra de novo. Se continuar, fale com o Tae.</p></div>';return}
+ if(!data.cadastrado){$('#painel').innerHTML='<div class="card"><h2>Este e-mail ainda não tem acesso</h2><p class="sub">Você entrou como <b>'+esc(data.email||'')+'</b>. Peça ao Tae para liberar o atendimento para este e-mail.</p></div>';return}
+ D=data;render();
+}
+const vendaDe=num=>D.vendas.find(v=>String(v.numero)===String(num));
+function cardAviso(c){
+ const v=vendaDe(c.venda)||{numero:c.venda,pedido:'#'+c.venda,cliente:'',contato:''};const [st,cl]=ST[c.status]||[c.status,'p-mute'];const aberto=c.status==='a_contatar';
+ return '<div class="av'+(aberto?'':' feito')+'"><div class="top2"><b>'+esc(v.pedido)+' · '+esc(v.cliente)+'</b><span class="pill '+cl+'">'+esc(st)+'</span></div>'+
+ '<div class="sm" style="font-size:13px;color:var(--muted)">'+esc(c.numero)+' · '+esc(produto(c.produto))+(c.qtd>1?' ×'+c.qtd:'')+(c.motivo?' · '+esc(c.motivo):'')+'</div>'+
+ (c.solucao?'<div class="diz"><b>O que avisar:</b> '+esc(c.solucao)+'</div>':'')+
+ botoes(v)+
+ (aberto?'<textarea id="nt-'+c.id+'" placeholder="Nota (opcional): o que a cliente respondeu"></textarea><div class="acts" style="margin:0"><button class="btn pri sm" type="button" data-marca="contatado" data-id="'+c.id+'">✓ Avisei a cliente</button><button class="btn sm" type="button" data-marca="resolvido" data-id="'+c.id+'">Resolvido</button></div>':'')+
+ (c.obs?'<div class="hist">'+esc(c.obs)+'</div>':'')+'</div>'}
+function cardPedido(v){
+ const tl='<ul class="tl">'+ETAPAS.map(([k,l])=>{const d=v.etapas&&v.etapas[k];return '<li class="'+(d?'ok':'')+'"><i>'+(d?'✓':'○')+'</i>'+esc(l)+'<span class="d">'+(d?fdate(d):'')+'</span></li>'}).join('')+'</ul>';
+ const av=(v.avisos||[]).filter(a=>a.status==='enviado');
+ return '<details class="ped"><summary><span class="nm">'+esc(v.pedido)+' · '+esc(v.cliente)+'</span><span class="pill '+(v.cancelada?'p-mute':'p-rosa')+'">'+(v.cancelada?'Cancelado':esc(etapaAtual(v)))+'</span><span class="sm">'+fdate(v.data)+' · '+esc(v.cidade||'')+(v.uf?'/'+esc(v.uf):'')+'</span><span class="sm num">'+(v.total!=null?brl(v.total):'')+'</span></summary><div class="bd">'+
+ botoes(v)+
+ '<ul class="its">'+(v.itens||[]).map(i=>'<li><span>'+esc(produto(i.produto))+(n(i.qtd)>1?' <b>×'+n(i.qtd)+'</b>':'')+'</span><span class="num">'+brl(n(i.preco)*Math.max(1,n(i.qtd)))+'</span></li>').join('')+'</ul>'+
+ (v.cupom?'<p class="sm" style="margin:8px 0 0;color:var(--muted);font-size:12.5px">Cupom usado: <b>'+esc(v.cupom)+'</b></p>':'')+
+ tl+(v.rastreio?'<p style="margin:10px 0 0">Rastreio: <b class="num">'+esc(v.rastreio)+'</b> <button class="btn sm" type="button" data-copy="'+esc(v.rastreio)+'">Copiar</button></p>':'')+
+ (av.length?'<p class="sm" style="margin:10px 0 0;color:var(--muted);font-size:12.5px">E-mails automáticos enviados: '+av.map(a=>esc(AVISO[a.tipo]||a.tipo)+' ('+fdh(a.em)+')').join(' · ')+'</p>':'')+
+ (v.obs&&v.obs.split('\n').length>1?'<div class="obs"><b>Notas:</b>\n'+esc(v.obs.split('\n').slice(1).join('\n'))+'</div>':'')+
+ '</div></details>'}
+function render(){
+ const abertos=D.contatos.filter(c=>c.status==='a_contatar');
+ const q=Q.trim().toLowerCase().replace(/^#/,'');
+ const peds=D.vendas.filter(v=>!q||[v.numero,v.pedido,v.cliente,v.contato,v.fone,v.cidade].join(' ').toLowerCase().includes(q)||String(v.contato||'').replace(/\D/g,'').includes(q.replace(/\D/g,'')||'§'));
+ let h='<div class="hello"><div><h1>Oi, '+esc(String(D.nome).split(' ')[0])+'!</h1><p>'+(abertos.length?'Você tem <b>'+abertos.length+'</b> '+(abertos.length===1?'cliente para avisar':'clientes para avisar')+'.':'Nenhuma cliente para avisar agora. 💗')+'</p></div><button class="btn sm" type="button" id="recarregar">Atualizar</button></div>'+
+ '<div class="tabs"><button type="button" data-aba="avisar" aria-pressed="'+(ABA==='avisar')+'">Avisar cliente'+(abertos.length?'<b>'+abertos.length+'</b>':'')+'</button><button type="button" data-aba="pedidos" aria-pressed="'+(ABA==='pedidos')+'">Pedidos ('+D.vendas.length+')</button></div>';
+ if(ABA==='avisar'){
+  const feitos=D.contatos.filter(c=>c.status!=='a_contatar');
+  h+=(abertos.length?abertos.map(cardAviso).join(''):'<div class="card"><p class="empty">Tudo em dia. Quando surgir uma cliente para avisar (produto esgotado, troca, reembolso), ela aparece aqui com o que dizer.</p></div>')+
+  (feitos.length?'<h2 style="font-size:15px;margin:18px 0 8px;color:var(--muted)">Últimos 30 dias</h2>'+feitos.map(cardAviso).join(''):'');
+ }else{
+  h+='<input class="busca" id="busca" type="search" placeholder="Buscar por nome, nº do pedido, e-mail ou telefone" value="'+esc(Q)+'" autocomplete="off">'+
+  (peds.length?peds.map(cardPedido).join(''):'<p class="empty">Nenhum pedido encontrado.</p>');
+ }
+ $('#painel').innerHTML=h;
+ const b=$('#busca');if(b&&document.activeElement!==b&&Q){b.focus();b.setSelectionRange(Q.length,Q.length)}
+}
+$('#painel').addEventListener('click',async e=>{
+ const t=e.target.closest('button');if(!t)return;
+ if(t.dataset.aba){ABA=t.dataset.aba;render();return}
+ if(t.id==='recarregar'){carregar();return}
+ if(t.dataset.copy){try{await navigator.clipboard.writeText(t.dataset.copy);toast('Copiado')}catch(_){toast(t.dataset.copy)}return}
+ if(t.dataset.marca){
+  const nota=($('#nt-'+t.dataset.id)||{}).value||'';t.disabled=true;
+  const {error}=await sb.rpc('atend_marcar',{p_id:t.dataset.id,p_status:t.dataset.marca,p_nota:nota});
+  if(error){t.disabled=false;toast('Não deu para salvar. Tente de novo.');return}
+  toast(t.dataset.marca==='contatado'?'Marcado: cliente avisada ✓':'Marcado como resolvido');carregar();
+ }
+});
+$('#painel').addEventListener('input',e=>{if(e.target.id==='busca'){Q=e.target.value;render();const b=$('#busca');b.focus();b.setSelectionRange(Q.length,Q.length)}});
+if(/type=recovery/.test(location.hash))modo='nova';
+sb.auth.onAuthStateChange((ev,session)=>{
+ if(ev==='PASSWORD_RECOVERY'||(modo==='nova'&&session&&ev!=='USER_UPDATED')){gate('nova');return}
+ if(ev==='SIGNED_IN'||ev==='INITIAL_SESSION'||ev==='SIGNED_OUT'){setTimeout(()=>session?carregar():gate('entrar'),0)}
+});
+})();
+</script>
+</body>
+</html>
