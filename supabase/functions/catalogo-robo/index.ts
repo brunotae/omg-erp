@@ -342,6 +342,19 @@ Deno.serve(async (req) => {
             versoes: p.variants.nodes.map((v: any) => ({ sku: v.sku, nome: v.title, preco: v.price, foto: !!v.media.nodes[0], dim: v.metafield?.value, hs: v.inventoryItem.harmonizedSystemCode, origem: v.inventoryItem.countryCodeOfOrigin, peso: v.inventoryItem.measurement?.weight?.value })) });
         } catch (e) { out.push({ id, ok: false, erro: erro(e) }); }
       }
+    } else if (b.modo === "pedido") {
+      // SÓ LEITURA: { nomes: ["#100001003"] } — itens atuais, reembolsos e totais do pedido (conferência de alteração de pedido)
+      for (const nome of (b.nomes || []).slice(0, 10)) {
+        try {
+          const d: any = await gql(`query($q: String!) { orders(first: 1, query: $q) { nodes { name displayFinancialStatus displayFulfillmentStatus
+            currentSubtotalPriceSet { shopMoney { amount } } currentTotalPriceSet { shopMoney { amount } } currentShippingPriceSet { shopMoney { amount } }
+            currentTotalTaxSet { shopMoney { amount } } totalRefundedSet { shopMoney { amount } } originalTotalPriceSet: totalPriceSet { shopMoney { amount } }
+            currentTotalDiscountsSet { shopMoney { amount } }
+            lineItems(first: 30) { nodes { name sku quantity currentQuantity originalUnitPriceSet { shopMoney { amount } } } }
+            refunds { createdAt note totalRefundedSet { shopMoney { amount } } } } } }`, { q: `name:${String(nome).replace("#", "")}` });
+          out.push({ nome, pedido: d.orders.nodes[0] ?? null });
+        } catch (e) { out.push({ nome, ok: false, erro: erro(e) }); }
+      }
     } else if (b.modo === "colecao_marca") {
       // { handle, titulo, vendor, ids: [productId na ordem] } — coleção da marca (regra: fornecedor = vendor), ordem manual.
       // Só ordena: não muda preço, texto nem status de produto. Cria a coleção se não existir e publica nos mesmos canais de uma coleção existente.
