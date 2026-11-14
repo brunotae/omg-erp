@@ -987,7 +987,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v112 · 14/11/2026';
+const VERSAO='v113 · 14/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -4250,7 +4250,7 @@ function vdResumo(id){
  $('#modal-root').innerHTML='<div class="ov" id="ov"><div class="modal vd" role="dialog" aria-modal="true" aria-labelledby="m-t">'+
   '<div class="vd-h"><div><h2 id="m-t">Venda <span class="num">'+vnum(v.numero)+'</span>'+(v.cancelada?' '+stPill('Cancelada'):'')+'</h2>'+
    '<p>'+fdate(v.dataCompra)+' · '+esc(v.canal||'—')+(ped?' · pedido '+esc(ped):'')+(v.cupom?' · cupom <b>'+esc(v.cupom)+'</b>':'')+'</p></div>'+
-   '<div class="vd-ha">'+(ped?'<a class="btn sm" href="https://admin.shopify.com/store/mundo-beleza-9571/orders?query='+encodeURIComponent(ped)+'" target="_blank" rel="noopener">Abrir no Shopify ↗</a>':'')+(can()?'<button class="btn sm" type="button" data-vd-edit="'+esc(v.id)+'">Editar tudo</button>':'')+'<button class="iconbtn" type="button" data-close aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div></div>'+
+   '<div class="vd-ha">'+(ped?'<a class="btn sm" href="https://admin.shopify.com/store/mundo-beleza-9571/orders?query='+encodeURIComponent(ped)+'" target="_blank" rel="noopener">Abrir no Shopify ↗</a>':'')+'<button class="btn sm" type="button" data-vd-imp="'+esc(v.id)+'" title="Abre a ficha numa página A4 para imprimir ou salvar em PDF">Imprimir / PDF</button>'+(can()?'<button class="btn sm" type="button" data-vd-edit="'+esc(v.id)+'">Editar tudo</button>':'')+'<button class="iconbtn" type="button" data-close aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div></div>'+
   '<div class="vd-b">'+
    '<div class="vd-cli"><div class="vd-c1"><span class="vd-k">Cliente</span><b>'+esc(v.cliente||'—')+'</b><span>CPF '+esc(v.cpf||'faltando')+'</span><span>'+esc(v.contato||'')+'</span></div>'+
     '<div class="vd-c1"><span class="vd-k">Entrega'+(end.nome&&end.nome!==v.cliente?' · para '+esc(end.nome):'')+'</span>'+
@@ -4270,6 +4270,49 @@ function vdResumo(id){
 }
 document.addEventListener('click',e=>{const b=e.target.closest('[data-vd-edit]');if(!b)return;e.preventDefault();const id=b.dataset.vdEdit;close();VD_FORM=true;openVenda(id)});
 let VD_FORM=false;
+// v113: ficha da venda para imprimir: uma folha A4 só (encolhe sozinha se passar), com ✕ Fechar aba (regra 8)
+async function vdImprimir(id){
+ const v=S.data.vendas.find(r=>r.id===id);if(!v)return;
+ const w=window.open('','_blank');if(!w){toast('Libere as janelas (pop-up) para imprimir');return}
+ w.document.write('<p style="font:14px sans-serif;padding:24px">Montando a ficha…</p>');
+ const c=calc(v), its=(v.itens||[]).map(it=>{const i=pmItem(it);const prod=i.sku?(S.data.produtos||[]).find(x=>x.sku===i.sku):null;return {it,i,vid:prod&&prod.shopify_variant_id?String(prod.shopify_variant_id):''}});
+ await vdFotos([...new Set(its.map(x=>x.vid).filter(Boolean))]);
+ const un=its.reduce((s,x)=>s+(n(x.it.qtd)||1),0);
+ const end=pmEnd(v)||{}, cid=/^\d+$/.test(String(v.cidade||'').trim())?'':v.cidade, cidT=cid||(end.cidade&&!/^\d+$/.test(end.cidade)?end.cidade:'')||v.cidade||'—';
+ const ped=v.pedidoSite||(v.dados_site||{}).pedido||'';
+ const st=isCancel(v)?'Cancelada':(()=>{const k=curStep(v);return k<0?'Aguardando pagamento':(k+1)+'/13 · '+STEPS[k][1]})();
+ const ori=(()=>{const el=document.getElementById('vd-ori');const t=el?el.innerText.replace(/^De onde veio\s*/i,'').trim():'';return /Consultando/.test(t)?'':t})();
+ const L=(l,val,cl)=>'<tr class="'+(cl||'')+'"><td>'+l+'</td><td class="r">'+brl(val)+'</td></tr>';
+ const rows=its.map(x=>{const nm=x.i.en||String(x.it.produto||'').split(' · ').slice(1).join(' · ')||x.it.produto;const im=(VD_IMG[x.vid]||{}).img;const q=n(x.it.qtd)||1;
+  return '<tr><td class="ft">'+(im?'<img src="'+esc(im+(im.includes('?')?'&':'?')+'width=200')+'" alt="">':'')+'</td><td>'+(x.i.marca?'<span class="mk">'+esc(x.i.marca)+'</span>':'')+'<b>'+esc(nm)+'</b></td><td class="mono">'+esc(x.i.sku||'—')+'</td><td class="r">'+q+'</td><td class="r">'+brl(n(x.it.preco))+'</td><td class="r">'+brl(q*n(x.it.preco))+'</td></tr>'}).join('');
+ const css='@page{size:A4;margin:10mm}*{box-sizing:border-box}body{margin:0;font-family:Poppins,system-ui,Arial,sans-serif;color:#2E1A24;background:#EEE;font-size:12px;line-height:1.4}'+
+  '.bar{position:sticky;top:0;display:flex;gap:8px;justify-content:space-between;align-items:center;padding:10px 16px;background:#3B1F2B;color:#fff;z-index:2}.bar button{font:inherit;font-size:12px;border:0;border-radius:999px;padding:7px 14px;cursor:pointer;background:#fff;color:#3B1F2B}.bar .pri{background:#E85D8E;color:#fff}'+
+  '.fl{width:210mm;min-height:297mm;margin:14px auto;background:#fff;padding:10mm;box-shadow:0 2px 12px rgba(0,0,0,.12)}#doc{transform-origin:top left}'+
+  '.hd{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #B83D66;padding-bottom:8px;margin-bottom:10px}.hd h1{margin:0;font-size:20px}.hd p{margin:2px 0 0;color:#6B5560}.lg{font-weight:800;color:#B83D66;font-size:22px;text-align:right}.lg small{display:block;font-size:10px;font-weight:600;color:#8A7480}'+
+  '.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}.bx{border:1px solid #EED9E2;border-radius:8px;padding:8px 10px}.k{display:block;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#8A7480;font-weight:700;margin-bottom:2px}.bx b{font-size:13px}.bx span{display:block}'+
+  '.st{display:inline-block;background:#F8E3EB;color:#B83D66;border-radius:999px;padding:2px 10px;font-weight:700;font-size:11px}'+
+  'table{width:100%;border-collapse:collapse}.it th{font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:#8A7480;text-align:left;border-bottom:1px solid #EED9E2;padding:4px 6px}.it td{border-bottom:1px solid #F3E6EC;padding:5px 6px;vertical-align:middle}.it .ft{width:58px}.it img{width:50px;height:50px;object-fit:cover;border-radius:6px;display:block;background:#FBF3F6}.mk{display:block;font-size:9.5px;color:#B83D66;font-weight:700;letter-spacing:.06em;text-transform:uppercase}.mono{font-family:ui-monospace,Menlo,monospace;font-size:11px;white-space:nowrap}.r{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}'+
+  '.ft2{display:grid;grid-template-columns:1fr 240px;gap:12px;margin-top:10px;align-items:start}.tot td{padding:3px 6px}.tot .t td{border-top:2px solid #2E1A24;font-weight:800;font-size:14px}.rod{margin-top:12px;color:#8A7480;font-size:10px;text-align:center}'+
+  '@media print{body{background:#fff}.bar{display:none}.fl{margin:0;width:auto;min-height:0;padding:0;box-shadow:none}}';
+ const corpo='<div class="hd"><div><h1>Venda '+esc(vnum(v.numero))+'</h1><p>'+esc(fdate(v.dataCompra))+' · '+esc(v.canal||'—')+(ped?' · pedido '+esc(ped):'')+(v.cupom?' · cupom <b>'+esc(v.cupom)+'</b>':'')+'</p><p style="margin-top:5px"><span class="st">'+esc(st)+'</span></p></div><div class="lg">OMG!<small>oh my girl</small></div></div>'+
+  '<div class="g2"><div class="bx"><span class="k">Cliente</span><b>'+esc(v.cliente||'—')+'</b><span>CPF '+esc(v.cpf||'faltando')+'</span><span>'+esc(v.contato||'')+'</span></div>'+
+  '<div class="bx"><span class="k">Entrega'+(end.nome&&end.nome!==v.cliente?' · para '+esc(end.nome):'')+'</span>'+(end.rua?'<span>'+esc(end.rua)+(end.compl?' · '+esc(end.compl):'')+'</span>':'')+'<span><b>'+esc(cidT)+'</b>'+(v.uf||end.uf?' / '+esc(v.uf||end.uf):'')+(end.cep?' · CEP '+esc(end.cep):'')+'</span>'+(end.fone?'<span>Tel. '+esc(end.fone)+'</span>':'')+'</div></div>'+
+  '<span class="k">'+its.length+' produto'+(its.length===1?'':'s')+' · '+un+' unidade'+(un===1?'':'s')+'</span>'+
+  '<table class="it"><thead><tr><th></th><th>Produto</th><th>SKU</th><th class="r">Qtd</th><th class="r">Unit.</th><th class="r">Total</th></tr></thead><tbody>'+(rows||'<tr><td colspan="6">Sem itens</td></tr>')+'</tbody></table>'+
+  '<div class="ft2"><div>'+(ori?'<div class="bx"><span class="k">De onde veio</span><span style="white-space:pre-line">'+esc(ori)+'</span></div>':'')+(v.obs?'<div class="bx" style="margin-top:8px"><span class="k">Observações</span><span style="white-space:pre-line">'+esc(String(v.obs).slice(0,600))+'</span></div>':'')+'</div>'+
+  '<table class="tot">'+L('Produtos',c.sub)+(n(v.desconto)?L('Desconto',-n(v.desconto)):'')+L('Frete',n(v.frete))+(n(v.ii)?L('Imposto de importação',n(v.ii)):'')+L('ICMS',n(v.icms))+L('Total pago',c.total,'t')+'</table></div>'+
+  '<p class="rod">OMG ERP · impresso em '+esc(new Date().toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo'}))+'</p>';
+ w.document.open();
+ w.document.write('<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Venda '+esc(vnum(v.numero))+(ped?' · '+esc(ped):'')+'</title><style>'+css+'</style></head><body>'+
+  '<div class="bar"><button type="button" id="fechar">✕ Fechar aba</button><span style="display:flex;gap:8px;align-items:center"><span style="font-size:12px">Imprimir → Salvar como PDF</span><button type="button" class="pri" id="imp">Imprimir / PDF</button></span></div>'+
+  '<div class="fl"><div id="doc">'+corpo+'</div></div>'+
+  '<script>(function(){var d=document.getElementById("doc");'+
+  'function caber(){d.style.transform="";d.style.width="";var max=277*96/25.4,h=d.scrollHeight;if(h>max){var z=max/h;d.style.transform="scale("+z+")";d.style.width=(100/z)+"%";d.parentNode.style.height=(max+2)+"px";d.parentNode.style.overflow="hidden"}}'+
+  'var imgs=[].slice.call(document.images),f=0;function ok(){if(++f>=imgs.length)caber()}if(!imgs.length)caber();imgs.forEach(function(i){i.complete?ok():(i.onload=i.onerror=ok)});setTimeout(caber,2500);'+
+  'document.getElementById("imp").onclick=function(){caber();window.print()};document.getElementById("fechar").onclick=function(){window.close();setTimeout(function(){if(!window.closed)alert("Feche esta aba pelo X do navegador")},300)}})();<\/script></body></html>');
+ w.document.close();
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-vd-imp]');if(!b)return;e.preventDefault();vdImprimir(b.dataset.vdImp)});
 
 // v98: de onde veio a venda — origem da visita no Shopify (UTM, site de origem, página de entrada) + dono do cupom
 const VD_ORI={};
@@ -5029,6 +5072,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v113','14/11/2026',['Ficha da venda: botão Imprimir / PDF. Abre a venda numa folha A4 só (cliente, entrega, produtos com foto, de onde veio e totais). Se passar de uma folha, encolhe sozinha. Use Imprimir → Salvar como PDF.']],
  ['v112','14/11/2026',['Item que sai do Brasil: um item da venda marcado com envio "brasil" continua na venda (valor, financeiro e lucratividade não mudam), mas sai da carga da Coreia: planilha da Mile, Master List da Skyroad e página da Janice. O valor declarado dos outros itens não muda. Primeiro caso: #1012 (bálsamo TIRTIR enviado pelo Tae do Brasil).']],
  ['v111','14/11/2026',['Clientes › Contato com clientes: novo quadro Acesso do atendimento. Link da tela da Isa, quem tem acesso (com botão para tirar) e as contas criadas nos últimos 30 dias esperando liberação: escreva o nome e toque em Liberar.','A tela da Isa (atendimento.html) mostra só pedidos, contato das clientes e a fila Avisar cliente. Editores abrem em modo visualização.']],
  ['v110','10/11/2026',['Nova tela Operação › Etapas dos pedidos: uma planilha com um pedido por linha e as 13 etapas nas colunas. Clique numa célula para marcar com a data de hoje (ou desmarcar), ou marque vários pedidos e aplique uma etapa com data de uma vez (opção de preencher as etapas anteriores vazias).','Nada é gravado até clicar em Salvar e enviar avisos: antes aparece a lista do que muda e quais e-mails vão sair para as clientes. As etapas com ✉ mandam e-mail (Embalado e Desembaraço pelo ERP; Embarcado, Em rota e Entregue pelo Shopify).','Coluna E-mails do ERP mostra quem já recebeu Preparado na Coreia e Chegou ao Brasil.']],
