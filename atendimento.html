@@ -133,7 +133,7 @@ a.btn{text-decoration:none;color:var(--ameixa)}a.btn.pri{color:#fff}
 </main>
 <script>
 (function(){
-const VERSAO='v1 · 13/11/2026';
+const VERSAO='v1.1 · 14/11/2026';
 const SB_URL='https://nzsiuniabovvptuqmkmi.supabase.co', SB_KEY='sb_publishable_9Nl_ZRXEmLMhDMBP8oKP_w_FuDXaYMq';
 const sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,storageKey:'omg-erp-auth'}});
 const $=s=>document.querySelector(s);
@@ -207,7 +207,7 @@ function cardAviso(c){
  '<div class="sm" style="font-size:13px;color:var(--muted)">'+esc(c.numero)+' · '+esc(produto(c.produto))+(c.qtd>1?' ×'+c.qtd:'')+(c.motivo?' · '+esc(c.motivo):'')+'</div>'+
  (c.solucao?'<div class="diz"><b>O que avisar:</b> '+esc(c.solucao)+'</div>':'')+
  botoes(v)+
- (aberto?'<textarea id="nt-'+c.id+'" placeholder="Nota (opcional): o que a cliente respondeu"></textarea><div class="acts" style="margin:0"><button class="btn pri sm" type="button" data-marca="contatado" data-id="'+c.id+'">✓ Avisei a cliente</button><button class="btn sm" type="button" data-marca="resolvido" data-id="'+c.id+'">Resolvido</button></div>':'')+
+ (aberto&&!D.visualizacao?'<textarea id="nt-'+c.id+'" placeholder="Nota (opcional): o que a cliente respondeu"></textarea><div class="acts" style="margin:0"><button class="btn pri sm" type="button" data-marca="contatado" data-id="'+c.id+'">✓ Avisei a cliente</button><button class="btn sm" type="button" data-marca="resolvido" data-id="'+c.id+'">Resolvido</button></div>':'')+
  (c.obs?'<div class="hist">'+esc(c.obs)+'</div>':'')+'</div>'}
 function cardPedido(v){
  const tl='<ul class="tl">'+ETAPAS.map(([k,l])=>{const d=v.etapas&&v.etapas[k];return '<li class="'+(d?'ok':'')+'"><i>'+(d?'✓':'○')+'</i>'+esc(l)+'<span class="d">'+(d?fdate(d):'')+'</span></li>'}).join('')+'</ul>';
@@ -224,7 +224,7 @@ function render(){
  const abertos=D.contatos.filter(c=>c.status==='a_contatar');
  const q=Q.trim().toLowerCase().replace(/^#/,'');
  const peds=D.vendas.filter(v=>!q||[v.numero,v.pedido,v.cliente,v.contato,v.fone,v.cidade].join(' ').toLowerCase().includes(q)||String(v.contato||'').replace(/\D/g,'').includes(q.replace(/\D/g,'')||'§'));
- let h='<div class="hello"><div><h1>Oi, '+esc(String(D.nome).split(' ')[0])+'!</h1><p>'+(abertos.length?'Você tem <b>'+abertos.length+'</b> '+(abertos.length===1?'cliente para avisar':'clientes para avisar')+'.':'Nenhuma cliente para avisar agora. 💗')+'</p></div><button class="btn sm" type="button" id="recarregar">Atualizar</button></div>'+
+ let h=(D.visualizacao?'<div class="card" style="background:var(--warnbg);border-color:var(--warnbg)"><b>Modo visualização</b> · você está vendo a tela da Isa como editor. Os botões de marcar ficam só com ela.</div>':'')+'<div class="hello"><div><h1>Oi, '+esc(String(D.nome).split(' ')[0])+'!</h1><p>'+(abertos.length?'Você tem <b>'+abertos.length+'</b> '+(abertos.length===1?'cliente para avisar':'clientes para avisar')+'.':'Nenhuma cliente para avisar agora. 💗')+'</p></div><button class="btn sm" type="button" id="recarregar">Atualizar</button></div>'+
  '<div class="tabs"><button type="button" data-aba="avisar" aria-pressed="'+(ABA==='avisar')+'">Avisar cliente'+(abertos.length?'<b>'+abertos.length+'</b>':'')+'</button><button type="button" data-aba="pedidos" aria-pressed="'+(ABA==='pedidos')+'">Pedidos ('+D.vendas.length+')</button></div>';
  if(ABA==='avisar'){
   const feitos=D.contatos.filter(c=>c.status!=='a_contatar');

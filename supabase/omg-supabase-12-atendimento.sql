@@ -19,12 +19,17 @@ $$;
 
 create or replace function public.atend_painel(p_dias int default 90)
 returns jsonb language plpgsql stable security definer set search_path = public as $$
-declare me public.atendentes;
+declare me public.atendentes; ver boolean := false;
 begin
   select * into me from public.atendentes where email = public.meu_email() and ativo;
-  if not found then return jsonb_build_object('cadastrado', false, 'email', public.meu_email()); end if;
+  if not found then
+    -- editores do ERP (Tae) podem abrir a tela só para ver como está (sem marcar)
+    if public.eh_editor() then ver := true; me.nome := coalesce((select nome from public.membros where lower(email) = public.meu_email() limit 1), 'Editor');
+    else return jsonb_build_object('cadastrado', false, 'email', public.meu_email()); end if;
+  end if;
   return jsonb_build_object(
     'cadastrado', true,
+    'visualizacao', ver,
     'nome', me.nome,
     'vendas', coalesce((select jsonb_agg(jsonb_build_object(
         'id', v.id, 'numero', v.numero, 'pedido', coalesce(v.pedido_site, '#'||v.numero), 'data', v.data_compra,
