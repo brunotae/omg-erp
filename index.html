@@ -235,7 +235,7 @@ pre.code{background:var(--surface2);border:1px solid var(--line);border-radius:v
 .px-hist summary{cursor:pointer;padding:2px 0}.px-hist[open] summary{margin-bottom:8px}
 .px-lote{position:sticky;top:0;z-index:5;padding:8px 12px}.px-lote-in{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-size:12.5px}.px-lote-in span{display:inline-flex;gap:6px;align-items:center}.px-lote-in input{width:70px;padding:5px 6px}.px-lote-in .sp{flex:1}
 .px-wrap{max-height:calc(100dvh - 190px)}.px-t{font-size:11.5px;width:100%;table-layout:auto}.px-t th,.px-t td{white-space:nowrap;padding:4px 5px}.px-t th{font-size:10px;letter-spacing:.02em}
-.px-t td.vd-itn{text-align:center}.px-t td.vd-cid{max-width:110px;white-space:normal;font-size:12px;line-height:1.25}.px-t td.vd-cup{white-space:nowrap;font-size:11px;letter-spacing:-.01em}
+.px-t td.vd-itn{text-align:center}.vd-tab .px-t thead th{text-align:center}.px-t td.vd-cid{max-width:110px;white-space:normal;font-size:12px;line-height:1.25}.px-t td.vd-cup{white-space:nowrap;font-size:11px;letter-spacing:-.01em}
 .px-t td.px-nome{white-space:normal;min-width:150px;max-width:230px;line-height:1.25}.px-t td.px-nome a{color:var(--ink,#2b1520);text-decoration:none}.px-t td.px-nome a:hover{color:var(--accent);text-decoration:underline}
 .px-t td.px-marca{max-width:90px;overflow:hidden;text-overflow:ellipsis}.px-t td.px-st{white-space:normal;min-width:90px;max-width:150px}.px-t td.px-st .pill{font-size:10.5px;padding:2px 7px}
 .px-t thead th{position:sticky;top:0;background:var(--surface,#fff);z-index:2}.px-t .px-frow th{position:sticky;top:25px;background:var(--surface,#fff);z-index:2;padding:2px 3px}.px-th{cursor:pointer;user-select:none}
@@ -328,6 +328,9 @@ pre.code{background:var(--surface2);border:1px solid var(--line);border-radius:v
 .band{height:12px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='12'%3E%3Crect x='2' y='2' width='26' height='8' rx='4' fill='%23F48FB1'/%3E%3Crect x='34' y='2' width='14' height='8' rx='4' fill='%239EDFC4'/%3E%3Crect x='54' y='2' width='30' height='8' rx='4' fill='%23D9577F'/%3E%3Crect x='90' y='2' width='12' height='8' rx='4' fill='%23FDE4EC'/%3E%3Crect x='106' y='2' width='12' height='8' rx='4' fill='%23F48FB1'/%3E%3C/svg%3E") repeat-x left center;opacity:.9}
 .head h1{display:flex;align-items:center;gap:10px}
 .head h1::after{content:"";width:18px;height:18px;flex:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0C13 8 16 11 24 12C16 13 13 16 12 24C11 16 8 13 0 12C8 11 11 8 12 0Z' fill='%23F48FB1'/%3E%3C/svg%3E") center/contain no-repeat}
+/* v116: faixa decorativa mais fina e título mais discreto (cabe mais na tela) */
+.band{height:6px!important;background-size:60px 6px!important}
+.head h1{font-size:20px;gap:7px}.head h1::after{width:13px;height:13px}.head p{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:none}
 .side{background:var(--surface)}
 .nav button[aria-current="page"]{background:var(--bebe);color:var(--pri)}
 .nav button[aria-current="page"] svg{stroke:var(--framboesa)}
@@ -992,7 +995,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v115 · 14/11/2026';
+const VERSAO='v116 · 14/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1111,10 +1114,10 @@ VIEWFN.vendas=()=>{
  const f=S.f.vendas;let rows=S.data.vendas.filter(match);
  if(f==='abertas')rows=rows.filter(isOpen);else if(f==='canceladas')rows=rows.filter(isCancel);else if(f!=='todas'){const g=GROUPS.find(x=>x[0]===f);rows=rows.filter(v=>!isCancel(v)&&curStep(v)>=g[1]&&curStep(v)<=g[2])}
  const T=rows.length?xtTabela('vendas',VD_COLS,rows,v=>'data-edit="vendas" data-id="'+esc(v.id)+'" style="cursor:pointer"',['num',-1]):null;
- return '<div class="page wide"><div class="col">'+head('Vendas','Numeração automática a partir de 100.000.001. Cada venda guarda mercadoria, cliente, impostos, custos, quem carregou na Coreia e no Brasil e a data de cada etapa.',newBtn('vendas','Nova venda'))+
+ return '<div class="page wide"><div class="col">'+head('Vendas','Todas as vendas do site, com cliente, produtos, impostos e as 13 etapas até a entrega.',newBtn('vendas','Nova venda'))+
  '<div class="chips">'+[['abertas','Em andamento'],['todas','Todas'],...GROUPS.map(g=>[g[0],g[0]]),['canceladas','Canceladas']].map(([k,l])=>'<button type="button" data-fv="'+esc(k)+'" aria-pressed="'+(f===k)+'">'+esc(l)+'</button>').join('')+'</div>'+
  (T&&T.fil?'<p class="muted" style="margin:0;font-size:11.5px"><b>'+T.n+' de '+rows.length+' vendas</b> · <a href="#" data-xtlimpa="vendas">limpar filtros das colunas</a></p>':'')+
- '<div class="card" style="padding:8px">'+(loading('vendas')?'<p class="muted">Carregando…</p>':rows.length?T.html:empty(S.data.vendas.length?'Nenhuma venda neste filtro':'Nenhuma venda lançada','Use Nova venda. A seta da tabela marca a próxima etapa com a data de hoje; o resto se edita dentro da venda.'))+'</div></div></div>';
+ '<div class="card vd-tab" style="padding:8px">'+(loading('vendas')?'<p class="muted">Carregando…</p>':rows.length?T.html:empty(S.data.vendas.length?'Nenhuma venda neste filtro':'Nenhuma venda lançada','Use Nova venda. A seta da tabela marca a próxima etapa com a data de hoje; o resto se edita dentro da venda.'))+'</div></div></div>';
 };
 
 /* ---------- Embarques ---------- */
@@ -5074,6 +5077,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v116','14/11/2026',['Faixa colorida do topo mais fina e títulos das telas menores, para caber mais na tela.','Vendas: frase de baixo do título numa linha só e títulos das colunas centralizados.']],
  ['v115','14/11/2026',['Vendas: números da coluna Itens centralizados na célula.']],
  ['v114','14/11/2026',['Vendas: número curto na tabela (ex.: 1038, os últimos 4 dígitos; o número da venda continua o mesmo, passe o mouse para ver inteiro). Data no formato 12.nov.2026. Saíram as colunas Canal, AWB e Embarque. Cidade e Cupom mais estreitas. Parametrização mostra #0001 em cima e o P-AAMMDD pequeno embaixo.']],
  ['v113','14/11/2026',['Ficha da venda: botão Imprimir / PDF. Abre a venda numa folha A4 só (cliente, entrega, produtos com foto, de onde veio e totais). Se passar de uma folha, encolhe sozinha. Use Imprimir → Salvar como PDF.']],
