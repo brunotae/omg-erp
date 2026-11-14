@@ -995,7 +995,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v116 · 14/11/2026';
+const VERSAO='v117 · 14/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1099,7 +1099,7 @@ function tblVendas(rows){
 }
 const vdCpf=v=>{const d=String(v.cpf||'').replace(/\D/g,'');return d.length===11?d.slice(0,3)+'.'+d.slice(3,6)+'.'+d.slice(6,9)+'-'+d.slice(9):(v.cpf||'')};
 const VD_COLS=[
- {k:'num',l:'Venda',g:v=>vCurto(v.numero),cell:v=>'<b class="num" title="'+esc(vnum(v.numero))+'">'+vCurto(v.numero)+'</b>'},
+ {k:'num',l:'Venda',g:v=>vCurto(v.numero),cell:v=>'<b class="num" title="'+esc(vnum(v.numero))+'">'+vCurto(v.numero)+'</b>',cls:'vd-itn'},
  {k:'data',l:'Data',t:'t',g:v=>v.dataCompra||'',fmt:v=>fdataL(v),cell:v=>'<span class="num" style="white-space:nowrap">'+fdataL(v.dataCompra)+'</span>'},
  {k:'cli',l:'Cliente',g:v=>(v.cliente||'')+(vdCpf(v)?' · '+vdCpf(v):''),cell:v=>'<b>'+esc(v.cliente||'')+'</b>'+(vdCpf(v)?'<small class="num">CPF '+vdCpf(v)+'</small>':''),cls:'px-nome'},
  {k:'cid',l:'Cidade',g:v=>v.cidade||'',cell:v=>esc(v.cidade||''),cls:'vd-cid'},
@@ -5077,6 +5077,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v117','14/11/2026',['Vendas: número da venda centralizado na célula.']],
  ['v116','14/11/2026',['Faixa colorida do topo mais fina e títulos das telas menores, para caber mais na tela.','Vendas: frase de baixo do título numa linha só e títulos das colunas centralizados.']],
  ['v115','14/11/2026',['Vendas: números da coluna Itens centralizados na célula.']],
  ['v114','14/11/2026',['Vendas: número curto na tabela (ex.: 1038, os últimos 4 dígitos; o número da venda continua o mesmo, passe o mouse para ver inteiro). Data no formato 12.nov.2026. Saíram as colunas Canal, AWB e Embarque. Cidade e Cupom mais estreitas. Parametrização mostra #0001 em cima e o P-AAMMDD pequeno embaixo.']],
