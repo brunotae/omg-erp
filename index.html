@@ -987,7 +987,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v110 · 10/11/2026';
+const VERSAO='v111 · 14/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1663,6 +1663,31 @@ function ccMsg(v,rs){
  m+=pedidoTodo?'2) Cancelar o pedido com reembolso total de '+brl(tot)+'\n':'2) Receber o reembolso de '+brl(tot)+' referente a '+(rs.length>1?'esses itens':'esse item')+'\n';
  return m+'\nÉ só me responder aqui que eu resolvo para você. Desculpa pelo transtorno!';
 }
+/* ---------- v111: acesso da equipe de atendimento (tela atendimento.html) ---------- */
+const ATA={rows:null,novas:[],err:''};
+async function loadATA(){try{const a=await sb.from('atendentes').select('*').order('criado_em');if(a.error)throw a.error;ATA.rows=a.data||[];
+ const n=await sb.rpc('atend_contas_novas');ATA.novas=n.error?[]:(n.data||[]);ATA.err=''}catch(e){ATA.rows=[];ATA.err=String(e.message||e)}render()}
+function ataCard(){
+ if(!can())return '';
+ if(ATA.rows===null){setTimeout(loadATA,0);return '<div class="card"><span class="label">Acesso do atendimento</span><p class="muted">Carregando…</p></div>'}
+ const url=location.origin+location.pathname.replace(/[^/]*$/,'')+'atendimento.html';
+ return '<div class="card"><span class="label">Acesso do atendimento (Isa)</span><p class="muted" style="margin:4px 0 10px;font-size:12.5px">Tela própria só com pedidos, contato das clientes e a fila "Avisar cliente". Não vê custos, margens, CPF, parceiros nem o resto do ERP. Link: <a href="'+esc(url)+'" target="_blank" rel="noopener">'+esc(url.replace(/^https?:\/\//,''))+'</a> <button class="btn sm" type="button" data-copy="'+esc(url)+'">Copiar link</button></p>'+
+ (ATA.err?'<p class="muted">Não deu para carregar: '+esc(ATA.err)+'</p>':'')+
+ '<b style="font-size:13px">Com acesso</b>'+(ATA.rows.length?'<div class="tblwrap"><table><tbody>'+ATA.rows.map(a=>'<tr><td>'+esc(a.nome)+'</td><td>'+esc(a.email)+'</td><td>'+(a.ativo?stPill('Ativo'):stPill('Pausado'))+'</td><td style="text-align:right"><button class="btn sm" type="button" data-ata-tog="'+esc(a.email)+'">'+(a.ativo?'Tirar acesso':'Devolver acesso')+'</button></td></tr>').join('')+'</tbody></table></div>':'<p class="muted" style="font-size:12.5px;margin:4px 0 10px">Ninguém ainda.</p>')+
+ '<b style="font-size:13px;display:block;margin-top:10px">Contas criadas nos últimos 30 dias, sem acesso</b><p class="muted" style="font-size:12px;margin:2px 0 6px">A pessoa abre o link, toca em "Primeiro acesso? Criar senha" e a conta aparece aqui. Escreva o nome e toque em Liberar.</p>'+
+ (ATA.novas.length?'<div class="tblwrap"><table><tbody>'+ATA.novas.map(u=>'<tr><td>'+esc(u.email)+(u.confirmado?'':' <span class="muted" style="font-size:11.5px">(e-mail ainda não confirmado)</span>')+'<br><span class="muted" style="font-size:11.5px">criada '+esc(dhBR(u.criado_em))+'</span></td><td><input type="text" placeholder="Nome (ex.: Isa)" data-ata-nome="'+esc(u.email)+'" style="min-width:120px"></td><td style="text-align:right"><button class="btn sm pri" type="button" data-ata-lib="'+esc(u.email)+'">Liberar</button></td></tr>').join('')+'</tbody></table></div>':'<p class="muted" style="font-size:12.5px;margin:0">Nenhuma conta esperando.</p>')+
+ '<div class="chips" style="margin-top:8px"><button class="btn sm" type="button" id="ata-rec">Atualizar lista</button></div></div>'}
+document.addEventListener('click',async e=>{const t=e.target.closest('[data-ata-lib],[data-ata-tog],#ata-rec');if(!t)return;
+ if(t.id==='ata-rec'){ATA.rows=null;render();return}
+ t.disabled=true;
+ try{
+  if(t.dataset.ataLib){const em=t.dataset.ataLib;const inp=document.querySelector('[data-ata-nome="'+CSS.escape(em)+'"]');const nome=(inp&&inp.value.trim())||em.split('@')[0];
+   if(!confirm('Liberar a tela de atendimento para '+em+' ('+nome+')?')){t.disabled=false;return}
+   const {error}=await sb.from('atendentes').insert({email:em,nome});if(error)throw error;toast('Acesso liberado para '+nome)}
+  else{const a=ATA.rows.find(x=>x.email===t.dataset.ataTog);const {error}=await sb.from('atendentes').update({ativo:!a.ativo}).eq('email',a.email);if(error)throw error;toast(a.ativo?'Acesso pausado':'Acesso devolvido')}
+  ATA.rows=null;render();
+ }catch(err){t.disabled=false;alert('Não deu: '+(err.message||err))}
+});
 VIEWFN.contatos=()=>{
  if(!CC.loaded&&S.db)setTimeout(loadCC,0);
  const sub='Ligado às Ocorrências de compra: cada ocorrência em aberto com pedido vira um contato aqui, e o que você combinar com a cliente vai para a coluna Decisão da ocorrência (Resolvido fecha a ocorrência). Itens que a diretora não conseguiu comprar na Coreia. Fale com cada cliente pelo WhatsApp (a mensagem já vem pronta), ofereça troca ou reembolso do item e registre o que foi combinado.';
@@ -1698,7 +1723,7 @@ VIEWFN.contatos=()=>{
      '</div></div>'}).join('')+
    (outros.length?'<p class="muted" style="margin:6px 0 0;font-size:12px">Seguem normalmente: '+outros.map(i=>esc((n(i.qtd)>1?n(i.qtd)+'× ':'')+String(i.produto||'').split(' · ').slice(1).join(' · ').split(':')[0])).join(' · ')+'</p>':'')+
    '</div>'}).join('');
- return '<div class="page wide"><div class="col">'+head('Contato com clientes',sub,acts)+
+ return '<div class="page wide"><div class="col">'+head('Contato com clientes',sub,acts)+ataCard()+
   '<div class="chips" style="margin:0 0 10px"><button class="chip'+(CC.ver==='abertos'?' on':'')+'" type="button" data-cc-ver="abertos">Em aberto</button><button class="chip'+(CC.ver==='todos'?' on':'')+'" type="button" data-cc-ver="todos">Todos</button></div>'+
   (cards||'<div class="card">'+empty('Nada pendente','Quando a diretora não conseguir comprar um item, ele aparece aqui para a equipe falar com a cliente.')+'</div>')+'</div>'+
   '<aside class="rail"><div class="note"><span class="label">Resumo</span><p><b>'+Object.keys(grupos).filter(k=>grupos[k].some(ccAberto)).length+'</b> pedidos em aberto · <b>'+aCont.length+'</b> itens a contatar</p><p class="muted">Se todos pedirem reembolso: '+brl(maxRe)+'</p></div>'+
@@ -5002,6 +5027,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v111','14/11/2026',['Clientes › Contato com clientes: novo quadro Acesso do atendimento. Link da tela da Isa, quem tem acesso (com botão para tirar) e as contas criadas nos últimos 30 dias esperando liberação: escreva o nome e toque em Liberar.','A tela da Isa (atendimento.html) mostra só pedidos, contato das clientes e a fila Avisar cliente. Editores abrem em modo visualização.']],
  ['v110','10/11/2026',['Nova tela Operação › Etapas dos pedidos: uma planilha com um pedido por linha e as 13 etapas nas colunas. Clique numa célula para marcar com a data de hoje (ou desmarcar), ou marque vários pedidos e aplique uma etapa com data de uma vez (opção de preencher as etapas anteriores vazias).','Nada é gravado até clicar em Salvar e enviar avisos: antes aparece a lista do que muda e quais e-mails vão sair para as clientes. As etapas com ✉ mandam e-mail (Embalado e Desembaraço pelo ERP; Embarcado, Em rota e Entregue pelo Shopify).','Coluna E-mails do ERP mostra quem já recebeu Preparado na Coreia e Chegou ao Brasil.']],
  ['v109','09/11/2026',['Monitoramentos: botão PT | 한국어 no topo da tela e dentro de cada monitoramento. Em coreano aparecem a tela, o cadastro de cada monitoramento e o resumo e a lista de cada execução. A escolha fica salva neste aparelho.','M-002: quando acha mudança ou erro, além do aviso no celular, chega um e-mail em português + coreano para bruno@mintess.com e info.br@ohmygirl.com.br. No histórico aparece "e-mail PT + 한국어".']],
  ['v108','09/11/2026',['Links e influenciadores → Influenciadores: nova coluna Relatório. Abre o relatório completo da parceira: capa com os números, conquistas, funil do clique à compra, dia a dia, horários e dias que mais clicam, de onde vêm os cliques, produtos com foto, estados e cidades, links, comparação anônima com as outras parceiras, sugestões para o próximo post, pedidos e ganhos. Tem Salvar em PDF, Card para o story (imagem 1080×1920) e Copiar link para ela (abre sem senha).']],

@@ -85,3 +85,18 @@ revoke all on function public.atend_marcar(uuid, text, text) from public, anon;
 grant execute on function public.eh_atendente() to authenticated;
 grant execute on function public.atend_painel(int) to authenticated;
 grant execute on function public.atend_marcar(uuid, text, text) to authenticated;
+
+-- 14/11: contas criadas recentemente que ainda não têm acesso (para o Tae liberar na tela "Contato com clientes")
+create or replace function public.atend_contas_novas()
+returns jsonb language plpgsql stable security definer set search_path = public, auth as $$
+begin
+  if not public.eh_editor() then raise exception 'só editores'; end if;
+  return coalesce((select jsonb_agg(jsonb_build_object('email', lower(u.email), 'criado_em', u.created_at, 'confirmado', u.email_confirmed_at is not null) order by u.created_at desc)
+    from auth.users u
+    where u.created_at > now() - interval '30 days'
+      and lower(u.email) not in (select lower(email) from public.membros)
+      and lower(u.email) not in (select lower(email) from public.atendentes)
+      and lower(u.email) not in (select lower(coalesce(email,'')) from public.influenciadores)), '[]'::jsonb);
+end $$;
+revoke all on function public.atend_contas_novas() from public, anon;
+grant execute on function public.atend_contas_novas() to authenticated;
