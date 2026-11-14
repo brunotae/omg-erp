@@ -235,7 +235,7 @@ pre.code{background:var(--surface2);border:1px solid var(--line);border-radius:v
 .px-hist summary{cursor:pointer;padding:2px 0}.px-hist[open] summary{margin-bottom:8px}
 .px-lote{position:sticky;top:0;z-index:5;padding:8px 12px}.px-lote-in{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-size:12.5px}.px-lote-in span{display:inline-flex;gap:6px;align-items:center}.px-lote-in input{width:70px;padding:5px 6px}.px-lote-in .sp{flex:1}
 .px-wrap{max-height:calc(100dvh - 190px)}.px-t{font-size:11.5px;width:100%;table-layout:auto}.px-t th,.px-t td{white-space:nowrap;padding:4px 5px}.px-t th{font-size:10px;letter-spacing:.02em}
-.px-t td.vd-cid{max-width:110px;white-space:normal;font-size:12px;line-height:1.25}.px-t td.vd-cup{white-space:nowrap;font-size:11px;letter-spacing:-.01em}
+.px-t td.vd-itn{text-align:center}.px-t td.vd-cid{max-width:110px;white-space:normal;font-size:12px;line-height:1.25}.px-t td.vd-cup{white-space:nowrap;font-size:11px;letter-spacing:-.01em}
 .px-t td.px-nome{white-space:normal;min-width:150px;max-width:230px;line-height:1.25}.px-t td.px-nome a{color:var(--ink,#2b1520);text-decoration:none}.px-t td.px-nome a:hover{color:var(--accent);text-decoration:underline}
 .px-t td.px-marca{max-width:90px;overflow:hidden;text-overflow:ellipsis}.px-t td.px-st{white-space:normal;min-width:90px;max-width:150px}.px-t td.px-st .pill{font-size:10.5px;padding:2px 7px}
 .px-t thead th{position:sticky;top:0;background:var(--surface,#fff);z-index:2}.px-t .px-frow th{position:sticky;top:25px;background:var(--surface,#fff);z-index:2;padding:2px 3px}.px-th{cursor:pointer;user-select:none}
@@ -992,7 +992,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v114 · 14/11/2026';
+const VERSAO='v115 · 14/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1101,7 +1101,7 @@ const VD_COLS=[
  {k:'cli',l:'Cliente',g:v=>(v.cliente||'')+(vdCpf(v)?' · '+vdCpf(v):''),cell:v=>'<b>'+esc(v.cliente||'')+'</b>'+(vdCpf(v)?'<small class="num">CPF '+vdCpf(v)+'</small>':''),cls:'px-nome'},
  {k:'cid',l:'Cidade',g:v=>v.cidade||'',cell:v=>esc(v.cidade||''),cls:'vd-cid'},
  {k:'uf',l:'UF',g:v=>v.uf||'',cell:v=>esc(v.uf||'')},
- {k:'itens',l:'Itens',t:'n',g:v=>calc(v).qtd,cell:v=>'<span class="num">'+calc(v).qtd+'</span>',cls:'r'},
+ {k:'itens',l:'Itens',t:'n',g:v=>calc(v).qtd,cell:v=>'<span class="num">'+calc(v).qtd+'</span>',cls:'vd-itn'},
  {k:'cupom',l:'Cupom',g:v=>v.cupom||'',cell:v=>esc(v.cupom||''),cls:'vd-cup'},
  {k:'par',l:'Parametrização',g:v=>{const c=corteOf(v);return c?'#'+pmSeq(c)+' '+(c.numero||''):''},cell:v=>{const c=corteOf(v);return c?'<b class="num">#'+esc(pmSeq(c))+'</b><small class="muted">'+esc(c.numero||'')+'</small>':''}},
  {k:'etapa',l:'Etapa',g:v=>isCancel(v)?'Cancelada':(curStep(v)<0?'Sem etapa':(curStep(v)+1)+'. '+STEPS[curStep(v)][1]),cell:v=>prog(v)},
@@ -5074,6 +5074,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v115','14/11/2026',['Vendas: números da coluna Itens centralizados na célula.']],
  ['v114','14/11/2026',['Vendas: número curto na tabela (ex.: 1038, os últimos 4 dígitos; o número da venda continua o mesmo, passe o mouse para ver inteiro). Data no formato 12.nov.2026. Saíram as colunas Canal, AWB e Embarque. Cidade e Cupom mais estreitas. Parametrização mostra #0001 em cima e o P-AAMMDD pequeno embaixo.']],
  ['v113','14/11/2026',['Ficha da venda: botão Imprimir / PDF. Abre a venda numa folha A4 só (cliente, entrega, produtos com foto, de onde veio e totais). Se passar de uma folha, encolhe sozinha. Use Imprimir → Salvar como PDF.']],
  ['v112','14/11/2026',['Item que sai do Brasil: um item da venda marcado com envio "brasil" continua na venda (valor, financeiro e lucratividade não mudam), mas sai da carga da Coreia: planilha da Mile, Master List da Skyroad e página da Janice. O valor declarado dos outros itens não muda. Primeiro caso: #1012 (bálsamo TIRTIR enviado pelo Tae do Brasil).']],
