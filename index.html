@@ -235,7 +235,11 @@ pre.code{background:var(--surface2);border:1px solid var(--line);border-radius:v
 .px-hist summary{cursor:pointer;padding:2px 0}.px-hist[open] summary{margin-bottom:8px}
 .px-lote{position:sticky;top:0;z-index:5;padding:8px 12px}.px-lote-in{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-size:12.5px}.px-lote-in span{display:inline-flex;gap:6px;align-items:center}.px-lote-in input{width:70px;padding:5px 6px}.px-lote-in .sp{flex:1}
 .px-wrap{max-height:calc(100dvh - 190px)}.px-t{font-size:11.5px;width:100%;table-layout:auto}.px-t th,.px-t td{white-space:nowrap;padding:4px 5px}.px-t th{font-size:10px;letter-spacing:.02em}
-.px-t td.vd-itn{text-align:center}.vd-tab .px-t thead th{text-align:center}.px-t td.vd-cid{max-width:110px;white-space:normal;font-size:12px;line-height:1.25}.px-t td.vd-cup{white-space:nowrap;font-size:11px;letter-spacing:-.01em}
+.px-t td.vd-itn{text-align:center}.et-t{width:100%;table-layout:fixed;border-collapse:collapse}.et-t th{font-size:9.5px;line-height:1.2;white-space:normal;padding:5px 2px;vertical-align:bottom;letter-spacing:.03em}.et-t th.c,.et-t td.c{text-align:center}.et-t th.et-so{cursor:pointer;user-select:none}.et-t th.et-so:hover{color:var(--accent)}
+.et-t td{padding:3px 2px;font-size:12px}.et-t td.et-cli{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-left:6px}.et-t th:nth-child(3){text-align:left;padding-left:6px}
+.et-t td.et-cel button{width:100%;border:0;border-radius:6px;padding:5px 0;font:inherit;font-size:11px;font-variant-numeric:tabular-nums}
+.et-t .et-frow th{padding:2px;vertical-align:middle}.et-t .et-frow input,.et-t .et-frow select{width:100%;box-sizing:border-box;font:inherit;font-size:10px;padding:3px 2px;border:1px solid var(--line);border-radius:6px;background:var(--surface,#fff);color:var(--muted)}.et-t .et-frow select.on{border-color:var(--accent);color:var(--accent);font-weight:700}
+.et-barra{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;padding:8px 12px!important;margin-bottom:10px;font-size:12px}.et-barra b{font-size:12.5px}.et-barra select,.et-barra input[type=date]{font:inherit;font-size:12px;padding:4px 6px;border:1px solid var(--line);border-radius:999px;background:var(--surface,#fff)}.et-barra label{display:flex;gap:4px;align-items:center;font-size:11.5px}.et-barra .sp{flex:1}.vd-tab .px-t thead th{text-align:center}.px-t td.vd-cid{max-width:110px;white-space:normal;font-size:12px;line-height:1.25}.px-t td.vd-cup{white-space:nowrap;font-size:11px;letter-spacing:-.01em}
 .px-t td.px-nome{white-space:normal;min-width:150px;max-width:230px;line-height:1.25}.px-t td.px-nome a{color:var(--ink,#2b1520);text-decoration:none}.px-t td.px-nome a:hover{color:var(--accent);text-decoration:underline}
 .px-t td.px-marca{max-width:90px;overflow:hidden;text-overflow:ellipsis}.px-t td.px-st{white-space:normal;min-width:90px;max-width:150px}.px-t td.px-st .pill{font-size:10.5px;padding:2px 7px}
 .px-t thead th{position:sticky;top:0;background:var(--surface,#fff);z-index:2}.px-t .px-frow th{position:sticky;top:25px;background:var(--surface,#fff);z-index:2;padding:2px 3px}.px-th{cursor:pointer;user-select:none}
@@ -995,7 +999,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v119 · 15/11/2026';
+const VERSAO='v120 · 15/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -4918,7 +4922,7 @@ async function finishAnexos(col,id){
 // Planilha: um pedido por linha, uma etapa por coluna. Clique numa célula para marcar (data de hoje) ou desmarcar;
 // ou marque vários pedidos e aplique uma etapa com data. Nada vai para o banco até clicar em "Salvar e enviar avisos":
 // aí cada venda é salva como no formulário (Shopify recebe a etapa e o ERP manda os avisos 2 e 4).
-const ET={ver:'abertos',sel:new Set(),mud:{},av:null,avLoading:false,q:'',etapa:'embalado',data:'',ant:true};
+const ET={sel:new Set(),mud:{},av:null,avLoading:false,f:{ped:'',cli:'',st:{entregue:'vazio'}},sort:['num',1],etapa:'embalado',data:'',ant:true};
 const ET_CURTO={pago:'Pago',docs:'Etiqueta',skyroad:'Skyroad',separado:'Separado',embalado:'Embalado',consolidado:'Consolid.',awb:'AWB',rfkr:'RF Coreia',embarcado:'Embarcado',manifesto:'Manifesto',desembaraco:'Desemb.',lastmile:'Em rota',entregue:'Entregue'};
 const ET_EMAIL={embalado:'ERP: Preparado na Coreia',embarcado:'Shopify: saiu da Coreia (rastreio)',desembaraco:'ERP: Chegou ao Brasil e foi liberado',lastmile:'Shopify: saiu para entrega',entregue:'Shopify: entregue'};
 async function etLoadAv(){if(ET.avLoading||!S.db)return;ET.avLoading=true;
@@ -4926,33 +4930,40 @@ async function etLoadAv(){if(ET.avLoading||!S.db)return;ET.avLoading=true;
  ET.avLoading=false;if(S.view==='etapas')render()}
 const etNova=v=>{const e={...(v.etapas||{})},m=ET.mud[v.id]||{};Object.entries(m).forEach(([k,d])=>{if(d)e[k]=d;else delete e[k]});return e};
 function etSet(v,k,d){const atual=(v.etapas||{})[k]||'';const m=ET.mud[v.id]=ET.mud[v.id]||{};if((d||'')===atual)delete m[k];else m[k]=d||'';if(!Object.keys(m).length)delete ET.mud[v.id]}
-const etRows=()=>{let L=(S.data.vendas||[]).filter(v=>!v.cancelada);if(ET.ver==='abertos')L=L.filter(v=>!(v.etapas||{}).entregue||ET.mud[v.id]);
- const q=ET.q.trim().toLowerCase();if(q)L=L.filter(v=>[v.numero,v.pedidoSite,v.cliente,v.contato].join(' ').toLowerCase().includes(q));
- return L.sort((a,b)=>Number(a.numero)-Number(b.numero))};
+const etAvTxt=v=>{const av=(ET.av||{})[v.id]||{};return [av.preparado?'Preparado':'',av.liberado?'Liberado':''].filter(Boolean).join(' · ')};
+// v120: filtro e ordem no título das colunas (no lugar de Em andamento / Todos / busca). Padrão: Entregue = vazio (= em andamento).
+const etRows=()=>{const F=ET.f;let L=(S.data.vendas||[]).filter(v=>!v.cancelada);
+ const pq=F.ped.trim().toLowerCase(),cq=F.cli.trim().toLowerCase();
+ if(pq)L=L.filter(v=>[vCurto(v.numero),v.numero,v.pedidoSite].join(' ').toLowerCase().includes(pq));
+ if(cq)L=L.filter(v=>String(v.cliente||'').toLowerCase().includes(cq)||String(v.contato||'').toLowerCase().includes(cq));
+ Object.entries(F.st).forEach(([k,o])=>{if(!o)return;L=L.filter(v=>{const tem=!!etNova(v)[k];return (o==='com'?tem:!tem)||(!!ET.mud[v.id]&&k==='entregue')})});
+ const [sk,sd]=ET.sort,val=v=>sk==='num'?Number(v.numero):sk==='cli'?String(v.cliente||'').toLowerCase():sk==='av'?etAvTxt(v):(etNova(v)[sk]||'');
+ return L.sort((a,b)=>{const x=val(a),y=val(b);if(sk!=='num'&&!x!==!y)return x?-1:1;return (x<y?-1:x>y?1:0)*sd||Number(a.numero)-Number(b.numero)})};
 VIEWFN.etapas=()=>{
  if(!ET.av&&S.db)setTimeout(etLoadAv,0);if(!ET.data)ET.data=today();
  const ed=can(), L=etRows(), nMud=Object.keys(ET.mud).length, nSel=[...ET.sel].filter(id=>L.some(v=>v.id===id)).length;
- const sub='Um pedido por linha, uma etapa por coluna. Clique numa célula para marcar com a data de hoje (ou desmarcar). Nada é gravado até você clicar em Salvar e enviar avisos. ✉ = etapa que manda e-mail para a cliente.';
+ const sub='Clique numa célula para marcar ou desmarcar; só grava em Salvar e enviar avisos. ✉ = manda e-mail à cliente.';
  const acts=ed?'<button class="btn" type="button" data-et-desf'+(nMud?'':' disabled')+'>Desfazer</button><button class="btn pri" type="button" data-et-salvar'+(nMud?'':' disabled')+'>Salvar e enviar avisos'+(nMud?' ('+nMud+')':'')+'</button>':'';
- const th='<th style="width:28px"><input type="checkbox" data-et-todos'+(L.length&&nSel===L.length?' checked':'')+(ed?'':' disabled')+' aria-label="Marcar todos"></th><th>Pedido</th><th>Cliente</th>'+
-  STEPS.map(([k,l],i)=>'<th class="c" title="'+esc((i+1)+'. '+l+(ET_EMAIL[k]?' · e-mail: '+ET_EMAIL[k]:''))+'" style="font-size:10.5px;line-height:1.2;white-space:normal;min-width:62px">'+(i+1)+'<br>'+esc(ET_CURTO[k])+(ET_EMAIL[k]?' ✉':'')+'</th>').join('')+'<th>E-mails do ERP</th>';
- const rows=L.map(v=>{const e=v.etapas||{},m=ET.mud[v.id]||{},av=(ET.av||{})[v.id]||{};
+ const seta=k=>ET.sort[0]===k?(ET.sort[1]>0?' ▲':' ▼'):'';
+ const fSel=k=>{const o=ET.f.st[k]||'';return '<select data-et-fs="'+k+'" title="Filtrar" class="et-fi'+(o?' on':'')+'"><option value=""'+(o?'':' selected')+'>todos</option><option value="com"'+(o==='com'?' selected':'')+'>com data</option><option value="vazio"'+(o==='vazio'?' selected':'')+'>vazio</option></select>'};
+ const th='<tr><th class="c"><input type="checkbox" data-et-todos'+(L.length&&nSel===L.length?' checked':'')+(ed?'':' disabled')+' aria-label="Marcar todos"></th><th class="c et-so" data-et-sort="num">Pedido'+seta('num')+'</th><th class="et-so" data-et-sort="cli">Cliente'+seta('cli')+'</th>'+
+  STEPS.map(([k,l],i)=>'<th class="c et-so" data-et-sort="'+k+'" title="'+esc((i+1)+'. '+l+(ET_EMAIL[k]?' · e-mail: '+ET_EMAIL[k]:'')+' · clique para ordenar')+'">'+(i+1)+'<br>'+esc(ET_CURTO[k])+(ET_EMAIL[k]?' ✉':'')+seta(k)+'</th>').join('')+'<th class="c et-so" data-et-sort="av">E-mails ERP'+seta('av')+'</th></tr>'+
+  '<tr class="et-frow"><th></th><th><input data-et-f="ped" value="'+esc(ET.f.ped)+'" placeholder="filtrar"></th><th><input data-et-f="cli" value="'+esc(ET.f.cli)+'" placeholder="filtrar"></th>'+STEPS.map(([k])=>'<th>'+fSel(k)+'</th>').join('')+'<th></th></tr>';
+ const rows=L.map(v=>{const e=v.etapas||{},m=ET.mud[v.id]||{};
   const cells=STEPS.map(([k])=>{const has=k in m,d=has?m[k]:e[k];
    const st=has?(d?'background:#FFF2CC;color:#7F6000;font-weight:700':'background:#F4CCCC;color:#990000;text-decoration:line-through'):(d?'background:var(--soft);color:var(--accent)':'color:#bbb');
    const txt=has&&!d?fdate(e[k]).slice(0,5):(d?fdate(d).slice(0,5):'·');
-   return '<td class="c" style="padding:2px"><button type="button" data-et-c="'+esc(v.id)+'|'+k+'" style="width:100%;border:0;border-radius:6px;padding:5px 2px;font:inherit;font-size:11.5px;cursor:'+(ed?'pointer':'default')+';'+st+'"'+(ed?'':' disabled')+'>'+txt+'</button></td>'}).join('');
-  const avTxt=[av.preparado?'Preparado ✓':'',av.liberado?'Liberado ✓':''].filter(Boolean).join(' · ')||'<span class="muted">—</span>';
-  return '<tr'+(ET.mud[v.id]?' style="background:#FFFBEA"':'')+'><td><input type="checkbox" data-et-sel="'+esc(v.id)+'"'+(ET.sel.has(v.id)?' checked':'')+(ed?'':' disabled')+'></td><td style="white-space:nowrap"><a href="#" data-et-abrir="'+esc(v.id)+'">'+esc(v.pedidoSite||vnum(v.numero))+'</a></td><td style="white-space:nowrap;max-width:180px;overflow:hidden;text-overflow:ellipsis">'+esc(v.cliente||'')+'</td>'+cells+'<td style="font-size:11.5px;white-space:nowrap">'+avTxt+'</td></tr>'}).join('');
- const barra=ed?'<div class="card" style="margin-bottom:10px;padding:10px 12px"><div class="chips" style="align-items:center;gap:8px;flex-wrap:wrap">'+
-  '<b style="font-size:13px">Nos '+nSel+' pedidos marcados:</b> marcar a etapa <select class="chip" data-et-etapa>'+STEPS.map(([k,l],i)=>'<option value="'+k+'"'+(ET.etapa===k?' selected':'')+'>'+(i+1)+'. '+esc(l)+(ET_EMAIL[k]?' ✉':'')+'</option>').join('')+'</select>'+
-  ' com a data <input type="date" class="chip" data-et-data value="'+esc(ET.data)+'">'+
-  '<label style="font-size:12px;display:flex;gap:4px;align-items:center"><input type="checkbox" data-et-ant'+(ET.ant?' checked':'')+'> preencher também as etapas anteriores vazias (menos Etiqueta)</label>'+
-  '<button class="btn sm pri" type="button" data-et-aplicar'+(nSel?'':' disabled')+'>Aplicar</button><button class="btn sm" type="button" data-et-limpasel'+(nSel?'':' disabled')+'>Limpar seleção</button></div></div>':'';
- return '<div class="page wide"><div class="col">'+head('Etapas dos pedidos',sub,acts)+
-  '<div class="chips" style="margin:0 0 10px;align-items:center"><button class="chip'+(ET.ver==='abertos'?' on':'')+'" type="button" data-et-ver="abertos">Em andamento</button><button class="chip'+(ET.ver==='todos'?' on':'')+'" type="button" data-et-ver="todos">Todos</button>'+
-  '<input class="chip" style="min-width:220px" placeholder="Buscar pedido ou cliente" data-et-q value="'+esc(ET.q)+'"><span class="muted" style="font-size:12px">'+L.length+' pedidos</span></div>'+barra+
-  (L.length?'<div class="tblwrap"><table style="min-width:1200px"><thead><tr>'+th+'</tr></thead><tbody>'+rows+'</tbody></table></div>':'<div class="card">'+empty('Nenhum pedido','Nada em andamento.')+'</div>')+
-  '<p class="muted" style="font-size:12px;margin-top:8px">Amarelo = vai ser marcado · vermelho riscado = vai ser desmarcado. Cada aviso sai uma vez só por pedido. Os e-mails de saiu da Coreia, saiu para entrega e entregue saem pelo Shopify (sem cópia para você).</p></div></div>';
+   return '<td class="c et-cel"><button type="button" data-et-c="'+esc(v.id)+'|'+k+'" style="cursor:'+(ed?'pointer':'default')+';'+st+'"'+(ed?'':' disabled')+'>'+txt+'</button></td>'}).join('');
+  const avTxt=etAvTxt(v)||'<span class="muted">—</span>';
+  return '<tr'+(ET.mud[v.id]?' style="background:#FFFBEA"':'')+'><td class="c"><input type="checkbox" data-et-sel="'+esc(v.id)+'"'+(ET.sel.has(v.id)?' checked':'')+(ed?'':' disabled')+'></td><td class="c"><a href="#" data-et-abrir="'+esc(v.id)+'" title="'+esc(v.pedidoSite||vnum(v.numero))+'"><b class="num">'+vCurto(v.numero)+'</b></a></td><td class="et-cli" title="'+esc(v.cliente||'')+'">'+esc(v.cliente||'')+'</td>'+cells+'<td class="c" style="font-size:10.5px">'+avTxt+'</td></tr>'}).join('');
+ const barra=ed?'<div class="card et-barra"><b>Nos '+nSel+' marcados</b><span>· etapa</span><select data-et-etapa>'+STEPS.map(([k,l],i)=>'<option value="'+k+'"'+(ET.etapa===k?' selected':'')+'>'+(i+1)+'. '+esc(l)+(ET_EMAIL[k]?' ✉':'')+'</option>').join('')+'</select>'+
+  '<span>· data</span><input type="date" data-et-data value="'+esc(ET.data)+'">'+
+  '<label><input type="checkbox" data-et-ant'+(ET.ant?' checked':'')+'> preencher anteriores vazias (menos Etiqueta)</label>'+
+  '<button class="btn sm pri" type="button" data-et-aplicar'+(nSel?'':' disabled')+'>Aplicar</button><button class="btn sm" type="button" data-et-limpasel'+(nSel?'':' disabled')+'>Limpar seleção</button><span class="sp"></span><span class="muted">'+L.length+' pedidos</span></div>':'';
+ const col='<colgroup><col style="width:26px"><col style="width:48px"><col style="width:13%">'+STEPS.map(()=>'<col class="et-cs">').join('')+'<col style="width:7%"></colgroup>';
+ return '<div class="page wide"><div class="col">'+head('Etapas dos pedidos',sub,acts)+barra+
+  (L.length||Object.values(ET.f.st).some(Boolean)||ET.f.ped||ET.f.cli?'<div class="tblwrap"><table class="et-t">'+col+'<thead>'+th+'</thead><tbody>'+(rows||'<tr><td colspan="17" class="muted" style="padding:14px">Nenhum pedido com esses filtros.</td></tr>')+'</tbody></table></div>':'<div class="card">'+empty('Nenhum pedido','Nada em andamento.')+'</div>')+
+  '<p class="muted" style="font-size:11.5px;margin-top:8px">Amarelo = vai ser marcado · vermelho riscado = vai ser desmarcado · padrão: Entregue = vazio (pedidos em andamento). Cada aviso sai uma vez só por pedido.</p></div></div>';
 };
 function etAplicar(){const k=ET.etapa,d=ET.data||today(),i0=SK.indexOf(k);
  for(const id of ET.sel){const v=(S.data.vendas||[]).find(x=>x.id===id);if(!v)continue;const e=etNova(v);
@@ -4970,15 +4981,16 @@ async function etSalvar(){
   try{await save('vendas',v,{etapas:etNova(v)});delete ET.mud[id];ok++}catch(e){er++;toast('Não salvou '+(v.pedidoSite||vnum(v.numero))+': '+(e.message||e))}}
  ET.sel.clear();toast(ok+' pedido(s) salvos'+(mails.length?' · os e-mails saem em alguns segundos':'')+(er?' · '+er+' com erro':''));render();
  setTimeout(()=>{ET.av=null;if(S.view==='etapas')render()},6000)}
-document.addEventListener('input',e=>{if(S.view!=='etapas')return;const el=e.target;if(el.matches&&el.matches('[data-et-q]')){ET.q=el.value;const p=el.selectionStart;render();const n=document.querySelector('[data-et-q]');if(n){n.focus();try{n.setSelectionRange(p,p)}catch(_){}}}});
+document.addEventListener('input',e=>{if(S.view!=='etapas')return;const el=e.target;if(el.matches&&el.matches('[data-et-f]')){const k=el.dataset.etF;ET.f[k]=el.value;const p=el.selectionStart;render();const n=document.querySelector('[data-et-f="'+k+'"]');if(n){n.focus();try{n.setSelectionRange(p,p)}catch(_){}}}});
 document.addEventListener('change',e=>{if(S.view!=='etapas')return;const el=e.target;if(!el.matches)return;
  if(el.matches('[data-et-sel]')){el.checked?ET.sel.add(el.dataset.etSel):ET.sel.delete(el.dataset.etSel);render()}
  else if(el.matches('[data-et-todos]')){const L=etRows();if(el.checked)L.forEach(v=>ET.sel.add(v.id));else L.forEach(v=>ET.sel.delete(v.id));render()}
+ else if(el.matches('[data-et-fs]')){ET.f.st[el.dataset.etFs]=el.value;render()}
  else if(el.matches('[data-et-etapa]'))ET.etapa=el.value;
  else if(el.matches('[data-et-data]'))ET.data=el.value;
  else if(el.matches('[data-et-ant]'))ET.ant=el.checked});
-document.addEventListener('click',e=>{if(S.view!=='etapas')return;const b=e.target.closest('button,a[data-et-abrir]');if(!b)return;
- if(b.dataset.etVer){ET.ver=b.dataset.etVer;render();return}
+document.addEventListener('click',e=>{if(S.view!=='etapas')return;const so=e.target.closest('th[data-et-sort]');if(so&&!e.target.closest('input,select')){const k=so.dataset.etSort;ET.sort=ET.sort[0]===k?[k,-ET.sort[1]]:[k,k==='num'||k==='cli'?1:-1];render();return}
+ const b=e.target.closest('button,a[data-et-abrir]');if(!b)return;
  if(b.dataset.etAbrir){e.preventDefault();const v=(S.data.vendas||[]).find(x=>x.id===b.dataset.etAbrir);if(v)openVenda(v.id);return}
  if(!can())return;
  if(b.dataset.etC){const [id,k]=b.dataset.etC.split('|');const v=(S.data.vendas||[]).find(x=>x.id===id);if(!v)return;const m=ET.mud[id]||{};
@@ -5077,6 +5089,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v120','15/11/2026',['Etapas dos pedidos: cabe na largura da tela, as 13 etapas com a mesma largura, pedido com o número curto (ex.: 1038), frase do topo numa linha e barra de marcar etapa numa linha só.','Em andamento / Todos / busca saíram: clique no título da coluna para ordenar e use o filtro embaixo de cada título (etapas: com data ou vazio). Padrão: Entregue = vazio.']],
  ['v119','15/11/2026',['Vendas: UF centralizada na célula.']],
  ['v118','15/11/2026',['Vendas: data centralizada na célula.']],
  ['v117','14/11/2026',['Vendas: número da venda centralizado na célula.']],
