@@ -995,7 +995,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v118 · 15/11/2026';
+const VERSAO='v119 · 15/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1103,7 +1103,7 @@ const VD_COLS=[
  {k:'data',l:'Data',t:'t',g:v=>v.dataCompra||'',fmt:v=>fdataL(v),cell:v=>'<span class="num" style="white-space:nowrap">'+fdataL(v.dataCompra)+'</span>',cls:'vd-itn'},
  {k:'cli',l:'Cliente',g:v=>(v.cliente||'')+(vdCpf(v)?' · '+vdCpf(v):''),cell:v=>'<b>'+esc(v.cliente||'')+'</b>'+(vdCpf(v)?'<small class="num">CPF '+vdCpf(v)+'</small>':''),cls:'px-nome'},
  {k:'cid',l:'Cidade',g:v=>v.cidade||'',cell:v=>esc(v.cidade||''),cls:'vd-cid'},
- {k:'uf',l:'UF',g:v=>v.uf||'',cell:v=>esc(v.uf||'')},
+ {k:'uf',l:'UF',g:v=>v.uf||'',cell:v=>esc(v.uf||''),cls:'vd-itn'},
  {k:'itens',l:'Itens',t:'n',g:v=>calc(v).qtd,cell:v=>'<span class="num">'+calc(v).qtd+'</span>',cls:'vd-itn'},
  {k:'cupom',l:'Cupom',g:v=>v.cupom||'',cell:v=>esc(v.cupom||''),cls:'vd-cup'},
  {k:'par',l:'Parametrização',g:v=>{const c=corteOf(v);return c?'#'+pmSeq(c)+' '+(c.numero||''):''},cell:v=>{const c=corteOf(v);return c?'<b class="num">#'+esc(pmSeq(c))+'</b><small class="muted">'+esc(c.numero||'')+'</small>':''}},
@@ -5077,6 +5077,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v119','15/11/2026',['Vendas: UF centralizada na célula.']],
  ['v118','15/11/2026',['Vendas: data centralizada na célula.']],
  ['v117','14/11/2026',['Vendas: número da venda centralizado na célula.']],
  ['v116','14/11/2026',['Faixa colorida do topo mais fina e títulos das telas menores, para caber mais na tela.','Vendas: frase de baixo do título numa linha só e títulos das colunas centralizados.']],
