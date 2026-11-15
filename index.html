@@ -239,7 +239,7 @@ pre.code{background:var(--surface2);border:1px solid var(--line);border-radius:v
 .et-t td{padding:3px 2px;font-size:12px}.et-t td.et-cli{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-left:6px}.et-t th:nth-child(3){text-align:left;padding-left:6px}
 .et-t td.et-cel button{width:100%;border:0;border-radius:6px;padding:5px 0;font:inherit;font-size:11px;font-variant-numeric:tabular-nums}
 .et-t .et-frow th{padding:2px;vertical-align:middle}.et-t .et-frow input,.et-t .et-frow select{width:100%;box-sizing:border-box;font:inherit;font-size:10px;padding:3px 2px;border:1px solid var(--line);border-radius:6px;background:var(--surface,#fff);color:var(--muted)}.et-t .et-frow select.on{border-color:var(--accent);color:var(--accent);font-weight:700}
-.et-barra{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;padding:8px 12px!important;margin-bottom:10px;font-size:12px}.et-barra b{font-size:12.5px}.et-barra select,.et-barra input[type=date]{font:inherit;font-size:12px;padding:4px 6px;border:1px solid var(--line);border-radius:999px;background:var(--surface,#fff)}.et-barra label{display:flex;gap:4px;align-items:center;font-size:11.5px}.et-barra .sp{flex:1}.vd-tab .px-t thead th{text-align:center}.px-t td.vd-cid{max-width:110px;white-space:normal;font-size:12px;line-height:1.25}.px-t td.vd-cup{white-space:nowrap;font-size:11px;letter-spacing:-.01em}
+.et-barra{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;padding:5px 10px!important;margin-bottom:8px;font-size:12px;border-radius:12px!important}.et-barra b{font-size:12.5px}.et-barra select,.et-barra input[type=date]{font:inherit;font-size:12px;padding:4px 6px;border:1px solid var(--line);border-radius:999px;background:var(--surface,#fff)}.et-barra label{display:flex;gap:4px;align-items:center;font-size:11.5px}.et-barra .sp{flex:1}.vd-tab .px-t thead th{text-align:center}.px-t td.vd-cid{max-width:110px;white-space:normal;font-size:12px;line-height:1.25}.px-t td.vd-cup{white-space:nowrap;font-size:11px;letter-spacing:-.01em}
 .px-t td.px-nome{white-space:normal;min-width:150px;max-width:230px;line-height:1.25}.px-t td.px-nome a{color:var(--ink,#2b1520);text-decoration:none}.px-t td.px-nome a:hover{color:var(--accent);text-decoration:underline}
 .px-t td.px-marca{max-width:90px;overflow:hidden;text-overflow:ellipsis}.px-t td.px-st{white-space:normal;min-width:90px;max-width:150px}.px-t td.px-st .pill{font-size:10.5px;padding:2px 7px}
 .px-t thead th{position:sticky;top:0;background:var(--surface,#fff);z-index:2}.px-t .px-frow th{position:sticky;top:25px;background:var(--surface,#fff);z-index:2;padding:2px 3px}.px-th{cursor:pointer;user-select:none}
@@ -333,7 +333,8 @@ pre.code{background:var(--surface2);border:1px solid var(--line);border-radius:v
 .head h1{display:flex;align-items:center;gap:10px}
 .head h1::after{content:"";width:18px;height:18px;flex:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0C13 8 16 11 24 12C16 13 13 16 12 24C11 16 8 13 0 12C8 11 11 8 12 0Z' fill='%23F48FB1'/%3E%3C/svg%3E") center/contain no-repeat}
 /* v116: faixa decorativa mais fina e título mais discreto (cabe mais na tela) */
-.band{height:6px!important;background-size:60px 6px!important}
+.band{height:3px!important;background-size:30px 3px!important;opacity:.8}
+.head p{max-width:none}
 .head h1{font-size:20px;gap:7px}.head h1::after{width:13px;height:13px}
 .side{background:var(--surface)}
 .nav button[aria-current="page"]{background:var(--bebe);color:var(--pri)}
@@ -999,7 +1000,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v120 · 15/11/2026';
+const VERSAO='v121 · 15/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -5089,6 +5090,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v121','15/11/2026',['Faixa colorida do topo bem fina. Frase de baixo dos títulos sem limite de largura (cabe numa linha). Barra de marcar etapa mais baixa.']],
  ['v120','15/11/2026',['Etapas dos pedidos: cabe na largura da tela, as 13 etapas com a mesma largura, pedido com o número curto (ex.: 1038), frase do topo numa linha e barra de marcar etapa numa linha só.','Em andamento / Todos / busca saíram: clique no título da coluna para ordenar e use o filtro embaixo de cada título (etapas: com data ou vazio). Padrão: Entregue = vazio.']],
  ['v119','15/11/2026',['Vendas: UF centralizada na célula.']],
  ['v118','15/11/2026',['Vendas: data centralizada na célula.']],
