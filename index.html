@@ -4942,7 +4942,7 @@ const etRows=()=>{const F=ET.f;let L=(S.data.vendas||[]).filter(v=>!v.cancelada)
 VIEWFN.etapas=()=>{
  if(!ET.av&&S.db)setTimeout(etLoadAv,0);if(!ET.data)ET.data=today();
  const ed=can(), L=etRows(), nMud=Object.keys(ET.mud).length, nSel=[...ET.sel].filter(id=>L.some(v=>v.id===id)).length;
- const sub='Clique numa célula para marcar ou desmarcar; só grava em Salvar e enviar avisos. ✉ = manda e-mail à cliente.';
+ const sub='Clique na célula para marcar; grava ao Salvar e enviar avisos. ✉ = e-mail à cliente.';
  const acts=ed?'<button class="btn" type="button" data-et-desf'+(nMud?'':' disabled')+'>Desfazer</button><button class="btn pri" type="button" data-et-salvar'+(nMud?'':' disabled')+'>Salvar e enviar avisos'+(nMud?' ('+nMud+')':'')+'</button>':'';
  const seta=k=>ET.sort[0]===k?(ET.sort[1]>0?' ▲':' ▼'):'';
  const fSel=k=>{const o=ET.f.st[k]||'';return '<select data-et-fs="'+k+'" title="Filtrar" class="et-fi'+(o?' on':'')+'"><option value=""'+(o?'':' selected')+'>todos</option><option value="com"'+(o==='com'?' selected':'')+'>com data</option><option value="vazio"'+(o==='vazio'?' selected':'')+'>vazio</option></select>'};
