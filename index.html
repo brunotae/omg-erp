@@ -1000,7 +1000,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v124 · 16/11/2026';
+const VERSAO='v125 · 16/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -4737,8 +4737,9 @@ const COLS={
  ocorrencias_compra:[]
 };
 const DATES=new Set(['data_compra','data','previsao','validade','semana','inicio','fim','pago_em']);
-const itemsTo=a=>(Array.isArray(a)?a:[]).map(i=>({produto:i.produto||'',qtd:i.qtd??null,preco:i.preco??null,custo_lb:i.custoLB??null,custo_fab:i.custoFab??null}));
-const itemsFrom=a=>(Array.isArray(a)?a:[]).map(i=>({produto:i.produto||'',qtd:i.qtd,preco:i.preco,custoLB:i.custo_lb??i.custoLB,custoFab:i.custo_fab??i.custoFab}));
+// v125: o campo envio ('brasil' = sai do estoque no Brasil, fora da carga da Coreia) passava batido aqui e as planilhas da carga continuavam com o item
+const itemsTo=a=>(Array.isArray(a)?a:[]).map(i=>Object.assign({produto:i.produto||'',qtd:i.qtd??null,preco:i.preco??null,custo_lb:i.custoLB??null,custo_fab:i.custoFab??null},i.envio?{envio:i.envio}:{}));
+const itemsFrom=a=>(Array.isArray(a)?a:[]).map(i=>Object.assign({produto:i.produto||'',qtd:i.qtd,preco:i.preco,custoLB:i.custo_lb??i.custoLB,custoFab:i.custo_fab??i.custoFab},i.envio?{envio:i.envio}:{}));
 function toDb(col,o){
  const out={};
  for(const [k,v] of Object.entries(o)){
@@ -5113,6 +5114,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v125','16/11/2026',['Corrigido: item marcado para sair do Brasil (fora da carga da Coreia) continuava na planilha da Mile, na Master List e na página da Janice. Agora sai das três. Também deixa de perder essa marcação ao salvar a venda.']],
  ['v124','16/11/2026',['Planilha da Mile: valores e medidas com 2 casas (peso continua com 4); shipper, nome, CPF, endereço, CEP, cidade, estado e telefone aparecem uma vez só por pedido.']],
  ['v123','16/11/2026',['Planilha da Mile: número do pedido, cupom e os totais do pedido (total, desconto e final) aparecem uma vez só por pedido; sem as linhas de grade do Excel no fundo.']],
  ['v122','16/11/2026',['Planilha da Mile: bordas em todas as células e borda grossa em volta de cada pedido; novas colunas ORDER #, COUPON, LIST PRICE U$ e DISCOUNT U$ (VALUE U$ FCA = preço cheio − desconto do cupom); valores, frete, peso e medidas com 4 casas; saiu a coluna de parametrização.']],
