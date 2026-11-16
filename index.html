@@ -1358,7 +1358,7 @@ async function pmManifesto(c){
  for(let r=9;r<=ult;){const id=L[r-9].v.id;let f=r;while(f+1<=ult&&L[f+1-9].v.id===id)f++;
   const G=L.slice(r-9,f-8),tot=r4(G.reduce((x,l)=>x+l.cheio,0)),des=r4(G.reduce((x,l)=>x+l.desc,0));
   ws.getCell(r,33).value=tot;ws.getCell(r,34).value=des;ws.getCell(r,35).value=r4(tot-des);
-  for(const k of [31,32,33,34,35]){if(f>r)ws.mergeCells(r,k,f,k);ws.getCell(r,k).alignment={vertical:'middle',horizontal:k>32?'right':'left'}}
+  for(const k of [31,32,33,34,35]){if(f>r)ws.mergeCells(r,k,f,k);ws.getCell(r,k).alignment={vertical:'middle',horizontal:k>32?'right':'left'};for(let rr=r;rr<=f;rr++)ws.getCell(rr,k).border={left:fino,right:k===NC?grosso:fino,top:rr===r?grosso:fino,bottom:rr===f?grosso:fino}}
   r=f+1}
  ws.views=[{showGridLines:false}];
  [13,14,15,17,25,26,27,33,34,35].forEach(k=>{for(let r=9;r<=ult;r++)ws.getCell(r,k).numFmt='0.0000'});ws.getCell(4,6).numFmt='0.0000';ws.getCell(4,6).value=r4(kg);
