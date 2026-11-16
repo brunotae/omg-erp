@@ -1000,7 +1000,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v125 · 16/11/2026';
+const VERSAO='v126 · 16/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1364,7 +1364,7 @@ async function pmManifesto(c){
  // v124: dinheiro e medidas com 2 casas; peso com 4
  const r2x=x=>Math.round(n(x)*100)/100;
  for(let r=9;r<=ult;r++){[13,14,17,25,26,27,33,34,35].forEach(k=>{const c=ws.getCell(r,k);if(typeof c.value==='number')c.value=r2x(c.value);c.numFmt='0.00'});ws.getCell(r,15).numFmt='0.0000'}
- for(let r=9;r<=ult;){const id=L[r-9].v.id;let f=r;while(f+1<=ult&&L[f+1-9].v.id===id)f++;const G=L.slice(r-9,f-8),tt=r2x(G.reduce((x,l)=>x+l.cheio,0)),fi=r2x(G.reduce((x,l)=>x+l.usd,0));ws.getCell(r,33).value=tt;ws.getCell(r,35).value=fi;ws.getCell(r,34).value=r2x(tt-fi);r=f+1}
+ for(let r=9;r<=ult;){const id=L[r-9].v.id;let f=r;while(f+1<=ult&&L[f+1-9].v.id===id)f++;const G=L.slice(r-9,f-8),tt=r2x(G.reduce((x,l)=>x+l.cheio,0)),fi=r2x(G.reduce((x,l)=>x+r2x(l.usd),0));ws.getCell(r,33).value=tt;ws.getCell(r,35).value=fi;ws.getCell(r,34).value=r2x(tt-fi);r=f+1}
  ws.getCell(4,6).numFmt='0.0000';ws.getCell(4,6).value=r4(kg);
  [10,10,26,14,50,11,16,7,15,46,9,9,11,10,9,10,12,6,8,12,8,8,8,8,10,10,10,9,8,10,13,18,14,14,14].forEach((w,k)=>ws.getColumn(k+1).width=w);
  ws.getColumn(4).numFmt='@';ws.getColumn(9).numFmt='@';
@@ -5114,6 +5114,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v126','16/11/2026',['Planilha da Mile: o total final do pedido é a soma dos valores dos itens já arredondados (fechava com 1 centavo de diferença em alguns pedidos).']],
  ['v125','16/11/2026',['Corrigido: item marcado para sair do Brasil (fora da carga da Coreia) continuava na planilha da Mile, na Master List e na página da Janice. Agora sai das três. Também deixa de perder essa marcação ao salvar a venda.']],
  ['v124','16/11/2026',['Planilha da Mile: valores e medidas com 2 casas (peso continua com 4); shipper, nome, CPF, endereço, CEP, cidade, estado e telefone aparecem uma vez só por pedido.']],
  ['v123','16/11/2026',['Planilha da Mile: número do pedido, cupom e os totais do pedido (total, desconto e final) aparecem uma vez só por pedido; sem as linhas de grade do Excel no fundo.']],
