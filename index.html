@@ -1000,7 +1000,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v121 · 15/11/2026';
+const VERSAO='v122 · 16/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1305,7 +1305,7 @@ function pmLinhas(grupo){
  grupo.forEach(c=>corteVendas(c).filter(v=>!isCancel(v)).forEach(v=>{
   const its=(v.itens||[]).map(pmItem), bruto=its.reduce((s,i)=>s+i.preco*i.qtd,0)||1, fx=pmCambio(v);
   const liq=Math.max(0,bruto-n(v.desconto));
-  its.forEach((i,k)=>{if(!naCarga((v.itens||[])[k]))return;const part=i.preco*i.qtd/bruto;out.push({c,v,i,usd:r2(liq*part/fx),frete:r2(n(v.frete)*part/fx)})});
+  its.forEach((i,k)=>{if(!naCarga((v.itens||[])[k]))return;const part=i.preco*i.qtd/bruto,r4=x=>Math.round(x*1e4)/1e4,cheio=r4(i.preco*i.qtd/fx),usd=r4(liq*part/fx);out.push({c,v,i,usd,cheio,desc:r4(cheio-usd),frete:r4(n(v.frete)*part/fx)})});
  }));
  return out;
 }
@@ -1338,12 +1338,24 @@ async function pmManifesto(c){
  kv(5,'Country of Destination','BRAZIL GRU','Total Items',un);
  kv(6,'Airlines',P.cia||'TBD','AWB',awb||'TBD');
  ws.getCell(3,2).alignment={wrapText:true,vertical:'top'};
- const H=['AWB','SHIPPER','CONSIGNEE','DNI','ADDRESS','ZIP CODE','CITY','STATE','PHONE','DESCRIPTION','HS','QUANTITY','FREIGHT U$','INSURANCE','WEIGHT','UNIT WEIGHT','VALUE U$ FCA','BAG','LOCAL TRACKING PROVIDER','SERVICE_TYPE','EXTERNAL TRACKING','PROVIDER NAME','COPA ID','COPA NAME','LENGTH (cm)','WIDTH (cm)','HEIGHT (cm)','DIMEN UNIT','BAG TAG','INVOICE URL','PARAMETRIZAÇÃO (uso interno)'];
- const hr=ws.getRow(8);H.forEach((h,k)=>{const x=hr.getCell(k+1);x.value=h;x.font={bold:true};x.fill=PM_HEAD_FILL});
+ ws.getCell(2,8).value='VALUE U$ FCA = LIST PRICE U$ − DISCOUNT U$ (desconto do cupom do site). Values in US$, 4 decimals.';ws.getCell(2,8).font={italic:true,color:{argb:'FF7F6000'}};
+ // v122: sem a coluna de parametrização; no fim: pedido, cupom, preço cheio e desconto (para a Mile ver o cupom aplicado)
+ const H=['AWB','SHIPPER','CONSIGNEE','DNI','ADDRESS','ZIP CODE','CITY','STATE','PHONE','DESCRIPTION','HS','QUANTITY','FREIGHT U$','INSURANCE','WEIGHT','UNIT WEIGHT','VALUE U$ FCA','BAG','LOCAL TRACKING PROVIDER','SERVICE_TYPE','EXTERNAL TRACKING','PROVIDER NAME','COPA ID','COPA NAME','LENGTH (cm)','WIDTH (cm)','HEIGHT (cm)','DIMEN UNIT','BAG TAG','INVOICE URL','ORDER #','COUPON','LIST PRICE U$','DISCOUNT U$'];
+ const NC=H.length, fino={style:'thin',color:{argb:'FFBFBFBF'}}, grosso={style:'medium',color:{argb:'FF000000'}};
+ const hr=ws.getRow(8);H.forEach((h,k)=>{const x=hr.getCell(k+1);x.value=h;x.font={bold:true};x.fill=PM_HEAD_FILL;x.alignment={wrapText:true,vertical:'middle'}});
+ const r4=x=>Math.round(n(x)*1e4)/1e4;
  L.forEach((l,k)=>{const v=l.v,e=pmEnd(v)||{},i=l.i;
   const end=[e.rua,e.compl].filter(Boolean).join(', ')+(e.cidade||v.cidade?' - '+(e.cidade||v.cidade)+' - '+(e.uf||v.uf):'')+(e.cep?' - CEP: '+pmCep(e.cep):'');
-  ws.getRow(9+k).values=[awb,P.shipNome,e.nome||v.cliente||'',String(v.cpf||'').replace(/\D/g,''),end,pmCep(e.cep),e.cidade||v.cidade||'',e.uf||v.uf||'',pmFone(e.fone),i.en,i.hs,i.qtd,l.frete,0,r2(i.kg*i.qtd*1000)/1000,'KG',l.usd,'','','DDP','','','','',i.dim[0]||'',i.dim[1]||'',i.dim[2]||'','CBM','','',l.c.numero]});
- [10,10,26,14,50,11,16,7,15,46,9,9,11,10,9,10,12,6,8,12,8,8,8,8,10,10,10,9,8,10,16].forEach((w,k)=>ws.getColumn(k+1).width=w);
+  const dm=x=>x===''||x==null||isNaN(Number(x))?'':r4(x);
+  ws.getRow(9+k).values=[awb,P.shipNome,e.nome||v.cliente||'',String(v.cpf||'').replace(/\D/g,''),end,pmCep(e.cep),e.cidade||v.cidade||'',e.uf||v.uf||'',pmFone(e.fone),i.en,i.hs,i.qtd,r4(l.frete),0,r4(i.kg*i.qtd),'KG',r4(l.usd),'','','DDP','','','','',dm(i.dim[0]),dm(i.dim[1]),dm(i.dim[2]),'CBM','','',v.pedidoSite||vnum(v.numero),v.cupom||'',r4(l.cheio),r4(l.desc)]});
+ // bordas: todas as células; borda grossa em volta de cada pedido
+ const ult=8+L.length;
+ for(let r=8;r<=ult;r++){const l=L[r-9],ant=L[r-10],prox=L[r-8];
+  const ini=r===8||r===9||(l&&ant&&ant.v.id!==l.v.id), fim=r===8||r===ult||(l&&prox&&prox.v.id!==l.v.id);
+  for(let k=1;k<=NC;k++){const x=ws.getCell(r,k);x.border={left:k===1?grosso:fino,right:k===NC?grosso:fino,top:ini?grosso:fino,bottom:fim?grosso:fino};if(r>8)x.alignment={vertical:'top'}}}
+ [[2,1],[2,2],[2,5],[2,6],[3,1],[3,2],[3,5],[3,6],[4,1],[4,2],[4,5],[4,6],[5,1],[5,2],[5,5],[5,6],[6,1],[6,2],[6,5],[6,6]].forEach(([r,k])=>ws.getCell(r,k).border={left:fino,right:fino,top:fino,bottom:fino});
+ [13,14,15,17,25,26,27,33,34].forEach(k=>{for(let r=9;r<=ult;r++)ws.getCell(r,k).numFmt='0.0000'});ws.getCell(4,6).numFmt='0.0000';ws.getCell(4,6).value=r4(kg);
+ [10,10,26,14,50,11,16,7,15,46,9,9,11,10,9,10,12,6,8,12,8,8,8,8,10,10,10,9,8,10,13,14,12,12].forEach((w,k)=>ws.getColumn(k+1).width=w);
  ws.getColumn(4).numFmt='@';ws.getColumn(9).numFmt='@';
  await pmBaixar(wb,'Manifest Mile '+pmNome(g)+'.xlsx');
 }
@@ -5090,6 +5102,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v122','16/11/2026',['Planilha da Mile: bordas em todas as células e borda grossa em volta de cada pedido; novas colunas ORDER #, COUPON, LIST PRICE U$ e DISCOUNT U$ (VALUE U$ FCA = preço cheio − desconto do cupom); valores, frete, peso e medidas com 4 casas; saiu a coluna de parametrização.']],
  ['v121','15/11/2026',['Faixa colorida do topo bem fina. Frase de baixo dos títulos sem limite de largura (cabe numa linha). Barra de marcar etapa mais baixa.']],
  ['v120','15/11/2026',['Etapas dos pedidos: cabe na largura da tela, as 13 etapas com a mesma largura, pedido com o número curto (ex.: 1038), frase do topo numa linha e barra de marcar etapa numa linha só.','Em andamento / Todos / busca saíram: clique no título da coluna para ordenar e use o filtro embaixo de cada título (etapas: com data ou vazio). Padrão: Entregue = vazio.']],
  ['v119','15/11/2026',['Vendas: UF centralizada na célula.']],
