@@ -239,7 +239,7 @@ pre.code{background:var(--surface2);border:1px solid var(--line);border-radius:v
 .et-t td{padding:3px 2px;font-size:12px}.et-t td.et-cli{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-left:6px}.et-t th:nth-child(3){text-align:left;padding-left:6px}
 .et-t td.et-cel button{width:100%;border:0;border-radius:6px;padding:5px 0;font:inherit;font-size:11px;font-variant-numeric:tabular-nums}
 .et-t .et-frow th{padding:2px;vertical-align:middle}.et-t .et-frow input,.et-t .et-frow select{width:100%;box-sizing:border-box;font:inherit;font-size:10px;padding:3px 2px;border:1px solid var(--line);border-radius:6px;background:var(--surface,#fff);color:var(--muted)}.et-t .et-frow select.on{border-color:var(--accent);color:var(--accent);font-weight:700}
-.et-barra{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;padding:5px 10px!important;margin-bottom:8px;font-size:12px;border-radius:12px!important}.et-barra b{font-size:12.5px}.et-barra select,.et-barra input[type=date]{font:inherit;font-size:12px;padding:4px 6px;border:1px solid var(--line);border-radius:999px;background:var(--surface,#fff)}.et-barra label{display:flex;gap:4px;align-items:center;font-size:11.5px}.et-barra .sp{flex:1}.vd-tab .px-t thead th{text-align:center}.px-t td.vd-cid{max-width:110px;white-space:normal;font-size:12px;line-height:1.25}.px-t td.vd-cup{white-space:nowrap;font-size:11px;letter-spacing:-.01em}
+.et-barra{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;padding:5px 10px!important;margin-bottom:8px;font-size:12px;border-radius:12px!important}.et-barra b{font-size:12.5px}.et-barra select,.et-barra input[type=date]{font:inherit;font-size:12px;padding:4px 6px;border:1px solid var(--line);border-radius:999px;background:var(--surface,#fff)}.et-barra label{display:flex;gap:4px;align-items:center;font-size:11.5px}.et-barra .sp{flex:1}.vd-tab .px-t thead th{text-align:center}.px-t td.vd-cid{max-width:110px;white-space:normal;font-size:12px;line-height:1.25}.px-t td.vd-cup{white-space:nowrap;font-size:11px;letter-spacing:-.01em}.px-t td.vd-cup small.vd-cupv{display:block;font-size:10px;color:var(--muted);letter-spacing:0}
 .px-t td.px-nome{white-space:normal;min-width:150px;max-width:230px;line-height:1.25}.px-t td.px-nome a{color:var(--ink,#2b1520);text-decoration:none}.px-t td.px-nome a:hover{color:var(--accent);text-decoration:underline}
 .px-t td.px-marca{max-width:90px;overflow:hidden;text-overflow:ellipsis}.px-t td.px-st{white-space:normal;min-width:90px;max-width:150px}.px-t td.px-st .pill{font-size:10.5px;padding:2px 7px}
 .px-t thead th{position:sticky;top:0;background:var(--surface,#fff);z-index:2}.px-t .px-frow th{position:sticky;top:25px;background:var(--surface,#fff);z-index:2;padding:2px 3px}.px-th{cursor:pointer;user-select:none}
@@ -857,6 +857,11 @@ const pct=v=>has(v)&&isFinite(v)?(v*100).toLocaleString('pt-BR',{maximumFraction
 const vnum=v=>has(v)?v.toLocaleString('pt-BR'):'—';
 // v114: número curto da venda (só na tela): os últimos 4 dígitos depois de 100.000.000; com 10.000 vendas passa a mostrar 5, e assim por diante. O número da venda não muda.
 const vCurto=v=>{if(!has(v))return '—';const x=Number(v)-100000000;return x>=0?String(x).padStart(4,'0'):String(v)};
+// v127: quanto vale o cupom da venda (do cadastro de cupons: % ou R$; se não achar, o desconto aplicado na venda)
+const cupomQuanto=v=>{const cods=String(v.cupom||'').split(',').map(x=>x.trim().toUpperCase()).filter(Boolean);
+ const t=cods.map(c=>{const r=(S.data.cupons||[]).find(x=>String(x.codigo||'').toUpperCase()===c);if(!r)return '';
+  return r.tipo==='%'?String(n(r.valor)).replace('.',',')+'%':r.tipo==='frete'?'frete grátis':brl(n(r.valor))}).filter(Boolean).join(' + ');
+ return t||(n(v.desconto)?'−'+brl(n(v.desconto)):'')};
 const MES3=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
 const fdataL=d=>{if(!d)return '—';const p=String(d).slice(0,10).split('-');return p.length===3?p[2]+'.'+MES3[+p[1]-1]+'.'+p[0]:esc(d)};
 const fdate=d=>{if(!d)return'—';const p=String(d).split('-');return p.length===3?p[2]+'/'+p[1]+'/'+p[0].slice(2):esc(d)};
@@ -1000,7 +1005,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v126 · 16/11/2026';
+const VERSAO='v127 · 16/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1110,7 +1115,7 @@ const VD_COLS=[
  {k:'cid',l:'Cidade',g:v=>v.cidade||'',cell:v=>esc(v.cidade||''),cls:'vd-cid'},
  {k:'uf',l:'UF',g:v=>v.uf||'',cell:v=>esc(v.uf||''),cls:'vd-itn'},
  {k:'itens',l:'Itens',t:'n',g:v=>calc(v).qtd,cell:v=>'<span class="num">'+calc(v).qtd+'</span>',cls:'vd-itn'},
- {k:'cupom',l:'Cupom',g:v=>v.cupom||'',cell:v=>esc(v.cupom||''),cls:'vd-cup'},
+ {k:'cupom',l:'Cupom',g:v=>v.cupom||'',cell:v=>v.cupom?esc(v.cupom)+'<small class="vd-cupv">'+esc(cupomQuanto(v))+'</small>':'',cls:'vd-cup'},
  {k:'par',l:'Parametrização',g:v=>{const c=corteOf(v);return c?'#'+pmSeq(c)+' '+(c.numero||''):''},cell:v=>{const c=corteOf(v);return c?'<b class="num">#'+esc(pmSeq(c))+'</b><small class="muted">'+esc(c.numero||'')+'</small>':''}},
  {k:'etapa',l:'Etapa',g:v=>isCancel(v)?'Cancelada':(curStep(v)<0?'Sem etapa':(curStep(v)+1)+'. '+STEPS[curStep(v)][1]),cell:v=>prog(v)},
  {k:'total',l:'Total',t:'n',g:v=>Math.round(calc(v).total*100)/100,fmt:v=>dm(Number(v)),cell:v=>{const c=calc(v);return '<b class="num">'+dm(c.total)+'</b><small>impostos '+dm(c.impostos)+'</small>'},cls:'r'},
@@ -5114,6 +5119,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v127','16/11/2026',['Vendas: embaixo do cupom aparece, pequeno, quanto ele vale (% ou R$, do cadastro de cupons).']],
  ['v126','16/11/2026',['Planilha da Mile: o total final do pedido é a soma dos valores dos itens já arredondados (fechava com 1 centavo de diferença em alguns pedidos).']],
  ['v125','16/11/2026',['Corrigido: item marcado para sair do Brasil (fora da carga da Coreia) continuava na planilha da Mile, na Master List e na página da Janice. Agora sai das três. Também deixa de perder essa marcação ao salvar a venda.']],
  ['v124','16/11/2026',['Planilha da Mile: valores e medidas com 2 casas (peso continua com 4); shipper, nome, CPF, endereço, CEP, cidade, estado e telefone aparecem uma vez só por pedido.']],
