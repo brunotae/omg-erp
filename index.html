@@ -1005,7 +1005,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v135 · 17/11/2026';
+const VERSAO='v136 · 17/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1147,7 +1147,7 @@ VIEWFN.vendas=()=>{
  const f=S.f.vendas;let rows=S.data.vendas.filter(match);
  if(f==='abertas')rows=rows.filter(isOpen);else if(f==='canceladas')rows=rows.filter(isCancel);else if(f!=='todas'){const g=GROUPS.find(x=>x[0]===f);rows=rows.filter(v=>!isCancel(v)&&curStep(v)>=g[1]&&curStep(v)<=g[2])}
  const VC=vdColsAtivas();const T=rows.length?xtTabela('vendas',VC,rows,v=>'data-edit="vendas" data-id="'+esc(v.id)+'" style="cursor:pointer"',['num',-1]):null;
- return '<div class="page wide"><div class="col">'+head('Vendas','Todas as vendas do site, com cliente, produtos, impostos e as 13 etapas até a entrega.',(VD_SEL.size?'<button class="btn sm" type="button" id="vd-sel0" style="align-self:center">Desmarcar</button>':'')+'<button class="btn" type="button" id="vd-cols">Colunas</button><button class="btn" type="button" id="vd-prn"'+(rows.length||VD_SEL.size?'':' disabled')+'>'+vdPrnLbl()+'</button>'+newBtn('vendas','Nova venda'))+
+ return '<div class="page wide"><div class="col">'+head('Vendas','Todas as vendas do site, com cliente, produtos, impostos e as 13 etapas até a entrega.',(VD_SEL.size?'<button class="btn sm" type="button" id="vd-sel0" style="align-self:center">Desmarcar</button>':'')+'<button class="btn" type="button" id="vd-cols">Colunas</button><button class="btn" type="button" id="vd-inv" title="Commercial invoice de cada venda (uma por página)">Invoices</button><button class="btn" type="button" id="vd-prn"'+(rows.length||VD_SEL.size?'':' disabled')+'>'+vdPrnLbl()+'</button>'+newBtn('vendas','Nova venda'))+
  '<div class="chips">'+[['abertas','Em andamento'],['todas','Todas'],...GROUPS.map(g=>[g[0],g[0]]),['canceladas','Canceladas']].map(([k,l])=>'<button type="button" data-fv="'+esc(k)+'" aria-pressed="'+(f===k)+'">'+esc(l)+'</button>').join('')+'</div>'+
  (T&&T.fil?'<p class="muted" style="margin:0;font-size:11.5px"><b>'+T.n+' de '+rows.length+' vendas</b> · <a href="#" data-xtlimpa="vendas">limpar filtros das colunas</a></p>':'')+
  '<div class="card vd-tab" style="padding:8px">'+(loading('vendas')?'<p class="muted">Carregando…</p>':rows.length?T.html:empty(S.data.vendas.length?'Nenhuma venda neste filtro':'Nenhuma venda lançada','Use Nova venda. A seta da tabela marca a próxima etapa com a data de hoje; o resto se edita dentro da venda.'))+'</div></div></div>';
@@ -1220,6 +1220,46 @@ document.addEventListener('click',e=>{
  if(e.target.closest('#vp-ok')){const cols=[...document.querySelectorAll('[data-vpc]')].filter(x=>x.checked).map(x=>x.dataset.vpc),ori=(document.querySelector('input[name=vpori]:checked')||{}).value||'paisagem';
   try{localStorage.setItem('omg-vd-prn',JSON.stringify({cols,ori}))}catch(_){}vdPrnAbrir(cols,ori)}
 });
+
+// v136: commercial invoice por venda (para canal vermelho / inspeção). Mesmos valores da planilha da Mile (US$ pelo câmbio do checkout, valor depois do cupom).
+function invDados(v){
+ const P=PM.cfg||PM_PAD,its0=v.itens||[],its=its0.map(pmItem),bruto=its.reduce((s,i)=>s+i.preco*i.qtd,0)||1,fx=pmCambio(v),liq=Math.max(0,bruto-n(v.desconto)),r2x=x=>Math.round(x*100)/100;
+ const L=[];its.forEach((i,k)=>{if(!naCarga(its0[k]))return;const part=i.preco*i.qtd/bruto;L.push({i,cheio:r2x(i.preco*i.qtd/fx),usd:r2x(liq*part/fx),frete:n(v.frete)*part/fx})});
+ const c=corteOf(v);return {P,L,fx,awb:(c&&pmAwb(c))||v.awb||'',e:pmEnd(v)||{}}}
+function invPagina(v){
+ const {P,L,fx,awb,e}=invDados(v),u=x=>'US$ '+Number(x).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+ if(!L.length)return '';
+ const tot=L.reduce((s,l)=>s+l.cheio,0),fin=L.reduce((s,l)=>s+l.usd,0),fr=Math.round(L.reduce((s,l)=>s+l.frete,0)*100)/100,kg=L.reduce((s,l)=>s+l.i.kg*l.i.qtd,0),un=L.reduce((s,l)=>s+l.i.qtd,0);
+ const end=[e.rua,e.compl].filter(Boolean).join(', '),cid=[e.cidade||v.cidade,e.uf||v.uf].filter(Boolean).join(' - '),email=(String(v.contato||'').match(/\S+@\S+/)||[''])[0];
+ const dt=v.dataCompra?new Date(v.dataCompra+'T12:00:00').toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}):'';
+ return '<section class="inv"><div class="ih"><div><h1>COMMERCIAL INVOICE</h1><p class="m">Cross-border e-commerce shipment · Remessa Conforme (PRC)</p></div>'+
+ '<table class="kv"><tr><th>Invoice No.</th><td><b>INV-'+esc(vnum(v.numero))+'</b></td></tr><tr><th>Date</th><td>'+esc(dt)+'</td></tr><tr><th>Order No.</th><td>'+esc(v.pedidoSite||vnum(v.numero))+'</td></tr><tr><th>AWB</th><td>'+esc(awb||'—')+'</td></tr></table></div>'+
+ '<div class="pt"><div><h3>Shipper / Exporter</h3><p><b>'+esc(P.shipNome)+'</b><br>'+esc(P.shipEnd)+'</p></div>'+
+ '<div><h3>Buyer / Consignee (final recipient)</h3><p><b>'+esc(e.nome||v.cliente||'')+'</b><br>CPF: '+esc(vdCpf(v)||String(v.cpf||''))+'<br>'+esc(end)+'<br>'+esc(cid)+(e.cep?' · CEP '+esc(pmCep(e.cep)):'')+' · Brazil'+(e.fone?'<br>Phone: +'+esc(pmFone(e.fone)):'')+(email?'<br>'+esc(email):'')+'</p></div>'+
+ '<div><h3>Customs broker in Brazil</h3><p><b>'+esc(P.conNome)+'</b><br>CNPJ '+esc(P.conCnpj)+'<br>'+esc(P.conEnd)+' · CEP '+esc(P.conCep)+'<br>Phone: '+esc(P.conTel)+'</p></div></div>'+
+ '<table class="kv2"><tr><th>Country of origin</th><td>Republic of Korea</td><th>Destination</th><td>Brazil (GRU)</td><th>Transport</th><td>Air</td></tr><tr><th>Incoterm</th><td>DDP</td><th>Currency</th><td>USD</td><th>Purpose</th><td>Personal use · not for resale</td></tr></table>'+
+ '<table class="it"><thead><tr><th>#</th><th>SKU</th><th>Description of goods</th><th>Brand</th><th>NCM</th><th>Qty</th><th>Unit price</th><th>Amount</th><th>Net wt (kg)</th></tr></thead><tbody>'+
+ L.map((l,k)=>'<tr><td class="c">'+(k+1)+'</td><td>'+esc(l.i.sku)+'</td><td>'+esc(l.i.en)+'</td><td>'+esc(l.i.marca)+'</td><td class="c">'+esc(l.i.ncm)+'</td><td class="c">'+l.i.qtd+'</td><td class="n">'+u(l.usd/l.i.qtd)+'</td><td class="n">'+u(l.usd)+'</td><td class="n">'+(l.i.kg*l.i.qtd).toFixed(3)+'</td></tr>').join('')+'</tbody></table>'+
+ '<div class="tt"><table><tr><th>Total units</th><td>'+un+'</td></tr><tr><th>Total net weight</th><td>'+kg.toFixed(3)+' kg</td></tr><tr><th>Goods at list price</th><td>'+u(tot)+'</td></tr><tr><th>Discount (store coupon'+(v.cupom?' '+esc(v.cupom):'')+')</th><td>− '+u(Math.round((tot-fin)*100)/100)+'</td></tr><tr><th>Goods value (FCA)</th><td><b>'+u(fin)+'</b></td></tr><tr><th>Freight</th><td>'+u(fr)+'</td></tr><tr><th>Insurance</th><td>'+u(0)+'</td></tr><tr class="g"><th>TOTAL INVOICE VALUE</th><td>'+u(Math.round((fin+fr)*100)/100)+'</td></tr></table>'+
+ '<p class="m">Unit prices are the prices actually paid by the buyer after the store coupon. Exchange rate used at checkout: US$ 1 = R$ '+fx.toFixed(4)+'. IBS/CBS cClassTrib: '+CLASS_TRIB+'.</p></div>'+
+ '<p class="dec">We hereby certify that this invoice is true and correct, that the goods described above are cosmetics for personal use of the buyer, shipped under the Brazilian Remessa Conforme program, and that the country of origin of the goods is the Republic of Korea.</p>'+
+ '<div class="sg"><div>______________________________<br>'+esc(P.shipNome)+' · Shipper</div><div>Date: '+esc(dt)+'</div></div></section>'}
+function invDoc(vs){const ps=vs.filter(v=>!isCancel(v)).map(invPagina).filter(Boolean);
+ const css='@page{size:A4;margin:12mm}*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;color:#111;font-size:10px;background:#EEE}.bar{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:#3B1F2B;color:#fff;font-size:12px;z-index:2}.bar button{font:inherit;border:0;border-radius:999px;padding:7px 14px;cursor:pointer;background:#fff;color:#3B1F2B}.bar .pri{background:#E85D8E;color:#fff}'+
+  '.inv{width:186mm;min-height:270mm;margin:14px auto;background:#fff;padding:10mm;box-shadow:0 2px 12px rgba(0,0,0,.12);page-break-after:always;break-after:page}.inv:last-child{page-break-after:auto;break-after:auto}'+
+  '.ih{display:flex;justify-content:space-between;gap:12px;border-bottom:2px solid #111;padding-bottom:6px}h1{font-size:18px;margin:0;letter-spacing:.04em}h3{font-size:8.5px;text-transform:uppercase;letter-spacing:.06em;color:#555;margin:0 0 3px}.m{color:#555;font-size:8.5px;margin:3px 0 0}'+
+  '.pt{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:10px;margin:10px 0}.pt p{margin:0;line-height:1.35}table{border-collapse:collapse}.kv th,.kv2 th{text-align:left;color:#555;font-weight:normal;padding:1px 6px 1px 0;font-size:9px}.kv td{padding:1px 0}'+
+  '.kv2{width:100%;margin:4px 0 10px;border:1px solid #bbb}.kv2 th,.kv2 td{padding:3px 6px;border:1px solid #ddd}.it{width:100%}.it th{background:#eee;border:1px solid #999;padding:3px 4px;font-size:8.5px;text-transform:uppercase}.it td{border:1px solid #bbb;padding:3px 4px;vertical-align:top}.c{text-align:center;white-space:nowrap}.n{text-align:right;white-space:nowrap}'+
+  '.tt{display:flex;flex-direction:column;align-items:flex-end;margin-top:8px}.tt table th{text-align:right;font-weight:normal;padding:2px 8px;color:#333}.tt table td{text-align:right;padding:2px 0;min-width:90px;white-space:nowrap}.tt .g th,.tt .g td{border-top:2px solid #111;font-weight:bold;font-size:11px;padding-top:4px}.tt .m{max-width:120mm;text-align:right}'+
+  '.dec{margin:14px 0 0;font-size:9px;line-height:1.4}.sg{display:flex;justify-content:space-between;margin-top:28px;font-size:9.5px}'+
+  '@media print{body{background:#fff}.bar{display:none}.inv{margin:0;box-shadow:none;width:auto;min-height:0;padding:0}}';
+ return '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Commercial invoices ('+ps.length+')</title><style>'+css+'</style></head><body>'+
+  '<div class="bar"><button type="button" id="fechar">✕ Fechar aba</button><span style="display:flex;gap:8px;align-items:center"><span>'+ps.length+' invoice'+(ps.length>1?'s':'')+' · Imprimir → Salvar como PDF</span><button type="button" class="pri" id="imp">Imprimir / PDF</button></span></div>'+
+  ps.join('')+'<script>document.getElementById("imp").onclick=function(){window.print()};document.getElementById("fechar").onclick=function(){window.close();setTimeout(function(){if(!window.closed)alert("Feche esta aba pelo X do navegador")},300)}<\/script></body></html>'}
+document.addEventListener('click',e=>{if(!e.target.closest('#vd-inv'))return;
+ const L=vdPrnLinhas().filter(v=>!isCancel(v));if(!L.length){toast('Nenhuma venda para gerar invoice');return}
+ const w=window.open('','_blank');if(!w){toast('Libere as janelas (pop-up) para abrir as invoices');return}
+ w.document.open();w.document.write(invDoc(L));w.document.close()});
 
 /* ---------- Embarques ---------- */
 VIEWFN.lotes=()=>{
@@ -1380,6 +1420,11 @@ const PM_COLS=[
 // código HS sugerido pelo tipo do produto (vale até alguém preencher o HS no catálogo)
 const HS_CLASSE={batom:'3304.10','olhos make':'3304.20',lapis:'3304.20',shampoo:'3305.10',capilar:'3305.90','sabonete barra':'3401.11'};
 // v112: item com envio:'brasil' continua na venda (financeiro), mas não entra na carga da Coreia (Mile, Master List, página da Janice)
+// v136: NCM de 8 dígitos (a Mile pede). Vem do catálogo (produtos.ncm); se faltar, sai do HS + tipo do produto (mesma regra da função ncm_de no banco)
+function ncmDe(hs,cat,nome){const h=String(hs||'').replace(/\D/g,''),nm=String(nome||''),d=(nm.includes(':')?nm.split(':')[1]:(cat||'')).trim().toLowerCase();
+ if(h==='330499')return /^(creme|cremes|lo[cç][aã]o|lo[cç][oõ]es|t[oô]nico|emuls[aã]o|leite|gel-creme|hidratante)/.test(d)&&!/limpeza|limpador|demaquil/.test(d)?'33049910':'33049990';
+ return {'330410':'33041000','330491':'33049100','330420':'33042090','340130':'34013000','340111':'34011190','300510':'30051090','330510':'33051000','330590':'33059000','330300':'33030020','961620':'96162000','420292':'42029200','630790':'63079090','961519':'96151900','680299':'68029990','960330':'96033000'}[h]||(h.length>=8?h.slice(0,8):h.padEnd(8,'0'))}
+const CLASS_TRIB='000001'; // cClassTrib IBS/CBS: CST 000 tributação integral (Clarice: tudo nosso é 01)
 const naCarga=i=>!(i&&i.envio==='brasil');
 function pmItem(i){
  const p=String(i.produto||'').split(' · ').map(x=>x.trim());
@@ -1389,7 +1434,7 @@ function pmItem(i){
  const en=(prod&&prod.nome_en)||(tit.split(':')[0].trim()+(vn&&!/default/i.test(vn)?' '+vn:''));
  const g=n(prod&&prod.pesoG)||n(med.peso)||0;
  const dp=prod&&[prod.comp_cm,prod.larg_cm,prod.alt_cm].every(x=>n(x)>0)?[n(prod.comp_cm),n(prod.larg_cm),n(prod.alt_cm)]:(Array.isArray(med.dim)?med.dim:[]);
- return {sku,en,marca:(prod&&prod.marca)||'',kr:(prod&&prod.nome_kr)||'',ing:(prod&&prod.ingredientes)||'',hs:(prod&&prod.hs)||HS_CLASSE[med.classe]||'3304.99',hsPad:!(prod&&prod.hs),
+ return {sku,en,marca:(prod&&prod.marca)||'',kr:(prod&&prod.nome_kr)||'',ing:(prod&&prod.ingredientes)||'',hs:(prod&&prod.hs)||HS_CLASSE[med.classe]||'3304.99',hsPad:!(prod&&prod.hs),ncm:(prod&&prod.ncm)||ncmDe((prod&&prod.hs)||HS_CLASSE[med.classe]||'3304.99',prod&&prod.categoria,(prod&&prod.nome)||String(i.produto||'').split(' · ').slice(sku?1:0).join(' · ')),
   kg:g/1000,dim:dp,qtd:n(i.qtd)||1,preco:n(i.preco)}
 }
 const pmCambio=v=>n(((v.dados_site||{}).frete_omg||{}).cambio)||n(S.cfg.usd)||5.4;
@@ -1436,14 +1481,14 @@ async function pmManifesto(c){
  ws.getCell(3,2).alignment={wrapText:true,vertical:'top'};
  ws.getCell(2,8).value='Per order: ORDER FINAL U$ = ORDER TOTAL U$ − ORDER DISCOUNT U$ (site coupon). VALUE U$ FCA = each item after the coupon. US$, 2 decimals.';ws.getCell(2,8).font={italic:true,color:{argb:'FF7F6000'}};
  // v122: sem a coluna de parametrização; no fim: pedido, cupom, preço cheio e desconto (para a Mile ver o cupom aplicado)
- const H=['AWB','SHIPPER','CONSIGNEE','DNI','ADDRESS','ZIP CODE','CITY','STATE','PHONE','DESCRIPTION','HS','QUANTITY','FREIGHT U$','INSURANCE','WEIGHT','UNIT WEIGHT','VALUE U$ FCA','BAG','LOCAL TRACKING PROVIDER','SERVICE_TYPE','EXTERNAL TRACKING','PROVIDER NAME','COPA ID','COPA NAME','LENGTH (cm)','WIDTH (cm)','HEIGHT (cm)','DIMEN UNIT','BAG TAG','INVOICE URL','ORDER #','COUPON','ORDER TOTAL U$ (list price)','ORDER DISCOUNT U$ (coupon)','ORDER FINAL U$'];
+ const H=['AWB','SHIPPER','CONSIGNEE','DNI','ADDRESS','ZIP CODE','CITY','STATE','PHONE','DESCRIPTION','NCM','QUANTITY','FREIGHT U$','INSURANCE','WEIGHT','UNIT WEIGHT','VALUE U$ FCA','BAG','LOCAL TRACKING PROVIDER','SERVICE_TYPE','EXTERNAL TRACKING','PROVIDER NAME','COPA ID','COPA NAME','LENGTH (cm)','WIDTH (cm)','HEIGHT (cm)','DIMEN UNIT','BAG TAG','INVOICE URL','ORDER #','COUPON','ORDER TOTAL U$ (list price)','ORDER DISCOUNT U$ (coupon)','ORDER FINAL U$','CLASS TRIB'];
  const NC=H.length, fino={style:'thin',color:{argb:'FFBFBFBF'}}, grosso={style:'medium',color:{argb:'FF000000'}};
  const hr=ws.getRow(8);H.forEach((h,k)=>{const x=hr.getCell(k+1);x.value=h;x.font={bold:true};x.fill=PM_HEAD_FILL;x.alignment={wrapText:true,vertical:'middle'}});
  const r4=x=>Math.round(n(x)*1e4)/1e4;
  L.forEach((l,k)=>{const v=l.v,e=pmEnd(v)||{},i=l.i;
   const end=[e.rua,e.compl].filter(Boolean).join(', ')+(e.cidade||v.cidade?' - '+(e.cidade||v.cidade)+' - '+(e.uf||v.uf):'')+(e.cep?' - CEP: '+pmCep(e.cep):'');
   const dm=x=>x===''||x==null||isNaN(Number(x))?'':r4(x);
-  ws.getRow(9+k).values=[awb,P.shipNome,e.nome||v.cliente||'',String(v.cpf||'').replace(/\D/g,''),end,pmCep(e.cep),e.cidade||v.cidade||'',e.uf||v.uf||'',pmFone(e.fone),i.en,i.hs,i.qtd,r4(l.frete),0,r4(i.kg*i.qtd),'KG',r4(l.usd),'','','DDP','','','','',dm(i.dim[0]),dm(i.dim[1]),dm(i.dim[2]),'CBM','','',v.pedidoSite||vnum(v.numero),v.cupom||'','','','']});
+  ws.getRow(9+k).values=[awb,P.shipNome,e.nome||v.cliente||'',String(v.cpf||'').replace(/\D/g,''),end,pmCep(e.cep),e.cidade||v.cidade||'',e.uf||v.uf||'',pmFone(e.fone),i.en,i.ncm,i.qtd,r4(l.frete),0,r4(i.kg*i.qtd),'KG',r4(l.usd),'','','DDP','','','','',dm(i.dim[0]),dm(i.dim[1]),dm(i.dim[2]),'CBM','','',v.pedidoSite||vnum(v.numero),v.cupom||'','','','',CLASS_TRIB]});
  // bordas: todas as células; borda grossa em volta de cada pedido
  const ult=8+L.length;
  for(let r=8;r<=ult;r++){const l=L[r-9],ant=L[r-10],prox=L[r-8];
@@ -1462,8 +1507,8 @@ async function pmManifesto(c){
  for(let r=9;r<=ult;r++){[13,14,17,25,26,27,33,34,35].forEach(k=>{const c=ws.getCell(r,k);if(typeof c.value==='number')c.value=r2x(c.value);c.numFmt='0.00'});ws.getCell(r,15).numFmt='0.0000'}
  for(let r=9;r<=ult;){const id=L[r-9].v.id;let f=r;while(f+1<=ult&&L[f+1-9].v.id===id)f++;const G=L.slice(r-9,f-8),tt=r2x(G.reduce((x,l)=>x+l.cheio,0)),fi=r2x(G.reduce((x,l)=>x+r2x(l.usd),0));ws.getCell(r,33).value=tt;ws.getCell(r,35).value=fi;ws.getCell(r,34).value=r2x(tt-fi);r=f+1}
  ws.getCell(4,6).numFmt='0.0000';ws.getCell(4,6).value=r4(kg);
- [10,10,26,14,50,11,16,7,15,46,9,9,11,10,9,10,12,6,8,12,8,8,8,8,10,10,10,9,8,10,13,18,14,14,14].forEach((w,k)=>ws.getColumn(k+1).width=w);
- ws.getColumn(4).numFmt='@';ws.getColumn(9).numFmt='@';
+ [10,10,26,14,50,11,16,7,15,46,11,9,11,10,9,10,12,6,8,12,8,8,8,8,10,10,10,9,8,10,13,18,14,14,14,11].forEach((w,k)=>ws.getColumn(k+1).width=w);
+ ws.getColumn(4).numFmt='@';ws.getColumn(9).numFmt='@';ws.getColumn(11).numFmt='@';ws.getColumn(36).numFmt='@';
  await pmBaixar(wb,'Manifest Mile '+pmNome(g)+'.xlsx');
 }
 async function pmMaster(c){
@@ -1477,10 +1522,10 @@ async function pmMaster(c){
  const d=new Date();
  [['H3','Invoice number',g.map(x=>x.numero).join(' + ')],['H4','Date',d.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric',timeZone:'America/Sao_Paulo'})],['H5','INCOTERM','DDP Sao Paulo'],['H6','Currency','US Dollar'],['H7','Port of Loading','Incheon Korea'],['H8','Port of Discharge','São Paulo Brazil'],['H9','Modal','Air'],['H10','AWB',awb||'TBD']].forEach(([r,a,b])=>{set(r,a,1);set('I'+r.slice(1),b)});
  set('A7','Consignee',1);set('B7',P.conNome);set('B8',P.conEnd);set('B9','CEP: '+P.conCep);set('B10','CNPJ: '+P.conCnpj);set('B11','Tel: '+P.conTel);
- const H=['No.','Brand','Description of Goods','Product name (KR)','Ingredient','HS Code','Qty','Unit','Unit Price (USD)','Amount (USD)','Net Weight (kg)'];
+ const H=['No.','Brand','Description of Goods','Product name (KR)','Ingredient','NCM','Qty','Unit','Unit Price (USD)','Amount (USD)','Net Weight (kg)'];
  const hr=ws.getRow(15);H.forEach((h,k)=>{const x=hr.getCell(k+1);x.value=h;x.font={bold:true};x.fill=PM_HEAD_FILL});
  A.forEach((a,k)=>{const r=16+k;const up=r2(a.usd/a.qtd*f);
-  ws.getRow(r).values=[k+1,a.i.marca,a.i.en,a.i.kr,a.i.ing,a.i.hs,a.qtd,/kit|set|\+/i.test(a.i.en)?'set':'pc',up,{formula:'IFERROR(G'+r+'*I'+r+',"")',result:r2(up*a.qtd)},r2(a.i.kg*a.qtd*1000)/1000];
+  ws.getRow(r).values=[k+1,a.i.marca,a.i.en,a.i.kr,a.i.ing,a.i.ncm,a.qtd,/kit|set|\+/i.test(a.i.en)?'set':'pc',up,{formula:'IFERROR(G'+r+'*I'+r+',"")',result:r2(up*a.qtd)},r2(a.i.kg*a.qtd*1000)/1000];
   ws.getCell('E'+r).alignment={wrapText:true,vertical:'top'}});
  const t=16+A.length;set('C'+t,'TOTAL',1);
  [['G',A.reduce((s,a)=>s+a.qtd,0)],['J',r2(A.reduce((s,a)=>s+r2(a.usd/a.qtd*f)*a.qtd,0))],['K',r2(A.reduce((s,a)=>s+a.i.kg*a.qtd,0)*1000)/1000]].forEach(([col,res])=>{ws.getCell(col+t).value={formula:'SUM('+col+'16:'+col+(t-1)+')',result:res};ws.getCell(col+t).font={bold:true}});
@@ -4821,7 +4866,7 @@ const COLS={
  devolucoes:['numero','data','venda','status','itens','motivo','local','destino','reembolso','custo_retorno','obs'],
  insumos:['codigo','tipo','nome','dimensoes','especificacao','designs','status','estoque','minimo','local','custo_unit','fornecedor','arquivo'],
  compras:['numero','data','fornecedor','parceiro','tipo','itens','valor','moeda','status','previsao','insumo','qtd','entrada_estoque'],
- produtos:['sku','ean','marca','nome','categoria','fornecedor','custo_fab','custo_lb','preco_kr','preco_conc','preco','peso_g','estoque','dg','ativo','hs','nome_kr','nome_en','ingredientes','comp_cm','larg_cm','alt_cm'],
+ produtos:['sku','ean','marca','nome','categoria','fornecedor','custo_fab','custo_lb','preco_kr','preco_conc','preco','peso_g','estoque','dg','ativo','hs','nome_kr','nome_en','ingredientes','comp_cm','larg_cm','alt_cm','ncm'],
  cupons:['codigo','tipo','valor','publico','validade','limite','ativo','obs','nome_interno'],
  fornecedores:['codigo','nome','tipo','moeda','pais','contato','canal','obs'],
  metricas:['semana','visitas','carrinhos','checkouts','pedidos','fonte'],
@@ -5210,6 +5255,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v136','17/11/2026',['NCM de 8 dígitos no catálogo (campo ncm) e nas planilhas da Mile e Master List, no lugar do HS de 6 dígitos.','Planilha da Mile: nova coluna CLASS TRIB (000001 = tributação integral IBS/CBS).','Vendas: botão Invoices. Gera a commercial invoice de cada venda (uma por página A4, em inglês), das marcadas ou de todas da tela, para guardar em PDF caso a carga caia no canal vermelho.']],
  ['v135','17/11/2026',['Vendas: coluna Depois do cupom (antes do cupom − desconto, sem impostos), na tela e na impressão. Na impressão a ordem ficou: Produtos, Frete, Antes do cupom, Desconto, Depois do cupom, II, ICMS, Impostos, Total pago.']],
  ['v134','17/11/2026',['Imprimir lista: colunas de texto (Produtos, Contato, Etapa) com largura mínima para não espremer; Cupom e Parametrização numa linha só.']],
  ['v133','17/11/2026',['Vendas (tela e impressão): a largura de cada coluna segue o conteúdo das células; o título quebra em mais linhas quando é maior.']],
