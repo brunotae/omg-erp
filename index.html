@@ -1005,7 +1005,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v134 · 17/11/2026';
+const VERSAO='v135 · 17/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1122,13 +1122,13 @@ const VD_COLS=[
  {k:'etapa',l:'Etapa',g:v=>isCancel(v)?'Cancelada':(curStep(v)<0?'Sem etapa':(curStep(v)+1)+'. '+STEPS[curStep(v)][1]),cell:v=>prog(v)},
  {k:'total',l:'Total',t:'n',g:v=>Math.round(calc(v).total*100)/100,fmt:v=>dm(Number(v)),cell:v=>{const c=calc(v);return '<b class="num">'+dm(c.total)+'</b><small>impostos '+dm(c.impostos)+'</small>'},cls:'r'},
  {k:'cheio',l:'Antes cupom',t:'n',g:v=>Math.round((calc(v).sub+n(v.frete))*100)/100,fmt:v=>dm(Number(v)),cell:v=>'<span class="num">'+dm(calc(v).sub+n(v.frete))+'</span>',cls:'r'},
- {k:'liq',l:'Valor compra',t:'n',g:v=>Math.round(calc(v).liquido*100)/100,fmt:v=>dm(Number(v)),cell:v=>'<span class="num">'+dm(calc(v).liquido)+'</span>',cls:'r'},
+ {k:'liq',l:'Depois cupom',t:'n',g:v=>Math.round(calc(v).liquido*100)/100,fmt:v=>dm(Number(v)),cell:v=>'<span class="num">'+dm(calc(v).liquido)+'</span>',cls:'r'},
  {k:'ii',l:'II',t:'n',g:v=>n(v.ii),fmt:v=>dm(Number(v)),cell:v=>'<span class="num">'+dm(n(v.ii))+'</span>',cls:'r'},
  {k:'icms',l:'ICMS',t:'n',g:v=>n(v.icms),fmt:v=>dm(Number(v)),cell:v=>'<span class="num">'+dm(n(v.icms))+'</span>',cls:'r'},
  {k:'adv',l:'Avançar',nf:true,ns:true,g:()=>'',cell:v=>{const cs=curStep(v),nx=cs<12&&!isCancel(v)?STEPS[cs+1]:null;return nx&&can()?'<button class="iconbtn" type="button" data-adv="'+esc(v.id)+'" title="Marcar: '+esc(nx[1])+'" aria-label="Marcar: '+esc(nx[1])+'"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>':''},cls:'r'}];
 // v131/v132: escolher as colunas da tela de Vendas e a ordem delas
 const VD_FIXAS=['sel','adv'],VD_OPC={cheio:1,liq:1,ii:1,icms:1}; // opcionais começam escondidas
-const VD_NOMES={sel:'Marcar',num:'Venda',data:'Data',cli:'Cliente',cid:'Cidade',uf:'UF',itens:'Itens',cupom:'Cupom',par:'Parametrização',etapa:'Etapa',total:'Total pago',cheio:'Valor antes do cupom (produtos + frete)',liq:'Valor da compra (depois do cupom, sem impostos)',ii:'Imposto de importação (II)',icms:'ICMS',adv:'Avançar'};
+const VD_NOMES={sel:'Marcar',num:'Venda',data:'Data',cli:'Cliente',cid:'Cidade',uf:'UF',itens:'Itens',cupom:'Cupom',par:'Parametrização',etapa:'Etapa',total:'Total pago',cheio:'Valor antes do cupom (produtos + frete)',liq:'Depois do cupom (sem impostos)',ii:'Imposto de importação (II)',icms:'ICMS',adv:'Avançar'};
 function vdCfg(){let c=null;try{c=JSON.parse(localStorage.getItem('omg-vd-cols')||'null')}catch(_){}if(Array.isArray(c))c={on:c,ord:null};c=c||{};
  const ks=VD_COLS.map(x=>x.k).filter(k=>!VD_FIXAS.includes(k)),ord=(c.ord||[]).filter(k=>ks.includes(k));ks.forEach(k=>{if(!ord.includes(k))ord.push(k)});
  const on=k=>c.on?c.on.includes(k):!VD_OPC[k];return {ord,on}}
@@ -1162,8 +1162,8 @@ const VP_COLS=[
  ['cupom','Cupom',v=>v.cupom||'','',1],['cupv','Valor do cupom',v=>v.cupom?cupomQuanto(v):'','c',1],
  ['par','Parametrização',v=>{const c=corteOf(v);return c?'#'+pmSeq(c)+' '+(c.numero||''):''},'',1],
  ['etapa','Etapa',v=>isCancel(v)?'Cancelada':(curStep(v)<0?'Sem etapa':(curStep(v)+1)+'/13 · '+STEPS[curStep(v)][1]),'',1],
- ['sub','Produtos R$',v=>calc(v).sub,'n',0],['cheio','Antes do cupom',v=>calc(v).sub+n(v.frete),'n',0],['desc','Desconto',v=>n(v.desconto),'n',0],['frete','Frete',v=>n(v.frete),'n',0],
- ['liq','Valor da compra',v=>calc(v).liquido,'n',1],['ii','Imposto import. (II)',v=>n(v.ii),'n',1],['icms','ICMS',v=>n(v.icms),'n',1],['imp','Impostos (II+ICMS)',v=>calc(v).impostos,'n',1],['total','Total pago',v=>calc(v).total,'n',1]];
+ ['sub','Produtos R$',v=>calc(v).sub,'n',0],['frete','Frete',v=>n(v.frete),'n',0],['cheio','Antes do cupom',v=>calc(v).sub+n(v.frete),'n',0],['desc','Desconto',v=>n(v.desconto),'n',0],
+ ['liq','Depois do cupom',v=>calc(v).liquido,'n',1],['ii','Imposto import. (II)',v=>n(v.ii),'n',1],['icms','ICMS',v=>n(v.icms),'n',1],['imp','Impostos (II+ICMS)',v=>calc(v).impostos,'n',1],['total','Total pago',v=>calc(v).total,'n',1]];
 function vdPrnLbl(){return VD_SEL.size?'Imprimir '+VD_SEL.size+' marcada'+(VD_SEL.size>1?'s':''):'Imprimir lista'}
 function vdPrnLinhas(){const D=XT_DEF.vendas;if(VD_SEL.size){const R=S.data.vendas.filter(v=>VD_SEL.has(v.id));return D?xtOrdena('vendas',D.cols,R):R}return D?xtOrdena('vendas',D.cols,xtFiltra('vendas',D.cols,D.rows)):[]}
 function vdSelSync(){const b=document.getElementById('vd-prn');if(b){b.textContent=vdPrnLbl();b.disabled=false}
@@ -5210,6 +5210,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v135','17/11/2026',['Vendas: coluna Depois do cupom (antes do cupom − desconto, sem impostos), na tela e na impressão. Na impressão a ordem ficou: Produtos, Frete, Antes do cupom, Desconto, Depois do cupom, II, ICMS, Impostos, Total pago.']],
  ['v134','17/11/2026',['Imprimir lista: colunas de texto (Produtos, Contato, Etapa) com largura mínima para não espremer; Cupom e Parametrização numa linha só.']],
  ['v133','17/11/2026',['Vendas (tela e impressão): a largura de cada coluna segue o conteúdo das células; o título quebra em mais linhas quando é maior.']],
  ['v132','17/11/2026',['Vendas: nova coluna Valor antes do cupom (produtos + frete). Em Colunas dá para mudar a ordem com ↑ ↓. Cliente, Cidade, Cupom e Parametrização mais estreitas.']],
