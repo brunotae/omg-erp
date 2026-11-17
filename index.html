@@ -1005,7 +1005,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v137 · 17/11/2026';
+const VERSAO='v138 · 17/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1459,7 +1459,7 @@ const HS_CLASSE={batom:'3304.10','olhos make':'3304.20',lapis:'3304.20',shampoo:
 function ncmDe(hs,cat,nome){const h=String(hs||'').replace(/\D/g,''),nm=String(nome||''),d=(nm.includes(':')?nm.split(':')[1]:(cat||'')).trim().toLowerCase();
  if(h==='330499')return /^(creme|cremes|lo[cç][aã]o|lo[cç][oõ]es|t[oô]nico|emuls[aã]o|leite|gel-creme|hidratante)/.test(d)&&!/limpeza|limpador|demaquil/.test(d)?'33049910':'33049990';
  return {'330410':'33041000','330491':'33049100','330420':'33042090','340130':'34013000','340111':'34011190','300510':'30051090','330510':'33051000','330590':'33059000','330300':'33030020','961620':'96162000','420292':'42029200','630790':'63079090','961519':'96151900','680299':'68029990','960330':'96033000'}[h]||(h.length>=8?h.slice(0,8):h.padEnd(8,'0'))}
-const CLASS_TRIB='000001'; // cClassTrib IBS/CBS: CST 000 tributação integral (Clarice: tudo nosso é 01)
+const CLASS_TRIB='01'; // cClassTrib IBS/CBS: CST 000 tributação integral (Clarice: tudo nosso é 01)
 const naCarga=i=>!(i&&i.envio==='brasil');
 function pmItem(i){
  const p=String(i.produto||'').split(' · ').map(x=>x.trim());
@@ -5290,6 +5290,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v138','17/11/2026',['Class Trib passa a sair como 01 (planilha da Mile e invoices).']],
  ['v137','17/11/2026',['Invoices: valores na ordem da venda: preço cheio de cada produto, cupom, valor depois do cupom, frete, valor da compra, II, ICMS e total pago, em US$ e R$. O PDF salvo em Documentos agora sai com o layout certo.']],
  ['v136','17/11/2026',['NCM de 8 dígitos no catálogo (campo ncm) e nas planilhas da Mile e Master List, no lugar do HS de 6 dígitos.','Planilha da Mile: nova coluna CLASS TRIB (000001 = tributação integral IBS/CBS).','Vendas: botão Invoices. Gera a commercial invoice de cada venda (A4, em inglês), das marcadas ou de todas da tela: abre para imprimir ou salva um PDF por venda em Documentos → Invoices, para o caso de a carga cair no canal vermelho.']],
  ['v135','17/11/2026',['Vendas: coluna Depois do cupom (antes do cupom − desconto, sem impostos), na tela e na impressão. Na impressão a ordem ficou: Produtos, Frete, Antes do cupom, Desconto, Depois do cupom, II, ICMS, Impostos, Total pago.']],
