@@ -235,7 +235,7 @@ pre.code{background:var(--surface2);border:1px solid var(--line);border-radius:v
 .px-hist summary{cursor:pointer;padding:2px 0}.px-hist[open] summary{margin-bottom:8px}
 .px-lote{position:sticky;top:0;z-index:5;padding:8px 12px}.px-lote-in{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-size:12.5px}.px-lote-in span{display:inline-flex;gap:6px;align-items:center}.px-lote-in input{width:70px;padding:5px 6px}.px-lote-in .sp{flex:1}
 .px-wrap{max-height:calc(100dvh - 190px)}.px-t{font-size:11.5px;width:100%;table-layout:auto}.px-t th,.px-t td{white-space:nowrap;padding:4px 5px}.px-t th{font-size:10px;letter-spacing:.02em}
-.px-t td.vd-itn{text-align:center}.vd-tab .px-t{font-size:10.5px}.vd-tab .px-t th{font-size:9px;padding:3px 4px}.vd-tab .px-t td{padding:2px 4px;line-height:1.2}.vd-tab .px-t td small{font-size:9px}.vd-tab .px-t td.vd-itn,.vd-tab .px-t td.vd-sel,.vd-tab .px-t td.r{width:1%}.vd-tab .px-t td.px-nome{min-width:120px;max-width:190px}.vd-tab .prog{min-width:130px;gap:3px}.vd-tab .prog .t i{height:4px}.vd-tab .px-t .iconbtn{width:26px;height:26px}.vd-tab .px-t .iconbtn svg{width:14px;height:14px}.vd-tab .px-t td.vd-sel input,.vd-tab #vd-selall{width:13px;height:13px}.vd-tab .px-frow input{font-size:10px;padding:2px 5px}.vd-tab .px-t td.vd-cup{font-size:10px}.px-t td.vd-sel{width:28px;text-align:center;padding-left:4px;padding-right:4px;cursor:default}.px-t td.vd-sel input,#vd-selall{width:16px;height:16px;cursor:pointer;accent-color:var(--accent,#B83D66)}.et-t{width:100%;table-layout:fixed;border-collapse:collapse}.et-t th{font-size:9.5px;line-height:1.2;white-space:normal;padding:5px 2px;vertical-align:bottom;letter-spacing:.03em}.et-t th.c,.et-t td.c{text-align:center}.et-t th.et-so{cursor:pointer;user-select:none}.et-t th.et-so:hover{color:var(--accent)}
+.px-t td.vd-itn{text-align:center}.vd-tab .px-t{font-size:10.5px}.vd-tab .px-t th{font-size:9px;padding:3px 4px}.vd-tab .px-t td{padding:2px 4px;line-height:1.2}.vd-tab .px-t td small{font-size:9px}.vd-tab .px-t td.vd-itn,.vd-tab .px-t td.vd-sel,.vd-tab .px-t td.r{width:1%}.vd-tab .px-t td.px-nome{min-width:0;max-width:125px;white-space:normal;word-break:normal}.vd-tab .px-t td.vd-cid{max-width:72px;font-size:10px;white-space:normal;line-height:1.15}.vd-tab .px-t td.vd-cup{max-width:92px;overflow:hidden;text-overflow:ellipsis;font-size:9.5px}.vd-tab .px-t td.vd-par{width:1%;font-size:10px}.vd-tab .px-t td.vd-par small{font-size:8.5px}.vd-tab .prog{min-width:130px;gap:3px}.vd-tab .prog .t i{height:4px}.vd-tab .px-t .iconbtn{width:26px;height:26px}.vd-tab .px-t .iconbtn svg{width:14px;height:14px}.vd-tab .px-t td.vd-sel input,.vd-tab #vd-selall{width:13px;height:13px}.vd-tab .px-frow input{font-size:10px;padding:2px 5px}.vd-tab .px-t td.vd-cup{font-size:10px}.px-t td.vd-sel{width:28px;text-align:center;padding-left:4px;padding-right:4px;cursor:default}.px-t td.vd-sel input,#vd-selall{width:16px;height:16px;cursor:pointer;accent-color:var(--accent,#B83D66)}.et-t{width:100%;table-layout:fixed;border-collapse:collapse}.et-t th{font-size:9.5px;line-height:1.2;white-space:normal;padding:5px 2px;vertical-align:bottom;letter-spacing:.03em}.et-t th.c,.et-t td.c{text-align:center}.et-t th.et-so{cursor:pointer;user-select:none}.et-t th.et-so:hover{color:var(--accent)}
 .et-t td{padding:3px 2px;font-size:12px}.et-t td.et-cli{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-left:6px}.et-t th:nth-child(3){text-align:left;padding-left:6px}
 .et-t td.et-cel button{width:100%;border:0;border-radius:6px;padding:5px 0;font:inherit;font-size:11px;font-variant-numeric:tabular-nums}
 .et-t .et-frow th{padding:2px;vertical-align:middle}.et-t .et-frow input,.et-t .et-frow select{width:100%;box-sizing:border-box;font:inherit;font-size:10px;padding:3px 2px;border:1px solid var(--line);border-radius:6px;background:var(--surface,#fff);color:var(--muted)}.et-t .et-frow select.on{border-color:var(--accent);color:var(--accent);font-weight:700}
@@ -1005,7 +1005,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v131 · 17/11/2026';
+const VERSAO='v132 · 17/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1117,31 +1117,36 @@ const VD_COLS=[
  {k:'cid',l:'Cidade',g:v=>v.cidade||'',cell:v=>esc(v.cidade||''),cls:'vd-cid'},
  {k:'uf',l:'UF',g:v=>v.uf||'',cell:v=>esc(v.uf||''),cls:'vd-itn'},
  {k:'itens',l:'Itens',t:'n',g:v=>calc(v).qtd,cell:v=>'<span class="num">'+calc(v).qtd+'</span>',cls:'vd-itn'},
- {k:'cupom',l:'Cupom',g:v=>v.cupom||'',cell:v=>v.cupom?esc(v.cupom)+'<small class="vd-cupv">'+esc(cupomQuanto(v))+'</small>':'',cls:'vd-cup'},
- {k:'par',l:'Parametrização',g:v=>{const c=corteOf(v);return c?'#'+pmSeq(c)+' '+(c.numero||''):''},cell:v=>{const c=corteOf(v);return c?'<b class="num">#'+esc(pmSeq(c))+'</b><small class="muted">'+esc(c.numero||'')+'</small>':''}},
+ {k:'cupom',l:'Cupom',g:v=>v.cupom||'',cell:v=>v.cupom?'<span title="'+esc(v.cupom)+'">'+esc(v.cupom)+'</span><small class="vd-cupv">'+esc(cupomQuanto(v))+'</small>':'',cls:'vd-cup'},
+ {k:'par',l:'Param.',cls:'vd-par',g:v=>{const c=corteOf(v);return c?'#'+pmSeq(c)+' '+(c.numero||''):''},cell:v=>{const c=corteOf(v);return c?'<b class="num">#'+esc(pmSeq(c))+'</b><small class="muted">'+esc(c.numero||'')+'</small>':''}},
  {k:'etapa',l:'Etapa',g:v=>isCancel(v)?'Cancelada':(curStep(v)<0?'Sem etapa':(curStep(v)+1)+'. '+STEPS[curStep(v)][1]),cell:v=>prog(v)},
  {k:'total',l:'Total',t:'n',g:v=>Math.round(calc(v).total*100)/100,fmt:v=>dm(Number(v)),cell:v=>{const c=calc(v);return '<b class="num">'+dm(c.total)+'</b><small>impostos '+dm(c.impostos)+'</small>'},cls:'r'},
+ {k:'cheio',l:'Antes cupom',t:'n',g:v=>Math.round((calc(v).sub+n(v.frete))*100)/100,fmt:v=>dm(Number(v)),cell:v=>'<span class="num">'+dm(calc(v).sub+n(v.frete))+'</span>',cls:'r'},
  {k:'liq',l:'Valor compra',t:'n',g:v=>Math.round(calc(v).liquido*100)/100,fmt:v=>dm(Number(v)),cell:v=>'<span class="num">'+dm(calc(v).liquido)+'</span>',cls:'r'},
  {k:'ii',l:'II',t:'n',g:v=>n(v.ii),fmt:v=>dm(Number(v)),cell:v=>'<span class="num">'+dm(n(v.ii))+'</span>',cls:'r'},
  {k:'icms',l:'ICMS',t:'n',g:v=>n(v.icms),fmt:v=>dm(Number(v)),cell:v=>'<span class="num">'+dm(n(v.icms))+'</span>',cls:'r'},
  {k:'adv',l:'Avançar',nf:true,ns:true,g:()=>'',cell:v=>{const cs=curStep(v),nx=cs<12&&!isCancel(v)?STEPS[cs+1]:null;return nx&&can()?'<button class="iconbtn" type="button" data-adv="'+esc(v.id)+'" title="Marcar: '+esc(nx[1])+'" aria-label="Marcar: '+esc(nx[1])+'"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>':''},cls:'r'}];
-// v131: escolher as colunas que aparecem na tela de Vendas
-const VD_FIXAS=['sel','adv'],VD_OPC={liq:1,ii:1,icms:1}; // opcionais começam escondidas
-const VD_NOMES={sel:'Marcar',num:'Venda',data:'Data',cli:'Cliente',cid:'Cidade',uf:'UF',itens:'Itens',cupom:'Cupom',par:'Parametrização',etapa:'Etapa',total:'Total',liq:'Valor da compra (sem impostos)',ii:'Imposto de importação (II)',icms:'ICMS',adv:'Avançar'};
-function vdVis(){let L=null;try{L=JSON.parse(localStorage.getItem('omg-vd-cols')||'null')}catch(_){}return k=>VD_FIXAS.includes(k)||(L?L.includes(k):!VD_OPC[k])}
-function vdColsModal(){const on=vdVis();
- $('#modal-root').innerHTML='<div class="ov" id="ov"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-t" style="max-width:460px"><div class="mh"><h2 id="m-t">Colunas da tela de Vendas</h2><button class="iconbtn" type="button" data-close aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>'+
- '<div style="padding:4px 2px"><p class="muted" style="margin:0 0 10px;font-size:12.5px">Marque o que quer ver. Fica salvo neste navegador.</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 12px">'+
- VD_COLS.filter(c=>!VD_FIXAS.includes(c.k)).map(c=>'<label class="chk" style="margin:0"><input type="checkbox" data-vdc="'+c.k+'"'+(on(c.k)?' checked':'')+'> '+esc(VD_NOMES[c.k]||c.l)+'</label>').join('')+'</div></div>'+
+// v131/v132: escolher as colunas da tela de Vendas e a ordem delas
+const VD_FIXAS=['sel','adv'],VD_OPC={cheio:1,liq:1,ii:1,icms:1}; // opcionais começam escondidas
+const VD_NOMES={sel:'Marcar',num:'Venda',data:'Data',cli:'Cliente',cid:'Cidade',uf:'UF',itens:'Itens',cupom:'Cupom',par:'Parametrização',etapa:'Etapa',total:'Total pago',cheio:'Valor antes do cupom (produtos + frete)',liq:'Valor da compra (depois do cupom, sem impostos)',ii:'Imposto de importação (II)',icms:'ICMS',adv:'Avançar'};
+function vdCfg(){let c=null;try{c=JSON.parse(localStorage.getItem('omg-vd-cols')||'null')}catch(_){}if(Array.isArray(c))c={on:c,ord:null};c=c||{};
+ const ks=VD_COLS.map(x=>x.k).filter(k=>!VD_FIXAS.includes(k)),ord=(c.ord||[]).filter(k=>ks.includes(k));ks.forEach(k=>{if(!ord.includes(k))ord.push(k)});
+ const on=k=>c.on?c.on.includes(k):!VD_OPC[k];return {ord,on}}
+function vdColsAtivas(){const c=vdCfg(),M=Object.fromEntries(VD_COLS.map(x=>[x.k,x]));return [M.sel].concat(c.ord.filter(c.on).map(k=>M[k]),[M.adv])}
+function vdColsModal(){const c=vdCfg();
+ $('#modal-root').innerHTML='<div class="ov" id="ov"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-t" style="max-width:440px"><div class="mh"><h2 id="m-t">Colunas da tela de Vendas</h2><button class="iconbtn" type="button" data-close aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>'+
+ '<div style="padding:4px 2px"><p class="muted" style="margin:0 0 8px;font-size:12.5px">Marque o que quer ver e use ↑ ↓ para mudar a ordem (de cima para baixo = da esquerda para a direita). Fica salvo neste navegador.</p><div id="vdc-l" style="display:flex;flex-direction:column;gap:2px">'+
+ c.ord.map(k=>'<div class="vdc-r" data-k="'+k+'" style="display:flex;align-items:center;gap:6px;padding:3px 6px;border:1px solid var(--line);border-radius:8px"><label class="chk" style="margin:0;flex:1;font-size:12.5px"><input type="checkbox" data-vdc="'+k+'"'+(c.on(k)?' checked':'')+'> '+esc(VD_NOMES[k]||k)+'</label><button class="btn sm" type="button" data-vdmv="-1" aria-label="Subir">↑</button><button class="btn sm" type="button" data-vdmv="1" aria-label="Descer">↓</button></div>').join('')+'</div></div>'+
  '<div class="mf"><div class="r"><button class="btn" type="button" id="vdc-pad">Padrão</button><button class="btn pri" type="button" id="vdc-ok">Aplicar</button></div></div></div></div>'}
 document.addEventListener('click',e=>{
  if(e.target.closest('#vd-cols')){vdColsModal();return}
+ const mv=e.target.closest('[data-vdmv]');if(mv){const r=mv.closest('.vdc-r'),d=+mv.dataset.vdmv;if(d<0&&r.previousElementSibling)r.parentNode.insertBefore(r,r.previousElementSibling);else if(d>0&&r.nextElementSibling)r.parentNode.insertBefore(r.nextElementSibling,r);mv.focus();return}
  if(e.target.closest('#vdc-pad')){try{localStorage.removeItem('omg-vd-cols')}catch(_){}$('#modal-root').innerHTML='';render();return}
- if(e.target.closest('#vdc-ok')){const L=[...document.querySelectorAll('[data-vdc]')].filter(x=>x.checked).map(x=>x.dataset.vdc);try{localStorage.setItem('omg-vd-cols',JSON.stringify(L))}catch(_){}$('#modal-root').innerHTML='';render()}});
+ if(e.target.closest('#vdc-ok')){const ord=[...document.querySelectorAll('.vdc-r')].map(x=>x.dataset.k),on=[...document.querySelectorAll('[data-vdc]')].filter(x=>x.checked).map(x=>x.dataset.vdc);try{localStorage.setItem('omg-vd-cols',JSON.stringify({ord,on}))}catch(_){}$('#modal-root').innerHTML='';render()}});
 VIEWFN.vendas=()=>{
  const f=S.f.vendas;let rows=S.data.vendas.filter(match);
  if(f==='abertas')rows=rows.filter(isOpen);else if(f==='canceladas')rows=rows.filter(isCancel);else if(f!=='todas'){const g=GROUPS.find(x=>x[0]===f);rows=rows.filter(v=>!isCancel(v)&&curStep(v)>=g[1]&&curStep(v)<=g[2])}
- const vis=vdVis(),VC=VD_COLS.filter(c=>vis(c.k));const T=rows.length?xtTabela('vendas',VC,rows,v=>'data-edit="vendas" data-id="'+esc(v.id)+'" style="cursor:pointer"',['num',-1]):null;
+ const VC=vdColsAtivas();const T=rows.length?xtTabela('vendas',VC,rows,v=>'data-edit="vendas" data-id="'+esc(v.id)+'" style="cursor:pointer"',['num',-1]):null;
  return '<div class="page wide"><div class="col">'+head('Vendas','Todas as vendas do site, com cliente, produtos, impostos e as 13 etapas até a entrega.',(VD_SEL.size?'<button class="btn sm" type="button" id="vd-sel0" style="align-self:center">Desmarcar</button>':'')+'<button class="btn" type="button" id="vd-cols">Colunas</button><button class="btn" type="button" id="vd-prn"'+(rows.length||VD_SEL.size?'':' disabled')+'>'+vdPrnLbl()+'</button>'+newBtn('vendas','Nova venda'))+
  '<div class="chips">'+[['abertas','Em andamento'],['todas','Todas'],...GROUPS.map(g=>[g[0],g[0]]),['canceladas','Canceladas']].map(([k,l])=>'<button type="button" data-fv="'+esc(k)+'" aria-pressed="'+(f===k)+'">'+esc(l)+'</button>').join('')+'</div>'+
  (T&&T.fil?'<p class="muted" style="margin:0;font-size:11.5px"><b>'+T.n+' de '+rows.length+' vendas</b> · <a href="#" data-xtlimpa="vendas">limpar filtros das colunas</a></p>':'')+
@@ -1157,7 +1162,7 @@ const VP_COLS=[
  ['cupom','Cupom',v=>v.cupom||'','',1],['cupv','Valor do cupom',v=>v.cupom?cupomQuanto(v):'','c',1],
  ['par','Parametrização',v=>{const c=corteOf(v);return c?'#'+pmSeq(c)+' '+(c.numero||''):''},'',1],
  ['etapa','Etapa',v=>isCancel(v)?'Cancelada':(curStep(v)<0?'Sem etapa':(curStep(v)+1)+'/13 · '+STEPS[curStep(v)][1]),'',1],
- ['sub','Produtos R$',v=>calc(v).sub,'n',0],['desc','Desconto',v=>n(v.desconto),'n',0],['frete','Frete',v=>n(v.frete),'n',0],
+ ['sub','Produtos R$',v=>calc(v).sub,'n',0],['cheio','Antes do cupom',v=>calc(v).sub+n(v.frete),'n',0],['desc','Desconto',v=>n(v.desconto),'n',0],['frete','Frete',v=>n(v.frete),'n',0],
  ['liq','Valor da compra',v=>calc(v).liquido,'n',1],['ii','Imposto import. (II)',v=>n(v.ii),'n',1],['icms','ICMS',v=>n(v.icms),'n',1],['imp','Impostos (II+ICMS)',v=>calc(v).impostos,'n',1],['total','Total pago',v=>calc(v).total,'n',1]];
 function vdPrnLbl(){return VD_SEL.size?'Imprimir '+VD_SEL.size+' marcada'+(VD_SEL.size>1?'s':''):'Imprimir lista'}
 function vdPrnLinhas(){const D=XT_DEF.vendas;if(VD_SEL.size){const R=S.data.vendas.filter(v=>VD_SEL.has(v.id));return D?xtOrdena('vendas',D.cols,R):R}return D?xtOrdena('vendas',D.cols,xtFiltra('vendas',D.cols,D.rows)):[]}
@@ -5205,6 +5210,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v132','17/11/2026',['Vendas: nova coluna Valor antes do cupom (produtos + frete). Em Colunas dá para mudar a ordem com ↑ ↓. Cliente, Cidade, Cupom e Parametrização mais estreitas.']],
  ['v131','17/11/2026',['Vendas: botão Colunas para escolher o que aparece na tabela (inclui as novas Valor da compra, II e ICMS, que começam escondidas). Tabela mais compacta: letras menores e colunas estreitas (Venda, Data, UF, Itens) só com a largura do conteúdo.']],
  ['v130','17/11/2026',['Imprimir lista de vendas: novas colunas Valor da compra (sem impostos), Imposto de importação (II) e ICMS, além de Impostos (II+ICMS) e Total pago, todas com total no rodapé.']],
  ['v129','17/11/2026',['Vendas: caixinha na 1ª coluna para marcar as vendas a imprimir (a do título marca todas da tela). Com vendas marcadas, o botão vira Imprimir N marcadas e só elas saem; sem marcar nada, sai a lista da tela.']],
