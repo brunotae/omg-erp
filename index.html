@@ -1005,7 +1005,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v129 · 17/11/2026';
+const VERSAO='v130 · 17/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1142,7 +1142,7 @@ const VP_COLS=[
  ['par','Parametrização',v=>{const c=corteOf(v);return c?'#'+pmSeq(c)+' '+(c.numero||''):''},'',1],
  ['etapa','Etapa',v=>isCancel(v)?'Cancelada':(curStep(v)<0?'Sem etapa':(curStep(v)+1)+'/13 · '+STEPS[curStep(v)][1]),'',1],
  ['sub','Produtos R$',v=>calc(v).sub,'n',0],['desc','Desconto',v=>n(v.desconto),'n',0],['frete','Frete',v=>n(v.frete),'n',0],
- ['imp','Impostos',v=>calc(v).impostos,'n',0],['total','Total',v=>calc(v).total,'n',1]];
+ ['liq','Valor da compra',v=>calc(v).liquido,'n',1],['ii','Imposto import. (II)',v=>n(v.ii),'n',1],['icms','ICMS',v=>n(v.icms),'n',1],['imp','Impostos (II+ICMS)',v=>calc(v).impostos,'n',1],['total','Total pago',v=>calc(v).total,'n',1]];
 function vdPrnLbl(){return VD_SEL.size?'Imprimir '+VD_SEL.size+' marcada'+(VD_SEL.size>1?'s':''):'Imprimir lista'}
 function vdPrnLinhas(){const D=XT_DEF.vendas;if(VD_SEL.size){const R=S.data.vendas.filter(v=>VD_SEL.has(v.id));return D?xtOrdena('vendas',D.cols,R):R}return D?xtOrdena('vendas',D.cols,xtFiltra('vendas',D.cols,D.rows)):[]}
 function vdSelSync(){const b=document.getElementById('vd-prn');if(b){b.textContent=vdPrnLbl();b.disabled=false}
@@ -5189,6 +5189,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v130','17/11/2026',['Imprimir lista de vendas: novas colunas Valor da compra (sem impostos), Imposto de importação (II) e ICMS, além de Impostos (II+ICMS) e Total pago, todas com total no rodapé.']],
  ['v129','17/11/2026',['Vendas: caixinha na 1ª coluna para marcar as vendas a imprimir (a do título marca todas da tela). Com vendas marcadas, o botão vira Imprimir N marcadas e só elas saem; sem marcar nada, sai a lista da tela.']],
  ['v128','17/11/2026',['Vendas: botão Imprimir lista. Escolha as colunas (venda, data, cliente, CPF, cidade, produtos, cupom e valor, parametrização, etapa, valores…) e a folha (deitada ou em pé). Sai a lista da tela, com os mesmos filtros e ordem, ajustada à largura da folha; continua nas páginas seguintes, com o cabeçalho repetido e total no fim.']],
  ['v127','16/11/2026',['Vendas: embaixo do cupom aparece, pequeno, quanto ele vale (% ou R$, do cadastro de cupons).']],
