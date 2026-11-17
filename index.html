@@ -1005,7 +1005,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v127 · 16/11/2026';
+const VERSAO='v128 · 17/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1124,11 +1124,69 @@ VIEWFN.vendas=()=>{
  const f=S.f.vendas;let rows=S.data.vendas.filter(match);
  if(f==='abertas')rows=rows.filter(isOpen);else if(f==='canceladas')rows=rows.filter(isCancel);else if(f!=='todas'){const g=GROUPS.find(x=>x[0]===f);rows=rows.filter(v=>!isCancel(v)&&curStep(v)>=g[1]&&curStep(v)<=g[2])}
  const T=rows.length?xtTabela('vendas',VD_COLS,rows,v=>'data-edit="vendas" data-id="'+esc(v.id)+'" style="cursor:pointer"',['num',-1]):null;
- return '<div class="page wide"><div class="col">'+head('Vendas','Todas as vendas do site, com cliente, produtos, impostos e as 13 etapas até a entrega.',newBtn('vendas','Nova venda'))+
+ return '<div class="page wide"><div class="col">'+head('Vendas','Todas as vendas do site, com cliente, produtos, impostos e as 13 etapas até a entrega.','<button class="btn" type="button" id="vd-prn"'+(rows.length?'':' disabled')+'>Imprimir lista</button>'+newBtn('vendas','Nova venda'))+
  '<div class="chips">'+[['abertas','Em andamento'],['todas','Todas'],...GROUPS.map(g=>[g[0],g[0]]),['canceladas','Canceladas']].map(([k,l])=>'<button type="button" data-fv="'+esc(k)+'" aria-pressed="'+(f===k)+'">'+esc(l)+'</button>').join('')+'</div>'+
  (T&&T.fil?'<p class="muted" style="margin:0;font-size:11.5px"><b>'+T.n+' de '+rows.length+' vendas</b> · <a href="#" data-xtlimpa="vendas">limpar filtros das colunas</a></p>':'')+
  '<div class="card vd-tab" style="padding:8px">'+(loading('vendas')?'<p class="muted">Carregando…</p>':rows.length?T.html:empty(S.data.vendas.length?'Nenhuma venda neste filtro':'Nenhuma venda lançada','Use Nova venda. A seta da tabela marca a próxima etapa com a data de hoje; o resto se edita dentro da venda.'))+'</div></div></div>';
 };
+
+// v128: imprimir a lista de vendas (as linhas da tela, com os filtros e a ordem das colunas), escolhendo as colunas
+const VP_COLS=[
+ ['num','Venda',v=>vCurto(v.numero),'c',1],['numc','Nº completo',v=>vnum(v.numero),'c',0],['ped','Pedido site',v=>v.pedidoSite||'','c',0],
+ ['data','Data',v=>fdataL(v.dataCompra),'c',1],['cli','Cliente',v=>v.cliente||'','',1],['cpf','CPF',v=>vdCpf(v)||'','c',0],['cont','Contato',v=>v.contato||'','',0],
+ ['cid','Cidade',v=>v.cidade||'','',1],['uf','UF',v=>v.uf||'','c',1],['itens','Itens',v=>calc(v).qtd,'c',1],
+ ['prod','Produtos',v=>(v.itens||[]).map(i=>(n(i.qtd)>1?n(i.qtd)+'× ':'')+String(i.produto||'').split(' · ').slice(1,2).join('').split(':')[0]).join('; '),'',0],
+ ['cupom','Cupom',v=>v.cupom||'','',1],['cupv','Valor do cupom',v=>v.cupom?cupomQuanto(v):'','c',1],
+ ['par','Parametrização',v=>{const c=corteOf(v);return c?'#'+pmSeq(c)+' '+(c.numero||''):''},'',1],
+ ['etapa','Etapa',v=>isCancel(v)?'Cancelada':(curStep(v)<0?'Sem etapa':(curStep(v)+1)+'/13 · '+STEPS[curStep(v)][1]),'',1],
+ ['sub','Produtos R$',v=>calc(v).sub,'n',0],['desc','Desconto',v=>n(v.desconto),'n',0],['frete','Frete',v=>n(v.frete),'n',0],
+ ['imp','Impostos',v=>calc(v).impostos,'n',0],['total','Total',v=>calc(v).total,'n',1]];
+const vpSalvo=()=>{try{return JSON.parse(localStorage.getItem('omg-vd-prn')||'null')}catch(_){return null}};
+function vdPrnModal(){
+ const sv=vpSalvo()||{}, on=k=>sv.cols?sv.cols.includes(k):(VP_COLS.find(c=>c[0]===k)[4]===1), ori=sv.ori||'paisagem';
+ const D=XT_DEF.vendas;const n0=D?xtOrdena('vendas',D.cols,xtFiltra('vendas',D.cols,D.rows)).length:0;
+ $('#modal-root').innerHTML='<div class="ov" id="ov"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-t"><div class="mh"><h2 id="m-t">Imprimir lista de vendas</h2><button class="iconbtn" type="button" data-close aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>'+
+  '<div style="padding:4px 2px"><p class="muted" style="margin:0 0 10px;font-size:12.5px">Saem as <b>'+n0+' vendas</b> que estão na tela, com os mesmos filtros e a mesma ordem. Tudo cabe na largura da folha; se tiver muitas vendas, continua nas páginas seguintes.</p>'+
+  '<span class="label">Colunas</span><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:4px 12px;margin:6px 0 12px">'+VP_COLS.map(c=>'<label class="chk" style="margin:0"><input type="checkbox" data-vpc="'+c[0]+'"'+(on(c[0])?' checked':'')+'> '+esc(c[1])+'</label>').join('')+'</div>'+
+  '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px"><button class="btn sm" type="button" data-vpall="1">Marcar todas</button><button class="btn sm" type="button" data-vpall="0">Desmarcar todas</button><button class="btn sm" type="button" data-vpall="p">Padrão</button></div>'+
+  '<span class="label">Folha</span><div style="display:flex;gap:14px;margin:6px 0"><label class="chk" style="margin:0"><input type="radio" name="vpori" value="paisagem"'+(ori==='paisagem'?' checked':'')+'> Deitada (paisagem)</label><label class="chk" style="margin:0"><input type="radio" name="vpori" value="retrato"'+(ori==='retrato'?' checked':'')+'> Em pé (retrato)</label></div></div>'+
+  '<div class="mf"><div class="r"><button class="btn" type="button" data-close>Cancelar</button><button class="btn pri" type="button" id="vp-ok">Abrir para imprimir</button></div></div></div></div>';
+}
+function vdPrnAbrir(cols,ori){
+ const D=XT_DEF.vendas;if(!D)return;const L=xtOrdena('vendas',D.cols,xtFiltra('vendas',D.cols,D.rows));
+ const C=VP_COLS.filter(c=>cols.includes(c[0]));if(!C.length){toast('Escolha pelo menos uma coluna');return}
+ const w=window.open('','_blank');if(!w){toast('Libere as janelas (pop-up) para imprimir');return}
+ const fmt=(c,v)=>c[3]==='n'?brl(n(v)):esc(v);
+ const tot={};C.forEach(c=>{if(c[3]==='n'||c[0]==='itens')tot[c[0]]=L.reduce((s,v)=>s+n(c[2](v)),0)});
+ const filtro=(()=>{const st=xtSt('vendas'),fs=Object.entries(st.f||{}).filter(([,x])=>x).map(([k,x])=>{const c=D.cols.find(y=>y.k===k);return (c?c.l:k)+': '+x});
+  const ch={abertas:'Em andamento',todas:'Todas',canceladas:'Canceladas'}[S.f.vendas]||S.f.vendas;return [ch].concat(fs).join(' · ')})();
+ const pw=ori==='retrato'?194:281; // largura útil em mm (A4 menos margens de 8 mm)
+ const css='@page{size:A4 '+(ori==='retrato'?'portrait':'landscape')+';margin:8mm}*{box-sizing:border-box}body{margin:0;font-family:Poppins,system-ui,Arial,sans-serif;color:#2E1A24;background:#EEE}'+
+  '.bar{position:sticky;top:0;display:flex;gap:8px;justify-content:space-between;align-items:center;padding:10px 16px;background:#3B1F2B;color:#fff;z-index:2;font-size:12px}.bar button{font:inherit;border:0;border-radius:999px;padding:7px 14px;cursor:pointer;background:#fff;color:#3B1F2B}.bar .pri{background:#E85D8E;color:#fff}'+
+  '.fl{width:'+pw+'mm;margin:14px auto;background:#fff;padding:6mm;box-shadow:0 2px 12px rgba(0,0,0,.12);overflow:hidden}#doc{transform-origin:top left}'+
+  'h1{font-size:14px;margin:0}.sub{font-size:9.5px;color:#6B5560;margin:2px 0 6px}'+
+  'table{border-collapse:collapse;width:100%;font-size:9px;line-height:1.25}thead{display:table-header-group}tr{page-break-inside:avoid}th{background:#F8E3EB;font-size:8.5px;text-transform:uppercase;letter-spacing:.04em;text-align:center;padding:3px 4px;border:1px solid #D9C4CD;white-space:nowrap}'+
+  'td{border:1px solid #E6D8DE;padding:2px 4px;vertical-align:top}td.c{text-align:center;white-space:nowrap}td.n{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}tbody tr:nth-child(even){background:#FCF7F9}tfoot td{font-weight:700;background:#F3E9EE}'+
+  '@media print{body{background:#fff}.bar{display:none}.fl{width:auto;margin:0;padding:0;box-shadow:none;overflow:visible}}';
+ const corpo='<h1>Vendas · OMG! oh my girl</h1><p class="sub">'+L.length+' vendas · '+esc(filtro)+' · impresso em '+esc(new Date().toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo'}))+'</p>'+
+  '<table><thead><tr>'+C.map(c=>'<th>'+esc(c[1])+'</th>').join('')+'</tr></thead><tbody>'+
+  L.map(v=>'<tr>'+C.map(c=>'<td class="'+(c[3]||'')+'">'+fmt(c,c[2](v))+'</td>').join('')+'</tr>').join('')+'</tbody>'+
+  '<tfoot><tr>'+C.map((c,i)=>'<td class="'+(c[3]||'')+'">'+(i===0?'Total':(c[0] in tot?(c[3]==='n'?brl(tot[c[0]]):tot[c[0]]):''))+'</td>').join('')+'</tr></tfoot></table>';
+ w.document.open();
+ w.document.write('<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>Lista de vendas</title><style>'+css+'</style></head><body>'+
+  '<div class="bar"><button type="button" id="fechar">✕ Fechar aba</button><span style="display:flex;gap:8px;align-items:center"><span>Imprimir → Salvar como PDF</span><button type="button" class="pri" id="imp">Imprimir / PDF</button></span></div>'+
+  '<div class="fl"><div id="doc">'+corpo+'</div></div>'+
+  '<script>(function(){var d=document.getElementById("doc"),fl=d.parentNode;function caber(){d.style.transform="";d.style.width="";var W=fl.clientWidth-parseFloat(getComputedStyle(fl).paddingLeft)*2,t=d.querySelector("table"),tw=t.scrollWidth;if(tw>W+1){var z=W/tw;d.style.transform="scale("+z+")";d.style.width=(100/z)+"%";fl.style.height=(d.scrollHeight*z+40)+"px";document.documentElement.style.setProperty("--z",z)}}'+
+  'caber();var st=document.createElement("style");st.textContent="@media print{#doc{transform:none!important;width:auto!important;zoom:var(--z,1)}.fl{height:auto!important}}";document.head.appendChild(st);'+
+  'document.getElementById("imp").onclick=function(){window.print()};document.getElementById("fechar").onclick=function(){window.close();setTimeout(function(){if(!window.closed)alert("Feche esta aba pelo X do navegador")},300)}})();<\/script></body></html>');
+ w.document.close();
+}
+document.addEventListener('click',e=>{
+ if(e.target.closest('#vd-prn')){vdPrnModal();return}
+ const al=e.target.closest('[data-vpall]');if(al){const m=al.dataset.vpall;document.querySelectorAll('[data-vpc]').forEach(x=>{x.checked=m==='1'?true:m==='0'?false:VP_COLS.find(c=>c[0]===x.dataset.vpc)[4]===1});return}
+ if(e.target.closest('#vp-ok')){const cols=[...document.querySelectorAll('[data-vpc]')].filter(x=>x.checked).map(x=>x.dataset.vpc),ori=(document.querySelector('input[name=vpori]:checked')||{}).value||'paisagem';
+  try{localStorage.setItem('omg-vd-prn',JSON.stringify({cols,ori}))}catch(_){}vdPrnAbrir(cols,ori)}
+});
 
 /* ---------- Embarques ---------- */
 VIEWFN.lotes=()=>{
@@ -5119,6 +5177,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v128','17/11/2026',['Vendas: botão Imprimir lista. Escolha as colunas (venda, data, cliente, CPF, cidade, produtos, cupom e valor, parametrização, etapa, valores…) e a folha (deitada ou em pé). Sai a lista da tela, com os mesmos filtros e ordem, ajustada à largura da folha; continua nas páginas seguintes, com o cabeçalho repetido e total no fim.']],
  ['v127','16/11/2026',['Vendas: embaixo do cupom aparece, pequeno, quanto ele vale (% ou R$, do cadastro de cupons).']],
  ['v126','16/11/2026',['Planilha da Mile: o total final do pedido é a soma dos valores dos itens já arredondados (fechava com 1 centavo de diferença em alguns pedidos).']],
  ['v125','16/11/2026',['Corrigido: item marcado para sair do Brasil (fora da carga da Coreia) continuava na planilha da Mile, na Master List e na página da Janice. Agora sai das três. Também deixa de perder essa marcação ao salvar a venda.']],
