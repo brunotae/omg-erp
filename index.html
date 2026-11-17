@@ -235,7 +235,7 @@ pre.code{background:var(--surface2);border:1px solid var(--line);border-radius:v
 .px-hist summary{cursor:pointer;padding:2px 0}.px-hist[open] summary{margin-bottom:8px}
 .px-lote{position:sticky;top:0;z-index:5;padding:8px 12px}.px-lote-in{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-size:12.5px}.px-lote-in span{display:inline-flex;gap:6px;align-items:center}.px-lote-in input{width:70px;padding:5px 6px}.px-lote-in .sp{flex:1}
 .px-wrap{max-height:calc(100dvh - 190px)}.px-t{font-size:11.5px;width:100%;table-layout:auto}.px-t th,.px-t td{white-space:nowrap;padding:4px 5px}.px-t th{font-size:10px;letter-spacing:.02em}
-.px-t td.vd-itn{text-align:center}.et-t{width:100%;table-layout:fixed;border-collapse:collapse}.et-t th{font-size:9.5px;line-height:1.2;white-space:normal;padding:5px 2px;vertical-align:bottom;letter-spacing:.03em}.et-t th.c,.et-t td.c{text-align:center}.et-t th.et-so{cursor:pointer;user-select:none}.et-t th.et-so:hover{color:var(--accent)}
+.px-t td.vd-itn{text-align:center}.px-t td.vd-sel{width:28px;text-align:center;padding-left:4px;padding-right:4px;cursor:default}.px-t td.vd-sel input,#vd-selall{width:16px;height:16px;cursor:pointer;accent-color:var(--accent,#B83D66)}.et-t{width:100%;table-layout:fixed;border-collapse:collapse}.et-t th{font-size:9.5px;line-height:1.2;white-space:normal;padding:5px 2px;vertical-align:bottom;letter-spacing:.03em}.et-t th.c,.et-t td.c{text-align:center}.et-t th.et-so{cursor:pointer;user-select:none}.et-t th.et-so:hover{color:var(--accent)}
 .et-t td{padding:3px 2px;font-size:12px}.et-t td.et-cli{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-left:6px}.et-t th:nth-child(3){text-align:left;padding-left:6px}
 .et-t td.et-cel button{width:100%;border:0;border-radius:6px;padding:5px 0;font:inherit;font-size:11px;font-variant-numeric:tabular-nums}
 .et-t .et-frow th{padding:2px;vertical-align:middle}.et-t .et-frow input,.et-t .et-frow select{width:100%;box-sizing:border-box;font:inherit;font-size:10px;padding:3px 2px;border:1px solid var(--line);border-radius:6px;background:var(--surface,#fff);color:var(--muted)}.et-t .et-frow select.on{border-color:var(--accent);color:var(--accent);font-weight:700}
@@ -1005,7 +1005,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v128 · 17/11/2026';
+const VERSAO='v129 · 17/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1108,7 +1108,9 @@ function tblVendas(rows){
   '<td class="r">'+(nx&&can()?'<button class="iconbtn" type="button" data-adv="'+esc(v.id)+'" title="Marcar: '+esc(nx[1])+'" aria-label="Marcar: '+esc(nx[1])+'"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>':'')+'</td></tr>'}).join('')+'</tbody></table></div>';
 }
 const vdCpf=v=>{const d=String(v.cpf||'').replace(/\D/g,'');return d.length===11?d.slice(0,3)+'.'+d.slice(3,6)+'.'+d.slice(6,9)+'-'+d.slice(9):(v.cpf||'')};
+const VD_SEL=new Set(); // v129: vendas marcadas para imprimir
 const VD_COLS=[
+ {k:'sel',l:'<input type="checkbox" id="vd-selall" title="Marcar todas da tela" aria-label="Marcar todas">',nf:true,ns:true,g:()=>'',cell:v=>'<input type="checkbox" data-vsel="'+esc(v.id)+'"'+(VD_SEL.has(v.id)?' checked':'')+' aria-label="Marcar para imprimir">',cls:'vd-sel'},
  {k:'num',l:'Venda',g:v=>vCurto(v.numero),cell:v=>'<b class="num" title="'+esc(vnum(v.numero))+'">'+vCurto(v.numero)+'</b>',cls:'vd-itn'},
  {k:'data',l:'Data',t:'t',g:v=>v.dataCompra||'',fmt:v=>fdataL(v),cell:v=>'<span class="num" style="white-space:nowrap">'+fdataL(v.dataCompra)+'</span>',cls:'vd-itn'},
  {k:'cli',l:'Cliente',g:v=>(v.cliente||'')+(vdCpf(v)?' · '+vdCpf(v):''),cell:v=>'<b>'+esc(v.cliente||'')+'</b>'+(vdCpf(v)?'<small class="num">CPF '+vdCpf(v)+'</small>':''),cls:'px-nome'},
@@ -1124,7 +1126,7 @@ VIEWFN.vendas=()=>{
  const f=S.f.vendas;let rows=S.data.vendas.filter(match);
  if(f==='abertas')rows=rows.filter(isOpen);else if(f==='canceladas')rows=rows.filter(isCancel);else if(f!=='todas'){const g=GROUPS.find(x=>x[0]===f);rows=rows.filter(v=>!isCancel(v)&&curStep(v)>=g[1]&&curStep(v)<=g[2])}
  const T=rows.length?xtTabela('vendas',VD_COLS,rows,v=>'data-edit="vendas" data-id="'+esc(v.id)+'" style="cursor:pointer"',['num',-1]):null;
- return '<div class="page wide"><div class="col">'+head('Vendas','Todas as vendas do site, com cliente, produtos, impostos e as 13 etapas até a entrega.','<button class="btn" type="button" id="vd-prn"'+(rows.length?'':' disabled')+'>Imprimir lista</button>'+newBtn('vendas','Nova venda'))+
+ return '<div class="page wide"><div class="col">'+head('Vendas','Todas as vendas do site, com cliente, produtos, impostos e as 13 etapas até a entrega.',(VD_SEL.size?'<button class="btn sm" type="button" id="vd-sel0" style="align-self:center">Desmarcar</button>':'')+'<button class="btn" type="button" id="vd-prn"'+(rows.length||VD_SEL.size?'':' disabled')+'>'+vdPrnLbl()+'</button>'+newBtn('vendas','Nova venda'))+
  '<div class="chips">'+[['abertas','Em andamento'],['todas','Todas'],...GROUPS.map(g=>[g[0],g[0]]),['canceladas','Canceladas']].map(([k,l])=>'<button type="button" data-fv="'+esc(k)+'" aria-pressed="'+(f===k)+'">'+esc(l)+'</button>').join('')+'</div>'+
  (T&&T.fil?'<p class="muted" style="margin:0;font-size:11.5px"><b>'+T.n+' de '+rows.length+' vendas</b> · <a href="#" data-xtlimpa="vendas">limpar filtros das colunas</a></p>':'')+
  '<div class="card vd-tab" style="padding:8px">'+(loading('vendas')?'<p class="muted">Carregando…</p>':rows.length?T.html:empty(S.data.vendas.length?'Nenhuma venda neste filtro':'Nenhuma venda lançada','Use Nova venda. A seta da tabela marca a próxima etapa com a data de hoje; o resto se edita dentro da venda.'))+'</div></div></div>';
@@ -1141,25 +1143,35 @@ const VP_COLS=[
  ['etapa','Etapa',v=>isCancel(v)?'Cancelada':(curStep(v)<0?'Sem etapa':(curStep(v)+1)+'/13 · '+STEPS[curStep(v)][1]),'',1],
  ['sub','Produtos R$',v=>calc(v).sub,'n',0],['desc','Desconto',v=>n(v.desconto),'n',0],['frete','Frete',v=>n(v.frete),'n',0],
  ['imp','Impostos',v=>calc(v).impostos,'n',0],['total','Total',v=>calc(v).total,'n',1]];
+function vdPrnLbl(){return VD_SEL.size?'Imprimir '+VD_SEL.size+' marcada'+(VD_SEL.size>1?'s':''):'Imprimir lista'}
+function vdPrnLinhas(){const D=XT_DEF.vendas;if(VD_SEL.size){const R=S.data.vendas.filter(v=>VD_SEL.has(v.id));return D?xtOrdena('vendas',D.cols,R):R}return D?xtOrdena('vendas',D.cols,xtFiltra('vendas',D.cols,D.rows)):[]}
+function vdSelSync(){const b=document.getElementById('vd-prn');if(b){b.textContent=vdPrnLbl();b.disabled=false}
+ const D=XT_DEF.vendas,all=document.getElementById('vd-selall');if(all&&D){const L=xtOrdena('vendas',D.cols,xtFiltra('vendas',D.cols,D.rows)),k=L.filter(v=>VD_SEL.has(v.id)).length;all.checked=L.length>0&&k===L.length;all.indeterminate=k>0&&k<L.length}
+ const z=document.getElementById('vd-sel0');if(!!z!==!!VD_SEL.size)render()}
+document.addEventListener('click',e=>{const td=e.target.closest&&e.target.closest('td.vd-sel,th input#vd-selall');if(!td)return;e.stopPropagation();
+ if(e.target.id==='vd-selall'){const D=XT_DEF.vendas;if(!D)return;const L=xtOrdena('vendas',D.cols,xtFiltra('vendas',D.cols,D.rows));L.forEach(v=>e.target.checked?VD_SEL.add(v.id):VD_SEL.delete(v.id));render();return}
+ let c=e.target.matches('input[data-vsel]')?e.target:td.querySelector('input[data-vsel]');if(!c)return;if(c!==e.target)c.checked=!c.checked;
+ c.checked?VD_SEL.add(c.dataset.vsel):VD_SEL.delete(c.dataset.vsel);vdSelSync()},true);
+document.addEventListener('click',e=>{if(e.target.closest('#vd-sel0')){VD_SEL.clear();render()}});
 const vpSalvo=()=>{try{return JSON.parse(localStorage.getItem('omg-vd-prn')||'null')}catch(_){return null}};
 function vdPrnModal(){
  const sv=vpSalvo()||{}, on=k=>sv.cols?sv.cols.includes(k):(VP_COLS.find(c=>c[0]===k)[4]===1), ori=sv.ori||'paisagem';
- const D=XT_DEF.vendas;const n0=D?xtOrdena('vendas',D.cols,xtFiltra('vendas',D.cols,D.rows)).length:0;
+ const n0=vdPrnLinhas().length;
  $('#modal-root').innerHTML='<div class="ov" id="ov"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-t"><div class="mh"><h2 id="m-t">Imprimir lista de vendas</h2><button class="iconbtn" type="button" data-close aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>'+
-  '<div style="padding:4px 2px"><p class="muted" style="margin:0 0 10px;font-size:12.5px">Saem as <b>'+n0+' vendas</b> que estão na tela, com os mesmos filtros e a mesma ordem. Tudo cabe na largura da folha; se tiver muitas vendas, continua nas páginas seguintes.</p>'+
+  '<div style="padding:4px 2px"><p class="muted" style="margin:0 0 10px;font-size:12.5px">'+(VD_SEL.size?'Saem as <b>'+n0+' vendas marcadas</b>, na ordem da tela.':'Nenhuma venda marcada: saem as <b>'+n0+' vendas</b> da tela, com os mesmos filtros e ordem. Para escolher, marque as caixinhas da 1ª coluna.')+' Tudo cabe na largura da folha; se tiver muitas vendas, continua nas páginas seguintes.</p>'+
   '<span class="label">Colunas</span><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:4px 12px;margin:6px 0 12px">'+VP_COLS.map(c=>'<label class="chk" style="margin:0"><input type="checkbox" data-vpc="'+c[0]+'"'+(on(c[0])?' checked':'')+'> '+esc(c[1])+'</label>').join('')+'</div>'+
   '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px"><button class="btn sm" type="button" data-vpall="1">Marcar todas</button><button class="btn sm" type="button" data-vpall="0">Desmarcar todas</button><button class="btn sm" type="button" data-vpall="p">Padrão</button></div>'+
   '<span class="label">Folha</span><div style="display:flex;gap:14px;margin:6px 0"><label class="chk" style="margin:0"><input type="radio" name="vpori" value="paisagem"'+(ori==='paisagem'?' checked':'')+'> Deitada (paisagem)</label><label class="chk" style="margin:0"><input type="radio" name="vpori" value="retrato"'+(ori==='retrato'?' checked':'')+'> Em pé (retrato)</label></div></div>'+
   '<div class="mf"><div class="r"><button class="btn" type="button" data-close>Cancelar</button><button class="btn pri" type="button" id="vp-ok">Abrir para imprimir</button></div></div></div></div>';
 }
 function vdPrnAbrir(cols,ori){
- const D=XT_DEF.vendas;if(!D)return;const L=xtOrdena('vendas',D.cols,xtFiltra('vendas',D.cols,D.rows));
+ const D=XT_DEF.vendas;if(!D)return;const L=vdPrnLinhas();
  const C=VP_COLS.filter(c=>cols.includes(c[0]));if(!C.length){toast('Escolha pelo menos uma coluna');return}
  const w=window.open('','_blank');if(!w){toast('Libere as janelas (pop-up) para imprimir');return}
  const fmt=(c,v)=>c[3]==='n'?brl(n(v)):esc(v);
  const tot={};C.forEach(c=>{if(c[3]==='n'||c[0]==='itens')tot[c[0]]=L.reduce((s,v)=>s+n(c[2](v)),0)});
  const filtro=(()=>{const st=xtSt('vendas'),fs=Object.entries(st.f||{}).filter(([,x])=>x).map(([k,x])=>{const c=D.cols.find(y=>y.k===k);return (c?c.l:k)+': '+x});
-  const ch={abertas:'Em andamento',todas:'Todas',canceladas:'Canceladas'}[S.f.vendas]||S.f.vendas;return [ch].concat(fs).join(' · ')})();
+  const ch={abertas:'Em andamento',todas:'Todas',canceladas:'Canceladas'}[S.f.vendas]||S.f.vendas;return VD_SEL.size?'Vendas marcadas':[ch].concat(fs).join(' · ')})();
  const pw=ori==='retrato'?194:281; // largura útil em mm (A4 menos margens de 8 mm)
  const css='@page{size:A4 '+(ori==='retrato'?'portrait':'landscape')+';margin:8mm}*{box-sizing:border-box}body{margin:0;font-family:Poppins,system-ui,Arial,sans-serif;color:#2E1A24;background:#EEE}'+
   '.bar{position:sticky;top:0;display:flex;gap:8px;justify-content:space-between;align-items:center;padding:10px 16px;background:#3B1F2B;color:#fff;z-index:2;font-size:12px}.bar button{font:inherit;border:0;border-radius:999px;padding:7px 14px;cursor:pointer;background:#fff;color:#3B1F2B}.bar .pri{background:#E85D8E;color:#fff}'+
@@ -5177,6 +5189,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v129','17/11/2026',['Vendas: caixinha na 1ª coluna para marcar as vendas a imprimir (a do título marca todas da tela). Com vendas marcadas, o botão vira Imprimir N marcadas e só elas saem; sem marcar nada, sai a lista da tela.']],
  ['v128','17/11/2026',['Vendas: botão Imprimir lista. Escolha as colunas (venda, data, cliente, CPF, cidade, produtos, cupom e valor, parametrização, etapa, valores…) e a folha (deitada ou em pé). Sai a lista da tela, com os mesmos filtros e ordem, ajustada à largura da folha; continua nas páginas seguintes, com o cabeçalho repetido e total no fim.']],
  ['v127','16/11/2026',['Vendas: embaixo do cupom aparece, pequeno, quanto ele vale (% ou R$, do cadastro de cupons).']],
  ['v126','16/11/2026',['Planilha da Mile: o total final do pedido é a soma dos valores dos itens já arredondados (fechava com 1 centavo de diferença em alguns pedidos).']],
