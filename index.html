@@ -1273,12 +1273,12 @@ const invNome=v=>'INV-'+vnum(v.numero)+'.pdf';
 async function invSalvar(vs,prog){let ok=0,err=0;
  // renderiza num iframe isolado, sem o CSS do ERP (antes o estilo do ERP bagunçava o PDF)
  const fr=document.createElement('iframe');fr.style.cssText='position:fixed;left:-10000px;top:0;width:800px;height:1200px;border:0';document.body.appendChild(fr);
- const d=fr.contentDocument;d.open();d.write('<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0;background:#fff}'+INV_CSS+'</style></head><body><div class="invx" id="bx"></div></body></html>');d.close();
+ const d=fr.contentDocument;d.open();d.write('<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0;background:#fff}'+INV_CSS+'.invx .inv{min-height:0;padding:0;width:186mm}</style></head><body><div class="invx" id="bx"></div></body></html>');d.close();
  // o gerador de PDF roda dentro do iframe (senão ele copia a página para o documento do ERP e o CSS do ERP entra)
  await new Promise((ok2,er)=>{const sc=d.createElement('script');sc.src='https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';sc.onload=ok2;sc.onerror=()=>er(new Error('não carregou o gerador de PDF'));d.head.appendChild(sc)});
  const h2p=fr.contentWindow.html2pdf,box=d.getElementById('bx');
  try{for(const v of vs){const pg=invPagina(v);if(!pg)continue;box.innerHTML=pg;
-   try{const blob=await h2p().set({margin:12,filename:invNome(v),image:{type:'jpeg',quality:.95},html2canvas:{scale:2,backgroundColor:'#ffffff',windowWidth:800},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from(box.firstElementChild).outputPdf('blob');
+   try{const blob=await h2p().set({margin:12,filename:invNome(v),image:{type:'jpeg',quality:.95},html2canvas:{scale:2,backgroundColor:'#ffffff',windowWidth:800},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:'avoid-all'}}).from(box).outputPdf('blob');
     const {error}=await sb.storage.from('docs').upload(docPrefix('invoices')+'/'+invNome(v),blob,{contentType:'application/pdf',upsert:true});if(error)throw error;ok++}catch(_){err++}
    if(prog)prog(ok+err,vs.length)}}
  finally{fr.remove()}
