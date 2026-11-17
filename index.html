@@ -1233,7 +1233,7 @@ function invPagina(v){
  const u=x=>'US$ '+Number(x).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}),rb=x=>'R$ '+Number(x).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}),r2x=x=>Math.round(x*100)/100;
  const B={cheio:L.reduce((s,l)=>s+l.brl,0),desc:L.reduce((s,l)=>s+l.dB,0),frete:n(v.frete)*sh,ii:n(v.ii)*sh,icms:n(v.icms)*sh};
  B.liq=B.cheio-B.desc;B.compra=B.liq+B.frete;B.total=B.compra+B.ii+B.icms;
- const U=k=>r2x(B[k]/fx);
+ const UU={};['cheio','desc','frete','ii','icms'].forEach(k=>UU[k]=r2x(B[k]/fx));UU.liq=r2x(UU.cheio-UU.desc);UU.compra=r2x(UU.liq+UU.frete);UU.total=r2x(UU.compra+UU.ii+UU.icms);const U=k=>UU[k]; // US$ fecha a soma linha a linha
  const kg=L.reduce((s,l)=>s+l.i.kg*l.i.qtd,0),un=L.reduce((s,l)=>s+l.i.qtd,0);
  const end=[e.rua,e.compl].filter(Boolean).join(', '),cid=[e.cidade||v.cidade,e.uf||v.uf].filter(Boolean).join(' - '),email=(String(v.contato||'').match(/\S+@\S+/)||[''])[0];
  const dt=v.dataCompra?new Date(v.dataCompra+'T12:00:00').toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}):'';
