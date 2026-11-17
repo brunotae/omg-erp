@@ -1244,22 +1244,45 @@ function invPagina(v){
  '<p class="m">Unit prices are the prices actually paid by the buyer after the store coupon. Exchange rate used at checkout: US$ 1 = R$ '+fx.toFixed(4)+'. IBS/CBS cClassTrib: '+CLASS_TRIB+'.</p></div>'+
  '<p class="dec">We hereby certify that this invoice is true and correct, that the goods described above are cosmetics for personal use of the buyer, shipped under the Brazilian Remessa Conforme program, and that the country of origin of the goods is the Republic of Korea.</p>'+
  '<div class="sg"><div>______________________________<br>'+esc(P.shipNome)+' · Shipper</div><div>Date: '+esc(dt)+'</div></div></section>'}
+const INV_CSS=['.inv{width:186mm;min-height:270mm;background:#fff;padding:10mm;font-family:Arial,Helvetica,sans-serif;color:#111;font-size:10px;box-sizing:border-box}.inv *{box-sizing:border-box}',
+ '.ih{display:flex;justify-content:space-between;gap:12px;border-bottom:2px solid #111;padding-bottom:6px}h1{font-size:18px;margin:0;letter-spacing:.04em}h3{font-size:8.5px;text-transform:uppercase;letter-spacing:.06em;color:#555;margin:0 0 3px}.m{color:#555;font-size:8.5px;margin:3px 0 0}',
+ '.pt{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:10px;margin:10px 0}.pt p{margin:0;line-height:1.35}table{border-collapse:collapse}.kv th,.kv2 th{text-align:left;color:#555;font-weight:normal;padding:1px 6px 1px 0;font-size:9px}.kv td{padding:1px 0}',
+ '.kv2{width:100%;margin:4px 0 10px;border:1px solid #bbb}.kv2 th,.kv2 td{padding:3px 6px;border:1px solid #ddd}.it{width:100%}.it th{background:#eee;border:1px solid #999;padding:3px 4px;font-size:8.5px;text-transform:uppercase}.it td{border:1px solid #bbb;padding:3px 4px;vertical-align:top}.c{text-align:center;white-space:nowrap}.n{text-align:right;white-space:nowrap}',
+ '.tt{display:flex;flex-direction:column;align-items:flex-end;margin-top:8px}.tt table th{text-align:right;font-weight:normal;padding:2px 8px;color:#333}.tt table td{text-align:right;padding:2px 0;min-width:90px;white-space:nowrap}.tt .g th,.tt .g td{border-top:2px solid #111;font-weight:bold;font-size:11px;padding-top:4px}.tt .m{max-width:120mm;text-align:right}',
+ '.dec{margin:14px 0 0;font-size:9px;line-height:1.4}.sg{display:flex;justify-content:space-between;margin-top:28px;font-size:9.5px}'].join('').replace(/(^|\})([^@{}][^{}]*)\{/g,(m,a,sel)=>a+sel.split(',').map(x=>'.invx '+x.trim()).join(',')+'{');
 function invDoc(vs){const ps=vs.filter(v=>!isCancel(v)).map(invPagina).filter(Boolean);
- const css='@page{size:A4;margin:12mm}*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;color:#111;font-size:10px;background:#EEE}.bar{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:#3B1F2B;color:#fff;font-size:12px;z-index:2}.bar button{font:inherit;border:0;border-radius:999px;padding:7px 14px;cursor:pointer;background:#fff;color:#3B1F2B}.bar .pri{background:#E85D8E;color:#fff}'+
-  '.inv{width:186mm;min-height:270mm;margin:14px auto;background:#fff;padding:10mm;box-shadow:0 2px 12px rgba(0,0,0,.12);page-break-after:always;break-after:page}.inv:last-child{page-break-after:auto;break-after:auto}'+
-  '.ih{display:flex;justify-content:space-between;gap:12px;border-bottom:2px solid #111;padding-bottom:6px}h1{font-size:18px;margin:0;letter-spacing:.04em}h3{font-size:8.5px;text-transform:uppercase;letter-spacing:.06em;color:#555;margin:0 0 3px}.m{color:#555;font-size:8.5px;margin:3px 0 0}'+
-  '.pt{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:10px;margin:10px 0}.pt p{margin:0;line-height:1.35}table{border-collapse:collapse}.kv th,.kv2 th{text-align:left;color:#555;font-weight:normal;padding:1px 6px 1px 0;font-size:9px}.kv td{padding:1px 0}'+
-  '.kv2{width:100%;margin:4px 0 10px;border:1px solid #bbb}.kv2 th,.kv2 td{padding:3px 6px;border:1px solid #ddd}.it{width:100%}.it th{background:#eee;border:1px solid #999;padding:3px 4px;font-size:8.5px;text-transform:uppercase}.it td{border:1px solid #bbb;padding:3px 4px;vertical-align:top}.c{text-align:center;white-space:nowrap}.n{text-align:right;white-space:nowrap}'+
-  '.tt{display:flex;flex-direction:column;align-items:flex-end;margin-top:8px}.tt table th{text-align:right;font-weight:normal;padding:2px 8px;color:#333}.tt table td{text-align:right;padding:2px 0;min-width:90px;white-space:nowrap}.tt .g th,.tt .g td{border-top:2px solid #111;font-weight:bold;font-size:11px;padding-top:4px}.tt .m{max-width:120mm;text-align:right}'+
-  '.dec{margin:14px 0 0;font-size:9px;line-height:1.4}.sg{display:flex;justify-content:space-between;margin-top:28px;font-size:9.5px}'+
-  '@media print{body{background:#fff}.bar{display:none}.inv{margin:0;box-shadow:none;width:auto;min-height:0;padding:0}}';
+ const css='@page{size:A4;margin:12mm}*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;color:#111;font-size:10px;background:#EEE}.bar{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:#3B1F2B;color:#fff;font-size:12px;z-index:2}.bar button{font:inherit;border:0;border-radius:999px;padding:7px 14px;cursor:pointer;background:#fff;color:#3B1F2B}.bar .pri{background:#E85D8E;color:#fff}'+INV_CSS+
+  '.invx .inv{margin:14px auto;box-shadow:0 2px 12px rgba(0,0,0,.12);page-break-after:always;break-after:page}.invx .inv:last-child{page-break-after:auto;break-after:auto}'+
+  '@media print{body{background:#fff}.bar{display:none}.invx .inv{margin:0;box-shadow:none;width:auto;min-height:0;padding:0}}';
  return '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Commercial invoices ('+ps.length+')</title><style>'+css+'</style></head><body>'+
   '<div class="bar"><button type="button" id="fechar">✕ Fechar aba</button><span style="display:flex;gap:8px;align-items:center"><span>'+ps.length+' invoice'+(ps.length>1?'s':'')+' · Imprimir → Salvar como PDF</span><button type="button" class="pri" id="imp">Imprimir / PDF</button></span></div>'+
-  ps.join('')+'<script>document.getElementById("imp").onclick=function(){window.print()};document.getElementById("fechar").onclick=function(){window.close();setTimeout(function(){if(!window.closed)alert("Feche esta aba pelo X do navegador")},300)}<\/script></body></html>'}
-document.addEventListener('click',e=>{if(!e.target.closest('#vd-inv'))return;
- const L=vdPrnLinhas().filter(v=>!isCancel(v));if(!L.length){toast('Nenhuma venda para gerar invoice');return}
- const w=window.open('','_blank');if(!w){toast('Libere as janelas (pop-up) para abrir as invoices');return}
- w.document.open();w.document.write(invDoc(L));w.document.close()});
+  '<div class="invx">'+ps.join('')+'</div><script>document.getElementById("imp").onclick=function(){window.print()};document.getElementById("fechar").onclick=function(){window.close();setTimeout(function(){if(!window.closed)alert("Feche esta aba pelo X do navegador")},300)}<\/script></body></html>'}
+let invPdfLib=null;
+function invLib(){if(window.html2pdf)return Promise.resolve(window.html2pdf);if(invPdfLib)return invPdfLib;
+ invPdfLib=new Promise((ok,er)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';s.onload=()=>ok(window.html2pdf);s.onerror=()=>{invPdfLib=null;er(new Error('não carregou o gerador de PDF'))};document.head.appendChild(s)});return invPdfLib}
+const invNome=v=>'INV-'+vnum(v.numero)+'.pdf';
+// gera o PDF de cada venda e guarda em Documentos → Invoices (substitui se já existir)
+async function invSalvar(vs,prog){const h2p=await invLib();let ok=0,err=0;
+ let st=document.getElementById('inv-css');if(!st){st=document.createElement('style');st.id='inv-css';st.textContent=INV_CSS;document.head.appendChild(st)}
+ const box=document.createElement('div');box.className='invx';box.style.cssText='position:fixed;left:-10000px;top:0;width:186mm;background:#fff';document.body.appendChild(box);
+ try{for(const v of vs){const pg=invPagina(v);if(!pg)continue;box.innerHTML=pg;
+   try{const blob=await h2p().set({margin:12,filename:invNome(v),image:{type:'jpeg',quality:.95},html2canvas:{scale:2,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from(box.firstElementChild).outputPdf('blob');
+    const {error}=await sb.storage.from('docs').upload(docPrefix('invoices')+'/'+invNome(v),blob,{contentType:'application/pdf',upsert:true});if(error)throw error;ok++}catch(_){err++}
+   if(prog)prog(ok+err,vs.length)}}
+ finally{box.remove()}
+ return {ok,err}}
+document.addEventListener('click',async e=>{
+ if(e.target.closest('#vd-inv')){const L=vdPrnLinhas().filter(v=>!isCancel(v));if(!L.length){toast('Nenhuma venda para gerar invoice');return}
+  $('#modal-root').innerHTML='<div class="ov" id="ov"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-t" style="max-width:460px"><div class="mh"><h2 id="m-t">Commercial invoices</h2><button class="iconbtn" type="button" data-close aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>'+
+  '<div style="padding:4px 2px;font-size:13px"><p style="margin:0 0 8px">'+(VD_SEL.size?'<b>'+L.length+' vendas marcadas</b>.':'<b>'+L.length+' vendas</b> da tela (marque na 1ª coluna para escolher).')+' Uma invoice por venda, em inglês, com NCM e os valores da planilha da Mile.</p>'+
+  '<p class="muted" style="margin:0;font-size:12px">Salvar em Documentos guarda um PDF por venda em <b>Documentos → Invoices</b> (para achar rápido se a carga cair no canal vermelho).</p><p id="inv-st" class="muted" style="margin:8px 0 0;font-size:12px"></p></div>'+
+  '<div class="mf"><div class="r"><button class="btn" type="button" id="inv-abrir">Abrir para imprimir</button><button class="btn pri" type="button" id="inv-salvar">Salvar PDFs em Documentos</button></div></div></div></div>';return}
+ if(e.target.closest('#inv-abrir')){const L=vdPrnLinhas().filter(v=>!isCancel(v));const w=window.open('','_blank');if(!w){toast('Libere as janelas (pop-up) para abrir as invoices');return}
+  w.document.open();w.document.write(invDoc(L));w.document.close();return}
+ const b=e.target.closest('#inv-salvar');if(b){const L=vdPrnLinhas().filter(v=>!isCancel(v)),st=document.getElementById('inv-st');b.disabled=true;
+  try{const r=await invSalvar(L,(k,t)=>{if(st)st.textContent='Gerando '+k+' de '+t+'…'});if(st)st.textContent=r.ok+' PDFs salvos em Documentos → Invoices'+(r.err?' · '+r.err+' com erro':'')+'.';toast(r.ok+' invoices salvas')}
+  catch(x){if(st)st.textContent='Erro: '+(x.message||x)}finally{b.disabled=false}}
+});
 
 /* ---------- Embarques ---------- */
 VIEWFN.lotes=()=>{
@@ -1543,7 +1566,7 @@ function pmCfgEditar(){
 }
 
 /* ---------- Documentos e arquivos da empresa ---------- */
-const PASTAS=[['identidade','Identidade visual','Manual, logos, fontes, artes'],['receita','Receita Federal · PRC','ADE, portarias, protocolos, validação'],['contratos','Contratos','Parceiros, prestadores, sócios'],['parceiros','Parceiros e fornecedores','La Belle, Skyroad, Mile, ShipSmart, distribuidores'],['financeiro','Financeiro e impostos','Extratos, faturas, comprovantes'],['marketing','Marketing','IMP, influenciadores, campanhas'],['produtos','Produtos','Fichas, fotos, certificados das marcas'],['outros','Outros','O que não couber acima']];
+const PASTAS=[['identidade','Identidade visual','Manual, logos, fontes, artes'],['receita','Receita Federal · PRC','ADE, portarias, protocolos, validação'],['contratos','Contratos','Parceiros, prestadores, sócios'],['parceiros','Parceiros e fornecedores','La Belle, Skyroad, Mile, ShipSmart, distribuidores'],['financeiro','Financeiro e impostos','Extratos, faturas, comprovantes'],['marketing','Marketing','IMP, influenciadores, campanhas'],['produtos','Produtos','Fichas, fotos, certificados das marcas'],['invoices','Invoices','Commercial invoice de cada venda (INV-número), para inspeção / canal vermelho'],['outros','Outros','O que não couber acima']];
 const DOCS={};
 const docPrefix=k=>'arquivo/'+k;
 const fsize=b=>!b?'':b<1024?b+' B':b<1048576?(b/1024).toFixed(0)+' KB':(b/1048576).toFixed(1)+' MB';
@@ -5255,7 +5278,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
- ['v136','17/11/2026',['NCM de 8 dígitos no catálogo (campo ncm) e nas planilhas da Mile e Master List, no lugar do HS de 6 dígitos.','Planilha da Mile: nova coluna CLASS TRIB (000001 = tributação integral IBS/CBS).','Vendas: botão Invoices. Gera a commercial invoice de cada venda (uma por página A4, em inglês), das marcadas ou de todas da tela, para guardar em PDF caso a carga caia no canal vermelho.']],
+ ['v136','17/11/2026',['NCM de 8 dígitos no catálogo (campo ncm) e nas planilhas da Mile e Master List, no lugar do HS de 6 dígitos.','Planilha da Mile: nova coluna CLASS TRIB (000001 = tributação integral IBS/CBS).','Vendas: botão Invoices. Gera a commercial invoice de cada venda (A4, em inglês), das marcadas ou de todas da tela: abre para imprimir ou salva um PDF por venda em Documentos → Invoices, para o caso de a carga cair no canal vermelho.']],
  ['v135','17/11/2026',['Vendas: coluna Depois do cupom (antes do cupom − desconto, sem impostos), na tela e na impressão. Na impressão a ordem ficou: Produtos, Frete, Antes do cupom, Desconto, Depois do cupom, II, ICMS, Impostos, Total pago.']],
  ['v134','17/11/2026',['Imprimir lista: colunas de texto (Produtos, Contato, Etapa) com largura mínima para não espremer; Cupom e Parametrização numa linha só.']],
  ['v133','17/11/2026',['Vendas (tela e impressão): a largura de cada coluna segue o conteúdo das células; o título quebra em mais linhas quando é maior.']],
