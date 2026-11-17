@@ -1005,7 +1005,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v136 · 17/11/2026';
+const VERSAO='v137 · 17/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1223,32 +1223,40 @@ document.addEventListener('click',e=>{
 
 // v136: commercial invoice por venda (para canal vermelho / inspeção). Mesmos valores da planilha da Mile (US$ pelo câmbio do checkout, valor depois do cupom).
 function invDados(v){
- const P=PM.cfg||PM_PAD,its0=v.itens||[],its=its0.map(pmItem),bruto=its.reduce((s,i)=>s+i.preco*i.qtd,0)||1,fx=pmCambio(v),liq=Math.max(0,bruto-n(v.desconto)),r2x=x=>Math.round(x*100)/100;
- const L=[];its.forEach((i,k)=>{if(!naCarga(its0[k]))return;const part=i.preco*i.qtd/bruto;L.push({i,cheio:r2x(i.preco*i.qtd/fx),usd:r2x(liq*part/fx),frete:n(v.frete)*part/fx})});
- const c=corteOf(v);return {P,L,fx,awb:(c&&pmAwb(c))||v.awb||'',e:pmEnd(v)||{}}}
+ const P=PM.cfg||PM_PAD,its0=v.itens||[],its=its0.map(pmItem),bruto=its.reduce((s,i)=>s+i.preco*i.qtd,0)||1,fx=pmCambio(v),desc=Math.min(n(v.desconto),bruto),r2x=x=>Math.round(x*100)/100;
+ const L=[];its.forEach((i,k)=>{if(!naCarga(its0[k]))return;const brl=i.preco*i.qtd,part=brl/bruto,dB=desc*part;L.push({i,part,brl,dB,cheio:r2x(brl/fx),desc:r2x(dB/fx),usd:r2x((brl-dB)/fx)})});
+ const sh=L.reduce((s,l)=>s+l.part,0),c=corteOf(v);
+ return {P,L,fx,sh,awb:(c&&pmAwb(c))||v.awb||'',e:pmEnd(v)||{}}}
+// v137: valores reais da venda: preço cheio → cupom → valor depois do cupom → frete → impostos (II e ICMS) → total pago. Em US$ e R$.
 function invPagina(v){
- const {P,L,fx,awb,e}=invDados(v),u=x=>'US$ '+Number(x).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
- if(!L.length)return '';
- const tot=L.reduce((s,l)=>s+l.cheio,0),fin=L.reduce((s,l)=>s+l.usd,0),fr=Math.round(L.reduce((s,l)=>s+l.frete,0)*100)/100,kg=L.reduce((s,l)=>s+l.i.kg*l.i.qtd,0),un=L.reduce((s,l)=>s+l.i.qtd,0);
+ const {P,L,fx,sh,awb,e}=invDados(v);if(!L.length)return '';
+ const u=x=>'US$ '+Number(x).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}),rb=x=>'R$ '+Number(x).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}),r2x=x=>Math.round(x*100)/100;
+ const B={cheio:L.reduce((s,l)=>s+l.brl,0),desc:L.reduce((s,l)=>s+l.dB,0),frete:n(v.frete)*sh,ii:n(v.ii)*sh,icms:n(v.icms)*sh};
+ B.liq=B.cheio-B.desc;B.compra=B.liq+B.frete;B.total=B.compra+B.ii+B.icms;
+ const U=k=>r2x(B[k]/fx);
+ const kg=L.reduce((s,l)=>s+l.i.kg*l.i.qtd,0),un=L.reduce((s,l)=>s+l.i.qtd,0);
  const end=[e.rua,e.compl].filter(Boolean).join(', '),cid=[e.cidade||v.cidade,e.uf||v.uf].filter(Boolean).join(' - '),email=(String(v.contato||'').match(/\S+@\S+/)||[''])[0];
  const dt=v.dataCompra?new Date(v.dataCompra+'T12:00:00').toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}):'';
+ const lin=(t,k,cl)=>'<tr'+(cl?' class="'+cl+'"':'')+'><th>'+t+'</th><td>'+(k==='desc'?'− ':'')+u(U(k))+'</td><td>'+(k==='desc'?'− ':'')+rb(B[k])+'</td></tr>';
  return '<section class="inv"><div class="ih"><div><h1>COMMERCIAL INVOICE</h1><p class="m">Cross-border e-commerce shipment · Remessa Conforme (PRC)</p></div>'+
  '<table class="kv"><tr><th>Invoice No.</th><td><b>INV-'+esc(vnum(v.numero))+'</b></td></tr><tr><th>Date</th><td>'+esc(dt)+'</td></tr><tr><th>Order No.</th><td>'+esc(v.pedidoSite||vnum(v.numero))+'</td></tr><tr><th>AWB</th><td>'+esc(awb||'—')+'</td></tr></table></div>'+
  '<div class="pt"><div><h3>Shipper / Exporter</h3><p><b>'+esc(P.shipNome)+'</b><br>'+esc(P.shipEnd)+'</p></div>'+
  '<div><h3>Buyer / Consignee (final recipient)</h3><p><b>'+esc(e.nome||v.cliente||'')+'</b><br>CPF: '+esc(vdCpf(v)||String(v.cpf||''))+'<br>'+esc(end)+'<br>'+esc(cid)+(e.cep?' · CEP '+esc(pmCep(e.cep)):'')+' · Brazil'+(e.fone?'<br>Phone: +'+esc(pmFone(e.fone)):'')+(email?'<br>'+esc(email):'')+'</p></div>'+
  '<div><h3>Customs broker in Brazil</h3><p><b>'+esc(P.conNome)+'</b><br>CNPJ '+esc(P.conCnpj)+'<br>'+esc(P.conEnd)+' · CEP '+esc(P.conCep)+'<br>Phone: '+esc(P.conTel)+'</p></div></div>'+
- '<table class="kv2"><tr><th>Country of origin</th><td>Republic of Korea</td><th>Destination</th><td>Brazil (GRU)</td><th>Transport</th><td>Air</td></tr><tr><th>Incoterm</th><td>DDP</td><th>Currency</th><td>USD</td><th>Purpose</th><td>Personal use · not for resale</td></tr></table>'+
- '<table class="it"><thead><tr><th>#</th><th>SKU</th><th>Description of goods</th><th>Brand</th><th>NCM</th><th>Qty</th><th>Unit price</th><th>Amount</th><th>Net wt (kg)</th></tr></thead><tbody>'+
- L.map((l,k)=>'<tr><td class="c">'+(k+1)+'</td><td>'+esc(l.i.sku)+'</td><td>'+esc(l.i.en)+'</td><td>'+esc(l.i.marca)+'</td><td class="c">'+esc(l.i.ncm)+'</td><td class="c">'+l.i.qtd+'</td><td class="n">'+u(l.usd/l.i.qtd)+'</td><td class="n">'+u(l.usd)+'</td><td class="n">'+(l.i.kg*l.i.qtd).toFixed(3)+'</td></tr>').join('')+'</tbody></table>'+
- '<div class="tt"><table><tr><th>Total units</th><td>'+un+'</td></tr><tr><th>Total net weight</th><td>'+kg.toFixed(3)+' kg</td></tr><tr><th>Goods at list price</th><td>'+u(tot)+'</td></tr><tr><th>Discount (store coupon'+(v.cupom?' '+esc(v.cupom):'')+')</th><td>− '+u(Math.round((tot-fin)*100)/100)+'</td></tr><tr><th>Goods value (FCA)</th><td><b>'+u(fin)+'</b></td></tr><tr><th>Freight</th><td>'+u(fr)+'</td></tr><tr><th>Insurance</th><td>'+u(0)+'</td></tr><tr class="g"><th>TOTAL INVOICE VALUE</th><td>'+u(Math.round((fin+fr)*100)/100)+'</td></tr></table>'+
- '<p class="m">Unit prices are the prices actually paid by the buyer after the store coupon. Exchange rate used at checkout: US$ 1 = R$ '+fx.toFixed(4)+'. IBS/CBS cClassTrib: '+CLASS_TRIB+'.</p></div>'+
+ '<table class="kv2"><tr><th>Country of origin</th><td>Republic of Korea</td><th>Destination</th><td>Brazil (GRU)</td><th>Transport</th><td>Air</td></tr><tr><th>Incoterm</th><td>DDP</td><th>Currency</th><td>USD (BRL as paid)</td><th>Purpose</th><td>Personal use · not for resale</td></tr></table>'+
+ '<table class="it"><thead><tr><th>#</th><th>SKU</th><th>Description of goods</th><th>Brand</th><th>NCM</th><th>Qty</th><th>Unit price</th><th>Amount</th><th>Coupon discount</th><th>Net amount</th><th>Net wt (kg)</th></tr></thead><tbody>'+
+ L.map((l,k)=>'<tr><td class="c">'+(k+1)+'</td><td>'+esc(l.i.sku)+'</td><td>'+esc(l.i.en)+'</td><td>'+esc(l.i.marca)+'</td><td class="c">'+esc(l.i.ncm)+'</td><td class="c">'+l.i.qtd+'</td><td class="n">'+u(l.cheio/l.i.qtd)+'</td><td class="n">'+u(l.cheio)+'</td><td class="n">'+(l.desc?'− '+u(l.desc):u(0))+'</td><td class="n">'+u(l.usd)+'</td><td class="n">'+(l.i.kg*l.i.qtd).toFixed(3)+'</td></tr>').join('')+'</tbody></table>'+
+ '<div class="tt"><table><tr class="h"><th></th><td>USD</td><td>BRL</td></tr>'+
+ lin('1. Goods value (full price)','cheio')+lin('2. Store coupon'+(v.cupom?' '+esc(v.cupom):''),'desc')+lin('3. Goods value after coupon','liq','s')+lin('4. Freight','frete')+lin('5. Purchase value (3 + 4)','compra','s')+
+ lin('6. Import tax (II)','ii')+lin('7. ICMS','icms')+lin('TOTAL PAID BY BUYER (5 + 6 + 7)','total','g')+'</table>'+
+ '<p class="m">Total units: '+un+' · Total net weight: '+kg.toFixed(3)+' kg · Insurance: none. Exchange rate used at checkout: US$ 1 = R$ '+fx.toFixed(4)+'. Import taxes (II and ICMS) collected at checkout under Remessa Conforme. IBS/CBS cClassTrib: '+CLASS_TRIB+'.</p></div>'+
  '<p class="dec">We hereby certify that this invoice is true and correct, that the goods described above are cosmetics for personal use of the buyer, shipped under the Brazilian Remessa Conforme program, and that the country of origin of the goods is the Republic of Korea.</p>'+
  '<div class="sg"><div>______________________________<br>'+esc(P.shipNome)+' · Shipper</div><div>Date: '+esc(dt)+'</div></div></section>'}
 const INV_CSS=['.inv{width:186mm;min-height:270mm;background:#fff;padding:10mm;font-family:Arial,Helvetica,sans-serif;color:#111;font-size:10px;box-sizing:border-box}.inv *{box-sizing:border-box}',
  '.ih{display:flex;justify-content:space-between;gap:12px;border-bottom:2px solid #111;padding-bottom:6px}h1{font-size:18px;margin:0;letter-spacing:.04em}h3{font-size:8.5px;text-transform:uppercase;letter-spacing:.06em;color:#555;margin:0 0 3px}.m{color:#555;font-size:8.5px;margin:3px 0 0}',
  '.pt{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:10px;margin:10px 0}.pt p{margin:0;line-height:1.35}table{border-collapse:collapse}.kv th,.kv2 th{text-align:left;color:#555;font-weight:normal;padding:1px 6px 1px 0;font-size:9px}.kv td{padding:1px 0}',
  '.kv2{width:100%;margin:4px 0 10px;border:1px solid #bbb}.kv2 th,.kv2 td{padding:3px 6px;border:1px solid #ddd}.it{width:100%}.it th{background:#eee;border:1px solid #999;padding:3px 4px;font-size:8.5px;text-transform:uppercase}.it td{border:1px solid #bbb;padding:3px 4px;vertical-align:top}.c{text-align:center;white-space:nowrap}.n{text-align:right;white-space:nowrap}',
- '.tt{display:flex;flex-direction:column;align-items:flex-end;margin-top:8px}.tt table th{text-align:right;font-weight:normal;padding:2px 8px;color:#333}.tt table td{text-align:right;padding:2px 0;min-width:90px;white-space:nowrap}.tt .g th,.tt .g td{border-top:2px solid #111;font-weight:bold;font-size:11px;padding-top:4px}.tt .m{max-width:120mm;text-align:right}',
+ '.tt{display:flex;flex-direction:column;align-items:flex-end;margin-top:8px}.tt table th{text-align:right;font-weight:normal;padding:2px 8px;color:#333}.tt table td{text-align:right;padding:2px 0 2px 14px;min-width:90px;white-space:nowrap}.tt .h td{font-size:8px;color:#555;text-transform:uppercase;letter-spacing:.06em}.tt .s th,.tt .s td{font-weight:bold;border-top:1px solid #999}.tt .g th,.tt .g td{border-top:2px solid #111;font-weight:bold;font-size:11px;padding-top:4px}.tt .m{max-width:120mm;text-align:right}',
  '.dec{margin:14px 0 0;font-size:9px;line-height:1.4}.sg{display:flex;justify-content:space-between;margin-top:28px;font-size:9.5px}'].join('').replace(/(^|\})([^@{}][^{}]*)\{/g,(m,a,sel)=>a+sel.split(',').map(x=>'.invx '+x.trim()).join(',')+'{');
 function invDoc(vs){const ps=vs.filter(v=>!isCancel(v)).map(invPagina).filter(Boolean);
  const css='@page{size:A4;margin:12mm}*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;color:#111;font-size:10px;background:#EEE}.bar{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:#3B1F2B;color:#fff;font-size:12px;z-index:2}.bar button{font:inherit;border:0;border-radius:999px;padding:7px 14px;cursor:pointer;background:#fff;color:#3B1F2B}.bar .pri{background:#E85D8E;color:#fff}'+INV_CSS+
@@ -1263,13 +1271,15 @@ function invLib(){if(window.html2pdf)return Promise.resolve(window.html2pdf);if(
 const invNome=v=>'INV-'+vnum(v.numero)+'.pdf';
 // gera o PDF de cada venda e guarda em Documentos → Invoices (substitui se já existir)
 async function invSalvar(vs,prog){const h2p=await invLib();let ok=0,err=0;
- let st=document.getElementById('inv-css');if(!st){st=document.createElement('style');st.id='inv-css';st.textContent=INV_CSS;document.head.appendChild(st)}
- const box=document.createElement('div');box.className='invx';box.style.cssText='position:fixed;left:-10000px;top:0;width:186mm;background:#fff';document.body.appendChild(box);
+ // renderiza num iframe isolado, sem o CSS do ERP (antes o estilo do ERP bagunçava o PDF)
+ const fr=document.createElement('iframe');fr.style.cssText='position:fixed;left:-10000px;top:0;width:800px;height:1200px;border:0';document.body.appendChild(fr);
+ const d=fr.contentDocument;d.open();d.write('<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0;background:#fff}'+INV_CSS+'</style></head><body><div class="invx" id="bx"></div></body></html>');d.close();
+ const box=d.getElementById('bx');
  try{for(const v of vs){const pg=invPagina(v);if(!pg)continue;box.innerHTML=pg;
-   try{const blob=await h2p().set({margin:12,filename:invNome(v),image:{type:'jpeg',quality:.95},html2canvas:{scale:2,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from(box.firstElementChild).outputPdf('blob');
+   try{const blob=await h2p().set({margin:12,filename:invNome(v),image:{type:'jpeg',quality:.95},html2canvas:{scale:2,backgroundColor:'#ffffff',windowWidth:800},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from(box.firstElementChild).outputPdf('blob');
     const {error}=await sb.storage.from('docs').upload(docPrefix('invoices')+'/'+invNome(v),blob,{contentType:'application/pdf',upsert:true});if(error)throw error;ok++}catch(_){err++}
    if(prog)prog(ok+err,vs.length)}}
- finally{box.remove()}
+ finally{fr.remove()}
  return {ok,err}}
 document.addEventListener('click',async e=>{
  if(e.target.closest('#vd-inv')){const L=vdPrnLinhas().filter(v=>!isCancel(v));if(!L.length){toast('Nenhuma venda para gerar invoice');return}
@@ -5278,6 +5288,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v137','17/11/2026',['Invoices: valores na ordem da venda: preço cheio de cada produto, cupom, valor depois do cupom, frete, valor da compra, II, ICMS e total pago, em US$ e R$. O PDF salvo em Documentos agora sai com o layout certo.']],
  ['v136','17/11/2026',['NCM de 8 dígitos no catálogo (campo ncm) e nas planilhas da Mile e Master List, no lugar do HS de 6 dígitos.','Planilha da Mile: nova coluna CLASS TRIB (000001 = tributação integral IBS/CBS).','Vendas: botão Invoices. Gera a commercial invoice de cada venda (A4, em inglês), das marcadas ou de todas da tela: abre para imprimir ou salva um PDF por venda em Documentos → Invoices, para o caso de a carga cair no canal vermelho.']],
  ['v135','17/11/2026',['Vendas: coluna Depois do cupom (antes do cupom − desconto, sem impostos), na tela e na impressão. Na impressão a ordem ficou: Produtos, Frete, Antes do cupom, Desconto, Depois do cupom, II, ICMS, Impostos, Total pago.']],
  ['v134','17/11/2026',['Imprimir lista: colunas de texto (Produtos, Contato, Etapa) com largura mínima para não espremer; Cupom e Parametrização numa linha só.']],
