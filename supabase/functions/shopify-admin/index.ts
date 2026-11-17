@@ -1225,6 +1225,14 @@ async function principal(req: Request): Promise<Response> {
       return resp(200, { ok: true, status: st, res });
     }
 
+    if (b.acao === "privacidade_ler") {
+      // Só leitura: banner de cookies e política de consentimento (precisa do escopo read_privacy_settings)
+      const out: any = {};
+      try { out.settings = await gql(`{ privacySettings { banner { enabled autoManaged } dataSaleOptOutPage { autoManaged } privacyPolicy { autoManaged } } }`, {}); } catch (e) { out.settings_erro = String((e as Error).message || e).slice(0, 300); }
+      try { out.consent = await gql(`{ consentPolicy { consentRequired dataSaleOptOutRequired countryCode regionCode } }`, {}); } catch (e) { out.consent_erro = String((e as Error).message || e).slice(0, 300); }
+      return resp(200, { ok: true, ...out });
+    }
+
     if (b.acao === "sku_fotos_sync") {
       // Foto e handle de cada SKU (relatório das parceiras). Grava em sku_fotos. Até 4 páginas de 250 variantes por chamada (b.after).
       let after: string | null = b.after ?? null, total = 0;
