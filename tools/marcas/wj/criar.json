@@ -1,0 +1,1037 @@
+{
+ "modo": "criar",
+ "itens": [
+  {
+   "sku": "MB004119",
+   "titulo": "Centelrest Rice Enzyme Deep Cleanser: espuma de limpeza com enzima de papaína e arroz 120 ml",
+   "handle": "centelrest-rice-enzyme-deep-cleanser-wj",
+   "vendor": "WJ",
+   "tipo": "Limpeza Facial",
+   "tags": [
+    "coreano",
+    "WJ",
+    "cat-rosto",
+    "Skincare",
+    "Limpeza Facial",
+    "WJ | Limpeza Facial",
+    "cat:sabonetes-faciais",
+    "necessidade:poros",
+    "necessidade:esfoliacao",
+    "necessidade:calmante",
+    "pele:todas",
+    "pele:sensivel",
+    "esp:sabonete-facial",
+    "esp:sabonete-pele-sensivel",
+    "esp:arroz",
+    "esp:centella",
+    "novidade-2026-11"
+   ],
+   "desc": {
+    "descricao": "Espuma de limpeza com enzima de papaína, pó de arroz, água de farelo de arroz, cevada germinada e super centella (4 ativos de centella). A enzima ajuda a soltar as células mortas enquanto a espuma limpa, sem repuxar. pH 6,8, levemente ácido. Tira o protetor solar e a maquiagem leve do dia.",
+    "tamanho": "120 ml",
+    "beneficios": [
+     "Limpeza com enzima de papaína para uma esfoliação suave no dia a dia",
+     "Pó de arroz e farelo de arroz deixam a pele com toque macio",
+     "Super centella acalma a aparência da pele durante a limpeza",
+     "Teste de irritação com resultado 0,00 (34 adultos)",
+     "Certificado vegano (Eve Vegan)"
+    ],
+    "indicado": "Todos os tipos de pele, inclusive sensível.",
+    "como_usar": [
+     "Pegue uma pequena quantidade e faça espuma com um pouco de água.",
+     "Massageie o rosto com a espuma.",
+     "Enxágue bem com água morna."
+    ],
+    "ingredientes": [
+     "Enzima de papaína (4 ppm)",
+     "Pó de arroz (3.000 ppm)",
+     "Água de farelo de arroz e cevada germinada",
+     "Super centella (4 ativos de centella)"
+    ],
+    "sobre_marca": "A WJ é a marca de dermocosméticos da clínica coreana de cirurgia plástica e dermatologia Wonjin, criada a partir de 20 anos de experiência clínica. Tem quatro linhas: Centelrest (centella, para pele sensível), EGFon (EGF e peptídeos, anti-idade), A.Cneed (pele com tendência a acne) e Dermacare (máscaras em folha)."
+   },
+   "fotos": [
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004119_capa.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004119_1.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004119_2.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004119_3.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004119_4.jpg"
+   ],
+   "preco": 128.9,
+   "peso_g": 170
+  },
+  {
+   "sku": "MB004120",
+   "titulo": "Centelrest Supercentella BioDtox Toner Pad: discos tônicos com centella e niacinamida (70 discos, 105 g)",
+   "handle": "centelrest-supercentella-biodtox-toner-pad-wj",
+   "vendor": "WJ",
+   "tipo": "Disco / Pad",
+   "tags": [
+    "coreano",
+    "WJ",
+    "cat-rosto",
+    "Skincare",
+    "Disco / Pad",
+    "WJ | Disco / Pad",
+    "cat:toner-pads",
+    "necessidade:calmante",
+    "necessidade:luminosidade",
+    "necessidade:esfoliacao",
+    "pele:todas",
+    "pele:sensivel",
+    "esp:toner-pad",
+    "esp:centella",
+    "esp:serum-niacinamida",
+    "novidade-2026-11"
+   ],
+   "desc": {
+    "descricao": "Discos tônicos com 60% de água de folha de centella, niacinamida, xilitol e gluconolactona (um PHA suave). O disco é de algodão e tencel, de origem vegana. Serve para passar no rosto depois da limpeza e também como compressa de poucos minutos nas áreas mais sensíveis. Na Coreia, é registrado como cosmético funcional de clareamento e antirrugas.",
+    "tamanho": "70 discos (105 g)",
+    "beneficios": [
+     "Acalma a aparência da pele com 60% de água de centella",
+     "Niacinamida ajuda a uniformizar a aparência do tom",
+     "Gluconolactona tira células mortas com suavidade",
+     "Pode ser usado como compressa de 3 a 5 minutos",
+     "Teste de irritação com resultado 0,00 e certificado vegano"
+    ],
+    "indicado": "Todos os tipos de pele, inclusive sensível.",
+    "como_usar": [
+     "Depois da limpeza, passe um disco no rosto seguindo o sentido da pele.",
+     "Para um cuidado extra, deixe o disco de 3 a 5 minutos nas áreas mais sensíveis.",
+     "Também ajuda a tirar restos de maquiagem leve.",
+     "Siga com o sérum e o hidratante."
+    ],
+    "ingredientes": [
+     "Água de folha de centella (60%)",
+     "Niacinamida",
+     "Xilitol",
+     "Gluconolactona (PHA)"
+    ],
+    "sobre_marca": "A WJ é a marca de dermocosméticos da clínica coreana de cirurgia plástica e dermatologia Wonjin, criada a partir de 20 anos de experiência clínica. Tem quatro linhas: Centelrest (centella, para pele sensível), EGFon (EGF e peptídeos, anti-idade), A.Cneed (pele com tendência a acne) e Dermacare (máscaras em folha)."
+   },
+   "fotos": [
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004120_capa.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004120_1.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004120_2.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004120_3.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004120_4.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004120_5.jpg"
+   ],
+   "preco": 176.9,
+   "peso_g": 250
+  },
+  {
+   "sku": "MB004121",
+   "titulo": "Centelrest Supercentella Booster Toner-Serum: tônico-sérum com centella e niacinamida 150 ml",
+   "handle": "centelrest-supercentella-booster-toner-serum-wj",
+   "vendor": "WJ",
+   "tipo": "Tônico",
+   "tags": [
+    "coreano",
+    "WJ",
+    "cat-rosto",
+    "Skincare",
+    "Tônico",
+    "WJ | Tônico",
+    "cat:tonicos-faciais",
+    "necessidade:calmante",
+    "necessidade:hidratacao",
+    "necessidade:luminosidade",
+    "pele:todas",
+    "pele:sensivel",
+    "esp:centella",
+    "esp:serum-niacinamida",
+    "novidade-2026-11"
+   ],
+   "desc": {
+    "descricao": "Tônico com textura de sérum, com 60% de água de centella, 2% de niacinamida (20.000 ppm), 4 extratos de centella (10.000 ppm) e tangerina verde de Jeju. Hidrata, acalma e prepara a pele para os próximos passos. Na Coreia, é registrado como cosmético funcional de clareamento e antirrugas.",
+    "tamanho": "150 ml",
+    "beneficios": [
+     "Niacinamida (2%) ajuda a uniformizar a aparência do tom",
+     "Centella acalma a aparência de vermelhidão",
+     "Hidrata como um sérum, com a leveza de um tônico",
+     "Pode ser usado com as mãos, com algodão ou como compressa"
+    ],
+    "indicado": "Todos os tipos de pele, inclusive sensível.",
+    "como_usar": [
+     "Depois da limpeza, aplique com as mãos e dê batidinhas até absorver.",
+     "Ou umedeça um algodão e passe no rosto.",
+     "Para compressa, umedeça discos de algodão e deixe de 5 a 10 minutos."
+    ],
+    "ingredientes": [
+     "Água de folha de centella (60%)",
+     "Niacinamida (20.000 ppm)",
+     "4 extratos de centella (10.000 ppm)",
+     "Tangerina verde de Jeju"
+    ],
+    "sobre_marca": "A WJ é a marca de dermocosméticos da clínica coreana de cirurgia plástica e dermatologia Wonjin, criada a partir de 20 anos de experiência clínica. Tem quatro linhas: Centelrest (centella, para pele sensível), EGFon (EGF e peptídeos, anti-idade), A.Cneed (pele com tendência a acne) e Dermacare (máscaras em folha)."
+   },
+   "fotos": [
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004121_capa.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004121_1.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004121_2.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004121_3.jpg"
+   ],
+   "preco": 143.9,
+   "peso_g": 220
+  },
+  {
+   "sku": "MB004122",
+   "titulo": "Centelrest Superpanthenol Barrier Cream: creme de barreira com pantenol e centella 100 ml",
+   "handle": "centelrest-superpanthenol-barrier-cream-wj",
+   "vendor": "WJ",
+   "tipo": "Creme / Loção",
+   "tags": [
+    "coreano",
+    "WJ",
+    "cat-rosto",
+    "Skincare",
+    "Creme / Loção",
+    "WJ | Creme / Loção",
+    "cat:cremes-faciais",
+    "necessidade:barreira",
+    "necessidade:hidratacao",
+    "necessidade:calmante",
+    "pele:todas",
+    "pele:sensivel",
+    "pele:seca",
+    "esp:centella",
+    "esp:hidratante-pele-sensivel",
+    "esp:hidratante-pele-seca",
+    "novidade-2026-11"
+   ],
+   "desc": {
+    "descricao": "Creme de barreira com 52% de água de centella, pantenol (10.000 ppm), dexpantenol e niacinamida. Fecha a rotina com hidratação que dura e deixa a pele confortável. Bom para pele sensibilizada, inclusive depois de procedimentos estéticos, quando o médico liberar o uso de cosméticos.",
+    "tamanho": "100 ml",
+    "beneficios": [
+     "Hidratação +340% logo após o uso e +153,5% depois de 24 horas (teste em pessoas)",
+     "Pantenol e dexpantenol ajudam a fortalecer a barreira da pele",
+     "Centella acalma a aparência de vermelhidão",
+     "Teste de irritação com resultado 0,00"
+    ],
+    "indicado": "Todos os tipos de pele, principalmente sensível, seca ou sensibilizada.",
+    "como_usar": [
+     "No último passo da rotina, aplique uma quantidade adequada no rosto.",
+     "Espalhe e dê batidinhas até absorver."
+    ],
+    "ingredientes": [
+     "Água de folha de centella (52%)",
+     "Pantenol (10.000 ppm)",
+     "Dexpantenol",
+     "Niacinamida"
+    ],
+    "sobre_marca": "A WJ é a marca de dermocosméticos da clínica coreana de cirurgia plástica e dermatologia Wonjin, criada a partir de 20 anos de experiência clínica. Tem quatro linhas: Centelrest (centella, para pele sensível), EGFon (EGF e peptídeos, anti-idade), A.Cneed (pele com tendência a acne) e Dermacare (máscaras em folha)."
+   },
+   "fotos": [
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004122_capa.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004122_1.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004122_2.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004122_3.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004122_4.jpg"
+   ],
+   "preco": 220.9,
+   "peso_g": 170
+  },
+  {
+   "sku": "MB004123",
+   "titulo": "Centelrest Relief Suncare: protetor solar facial FPS 50+ PA++++ com centella 50 ml",
+   "handle": "centelrest-relief-suncare-wj",
+   "vendor": "WJ",
+   "tipo": "Protetor Solar",
+   "tags": [
+    "coreano",
+    "WJ",
+    "cat-rosto",
+    "Skincare",
+    "Protetor Solar",
+    "WJ | Protetor Solar",
+    "cat-protetor-solar",
+    "cat:protetor-solar",
+    "cat:protetor-solar-facial",
+    "necessidade:protecao-solar",
+    "necessidade:calmante",
+    "pele:todas",
+    "pele:sensivel",
+    "esp:protetor-facial",
+    "esp:melhores-protetores-faciais",
+    "esp:centella",
+    "novidade-2026-11"
+   ],
+   "desc": {
+    "descricao": "Protetor solar facial FPS 50+ PA++++ com filtros químicos e textura de essência aquosa. Tem super centella (4 ativos) e niacinamida. Espalha fácil, não deixa a pele branca e sai com a limpeza normal do rosto. Bico fino que ajuda a dosar.",
+    "tamanho": "50 ml",
+    "beneficios": [
+     "Proteção alta: FPS 50+ PA++++",
+     "Textura aquosa, sem efeito branco",
+     "Super centella acalma a aparência da pele",
+     "Sai com uma única etapa de limpeza"
+    ],
+    "indicado": "Todos os tipos de pele, inclusive sensível.",
+    "como_usar": [
+     "No último passo da rotina, aplique uma quantidade adequada no rosto.",
+     "Aplique de 15 a 30 minutos antes de se expor ao sol.",
+     "Reaplique ao longo do dia."
+    ],
+    "ingredientes": [
+     "Super centella (4 ativos de centella)",
+     "Niacinamida",
+     "Filtros solares químicos"
+    ],
+    "sobre_marca": "A WJ é a marca de dermocosméticos da clínica coreana de cirurgia plástica e dermatologia Wonjin, criada a partir de 20 anos de experiência clínica. Tem quatro linhas: Centelrest (centella, para pele sensível), EGFon (EGF e peptídeos, anti-idade), A.Cneed (pele com tendência a acne) e Dermacare (máscaras em folha)."
+   },
+   "fotos": [
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004123_capa.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004123_1.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004123_2.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004123_3.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004123_4.jpg"
+   ],
+   "preco": 131.9,
+   "peso_g": 90
+  },
+  {
+   "sku": "MB004124",
+   "titulo": "Centelrest LabPro Tone-up Suncare: protetor solar mineral com efeito tone-up FPS 50+ PA++++ 50 ml",
+   "handle": "centelrest-labpro-tone-up-suncare-wj",
+   "vendor": "WJ",
+   "tipo": "Protetor Solar",
+   "tags": [
+    "coreano",
+    "WJ",
+    "cat-rosto",
+    "Skincare",
+    "Protetor Solar",
+    "WJ | Protetor Solar",
+    "cat-protetor-solar",
+    "cat:protetor-solar",
+    "cat:protetor-solar-facial",
+    "necessidade:protecao-solar",
+    "necessidade:luminosidade",
+    "pele:todas",
+    "esp:protetor-mineral",
+    "esp:protetor-com-cor",
+    "esp:melhores-protetores-faciais",
+    "esp:serum-niacinamida",
+    "novidade-2026-11"
+   ],
+   "desc": {
+    "descricao": "Protetor solar FPS 50+ PA++++ com filtros minerais (dióxido de titânio e óxido de zinco) e efeito tone-up natural, que deixa o tom com aparência mais uniforme. Tem 2% de niacinamida (20.000 ppm), lacto fermento e adenosina. Na Coreia, é registrado como cosmético funcional triplo: proteção solar, clareamento e antirrugas. Contém fragrância.",
+    "tamanho": "50 ml",
+    "beneficios": [
+     "Proteção alta com filtros minerais: FPS 50+ PA++++",
+     "Efeito tone-up natural, que ilumina o tom",
+     "Niacinamida (2%) ajuda a uniformizar a aparência do tom",
+     "Adenosina ajuda a suavizar a aparência de linhas finas"
+    ],
+    "indicado": "Todos os tipos de pele, principalmente quem quer uniformizar o tom.",
+    "como_usar": [
+     "No último passo da rotina, aplique uma quantidade adequada no rosto.",
+     "Aplique de 15 a 30 minutos antes de se expor ao sol.",
+     "Reaplique ao longo do dia."
+    ],
+    "ingredientes": [
+     "Dióxido de titânio e óxido de zinco (filtros minerais)",
+     "Niacinamida (20.000 ppm)",
+     "Lacto fermento",
+     "Adenosina"
+    ],
+    "sobre_marca": "A WJ é a marca de dermocosméticos da clínica coreana de cirurgia plástica e dermatologia Wonjin, criada a partir de 20 anos de experiência clínica. Tem quatro linhas: Centelrest (centella, para pele sensível), EGFon (EGF e peptídeos, anti-idade), A.Cneed (pele com tendência a acne) e Dermacare (máscaras em folha)."
+   },
+   "fotos": [
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004124_capa.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004124_1.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004124_2.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004124_3.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004124_4.jpg"
+   ],
+   "preco": 138.9,
+   "peso_g": 90
+  },
+  {
+   "sku": "MB004125",
+   "titulo": "Centelrest Hydro Ampoule Mask: máscara em gel refrescante com niacinamida (5 × 28 ml)",
+   "handle": "centelrest-hydro-ampoule-mask-wj",
+   "vendor": "WJ",
+   "tipo": "Máscara Facial",
+   "tags": [
+    "coreano",
+    "WJ",
+    "cat-rosto",
+    "Skincare",
+    "Máscara Facial",
+    "WJ | Máscara Facial",
+    "cat:mascaras-em-folha",
+    "necessidade:calmante",
+    "necessidade:hidratacao",
+    "necessidade:luminosidade",
+    "pele:todas",
+    "pele:sensivel",
+    "esp:mascara-facial",
+    "esp:serum-niacinamida",
+    "esp:centella",
+    "novidade-2026-11"
+   ],
+   "desc": {
+    "descricao": "Máscara de folha em gel de celulose (water-gel), com 2% de niacinamida (20.000 ppm), centella e um complexo de 8 taninos vegetais. A folha gruda bem no rosto e dá sensação refrescante, que baixa a temperatura da pele. Boa depois de sol ou em dias de pele quente e vermelha.",
+    "tamanho": "5 máscaras de 28 ml",
+    "beneficios": [
+     "Sensação refrescante que ajuda a baixar a temperatura da pele",
+     "Niacinamida (2%) ajuda a uniformizar a aparência do tom",
+     "Centella acalma a aparência de vermelhidão",
+     "Taninos vegetais ajudam a deixar os poros com aparência mais fechada",
+     "Teste de irritação com resultado 0,00"
+    ],
+    "indicado": "Todos os tipos de pele, inclusive sensível.",
+    "como_usar": [
+     "Depois da limpeza e do tônico, aplique a máscara bem ajustada ao rosto.",
+     "Deixe de 10 a 20 minutos.",
+     "Retire e dê batidinhas para absorver o restante da essência.",
+     "Dica: guardada na geladeira, refresca ainda mais."
+    ],
+    "ingredientes": [
+     "Niacinamida (20.000 ppm)",
+     "Centella (5.000 ppb)",
+     "Complexo de 8 taninos vegetais",
+     "Folha de gel de celulose"
+    ],
+    "sobre_marca": "A WJ é a marca de dermocosméticos da clínica coreana de cirurgia plástica e dermatologia Wonjin, criada a partir de 20 anos de experiência clínica. Tem quatro linhas: Centelrest (centella, para pele sensível), EGFon (EGF e peptídeos, anti-idade), A.Cneed (pele com tendência a acne) e Dermacare (máscaras em folha)."
+   },
+   "fotos": [
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004125_capa.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004125_1.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004125_2.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004125_3.jpg"
+   ],
+   "preco": 123.9,
+   "peso_g": 180
+  },
+  {
+   "sku": "MB004126",
+   "titulo": "EGFon Derma Clinic Ampoule: ampola com EGF e peptídeos 30 ml",
+   "handle": "egfon-derma-clinic-ampoule-wj",
+   "vendor": "WJ",
+   "tipo": "Sérum / Ampola",
+   "tags": [
+    "coreano",
+    "WJ",
+    "cat-rosto",
+    "Skincare",
+    "Sérum / Ampola",
+    "WJ | Sérum / Ampola",
+    "cat:seruns-faciais",
+    "necessidade:anti-idade",
+    "necessidade:firmeza",
+    "necessidade:hidratacao",
+    "pele:todas",
+    "pele:seca",
+    "esp:colageno",
+    "esp:serum-firmeza",
+    "novidade-2026-11"
+   ],
+   "desc": {
+    "descricao": "Ampola anti-idade com EGF (sh-oligopeptídeo-1), proteína de ervilha patenteada e três peptídeos (acetil hexapeptídeo-8, cobre tripeptídeo-1 e palmitoil pentapeptídeo-4). Também tem ceramida NP, esqualano e ginseng vermelho. Na Coreia, é registrada como cosmético funcional de clareamento e antirrugas.",
+    "tamanho": "30 ml",
+    "beneficios": [
+     "EGF e peptídeos ajudam a pele a parecer mais firme e lisa",
+     "Proteína de ervilha patenteada para cuidado de elasticidade",
+     "Ceramida e esqualano mantêm a hidratação",
+     "Teste de irritação com resultado 0,00 (32 adultos)"
+    ],
+    "indicado": "Todos os tipos de pele, principalmente quem quer cuidar de firmeza e linhas finas.",
+    "como_usar": [
+     "Depois do tônico, aplique uma quantidade adequada no rosto.",
+     "Espalhe e dê batidinhas até absorver.",
+     "Siga com o creme."
+    ],
+    "ingredientes": [
+     "EGF (sh-oligopeptídeo-1)",
+     "Proteína de ervilha (patente coreana 10-1220239)",
+     "Acetil hexapeptídeo-8, cobre tripeptídeo-1 e palmitoil pentapeptídeo-4",
+     "Ceramida NP, esqualano e ginseng vermelho"
+    ],
+    "sobre_marca": "A WJ é a marca de dermocosméticos da clínica coreana de cirurgia plástica e dermatologia Wonjin, criada a partir de 20 anos de experiência clínica. Tem quatro linhas: Centelrest (centella, para pele sensível), EGFon (EGF e peptídeos, anti-idade), A.Cneed (pele com tendência a acne) e Dermacare (máscaras em folha)."
+   },
+   "fotos": [
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004126_capa.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004126_1.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004126_2.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004126_3.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004126_4.jpg"
+   ],
+   "preco": 191.9,
+   "peso_g": 110
+  },
+  {
+   "sku": "MB004127",
+   "titulo": "EGFon Derma Clinic Cream: creme com EGF, peptídeos e ceramida 50 ml",
+   "handle": "egfon-derma-clinic-cream-wj",
+   "vendor": "WJ",
+   "tipo": "Creme / Loção",
+   "tags": [
+    "coreano",
+    "WJ",
+    "cat-rosto",
+    "Skincare",
+    "Creme / Loção",
+    "WJ | Creme / Loção",
+    "cat:cremes-faciais",
+    "necessidade:anti-idade",
+    "necessidade:firmeza",
+    "necessidade:barreira",
+    "pele:todas",
+    "pele:seca",
+    "esp:colageno",
+    "esp:hidratante-pele-seca",
+    "novidade-2026-11"
+   ],
+   "desc": {
+    "descricao": "Creme anti-idade da linha EGFon, com EGF (sh-oligopeptídeo-1), proteína de ervilha patenteada, peptídeos, ceramida NP, esqualano e ginseng vermelho. Fecha a rotina com nutrição e ajuda a pele a parecer mais firme. Bom também para pele sensibilizada depois de procedimentos estéticos, quando o médico liberar o uso de cosméticos. Na Coreia, é registrado como cosmético funcional de clareamento e antirrugas.",
+    "tamanho": "50 ml",
+    "beneficios": [
+     "EGF e peptídeos ajudam a pele a parecer mais firme",
+     "Ceramida e esqualano reforçam a barreira de hidratação",
+     "Textura nutritiva, para o último passo da rotina",
+     "Teste de irritação com resultado 0,00"
+    ],
+    "indicado": "Todos os tipos de pele, principalmente seca ou com sinais de idade.",
+    "como_usar": [
+     "No último passo da rotina, aplique uma quantidade adequada no rosto.",
+     "Espalhe com movimentos de massagem até absorver."
+    ],
+    "ingredientes": [
+     "EGF (sh-oligopeptídeo-1)",
+     "Proteína de ervilha (patente coreana 10-1220239)",
+     "Peptídeos (acetil hexapeptídeo-8, cobre tripeptídeo-1, palmitoil pentapeptídeo-4)",
+     "Ceramida NP, esqualano e ginseng vermelho"
+    ],
+    "sobre_marca": "A WJ é a marca de dermocosméticos da clínica coreana de cirurgia plástica e dermatologia Wonjin, criada a partir de 20 anos de experiência clínica. Tem quatro linhas: Centelrest (centella, para pele sensível), EGFon (EGF e peptídeos, anti-idade), A.Cneed (pele com tendência a acne) e Dermacare (máscaras em folha)."
+   },
+   "fotos": [
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004127_capa.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004127_1.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004127_2.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004127_3.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004127_4.jpg"
+   ],
+   "preco": 221.9,
+   "peso_g": 150
+  },
+  {
+   "sku": "MB004128",
+   "titulo": "EGFon Revital Cream Mask: máscara em folha cremosa com EGF e ácido hialurônico (5 × 28 ml)",
+   "handle": "egfon-revital-cream-mask-wj",
+   "vendor": "WJ",
+   "tipo": "Máscara Facial",
+   "tags": [
+    "coreano",
+    "WJ",
+    "cat-rosto",
+    "Skincare",
+    "Máscara Facial",
+    "WJ | Máscara Facial",
+    "cat:mascaras-em-folha",
+    "necessidade:anti-idade",
+    "necessidade:hidratacao",
+    "necessidade:firmeza",
+    "pele:todas",
+    "pele:seca",
+    "esp:mascara-facial",
+    "esp:acido-hialuronico",
+    "esp:probioticos",
+    "novidade-2026-11"
+   ],
+   "desc": {
+    "descricao": "Máscara em folha com essência cremosa, com EGF, 8 tipos de ácido hialurônico, idebenona, probióticos, betaglucana e óleos de argan e oliva. A folha é de celulose biodegradável, de origem vegana. Nutre e hidrata em 15 a 20 minutos.",
+    "tamanho": "5 máscaras de 28 ml",
+    "beneficios": [
+     "EGF ajuda a pele a parecer mais firme e viçosa",
+     "8 tipos de ácido hialurônico para hidratação intensa",
+     "Óleos de argan e oliva nutrem sem pesar",
+     "Folha de celulose biodegradável e vegana"
+    ],
+    "indicado": "Todos os tipos de pele, principalmente seca ou sem viço.",
+    "como_usar": [
+     "Depois da limpeza e do tônico, aplique a máscara bem ajustada ao rosto.",
+     "Deixe de 15 a 20 minutos.",
+     "Retire e dê batidinhas para absorver o restante da essência."
+    ],
+    "ingredientes": [
+     "EGF",
+     "8 tipos de ácido hialurônico",
+     "Idebenona, probióticos e betaglucana",
+     "Óleos de argan e oliva"
+    ],
+    "sobre_marca": "A WJ é a marca de dermocosméticos da clínica coreana de cirurgia plástica e dermatologia Wonjin, criada a partir de 20 anos de experiência clínica. Tem quatro linhas: Centelrest (centella, para pele sensível), EGFon (EGF e peptídeos, anti-idade), A.Cneed (pele com tendência a acne) e Dermacare (máscaras em folha)."
+   },
+   "fotos": [
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004128_capa.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004128_1.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004128_2.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004128_3.jpg"
+   ],
+   "preco": 179.9,
+   "peso_g": 180
+  },
+  {
+   "sku": "MB004129",
+   "titulo": "A.Cneed Blemish Red Foam Cleanser: espuma de limpeza com ácido salicílico para pele com acne 120 ml",
+   "handle": "a-cneed-blemish-red-foam-cleanser-wj",
+   "vendor": "WJ",
+   "tipo": "Limpeza Facial",
+   "tags": [
+    "coreano",
+    "WJ",
+    "cat-rosto",
+    "Skincare",
+    "Limpeza Facial",
+    "WJ | Limpeza Facial",
+    "cat:sabonetes-faciais",
+    "necessidade:acne",
+    "necessidade:poros",
+    "necessidade:oleosidade",
+    "pele:oleosa",
+    "pele:mista",
+    "pele:sensivel",
+    "esp:sabonete-facial",
+    "esp:sabonete-pele-oleosa",
+    "esp:acido-salicilico-bha",
+    "esp:pele-acneica",
+    "novidade-2026-11"
+   ],
+   "desc": {
+    "descricao": "Espuma de limpeza com 1,8% de ácido salicílico, 4-terpineol, citrato de trietila, niacinamida e betaglucana. pH 5,5, equilibrado. Limpa o excesso de oleosidade e as impurezas dos poros sem agredir. Na Coreia, é registrada como cosmético funcional para pele com tendência a acne.",
+    "tamanho": "120 ml",
+    "beneficios": [
+     "Ácido salicílico (1,8%) ajuda a limpar os poros",
+     "Remove o excesso de oleosidade sem ressecar",
+     "pH 5,5, suave para pele sensível",
+     "Teste de irritação com resultado 0,00 (31 adultos)",
+     "Certificado vegano (Eve Vegan)"
+    ],
+    "indicado": "Pele oleosa, mista ou sensível com tendência a acne.",
+    "como_usar": [
+     "Pegue uma quantidade adequada e faça espuma com um pouco de água.",
+     "Massageie o rosto, com atenção à zona T.",
+     "Enxágue bem com água morna."
+    ],
+    "ingredientes": [
+     "Ácido salicílico (1,8%)",
+     "4-terpineol e citrato de trietila",
+     "Niacinamida",
+     "Betaglucana"
+    ],
+    "sobre_marca": "A WJ é a marca de dermocosméticos da clínica coreana de cirurgia plástica e dermatologia Wonjin, criada a partir de 20 anos de experiência clínica. Tem quatro linhas: Centelrest (centella, para pele sensível), EGFon (EGF e peptídeos, anti-idade), A.Cneed (pele com tendência a acne) e Dermacare (máscaras em folha)."
+   },
+   "fotos": [
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004129_capa.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004129_1.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004129_2.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004129_3.jpg"
+   ],
+   "preco": 152.9,
+   "peso_g": 170
+  },
+  {
+   "sku": "MB004130",
+   "titulo": "A.Cneed Blemish Red Pine Peeling: gel esfoliante com ácido salicílico e enzima de abacaxi 30 ml",
+   "handle": "a-cneed-blemish-red-pine-peeling-wj",
+   "vendor": "WJ",
+   "tipo": "Esfoliante / Ácido",
+   "tags": [
+    "coreano",
+    "WJ",
+    "cat-rosto",
+    "Skincare",
+    "Esfoliante / Ácido",
+    "WJ | Esfoliante / Ácido",
+    "cat:esfoliantes-faciais",
+    "necessidade:esfoliacao",
+    "necessidade:acne",
+    "necessidade:poros",
+    "pele:oleosa",
+    "pele:mista",
+    "pele:sensivel",
+    "esp:acido-salicilico-bha",
+    "esp:pele-acneica",
+    "novidade-2026-11"
+   ],
+   "desc": {
+    "descricao": "Gel esfoliante (gommage) com 0,5% de ácido salicílico, bromelina (enzima do abacaxi) e fibra de soja. É só passar na pele seca e rolar com os dedos: as células mortas saem sem esfregar. Na Coreia, é registrado como cosmético funcional para pele com tendência a acne. Contém fragrância e álcool.",
+    "tamanho": "30 ml",
+    "beneficios": [
+     "Esfoliação suave, sem grânulos",
+     "Células mortas 49% menores logo após o uso (teste)",
+     "Ácido salicílico (0,5%) ajuda a limpar os poros",
+     "Teste de irritação com resultado 0,00",
+     "Certificado vegano (Eve Vegan)"
+    ],
+    "indicado": "Pele oleosa, mista ou sensível com tendência a acne.",
+    "como_usar": [
+     "Com o rosto limpo e seco, aplique uma quantidade adequada.",
+     "Faça movimentos circulares suaves por até 30 segundos.",
+     "Enxágue bem com água morna."
+    ],
+    "ingredientes": [
+     "Ácido salicílico (0,5%)",
+     "Bromelina (enzima do abacaxi)",
+     "Fibra de soja",
+     "Niacinamida e 4-terpineol"
+    ],
+    "sobre_marca": "A WJ é a marca de dermocosméticos da clínica coreana de cirurgia plástica e dermatologia Wonjin, criada a partir de 20 anos de experiência clínica. Tem quatro linhas: Centelrest (centella, para pele sensível), EGFon (EGF e peptídeos, anti-idade), A.Cneed (pele com tendência a acne) e Dermacare (máscaras em folha)."
+   },
+   "fotos": [
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004130_capa.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004130_1.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004130_2.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004130_3.jpg"
+   ],
+   "preco": 138.9,
+   "peso_g": 70
+  },
+  {
+   "sku": "MB004131",
+   "titulo": "A.Cneed Blemish Red Spot Solution: creme localizado para espinhas e marcas 20 ml",
+   "handle": "a-cneed-blemish-red-spot-solution-wj",
+   "vendor": "WJ",
+   "tipo": "Creme / Loção",
+   "tags": [
+    "coreano",
+    "WJ",
+    "cat-rosto",
+    "Skincare",
+    "Creme / Loção",
+    "WJ | Creme / Loção",
+    "cat:tratamentos-faciais",
+    "necessidade:acne",
+    "necessidade:manchas",
+    "necessidade:calmante",
+    "pele:oleosa",
+    "pele:mista",
+    "pele:sensivel",
+    "esp:acido-salicilico-bha",
+    "esp:pele-acneica",
+    "novidade-2026-11"
+   ],
+   "desc": {
+    "descricao": "Creme para usar só onde precisa, com 5% de AHA natural (ácidos cítrico e glicólico), ácido salicílico (BHA) e gluconolactona (PHA), mais pantenol, betaglucana e 4-terpineol. Acalma a aparência de espinhas vermelhas e ajuda a clarear as marcas que ficam. Na Coreia, é registrado como cosmético funcional de clareamento e antirrugas.",
+    "tamanho": "20 ml",
+    "beneficios": [
+     "AHA, BHA e PHA juntos para cuidar da área com espinha",
+     "Ajuda a clarear a aparência de marcas deixadas pela acne",
+     "Pantenol e betaglucana trazem conforto",
+     "Teste de irritação com resultado 0,00",
+     "Certificado vegano (Eve Vegan)"
+    ],
+    "indicado": "Pele com espinhas e marcas, inclusive sensível.",
+    "como_usar": [
+     "Depois da limpeza, aplique uma pequena quantidade só nas áreas desejadas.",
+     "Use de manhã e à noite.",
+     "De dia, use protetor solar."
+    ],
+    "ingredientes": [
+     "AHA natural (5%): ácidos cítrico e glicólico",
+     "Ácido salicílico (BHA)",
+     "Gluconolactona (PHA)",
+     "Pantenol, betaglucana e 4-terpineol"
+    ],
+    "sobre_marca": "A WJ é a marca de dermocosméticos da clínica coreana de cirurgia plástica e dermatologia Wonjin, criada a partir de 20 anos de experiência clínica. Tem quatro linhas: Centelrest (centella, para pele sensível), EGFon (EGF e peptídeos, anti-idade), A.Cneed (pele com tendência a acne) e Dermacare (máscaras em folha)."
+   },
+   "fotos": [
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004131_capa.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004131_1.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004131_2.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004131_3.jpg"
+   ],
+   "preco": 135.9,
+   "peso_g": 50
+  },
+  {
+   "sku": "MB004132",
+   "titulo": "A.Cneed Blemish White Essence: essência com niacinamida e ácido salicílico para oleosidade e marcas 50 ml",
+   "handle": "a-cneed-blemish-white-essence-wj",
+   "vendor": "WJ",
+   "tipo": "Sérum / Ampola",
+   "tags": [
+    "coreano",
+    "WJ",
+    "cat-rosto",
+    "Skincare",
+    "Sérum / Ampola",
+    "WJ | Sérum / Ampola",
+    "cat:seruns-faciais",
+    "necessidade:oleosidade",
+    "necessidade:manchas",
+    "necessidade:acne",
+    "pele:oleosa",
+    "pele:mista",
+    "pele:sensivel",
+    "esp:serum-niacinamida",
+    "esp:acido-salicilico-bha",
+    "esp:pele-acneica",
+    "esp:serum-acne",
+    "novidade-2026-11"
+   ],
+   "desc": {
+    "descricao": "Essência leve com niacinamida, ácido salicílico, citrato de trietila, 4-terpineol, adenosina, centella, ceramida NP, trealose e hialuronato. Ajuda a controlar a oleosidade dos poros e a clarear a aparência das marcas deixadas pela acne. Na Coreia, é registrada como cosmético funcional de clareamento e antirrugas.",
+    "tamanho": "50 ml",
+    "beneficios": [
+     "Oleosidade 36,7% menor logo após o uso (teste)",
+     "Niacinamida ajuda a clarear a aparência de marcas",
+     "Ácido salicílico ajuda a manter os poros limpos",
+     "Ceramida e hialuronato mantêm a hidratação",
+     "Teste de irritação com resultado 0,00 e certificado vegano"
+    ],
+    "indicado": "Pele oleosa, mista ou sensível, com marcas de acne.",
+    "como_usar": [
+     "Depois do tônico, aplique algumas gotas no rosto.",
+     "Espalhe e dê batidinhas até absorver.",
+     "Siga com o creme. De dia, use protetor solar."
+    ],
+    "ingredientes": [
+     "Niacinamida",
+     "Ácido salicílico e citrato de trietila",
+     "Adenosina e centella",
+     "Ceramida NP, trealose e hialuronato"
+    ],
+    "sobre_marca": "A WJ é a marca de dermocosméticos da clínica coreana de cirurgia plástica e dermatologia Wonjin, criada a partir de 20 anos de experiência clínica. Tem quatro linhas: Centelrest (centella, para pele sensível), EGFon (EGF e peptídeos, anti-idade), A.Cneed (pele com tendência a acne) e Dermacare (máscaras em folha)."
+   },
+   "fotos": [
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004132_capa.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004132_1.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004132_2.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004132_3.jpg"
+   ],
+   "preco": 181.9,
+   "peso_g": 110
+  },
+  {
+   "sku": "MB004133",
+   "titulo": "A.Cneed Blemish White Cream: creme hidratante clareador com niacinamida e ceramida 100 ml",
+   "handle": "a-cneed-blemish-white-cream-wj",
+   "vendor": "WJ",
+   "tipo": "Creme / Loção",
+   "tags": [
+    "coreano",
+    "WJ",
+    "cat-rosto",
+    "Skincare",
+    "Creme / Loção",
+    "WJ | Creme / Loção",
+    "cat:cremes-faciais",
+    "necessidade:manchas",
+    "necessidade:hidratacao",
+    "necessidade:luminosidade",
+    "pele:oleosa",
+    "pele:mista",
+    "pele:sensivel",
+    "esp:hidratante-pele-oleosa",
+    "esp:hidratante-pele-sensivel",
+    "esp:pele-acneica",
+    "novidade-2026-11"
+   ],
+   "desc": {
+    "descricao": "Creme hidratante com niacinamida, adenosina, figo, ceramida NP, trealose, hialuronato, 4-terpineol e ácido salicílico. Mantém a pele hidratada por muitas horas e ajuda a clarear a aparência das marcas deixadas pela acne. Na Coreia, é registrado como cosmético funcional de clareamento e antirrugas.",
+    "tamanho": "100 ml",
+    "beneficios": [
+     "Concentração de melanina 19% menor (teste)",
+     "99% da hidratação mantida depois de 100 horas (teste)",
+     "Ceramida e trealose reforçam a barreira",
+     "Teste de irritação com resultado 0,00 e certificado vegano"
+    ],
+    "indicado": "Pele oleosa, mista ou sensível, com marcas de acne.",
+    "como_usar": [
+     "No último passo da rotina, aplique uma quantidade adequada no rosto.",
+     "Espalhe e dê batidinhas até absorver.",
+     "De dia, use protetor solar."
+    ],
+    "ingredientes": [
+     "Niacinamida",
+     "Adenosina e figo",
+     "Ceramida NP, trealose e hialuronato",
+     "4-terpineol e ácido salicílico"
+    ],
+    "sobre_marca": "A WJ é a marca de dermocosméticos da clínica coreana de cirurgia plástica e dermatologia Wonjin, criada a partir de 20 anos de experiência clínica. Tem quatro linhas: Centelrest (centella, para pele sensível), EGFon (EGF e peptídeos, anti-idade), A.Cneed (pele com tendência a acne) e Dermacare (máscaras em folha)."
+   },
+   "fotos": [
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004133_capa.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004133_1.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004133_2.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004133_3.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004133_4.jpg"
+   ],
+   "preco": 195.9,
+   "peso_g": 170
+  },
+  {
+   "sku": "MB004134",
+   "titulo": "Dermacare Collagen Waterglow Ampoule Mask: máscara em folha com colágeno (10 × 25 ml)",
+   "handle": "dermacare-collagen-waterglow-ampoule-mask-wj",
+   "vendor": "WJ",
+   "tipo": "Máscara Facial",
+   "tags": [
+    "coreano",
+    "WJ",
+    "cat-rosto",
+    "Skincare",
+    "Máscara Facial",
+    "WJ | Máscara Facial",
+    "cat:mascaras-em-folha",
+    "necessidade:firmeza",
+    "necessidade:hidratacao",
+    "necessidade:luminosidade",
+    "pele:todas",
+    "esp:mascara-facial",
+    "esp:colageno",
+    "novidade-2026-11"
+   ],
+   "desc": {
+    "descricao": "Máscara em folha com colágeno hidrolisado, bakuchiol e adenosina. A folha de lyocell vegana se ajusta bem ao rosto e dá sensação refrescante. Deixa a pele hidratada, com viço e aparência mais firme. Contém fragrância.",
+    "beneficios": [
+     "Colágeno hidrolisado ajuda a pele a parecer mais firme e preenchida",
+     "Bakuchiol e adenosina ajudam a suavizar a aparência de linhas finas",
+     "Sensação refrescante, que baixa a temperatura da pele",
+     "Teste de irritação com resultado 0,00 (31 adultos)"
+    ],
+    "indicado": "Todos os tipos de pele, principalmente quem quer viço e firmeza.",
+    "ingredientes": [
+     "Colágeno hidrolisado",
+     "Bakuchiol",
+     "Adenosina",
+     "Folha de lyocell vegana"
+    ],
+    "tamanho": "10 máscaras de 25 ml",
+    "como_usar": [
+     "Depois da limpeza e do tônico, aplique a máscara bem ajustada ao rosto.",
+     "Deixe de 10 a 20 minutos.",
+     "Retire e dê batidinhas para absorver o restante da essência."
+    ],
+    "sobre_marca": "A WJ é a marca de dermocosméticos da clínica coreana de cirurgia plástica e dermatologia Wonjin, criada a partir de 20 anos de experiência clínica. Tem quatro linhas: Centelrest (centella, para pele sensível), EGFon (EGF e peptídeos, anti-idade), A.Cneed (pele com tendência a acne) e Dermacare (máscaras em folha)."
+   },
+   "fotos": [
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004134_capa.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004134_1.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004134_2.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004134_3.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004134_4.jpg"
+   ],
+   "preco": 297.9,
+   "peso_g": 330
+  },
+  {
+   "sku": "MB004135",
+   "titulo": "Dermacare Glutathione Brightening Ampoule Mask: máscara em folha com glutationa e vitamina C (10 × 25 ml)",
+   "handle": "dermacare-glutathione-brightening-ampoule-mask-wj",
+   "vendor": "WJ",
+   "tipo": "Máscara Facial",
+   "tags": [
+    "coreano",
+    "WJ",
+    "cat-rosto",
+    "Skincare",
+    "Máscara Facial",
+    "WJ | Máscara Facial",
+    "cat:mascaras-em-folha",
+    "necessidade:luminosidade",
+    "necessidade:manchas",
+    "necessidade:hidratacao",
+    "pele:todas",
+    "esp:mascara-facial",
+    "esp:serum-vitamina-c",
+    "esp:serum-niacinamida",
+    "novidade-2026-11"
+   ],
+   "desc": {
+    "descricao": "Máscara em folha com glutationa, dois derivados de vitamina C (3-O-etil ácido ascórbico e ascorbil fosfato de sódio) e niacinamida. A folha de lyocell vegana se ajusta bem ao rosto e dá sensação refrescante. Deixa a pele com aparência mais luminosa e uniforme. Contém fragrância.",
+    "beneficios": [
+     "Glutationa e vitamina C ajudam a deixar o tom com aparência mais luminosa",
+     "Niacinamida ajuda a uniformizar a aparência do tom",
+     "Sensação refrescante, que baixa a temperatura da pele",
+     "Teste de irritação com resultado 0,00 (31 adultos)"
+    ],
+    "indicado": "Todos os tipos de pele, principalmente pele sem viço ou com tom irregular.",
+    "ingredientes": [
+     "Glutationa",
+     "3-O-etil ácido ascórbico e ascorbil fosfato de sódio (vitamina C)",
+     "Niacinamida",
+     "Folha de lyocell vegana"
+    ],
+    "tamanho": "10 máscaras de 25 ml",
+    "como_usar": [
+     "Depois da limpeza e do tônico, aplique a máscara bem ajustada ao rosto.",
+     "Deixe de 10 a 20 minutos.",
+     "Retire e dê batidinhas para absorver o restante da essência."
+    ],
+    "sobre_marca": "A WJ é a marca de dermocosméticos da clínica coreana de cirurgia plástica e dermatologia Wonjin, criada a partir de 20 anos de experiência clínica. Tem quatro linhas: Centelrest (centella, para pele sensível), EGFon (EGF e peptídeos, anti-idade), A.Cneed (pele com tendência a acne) e Dermacare (máscaras em folha)."
+   },
+   "fotos": [
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004135_capa.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004135_1.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004135_2.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004135_3.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004135_4.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004135_5.jpg"
+   ],
+   "preco": 296.9,
+   "peso_g": 330
+  },
+  {
+   "sku": "MB004136",
+   "titulo": "Dermacare Cica Ultimate Soothing Ampoule Mask: máscara em folha calmante com centella (10 × 25 ml)",
+   "handle": "dermacare-cica-ultimate-soothing-ampoule-mask-wj",
+   "vendor": "WJ",
+   "tipo": "Máscara Facial",
+   "tags": [
+    "coreano",
+    "WJ",
+    "cat-rosto",
+    "Skincare",
+    "Máscara Facial",
+    "WJ | Máscara Facial",
+    "cat:mascaras-em-folha",
+    "necessidade:calmante",
+    "necessidade:hidratacao",
+    "necessidade:barreira",
+    "pele:todas",
+    "pele:sensivel",
+    "esp:mascara-facial",
+    "esp:centella",
+    "esp:acido-hialuronico",
+    "novidade-2026-11"
+   ],
+   "desc": {
+    "descricao": "Máscara em folha com centella e seus 4 ativos, vários tipos de ácido hialurônico, melaleuca (tea tree) e pantenol. A folha de lyocell vegana se ajusta bem ao rosto e dá sensação refrescante. Acalma a aparência de vermelhidão e hidrata a pele sensibilizada.",
+    "beneficios": [
+     "Centella acalma a aparência de vermelhidão",
+     "Vários tipos de ácido hialurônico para hidratação",
+     "Pantenol e melaleuca trazem conforto",
+     "Sensação refrescante, que baixa a temperatura da pele",
+     "Teste de irritação com resultado 0,00 (31 adultos)"
+    ],
+    "indicado": "Todos os tipos de pele, principalmente sensível ou sensibilizada.",
+    "ingredientes": [
+     "Centella e 4 ativos de centella",
+     "Ácido hialurônico (vários tipos)",
+     "Melaleuca (tea tree)",
+     "Pantenol"
+    ],
+    "tamanho": "10 máscaras de 25 ml",
+    "como_usar": [
+     "Depois da limpeza e do tônico, aplique a máscara bem ajustada ao rosto.",
+     "Deixe de 10 a 20 minutos.",
+     "Retire e dê batidinhas para absorver o restante da essência."
+    ],
+    "sobre_marca": "A WJ é a marca de dermocosméticos da clínica coreana de cirurgia plástica e dermatologia Wonjin, criada a partir de 20 anos de experiência clínica. Tem quatro linhas: Centelrest (centella, para pele sensível), EGFon (EGF e peptídeos, anti-idade), A.Cneed (pele com tendência a acne) e Dermacare (máscaras em folha)."
+   },
+   "fotos": [
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004136_capa.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004136_1.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004136_2.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004136_3.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004136_4.jpg",
+    "https://raw.githubusercontent.com/brunotae/omg-erp/0c64d844a8d92db7c4eb8f3c4e52a4a9c998d93f/site/fotos/wj/mb004136_5.jpg"
+   ],
+   "preco": 296.9,
+   "peso_g": 330
+  }
+ ]
+}

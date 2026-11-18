@@ -1,0 +1,221 @@
+{
+ "modo": "completar",
+ "itens": [
+  {
+   "sku": "MB004119",
+   "hs": "3401.30",
+   "dim": [
+    5,
+    4,
+    16
+   ],
+   "nome_en": "WJ Centelrest Rice Enzyme Deep Cleanser 120ml",
+   "nome_kr": "센텔레스트 라이스 엔자임 딥 클렌저 120ml",
+   "peso_g": 170
+  },
+  {
+   "sku": "MB004120",
+   "hs": "3304.99",
+   "dim": [
+    9,
+    9,
+    7
+   ],
+   "nome_en": "WJ Centelrest Supercentella BioDtox Toner Pad 105g 70 pads",
+   "nome_kr": "센텔레스트 슈퍼센텔라 바이오디톡스 토너패드 70매",
+   "peso_g": 250
+  },
+  {
+   "sku": "MB004121",
+   "hs": "3304.99",
+   "dim": [
+    5,
+    5,
+    16
+   ],
+   "nome_en": "WJ Centelrest Supercentella Booster Toner-Serum 150ml",
+   "nome_kr": "센텔레스트 슈퍼센텔라 부스터 토너세럼 150ml",
+   "peso_g": 220
+  },
+  {
+   "sku": "MB004122",
+   "hs": "3304.99",
+   "dim": [
+    5,
+    4,
+    17
+   ],
+   "nome_en": "WJ Centelrest Superpanthenol Barrier Cream 100ml",
+   "nome_kr": "센텔레스트 슈퍼판테놀 배리어 크림 100ml",
+   "peso_g": 170
+  },
+  {
+   "sku": "MB004123",
+   "hs": "3304.99",
+   "dim": [
+    4,
+    3,
+    15
+   ],
+   "nome_en": "WJ Centelrest Relief Suncare SPF50+ PA++++ 50ml",
+   "nome_kr": "센텔레스트 릴리프 선 케어 50ml",
+   "peso_g": 90
+  },
+  {
+   "sku": "MB004124",
+   "hs": "3304.99",
+   "dim": [
+    4,
+    3,
+    15
+   ],
+   "nome_en": "WJ Centelrest LabPro Tone-up Suncare SPF50+ PA++++ 50ml",
+   "nome_kr": "센텔레스트 랩프로 톤업 선케어 50ml",
+   "peso_g": 90
+  },
+  {
+   "sku": "MB004125",
+   "hs": "3304.99",
+   "dim": [
+    12,
+    18,
+    3
+   ],
+   "nome_en": "WJ Centelrest Hydro Ampoule Mask 28ml x 5ea",
+   "nome_kr": "센텔레스트 하이드로 앰플 마스크 5매",
+   "peso_g": 180
+  },
+  {
+   "sku": "MB004126",
+   "hs": "3304.99",
+   "dim": [
+    4,
+    4,
+    13
+   ],
+   "nome_en": "WJ EGFon Derma Clinic Ampoule 30ml",
+   "nome_kr": "이지에프온 더마 클리닉 앰플 30ml",
+   "peso_g": 110
+  },
+  {
+   "sku": "MB004127",
+   "hs": "3304.99",
+   "dim": [
+    5,
+    5,
+    15
+   ],
+   "nome_en": "WJ EGFon Derma Clinic Cream 50ml",
+   "nome_kr": "이지에프온 더마 클리닉 크림 50ml",
+   "peso_g": 150
+  },
+  {
+   "sku": "MB004128",
+   "hs": "3304.99",
+   "dim": [
+    12,
+    18,
+    3
+   ],
+   "nome_en": "WJ EGFon Revital Cream Mask 28ml x 5ea",
+   "nome_kr": "이지에프온 리바이탈 크림 마스크 5매",
+   "peso_g": 180
+  },
+  {
+   "sku": "MB004129",
+   "hs": "3401.30",
+   "dim": [
+    5,
+    4,
+    17
+   ],
+   "nome_en": "WJ A.Cneed Blemish Red Foam Cleanser 120ml",
+   "nome_kr": "아크니드 블레미쉬 레드 폼 클렌저 120ml",
+   "peso_g": 170
+  },
+  {
+   "sku": "MB004130",
+   "hs": "3304.99",
+   "dim": [
+    3,
+    3,
+    15
+   ],
+   "nome_en": "WJ A.Cneed Blemish Red Pine Peeling 30ml",
+   "nome_kr": "아크니드 블레미쉬 레드 파인 필링 30ml",
+   "peso_g": 70
+  },
+  {
+   "sku": "MB004131",
+   "hs": "3304.99",
+   "dim": [
+    3,
+    3,
+    13
+   ],
+   "nome_en": "WJ A.Cneed Blemish Red Spot Solution 20ml",
+   "nome_kr": "아크니드 블레미쉬 레드 스팟 솔루션 20ml",
+   "peso_g": 50
+  },
+  {
+   "sku": "MB004132",
+   "hs": "3304.99",
+   "dim": [
+    4,
+    4,
+    13
+   ],
+   "nome_en": "WJ A.Cneed Blemish White Essence 50ml",
+   "nome_kr": "아크니드 블레미쉬 화이트 에센스 50ml",
+   "peso_g": 110
+  },
+  {
+   "sku": "MB004133",
+   "hs": "3304.99",
+   "dim": [
+    5,
+    4,
+    17
+   ],
+   "nome_en": "WJ A.Cneed Blemish White Cream 100ml",
+   "nome_kr": "아크니드 블레미쉬 화이트 크림 100ml",
+   "peso_g": 170
+  },
+  {
+   "sku": "MB004134",
+   "hs": "3304.99",
+   "dim": [
+    13,
+    20,
+    6
+   ],
+   "nome_en": "WJ Dermacare Collagen Waterglow Ampoule Mask 25ml x 10ea",
+   "nome_kr": "더마케어 콜라겐 워터글로우 앰플 마스크 10매",
+   "peso_g": 330
+  },
+  {
+   "sku": "MB004135",
+   "hs": "3304.99",
+   "dim": [
+    13,
+    20,
+    6
+   ],
+   "nome_en": "WJ Dermacare Glutathione Brightening Ampoule Mask 25ml x 10ea",
+   "nome_kr": "더마케어 글루타치온 브라이트닝 앰플 마스크 10매",
+   "peso_g": 330
+  },
+  {
+   "sku": "MB004136",
+   "hs": "3304.99",
+   "dim": [
+    13,
+    20,
+    6
+   ],
+   "nome_en": "WJ Dermacare Cica Ultimate Soothing Ampoule Mask 25ml x 10ea",
+   "nome_kr": "더마케어 시카 얼티메이트 수딩 앰플 마스크 10매",
+   "peso_g": 330
+  }
+ ]
+}
