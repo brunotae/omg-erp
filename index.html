@@ -1005,7 +1005,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v144 · 18/11/2026';
+const VERSAO='v145 · 18/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1516,9 +1516,9 @@ async function pmManifesto(c){
  ws.getCell(3,2).alignment={wrapText:true,vertical:'top'};
  ws.getCell(2,8).value='Per item, US$: GOODS (no discount) − DISCOUNT (coupon) = VALUE U$ FCA. FINAL = VALUE U$ FCA + FREIGHT U$ + INSURANCE + II + ICMS. 2 decimals.';ws.getCell(2,8).font={italic:true,color:{argb:'FF7F6000'}};
  // v122: sem a coluna de parametrização; no fim: pedido, cupom, preço cheio e desconto (para a Mile ver o cupom aplicado)
- const H0=['AWB','SHIPPER','CONSIGNEE','DNI','ADDRESS','ZIP CODE','CITY','STATE','PHONE','DESCRIPTION','NCM','QUANTITY','FREIGHT U$','INSURANCE','WEIGHT','UNIT WEIGHT','VALUE U$ FCA','BAG','LOCAL TRACKING PROVIDER','SERVICE_TYPE','EXTERNAL TRACKING','PROVIDER NAME','COPA ID','COPA NAME','LENGTH (cm)','WIDTH (cm)','HEIGHT (cm)','DIMEN UNIT','BAG TAG','INVOICE URL','ORDER #','COUPON','CLASS TRIB','GOODS U$ (no discount)','DISCOUNT U$ (coupon)','IMPORT TAX II U$','ICMS U$','FINAL U$ (goods + freight + taxes)','CUSTOMS VALUE U$ (goods no discount + freight + insurance)','UNIT PRICE U$ (no discount)'];
+ const H0=['AWB','SHIPPER','CONSIGNEE','DNI','ADDRESS','ZIP CODE','CITY','STATE','PHONE','DESCRIPTION','NCM','QUANTITY','FREIGHT U$','INSURANCE','WEIGHT','UNIT WEIGHT','VALUE U$ FCA','BAG','LOCAL TRACKING PROVIDER','SERVICE_TYPE','EXTERNAL TRACKING','PROVIDER NAME','COPA ID','COPA NAME','LENGTH (cm)','WIDTH (cm)','HEIGHT (cm)','DIMEN UNIT','BAG TAG','INVOICE URL','ORDER #','COUPON','CLASS TRIB','GOODS U$ (no discount)','DISCOUNT U$ (coupon)','IMPORT TAX II U$','ICMS U$','FINAL U$ (goods + freight + taxes)','CUSTOMS VALUE U$ (goods no discount + freight + insurance)','UNIT PRICE U$ (no discount)','ORDER CUSTOMS VALUE U$ (sum of items)'];
  // v142: todas as colunas de valor juntas, na ordem da conta
- const H=['AWB','SHIPPER','CONSIGNEE','DNI','ADDRESS','ZIP CODE','CITY','STATE','PHONE','DESCRIPTION','NCM','QUANTITY','UNIT PRICE U$ (no discount)','GOODS U$ (no discount)','DISCOUNT U$ (coupon)','VALUE U$ FCA','FREIGHT U$','INSURANCE','CUSTOMS VALUE U$ (goods no discount + freight + insurance)','IMPORT TAX II U$','ICMS U$','FINAL U$ (goods + freight + taxes)','WEIGHT','UNIT WEIGHT','BAG','LOCAL TRACKING PROVIDER','SERVICE_TYPE','EXTERNAL TRACKING','PROVIDER NAME','COPA ID','COPA NAME','LENGTH (cm)','WIDTH (cm)','HEIGHT (cm)','DIMEN UNIT','BAG TAG','INVOICE URL','ORDER #','COUPON','CLASS TRIB'];
+ const H=['AWB','SHIPPER','CONSIGNEE','DNI','ADDRESS','ZIP CODE','CITY','STATE','PHONE','DESCRIPTION','NCM','QUANTITY','UNIT PRICE U$ (no discount)','GOODS U$ (no discount)','DISCOUNT U$ (coupon)','VALUE U$ FCA','FREIGHT U$','INSURANCE','CUSTOMS VALUE U$ (goods no discount + freight + insurance)','ORDER CUSTOMS VALUE U$ (sum of items)','IMPORT TAX II U$','ICMS U$','FINAL U$ (goods + freight + taxes)','WEIGHT','UNIT WEIGHT','BAG','LOCAL TRACKING PROVIDER','SERVICE_TYPE','EXTERNAL TRACKING','PROVIDER NAME','COPA ID','COPA NAME','LENGTH (cm)','WIDTH (cm)','HEIGHT (cm)','DIMEN UNIT','BAG TAG','INVOICE URL','ORDER #','COUPON','CLASS TRIB'];
  const C=h=>H.indexOf(h)+1,ORD=H.map(h=>H0.indexOf(h));
  const NC=H.length, fino={style:'thin',color:{argb:'FFBFBFBF'}}, grosso={style:'medium',color:{argb:'FF000000'}};
  const hr=ws.getRow(8);H.forEach((h,k)=>{const x=hr.getCell(k+1);x.value=h;x.font={bold:true};x.fill=PM_HEAD_FILL;x.alignment={wrapText:true,vertical:'middle'}});
@@ -1526,7 +1526,7 @@ async function pmManifesto(c){
  L.forEach((l,k)=>{const v=l.v,e=pmEnd(v)||{},i=l.i;
   const end=[e.rua,e.compl].filter(Boolean).join(', ')+(e.cidade||v.cidade?' - '+(e.cidade||v.cidade)+' - '+(e.uf||v.uf):'')+(e.cep?' - CEP: '+pmCep(e.cep):'');
   const dm=x=>x===''||x==null||isNaN(Number(x))?'':r4(x);
-  const v0=[awb,P.shipNome,e.nome||v.cliente||'',String(v.cpf||'').replace(/\D/g,''),end,pmCep(e.cep),e.cidade||v.cidade||'',e.uf||v.uf||'',pmFone(e.fone),i.en,i.ncm,i.qtd,r4(l.frete),0,r4(i.kg*i.qtd),'KG',r4(l.usd),'','','DDP','','','','',dm(i.dim[0]),dm(i.dim[1]),dm(i.dim[2]),'CBM','','',v.pedidoSite||vnum(v.numero),v.cupom||'',CLASS_TRIB,...(()=>{const r2=x=>Math.round(x*100)/100,a=r2(l.cheio),b=r2(l.usd),f=r2(l.frete),t=r2(l.ii),m=r2(l.icms);return [a,r2(a-b),t,m,r2(b+f+t+m),r2(a+f),r2(a/(i.qtd||1))]})()];ws.getRow(9+k).values=ORD.map(x=>v0[x])});
+  const v0=[awb,P.shipNome,e.nome||v.cliente||'',String(v.cpf||'').replace(/\D/g,''),end,pmCep(e.cep),e.cidade||v.cidade||'',e.uf||v.uf||'',pmFone(e.fone),i.en,i.ncm,i.qtd,r4(l.frete),0,r4(i.kg*i.qtd),'KG',r4(l.usd),'','','DDP','','','','',dm(i.dim[0]),dm(i.dim[1]),dm(i.dim[2]),'CBM','','',v.pedidoSite||vnum(v.numero),v.cupom||'',CLASS_TRIB,...(()=>{const r2=x=>Math.round(x*100)/100,a=r2(l.cheio),b=r2(l.usd),f=r2(l.frete),t=r2(l.ii),m=r2(l.icms);return [a,r2(a-b),t,m,r2(b+f+t+m),r2(a+f),r2(a/(i.qtd||1)),'']})()];ws.getRow(9+k).values=ORD.map(x=>v0[x])});
  // bordas: todas as células; borda grossa em volta de cada pedido
  const ult=8+L.length;
  for(let r=8;r<=ult;r++){const l=L[r-9],ant=L[r-10],prox=L[r-8];
@@ -1535,12 +1535,13 @@ async function pmManifesto(c){
  [[2,1],[2,2],[2,5],[2,6],[3,1],[3,2],[3,5],[3,6],[4,1],[4,2],[4,5],[4,6],[5,1],[5,2],[5,5],[5,6],[6,1],[6,2],[6,5],[6,6]].forEach(([r,k])=>ws.getCell(r,k).border={left:fino,right:fino,top:fino,bottom:fino});
  // v123: pedido, cupom e totais do pedido aparecem uma vez só (células mescladas por pedido)
  for(let r=9;r<=ult;){const id=L[r-9].v.id;let f=r;while(f+1<=ult&&L[f+1-9].v.id===id)f++;
-  for(const k of [2,3,4,5,6,7,8,9,C('ORDER #'),C('COUPON')]){if(f>r)ws.mergeCells(r,k,f,k);ws.getCell(r,k).alignment={vertical:'middle',horizontal:'left',wrapText:k===5};for(let rr=r;rr<=f;rr++)ws.getCell(rr,k).border={left:fino,right:k===NC?grosso:fino,top:rr===r?grosso:fino,bottom:rr===f?grosso:fino}}
+  {const kc=C('CUSTOMS VALUE U$ (goods no discount + freight + insurance)'),ko=C('ORDER CUSTOMS VALUE U$ (sum of items)');let sm=0;for(let rr=r;rr<=f;rr++)sm+=n(ws.getCell(rr,kc).value);ws.getCell(r,ko).value=Math.round(sm*100)/100}
+  for(const k of [2,3,4,5,6,7,8,9,C('ORDER #'),C('COUPON'),C('ORDER CUSTOMS VALUE U$ (sum of items)')]){if(f>r)ws.mergeCells(r,k,f,k);ws.getCell(r,k).alignment={vertical:'middle',horizontal:k===C('ORDER CUSTOMS VALUE U$ (sum of items)')?'right':'left',wrapText:k===5};for(let rr=r;rr<=f;rr++)ws.getCell(rr,k).border={left:fino,right:k===NC?grosso:fino,top:rr===r?grosso:fino,bottom:rr===f?grosso:fino}}
   r=f+1}
  ws.views=[{showGridLines:false}];
  // v124: dinheiro e medidas com 2 casas; peso com 4
  const r2x=x=>Math.round(n(x)*100)/100;
- for(let r=9;r<=ult;r++){['UNIT PRICE U$ (no discount)','GOODS U$ (no discount)','DISCOUNT U$ (coupon)','VALUE U$ FCA','FREIGHT U$','INSURANCE','CUSTOMS VALUE U$ (goods no discount + freight + insurance)','IMPORT TAX II U$','ICMS U$','FINAL U$ (goods + freight + taxes)','LENGTH (cm)','WIDTH (cm)','HEIGHT (cm)'].map(C).forEach(k=>{const c=ws.getCell(r,k);if(typeof c.value==='number')c.value=r2x(c.value);c.numFmt='0.00'});ws.getCell(r,C('WEIGHT')).numFmt='0.0000'}
+ for(let r=9;r<=ult;r++){['UNIT PRICE U$ (no discount)','GOODS U$ (no discount)','DISCOUNT U$ (coupon)','VALUE U$ FCA','FREIGHT U$','INSURANCE','CUSTOMS VALUE U$ (goods no discount + freight + insurance)','ORDER CUSTOMS VALUE U$ (sum of items)','IMPORT TAX II U$','ICMS U$','FINAL U$ (goods + freight + taxes)','LENGTH (cm)','WIDTH (cm)','HEIGHT (cm)'].map(C).forEach(k=>{const c=ws.getCell(r,k);if(typeof c.value==='number')c.value=r2x(c.value);c.numFmt='0.00'});ws.getCell(r,C('WEIGHT')).numFmt='0.0000'}
  ws.getCell(4,6).numFmt='0.0000';ws.getCell(4,6).value=r4(kg);
  const W0=[10,10,26,14,50,11,16,7,15,46,11,9,11,10,9,10,12,6,8,12,8,8,8,8,10,10,10,9,8,10,13,18,11,14,14,12,12,16];ORD.forEach((x,k)=>ws.getColumn(k+1).width=W0[x]||12);
  ws.getColumn(4).numFmt='@';ws.getColumn(9).numFmt='@';ws.getColumn(11).numFmt='@';ws.getColumn(C('CLASS TRIB')).numFmt='@';
@@ -5290,6 +5291,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v145','18/11/2026',['Planilha da Mile: nova coluna ORDER CUSTOMS VALUE U$ (valor aduaneiro do pedido = soma do valor aduaneiro dos itens), uma vez por pedido, ao lado do valor aduaneiro do item.']],
  ['v144','18/11/2026',['Planilha da Mile: nova coluna UNIT PRICE U$ (preço unitário sem desconto), entre QUANTITY e GOODS.']],
  ['v143','18/11/2026',['Planilha da Mile: nova coluna CUSTOMS VALUE U$ (valor aduaneiro) = mercadoria sem desconto + frete + seguro, logo depois de INSURANCE.']],
  ['v142','18/11/2026',['Planilha da Mile: colunas de valor juntas, logo depois de QUANTITY, na ordem: mercadoria sem desconto, desconto, mercadoria com desconto (VALUE U$ FCA), frete, seguro, II, ICMS e valor final.']],
