@@ -24,7 +24,7 @@ jobs:
           for p in $PAGS; do
             no=$(echo "$p" | sed -n 's/.*product_no=\([0-9]*\).*/\1/p'); d="out/p$no"; mkdir -p "$d"
             curl -sSL -m 60 -A "Mozilla/5.0" -o "$d/pagina.html" "$p" || { echo "falhou pagina $p"; continue; }
-            grep -oE '(src|ec-data-src)="[^"]*(/web/upload/NNEditor|/web/product/big|/web/product/extra/big)[^"]*\.(jpg|jpeg|png|gif)"' "$d/pagina.html" | sed -E 's/^[^"]*"//; s/"$//' | awk '!s[$0]++' > "$d/lista.txt"
+            grep -oE '(src|ec-data-src)="[^"]*ecimg\.cafe24img\.com[^"]*\.(jpg|jpeg|png|gif)"' "$d/pagina.html" | sed -E 's/^[^"]*"//; s/"$//' | grep -vE '/(small|tiny|medium)/' | awk '!s[$0]++' > "$d/lista.txt"
             i=0
             while read -r u; do
               case "$u" in //*) u="https:$u";; /*) u="$(echo "$p" | sed -E 's#(https?://[^/]+).*#\1#')$u";; esac
