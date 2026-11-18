@@ -565,5 +565,14 @@
   "lote1": 0,
   "tile": "padrao",
   "cena": "foto"
+ },
+ {
+  "marca": "WJ",
+  "slug": "wj",
+  "tipo": "logo",
+  "produtos": 18,
+  "lote1": 0,
+  "tile": "padrao",
+  "cena": "foto"
  }
 ]
