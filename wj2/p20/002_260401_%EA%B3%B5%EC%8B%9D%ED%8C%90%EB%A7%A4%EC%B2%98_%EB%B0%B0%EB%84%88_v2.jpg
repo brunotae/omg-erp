@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko">
+<head>
+    <title>The page cannot be found.</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width">
+</head>
+<body id="warn">
+<hr class="layout">
+
+<hr class="layout">
+<div id="container">
+    <div id="content">
+        <div class="icoWarn icoNone"><span></span></div>
+        <div class="mWarn">
+            <div class="inner">
+                <p class="subDesc">
+                    <span class="txtLight">The page you are looking for <br class="RWB" />might have been removed or had its address changed.</span>
+                </p>
+                <div class="mButton">
+                    <a href="/" class="btnEm"><span>Back to Home <em>(Back to Home)</em></span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr class="layout">
+<div id="footer">
+    Copyright &copy; <strong>Cafe24</strong> Corp. All Rights Reserved.
+</div>
+</body>
+</html>
