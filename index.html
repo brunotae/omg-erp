@@ -1005,7 +1005,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v139 · 17/11/2026';
+const VERSAO='v140 · 18/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1481,7 +1481,7 @@ function pmLinhas(grupo){
  grupo.forEach(c=>corteVendas(c).filter(v=>!isCancel(v)).forEach(v=>{
   const its=(v.itens||[]).map(pmItem), bruto=its.reduce((s,i)=>s+i.preco*i.qtd,0)||1, fx=pmCambio(v);
   const liq=Math.max(0,bruto-n(v.desconto));
-  its.forEach((i,k)=>{if(!naCarga((v.itens||[])[k]))return;const part=i.preco*i.qtd/bruto,r4=x=>Math.round(x*1e4)/1e4,cheio=r4(i.preco*i.qtd/fx),usd=r4(liq*part/fx);out.push({c,v,i,usd,cheio,desc:r4(cheio-usd),frete:r4(n(v.frete)*part/fx)})});
+  its.forEach((i,k)=>{if(!naCarga((v.itens||[])[k]))return;const part=i.preco*i.qtd/bruto,r4=x=>Math.round(x*1e4)/1e4,cheio=r4(i.preco*i.qtd/fx),usd=r4(liq*part/fx);out.push({c,v,i,usd,cheio,desc:r4(cheio-usd),frete:r4(n(v.frete)*part/fx),ii:r4(n(v.ii)*part/fx),icms:r4(n(v.icms)*part/fx)})});
  }));
  return out;
 }
@@ -1516,14 +1516,14 @@ async function pmManifesto(c){
  ws.getCell(3,2).alignment={wrapText:true,vertical:'top'};
  ws.getCell(2,8).value='Per order: ORDER FINAL U$ = ORDER TOTAL U$ − ORDER DISCOUNT U$ (site coupon). VALUE U$ FCA = each item after the coupon. US$, 2 decimals.';ws.getCell(2,8).font={italic:true,color:{argb:'FF7F6000'}};
  // v122: sem a coluna de parametrização; no fim: pedido, cupom, preço cheio e desconto (para a Mile ver o cupom aplicado)
- const H=['AWB','SHIPPER','CONSIGNEE','DNI','ADDRESS','ZIP CODE','CITY','STATE','PHONE','DESCRIPTION','NCM','QUANTITY','FREIGHT U$','INSURANCE','WEIGHT','UNIT WEIGHT','VALUE U$ FCA','BAG','LOCAL TRACKING PROVIDER','SERVICE_TYPE','EXTERNAL TRACKING','PROVIDER NAME','COPA ID','COPA NAME','LENGTH (cm)','WIDTH (cm)','HEIGHT (cm)','DIMEN UNIT','BAG TAG','INVOICE URL','ORDER #','COUPON','ORDER TOTAL U$ (list price)','ORDER DISCOUNT U$ (coupon)','ORDER FINAL U$','CLASS TRIB','VALUE U$ (list price, before coupon)'];
+ const H=['AWB','SHIPPER','CONSIGNEE','DNI','ADDRESS','ZIP CODE','CITY','STATE','PHONE','DESCRIPTION','NCM','QUANTITY','FREIGHT U$','INSURANCE','WEIGHT','UNIT WEIGHT','VALUE U$ FCA','BAG','LOCAL TRACKING PROVIDER','SERVICE_TYPE','EXTERNAL TRACKING','PROVIDER NAME','COPA ID','COPA NAME','LENGTH (cm)','WIDTH (cm)','HEIGHT (cm)','DIMEN UNIT','BAG TAG','INVOICE URL','ORDER #','COUPON','ORDER TOTAL U$ (list price)','ORDER DISCOUNT U$ (coupon)','ORDER FINAL U$','CLASS TRIB','GOODS U$ (no discount)','DISCOUNT U$ (coupon)','GOODS U$ (after discount)','FREIGHT U$ (item)','IMPORT TAX II U$','ICMS U$','FINAL U$ (goods + freight + taxes)'];
  const NC=H.length, fino={style:'thin',color:{argb:'FFBFBFBF'}}, grosso={style:'medium',color:{argb:'FF000000'}};
  const hr=ws.getRow(8);H.forEach((h,k)=>{const x=hr.getCell(k+1);x.value=h;x.font={bold:true};x.fill=PM_HEAD_FILL;x.alignment={wrapText:true,vertical:'middle'}});
  const r4=x=>Math.round(n(x)*1e4)/1e4;
  L.forEach((l,k)=>{const v=l.v,e=pmEnd(v)||{},i=l.i;
   const end=[e.rua,e.compl].filter(Boolean).join(', ')+(e.cidade||v.cidade?' - '+(e.cidade||v.cidade)+' - '+(e.uf||v.uf):'')+(e.cep?' - CEP: '+pmCep(e.cep):'');
   const dm=x=>x===''||x==null||isNaN(Number(x))?'':r4(x);
-  ws.getRow(9+k).values=[awb,P.shipNome,e.nome||v.cliente||'',String(v.cpf||'').replace(/\D/g,''),end,pmCep(e.cep),e.cidade||v.cidade||'',e.uf||v.uf||'',pmFone(e.fone),i.en,i.ncm,i.qtd,r4(l.frete),0,r4(i.kg*i.qtd),'KG',r4(l.usd),'','','DDP','','','','',dm(i.dim[0]),dm(i.dim[1]),dm(i.dim[2]),'CBM','','',v.pedidoSite||vnum(v.numero),v.cupom||'','','','',CLASS_TRIB,r4(l.cheio)]});
+  ws.getRow(9+k).values=[awb,P.shipNome,e.nome||v.cliente||'',String(v.cpf||'').replace(/\D/g,''),end,pmCep(e.cep),e.cidade||v.cidade||'',e.uf||v.uf||'',pmFone(e.fone),i.en,i.ncm,i.qtd,r4(l.frete),0,r4(i.kg*i.qtd),'KG',r4(l.usd),'','','DDP','','','','',dm(i.dim[0]),dm(i.dim[1]),dm(i.dim[2]),'CBM','','',v.pedidoSite||vnum(v.numero),v.cupom||'','','','',CLASS_TRIB,...(()=>{const r2=x=>Math.round(x*100)/100,a=r2(l.cheio),b=r2(l.usd),f=r2(l.frete),t=r2(l.ii),m=r2(l.icms);return [a,r2(a-b),b,f,t,m,r2(b+f+t+m)]})()]});
  // bordas: todas as células; borda grossa em volta de cada pedido
  const ult=8+L.length;
  for(let r=8;r<=ult;r++){const l=L[r-9],ant=L[r-10],prox=L[r-8];
@@ -1539,10 +1539,10 @@ async function pmManifesto(c){
  ws.views=[{showGridLines:false}];
  // v124: dinheiro e medidas com 2 casas; peso com 4
  const r2x=x=>Math.round(n(x)*100)/100;
- for(let r=9;r<=ult;r++){[13,14,17,25,26,27,33,34,35,37].forEach(k=>{const c=ws.getCell(r,k);if(typeof c.value==='number')c.value=r2x(c.value);c.numFmt='0.00'});ws.getCell(r,15).numFmt='0.0000'}
+ for(let r=9;r<=ult;r++){[13,14,17,25,26,27,33,34,35,37,38,39,40,41,42,43].forEach(k=>{const c=ws.getCell(r,k);if(typeof c.value==='number')c.value=r2x(c.value);c.numFmt='0.00'});ws.getCell(r,15).numFmt='0.0000'}
  for(let r=9;r<=ult;){const id=L[r-9].v.id;let f=r;while(f+1<=ult&&L[f+1-9].v.id===id)f++;const G=L.slice(r-9,f-8),tt=r2x(G.reduce((x,l)=>x+l.cheio,0)),fi=r2x(G.reduce((x,l)=>x+r2x(l.usd),0));ws.getCell(r,33).value=tt;ws.getCell(r,35).value=fi;ws.getCell(r,34).value=r2x(tt-fi);r=f+1}
  ws.getCell(4,6).numFmt='0.0000';ws.getCell(4,6).value=r4(kg);
- [10,10,26,14,50,11,16,7,15,46,11,9,11,10,9,10,12,6,8,12,8,8,8,8,10,10,10,9,8,10,13,18,14,14,14,11,16].forEach((w,k)=>ws.getColumn(k+1).width=w);
+ [10,10,26,14,50,11,16,7,15,46,11,9,11,10,9,10,12,6,8,12,8,8,8,8,10,10,10,9,8,10,13,18,14,14,14,11,14,14,14,14,14,12,16].forEach((w,k)=>ws.getColumn(k+1).width=w);
  ws.getColumn(4).numFmt='@';ws.getColumn(9).numFmt='@';ws.getColumn(11).numFmt='@';ws.getColumn(36).numFmt='@';
  await pmBaixar(wb,'Manifest Mile '+pmNome(g)+'.xlsx');
 }
@@ -5290,6 +5290,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v140','18/11/2026',['Planilha da Mile: 7 colunas por item no fim, em US$: mercadoria sem desconto, desconto do cupom, mercadoria com desconto, frete, II, ICMS e valor final (mercadoria + frete + impostos).']],
  ['v139','17/11/2026',['Planilha da Mile: nova coluna no fim, VALUE U$ (list price, before coupon), com o valor cheio de cada item antes do cupom (a coluna Q continua com o valor depois do cupom).']],
  ['v138','17/11/2026',['Class Trib passa a sair como 01 (planilha da Mile e invoices).']],
  ['v137','17/11/2026',['Invoices: valores na ordem da venda: preço cheio de cada produto, cupom, valor depois do cupom, frete, valor da compra, II, ICMS e total pago, em US$ e R$. O PDF salvo em Documentos agora sai com o layout certo.']],
