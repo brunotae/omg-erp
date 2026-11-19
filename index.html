@@ -842,7 +842,7 @@ const ICONS={
  fornecedores:'<path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/>',
  config:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/>'
 };
-const NAV=[['','painel','Painel'],['','tarefas','Tarefas'],['Operação','vendas','Vendas'],['','etapas','Etapas dos pedidos'],['','cortes','Parametrização'],['','ocorrencias','Ocorrências de compra'],['','lotes','Embarques'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['','pricing','Pricing'],['','precos','Concorrentes'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','cadastros','Cadastros do site'],['','contatos','Contato com clientes'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['','relatorios','Relatório do site'],['','visitas','Visitas agora'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Automação','monitor','Monitoramentos'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
+const NAV=[['','painel','Painel'],['','tarefas','Tarefas'],['Operação','vendas','Vendas'],['','etapas','Etapas dos pedidos'],['','cortes','Parametrização'],['','lotes','Embarques'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['','pricing','Pricing'],['','precos','Concorrentes'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','cadastros','Cadastros do site'],['','contatos','Contato com clientes'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['','relatorios','Relatório do site'],['','visitas','Visitas agora'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Automação','monitor','Monitoramentos'],['Cadastros','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
 
 /* ================= utilidades ================= */
 const $=s=>document.querySelector(s);
@@ -1006,7 +1006,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v146 · 19/11/2026';
+const VERSAO='v147 · 19/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -5343,6 +5343,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v147','19/11/2026',['Ocorrências de compra saiu do menu (fica escondida; o link ?tela=ocorrencias continua funcionando).']],
  ['v146','19/11/2026',['Nova tela Tarefas (logo abaixo do Painel): o que cada um precisa fazer, com quem faz, prazo, prioridade, área e situação. Filtro por pessoa e por abertas/feitas, caixinha para marcar como feita, atrasadas em vermelho.','Quem não entra no ERP (Janice, por exemplo) recebe um link próprio, em português e coreano: vê só as tarefas dela, marca como fazendo ou feita e deixa recado. Botão Link para… na tela, com a pessoa escolhida.']],
  ['v145','18/11/2026',['Planilha da Mile: nova coluna ORDER CUSTOMS VALUE U$ (valor aduaneiro do pedido = soma do valor aduaneiro dos itens), uma vez por pedido, ao lado do valor aduaneiro do item.']],
  ['v144','18/11/2026',['Planilha da Mile: nova coluna UNIT PRICE U$ (preço unitário sem desconto), entre QUANTITY e GOODS.']],
