@@ -56,7 +56,7 @@ html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans 
 </div>
 <script>
 (function(){
-const VERSAO='v1 · 19/11/2026';
+const VERSAO='v2 · 19/11/2026';
 const sb=window.supabase.createClient('https://nzsiuniabovvptuqmkmi.supabase.co','sb_publishable_9Nl_ZRXEmLMhDMBP8oKP_w_FuDXaYMq',{auth:{persistSession:false}});
 const K=new URLSearchParams(location.search).get('k')||'';
 let L='ko';
@@ -83,9 +83,9 @@ function render(){const t=T[L];document.documentElement.lang=L==='ko'?'ko':'pt-B
  const rows=R.filter(r=>F==='todas'||(F==='feitas'?r.status==='Feita':r.status!=='Feita'));
  $('#app').innerHTML=rows.length?rows.map(r=>{const c=Array.isArray(r.comentarios)?r.comentarios:[];
   return '<div class="card'+(r.status==='Feita'?' done':'')+'" data-id="'+esc(r.id)+'"><h3>'+esc(r.titulo)+'</h3>'+
-  '<div class="meta">'+prazo(r)+(r.prioridade&&r.prioridade!=='Normal'?'<span class="pill'+(r.prioridade==='Alta'?' alta':'')+'">'+esc(t.pri[r.prioridade]||r.prioridade)+'</span>':'')+(r.area?'<span class="pill">'+esc(r.area)+'</span>':'')+'<span>'+esc(r.numero||'')+'</span></div>'+
+  (r.prazo?'<div class="meta">'+prazo(r)+'</div>':'')+
   (r.detalhe?'<div class="det">'+link(r.detalhe)+'</div>':'')+
-  '<div class="st">'+[['A fazer',t.a,'s-a'],['Fazendo',t.f,'s-f'],['Feita',t.ok+' ✓','s-ok']].map(([v,l,c])=>'<button type="button" class="'+c+'" data-st="'+v+'" aria-pressed="'+((r.status||'A fazer')===v)+'">'+esc(l)+'</button>').join('')+'</div>'+
+  '<div class="st">'+(r.status==='Feita'?'<button type="button" data-st="A fazer">다시 열기 · Reabrir</button>':'<button type="button" class="s-ok" aria-pressed="true" data-st="Feita">✓ 완료 · Feito</button>')+'</div>'+
   (c.length?'<div class="rec"><span class="t">'+t.rec+'</span>'+c.map(x=>'<p><span class="q">'+esc(x.quem)+'</span> <span class="t">'+esc(new Date(x.em).toLocaleString(L==='ko'?'ko-KR':'pt-BR',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}))+'</span><br>'+link(x.texto)+'</p>').join('')+'</div>':'')+
   '<form class="nota"><input name="n" placeholder="'+esc(t.nota)+'" maxlength="2000"><button type="submit">'+t.env+'</button></form></div>'}).join(''):'<p class="msg">'+t.vazio+'</p>'}
 async function carregar(){try{const {data,error}=await sb.rpc('tarefas_pub',{p_k:K});if(error)throw error;D=data;render()}catch(e){$('#app').innerHTML='<p class="msg">'+T[L].inval+'</p>'}}
