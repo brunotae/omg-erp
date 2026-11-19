@@ -1023,7 +1023,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v156 · 19/11/2026';
+const VERSAO='v157 · 19/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -2882,8 +2882,8 @@ function rxAnalisa(rows){
   // v55: por que o rascunho está parado — já existe versão no ar? título em inglês? categoria errada?
   if(!p.a){const tp=rxTok2(p.t);let best=null;A.forEach(b=>{if(b.m!==p.m)return;const tb=rxTok2(b.t);let k=0;tp.forEach(w=>{if(tb.has(w))k++});const sc=k/Math.max(1,tp.size,tb.size);if(sc>=0.6&&(!best||sc>best[0]))best=[sc,b.t,b.pmin]});
    if(best){if(!f.includes('duplicado'))f.push('temnoar');p.par=best[1];p.parpr=best[2]}}
-  if(RX_EN.test(p.t)&&!RX_PT.test(p.t.split(':')[0]))f.push('ingles');
-  if(/cat-maquiagem/.test(p.tags)&&!/maquiagem|cushion|batom|base|tint|pó|po-/i.test(p.t+' '+p.h))f.push('catruim');
+  if(RX_EN.test(p.t)&&!RX_PT.test(p.t))f.push('ingles'); // v157: o padrão é Nome em inglês: descrição em português (só avisa se não tiver português em lugar nenhum)
+  if(/cat-maquiagem/.test(p.tags)&&!/maquiagem|cushion|batom|base|tint|pó|po-|primer|corretivo|concealer|iluminador|highlight|labial|lip|blush|fixador|setting|rímel|mascara de c|delineador|sombra/i.test(p.t+' '+p.h))f.push('catruim');
   p.f=f;if(p.a&&dup[p.h]){p.par=dup[p.h][1];p.parpr=dup[p.h][2]}});
  return {em:new Date().toISOString(),P,arq};
 }
@@ -5546,6 +5546,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v157','19/11/2026',['Raio-X: menos alarme falso. Título em inglês só avisa quando não há português em nenhuma parte do nome (o padrão Nome: descrição em português está certo). Categoria errada reconhece primer, corretivo, iluminador, produtos labiais, blush e spray fixador como maquiagem.']],
  ['v156','19/11/2026',['Aviso de preço: toda segunda, depois de ler KS, Jini e Sephora BR, o ERP compara o preço entregue em SP de hoje (produto + frete + impostos, a conta do checkout) com o menor Pix do concorrente. Se a OMG ficar mais cara: alerta no Painel e e-mail para você, com o preço sugerido.','Pricing: filtro ⚠️ Mais caros que o concorrente hoje. O preço só muda depois do seu OK no Pricing.']],
  ['v155','19/11/2026',['Fotos oficiais saiu do menu (fica escondida; o link ?tela=fotos continua funcionando).']],
  ['v154','19/11/2026',['Nova tela Estoque Coreia (Estoque e compras): entradas (caixa do distribuidor, compra avulsa da H2, amostras grátis e pequenas) e saídas (venda, amostra/UGC, perda). Saldo, custo por peça sem o 부가세 10%, validade com aviso de promoção quando faltar menos de 1 ano, e quanto tempo está parado.','Pedidos que podem sair do estoque: itens de vendas em aberto que já temos na Skyroad, com botão Dar baixa (sai primeiro o que vence antes).','Crédito no distribuidor (DY): recargas, compras pagas com o crédito e saldo, com aviso abaixo de 25% da última recarga.','Financeiro: campo Embarque nos lançamentos e novas categorias da Coreia (locomoção, caixas e mão de obra, armazenagem Skyroad, despacho, recarga do crédito, compra avulsa).','Lucratividade refeita: por mês (receita, mercadoria, Mile, embarques, despesas, marketing, amostras, câmbio, resultado) e por embarque. Não mais por pedido.']],
