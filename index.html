@@ -1023,7 +1023,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v158 · 19/11/2026';
+const VERSAO='v159 · 19/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -3723,6 +3723,7 @@ const FORMS={
   {k:'titulo',l:'O que fazer · 할 일',req:1,full:1},{k:'responsavel',l:'Quem faz · 담당 (pode marcar mais de um)',t:'multi',o:()=>tarPessoas(),req:1,full:1},{k:'tituloKo',l:'Em coreano · 한국어 (opcional)',full:1,hint:'Se ficar vazio, o ERP traduz sozinho quando você gerar a lista em coreano.'}]]],
   pre:r=>tarComHTML(r),
   antes:v=>{if(!v.id){v.numero=nextSeq('tarefas','T-',3);v.status='A fazer';v.prioridade='Normal';v.criadoPor='Tae'}else{const r=S.data.tarefas.find(x=>x.id===v.id);if(r&&v.titulo!==r.titulo&&(v.tituloKo||'')===(r.tituloKo||''))v.tituloKo=''}},
+  depois:(id)=>{const t=S.data.tarefas.find(x=>x.id===id);if(t&&!t.tituloKo)tarTraduzir([t]).catch(()=>{})},
   def:()=>({responsavel:S.f.tar&&S.f.tar!=='Todos'?S.f.tar:''})},
  lancamentos:{title:['Novo lançamento','Lançamento'],col:'lancamentos',secs:[['Lançamento',[
   {k:'data',l:'Data',t:'date',req:1},{k:'tipo',l:'Tipo',t:'select',o:['Saída','Entrada','Transferência']},
@@ -5547,6 +5548,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v159','19/11/2026',['Tarefas: ao salvar uma tarefa, o ERP já grava a tradução em coreano. A página da Janice/H2 sempre mostra em coreano (se faltar tradução, traduz na hora).']],
  ['v158','19/11/2026',['Estoque Coreia: "Pedidos que podem sair do estoque" agora só mostra pedidos de parametrizações que a H2 ainda não comprou. Pedidos já comprados têm peça própria e não usam a sobra.']],
  ['v157','19/11/2026',['Raio-X: menos alarme falso. Título em inglês só avisa quando não há português em nenhuma parte do nome (o padrão Nome: descrição em português está certo). Categoria errada reconhece primer, corretivo, iluminador, produtos labiais, blush e spray fixador como maquiagem.']],
  ['v156','19/11/2026',['Aviso de preço: toda segunda, depois de ler KS, Jini e Sephora BR, o ERP compara o preço entregue em SP de hoje (produto + frete + impostos, a conta do checkout) com o menor Pix do concorrente. Se a OMG ficar mais cara: alerta no Painel e e-mail para você, com o preço sugerido.','Pricing: filtro ⚠️ Mais caros que o concorrente hoje. O preço só muda depois do seu OK no Pricing.']],

@@ -56,11 +56,11 @@ html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans 
 </div>
 <script>
 (function(){
-const VERSAO='v3 · 19/11/2026';
+const VERSAO='v4 · 19/11/2026';
 const sb=window.supabase.createClient('https://nzsiuniabovvptuqmkmi.supabase.co','sb_publishable_9Nl_ZRXEmLMhDMBP8oKP_w_FuDXaYMq',{auth:{persistSession:false}});
 const K=new URLSearchParams(location.search).get('k')||'';
 let L='ko';
-try{L=localStorage.getItem('omg-tar-lang')||((navigator.language||'').toLowerCase().startsWith('pt')?'pt':'ko')}catch(_){}
+try{L=localStorage.getItem('omg-tar-lang')||'ko'}catch(_){}
 const T={
  ko:{t:'할 일',sub:p=>p+' 님의 할 일 목록 · 상태를 바꾸거나 메모를 남기면 바로 저장됩니다',ab:'진행 중',fe:'완료',to:'전체',a:'할 일',f:'진행 중',ok:'완료',prazo:'마감',late:d=>d+'일 지남',hoje:'오늘 마감',am:'내일',em:d=>d+'일 남음',sem:'마감 없음',pri:{Alta:'중요',Normal:'보통',Baixa:'낮음'},nota:'메모 남기기…',env:'보내기',salvo:'저장했어요',vazio:'할 일이 없습니다 🎉',inval:'링크가 올바르지 않습니다. Tae에게 새 링크를 요청하세요.',rec:'메모'},
  pt:{t:'Tarefas',sub:p=>'Tarefas de '+p+' · mudar a situação ou deixar recado salva na hora',ab:'Abertas',fe:'Feitas',to:'Todas',a:'A fazer',f:'Fazendo',ok:'Feita',prazo:'Prazo',late:d=>d+(d>1?' dias atrasada':' dia atrasada'),hoje:'vence hoje',am:'amanhã',em:d=>'em '+d+' dias',sem:'sem prazo',pri:{Alta:'Alta',Normal:'Normal',Baixa:'Baixa'},nota:'Deixar recado…',env:'Enviar',salvo:'Salvo',vazio:'Nada pendente 🎉',inval:'Link inválido. Peça um link novo ao Tae.',rec:'Recados'}};
@@ -88,7 +88,8 @@ function render(){const t=T[L];document.documentElement.lang=L==='ko'?'ko':'pt-B
   '<div class="st">'+(r.status==='Feita'?'<button type="button" data-st="A fazer">다시 열기 · Reabrir</button>':'<button type="button" class="s-ok" aria-pressed="true" data-st="Feita">✓ 완료 · Feito</button>')+'</div>'+
   (c.length?'<div class="rec"><span class="t">'+t.rec+'</span>'+c.map(x=>'<p><span class="q">'+esc(x.quem)+'</span> <span class="t">'+esc(new Date(x.em).toLocaleString(L==='ko'?'ko-KR':'pt-BR',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}))+'</span><br>'+link(x.texto)+'</p>').join('')+'</div>':'')+
   '<form class="nota"><input name="n" placeholder="'+esc(t.nota)+'" maxlength="2000"><button type="submit">'+t.env+'</button></form></div>'}).join(''):'<p class="msg">'+t.vazio+'</p>'}
-async function carregar(){try{const {data,error}=await sb.rpc('tarefas_pub',{p_k:K});if(error)throw error;D=data;render()}catch(e){$('#app').innerHTML='<p class="msg">'+T[L].inval+'</p>'}}
+async function koFalta(){const R=(D&&D.rows)||[];const f=R.filter(r=>!r.titulo_ko&&r.titulo);if(!f.length)return;await Promise.all(f.map(async r=>{try{const x=await fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=pt&tl=ko&dt=t&q='+encodeURIComponent(r.titulo));const j=await x.json();const ko=(j&&j[0]||[]).map(y=>y&&y[0]||'').join('').trim();if(ko)r.titulo_ko=ko}catch(_){}}));render()}
+async function carregar(){try{const {data,error}=await sb.rpc('tarefas_pub',{p_k:K});if(error)throw error;D=data;render();koFalta()}catch(e){$('#app').innerHTML='<p class="msg">'+T[L].inval+'</p>'}}
 async function atualizar(id,st,nota){const {error}=await sb.rpc('tarefa_pub_atualizar',{p_k:K,p_id:id,p_status:st,p_nota:nota||null});if(error){toast(error.message);return false}toast(T[L].salvo);await carregar();return true}
 document.addEventListener('click',e=>{const l=e.target.closest('[data-l]');if(l){L=l.dataset.l;try{localStorage.setItem('omg-tar-lang',L)}catch(_){}render();return}
  const f=e.target.closest('[data-f]');if(f){F=f.dataset.f;render();return}
