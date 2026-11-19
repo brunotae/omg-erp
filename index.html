@@ -1023,7 +1023,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v157 · 19/11/2026';
+const VERSAO='v158 · 19/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -2008,8 +2008,9 @@ function estCredito(){const by={};S.data.credito_movs.forEach(m=>{const f=m.forn
  return Object.values(by).map(o=>({...o,baixo:o.ult>0&&o.saldo<o.ult*EST_CRED_MIN}))}
 function estVendaItem(num,sku){const v=S.data.vendas.find(x=>n(x.numero)===n(num));if(!v)return null;const it=(v.itens||[]).find(i=>String(i.produto||'').split(' · ')[0]===sku);return it?{v,qtd:n(it.qtd)}:null}
 // itens de vendas em aberto que ainda não saíram do estoque e têm saldo
+function estJaComprada(v){const c=(S.data.cortes||[]).find(c=>c.id===v.corte||(c.vendas||[]).includes(v.id));return !!(c&&c.compraEm)}
 function estPendentes(L){const sal={};L.forEach(l=>{if(l.saldo>0&&!EST_AMOSTRA(l.origem))(sal[l.sku]=sal[l.sku]||[]).push(l)});const out=[];
- S.data.vendas.filter(v=>!isCancel(v)&&curStep(v)<9).forEach(v=>(v.itens||[]).forEach(i=>{if(i&&i.envio==='brasil')return;const sku=String(i.produto||'').split(' · ')[0];if(!sal[sku])return;
+ S.data.vendas.filter(v=>!isCancel(v)&&curStep(v)<9&&!estJaComprada(v)).forEach(v=>(v.itens||[]).forEach(i=>{if(i&&i.envio==='brasil')return;const sku=String(i.produto||'').split(' · ')[0];if(!sal[sku])return;
   const ja=S.data.estoque_movs.filter(m=>n(m.venda)===n(v.numero)&&(S.data.estoque_lotes.find(x=>x.id===m.lote)||{}).sku===sku).reduce((a,m)=>a+n(m.qtd),0);
   const falta=n(i.qtd)-ja;if(falta>0)out.push({v,sku,falta,nome:String(i.produto||'').split(' · ').slice(1).join(' · '),tem:sal[sku].reduce((a,l)=>a+l.saldo,0)})}));return out}
 VIEWFN.estoque=()=>{
@@ -2025,7 +2026,7 @@ VIEWFN.estoque=()=>{
   '<div class="kpis">'+kpi('Peças em estoque',viv.filter(l=>!EST_AMOSTRA(l.origem)).reduce((a,l)=>a+l.saldo,0),new Set(viv.filter(l=>!EST_AMOSTRA(l.origem)).map(l=>l.sku)).size+' SKUs · amostras: '+viv.filter(l=>EST_AMOSTRA(l.origem)).reduce((a,l)=>a+l.saldo,0))+
    kpi('Valor parado',dm(val),'Custo sem 부가세')+kpi('Fazer promoção',L.filter(l=>l.promo).length,'Vence em menos de 1 ano',null,L.some(l=>l.promo))+
    kpi('Crédito '+(cred?esc(cred.f):'DY'),cred?usd(cred.saldo):'—',cred?(cred.baixo?'Abaixo de '+Math.round(EST_CRED_MIN*100)+'% da última recarga: repor':'Última recarga '+usd(cred.ult)):'Sem recarga lançada',null,cred&&cred.baixo)+'</div>'+
-  (P.length?'<div class="card"><div class="card-h"><h2>Pedidos que podem sair do estoque</h2><span class="muted" style="font-size:12px">Itens de vendas em aberto que já temos na Skyroad</span></div><div class="tblwrap"><table class="tar-t"><thead><tr><th>Venda</th><th>SKU</th><th>Produto</th><th class="r">Falta</th><th class="r">Temos</th><th></th></tr></thead><tbody>'+
+  (P.length?'<div class="card"><div class="card-h"><h2>Pedidos que podem sair do estoque</h2><span class="muted" style="font-size:12px">Pedidos que a H2 ainda não comprou e que dá para atender com o que sobrou na Skyroad (assim ela não compra de novo)</span></div><div class="tblwrap"><table class="tar-t"><thead><tr><th>Venda</th><th>SKU</th><th>Produto</th><th class="r">Falta</th><th class="r">Temos</th><th></th></tr></thead><tbody>'+
    P.map(x=>'<tr><td class="num">'+vCurto(x.v.numero)+'</td><td>'+esc(x.sku)+'</td><td>'+esc(x.nome.slice(0,60))+'</td><td class="r num">'+x.falta+'</td><td class="r num">'+x.tem+'</td><td class="r">'+(can()?'<button class="btn sm pri" type="button" data-estbaixa="'+esc(x.v.numero)+'" data-sku="'+esc(x.sku)+'" data-q="'+x.falta+'">Dar baixa</button>':'')+'</td></tr>').join('')+'</tbody></table></div></div>':'')+
   '<div class="chips">'+[['mercadoria','Mercadoria'],['amostras','Amostras'],['promo','Fazer promoção'],['parado','Parado +90 dias'],['zerado','Zerados'],['tudo','Tudo']].map(([k,l])=>'<button type="button" data-estf="'+k+'" aria-pressed="'+(f===k)+'">'+l+'</button>').join('')+'</div>'+
   '<div class="card">'+(loading('estoque_lotes')?'<p class="muted">Carregando…</p>':R.length?'<div class="tblwrap"><table class="tar-t"><thead><tr><th>Entrada</th><th>SKU / produto</th><th>Origem</th><th class="r">Entrou</th><th class="r">Saiu</th><th class="r">Tem</th><th class="r">Custo/peça</th><th>Validade</th><th class="r">Parado</th><th></th></tr></thead><tbody>'+
@@ -5546,6 +5547,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v158','19/11/2026',['Estoque Coreia: "Pedidos que podem sair do estoque" agora só mostra pedidos de parametrizações que a H2 ainda não comprou. Pedidos já comprados têm peça própria e não usam a sobra.']],
  ['v157','19/11/2026',['Raio-X: menos alarme falso. Título em inglês só avisa quando não há português em nenhuma parte do nome (o padrão Nome: descrição em português está certo). Categoria errada reconhece primer, corretivo, iluminador, produtos labiais, blush e spray fixador como maquiagem.']],
  ['v156','19/11/2026',['Aviso de preço: toda segunda, depois de ler KS, Jini e Sephora BR, o ERP compara o preço entregue em SP de hoje (produto + frete + impostos, a conta do checkout) com o menor Pix do concorrente. Se a OMG ficar mais cara: alerta no Painel e e-mail para você, com o preço sugerido.','Pricing: filtro ⚠️ Mais caros que o concorrente hoje. O preço só muda depois do seu OK no Pricing.']],
  ['v155','19/11/2026',['Fotos oficiais saiu do menu (fica escondida; o link ?tela=fotos continua funcionando).']],
