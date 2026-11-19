@@ -2009,7 +2009,7 @@ function estCredito(){const by={};S.data.credito_movs.forEach(m=>{const f=m.forn
 function estVendaItem(num,sku){const v=S.data.vendas.find(x=>n(x.numero)===n(num));if(!v)return null;const it=(v.itens||[]).find(i=>String(i.produto||'').split(' · ')[0]===sku);return it?{v,qtd:n(it.qtd)}:null}
 // itens de vendas em aberto que ainda não saíram do estoque e têm saldo
 function estPendentes(L){const sal={};L.forEach(l=>{if(l.saldo>0&&!EST_AMOSTRA(l.origem))(sal[l.sku]=sal[l.sku]||[]).push(l)});const out=[];
- S.data.vendas.filter(v=>!isCancel(v)&&curStep(v)<9).forEach(v=>(v.itens||[]).forEach(i=>{const sku=String(i.produto||'').split(' · ')[0];if(!sal[sku])return;
+ S.data.vendas.filter(v=>!isCancel(v)&&curStep(v)<9).forEach(v=>(v.itens||[]).forEach(i=>{if(i&&i.envio==='brasil')return;const sku=String(i.produto||'').split(' · ')[0];if(!sal[sku])return;
   const ja=S.data.estoque_movs.filter(m=>n(m.venda)===n(v.numero)&&(S.data.estoque_lotes.find(x=>x.id===m.lote)||{}).sku===sku).reduce((a,m)=>a+n(m.qtd),0);
   const falta=n(i.qtd)-ja;if(falta>0)out.push({v,sku,falta,nome:String(i.produto||'').split(' · ').slice(1).join(' · '),tem:sal[sku].reduce((a,l)=>a+l.saldo,0)})}));return out}
 VIEWFN.estoque=()=>{
