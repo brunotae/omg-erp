@@ -3525,7 +3525,7 @@ const FORMS={
   def:()=>({numero:nextSeq('devolucoes','DV-',3),data:today(),status:'Aberta',destino:'Indefinido',local:'Com o cliente'})},
  tarefas:{title:['Nova tarefa','Tarefa'],col:'tarefas',secs:[['Tarefa',[
   {k:'titulo',l:'O que fazer',req:1,full:1},{k:'responsavel',l:'Quem faz',t:'combo',o:()=>tarPessoas(),req:1,hint:'Pessoa nova? Escolha Outra… e escreva o nome.'},{k:'prazo',l:'Prazo',t:'date'},
-  {k:'prioridade',l:'Prioridade',t:'select',o:['Alta','Normal','Baixa']},{k:'status',l:'Situação',t:'select',o:['A fazer','Fazendo','Feita']},{k:'area',l:'Área',t:'combo',o:()=>tarAreas()},
+  {k:'prioridade',l:'Prioridade',t:'select',o:['Alta','Normal','Baixa']},{k:'numero',l:'Nº'},{k:'status',l:'Situação',t:'select',o:['A fazer','Fazendo','Feita']},{k:'area',l:'Área',t:'combo',o:()=>tarAreas()},
   {k:'detalhe',l:'Detalhes',t:'textarea',full:1,hint:'Contexto, links, o que conta como feito.'}]]],
   pre:r=>tarComHTML(r),
   antes:v=>{if(v.status==='Feita'){const r=v.id&&S.data.tarefas.find(x=>x.id===v.id);v.feitaEm=(r&&r.feitaEm)||new Date().toISOString()}else v.feitaEm=null},
