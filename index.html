@@ -2037,7 +2037,7 @@ VIEWFN.estoque=()=>{
 document.addEventListener('click',async e=>{if(S.view!=='estoque')return;
  const b=e.target.closest('[data-estf]');if(b){S.f.est=b.dataset.estf;render();return}
  const sa=e.target.closest('[data-estsai]');if(sa){e.stopPropagation();EST_LOTE_ATUAL=sa.dataset.estsai;openForm('estoque_movs');EST_LOTE_ATUAL='';return}
- const bx=e.target.closest('[data-estbaixa]');if(bx){bx.disabled=true;const num=n(bx.dataset.estbaixa),sku=bx.dataset.sku;let q=n(bx.dataset.q);
+ const bx=e.target.closest('[data-estbaixa]');if(bx){bx.disabled=true;const num=Number(bx.dataset.estbaixa),sku=bx.dataset.sku;let q=Number(bx.dataset.q)||0;
   const Ls=estLotes().filter(l=>l.sku===sku&&l.saldo>0&&!EST_AMOSTRA(l.origem)).sort((a,b)=>(a.vence??99999)-(b.vence??99999)||String(a.data).localeCompare(String(b.data))); // primeiro o que vence antes
   try{let f=0;for(const l of Ls){if(q<=0)break;const t=Math.min(q,l.saldo);await save('estoque_movs',null,{lote:l.id,data:today(),qtd:t,tipo:'Venda',venda:num,obs:''});q-=t;f+=t}toast(f?'Baixa feita: '+f+(f>1?' peças':' peça'):'Nada para baixar ('+sku+': '+estLotes().filter(l=>l.sku===sku).length+' entradas)');await loadAll()}catch(x){bx.disabled=false;toast(errMsg(x))}}
 },true);
