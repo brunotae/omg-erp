@@ -844,7 +844,7 @@ const ICONS={
  fornecedores:'<path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/>',
  config:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/>'
 };
-const NAV=[['','painel','Painel'],['','tarefas','Tarefas'],['Operação','vendas','Vendas'],['','etapas','Etapas dos pedidos'],['','cortes','Parametrização'],['','lotes','Embarques'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','estoque','Estoque Coreia'],['','compras','Compras'],['','fotos','Fotos oficiais'],['','produtos','Catálogo'],['','pricing','Pricing'],['','precos','Concorrentes'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','cadastros','Cadastros do site'],['','contatos','Contato com clientes'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['','relatorios','Relatório do site'],['','visitas','Visitas agora'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Automação','monitor','Monitoramentos'],['Cadastros','info','Informações'],['','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
+const NAV=[['','painel','Painel'],['','tarefas','Tarefas'],['Operação','vendas','Vendas'],['','etapas','Etapas dos pedidos'],['','cortes','Parametrização'],['','lotes','Embarques'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','estoque','Estoque Coreia'],['','compras','Compras'],['','produtos','Catálogo'],['','pricing','Pricing'],['','precos','Concorrentes'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','cadastros','Cadastros do site'],['','contatos','Contato com clientes'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['','relatorios','Relatório do site'],['','visitas','Visitas agora'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Automação','monitor','Monitoramentos'],['Cadastros','info','Informações'],['','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
 
 /* ================= utilidades ================= */
 const $=s=>document.querySelector(s);
@@ -1023,7 +1023,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v154 · 19/11/2026';
+const VERSAO='v155 · 19/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -5543,6 +5543,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v155','19/11/2026',['Fotos oficiais saiu do menu (fica escondida; o link ?tela=fotos continua funcionando).']],
  ['v154','19/11/2026',['Nova tela Estoque Coreia (Estoque e compras): entradas (caixa do distribuidor, compra avulsa da H2, amostras grátis e pequenas) e saídas (venda, amostra/UGC, perda). Saldo, custo por peça sem o 부가세 10%, validade com aviso de promoção quando faltar menos de 1 ano, e quanto tempo está parado.','Pedidos que podem sair do estoque: itens de vendas em aberto que já temos na Skyroad, com botão Dar baixa (sai primeiro o que vence antes).','Crédito no distribuidor (DY): recargas, compras pagas com o crédito e saldo, com aviso abaixo de 25% da última recarga.','Financeiro: campo Embarque nos lançamentos e novas categorias da Coreia (locomoção, caixas e mão de obra, armazenagem Skyroad, despacho, recarga do crédito, compra avulsa).','Lucratividade refeita: por mês (receita, mercadoria, Mile, embarques, despesas, marketing, amostras, câmbio, resultado) e por embarque. Não mais por pedido.']],
  ['v153','19/11/2026',['Nova tela Cadastros › Informações: dados dos sócios, empresa, endereços, tamanho das caixas, acessos, Wi-Fi etc. num lugar só. Uma informação por linha (Campo: valor), botão de copiar em cada linha, e itens sensíveis (senhas, documentos) escondidos até clicar em Mostrar.']],
  ['v152','19/11/2026',['Tarefas: tradução para o coreano com reserva (se a função do servidor falhar, traduz direto do navegador).']],
