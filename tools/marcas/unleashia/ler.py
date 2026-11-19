@@ -1,5 +1,6 @@
 # Unleashia: catálogo da loja oficial coreana (Cafe24) + referências de preço no exterior (Jolse, YesStyle, Soko Glam, Stylevana).
 # Roda no GitHub Actions (o ambiente do Claude não acessa sites coreanos). Saída: tools/marcas/unleashia/dados/
+# releitura 18/11/2026 (planilha v2)
 import urllib.request, urllib.error, urllib.parse, re, json, os, time, gzip, html as H
 UA = {"user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129 Safari/537.36",
       "accept-language": "ko-KR,ko;q=0.9,en;q=0.8"}
