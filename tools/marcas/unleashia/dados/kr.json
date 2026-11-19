@@ -1,5 +1,5 @@
 {
- "lido": "2026-11-11 02:53",
+ "lido": "2026-11-19 00:48",
  "produtos": [
   {
    "no": "102",
@@ -2932,9 +2932,9 @@
      "preco_extra": 14000,
      "estoque": 0,
      "vende": "T",
-     "usa_estoque": false,
-     "usa_esgotado": "F",
-     "esgotado": "F",
+     "usa_estoque": true,
+     "usa_esgotado": "T",
+     "esgotado": "T",
      "mostra": "T"
     },
     {
@@ -3016,9 +3016,9 @@
      "preco_extra": 14000,
      "estoque": 0,
      "vende": "T",
-     "usa_estoque": false,
-     "usa_esgotado": "F",
-     "esgotado": "F",
+     "usa_estoque": true,
+     "usa_esgotado": "T",
+     "esgotado": "T",
      "mostra": "T"
     },
     {
@@ -3030,9 +3030,9 @@
      "preco_extra": 63700,
      "estoque": 0,
      "vende": "T",
-     "usa_estoque": false,
-     "usa_esgotado": "F",
-     "esgotado": "F",
+     "usa_estoque": true,
+     "usa_esgotado": "T",
+     "esgotado": "T",
      "mostra": "T"
     }
    ],
@@ -3042,7 +3042,7 @@
     "Pre-Sale✨": "11,200원 ( 2,800원 할인)",
     "구매방법": "1회구매 정기배송 할인",
     "배송주기": "정기배송 할인 save 결제 시 : 할인",
-    "색상": "- [필수] 옵션을 선택해 주세요 - ------------------- No.1 벌스데이 No.2 킵 스마일 No.3 스트로베리 케이크 No.4 베베 No.5 러브 로즈 No.6 애프터 파티 No.7 번 토스트 전 컬러 구매 (35% 할인 적용) (+49,700원)"
+    "색상": "- [필수] 옵션을 선택해 주세요 - ------------------- No.1 벌스데이 [품절] No.2 킵 스마일 No.3 스트로베리 케이크 No.4 베베 No.5 러브 로즈 No.6 애프터 파티 No.7 번 토스트 [품절] 전 컬러 구매 (35% 할인 적용) (+49,700원) [품절]"
    },
    "galeria": [
     "//unleashiacosmetics.com/web/product/big/202509/6b2ad26adc2fd2fc44f8b50e40e477cb.png",
