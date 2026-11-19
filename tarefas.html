@@ -56,7 +56,7 @@ html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans 
 </div>
 <script>
 (function(){
-const VERSAO='v2 · 19/11/2026';
+const VERSAO='v3 · 19/11/2026';
 const sb=window.supabase.createClient('https://nzsiuniabovvptuqmkmi.supabase.co','sb_publishable_9Nl_ZRXEmLMhDMBP8oKP_w_FuDXaYMq',{auth:{persistSession:false}});
 const K=new URLSearchParams(location.search).get('k')||'';
 let L='ko';
@@ -82,7 +82,7 @@ function render(){const t=T[L];document.documentElement.lang=L==='ko'?'ko':'pt-B
  $('#tabs').innerHTML=[['abertas',t.ab+' '+ab.length],['feitas',t.fe+' '+(R.length-ab.length)],['todas',t.to]].map(([k,l])=>'<button type="button" data-f="'+k+'" aria-pressed="'+(F===k)+'">'+esc(l)+'</button>').join('');
  const rows=R.filter(r=>F==='todas'||(F==='feitas'?r.status==='Feita':r.status!=='Feita'));
  $('#app').innerHTML=rows.length?rows.map(r=>{const c=Array.isArray(r.comentarios)?r.comentarios:[];
-  return '<div class="card'+(r.status==='Feita'?' done':'')+'" data-id="'+esc(r.id)+'"><h3>'+esc(r.titulo)+'</h3>'+
+  return '<div class="card'+(r.status==='Feita'?' done':'')+'" data-id="'+esc(r.id)+'"><h3>'+esc(L==='ko'&&r.titulo_ko?r.titulo_ko:r.titulo)+'</h3>'+(r.titulo_ko?'<div class="meta"><span>'+esc(L==='ko'?r.titulo:r.titulo_ko)+'</span></div>':'')+
   (r.prazo?'<div class="meta">'+prazo(r)+'</div>':'')+
   (r.detalhe?'<div class="det">'+link(r.detalhe)+'</div>':'')+
   '<div class="st">'+(r.status==='Feita'?'<button type="button" data-st="A fazer">다시 열기 · Reabrir</button>':'<button type="button" class="s-ok" aria-pressed="true" data-st="Feita">✓ 완료 · Feito</button>')+'</div>'+

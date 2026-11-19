@@ -1021,7 +1021,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v150 · 19/11/2026';
+const VERSAO='v151 · 19/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -2006,25 +2006,53 @@ VIEWFN.tarefas=()=>{
  const ab=A.filter(match).filter(doP).filter(t=>t.status!=='Feita').sort((a,b)=>String(a.responsavel||'').localeCompare(String(b.responsavel||''))||String(a.criadoEm||'').localeCompare(String(b.criadoEm||'')));
  const fe=A.filter(match).filter(doP).filter(t=>t.status==='Feita').sort((a,b)=>String(b.feitaEm||'').localeCompare(String(a.feitaEm||''))).slice(0,15);
  const bt=(t,feita)=>can()?'<td class="r nw">'+(feita?'<button class="btn sm" type="button" data-tarre="'+esc(t.id)+'">Reabrir · 다시 열기</button>':'<button class="btn sm pri" type="button" data-tarok="'+esc(t.id)+'">✓ Feito · 완료</button>')+' <button class="btn sm" type="button" data-taredit="'+esc(t.id)+'">Modificar · 수정</button></td>':'<td></td>';
- const linha=(t,feita)=>'<tr'+(feita?' class="tar-done"':'')+'><td><b>'+esc(t.titulo||'')+'</b>'+((t.comentarios||[]).length?'<small class="tar-rec">💬 '+esc((t.comentarios[t.comentarios.length-1].quem||'')+': '+String(t.comentarios[t.comentarios.length-1].texto||'').slice(0,90))+'</small>':'')+'</td><td class="nw">'+esc(t.responsavel||'')+'</td>'+bt(t,feita)+'</tr>';
- const acts='<button class="btn" type="button" id="tar-copia" title="Copia a lista em texto simples para mandar no WhatsApp">Copiar lista · 목록 복사</button>'+(p!=='Todos'&&p!=='Tae'?'<button class="btn" type="button" id="tar-link" title="Link sem login, só com as tarefas dessa pessoa">Link para '+esc(p)+'</button>':'')+newBtn('tarefas','Nova tarefa · 새 할 일');
+ const linha=(t,feita)=>'<tr'+(feita?' class="tar-done"':'')+'>'+(feita?'<td></td>':'<td class="tar-ck"><input type="checkbox" data-tarsel="'+esc(t.id)+'"'+(TAR_SEL.has(t.id)?' checked':'')+' aria-label="Escolher para a lista"></td>')+'<td><b>'+esc(t.titulo||'')+'</b>'+(t.tituloKo?'<small>'+esc(t.tituloKo)+'</small>':'')+((t.comentarios||[]).length?'<small class="tar-rec">💬 '+esc((t.comentarios[t.comentarios.length-1].quem||'')+': '+String(t.comentarios[t.comentarios.length-1].texto||'').slice(0,90))+'</small>':'')+'</td><td class="nw">'+esc(t.responsavel||'')+'</td>'+bt(t,feita)+'</tr>';
+ const nsel=ab.filter(t=>TAR_SEL.has(t.id)).length;
+ const acts='<button class="btn" type="button" id="tar-lista" title="Copiar ou imprimir a lista, em português ou coreano">'+(nsel?'Lista das '+nsel+' marcadas · 목록':'Lista · 목록')+'</button>'+(p!=='Todos'&&p!=='Tae'?'<button class="btn" type="button" id="tar-link" title="Link sem login, só com as tarefas dessa pessoa">Link para '+esc(p)+'</button>':'')+newBtn('tarefas','Nova tarefa · 새 할 일');
  return '<div class="page wide"><div class="col">'+head('Tarefas · 할 일','O que cada um precisa fazer. Para olhar e para mandar a lista para a equipe.',acts)+
   '<div class="chips">'+pes.map(k=>{const q=A.filter(t=>t.status!=='Feita'&&(k==='Todos'||tarQuem(t).includes(k))).length;return '<button type="button" data-tarp="'+esc(k)+'" aria-pressed="'+(p===k)+'">'+esc(k)+(q?' <small>'+q+'</small>':'')+'</button>'}).join('')+'</div>'+
-  '<div class="card">'+(loading('tarefas')?'<p class="muted">Carregando…</p>':ab.length?'<div class="tblwrap"><table class="tar-t"><thead><tr><th>O que fazer · 할 일</th><th>Quem · 담당</th><th></th></tr></thead><tbody>'+ab.map(t=>linha(t,false)).join('')+'</tbody></table></div>'
+  '<div class="card">'+(loading('tarefas')?'<p class="muted">Carregando…</p>':ab.length?'<div class="tblwrap"><table class="tar-t"><thead><tr><th class="tar-ck"><input type="checkbox" id="tar-selall" aria-label="Escolher todas"'+(ab.length&&ab.every(t=>TAR_SEL.has(t.id))?' checked':'')+'></th><th>O que fazer · 할 일</th><th>Quem · 담당</th><th></th></tr></thead><tbody>'+ab.map(t=>linha(t,false)).join('')+'</tbody></table></div>'
    :empty('Nada pendente · 할 일 없음',p==='Todos'?'Crie em Nova tarefa: o que fazer e quem faz.':'Nada pendente para '+esc(p)+'.'))+'</div>'+
   (fe.length?'<details class="card tar-fe"><summary>Feitas · 완료 ('+fe.length+')</summary><div class="tblwrap"><table class="tar-t"><tbody>'+fe.map(t=>linha(t,true)).join('')+'</tbody></table></div></details>':'')+
   '</div></div>'};
-function tarTexto(){const p=S.f.tar||'Todos',A=S.data.tarefas.filter(t=>t.status!=='Feita'&&(p==='Todos'||tarQuem(t).includes(p)));
- const by={};A.forEach(t=>{(p==='Todos'?(tarQuem(t).length?tarQuem(t):['—']):[p]).forEach(k=>{(by[k]=by[k]||[]).push(t)})});
- const d=new Date().toLocaleDateString('pt-BR',{timeZone:'America/Sao_Paulo',day:'2-digit',month:'2-digit'});
- return '📋 Tarefas OMG · 할 일 ('+d+')\n'+Object.keys(by).sort().map(k=>'\n*'+k+'*\n'+by[k].map(t=>'☐ '+t.titulo).join('\n')).join('\n')}
+const TAR_SEL=new Set();
+function tarListaItens(){const p=S.f.tar||'Todos',A=S.data.tarefas.filter(t=>t.status!=='Feita'&&(p==='Todos'||tarQuem(t).includes(p))&&match(t));const m=A.filter(t=>TAR_SEL.has(t.id));return m.length?m:A}
+async function tarTraduzir(L){const falta=L.filter(t=>!t.tituloKo);if(!falta.length)return;
+ const {data,error}=await sb.functions.invoke('traduzir',{body:{textos:falta.map(t=>t.titulo),para:'ko'}});if(error)throw error;if(!data||!Array.isArray(data.textos))throw new Error((data&&data.erro)||'tradução falhou');
+ for(let i=0;i<falta.length;i++){const ko=String(data.textos[i]||'').trim();if(!ko)continue;falta[i].tituloKo=ko;try{await save('tarefas',falta[i],{tituloKo:ko})}catch(_){}}}
+function tarGrupos(L){const p=S.f.tar||'Todos',by={};L.forEach(t=>{(p==='Todos'?(tarQuem(t).length?tarQuem(t):['—']):[p]).forEach(k=>{(by[k]=by[k]||[]).push(t)})});return by}
+const tarTxt=(t,lg)=>lg==='ko'?(t.tituloKo||t.titulo):lg==='ambos'?t.titulo+(t.tituloKo?' / '+t.tituloKo:''):t.titulo;
+function tarTexto(L,lg){const by=tarGrupos(L),d=new Date().toLocaleDateString(lg==='ko'?'ko-KR':'pt-BR',{timeZone:'America/Sao_Paulo',month:'2-digit',day:'2-digit'});
+ return '📋 '+(lg==='ko'?'OMG 할 일 목록':lg==='ambos'?'Tarefas OMG · 할 일':'Tarefas OMG')+' ('+d+')\n'+Object.keys(by).sort().map(k=>'\n*'+k+'*\n'+by[k].map(t=>'☐ '+tarTxt(t,lg)).join('\n')).join('\n')}
+function tarImprimir(L,lg){const by=tarGrupos(L),w=window.open('','_blank');if(!w){toast('Libere as janelas (pop-up) para imprimir');return}
+ const d=new Date().toLocaleDateString(lg==='ko'?'ko-KR':'pt-BR',{timeZone:'America/Sao_Paulo',day:'2-digit',month:'2-digit',year:'numeric'});
+ const tit=lg==='ko'?'OMG 할 일 목록':lg==='ambos'?'Tarefas OMG · 할 일 목록':'Tarefas OMG';
+ w.document.open();w.document.write('<!doctype html><html lang="'+(lg==='ko'?'ko':'pt-BR')+'"><head><meta charset="utf-8"><title>'+esc(tit)+'</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&display=swap"><style>@page{size:A4;margin:16mm}body{margin:0;font-family:"Noto Sans KR",Arial,sans-serif;color:#222;background:#eee}.bar{position:sticky;top:0;display:flex;justify-content:space-between;padding:10px 16px;background:#3B1F2B}.bar button{font:inherit;border:0;border-radius:999px;padding:7px 14px;cursor:pointer;background:#fff;color:#3B1F2B}.bar .pri{background:#E85D8E;color:#fff}.fl{max-width:180mm;margin:14px auto;background:#fff;padding:14mm;box-shadow:0 2px 12px rgba(0,0,0,.12)}h1{font-size:20px;margin:0 0 2px}.d{color:#777;font-size:12px;margin:0 0 14px}h2{font-size:15px;margin:16px 0 6px;border-bottom:1px solid #ddd;padding-bottom:3px}ul{list-style:none;margin:0;padding:0}li{display:flex;gap:10px;padding:6px 0;font-size:14px;line-height:1.4;border-bottom:1px dashed #eee}li span.b{flex:none;width:14px;height:14px;border:1.5px solid #444;border-radius:3px;margin-top:3px}li small{display:block;color:#777;font-size:12px}@media print{body{background:#fff}.bar{display:none}.fl{box-shadow:none;margin:0;padding:0;max-width:none}}</style></head><body>'+
+  '<div class="bar"><button type="button" id="fechar">✕ Fechar aba</button><button type="button" class="pri" id="imp">Imprimir / PDF</button></div><div class="fl"><h1>'+esc(tit)+'</h1><p class="d">'+esc(d)+'</p>'+
+  Object.keys(by).sort().map(k=>'<h2>'+esc(k)+'</h2><ul>'+by[k].map(t=>'<li><span class="b"></span><div>'+esc(lg==='ko'?(t.tituloKo||t.titulo):t.titulo)+(lg==='ambos'&&t.tituloKo?'<small>'+esc(t.tituloKo)+'</small>':'')+'</div></li>').join('')+'</ul>').join('')+
+  '</div><script>document.getElementById("imp").onclick=function(){window.print()};document.getElementById("fechar").onclick=function(){window.close();setTimeout(function(){if(!window.closed)alert("Feche esta aba pelo X do navegador")},300)}<\/script></body></html>');w.document.close()}
+function tarListaModal(){const L=tarListaItens(),lg=localStorage.getItem('omg-tar-lg')||'ko';
+ $('#modal-root').innerHTML='<div class="ov" id="ov"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-t" style="max-width:440px"><div class="mh"><h2 id="m-t">Lista · 목록</h2><button class="iconbtn" type="button" data-close aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>'+
+ '<div style="padding:4px 2px;font-size:13px"><p style="margin:0 0 10px">'+(L.some(t=>TAR_SEL.has(t.id))?'<b>'+L.length+' tarefas marcadas.</b>':'<b>'+L.length+' tarefas abertas</b> da tela. Para escolher, marque as caixinhas da lista.')+'</p>'+
+ '<span class="label">Idioma · 언어</span><div class="mchips" style="margin:6px 0 4px">'+[['ko','한국어'],['pt','Português'],['ambos','Os dois · 둘 다']].map(([k,l])=>'<label class="mchip"><input type="radio" name="tarlg" value="'+k+'"'+(lg===k?' checked':'')+'><span>'+l+'</span></label>').join('')+'</div>'+
+ '<p class="muted" style="margin:6px 0 0;font-size:12px">Em coreano, o que ainda não tiver tradução é traduzido na hora e fica salvo na tarefa (dá para corrigir em Modificar).</p><p id="tar-st" class="muted" style="margin:6px 0 0;font-size:12px"></p></div>'+
+ '<div class="mf"><div class="r"><button class="btn" type="button" id="tar-cp">Copiar texto · 복사</button><button class="btn pri" type="button" id="tar-imp">Imprimir · 인쇄</button></div></div></div></div>'}
+async function tarListaAcao(acao){const lg=(document.querySelector('input[name=tarlg]:checked')||{}).value||'ko';try{localStorage.setItem('omg-tar-lg',lg)}catch(_){}
+ const L=tarListaItens(),st=document.getElementById('tar-st');let w=null;
+ if(lg!=='pt'&&L.some(t=>!t.tituloKo)){if(st)st.textContent='Traduzindo…';try{await tarTraduzir(L)}catch(x){if(st)st.textContent='Não deu para traduzir: '+(x.message||x)+'. Saiu em português.'}}
+ if(acao==='cp'){const t=tarTexto(L,lg);try{await navigator.clipboard.writeText(t);toast('Lista copiada · 목록 복사됨')}catch(_){prompt('Copie a lista:',t)}}
+ else tarImprimir(L,lg);
+ if(st&&/Traduzindo/.test(st.textContent))st.textContent='';}
 document.addEventListener('click',async e=>{if(S.view!=='tarefas')return;
  const ok=e.target.closest('[data-tarok],[data-tarre]');
  if(ok){const id=ok.dataset.tarok||ok.dataset.tarre,fe=!!ok.dataset.tarok,r=S.data.tarefas.find(x=>x.id===id);if(!r)return;ok.disabled=true;
   try{await save('tarefas',r,{status:fe?'Feita':'A fazer',feitaEm:fe?new Date().toISOString():null});r.status=fe?'Feita':'A fazer';r.feitaEm=fe?new Date().toISOString():null;toast(fe?'Feito ✓ · 완료':'Reaberta · 다시 열기');render()}catch(x){ok.disabled=false;toast(errMsg(x))}return}
  const ed=e.target.closest('[data-taredit]');if(ed){openForm('tarefas',ed.dataset.taredit);return}
  const bp=e.target.closest('[data-tarp]');if(bp){S.f.tar=bp.dataset.tarp;render();return}
- if(e.target.closest('#tar-copia')){const t=tarTexto();try{await navigator.clipboard.writeText(t);toast('Lista copiada · 목록 복사됨')}catch(_){prompt('Copie a lista:',t)}return}
+ const sl=e.target.closest('[data-tarsel]');if(sl){sl.checked?TAR_SEL.add(sl.dataset.tarsel):TAR_SEL.delete(sl.dataset.tarsel);render();return}
+ const sa=e.target.closest('#tar-selall');if(sa){const p=S.f.tar||'Todos';S.data.tarefas.filter(t=>t.status!=='Feita'&&(p==='Todos'||tarQuem(t).includes(p))).forEach(t=>sa.checked?TAR_SEL.add(t.id):TAR_SEL.delete(t.id));render();return}
+ if(e.target.closest('#tar-lista')){tarListaModal();return}
+ const la=e.target.closest('#tar-cp,#tar-imp');if(la){la.disabled=true;try{await tarListaAcao(la.id==='tar-cp'?'cp':'imp')}finally{la.disabled=false}return}
  if(e.target.closest('#tar-link')){const p=S.f.tar;try{const {data,error}=await sb.rpc('tarefas_token',{p_resp:p});if(error)throw error;
   const u=location.origin+location.pathname.replace(/[^/]*$/,'')+'tarefas.html?k='+data;
   try{await navigator.clipboard.writeText(u);toast('Link de '+p+' copiado')}catch(_){prompt('Link de '+p+':',u)}}catch(x){toast(errMsg(x))}}
@@ -3541,9 +3569,9 @@ const FORMS={
   {k:'reembolso',l:'Reembolso ao cliente (R$)',t:'number'},{k:'custoRetorno',l:'Custo do retorno (R$)',t:'number'},{k:'obs',l:'Observações',t:'textarea',full:1}]]],
   def:()=>({numero:nextSeq('devolucoes','DV-',3),data:today(),status:'Aberta',destino:'Indefinido',local:'Com o cliente'})},
  tarefas:{title:['Nova tarefa · 새 할 일','Modificar tarefa · 할 일 수정'],col:'tarefas',secs:[['Tarefa',[
-  {k:'titulo',l:'O que fazer · 할 일',req:1,full:1},{k:'responsavel',l:'Quem faz · 담당 (pode marcar mais de um)',t:'multi',o:()=>tarPessoas(),req:1,full:1}]]],
+  {k:'titulo',l:'O que fazer · 할 일',req:1,full:1},{k:'responsavel',l:'Quem faz · 담당 (pode marcar mais de um)',t:'multi',o:()=>tarPessoas(),req:1,full:1},{k:'tituloKo',l:'Em coreano · 한국어 (opcional)',full:1,hint:'Se ficar vazio, o ERP traduz sozinho quando você gerar a lista em coreano.'}]]],
   pre:r=>tarComHTML(r),
-  antes:v=>{if(!v.id){v.numero=nextSeq('tarefas','T-',3);v.status='A fazer';v.prioridade='Normal';v.criadoPor='Tae'}},
+  antes:v=>{if(!v.id){v.numero=nextSeq('tarefas','T-',3);v.status='A fazer';v.prioridade='Normal';v.criadoPor='Tae'}else{const r=S.data.tarefas.find(x=>x.id===v.id);if(r&&v.titulo!==r.titulo&&(v.tituloKo||'')===(r.tituloKo||''))v.tituloKo=''}},
   def:()=>({responsavel:S.f.tar&&S.f.tar!=='Todos'?S.f.tar:''})},
  lancamentos:{title:['Novo lançamento','Lançamento'],col:'lancamentos',secs:[['Lançamento',[
   {k:'data',l:'Data',t:'date',req:1},{k:'tipo',l:'Tipo',t:'select',o:['Saída','Entrada','Transferência']},
@@ -4972,7 +5000,7 @@ const COLS={
  lotes:['numero','awb','cia','caixa','peso_kg','volumes','custo_3pl','frete_aereo','despacho','custo_mercadoria','pago_por','parceiro_pagador','obs','vendas','etapas'],
  lancamentos:['data','tipo','descricao','categoria','conta','valor','moeda','valor_destino','status','ref','parceiro'],
  devolucoes:['numero','data','venda','status','itens','motivo','local','destino','reembolso','custo_retorno','obs'],
- tarefas:['numero','titulo','detalhe','responsavel','prazo','prioridade','status','area','feita_em','criado_por','comentarios'],
+ tarefas:['numero','titulo','titulo_ko','detalhe','responsavel','prazo','prioridade','status','area','feita_em','criado_por','comentarios'],
  insumos:['codigo','tipo','nome','dimensoes','especificacao','designs','status','estoque','minimo','local','custo_unit','fornecedor','arquivo'],
  compras:['numero','data','fornecedor','parceiro','tipo','itens','valor','moeda','status','previsao','insumo','qtd','entrada_estoque'],
  produtos:['sku','ean','marca','nome','categoria','fornecedor','custo_fab','custo_lb','preco_kr','preco_conc','preco','peso_g','estoque','dg','ativo','hs','nome_kr','nome_en','ingredientes','comp_cm','larg_cm','alt_cm','ncm'],
@@ -5364,6 +5392,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v151','19/11/2026',['Tarefas: caixinha para escolher quais vão na lista. Botão Lista · 목록: copiar o texto ou imprimir, em coreano, português ou os dois. O que não tiver tradução o ERP traduz na hora e guarda na tarefa (campo Em coreano, que dá para corrigir).']],
  ['v150','19/11/2026',['Tarefas: dá para marcar mais de uma pessoa em Quem faz. A tarefa aparece no filtro, na lista copiada e no link de cada uma delas.']],
  ['v149','19/11/2026',['Tarefas mais simples: só o que fazer e quem faz. Botões em português e coreano: ✓ Feito · 완료 e Modificar · 수정. Feitas ficam embaixo, recolhidas. Botão Copiar lista · 목록 복사 gera a lista em texto para mandar à equipe.']],
  ['v148','19/11/2026',['Menu: arraste um item para mudar a ordem dentro do mesmo grupo (ex.: Embarques acima de Vendas em Operação). A ordem fica salva neste navegador.']],
