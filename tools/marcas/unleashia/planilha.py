@@ -8,16 +8,17 @@ from openpyxl.comments import Comment
 
 D = "tools/marcas/unleashia/dados/"
 KR = {p["no"]: p for p in json.load(open(D + "kr.json"))["produtos"] if "erro" not in p}
-JOL = {x["id"]: x for x in json.load(open(D + "jolse.json"))}
+JOL = {x["id"]: x for x in json.load(open(D + "jolse_2026-11-10.json"))}  # preço de 10/11 (antes da Black Friday) = base do cálculo
+JOL_BF = {x["id"]: x for x in json.load(open(D + "jolse.json"))}  # releitura 18/11 (Black Friday), só referência
 OUT = sys.argv[1]
-VERSAO = "v1"
+VERSAO = "v2"
 AGORA = datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None) - datetime.timedelta(hours=3)
-SKU0 = 4119  # próximo MB livre no catálogo em 10/11/2026 (MB004118 = última TAFOMI); confirmar na criação
+SKU0 = 4137  # próximo MB livre em 18/11/2026 (MB004136 = última WJ); confirmar na criação
 
 # ---------- produtos (página = grupo com moldura azul) ----------
 # no: produto KR; en: nome; linha; pt: descrição para o título; cat; tam; peso (g, estimado); ref: (fonte, US$, link, nome na fonte)
-J = lambda i: ("Jolse", float(JOL[i]["precos"][1]), JOL[i]["url"], JOL[i]["nome"])
-Y = lambda nome, preco, url="https://www.yesstyle.com/en/list.html?q=unleashia&bt=1": ("YesStyle", preco, url, nome)
+J = lambda i: ("Jolse", float(JOL[i]["precos"][1]), JOL[i]["url"], JOL[i]["nome"], float(JOL_BF[i]["precos"][1]) if i in JOL_BF else None)
+Y = lambda nome, preco, url="https://www.yesstyle.com/en/list.html?q=unleashia&bt=1": ("YesStyle", preco, url, nome, None)
 P = [
  # pagina, no, en, linha, pt, cat, tam, peso, ref, cores (en na ordem das opções KR), tipo (versão)
  ("Hey Dew Blue Cushion", "273", "Hey Dew Blue Cushion", "A by Unleashia", "cushion de cobertura leve e acabamento iluminado", "Maquiagem › Base e cushion", "6 g", 60, J("91689"),
@@ -102,7 +103,7 @@ def preco_kr(no):
 
 linhas = []
 for pg, no, en, linha, pt, cat, tam, peso, ref, cores, tipo in P:
-    kr = KR[no]; prod_esg = no in ("283", "285")
+    kr = KR[no]; prod_esg = kr.get("is_soldout_icon") == "T"
     ops = opcoes(no)
     cs = [c for c in cores.split("|")] if cores else [""]
     if no == "102":  # 1+1: opções combinadas "cor A-cor B" -> uma cor por SKU; esgotada se todas as combinações dela estão esgotadas
@@ -117,14 +118,15 @@ for pg, no, en, linha, pt, cat, tam, peso, ref, cores, tipo in P:
         if cen.startswith("@"): continue  # pertence à outra página (221)
         obs, instr = [], ""
         sit = "Esgotado no fabricante" if (prod_esg or esg) else "À venda"
-        if no == "283": obs.append("Versão renovada esgotada na loja coreana; a versão anterior (linha de cima) está à venda.")
-        if no == "285": obs.append("Esgotado na loja coreana.")
+        if no == "283" and prod_esg: obs.append("Versão renovada esgotada na loja coreana.")
+        if no == "272" and prod_esg: obs.append("Versão antes da renovação esgotada na loja coreana.")
+        if no == "285" and prod_esg: obs.append("Esgotado na loja coreana.")
         if no == "102": obs.append("Na Coreia sai como 1+1 de mini gel (₩ é do par). Jolse vende a unidade de 4 g: confirmar com a Janice o que ela compra.")
         if no == "221": obs.append("Na loja coreana o lápis e o fixador são o mesmo produto com opções; aqui viram 2 páginas.")
         if no == "248" and cen.startswith("("): obs.append("Kit com as 7 cores (35% off na Coreia). Proposta: não subir agora."); sit = "Kit da loja"
         if no == "251": obs.append("Jolse vende outra versão da paleta; referência pela YesStyle (mesma versão).")
         if tam == "?": obs.append("Tamanho não aparece no texto da loja: ler nas imagens do detalhe.")
-        if sit != "À venda": instr = "Não subir"
+        if sit != "À venda": obs.append("Proposta: não subir (esgotado ou kit da loja).")
         linhas.append(dict(pg=pg, no=no, en=en, linha=linha, pt=pt, cat=cat, tam=tam, peso=peso, ref=ref, cor_en=cen, cor_kr=vkr, tipo=tipo,
                            sit=sit, venda=venda, cheio=cheio, url=kr["url"], nome_kr=kr.get("product_name", ""), obs=" ".join(obs), instr=instr))
 
@@ -161,7 +163,7 @@ MLIM, MUSD = "Parâmetros!$A$16:$A$24", "Parâmetros!$B$16:$B$24"
 ws["A1"] = f"UNLEASHIA · planilha de produtos OMG · {VERSAO} · {AGORA:%d/%m/%Y %H:%M}"; ws["A1"].font = f(bold=True, size=13)
 ws["A2"] = ("Fonte: loja oficial coreana unleashiacosmetics.com (lida em " + json.load(open(D + "kr.json"))["lido"] + " UTC). "
             "Nenhum concorrente válido no Brasil (KS, Jini e Sephora BR não vendem Unleashia) e não há loja oficial nos EUA: preço pela cascata do Guia v3.4 (Jolse → YesStyle). "
-            "Preço = US$ × 1,15 × 5,40 + 65% do frete de SP, arredondado para baixo em ,90. Pesos estimados.")
+            "Preço = US$ × 1,15 × 5,40 + 65% do frete de SP, arredondado para baixo em ,90. US$ = Jolse de 10/11 (preço normal); a Jolse está em Black Friday em 18/11 (última coluna, só referência). Pesos estimados.")
 ws["A2"].font = f(size=9, color="595959"); ws["A2"].alignment = Alignment(wrap_text=True, vertical="top"); ws.merge_cells("A2:AE2"); ws.row_dimensions[2].height = 30
 
 blocos = [("", 1, 3), ("Produto", 4, 11), ("Concorrente Brasil", 12, 12), ("Loja oficial (Coreia)", 13, 15), ("Exterior (referência de preço)", 16, 19),
@@ -179,7 +181,7 @@ cab = ["#", "Página", "SKU MB (proposto)",
        "Fonte", "Nome na fonte", "US$", "Link",
        "Peso g (est.)", "Pacote g", "Frete SP R$", "Mercadoria R$", "Frete exibido SP R$", "Final SP R$", "Preço KR em R$", "Mercadoria ÷ KR",
        "Nome KR (Master List)", "EAN",
-       "O que falta / observação", "Instrução Tae", "O que fiz"]
+       "O que falta / observação", "Instrução Tae", "O que fiz", "US$ Jolse 18/11 (Black Friday)"]
 for i, h in enumerate(cab, start=1):
     c = ws.cell(5, i, h); c.font = f(bold=True, color="FFFFFF"); c.fill = PatternFill("solid", fgColor="44546A"); c.alignment = Alignment(wrap_text=True, vertical="center", horizontal="center"); c.border = B
 ws.row_dimensions[5].height = 32
@@ -199,7 +201,7 @@ for i, x in enumerate(linhas, start=1):
             x["ref"][0], x["ref"][3], x["ref"][1], x["ref"][2],
             x["peso"], None, None, None, None, None, None, None,
             (x["nome_kr"] + (" / " + x["cor_kr"] if x["cor_kr"] else "")).strip(), "",
-            x["obs"], x["instr"], ""]
+            x["obs"], x["instr"], "", x["ref"][4]]
     if x["sit"] == "À venda": sku += 1
     for k, v in enumerate(vals, start=1):
         c = ws.cell(r, k, v); c.font = f(); c.border = B; c.alignment = Alignment(vertical="top", wrap_text=k in (9, 17, 30))
@@ -214,23 +216,23 @@ for i, x in enumerate(linhas, start=1):
     for k in (21, 22, 23, 24, 25, 26, 27): ws.cell(r, k).font = f(); ws.cell(r, k).border = B
     for k in (22, 23, 24, 25, 26): ws.cell(r, k).number_format = 'R$ #,##0.00'
     ws.cell(r, 27).number_format = "0.00x"
-    ws.cell(r, 18).number_format = '"US$" 0.00'; ws.cell(r, 13).number_format = '#,##0" ₩"'; ws.cell(r, 14).number_format = '#,##0" ₩"'
+    ws.cell(r, 18).number_format = '"US$" 0.00'; ws.cell(r, 33).number_format = '"US$" 0.00'; ws.cell(r, 13).number_format = '#,##0" ₩"'; ws.cell(r, 14).number_format = '#,##0" ₩"'
     ws.cell(r, 18).font = f(color="0000FF"); ws.cell(r, 20).font = f(color="0000FF")
     ws.cell(r, 15).hyperlink = x["url"]; ws.cell(r, 15).value = "abrir"; ws.cell(r, 15).font = f(color="0563C1", underline="single")
     ws.cell(r, 19).hyperlink = x["ref"][2]; ws.cell(r, 19).value = "abrir"; ws.cell(r, 19).font = f(color="0563C1", underline="single")
     ws.cell(r, 31).fill = PatternFill("solid", fgColor="FFF2CC")
     if x["sit"] != "À venda":
-        for k in range(1, 33):
-            if k != 31: ws.cell(r, k).font = Font(name=ARIAL, size=10, color="A6A6A6", italic=True)
+        for k in range(1, 34):
+            if k != 31 and k != 33: ws.cell(r, k).font = Font(name=ARIAL, size=10, color="A6A6A6", italic=True)
     r += 1
 ult = r - 1
 
 # moldura azul por página
 for a, b in grupos:
     for rr in range(a, b + 1):
-        for k in range(1, 33):
+        for k in range(1, 34):
             c = ws.cell(rr, k); bd = c.border
-            c.border = Border(left=azul if k == 1 else bd.left, right=azul if k == 32 else bd.right,
+            c.border = Border(left=azul if k == 1 else bd.left, right=azul if k == 33 else bd.right,
                               top=azul if rr == a else bd.top, bottom=azul if rr == b else bd.bottom)
 
 # alerta: mercadoria abaixo de 1,3× o preço coreano (margem apertada)
@@ -239,13 +241,13 @@ ws.conditional_formatting.add(f"AA6:AA{ult}", FormulaRule(formula=[f'AND(ISNUMBE
 
 # larguras, grupos de colunas secundárias, congelar
 larg = {1: 5, 2: 26, 3: 12, 4: 14, 5: 14, 6: 30, 7: 22, 8: 18, 9: 60, 10: 22, 11: 9, 12: 12, 13: 10, 14: 10, 15: 7, 16: 9, 17: 40, 18: 9, 19: 7,
-        20: 8, 21: 8, 22: 11, 23: 13, 24: 12, 25: 12, 26: 12, 27: 10, 28: 40, 29: 14, 30: 50, 31: 22, 32: 22}
+        20: 8, 21: 8, 22: 11, 23: 13, 24: 12, 25: 12, 26: 12, 27: 10, 28: 40, 29: 14, 30: 50, 31: 22, 32: 22, 33: 14}
 for k, w in larg.items(): ws.column_dimensions[L(k)].width = w
 for a, b in [(8, 8), (14, 15), (17, 17), (19, 19), (21, 22), (24, 24), (28, 29)]:
     ws.column_dimensions.group(L(a), L(b), outline_level=1, hidden=True)
 ws.freeze_panes = "D6"
 ws.sheet_view.showGridLines = False
-ws.auto_filter.ref = f"A5:AF{ult}"
+ws.auto_filter.ref = f"A5:AG{ult}"
 ws.cell(5, 31).comment = Comment("Escreva aqui: subir, não subir, mudar preço…", "Claude")
 
 # totais
@@ -258,8 +260,9 @@ ws.cell(ult + 6, 2, "SKUs com mercadoria < 1,3× preço KR").font = f(); ws.cell
 # Versões
 ver["A1"], ver["B1"], ver["C1"] = "Versão", "Data", "O que mudou"
 for c in ("A1", "B1", "C1"): ver[c].font = f(bold=True)
-ver["A2"], ver["B2"], ver["C2"] = VERSAO, f"{AGORA:%d/%m/%Y %H:%M}", "Primeira versão: catálogo inteiro da loja coreana, preços pela cascata (Jolse → YesStyle), pesos estimados."
-for c in ("A2", "B2", "C2"): ver[c].font = f()
+ver["A2"], ver["B2"], ver["C2"] = "v1", "10/11/2026 23:58", "Primeira versão: catálogo inteiro da loja coreana, preços pela cascata (Jolse → YesStyle), pesos estimados."
+ver["A3"], ver["B3"], ver["C3"] = VERSAO, f"{AGORA:%d/%m/%Y %H:%M}", "Loja coreana e Jolse relidas; SKUs renumerados a partir de MB004137 (MB004119–MB004136 agora são da WJ); esgotado lido da loja; coluna Instrução Tae em branco para decidir produto por produto."
+for c in ("A2", "B2", "C2", "A3", "B3", "C3"): ver[c].font = f()
 ver.column_dimensions["C"].width = 100; ver.column_dimensions["B"].width = 18
 
 # Legenda
@@ -269,7 +272,9 @@ txt = ["Como ler",
        "• Mercadoria = US$ × 1,15 × 5,40 + 65% do frete de SP, arredondada para baixo em ,90 (Guia v3.4).",
        "• Final SP = (mercadoria + 35% do frete) com ICMS de 17% por dentro, para uma compra só deste item em São Paulo capital.",
        "• Mercadoria ÷ KR em vermelho: o nosso preço fica menos de 1,3× o preço de venda na loja coreana. Margem apertada se a Janice comprar no varejo.",
-       "• Linhas cinza: esgotadas no fabricante ou kit da loja. Proposta: não subir.",
+       "• Linhas cinza: esgotadas no fabricante ou kit da loja (proposta: não subir).",
+       "• US$ = preço da Jolse em 10/11 (normal). Última coluna (AG) = preço da Jolse em 18/11, em Black Friday: só referência, não entra na conta.",
+       "• Instrução Tae (amarelo): escreva subir, não subir ou outro preço, produto por produto.",
        "• Colunas escondidas (+ no topo): cor em coreano, ₩ cheio, link KR, nome na fonte, link da fonte, pacote, frete SP, frete exibido, nome KR, EAN.",
        "• Parâmetros: aba Parâmetros (mudar ali recalcula tudo)."]
 for i, t in enumerate(txt, start=1):
