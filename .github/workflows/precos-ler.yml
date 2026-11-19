@@ -27,3 +27,7 @@ jobs:
               DE=$((DE+40))
             done
           done
+      - name: Avisar produtos mais caros que o concorrente (painel do ERP e e-mail)
+        if: always()
+        run: |
+          curl -sS -m 150 -X POST https://nzsiuniabovvptuqmkmi.supabase.co/functions/v1/alerta-precos -H 'content-type: application/json' -d '{"enviar":true}' | head -c 400; echo

@@ -1023,7 +1023,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v155 · 19/11/2026';
+const VERSAO='v156 · 19/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1049,6 +1049,7 @@ VIEWFN.painel=()=>{
  const alerts=[];
  // Embalagens oculta por enquanto (pedido do Tae, 01/11/2026): sem aviso de estoque mínimo
  // lowStock().forEach(i=>alerts.push(['bad',i.codigo+' abaixo do mínimo',n(i.estoque)+' em estoque · mínimo '+n(i.minimo),'insumos']));
+ {const ap=S.alertaPrecos;if(ap&&ap.total)alerts.push(['',ap.total+(ap.total>1?' produtos mais caros':' produto mais caro')+' que o concorrente','Preço entregue em SP maior que KS/Jini/Sephora · '+(ap.itens||[]).slice(0,3).map(x=>x.sku).join(', ')+' · conferido '+fdataL(String(ap.em||'').slice(0,10)),'pricing'])}
  {const at=S.data.tarefas.filter(t=>t.status!=='Feita'&&t.prazo&&t.prazo<today());if(at.length)alerts.push(['',at.length+(at.length>1?' tarefas atrasadas':' tarefa atrasada'),at.slice(0,3).map(t=>(t.responsavel||'')+': '+(t.titulo||'')).join(' · '),'tarefas'])}
  S.data.devolucoes.filter(d=>d.destino==='Indefinido'&&d.status!=='Resolvida').forEach(d=>alerts.push(['',d.numero+' sem destino definido','Venda '+vnum(d.venda)+' · revender ou voltar à Coreia','devolucoes']));
  open.forEach(v=>{const c=curStep(v);if(c<0)return;const d=v.etapas[SK[c]];const lim=c<=1?2:c<=7?5:c<=9?3:7;if(daysSince(d)>lim)alerts.push(['bad','Venda '+vnum(v.numero)+' parada',daysSince(d)+' dias em "'+STEPS[c][1]+'"','vendas'])});
@@ -2619,6 +2620,8 @@ function pxCalc(p){
  const mm=pxNum(C.margemMin),cLB=pxNum(p.custoLB),krwR=pxNum((S.cfg||{}).krw);
  if(mm>0&&cLB>0&&krwR>0){o.piso=Math.ceil(cLB*krwR*(1+mm/100))-0.10;if(has(o.sug)&&o.sug<o.piso){o.flags.push('abaixo do piso de margem ('+brl(o.piso)+'): não dá para competir');o.sugRegra=o.sug;o.sug=o.piso}}
  else if(mm>0&&!(cLB>0))o.semCusto=true;
+ // v156: quanto a cliente de SP paga HOJE (preço atual do site) e se fica mais cara que o concorrente
+ if(o.tipo==='conc'&&o.base!=null&&has(o.atual)&&o.atual>0){const fa=o.base+seg*o.atual,ia=cam&&o.atual/cam>50?Math.max(0,0.6*(o.atual+fa)/cam-30)*cam:0;o.finalAtual=(o.atual+fa+ia)/(1-n(C.icmsRef)/100);o.caro=o.finalAtual>o.ref.pix+0.005}
  o.novo=has(o.manual)?o.manual:o.sug;
  if(!has(o.novo))return o;
  // quanto a cliente de SP paga (mesma conta do checkout)
@@ -2650,7 +2653,7 @@ function pxMatch(v,f,tipo){f=String(f||'').trim();if(!f)return true;
 function pxLinhas(){const q=pxNorm(S.q||'');
  let L=pxLista().map(pxCalc);
  if(q)L=L.filter(x=>pxNorm(x.p.nome+' '+x.p.marca+' '+x.p.sku).includes(q));
- if(PX.st)L=L.filter(x=>PX.st==='aviso'?x.flags.length>0:PX.st==='manual'?has(x.manual):pxStatus(x)[0]===PX.st);
+ if(PX.st)L=L.filter(x=>PX.st==='aviso'?x.flags.length>0:PX.st==='manual'?has(x.manual):PX.st==='caro'?x.caro:pxStatus(x)[0]===PX.st);
  const fr=PX.f.ref;if(fr)L=L.filter(x=>fr==='com'?!!x.ref:fr==='sem'?!x.ref:fr==='ext'?x.tipo==='ext':!!x.ref&&x.ref.cod===fr);
  PX_COLS.forEach(([k,,g,t,gt])=>{const f=PX.f[k];if(!f||k==='ref')return;const txt=gt&&/[a-z]/i.test(f)&&!/^vazio$/i.test(f.trim());L=L.filter(x=>txt?pxMatch(gt(x),f,'t'):pxMatch(g(x),f,t))});
  const [sk,dir]=PX.sort,col=PX_COLS.find(c=>c[0]===sk);
@@ -2667,7 +2670,7 @@ VIEWFN.pricing=()=>{
  const A=pxLista().map(pxCalc),L=pxLinhas(),vis=L.slice(0,PX.lim);
  const sel=A.filter(x=>PX.sel.has(x.p.id)),selPub=sel.filter(x=>has(x.novo)&&x.muda);
  const cont=k=>A.filter(x=>pxStatus(x)[0]===k).length;
- const chips='<div class="chips px-chips">'+[['','Todos',A.length],['muda','Vão mudar',cont('muda')],['manual','Digitados',A.filter(x=>has(x.manual)).length],['igual','Iguais ao site',cont('igual')],['erro','Sem referência',cont('erro')],['aviso','Com aviso',A.filter(x=>x.flags.length).length]].map(([v,l,c])=>'<button type="button" class="chip'+(PX.st===v?' on':'')+'" data-pxst="'+esc(v)+'">'+l+' · '+c+'</button>').join('')+
+ const chips='<div class="chips px-chips">'+[['','Todos',A.length],['muda','Vão mudar',cont('muda')],['manual','Digitados',A.filter(x=>has(x.manual)).length],['igual','Iguais ao site',cont('igual')],['erro','Sem referência',cont('erro')],['aviso','Com aviso',A.filter(x=>x.flags.length).length],['caro','⚠️ Mais caros que o concorrente hoje',A.filter(x=>x.caro).length]].map(([v,l,c])=>'<button type="button" class="chip'+(PX.st===v?' on':'')+'" data-pxst="'+esc(v)+'">'+l+' · '+c+'</button>').join('')+
   (Object.values(PX.f).some(Boolean)||PX.st?'<button type="button" class="chip" id="px-limpa">Limpar filtros</button>':'')+
   '<span class="px-info muted">Regra: '+n(C.desc)+'% abaixo do menor entre KS, Jini (Pix) e Sephora BR · sem concorrente: exterior +'+n(C.ext)+'% · câmbio '+(cam?'R$ '+cam.toFixed(2).replace('.',','):'—')+' · frete e impostos do checkout (SP capital)</span></div>';
  const lote=can()?'<div class="card px-lote"><div class="px-lote-in"><b>'+(sel.length?sel.length+' marcado'+(sel.length===1?'':'s'):'Marque os produtos na tabela')+'</b>'+
@@ -5543,6 +5546,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v156','19/11/2026',['Aviso de preço: toda segunda, depois de ler KS, Jini e Sephora BR, o ERP compara o preço entregue em SP de hoje (produto + frete + impostos, a conta do checkout) com o menor Pix do concorrente. Se a OMG ficar mais cara: alerta no Painel e e-mail para você, com o preço sugerido.','Pricing: filtro ⚠️ Mais caros que o concorrente hoje. O preço só muda depois do seu OK no Pricing.']],
  ['v155','19/11/2026',['Fotos oficiais saiu do menu (fica escondida; o link ?tela=fotos continua funcionando).']],
  ['v154','19/11/2026',['Nova tela Estoque Coreia (Estoque e compras): entradas (caixa do distribuidor, compra avulsa da H2, amostras grátis e pequenas) e saídas (venda, amostra/UGC, perda). Saldo, custo por peça sem o 부가세 10%, validade com aviso de promoção quando faltar menos de 1 ano, e quanto tempo está parado.','Pedidos que podem sair do estoque: itens de vendas em aberto que já temos na Skyroad, com botão Dar baixa (sai primeiro o que vence antes).','Crédito no distribuidor (DY): recargas, compras pagas com o crédito e saldo, com aviso abaixo de 25% da última recarga.','Financeiro: campo Embarque nos lançamentos e novas categorias da Coreia (locomoção, caixas e mão de obra, armazenagem Skyroad, despacho, recarga do crédito, compra avulsa).','Lucratividade refeita: por mês (receita, mercadoria, Mile, embarques, despesas, marketing, amostras, câmbio, resultado) e por embarque. Não mais por pedido.']],
  ['v153','19/11/2026',['Nova tela Cadastros › Informações: dados dos sócios, empresa, endereços, tamanho das caixas, acessos, Wi-Fi etc. num lugar só. Uma informação por linha (Campo: valor), botão de copiar em cada linha, e itens sensíveis (senhas, documentos) escondidos até clicar em Mostrar.']],
@@ -5807,12 +5811,13 @@ async function loadAll(){
  if(loadingNow||!S.db)return;loadingNow=true;
  try{
   const cols=Object.keys(S.data);
-  const res=await Promise.all([...cols.map(c=>selectAll(c)),sb.from('config').select('*').eq('chave','geral')]);
+  const res=await Promise.all([...cols.map(c=>selectAll(c)),sb.from('config').select('*').eq('chave','geral'),sb.from('config').select('valor').eq('chave','alerta_precos')]);
   let failed=false;
   cols.forEach((col,i)=>{const {data,error}=res[i];if(error){if(col==='cortes'||col==='monitoramentos'||col==='monitor_execucoes'||col==='ocorrencias_compra'){S.missing[col]=true;S.loaded[col]=true;return}failed=true;return}S.missing[col]=false;
    S.data[col]=(data||[]).map(r=>fromDb(col,r)).sort((a,b)=>ORD[col]?String(a[ORD[col]]||'').localeCompare(String(b[ORD[col]]||'')):col==='vendas'?n(b.numero)-n(a.numero):n(b.createdAt)-n(a.createdAt));
    S.loaded[col]=true});
   const cfg=res[cols.length];if(cfg&&cfg.data&&cfg.data[0])S.cfg={...S.cfg,...cfg.data[0].valor};
+  {const ap=res[cols.length+1];S.alertaPrecos=ap&&ap.data&&ap.data[0]?ap.data[0].valor:null}
   S.status=failed?'off':'on';
  }catch(_){S.status='off'}
  loadingNow=false;
