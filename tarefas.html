@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>OMG · Tarefas · 할 일</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<style>
+:root{--bg:#FFF9F6;--surface:#fff;--surface2:#FFF3F6;--ink:#4A2638;--muted:#7A5566;--line:#F6E2E9;--pri:#B83D66;--ok:#2F7A5E;--ok-bg:#E4F7EF;--warn:#95600C;--warn-bg:#FFF3DF;--bad:#B5303B;--bad-bg:#FDE8EC}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR",system-ui,sans-serif;font-weight:300;font-size:14px}
+.wrap{max-width:820px;margin:0 auto;padding:16px max(14px,env(safe-area-inset-left)) 40px}
+.top{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}
+.top h1{margin:0;font-size:20px;font-weight:400}.brand{font-weight:500;color:var(--pri)}
+.top p{margin:3px 0 0;color:var(--muted);font-size:12.5px}
+.sp{flex:1}
+.lang{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;flex:none}
+.lang button{border:0;background:var(--surface);padding:6px 12px;font:inherit;font-size:12px;cursor:pointer;color:var(--muted)}
+.lang button[aria-pressed="true"]{background:var(--pri);color:#fff}
+.tabs{display:flex;gap:6px;margin:6px 0 12px;flex-wrap:wrap}
+.tabs button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;font:inherit;font-size:12.5px;color:var(--muted);cursor:pointer}
+.tabs button[aria-pressed="true"]{border-color:var(--pri);color:var(--pri);background:var(--surface2)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px}
+.card.done{opacity:.65}.card.done h3{text-decoration:line-through}
+.card h3{margin:0;font-size:15px;font-weight:500}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 0;font-size:12px;color:var(--muted)}
+.pill{padding:1px 8px;border-radius:999px;background:var(--surface2)}
+.pill.late{background:var(--bad-bg);color:var(--bad);font-weight:500}.pill.hoje{background:var(--warn-bg);color:var(--warn);font-weight:500}
+.pill.alta{background:var(--bad-bg);color:var(--bad)}
+.det{white-space:pre-wrap;margin:8px 0 0;font-size:13px;line-height:1.5}
+.det a{color:var(--pri)}
+.st{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.st button{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 12px;font:inherit;font-size:12.5px;cursor:pointer;color:var(--ink)}
+.st button[aria-pressed="true"].s-a{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
+.st button[aria-pressed="true"].s-f{background:var(--warn-bg);border-color:var(--warn);color:var(--warn)}
+.st button[aria-pressed="true"].s-ok{background:var(--ok-bg);border-color:var(--ok);color:var(--ok)}
+.rec{margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
+.rec p{margin:4px 0;font-size:12.5px}.rec .q{font-weight:500}.rec .t{color:var(--muted);font-size:11px}
+.nota{display:flex;gap:6px;margin-top:8px}
+.nota input{flex:1;border:1px solid var(--line);border-radius:8px;padding:7px 10px;font:inherit;font-size:13px;min-width:0}
+.nota button{border:0;background:var(--pri);color:#fff;border-radius:8px;padding:7px 12px;font:inherit;font-size:12.5px;cursor:pointer}
+.msg{padding:40px 10px;text-align:center;color:var(--muted)}
+.ver{margin-top:14px;font-size:11px;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:8px 14px;border-radius:8px;font-size:12.5px;z-index:9}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <div class="top"><div><span class="brand">OMG!</span> <h1 id="h1" style="display:inline"></h1><p id="sub"></p></div><span class="sp"></span><div class="lang" id="lang"><button type="button" data-l="ko">한국어</button><button type="button" data-l="pt">Português</button></div></div>
+ <div class="tabs" id="tabs"></div>
+ <div id="app"><p class="msg">불러오는 중… · Carregando…</p></div>
+ <div class="ver" id="ver"></div>
+</div>
+<script>
+(function(){
+const VERSAO='v1 · 19/11/2026';
+const sb=window.supabase.createClient('https://nzsiuniabovvptuqmkmi.supabase.co','sb_publishable_9Nl_ZRXEmLMhDMBP8oKP_w_FuDXaYMq',{auth:{persistSession:false}});
+const K=new URLSearchParams(location.search).get('k')||'';
+let L='ko';
+try{L=localStorage.getItem('omg-tar-lang')||((navigator.language||'').toLowerCase().startsWith('pt')?'pt':'ko')}catch(_){}
+const T={
+ ko:{t:'할 일',sub:p=>p+' 님의 할 일 목록 · 상태를 바꾸거나 메모를 남기면 바로 저장됩니다',ab:'진행 중',fe:'완료',to:'전체',a:'할 일',f:'진행 중',ok:'완료',prazo:'마감',late:d=>d+'일 지남',hoje:'오늘 마감',am:'내일',em:d=>d+'일 남음',sem:'마감 없음',pri:{Alta:'중요',Normal:'보통',Baixa:'낮음'},nota:'메모 남기기…',env:'보내기',salvo:'저장했어요',vazio:'할 일이 없습니다 🎉',inval:'링크가 올바르지 않습니다. Tae에게 새 링크를 요청하세요.',rec:'메모'},
+ pt:{t:'Tarefas',sub:p=>'Tarefas de '+p+' · mudar a situação ou deixar recado salva na hora',ab:'Abertas',fe:'Feitas',to:'Todas',a:'A fazer',f:'Fazendo',ok:'Feita',prazo:'Prazo',late:d=>d+(d>1?' dias atrasada':' dia atrasada'),hoje:'vence hoje',am:'amanhã',em:d=>'em '+d+' dias',sem:'sem prazo',pri:{Alta:'Alta',Normal:'Normal',Baixa:'Baixa'},nota:'Deixar recado…',env:'Enviar',salvo:'Salvo',vazio:'Nada pendente 🎉',inval:'Link inválido. Peça um link novo ao Tae.',rec:'Recados'}};
+let D=null,F='abertas';
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const hoje=()=>new Date(Date.now()-3*36e5).toISOString().slice(0,10);
+const fd=d=>{const x=new Date(d+'T12:00:00');return L==='ko'?(x.getMonth()+1)+'월 '+x.getDate()+'일':String(x.getDate()).padStart(2,'0')+'/'+String(x.getMonth()+1).padStart(2,'0')+'/'+x.getFullYear()};
+const link=s=>esc(s).replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>');
+function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2200)}
+function prazo(r){const t=T[L];if(!r.prazo)return '<span class="pill">'+t.sem+'</span>';const d=Math.round((new Date(r.prazo+'T12:00:00')-new Date(hoje()+'T12:00:00'))/864e5);
+ if(r.status==='Feita')return '<span class="pill">'+t.prazo+' '+fd(r.prazo)+'</span>';
+ return '<span class="pill'+(d<0?' late':d===0?' hoje':'')+'">'+t.prazo+' '+fd(r.prazo)+' · '+(d<0?t.late(-d):d===0?t.hoje:d===1?t.am:t.em(d))+'</span>'}
+function render(){const t=T[L];document.documentElement.lang=L==='ko'?'ko':'pt-BR';
+ document.querySelectorAll('#lang button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.l===L));
+ $('#h1').textContent=t.t;$('#ver').textContent=VERSAO;
+ if(!D){return}
+ $('#sub').textContent=t.sub(D.pessoa);
+ const R=D.rows||[],ab=R.filter(r=>r.status!=='Feita');
+ $('#tabs').innerHTML=[['abertas',t.ab+' '+ab.length],['feitas',t.fe+' '+(R.length-ab.length)],['todas',t.to]].map(([k,l])=>'<button type="button" data-f="'+k+'" aria-pressed="'+(F===k)+'">'+esc(l)+'</button>').join('');
+ const rows=R.filter(r=>F==='todas'||(F==='feitas'?r.status==='Feita':r.status!=='Feita'));
+ $('#app').innerHTML=rows.length?rows.map(r=>{const c=Array.isArray(r.comentarios)?r.comentarios:[];
+  return '<div class="card'+(r.status==='Feita'?' done':'')+'" data-id="'+esc(r.id)+'"><h3>'+esc(r.titulo)+'</h3>'+
+  '<div class="meta">'+prazo(r)+(r.prioridade&&r.prioridade!=='Normal'?'<span class="pill'+(r.prioridade==='Alta'?' alta':'')+'">'+esc(t.pri[r.prioridade]||r.prioridade)+'</span>':'')+(r.area?'<span class="pill">'+esc(r.area)+'</span>':'')+'<span>'+esc(r.numero||'')+'</span></div>'+
+  (r.detalhe?'<div class="det">'+link(r.detalhe)+'</div>':'')+
+  '<div class="st">'+[['A fazer',t.a,'s-a'],['Fazendo',t.f,'s-f'],['Feita',t.ok+' ✓','s-ok']].map(([v,l,c])=>'<button type="button" class="'+c+'" data-st="'+v+'" aria-pressed="'+((r.status||'A fazer')===v)+'">'+esc(l)+'</button>').join('')+'</div>'+
+  (c.length?'<div class="rec"><span class="t">'+t.rec+'</span>'+c.map(x=>'<p><span class="q">'+esc(x.quem)+'</span> <span class="t">'+esc(new Date(x.em).toLocaleString(L==='ko'?'ko-KR':'pt-BR',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}))+'</span><br>'+link(x.texto)+'</p>').join('')+'</div>':'')+
+  '<form class="nota"><input name="n" placeholder="'+esc(t.nota)+'" maxlength="2000"><button type="submit">'+t.env+'</button></form></div>'}).join(''):'<p class="msg">'+t.vazio+'</p>'}
+async function carregar(){try{const {data,error}=await sb.rpc('tarefas_pub',{p_k:K});if(error)throw error;D=data;render()}catch(e){$('#app').innerHTML='<p class="msg">'+T[L].inval+'</p>'}}
+async function atualizar(id,st,nota){const {error}=await sb.rpc('tarefa_pub_atualizar',{p_k:K,p_id:id,p_status:st,p_nota:nota||null});if(error){toast(error.message);return false}toast(T[L].salvo);await carregar();return true}
+document.addEventListener('click',e=>{const l=e.target.closest('[data-l]');if(l){L=l.dataset.l;try{localStorage.setItem('omg-tar-lang',L)}catch(_){}render();return}
+ const f=e.target.closest('[data-f]');if(f){F=f.dataset.f;render();return}
+ const b=e.target.closest('[data-st]');if(b){const id=b.closest('.card').dataset.id;atualizar(id,b.dataset.st,null)}});
+document.addEventListener('submit',e=>{const fm=e.target.closest('.nota');if(!fm)return;e.preventDefault();const v=fm.elements.n.value.trim();if(!v)return;atualizar(fm.closest('.card').dataset.id,null,v)});
+render();carregar();
+})();
+</script>
+</body>
+</html>
