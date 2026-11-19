@@ -20,7 +20,7 @@ jobs:
         run: supabase functions deploy shopify-admin --project-ref nzsiuniabovvptuqmkmi --yes
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-      - name: Publicar traduzir (tradução curta do ERP, ex.: tarefas em coreano)
+      - name: Publicar traduzir (tradução curta do ERP, tarefas em coreano)
         run: supabase functions deploy traduzir --project-ref nzsiuniabovvptuqmkmi --yes
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
