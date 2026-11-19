@@ -2176,7 +2176,7 @@ const LC_NAO_DESP=['Remessa para La Belle / Janice','Recebimento de clientes','R
 function lcMerc(v){const ms=S.data.estoque_movs.filter(m=>n(m.venda)===n(v.numero)&&m.tipo==='Venda');
  if(ms.length){const L=Object.fromEntries(S.data.estoque_lotes.map(l=>[l.id,l]));return ms.reduce((a,m)=>a+n(m.qtd)*estCustoBRL(L[m.lote]||{}),0)}
  return calc(v).lbK*n(S.cfg.krw)}
-function lcVendas(vs){const T={n:vs.length,rec:0,merc:0,mile:0,emb:0,out:0};vs.forEach(v=>{const c=calc(v);T.rec+=c.liquido;T.merc+=lcMerc(v);T.mile+=n(v.custoMile);T.emb+=c.emb;T.out+=n(v.outrosCustos)});return T}
+function lcVendas(vs){const T={n:vs.length,semCusto:0,rec:0,merc:0,mile:0,emb:0,out:0};vs.forEach(v=>{const c=calc(v);T.rec+=c.liquido;const mc=lcMerc(v);T.merc+=mc;if(!mc)T.semCusto++;T.mile+=n(v.custoMile);T.emb+=c.emb;T.out+=n(v.outrosCustos)});return T}
 const lcLoteCusto=l=>(n(l.custo3PL)+n(l.freteAereo)+n(l.despacho))*n(S.cfg.krw);
 function lcMes(ym){const inM=d=>String(d||'').slice(0,7)===ym;
  const T=lcVendas(S.data.vendas.filter(v=>!isCancel(v)&&v.etapas&&v.etapas.pago&&inM(v.etapas.pago)));
@@ -2194,14 +2194,16 @@ function lcEmbarque(l){const vs=(l.vendas||[]).map(id=>S.data.vendas.find(v=>v.i
 VIEWFN.lucro=()=>{
  const modo=S.f.lucro||'mes';
  const meses=[...new Set([...S.data.vendas.filter(v=>v.etapas&&v.etapas.pago).map(v=>String(v.etapas.pago).slice(0,7)),...S.data.lancamentos.map(l=>String(l.data||'').slice(0,7)),today().slice(0,7)])].filter(Boolean).sort().reverse().slice(0,6).reverse();
- const nomeM=ym=>{const [y,m]=ym.split('-');return MES3[n(m)-1]+'/'+y.slice(2)};
+ const nomeM=ym=>{const [y,m]=ym.split('-');return MES3[Number(m)-1]+'/'+y.slice(2)};
  const linhas=[['rec','Receita líquida (sem II e ICMS)',1],['merc','Mercadoria vendida'],['mile','Mile (frete e last mile)'],['emb','Caixa, selo e embalagem'],['out','Outros custos das vendas'],['embq','Embarques: Skyroad, voo, despacho'],['desp','Despesas operacionais'],['mkt','Marketing e influenciadoras'],['amos','Amostras, UGC e perdas (custo do estoque)'],['cambio','Câmbio e tarifas'],['res','Resultado',1],['mg','Margem',1]];
  const cel=(T,k)=>k==='mg'?pct(T.mg):k==='rec'||k==='res'?dm(T[k]):(T[k]==null?'—':(T[k]?'− '+dm(T[k]):'<span class="muted">—</span>'));
  let corpo;
  if(modo==='mes'){const Ts=meses.map(lcMes);
   corpo='<div class="tblwrap"><table class="tar-t lc-t"><thead><tr><th></th>'+meses.map(m=>'<th class="r">'+nomeM(m)+'</th>').join('')+'</tr></thead><tbody>'+
    linhas.map(([k,l,b])=>'<tr'+(k==='res'?' class="lc-res"':'')+'><td>'+(b?'<b>'+l+'</b>':l)+'</td>'+Ts.map(T=>'<td class="r num'+(k==='res'&&T.res<0?' tar-atr':'')+'">'+(b?'<b>'+cel(T,k)+'</b>':cel(T,k))+'</td>').join('')+'</tr>').join('')+
-   '<tr><td class="muted">Vendas pagas no mês</td>'+Ts.map(T=>'<td class="r num muted">'+T.n+'</td>').join('')+'</tr></tbody></table></div>'}
+   '<tr><td class="muted">Vendas pagas no mês</td>'+Ts.map(T=>'<td class="r num muted">'+T.n+'</td>').join('')+'</tr>'+
+   '<tr><td class="muted">Vendas sem custo de mercadoria</td>'+Ts.map(T=>'<td class="r num'+(T.semCusto?' tar-atr':' muted')+'">'+T.semCusto+'</td>').join('')+'</tr></tbody></table></div>'+
+   (Ts.some(T=>T.semCusto)?'<p class="muted" style="font-size:12px;margin:8px 0 0">⚠️ Venda sem custo de mercadoria deixa o resultado alto demais. Dê baixa no Estoque Coreia ou preencha o preço do distribuidor (₩) no Catálogo.</p>':'')}
  else{const Ls=S.data.lotes.slice().sort((a,b)=>String(b.numero).localeCompare(String(a.numero)));
   corpo=Ls.length?'<div class="tblwrap"><table class="tar-t"><thead><tr><th>Embarque</th><th class="r">Pedidos</th><th class="r">Receita líquida</th><th class="r">Mercadoria</th><th class="r">Skyroad, voo, despacho</th><th class="r">Despesas do embarque</th><th class="r">Mile e embalagem</th><th class="r">Resultado</th><th class="r">Margem</th></tr></thead><tbody>'+
    Ls.map(l=>{const T=lcEmbarque(l);return '<tr data-edit="lotes" data-id="'+esc(l.id)+'"><td><b>'+esc(l.numero)+'</b><small>'+esc(l.awb||'')+'</small></td><td class="r num">'+T.n+'</td><td class="r num">'+dm(T.rec)+'</td><td class="r num">'+dm(T.merc)+'</td><td class="r num">'+dm(T.embq)+'</td><td class="r num">'+dm(T.desp)+'</td><td class="r num">'+dm(T.mile+T.emb+T.out)+'</td><td class="r num'+(T.res<0?' tar-atr':'')+'"><b>'+dm(T.res)+'</b></td><td class="r num">'+pct(T.mg)+'</td></tr>'}).join('')+'</tbody></table></div>'
