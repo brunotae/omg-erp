@@ -3,6 +3,7 @@
 //   { acao: "loja_gravar", titulo?, descricao? }           → grava título/descrição da página inicial
 //   { acao: "ler", tipo: "produto"|"colecao"|"pagina", depois?: cursor } → lista 100 com o SEO atual
 //   { acao: "gravar", itens: [{ id: gid, titulo?, descricao? }] }  → grava SEO (até 50 por chamada; vazio = apaga)
+//   { acao: "menus" } → lista menus com itens; { acao: "menu_gravar", id, titulo, handle, itens: MenuItemUpdateInput[] } → regrava; { acao: "menu_apagar", id }
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
@@ -105,6 +106,21 @@ Deno.serve(async (req) => {
         res.push(ue.length ? { id, erro: ue.map((x: any) => x.message).join("; ") } : { id, ok: true });
       }
       return resp(200, { ok: true, res });
+    }
+    if (b.acao === "menus") {
+      const it = `id title type url resourceId`;
+      const r: any = await gql(`{ menus(first: 50) { nodes { id handle title items { ${it} items { ${it} items { ${it} } } } } } }`);
+      return resp(200, { ok: true, menus: r.menus.nodes });
+    }
+    if (b.acao === "menu_gravar") {
+      const r: any = await gql(`mutation($id: ID!, $t: String!, $h: String, $i: [MenuItemUpdateInput!]!) { menuUpdate(id: $id, title: $t, handle: $h, items: $i) { menu { id handle } userErrors { message } } }`, { id: String(b.id), t: String(b.titulo), h: b.handle, i: b.itens });
+      const ue = r.menuUpdate.userErrors; if (ue.length) return resp(422, { erro: ue.map((x: any) => x.message).join("; ") });
+      return resp(200, { ok: true });
+    }
+    if (b.acao === "menu_apagar") {
+      const r: any = await gql(`mutation($id: ID!) { menuDelete(id: $id) { deletedMenuId userErrors { message } } }`, { id: String(b.id) });
+      const ue = r.menuDelete.userErrors; if (ue.length) return resp(422, { erro: ue.map((x: any) => x.message).join("; ") });
+      return resp(200, { ok: true, apagado: r.menuDelete.deletedMenuId });
     }
     return resp(400, { erro: "ação desconhecida" });
   } catch (e) {
