@@ -45,6 +45,7 @@ h4{margin:14px 0 6px;font-size:13px;font-weight:500;color:var(--pri)}
 .up label{font-size:12px;color:var(--muted)}
 .up select,.up input[type=text]{border:1px solid var(--line);border-radius:8px;padding:7px 9px;font:inherit;font-size:13px;min-width:0;background:#fff}
 .up input[type=file]{font:inherit;font-size:12.5px;min-width:0}
+.drop{border:2px dashed #E3B5C6;border-radius:10px;background:#fff;padding:18px 12px;text-align:center;color:var(--muted);font-size:13px;cursor:pointer;transition:.15s}.drop.on{border-color:var(--pri);background:var(--surface2);color:var(--pri)}.drop b{color:var(--pri);font-weight:500}.drop input{display:none}.drop .fn{display:block;margin-top:4px;font-size:12px;color:var(--ink)}
 .btn{border:0;background:var(--pri);color:#fff;border-radius:8px;padding:8px 14px;font:inherit;font-size:13px;cursor:pointer;font-weight:500}
 .btn:disabled{opacity:.6;cursor:default}
 .del{border:0;background:none;color:var(--bad);cursor:pointer;font:inherit;font-size:12px}
@@ -70,7 +71,7 @@ h4{margin:14px 0 6px;font-size:13px;font-weight:500;color:var(--pri)}
 </div>
 <script>
 (function(){
-const VERSAO='v1 · 21/11/2026';
+const VERSAO='v2 · 21/11/2026';
 const sb=window.supabase.createClient('https://nzsiuniabovvptuqmkmi.supabase.co','sb_publishable_9Nl_ZRXEmLMhDMBP8oKP_w_FuDXaYMq',{auth:{persistSession:true,autoRefreshToken:true,storageKey:'omg-po-auth'}});
 const $=s=>document.querySelector(s);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -81,12 +82,12 @@ const T={ko:{t:'구매 목록',sub:'파라미터별 구매 링크 · 수량 · �
   inval:'아이디 또는 비밀번호가 맞지 않습니다.',sem:'접근 권한이 없습니다. Tae에게 문의하세요.',vazio:'목록이 없습니다.',
   corte:'마감',pend:'구매 대기',comp:'구매 완료',ped:'주문',prod:'제품',qtd:'수량',ver:'상품 보기',naver:'네이버 검색',
   anx:'첨부 파일 (영수증 · 엑셀 등)',nada:'아직 없음',cat:'종류',arq:'파일',obs:'메모',env:'업로드',envi:'업로드 중…',ok:'저장되었습니다',apagar:'삭제',conf:'삭제할까요?',
-  soltos:'기타 비용 (파라미터와 무관)',soltosSub:'교통비, 택배비 등 특정 구매와 관계없는 영수증',itens:'개',tipos:'종',imp:'인쇄'},
+  drop:'여기로 파일을 끌어다 놓거나 <b>클릭해서 선택</b>',soltos:'기타 비용 (파라미터와 무관)',soltosSub:'교통비, 택배비 등 특정 구매와 관계없는 영수증',itens:'개',tipos:'종',imp:'인쇄'},
  pt:{t:'Compras',sub:'Links de compra por parametrização · quantidades · comprovantes',ab:'A comprar',fe:'Compradas',to:'Todas',ent:'Entrar',id:'Login',pw:'Senha',sair:'Sair',
   inval:'Login ou senha incorretos.',sem:'Sem acesso. Fale com o Tae.',vazio:'Nada por aqui.',
   corte:'Fechada em',pend:'A comprar',comp:'Comprada',ped:'Pedidos',prod:'Produto',qtd:'Qtd',ver:'Ver produto',naver:'Buscar no Naver',
   anx:'Anexos (comprovantes, planilhas…)',nada:'Nenhum ainda',cat:'Tipo',arq:'Arquivo',obs:'Obs.',env:'Enviar',envi:'Enviando…',ok:'Salvo',apagar:'Apagar',conf:'Apagar?',
-  soltos:'Outras despesas (sem parametrização)',soltosSub:'Transporte, frete até a Skyroad e outros comprovantes avulsos',itens:'itens',tipos:'produtos',imp:'Imprimir'}};
+  drop:'Arraste os arquivos aqui ou <b>clique para escolher</b>',soltos:'Outras despesas (sem parametrização)',soltosSub:'Transporte, frete até a Skyroad e outros comprovantes avulsos',itens:'itens',tipos:'produtos',imp:'Imprimir'}};
 function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2400)}
 const dt=(d,z)=>d?new Date(d).toLocaleString(L==='ko'?'ko-KR':'pt-BR',{timeZone:z,year:'2-digit',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}):'';
 const kb=b=>b?(b>1048576?(b/1048576).toFixed(1)+' MB':Math.max(1,Math.round(b/1024))+' KB'):'';
@@ -101,7 +102,7 @@ function telaLogin(e){chrome();$('#tabs').innerHTML='';$('#sair').hidden=true;co
 function anexosHtml(lista,corte){const t=T[L];
  return '<h4>📎 '+t.anx+'</h4><div class="files">'+(lista.length?lista.map(a=>'<p><span class="tag">'+esc(catNome(a.categoria))+'</span><a href="#" data-abrir="'+esc(a.path)+'">'+esc(a.nome)+'</a><span class="sub">'+esc(kb(a.tamanho))+' · '+esc(dt(a.em,'Asia/Seoul'))+(a.obs?' · '+esc(a.obs):'')+'</span>'+(D.eu&&a.por===D.eu?'<button type="button" class="del" data-del="'+esc(a.id)+'" data-path="'+esc(a.path)+'">'+t.apagar+'</button>':'')+'</p>').join(''):'<p class="sub">'+t.nada+'</p>')+'</div>'+
   '<form class="up" data-corte="'+esc(corte||'')+'"><label>'+t.cat+'</label><select name="cat">'+CATS.map(c=>'<option value="'+esc(c[0])+'">'+esc(L==='ko'?c[1]:c[2])+'</option>').join('')+'</select>'+
-  '<label>'+t.arq+'</label><input type="file" name="f" multiple required><label>'+t.obs+'</label><input type="text" name="obs" maxlength="500"><span></span><div><button class="btn" type="submit">'+t.env+'</button></div></form>'}
+  '<label>'+t.arq+'</label><label class="drop">'+t.drop+'<input type="file" name="f" multiple><span class="fn"></span></label><label>'+t.obs+'</label><input type="text" name="obs" maxlength="500"><span></span><div><button class="btn" type="submit">'+t.env+'</button></div></form>'}
 function render(){chrome();const t=T[L];if(!D)return;$('#sair').hidden=false;
  const R=D.listas||[],ab=R.filter(c=>!c.compra_em);
  $('#tabs').innerHTML=[['abertas',t.ab+' '+ab.length],['feitas',t.fe+' '+(R.length-ab.length)],['todas',t.to]].map(([k,l])=>'<button type="button" data-f="'+k+'" aria-pressed="'+(F===k)+'">'+esc(l)+'</button>').join('');
@@ -123,7 +124,7 @@ async function carregar(){const t=T[L];
  D={listas:data||[],eu:String(u.user.email||'').toLowerCase()};
  if(!ABERTO.size){const a=(D.listas.find(c=>!c.compra_em)||D.listas[0]);if(a)ABERTO.add(a.id)}
  render()}
-async function enviar(fm){const t=T[L],btn=fm.querySelector('button[type=submit]'),fs=[...fm.elements.f.files];if(!fs.length)return;
+async function enviar(fm,lista){const t=T[L],btn=fm.querySelector('button[type=submit]'),fs=lista||[...fm.elements.f.files];if(!fs.length){const d=fm.querySelector('.drop');if(d){d.classList.add('on');setTimeout(()=>d.classList.remove('on'),600)}return}
  btn.disabled=true;btn.textContent=t.envi;const corte=fm.dataset.corte||null;
  try{for(const f of fs){const safe=f.name.normalize('NFKD').replace(/[^\w.\-]+/g,'_').slice(-80);const path='po/'+(corte||'avulso')+'/'+Date.now()+'-'+safe;
    const up=await sb.storage.from('docs').upload(path,f,{contentType:f.type||'application/octet-stream',upsert:false});if(up.error)throw up.error;
@@ -138,6 +139,11 @@ document.addEventListener('click',async e=>{const l=e.target.closest('[data-l]')
 document.addEventListener('submit',async e=>{const fl=e.target.closest('#flog');if(fl){e.preventDefault();let u=fl.elements.u.value.trim().toLowerCase();if(!u.includes('@'))u+='@ohmygirl.com.br';
   const {error}=await sb.auth.signInWithPassword({email:u,password:fl.elements.p.value});if(error){$('#lerr').textContent=T[L].inval;return}await carregar();return}
  const fm=e.target.closest('form.up');if(fm){e.preventDefault();enviar(fm)}});
+document.addEventListener('change',e=>{const i=e.target.closest('.drop input');if(!i)return;const fn=i.parentNode.querySelector('.fn');if(fn)fn.textContent=[...i.files].map(f=>f.name).join(', ')});
+['dragenter','dragover'].forEach(ev=>document.addEventListener(ev,e=>{const d=e.target.closest&&e.target.closest('.drop');if(!d)return;e.preventDefault();d.classList.add('on')}));
+document.addEventListener('dragleave',e=>{const d=e.target.closest&&e.target.closest('.drop');if(d&&!d.contains(e.relatedTarget))d.classList.remove('on')});
+document.addEventListener('drop',e=>{const d=e.target.closest&&e.target.closest('.drop');if(!d){if(e.dataTransfer&&e.dataTransfer.files.length)e.preventDefault();return}e.preventDefault();d.classList.remove('on');const fs=[...(e.dataTransfer?e.dataTransfer.files:[])];if(fs.length)enviar(d.closest('form.up'),fs)});
+window.addEventListener('dragover',e=>e.preventDefault());
 chrome();carregar();
 })();
 </script>
