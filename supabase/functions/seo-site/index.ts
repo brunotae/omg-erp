@@ -4,6 +4,7 @@
 //   { acao: "ler", tipo: "produto"|"colecao"|"pagina", depois?: cursor } → lista 100 com o SEO atual
 //   { acao: "gravar", itens: [{ id: gid, titulo?, descricao? }] }  → grava SEO (até 50 por chamada; vazio = apaga)
 //   { acao: "colecao_desc", itens: [{ id: gid Collection, html }] } → texto visível da coleção (só esse campo)
+//   { acao: "ocultar", itens: [{ id: gid, ocultar: true|false }] } → esconde/mostra no Google (seo.hidden)
 //   { acao: "menus" } → lista menus com itens; { acao: "menu_gravar", id, titulo, handle, itens: MenuItemUpdateInput[] } → regrava; { acao: "menu_apagar", id }
 import { createClient } from "npm:@supabase/supabase-js@2";
 
@@ -120,6 +121,29 @@ Deno.serve(async (req) => {
         const r: any = await gql(`mutation($i:CollectionInput!){ collectionUpdate(input:$i){ collection { descriptionHtml } userErrors{ message } } }`, { i: { id, descriptionHtml: it.html } });
         const ue = r.collectionUpdate.userErrors;
         res.push(ue.length ? { id, erro: ue.map((x: any) => x.message).join("; ") } : { id, ok: true, antes: a.collection?.descriptionHtml ?? "", depois: r.collectionUpdate.collection?.descriptionHtml ?? "" });
+      }
+      return resp(200, { ok: true, res });
+    }
+    if (b.acao === "ocultar") {
+      // Esconde/mostra no Google (metafield seo.hidden = 1: sai do sitemap e ganha noindex). Não apaga nada.
+      // { itens: [{ id: gid, ocultar: true|false }] } até 50.
+      const itens = Array.isArray(b.itens) ? b.itens.slice(0, 50) : [];
+      const res: any[] = [];
+      const lig = itens.filter((it: any) => it.ocultar !== false);
+      const des = itens.filter((it: any) => it.ocultar === false);
+      for (let i = 0; i < lig.length; i += 25) {
+        const lote = lig.slice(i, i + 25);
+        const r: any = await gql(`mutation($m:[MetafieldsSetInput!]!){ metafieldsSet(metafields:$m){ userErrors{ field message } } }`,
+          { m: lote.map((it: any) => ({ ownerId: String(it.id), namespace: "seo", key: "hidden", type: "number_integer", value: "1" })) });
+        const ue = r.metafieldsSet.userErrors;
+        lote.forEach((it: any) => res.push(ue.length ? { id: it.id, erro: ue.map((x: any) => x.message).join("; ") } : { id: it.id, ok: true, oculto: true }));
+      }
+      for (let i = 0; i < des.length; i += 25) {
+        const lote = des.slice(i, i + 25);
+        const r: any = await gql(`mutation($m:[MetafieldIdentifierInput!]!){ metafieldsDelete(metafields:$m){ userErrors{ message } } }`,
+          { m: lote.map((it: any) => ({ ownerId: String(it.id), namespace: "seo", key: "hidden" })) });
+        const ue = r.metafieldsDelete.userErrors;
+        lote.forEach((it: any) => res.push(ue.length ? { id: it.id, erro: ue.map((x: any) => x.message).join("; ") } : { id: it.id, ok: true, oculto: false }));
       }
       return resp(200, { ok: true, res });
     }
