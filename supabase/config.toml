@@ -29,3 +29,6 @@ verify_jwt = false
 
 [functions.visitas-agora]
 verify_jwt = true
+
+[functions.seo-site]
+verify_jwt = true
