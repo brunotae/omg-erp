@@ -3,6 +3,7 @@
 //   { acao: "loja_gravar", titulo?, descricao? }           → grava título/descrição da página inicial
 //   { acao: "ler", tipo: "produto"|"colecao"|"pagina", depois?: cursor } → lista 100 com o SEO atual
 //   { acao: "gravar", itens: [{ id: gid, titulo?, descricao? }] }  → grava SEO (até 50 por chamada; vazio = apaga)
+//   { acao: "colecao_desc", itens: [{ id: gid Collection, html }] } → texto visível da coleção (só esse campo)
 //   { acao: "menus" } → lista menus com itens; { acao: "menu_gravar", id, titulo, handle, itens: MenuItemUpdateInput[] } → regrava; { acao: "menu_apagar", id }
 import { createClient } from "npm:@supabase/supabase-js@2";
 
@@ -104,6 +105,21 @@ Deno.serve(async (req) => {
           ue = r.metafieldsSet.userErrors;
         } else { res.push({ id, erro: "id inválido" }); continue; }
         res.push(ue.length ? { id, erro: ue.map((x: any) => x.message).join("; ") } : { id, ok: true });
+      }
+      return resp(200, { ok: true, res });
+    }
+    if (b.acao === "colecao_desc") {
+      // Texto visível da coleção (descriptionHtml). Só esse campo: não toca em regras, título ou SEO.
+      // { itens: [{ id: gid Collection, html }] } até 50. Devolve o texto anterior para poder desfazer.
+      const itens = Array.isArray(b.itens) ? b.itens.slice(0, 50) : [];
+      const res: any[] = [];
+      for (const it of itens) {
+        const id = String(it.id || "");
+        if (!/Collection\//.test(id) || typeof it.html !== "string") { res.push({ id, erro: "id ou html inválido" }); continue; }
+        const a: any = await gql(`query($id: ID!) { collection(id: $id) { descriptionHtml } }`, { id });
+        const r: any = await gql(`mutation($i:CollectionInput!){ collectionUpdate(input:$i){ collection { descriptionHtml } userErrors{ message } } }`, { i: { id, descriptionHtml: it.html } });
+        const ue = r.collectionUpdate.userErrors;
+        res.push(ue.length ? { id, erro: ue.map((x: any) => x.message).join("; ") } : { id, ok: true, antes: a.collection?.descriptionHtml ?? "", depois: r.collectionUpdate.collection?.descriptionHtml ?? "" });
       }
       return resp(200, { ok: true, res });
     }
