@@ -1023,7 +1023,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v160 · 21/11/2026';
+const VERSAO='v161 · 21/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -5066,6 +5066,11 @@ async function janiceLink(rec,btn){
  btn.disabled=false;btn.textContent=t;
 }
 
+async function poAnexosCorte(id){const box=$('#c-po');if(!box)return;
+ const {data,error}=await sb.from('po_anexos').select('*').eq('corte',id).order('criado_em',{ascending:false});
+ if(error){box.textContent='Não deu para carregar: '+error.message;return}
+ box.innerHTML=(data||[]).length?data.map(a=>'<p style="margin:4px 0"><b>'+esc(a.categoria)+'</b> · <a href="#" data-poabrir="'+esc(a.path)+'">'+esc(a.nome)+'</a> <span class="muted">· '+esc(a.enviado_por)+' · '+esc(new Date(a.criado_em).toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo'}))+(a.obs?' · '+esc(a.obs):'')+'</span></p>').join(''):'<span class="muted">Nenhum anexo ainda.</span>';
+ box.addEventListener('click',async e=>{const l=e.target.closest('[data-poabrir]');if(!l)return;e.preventDefault();const w=window.open('','_blank');const {data:u,error:er}=await sb.storage.from('docs').createSignedUrl(l.dataset.poabrir,600);if(er||!u){if(w)w.close();toast(er?er.message:'erro');return}if(w)w.location=u.signedUrl})}
 function openCorte(id){
  const rec=(S.data.cortes||[]).find(r=>r.id===id);if(!rec)return;
  const ro=!can(), vs=corteVendas(rec), A=aggItems(vs);
@@ -5083,8 +5088,10 @@ function openCorte(id){
   '</tbody></table></div></div>'+
   '<div class="f"><label for="c-desp">Despesas na Coreia (₩)</label><input id="c-desp" type="number" step="any" min="0" value="'+esc(rec.despesasKrw??'')+'"'+(ro?' readonly':'')+'><span class="hint">Embalagem, transporte até a Skyroad, taxas</span></div>'+
   '<div class="f"><label>Total da compra</label><div id="c-tot" class="num" style="padding:9px 0;font-weight:700">—</div></div>'+
-  '<div class="f full" style="grid-column:1/-1"><label for="c-obs">Observações</label><textarea id="c-obs"'+(ro?' readonly':'')+'>'+esc(rec.obs||'')+'</textarea></div></div>';
+  '<div class="f full" style="grid-column:1/-1"><label for="c-obs">Observações</label><textarea id="c-obs"'+(ro?' readonly':'')+'>'+esc(rec.obs||'')+'</textarea></div></div>'+
+  '<div class="sec"><span class="label">Anexos da compradora (portal de compras)</span><p class="muted" style="grid-column:1/-1;margin:0;font-size:11.5px">Comprovantes e planilhas que a compradora sobe em <a href="po.html" target="_blank" rel="noopener">po.html</a>.</p><div id="c-po" style="grid-column:1/-1;font-size:13px">Carregando…</div></div>';
  shell('Parametrização '+rec.numero,body,rec,ro);
+ poAnexosCorte(rec.id);
  const f=$('#mform');
  const tot=()=>{let b=0;A.forEach((a,i)=>{const u=parseFloat(f.querySelector('[data-cprod="'+i+'"]').value);const s=isFinite(u)?u*a.qtd:0;b+=s;f.querySelector('[data-csub="'+i+'"]').textContent=isFinite(u)?krw(s):'—'});const d=parseFloat($('#c-desp').value)||0;$('#c-tot').textContent=b||d?krw(b+d)+' ≈ '+dm((b+d)*n(S.cfg.krw)):'—'};
  f.addEventListener('input',tot);tot();
@@ -5558,6 +5565,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v161','21/11/2026',['Portal de compras (po.html): a compradora entra com login próprio, vê todas as listas de compra por parametrização (data, produtos com foto, quantidade, pedidos, link), em coreano ou português, e sobe comprovantes, planilhas e despesas avulsas (transporte, frete até a Skyroad). Os anexos aparecem aqui em cada parametrização.']],
  ['v160','21/11/2026',['Link para a Janice: o resumo de parametrização agora só abre com senha. O conteúdo vai criptografado na página do site (nem o código-fonte mostra os pedidos). As 5 páginas antigas também foram protegidas.']],
  ['v159','19/11/2026',['Tarefas: ao salvar uma tarefa, o ERP já grava a tradução em coreano. A página da Janice/H2 sempre mostra em coreano (se faltar tradução, traduz na hora).']],
  ['v158','19/11/2026',['Estoque Coreia: "Pedidos que podem sair do estoque" agora só mostra pedidos de parametrizações que a H2 ainda não comprou. Pedidos já comprados têm peça própria e não usam a sobra.']],

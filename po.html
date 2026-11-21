@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>OMG · 구매 · Compras</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<style>
+:root{--bg:#FFF9F6;--surface:#fff;--surface2:#FFF3F6;--ink:#4A2638;--muted:#7A5566;--line:#F6E2E9;--pri:#B83D66;--ok:#2F7A5E;--ok-bg:#E4F7EF;--warn:#95600C;--warn-bg:#FFF3DF;--bad:#B5303B;--bad-bg:#FDE8EC}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR",system-ui,sans-serif;font-weight:300;font-size:14px}
+.wrap{max-width:980px;margin:0 auto;padding:16px max(14px,env(safe-area-inset-left)) 40px}
+.top{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.top h1{margin:0;font-size:20px;font-weight:400}.brand{font-weight:700;color:var(--pri)}
+.top p{margin:3px 0 0;color:var(--muted);font-size:12.5px}
+.sp{flex:1}
+.lang{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;flex:none}
+.lang button{border:0;background:var(--surface);padding:6px 12px;font:inherit;font-size:12px;cursor:pointer;color:var(--muted)}
+.lang button[aria-pressed="true"]{background:var(--pri);color:#fff}
+.lnk{border:0;background:none;color:var(--muted);font:inherit;font-size:12px;cursor:pointer;text-decoration:underline;padding:6px}
+.tabs{display:flex;gap:6px;margin:6px 0 12px;flex-wrap:wrap}
+.tabs button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;font:inherit;font-size:12.5px;color:var(--muted);cursor:pointer}
+.tabs button[aria-pressed="true"]{border-color:var(--pri);color:var(--pri);background:var(--surface2)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden}
+.ch{display:flex;gap:10px;align-items:center;padding:12px 14px;cursor:pointer;flex-wrap:wrap}
+.ch h3{margin:0;font-size:15px;font-weight:500}.seq{color:var(--pri);font-weight:700;margin-right:4px}
+.meta{display:flex;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.pill{padding:1px 8px;border-radius:999px;background:var(--surface2);font-size:12px;white-space:nowrap}
+.pill.ok{background:var(--ok-bg);color:var(--ok);font-weight:500}.pill.wait{background:var(--warn-bg);color:var(--warn);font-weight:500}
+.cb{border-top:1px solid var(--line);padding:10px 14px 14px}
+table{width:100%;border-collapse:collapse}
+th,td{border-bottom:1px solid var(--line);padding:6px 5px;text-align:left;vertical-align:middle;font-size:13px}
+th{font-size:11px;color:var(--muted);font-weight:500;background:var(--surface2);white-space:nowrap}
+.r{text-align:right}.q{font-size:16px;font-weight:700;text-align:center;white-space:nowrap}
+img.ph{width:44px;height:44px;object-fit:contain;border-radius:6px;background:#f6f1f3;display:block}
+.nm{font-weight:500}.sub{color:var(--muted);font-size:11.5px}
+a{color:var(--pri)}
+.tag{font-size:10.5px;background:var(--surface2);color:var(--pri);border-radius:999px;padding:1px 7px;font-weight:500}
+h4{margin:14px 0 6px;font-size:13px;font-weight:500;color:var(--pri)}
+.files p{margin:4px 0;font-size:13px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.up{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center;margin-top:8px;background:var(--surface2);border-radius:10px;padding:10px}
+.up label{font-size:12px;color:var(--muted)}
+.up select,.up input[type=text]{border:1px solid var(--line);border-radius:8px;padding:7px 9px;font:inherit;font-size:13px;min-width:0;background:#fff}
+.up input[type=file]{font:inherit;font-size:12.5px;min-width:0}
+.btn{border:0;background:var(--pri);color:#fff;border-radius:8px;padding:8px 14px;font:inherit;font-size:13px;cursor:pointer;font-weight:500}
+.btn:disabled{opacity:.6;cursor:default}
+.del{border:0;background:none;color:var(--bad);cursor:pointer;font:inherit;font-size:12px}
+.msg{padding:40px 10px;text-align:center;color:var(--muted)}
+.login{max-width:340px;margin:40px auto;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;display:grid;gap:10px}
+.login input{border:1px solid var(--line);border-radius:8px;padding:10px;font:inherit;font-size:14px}
+.err{color:var(--bad);font-size:12.5px;min-height:1em}
+.ver{margin-top:14px;font-size:11px;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:8px 14px;border-radius:8px;font-size:12.5px;z-index:9}
+.tblwrap{overflow-x:auto}
+@media(max-width:600px){.up{grid-template-columns:1fr}.hide-m{display:none}}
+@media print{.lang,.lnk,.tabs,.up,.del,.ver{display:none}.cb{display:block!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <div class="top"><div><span class="brand">OMG!</span> <h1 id="h1" style="display:inline"></h1><p id="sub"></p></div><span class="sp"></span>
+  <div class="lang" id="lang"><button type="button" data-l="ko">한국어</button><button type="button" data-l="pt">Português</button></div>
+  <button type="button" class="lnk" id="sair" hidden></button></div>
+ <div class="tabs" id="tabs"></div>
+ <div id="app"><p class="msg">불러오는 중… · Carregando…</p></div>
+ <div class="ver" id="ver"></div>
+</div>
+<script>
+(function(){
+const VERSAO='v1 · 21/11/2026';
+const sb=window.supabase.createClient('https://nzsiuniabovvptuqmkmi.supabase.co','sb_publishable_9Nl_ZRXEmLMhDMBP8oKP_w_FuDXaYMq',{auth:{persistSession:true,autoRefreshToken:true,storageKey:'omg-po-auth'}});
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let L='ko';try{L=localStorage.getItem('omg-po-lang')||'ko'}catch(_){}
+let F='abertas',D=null,SOLTOS=[],ABERTO=new Set();
+const CATS=[['Comprovante','구매 영수증','Comprovante de compra'],['Planilha','엑셀 / 구매 목록','Planilha / lista'],['Transporte','교통비','Transporte (locomoção)'],['Frete Skyroad','택배 (Skyroad까지)','Frete até a Skyroad'],['Outro','기타','Outro']];
+const T={ko:{t:'구매 목록',sub:'파라미터별 구매 링크 · 수량 · 영수증 업로드',ab:'구매 전',fe:'구매 완료',to:'전체',ent:'로그인',id:'아이디',pw:'비밀번호',sair:'로그아웃',
+  inval:'아이디 또는 비밀번호가 맞지 않습니다.',sem:'접근 권한이 없습니다. Tae에게 문의하세요.',vazio:'목록이 없습니다.',
+  corte:'마감',pend:'구매 대기',comp:'구매 완료',ped:'주문',prod:'제품',qtd:'수량',ver:'상품 보기',naver:'네이버 검색',
+  anx:'첨부 파일 (영수증 · 엑셀 등)',nada:'아직 없음',cat:'종류',arq:'파일',obs:'메모',env:'업로드',envi:'업로드 중…',ok:'저장되었습니다',apagar:'삭제',conf:'삭제할까요?',
+  soltos:'기타 비용 (파라미터와 무관)',soltosSub:'교통비, 택배비 등 특정 구매와 관계없는 영수증',itens:'개',tipos:'종',imp:'인쇄'},
+ pt:{t:'Compras',sub:'Links de compra por parametrização · quantidades · comprovantes',ab:'A comprar',fe:'Compradas',to:'Todas',ent:'Entrar',id:'Login',pw:'Senha',sair:'Sair',
+  inval:'Login ou senha incorretos.',sem:'Sem acesso. Fale com o Tae.',vazio:'Nada por aqui.',
+  corte:'Fechada em',pend:'A comprar',comp:'Comprada',ped:'Pedidos',prod:'Produto',qtd:'Qtd',ver:'Ver produto',naver:'Buscar no Naver',
+  anx:'Anexos (comprovantes, planilhas…)',nada:'Nenhum ainda',cat:'Tipo',arq:'Arquivo',obs:'Obs.',env:'Enviar',envi:'Enviando…',ok:'Salvo',apagar:'Apagar',conf:'Apagar?',
+  soltos:'Outras despesas (sem parametrização)',soltosSub:'Transporte, frete até a Skyroad e outros comprovantes avulsos',itens:'itens',tipos:'produtos',imp:'Imprimir'}};
+function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2400)}
+const dt=(d,z)=>d?new Date(d).toLocaleString(L==='ko'?'ko-KR':'pt-BR',{timeZone:z,year:'2-digit',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}):'';
+const kb=b=>b?(b>1048576?(b/1048576).toFixed(1)+' MB':Math.max(1,Math.round(b/1024))+' KB'):'';
+const nomeIt=i=>{const pt=i.nome||'',en=i.en||pt.split(':')[0];return L==='ko'?(i.kr||en):pt};
+const urlIt=i=>{if(i.variant&&i.ativo)return ['https://ohmygirl.com.br/variants/'+i.variant,T[L].ver];const q=[i.marca,i.en||String(i.nome||'').split(':')[0]].filter(Boolean).join(' ');return q?['https://search.shopping.naver.com/search/all?query='+encodeURIComponent(q),T[L].naver]:null};
+const catNome=c=>{const x=CATS.find(y=>y[0]===c);return x?(L==='ko'?x[1]:x[2]):c};
+function chrome(){const t=T[L];document.documentElement.lang=L==='ko'?'ko':'pt-BR';
+ document.querySelectorAll('#lang button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.l===L));
+ $('#h1').textContent=t.t;$('#sub').textContent=t.sub;$('#ver').textContent=VERSAO;$('#sair').textContent=t.sair}
+function telaLogin(e){chrome();$('#tabs').innerHTML='';$('#sair').hidden=true;const t=T[L];
+ $('#app').innerHTML='<form class="login" id="flog"><input name="u" placeholder="'+t.id+'" autocomplete="username" autocapitalize="none" required><input name="p" type="password" placeholder="'+t.pw+'" autocomplete="current-password" required><button class="btn" type="submit">'+t.ent+'</button><div class="err" id="lerr">'+esc(e||'')+'</div></form>'}
+function anexosHtml(lista,corte){const t=T[L];
+ return '<h4>📎 '+t.anx+'</h4><div class="files">'+(lista.length?lista.map(a=>'<p><span class="tag">'+esc(catNome(a.categoria))+'</span><a href="#" data-abrir="'+esc(a.path)+'">'+esc(a.nome)+'</a><span class="sub">'+esc(kb(a.tamanho))+' · '+esc(dt(a.em,'Asia/Seoul'))+(a.obs?' · '+esc(a.obs):'')+'</span>'+(D.eu&&a.por===D.eu?'<button type="button" class="del" data-del="'+esc(a.id)+'" data-path="'+esc(a.path)+'">'+t.apagar+'</button>':'')+'</p>').join(''):'<p class="sub">'+t.nada+'</p>')+'</div>'+
+  '<form class="up" data-corte="'+esc(corte||'')+'"><label>'+t.cat+'</label><select name="cat">'+CATS.map(c=>'<option value="'+esc(c[0])+'">'+esc(L==='ko'?c[1]:c[2])+'</option>').join('')+'</select>'+
+  '<label>'+t.arq+'</label><input type="file" name="f" multiple required><label>'+t.obs+'</label><input type="text" name="obs" maxlength="500"><span></span><div><button class="btn" type="submit">'+t.env+'</button></div></form>'}
+function render(){chrome();const t=T[L];if(!D)return;$('#sair').hidden=false;
+ const R=D.listas||[],ab=R.filter(c=>!c.compra_em);
+ $('#tabs').innerHTML=[['abertas',t.ab+' '+ab.length],['feitas',t.fe+' '+(R.length-ab.length)],['todas',t.to]].map(([k,l])=>'<button type="button" data-f="'+k+'" aria-pressed="'+(F===k)+'">'+esc(l)+'</button>').join('');
+ const rows=R.filter(c=>F==='todas'||(F==='feitas'?!!c.compra_em:!c.compra_em));
+ $('#app').innerHTML=(rows.length?rows.map(c=>{const it=c.itens||[],un=it.reduce((s,i)=>s+Number(i.qtd||0),0),open=ABERTO.has(c.id);
+  return '<div class="card" data-id="'+esc(c.id)+'"><div class="ch" data-tog="'+esc(c.id)+'"><h3><span class="seq">#'+esc(c.seq)+'</span>'+esc(c.numero)+'</h3>'+
+   '<span class="pill '+(c.compra_em?'ok':'wait')+'">'+(c.compra_em?t.comp+' · '+esc(dt(c.compra_em,'Asia/Seoul').split(' ')[0]):t.pend)+'</span>'+
+   '<span class="meta"><span>'+t.corte+' '+esc(dt(c.corte_em,'Asia/Seoul'))+(L==='ko'?' (한국)':' (Coreia)')+'</span><span>'+un+' '+t.itens+' · '+it.length+' '+t.tipos+'</span>'+((c.anexos||[]).length?'<span>📎 '+c.anexos.length+'</span>':'')+'</span><span class="sp"></span><span>'+(open?'▲':'▼')+'</span></div>'+
+   (open?'<div class="cb"><div class="tblwrap"><table><thead><tr><th class="hide-m"></th><th>'+t.prod+'</th><th class="r">'+t.qtd+'</th><th>'+t.ped+'</th></tr></thead><tbody>'+
+    it.map(i=>{const u=urlIt(i);return '<tr><td class="hide-m">'+(i.img?'<img class="ph" src="'+esc(i.img+(i.img.includes('?')?'&':'?')+'width=120')+'" alt="" loading="lazy">':'')+'</td><td><div class="nm">'+esc(nomeIt(i))+(i.opcao?' <span class="tag">'+esc(i.opcao)+'</span>':'')+'</div><div class="sub"><b>'+esc(i.marca)+'</b> · SKU '+esc(i.sku||'—')+(L==='ko'&&i.en&&i.kr?' · '+esc(i.en):'')+(u?' · <a href="'+esc(u[0])+'" target="_blank" rel="noopener">'+esc(u[1])+' ↗</a>':'')+'</div></td><td class="q">'+esc(i.qtd)+'</td><td class="sub">'+esc((i.pedidos||[]).map(p=>String(p).replace(/^1000+/,'')).join(', '))+'</td></tr>'}).join('')+
+    '</tbody></table></div>'+anexosHtml(c.anexos||[],c.id)+'</div>':'')+'</div>'}).join(''):'<p class="msg">'+t.vazio+'</p>')+
+  '<div class="card"><div class="ch" data-tog="_soltos"><h3>'+t.soltos+'</h3><span class="meta"><span>'+t.soltosSub+'</span>'+(SOLTOS.length?'<span>📎 '+SOLTOS.length+'</span>':'')+'</span><span class="sp"></span><span>'+(ABERTO.has('_soltos')?'▲':'▼')+'</span></div>'+
+  (ABERTO.has('_soltos')?'<div class="cb">'+anexosHtml(SOLTOS,'')+'</div>':'')+'</div>'}
+async function carregar(){const t=T[L];
+ const {data:u}=await sb.auth.getUser();if(!u||!u.user){telaLogin();return}
+ const {data,error}=await sb.rpc('po_listas');if(error){await sb.auth.signOut();telaLogin(t.sem);return}
+ const s=await sb.from('po_anexos').select('*').is('corte',null).order('criado_em',{ascending:false});
+ SOLTOS=(s.data||[]).map(a=>({id:a.id,categoria:a.categoria,nome:a.nome,path:a.path,tamanho:a.tamanho,obs:a.obs,por:a.enviado_por,em:a.criado_em}));
+ D={listas:data||[],eu:String(u.user.email||'').toLowerCase()};
+ if(!ABERTO.size){const a=(D.listas.find(c=>!c.compra_em)||D.listas[0]);if(a)ABERTO.add(a.id)}
+ render()}
+async function enviar(fm){const t=T[L],btn=fm.querySelector('button[type=submit]'),fs=[...fm.elements.f.files];if(!fs.length)return;
+ btn.disabled=true;btn.textContent=t.envi;const corte=fm.dataset.corte||null;
+ try{for(const f of fs){const safe=f.name.normalize('NFKD').replace(/[^\w.\-]+/g,'_').slice(-80);const path='po/'+(corte||'avulso')+'/'+Date.now()+'-'+safe;
+   const up=await sb.storage.from('docs').upload(path,f,{contentType:f.type||'application/octet-stream',upsert:false});if(up.error)throw up.error;
+   const ins=await sb.from('po_anexos').insert({corte,categoria:fm.elements.cat.value,nome:f.name,path,tamanho:f.size,obs:fm.elements.obs.value.trim(),enviado_por:D.eu});if(ins.error)throw ins.error}
+  toast(t.ok);await carregar()}catch(e){toast(e.message||String(e));btn.disabled=false;btn.textContent=t.env}}
+document.addEventListener('click',async e=>{const l=e.target.closest('[data-l]');if(l){L=l.dataset.l;try{localStorage.setItem('omg-po-lang',L)}catch(_){}D?render():telaLogin();return}
+ const f=e.target.closest('[data-f]');if(f){F=f.dataset.f;render();return}
+ if(e.target.closest('#sair')){await sb.auth.signOut();D=null;telaLogin();return}
+ const ab=e.target.closest('[data-abrir]');if(ab){e.preventDefault();const w=window.open('','_blank');const {data,error}=await sb.storage.from('docs').createSignedUrl(ab.dataset.abrir,600);if(error||!data){if(w)w.close();toast(error?error.message:'erro');return}if(w)w.location=data.signedUrl;else location.href=data.signedUrl;return}
+ const d=e.target.closest('[data-del]');if(d){if(!confirm(T[L].conf))return;await sb.storage.from('docs').remove([d.dataset.path]);const {error}=await sb.from('po_anexos').delete().eq('id',d.dataset.del);if(error)toast(error.message);await carregar();return}
+ const tg=e.target.closest('[data-tog]');if(tg&&!e.target.closest('a,button,input,select')){const k=tg.dataset.tog;ABERTO.has(k)?ABERTO.delete(k):ABERTO.add(k);render()}});
+document.addEventListener('submit',async e=>{const fl=e.target.closest('#flog');if(fl){e.preventDefault();let u=fl.elements.u.value.trim().toLowerCase();if(!u.includes('@'))u+='@ohmygirl.com.br';
+  const {error}=await sb.auth.signInWithPassword({email:u,password:fl.elements.p.value});if(error){$('#lerr').textContent=T[L].inval;return}await carregar();return}
+ const fm=e.target.closest('form.up');if(fm){e.preventDefault();enviar(fm)}});
+chrome();carregar();
+})();
+</script>
+</body>
+</html>
