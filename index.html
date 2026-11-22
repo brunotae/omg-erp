@@ -1023,7 +1023,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v161 · 21/11/2026';
+const VERSAO='v162 · 22/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1469,7 +1469,7 @@ const PM_COLS=[
  {k:'awb',l:'AWB',g:c=>pmAwb(c)||'(sem AWB)',cell:c=>pmAwb(c)?'<b class="num">'+esc(pmAwb(c))+'</b>':'<span class="muted">aguardando booking</span>'},
  {k:'junto',l:'Vai junto com',g:c=>pmGrupo(c).filter(x=>x.id!==c.id).map(x=>x.numero).join(', '),cell:c=>esc(pmGrupo(c).filter(x=>x.id!==c.id).map(x=>x.numero).join(', '))},
  {k:'env',l:'Enviada',g:c=>c.enviadoEm?'Enviada':'Pendente',cell:c=>stPill(c.enviadoEm?'Enviada':'Pendente')},
- {k:'link',l:'Link Janice',nf:1,ns:1,g:c=>'',cell:c=>'<button class="btn sm pri" type="button" data-jlink="'+esc(c.id)+'" title="Gera ou atualiza a página e copia o link">Copiar link</button>'},
+ {k:'link',l:'Link Janice',nf:1,ns:1,g:c=>'',cell:c=>'<button class="btn sm pri" type="button" data-jlink="'+esc(c.id)+'" title="Gera ou atualiza a página, copia o link e abre em nova aba">Copiar e abrir</button>'},
  {k:'compra',l:'Compra Janice',t:'n',g:c=>compraTotal(c).total,fmt:v=>krw(Number(v)),cell:c=>{const t=compraTotal(c);return t.base?'<b class="num">'+krw(t.total)+'</b><small>'+dm(t.total*n(S.cfg.krw))+'</small>':'<span class="muted">aguardando</span>'},cls:'r'}
 ];
 // código HS sugerido pelo tipo do produto (vale até alguém preencher o HS no catálogo)
@@ -3132,7 +3132,7 @@ async function rxPublicar(m){
  }catch(e){alert('Não deu para publicar '+m+': '+e.message)}
  RXUI.pub=false;render();
 }
-document.addEventListener('click',e=>{const b=e.target.closest('[data-jlink]');if(!b)return;e.preventDefault();e.stopImmediatePropagation();const rec=(S.data.cortes||[]).find(c=>c.id===b.dataset.jlink);if(rec)janiceLink(rec,b)},true);
+document.addEventListener('click',e=>{const b=e.target.closest('[data-jlink]');if(!b)return;e.preventDefault();e.stopImmediatePropagation();const rec=(S.data.cortes||[]).find(c=>c.id===b.dataset.jlink);if(rec){const w=window.open('','_blank');if(w)w.document.write('<p style="font:16px sans-serif;padding:24px">Gerando o link… · 링크 생성 중…</p>');janiceLink(rec,b,w)}},true);
 document.addEventListener('click',async e=>{const b=e.target.closest('[data-copy]');if(!b)return;e.preventDefault();e.stopImmediatePropagation();
  try{await navigator.clipboard.writeText(b.dataset.copy);toast('Copiado: '+b.dataset.copy.slice(0,70))}catch(_){prompt('Copie:',b.dataset.copy)}},true);
 document.addEventListener('click',async e=>{const t=e.target.closest('[data-lk-tab],#lk-fechar');if(!t)return;
@@ -5056,13 +5056,14 @@ async function cofreCifrar(html,senha){
  return '<div data-omg-cofre data-s="'+b(salt)+'" data-i="'+b(iv)+'" data-c="'+b(c)+'"></div>';
 }
 async function janiceSenha(){const {data}=await sb.from('config').select('valor').eq('chave','janice_senha');const v=data&&data[0]&&data[0].valor;if(!v)throw new Error('Senha da Janice não configurada');return String(v)}
-async function janiceLink(rec,btn){
+async function janiceLink(rec,btn,w){
  btn.disabled=true;const t=btn.textContent;btn.textContent='Gerando…';
  try{const r=await janiceMontar(rec);const html=await cofreCifrar(r.corpo,await janiceSenha());const d=await chamarShop({acao:'paginas',itens:[{handle:janiceHandle(rec),titulo:r.titulo,html,template:'janice'}]});
   const x=(d.resultados||[])[0]||{};if(!x.ok)throw new Error(x.erro||'não deu para criar a página');
   const u=janiceUrl(rec);const o=$('#c-janice-url');if(o){o.innerHTML='<a href="'+esc(u)+'" target="_blank" rel="noopener">'+esc(u)+'</a> '+lkCopia(u,'Copiar link')}
-  try{await navigator.clipboard.writeText(u);toast('Link copiado. A Janice abre com a senha combinada.')}catch(_){toast('Link pronto')}
- }catch(e){toast(errMsg(e))}
+  if(w)w.location=u;
+  try{await navigator.clipboard.writeText(u);toast('Link copiado e aberto em nova aba. A Janice abre com a senha combinada.')}catch(_){toast('Link pronto')}
+ }catch(e){if(w)w.close();toast(errMsg(e))}
  btn.disabled=false;btn.textContent=t;
 }
 
@@ -5565,6 +5566,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v162','22/11/2026',['Parametrização → Link Janice: o botão agora se chama "Copiar e abrir". Copia o link e já abre a página em nova aba.']],
  ['v161','21/11/2026',['Portal de compras (po.html): a compradora entra com login próprio, vê todas as listas de compra por parametrização (data, produtos com foto, quantidade, pedidos, link), em coreano ou português, e sobe comprovantes, planilhas e despesas avulsas (transporte, frete até a Skyroad). Os anexos aparecem aqui em cada parametrização.']],
  ['v160','21/11/2026',['Link para a Janice: o resumo de parametrização agora só abre com senha. O conteúdo vai criptografado na página do site (nem o código-fonte mostra os pedidos). As 5 páginas antigas também foram protegidas.']],
  ['v159','19/11/2026',['Tarefas: ao salvar uma tarefa, o ERP já grava a tradução em coreano. A página da Janice/H2 sempre mostra em coreano (se faltar tradução, traduz na hora).']],
