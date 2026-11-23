@@ -9,7 +9,7 @@ permissions:
 jobs:
   ler:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - run: python3 tools/inci/inci_lojas.py
