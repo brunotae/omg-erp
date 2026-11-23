@@ -1023,7 +1023,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v166 · 23/11/2026';
+const VERSAO='v167 · 23/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1412,11 +1412,13 @@ function pmBarraSel(){const sel=(S.data.cortes||[]).filter(c=>PMS.has(c.id)).sor
  (sel.length?'<b style="font-size:13px">'+sel.map(c=>'#'+pmSeq(c)).join(' + ')+'</b>'+
   '<button class="btn sm pri" type="button" data-pmsx="mile">Planilha da Mile</button>'+
   '<button class="btn sm pri" type="button" data-pmsx="coreia">Master List (Skyroad)</button>'+
-  '<button class="btn sm pri" type="button" data-pmsx="janice">Link da diretora (copiar)</button>'+
-  '<button class="btn sm" type="button" data-pmsx="abrir">Ver página da diretora</button>'+
+  '<button class="btn sm pri" type="button" data-pmsx="janice">Cola de compra: copiar link</button>'+
+  '<button class="btn sm pri" type="button" data-pmsx="colapdf">Cola de compra (PDF)</button>'+
+  '<button class="btn sm pri" type="button" data-pmsx="fulpdf">Fulfillment (PDF)</button>'+
+  '<button class="btn sm" type="button" data-pmsx="abrir">Ver cola de compra</button>'+
   '<button class="btn sm" type="button" data-pmsx="enviada">Marcar como enviadas</button>'+
   '<button class="btn sm" type="button" data-pmsx="limpar">Limpar</button>'
-  :'<span class="muted" style="font-size:12px">Marque as parametrizações para gerar os documentos de uma vez: planilha da Mile, Master List da Skyroad e página da diretora, tudo num arquivo só.</span>')+'</div>'}
+  :'<span class="muted" style="font-size:12px">Marque as parametrizações para gerar os documentos de uma vez: planilha da Mile, Master List da Skyroad, cola de compra e fulfillment, tudo num arquivo só.</span>')+'</div>'}
 async function pmJuntarSel(){const sel=(S.data.cortes||[]).filter(c=>PMS.has(c.id)).sort((a,b)=>String(a.numero).localeCompare(String(b.numero)));
  if(!sel.length)throw new Error('marque ao menos 1 parametrização');
  const awbs=[...new Set(sel.map(c=>pmAwbNorm(c.awb)).filter(Boolean))];
@@ -1438,6 +1440,8 @@ document.addEventListener('click',async e=>{const t=e.target;
   else if(a==='coreia')await pmMaster(c);
   else if(a==='janice')await janiceLink(c,b);
   else if(a==='abrir')await janiceResumo(c);
+  else if(a==='colapdf'){b.textContent=txt;b.disabled=false;await colaPdf(c,b);return}
+  else if(a==='fulpdf'){b.textContent=txt;b.disabled=false;await fulPdf(c,b);return}
   else if(a==='enviada'){const g=pmGrupo(c),agora=new Date().toISOString();for(const x of g){if(!x.enviadoEm)await save('cortes',x,{enviadoEm:agora});for(const v of corteVendas(x))if(!(v.etapas||{}).skyroad)await save('vendas',v,{etapas:{...(v.etapas||{}),skyroad:today()}})}toast(g.length+' parametrizações marcadas como enviadas');PMS.clear();await loadAll();return}
  }catch(x){toast(errMsg(x))}
  b.disabled=false;b.textContent=txt;render()},true);
@@ -5635,6 +5639,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v167','23/11/2026',['Parametrização: na barra das marcadas (#0001 + … + #0007) entraram os botões Cola de compra (PDF) e Fulfillment (PDF), que juntam todas as marcadas num PDF só.']],
  ['v166','23/11/2026',['Fulfillment (PDF): o nome do comprador vem grande no topo de cada caixa (a etiqueta da Mile não traz o nº do pedido), com a etiqueta (house AWB), cidade, CEP e o nº do pedido embaixo. Caixas em ordem alfabética pelo nome do comprador.']],
  ['v165','23/11/2026',['Parametrização: a coluna Link Janice virou Cola de compra, com Copiar link e PDF (baixa a cola em PDF).','Nova coluna Fulfillment: PDF com 1 caixa por pedido, etiqueta da Mile (house AWB), comprador, cidade e itens com foto, nome em coreano, SKU, quantidade e caixinha para marcar. Os dois PDFs também ficam no detalhe da parametrização.']],
  ['v164','23/11/2026',['Master List Skyroad: coluna UNIT corrigida (produto com + no nome, como Pore+Dark Spot, não vira set).']],
