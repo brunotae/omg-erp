@@ -1023,7 +1023,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v167 · 23/11/2026';
+const VERSAO='v168 · 23/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -5059,7 +5059,7 @@ async function janiceMontar(rec){
   A.map(a=>{const l=a.l,u=url(l),op=opc(l);return '<tr><td><span class="ck"></span></td><td>'+(im(l)?'<img src="'+e(im(l))+'" alt="">':'')+'</td><td><div class="kr">'+e(l.i.kr||l.i.en)+(op?' <span class="tag">'+e(op)+'</span>':'')+'</div><div class="en"><b>'+e(l.i.marca)+'</b> · '+e(l.i.en)+' · SKU '+e(l.i.sku||'—')+(u?' · <a href="'+e(u)+'" target="_blank">상품 보기 ↗</a>':'')+'</div></td><td class="q">'+a.qtd+'</td><td class="en">'+[...a.ped].join(', ')+'</td></tr>'}).join('')+
   '</tbody></table>'+
   '<h2>2. 주문별 포장 <span class="pt">· 1 caixa por pedido</span></h2><div class="peds">'+
-  vs.map(v=>{const it=L.filter(l=>l.v===v),g=it.reduce((s,l)=>s+(n(l.i.kg)||0)*l.qtd,0);const tq=it.reduce((s,l)=>s+l.qtd,0);return '<div class="ped"><h3>주문 '+e(vnum(v.numero))+(v.pedidoSite?' <span class="pt">'+e(v.pedidoSite)+'</span>':'')+'<span class="tot">총 '+tq+'개 · '+it.length+'종</span></h3><div class="loc" style="margin-left:0">'+e([v.cidade,v.uf].filter(Boolean).join(' / '))+(presente(v)?' <span class="tag">인플루언서 협찬 · presente</span>':'')+'</div>'+
+  vs.filter(v=>L.some(l=>l.v===v)).map(v=>{const it=L.filter(l=>l.v===v),g=it.reduce((s,l)=>s+(n(l.i.kg)||0)*l.qtd,0);const tq=it.reduce((s,l)=>s+l.qtd,0);const nm=(pmEnd(v)||{}).nome||v.cliente||'';return '<div class="ped"><h3><span style="font-size:14px;font-weight:800">'+e(nm)+'</span><span class="tot">총 '+tq+'개 · '+it.length+'종</span></h3><div class="loc" style="margin-left:0">Mile 라벨 · House AWB: <b style="font-family:monospace">'+e(v.etiquetaMile||'—')+'</b> · 주문 '+e(vnum(v.numero))+' · '+e([v.cidade,v.uf].filter(Boolean).join(' / '))+(presente(v)?' <span class="tag">인플루언서 협찬 · presente</span>':'')+'</div>'+
    '<table><tbody>'+it.map(l=>{const op=opc(l),u=url(l);return '<tr><td style="width:18px"><span class="ck"></span></td><td><div class="kr" style="font-size:10.5px">'+(u?'<a class="pl" href="'+e(u)+'" target="_blank">'+e(l.i.kr||l.i.en)+' ↗</a>':e(l.i.kr||l.i.en))+(op?' <span class="tag">'+e(op)+'</span>':'')+'</div><div class="en">'+e(l.i.marca)+' · SKU '+e(l.i.sku||'—')+'</div></td><td class="q">×'+l.qtd+'</td></tr>'}).join('')+'</tbody></table>'+
    (g?'<p class="en" style="margin:3px 0 0">예상 무게 '+g.toFixed(2)+' kg</p>':'')+'</div>'}).join('')+'</div>'+
   '<p class="en" style="margin-top:16px">OMG ERP · '+e(new Date().toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo'}))+'</p>';
@@ -5639,6 +5639,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v168','23/11/2026',['Cola de compra (página e PDF), parte 2 Embalagem por pedido: cada caixa mostra o nome do comprador em destaque e a etiqueta da Mile (house AWB), para casar com as etiquetas. Pedidos sem item da Coreia (ex.: só Brasil) não aparecem mais.']],
  ['v167','23/11/2026',['Parametrização: na barra das marcadas (#0001 + … + #0007) entraram os botões Cola de compra (PDF) e Fulfillment (PDF), que juntam todas as marcadas num PDF só.']],
  ['v166','23/11/2026',['Fulfillment (PDF): o nome do comprador vem grande no topo de cada caixa (a etiqueta da Mile não traz o nº do pedido), com a etiqueta (house AWB), cidade, CEP e o nº do pedido embaixo. Caixas em ordem alfabética pelo nome do comprador.']],
  ['v165','23/11/2026',['Parametrização: a coluna Link Janice virou Cola de compra, com Copiar link e PDF (baixa a cola em PDF).','Nova coluna Fulfillment: PDF com 1 caixa por pedido, etiqueta da Mile (house AWB), comprador, cidade e itens com foto, nome em coreano, SKU, quantidade e caixinha para marcar. Os dois PDFs também ficam no detalhe da parametrização.']],
