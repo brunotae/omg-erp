@@ -39,9 +39,12 @@
   "catalogo": 79,
   "alvos": 13
  },
- "dralthea:dralthea.us": "<urlopen error [Errno -2] Name or service not known>",
- "dralthea:www.dralthea.us": "<urlopen error [Errno -2] Name or service not known>",
- "dralthea:dralthea.com": "<urlopen error [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1081)>",
+ "dralthea:us.dralthea.com": "<urlopen error [Errno -2] Name or service not known>",
+ "dralthea": {
+  "loja": "dralthea.co",
+  "catalogo": 7,
+  "alvos": 0
+ },
  "mediheal:mediheal.us": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081)>",
  "mediheal:www.mediheal.us": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081)>",
  "mediheal": {
@@ -49,8 +52,8 @@
   "catalogo": 139,
   "alvos": 12
  },
- "purito:purito.com": "HTTP Error 404: Not Found",
  "purito:puritoseoul.com": "<urlopen error timed out>",
+ "purito:us.puritoseoul.com": "<urlopen error [Errno -2] Name or service not known>",
  "purito:www.puritoseoul.com": "<urlopen error timed out>",
- "purito:purito.us": "Expecting value: line 1 column 1 (char 0)"
+ "purito:purito.kr": "<urlopen error [Errno -2] Name or service not known>"
 }
