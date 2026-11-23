@@ -1023,7 +1023,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v165 · 23/11/2026';
+const VERSAO='v166 · 23/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -5076,7 +5076,8 @@ async function colaPdf(rec,btn){const t=btn&&btn.textContent;if(btn){btn.disable
  if(btn){btn.disabled=false;btn.textContent=t}}
 // v165: Fulfillment (Skyroad): 1 caixa por pedido, com etiqueta da Mile, comprador e itens com foto, para separar e conferir
 async function fulMontar(rec){
- const vs=pmGrupoVendas(rec).filter(v=>!isCancel(v)).sort((a,b)=>n(a.numero)-n(b.numero));
+ const nomeV=v=>String((pmEnd(v)||{}).nome||v.cliente||'').trim().toLowerCase();
+ const vs=pmGrupoVendas(rec).filter(v=>!isCancel(v)).sort((a,b)=>nomeV(a).localeCompare(nomeV(b),'pt'));
  const L=[];vs.forEach(v=>(v.itens||[]).filter(naCarga).forEach(it=>{const i=pmItem(it);const prod=i.sku?(S.data.produtos||[]).find(x=>x.sku===i.sku):null;L.push({v,it,i,prod,qtd:n(it.qtd)||1})}));
  const vids=[...new Set(L.map(l=>l.prod&&l.prod.shopify_variant_id).filter(Boolean).map(String))];
  let info={};try{if(vids.length)info=(await chamarShop({acao:'variantes_info',ids:vids})).itens||{}}catch(_){}
@@ -5087,14 +5088,16 @@ async function fulMontar(rec){
  const css='*{box-sizing:border-box}body{font-family:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;color:#2E1A24;font-size:11px;line-height:1.35}'+
   '.top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;border-bottom:2px solid #B83D66;padding-bottom:6px;margin-bottom:8px}h1{font-size:17px;margin:0}.pt{color:#8a7480;font-weight:400}.kpi{font-size:11px;text-align:right}.kpi b{font-size:14px}'+
   '.box{border:1.5px solid #2E1A24;border-radius:8px;padding:7px 9px;margin:0 0 8px;page-break-inside:avoid;break-inside:avoid}'+
-  '.bh{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;border-bottom:1px dashed #C9B3BD;padding-bottom:4px;margin-bottom:4px}.bh .n{font-size:15px;font-weight:800;color:#B83D66}.bh .awb{font-family:monospace;font-size:12.5px;font-weight:700;background:#F8E3EB;padding:1px 6px;border-radius:4px}.bh .tot{margin-left:auto;background:#2E1A24;color:#fff;border-radius:999px;padding:1px 9px;font-weight:700}'+
+  '.bh{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;border-bottom:1px dashed #C9B3BD;padding-bottom:4px;margin-bottom:4px}.bh .n{font-size:15px;font-weight:800;color:#B83D66}.bh .awb{font-family:monospace;font-size:12.5px;font-weight:700;background:#F8E3EB;padding:1px 6px;border-radius:4px}.bh .tot{margin-left:auto;background:#2E1A24;color:#fff;border-radius:999px;padding:1px 9px;font-weight:700}.buyer{font-size:17px;font-weight:800;color:#2E1A24}.bh2{display:flex;gap:12px;flex-wrap:wrap;font-size:10.5px;margin:0 0 4px;color:#2E1A24}'+
   'table{width:100%;border-collapse:collapse}td{padding:3px 4px;border-bottom:1px solid #F0E2E8;vertical-align:middle}tr:last-child td{border-bottom:0}.ck{width:14px;height:14px;border:1.5px solid #2E1A24;border-radius:3px;display:inline-block}'+
   'img{width:38px;height:38px;object-fit:contain;border-radius:5px;background:#f5f5f5;display:block}.kr{font-weight:700;font-size:11.5px}.en{color:#6f5a64;font-size:9.5px}.q{font-size:15px;font-weight:800;text-align:right;white-space:nowrap;width:44px}.tag{font-size:9px;background:#F8E3EB;color:#B83D66;border-radius:999px;padding:0 6px;font-weight:700}'+
   '.sign{margin-top:10px;font-size:10.5px;color:#6f5a64}';
- const corpo='<style>'+css+'</style><div class="top"><div><div style="font-weight:800;color:#B83D66">OMG! Oh My Girl</div><h1>Fulfillment · 포장 목록 <span class="pt">'+e(pmGrupoSeq(rec))+'</span></h1><div class="pt">1 주문 = 1 박스 · 1 order = 1 parcel · Mile 라벨(House AWB)을 박스에 부착</div></div>'+
+ const corpo='<style>'+css+'</style><div class="top"><div><div style="font-weight:800;color:#B83D66">OMG! Oh My Girl</div><h1>Fulfillment · 포장 목록 <span class="pt">'+e(pmGrupoSeq(rec))+'</span></h1><div class="pt">1 주문 = 1 박스 · Mile 라벨에는 주문번호가 없으므로 <b>받는 사람 이름</b>으로 라벨을 맞춰 부착하세요 · Match the Mile label by the BUYER NAME</div></div>'+
   '<div class="kpi">주문/박스 <b>'+ped.length+'</b><br>상품 <b>'+un+'</b>개<br><span class="pt">'+e(new Date().toLocaleDateString('ko-KR',{timeZone:'Asia/Seoul'}))+'</span></div></div>'+
   ped.map(v=>{const it=L.filter(l=>l.v===v),tq=it.reduce((s,l)=>s+l.qtd,0);
-   return '<div class="box"><div class="bh"><span class="n">'+e(vnum(v.numero))+'</span><span class="awb">'+e(v.etiquetaMile||'라벨 없음 · sem etiqueta')+'</span><span>'+e(v.cliente||'')+'</span><span class="pt">'+e([v.cidade,v.uf].filter(Boolean).join(' / '))+'</span><span class="tot">총 '+tq+'개 · '+it.length+'종</span></div>'+
+   const nm=(pmEnd(v)||{}).nome||v.cliente||'';
+   return '<div class="box"><div class="bh"><span class="buyer">'+e(nm)+'</span><span class="tot">총 '+tq+'개 · '+it.length+'종</span></div>'+
+    '<div class="bh2"><span>받는 사람 · Buyer: <b>'+e(nm)+'</b></span><span>Mile 라벨 · House AWB: <span class="awb">'+e(v.etiquetaMile||'라벨 없음 · sem etiqueta')+'</span></span><span class="pt">'+e([v.cidade,v.uf].filter(Boolean).join(' / '))+(((pmEnd(v)||{}).cep)?' · '+e(pmCep(pmEnd(v).cep)):'')+'</span><span class="pt">주문 · Pedido '+e(vnum(v.numero))+'</span></div>'+
     '<table><tbody>'+it.map(l=>'<tr><td style="width:20px"><span class="ck"></span></td><td style="width:44px">'+(im(l)?'<img src="'+e(im(l))+'" crossorigin="anonymous" alt="">':'')+'</td><td><div class="kr">'+e(l.i.kr||l.i.en)+(opc(l)?' <span class="tag">'+e(opc(l))+'</span>':'')+'</div><div class="en"><b>'+e(l.i.marca)+'</b> · '+e(l.i.en)+' · SKU '+e(l.i.sku||'—')+'</div></td><td class="q">×'+l.qtd+'</td></tr>').join('')+'</tbody></table></div>'}).join('')+
   '<p class="sign">확인 · Conferido por: ____________________ &nbsp; 날짜 · Data: __________</p>';
  return {corpo,titulo:'Fulfillment '+pmGrupoSeq(rec)};
@@ -5632,6 +5635,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v166','23/11/2026',['Fulfillment (PDF): o nome do comprador vem grande no topo de cada caixa (a etiqueta da Mile não traz o nº do pedido), com a etiqueta (house AWB), cidade, CEP e o nº do pedido embaixo. Caixas em ordem alfabética pelo nome do comprador.']],
  ['v165','23/11/2026',['Parametrização: a coluna Link Janice virou Cola de compra, com Copiar link e PDF (baixa a cola em PDF).','Nova coluna Fulfillment: PDF com 1 caixa por pedido, etiqueta da Mile (house AWB), comprador, cidade e itens com foto, nome em coreano, SKU, quantidade e caixinha para marcar. Os dois PDFs também ficam no detalhe da parametrização.']],
  ['v164','23/11/2026',['Master List Skyroad: coluna UNIT corrigida (produto com + no nome, como Pore+Dark Spot, não vira set).']],
  ['v163','23/11/2026',['Master List da Skyroad refeita para o 간이 수출: nome simples (Skyroad Master List 0001-0007.xlsx), uma linha por item de cada pedido com comprador, endereço, CEP, telefone, etiqueta da Mile (house AWB), SKU, nome em coreano, HS, NCM, quantidade, preço e peso; totais por pedido. Aba 2 com o resumo por produto. Preço = preço cheio (sem cupom) menos o % configurado.','Etiquetas da Mile do embarque 2 gravadas em cada venda (campo Nº etiqueta Mile).']],
