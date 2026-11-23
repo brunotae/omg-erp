@@ -1,0 +1,56 @@
+{
+ "skin1004": {
+  "loja": "skin1004.com",
+  "catalogo": 99,
+  "alvos": 10
+ },
+ "medicube": {
+  "loja": "medicube.us",
+  "catalogo": 319,
+  "alvos": 26
+ },
+ "anua": {
+  "loja": "anua.us",
+  "catalogo": 123,
+  "alvos": 3
+ },
+ "celimax": {
+  "loja": "celimax.us",
+  "catalogo": 43,
+  "alvos": 7
+ },
+ "cosrx": {
+  "loja": "www.cosrx.com",
+  "catalogo": 205,
+  "alvos": 5
+ },
+ "tirtir": {
+  "loja": "tirtir.global",
+  "catalogo": 140,
+  "alvos": 1
+ },
+ "beautyofjoseon": {
+  "loja": "beautyofjoseon.com",
+  "catalogo": 137,
+  "alvos": 6
+ },
+ "numbuzin": {
+  "loja": "numbuzinus.com",
+  "catalogo": 79,
+  "alvos": 13
+ },
+ "dralthea:dralthea.us": "<urlopen error [Errno -2] Name or service not known>",
+ "dralthea:www.dralthea.us": "<urlopen error [Errno -2] Name or service not known>",
+ "dralthea:dralthea.com": "<urlopen error [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1081)>",
+ "mediheal:mediheal.us": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081)>",
+ "mediheal:www.mediheal.us": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081)>",
+ "mediheal": {
+  "loja": "medihealus.com",
+  "catalogo": 139,
+  "alvos": 12
+ },
+ "purito:purito.com": "HTTP Error 404: Not Found",
+ "purito:puritoseoul.com": "<urlopen error timed out>",
+ "purito:www.puritoseoul.com": "<urlopen error timed out>",
+ "purito:purito.us": "Expecting value: line 1 column 1 (char 0)"
+}
