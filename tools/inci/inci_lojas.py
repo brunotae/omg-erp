@@ -14,7 +14,10 @@ LOJAS = json.loads(open("tools/inci/lojas.json").read())
 os.makedirs("tools/inci/dados", exist_ok=True)
 log = {}
 def txt(h): return html.unescape(re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " | ", re.sub(r"(?s)<(script|style)[^>]*>.*?</\1>", " ", h or ""))))
-def tre(t): return [t[m.start():m.start()+3000] for m in re.finditer(r"(?i)ingredient", t)][:5]
+def tre(t):
+    # segmentos com lista longa separada por vírgulas (INCI completo, sem cortar)
+    segs = [x.strip() for x in t.split(" | ") if x.count(",") >= 6]
+    return segs[:12]
 for marca, cfg in LOJAS.items():
     out = []; usada = None; p = []
     for d in cfg["d"]:
@@ -34,7 +37,7 @@ for marca, cfg in LOJAS.items():
         ti = (x.get("title") or "").lower()
         if not any(k in ti for k in cfg["a"]): continue
         o = {"title": x.get("title"), "url": f"https://{usada}/products/{x.get('handle')}", "trechos": tre(txt(x.get("body_html")))}
-        if not any(re.search(r"(?i)\bwater\b|aqua", s) for s in o["trechos"]):
+        if True:
             try: time.sleep(1); o["trechos"] = tre(txt(get(o["url"]))); o["pagina"] = 1
             except Exception as e: o["erro"] = str(e)[:100]
         out.append(o)
