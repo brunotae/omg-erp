@@ -1023,7 +1023,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v163 · 23/11/2026';
+const VERSAO='v164 · 23/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1586,7 +1586,7 @@ async function pmMaster(c){
  const hr=ws.getRow(HR);H.forEach((h,k)=>{const x=hr.getCell(k+1);x.value=h;x.font={bold:true};x.fill=PM_HEAD_FILL;x.alignment={wrapText:true,vertical:'middle'};x.border={top:grosso,bottom:grosso,left:k?fino:grosso,right:k===NC-1?grosso:fino}});
  const L2=[...L].sort((a,b)=>n(a.v.numero)-n(b.v.numero));
  L2.forEach((l,k)=>{const v=l.v,e=pmEnd(v)||{},i=l.i,up=r2(l.cheio/(i.qtd||1)*f);
-  ws.getRow(HR+1+k).values=[k+1,vnum(v.numero),v.etiquetaMile||'',e.nome||v.cliente||'',[e.rua,e.compl].filter(Boolean).join(', '),e.cidade||v.cidade||'',e.uf||v.uf||'',pmCep(e.cep),'BRAZIL',pmFone(e.fone),i.sku||'',i.marca,i.en,i.kr||'',String(i.hs||''),String(i.ncm||''),i.qtd,/kit|set|\+| x ?\d/i.test(i.en)?'set':'pc',up,r2(up*i.qtd),'',r3(i.kg*i.qtd),'',i.ing||'']});
+  ws.getRow(HR+1+k).values=[k+1,vnum(v.numero),v.etiquetaMile||'',e.nome||v.cliente||'',[e.rua,e.compl].filter(Boolean).join(', '),e.cidade||v.cidade||'',e.uf||v.uf||'',pmCep(e.cep),'BRAZIL',pmFone(e.fone),i.sku||'',i.marca,i.en,i.kr||'',String(i.hs||''),String(i.ncm||''),i.qtd,/\b(kit|set|duo)\b|\d\s?x\s?\d| x \d/i.test(i.en)?'set':'pc',up,r2(up*i.qtd),'',r3(i.kg*i.qtd),'',i.ing||'']});
  const ult=HR+L2.length;
  // pedido: totais, bordas grossas e células do pedido mescladas
  for(let r=HR+1;r<=ult;){const id=L2[r-HR-1].v.id;let fi=r;while(fi+1<=ult&&L2[fi+1-HR-1].v.id===id)fi++;
@@ -5589,6 +5589,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v164','23/11/2026',['Master List Skyroad: coluna UNIT corrigida (produto com + no nome, como Pore+Dark Spot, não vira set).']],
  ['v163','23/11/2026',['Master List da Skyroad refeita para o 간이 수출: nome simples (Skyroad Master List 0001-0007.xlsx), uma linha por item de cada pedido com comprador, endereço, CEP, telefone, etiqueta da Mile (house AWB), SKU, nome em coreano, HS, NCM, quantidade, preço e peso; totais por pedido. Aba 2 com o resumo por produto. Preço = preço cheio (sem cupom) menos o % configurado.','Etiquetas da Mile do embarque 2 gravadas em cada venda (campo Nº etiqueta Mile).']],
  ['v162','22/11/2026',['Parametrização → Link Janice: o botão agora se chama "Copiar e abrir". Copia o link e já abre a página em nova aba.']],
  ['v161','21/11/2026',['Portal de compras (po.html): a compradora entra com login próprio, vê todas as listas de compra por parametrização (data, produtos com foto, quantidade, pedidos, link), em coreano ou português, e sobe comprovantes, planilhas e despesas avulsas (transporte, frete até a Skyroad). Os anexos aparecem aqui em cada parametrização.']],
