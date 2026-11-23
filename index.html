@@ -1023,7 +1023,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v168 · 23/11/2026';
+const VERSAO='v169 · 23/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1434,6 +1434,9 @@ document.addEventListener('click',async e=>{const t=e.target;
  if(t.matches&&t.matches('[data-pmselall]')){e.stopPropagation();(S.data.cortes||[]).forEach(c=>t.checked?PMS.add(c.id):PMS.delete(c.id));render();return}
  const b=t.closest&&t.closest('[data-pmsx]');if(!b)return;e.preventDefault();e.stopPropagation();const a=b.dataset.pmsx;
  if(a==='limpar'){PMS.clear();render();return}
+ if(['mile','coreia','colapdf','fulpdf'].includes(a)){const ss=(S.data.cortes||[]).filter(c=>PMS.has(c.id)).map(c=>pmSeq(c)).sort();const fx=ss.length>1?ss[0]+'-'+ss[ss.length-1]:(ss[0]||'');
+  const nm={mile:'Manifest Mile '+fx+'.xlsx',coreia:'Skyroad Master List '+fx+'.xlsx',colapdf:'Cola de compra '+fx+'.pdf',fulpdf:'Fulfillment '+fx+'.pdf'}[a];
+  if(!(await escolherLocal(nm)))return}
  const txt=b.textContent;b.disabled=true;b.textContent='Gerando…';
  try{const c=await pmJuntarSel();
   if(a==='mile')await pmManifesto(c);
@@ -1523,7 +1526,17 @@ function pmChecar(L){
 let pmXlsx=null;
 function pmLib(){if(window.ExcelJS)return Promise.resolve(window.ExcelJS);if(pmXlsx)return pmXlsx;
  pmXlsx=new Promise((ok,er)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js';s.onload=()=>ok(window.ExcelJS);s.onerror=()=>{pmXlsx=null;er(new Error('não carregou o gerador de Excel'))};document.head.appendChild(s)});return pmXlsx}
-async function pmBaixar(wb,nome){const buf=await wb.xlsx.writeBuffer();const b=new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=nome;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},800)}
+// v169: antes de gerar, pergunta onde salvar (Chrome/Edge: janela "Salvar como"). Se o navegador não tiver, baixa normal e avisa onde.
+let SALVAR=null;
+async function escolherLocal(nome){SALVAR=null;if(!window.showSaveFilePicker)return true;
+ const pdf=/\.pdf$/i.test(nome);
+ try{SALVAR=await window.showSaveFilePicker({suggestedName:nome,types:[pdf?{description:'PDF',accept:{'application/pdf':['.pdf']}}:{description:'Excel',accept:{'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':['.xlsx']}}]});return true}
+ catch(e){if(e&&e.name==='AbortError')return false;SALVAR=null;return true}}
+async function salvarBlob(blob,nome){
+ if(SALVAR){const h=SALVAR;SALVAR=null;const w=await h.createWritable();await w.write(blob);await w.close();toast('Salvo: '+h.name);return}
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=nome;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},800);
+ toast('Baixado na pasta Downloads: '+nome)}
+async function pmBaixar(wb,nome){const buf=await wb.xlsx.writeBuffer();await salvarBlob(new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}),nome)}
 const pmNome=g=>{const a=pmAwb(g[0]);return a?'AWB '+a.replace(/[^\w-]+/g,''):g.map(c=>c.numero).join('+')};
 const pmFone=f=>{let d=String(f||'').replace(/\D/g,'');if(d&&!d.startsWith('55')&&d.length<=11)d='55'+d;return d};
 const pmCep=c=>{const d=String(c||'').replace(/\D/g,'');return d.length===8?d.slice(0,5)+'-'+d.slice(5):String(c||'')};
@@ -5073,10 +5086,11 @@ async function pdfBaixar(html,nome,paisagem){
  const d=fr.contentDocument;d.open();d.write('<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0;background:#fff}.print{display:none!important}html{zoom:1!important}</style></head><body><div id="bx">'+html+'</div></body></html>');d.close();
  try{await new Promise((ok2,er)=>{const sc=d.createElement('script');sc.src='https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';sc.onload=ok2;sc.onerror=()=>er(new Error('não carregou o gerador de PDF'));d.head.appendChild(sc)});
   await new Promise(r=>setTimeout(r,600));
-  await fr.contentWindow.html2pdf().set({margin:8,filename:nome,image:{type:'jpeg',quality:.92},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff',windowWidth:paisagem?1100:740},jsPDF:{unit:'mm',format:'a4',orientation:paisagem?'landscape':'portrait'},pagebreak:{mode:['css','legacy'],avoid:['tr','.ped','.box']}}).from(d.getElementById('bx')).save()}
+  await fr.contentWindow.html2pdf().set({margin:8,filename:nome,image:{type:'jpeg',quality:.92},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff',windowWidth:paisagem?1100:740},jsPDF:{unit:'mm',format:'a4',orientation:paisagem?'landscape':'portrait'},pagebreak:{mode:['css','legacy'],avoid:['tr','.ped','.box']}}).from(d.getElementById('bx')).outputPdf('blob').then(bl=>salvarBlob(bl,nome))}
  finally{fr.remove()}}
+const nomeSeq=rec=>pmGrupoSeq(rec).replace(/#/g,'').replace(/\s*\+\s*/g,'-');
 async function colaPdf(rec,btn){const t=btn&&btn.textContent;if(btn){btn.disabled=true;btn.textContent='Gerando…'}
- try{const r=await janiceMontar(rec);const seq=pmGrupoSeq(rec).replace(/#/g,'').replace(/\s*\+\s*/g,'-');await pdfBaixar(r.corpo,'Cola de compra '+seq+'.pdf');toast('PDF baixado')}catch(e){toast(errMsg(e))}
+ try{const r=await janiceMontar(rec);const seq=pmGrupoSeq(rec).replace(/#/g,'').replace(/\s*\+\s*/g,'-');await pdfBaixar(r.corpo,'Cola de compra '+seq+'.pdf')}catch(e){toast(errMsg(e))}
  if(btn){btn.disabled=false;btn.textContent=t}}
 // v165: Fulfillment (Skyroad): 1 caixa por pedido, com etiqueta da Mile, comprador e itens com foto, para separar e conferir
 async function fulMontar(rec){
@@ -5107,10 +5121,12 @@ async function fulMontar(rec){
  return {corpo,titulo:'Fulfillment '+pmGrupoSeq(rec)};
 }
 async function fulPdf(rec,btn){const t=btn&&btn.textContent;if(btn){btn.disabled=true;btn.textContent='Gerando…'}
- try{const r=await fulMontar(rec);const seq=pmGrupoSeq(rec).replace(/#/g,'').replace(/\s*\+\s*/g,'-');await pdfBaixar(r.corpo,'Fulfillment '+seq+'.pdf');toast('PDF baixado')}catch(e){toast(errMsg(e))}
+ try{const r=await fulMontar(rec);const seq=pmGrupoSeq(rec).replace(/#/g,'').replace(/\s*\+\s*/g,'-');await pdfBaixar(r.corpo,'Fulfillment '+seq+'.pdf')}catch(e){toast(errMsg(e))}
  if(btn){btn.disabled=false;btn.textContent=t}}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-jpdf],[data-fpdf]');if(!b)return;e.preventDefault();e.stopImmediatePropagation();
- const id=b.dataset.jpdf||b.dataset.fpdf,rec=(S.data.cortes||[]).find(c=>c.id===id);if(!rec)return;if(b.dataset.jpdf)colaPdf(rec,b);else fulPdf(rec,b)},true);
+ const id=b.dataset.jpdf||b.dataset.fpdf,rec=(S.data.cortes||[]).find(c=>c.id===id);if(!rec)return;
+ const nm=(b.dataset.jpdf?'Cola de compra ':'Fulfillment ')+nomeSeq(rec)+'.pdf';
+ escolherLocal(nm).then(ok=>{if(!ok)return;if(b.dataset.jpdf)colaPdf(rec,b);else fulPdf(rec,b)})},true);
 async function janiceResumo(rec){
  const w=window.open('','_blank');if(!w){toast('Libere pop-ups para abrir o resumo');return}
  w.document.write('<p style="font:16px sans-serif;padding:24px">불러오는 중… (carregando)</p>');
@@ -5175,6 +5191,7 @@ function openCorte(id){
   if(b.dataset.lcopy)copiar(L[b.dataset.lcopy].txt,'Lista copiada');else baixar(rec.numero+'-'+b.dataset.lcsv+'.csv',L[b.dataset.lcsv].csv)});
  $('#ov').addEventListener('click',async e=>{const b=e.target.closest('[data-pmx]');if(!b)return;
   const awbNovo=$('#c-awb')?$('#c-awb').value.trim():'';if(awbNovo!==pmAwb(rec)){toast('Salve o AWB antes de baixar');return}
+  const g0=pmGrupo(rec);if(!(await escolherLocal(b.dataset.pmx==='mile'?'Manifest Mile '+pmNome(g0)+'.xlsx':'Skyroad Master List '+nomeSeq(rec)+'.xlsx')))return;
   const t=b.textContent;b.disabled=true;b.textContent='Gerando…';try{if(b.dataset.pmx==='mile')await pmManifesto(rec);else await pmMaster(rec)}catch(err){toast(errMsg(err))}b.disabled=false;b.textContent=t});
  // excluir lista: devolve as vendas para "esperando corte"
  const del=$('#m-del');if(del)del.addEventListener('click',async()=>{if(!del.classList.contains('armed')){del.classList.add('armed');del.textContent='Confirmar exclusão';return}
@@ -5639,6 +5656,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v169','23/11/2026',['Planilha da Mile, Master List, Cola de compra (PDF) e Fulfillment (PDF): ao clicar, abre a janela "Salvar como" para você escolher a pasta e o nome. Em navegador sem essa janela, baixa na pasta Downloads e avisa.']],
  ['v168','23/11/2026',['Cola de compra (página e PDF), parte 2 Embalagem por pedido: cada caixa mostra o nome do comprador em destaque e a etiqueta da Mile (house AWB), para casar com as etiquetas. Pedidos sem item da Coreia (ex.: só Brasil) não aparecem mais.']],
  ['v167','23/11/2026',['Parametrização: na barra das marcadas (#0001 + … + #0007) entraram os botões Cola de compra (PDF) e Fulfillment (PDF), que juntam todas as marcadas num PDF só.']],
  ['v166','23/11/2026',['Fulfillment (PDF): o nome do comprador vem grande no topo de cada caixa (a etiqueta da Mile não traz o nº do pedido), com a etiqueta (house AWB), cidade, CEP e o nº do pedido embaixo. Caixas em ordem alfabética pelo nome do comprador.']],
