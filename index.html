@@ -1023,7 +1023,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v164 · 23/11/2026';
+const VERSAO='v165 · 23/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1469,7 +1469,8 @@ const PM_COLS=[
  {k:'awb',l:'AWB',g:c=>pmAwb(c)||'(sem AWB)',cell:c=>pmAwb(c)?'<b class="num">'+esc(pmAwb(c))+'</b>':'<span class="muted">aguardando booking</span>'},
  {k:'junto',l:'Vai junto com',g:c=>pmGrupo(c).filter(x=>x.id!==c.id).map(x=>x.numero).join(', '),cell:c=>esc(pmGrupo(c).filter(x=>x.id!==c.id).map(x=>x.numero).join(', '))},
  {k:'env',l:'Enviada',g:c=>c.enviadoEm?'Enviada':'Pendente',cell:c=>stPill(c.enviadoEm?'Enviada':'Pendente')},
- {k:'link',l:'Link Janice',nf:1,ns:1,g:c=>'',cell:c=>'<button class="btn sm pri" type="button" data-jlink="'+esc(c.id)+'" title="Gera ou atualiza a página, copia o link e abre em nova aba">Copiar e abrir</button>'},
+ {k:'link',l:'Cola de compra',nf:1,ns:1,g:c=>'',cell:c=>'<div style="display:flex;gap:4px;flex-wrap:nowrap"><button class="btn sm pri" type="button" data-jlink="'+esc(c.id)+'" title="Gera ou atualiza a página, copia o link e abre em nova aba">Copiar link</button><button class="btn sm" type="button" data-jpdf="'+esc(c.id)+'" title="Baixa a cola de compra em PDF">PDF</button></div>'},
+ {k:'ful',l:'Fulfillment',nf:1,ns:1,g:c=>'',cell:c=>'<button class="btn sm" type="button" data-fpdf="'+esc(c.id)+'" title="Lista de embalagem por pedido (Skyroad), em PDF">PDF</button>'},
  {k:'compra',l:'Compra Janice',t:'n',g:c=>compraTotal(c).total,fmt:v=>krw(Number(v)),cell:c=>{const t=compraTotal(c);return t.base?'<b class="num">'+krw(t.total)+'</b><small>'+dm(t.total*n(S.cfg.krw))+'</small>':'<span class="muted">aguardando</span>'},cls:'r'}
 ];
 // código HS sugerido pelo tipo do produto (vale até alguém preencher o HS no catálogo)
@@ -5061,6 +5062,48 @@ async function janiceMontar(rec){
  const titulo=pmGrupoSeq(rec)+' · '+pmGrupo(rec).map(x=>x.numero).join(' + ')+' · 구매/포장 요약';
  return {titulo,corpo,html:'<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+e(titulo)+'</title></head><body>'+corpo+'</body></html>'};
 }
+
+// v165: PDF a partir de HTML (iframe isolado, sem o CSS do ERP), baixa o arquivo
+async function pdfBaixar(html,nome,paisagem){
+ const fr=document.createElement('iframe');fr.style.cssText='position:fixed;left:-10000px;top:0;width:'+(paisagem?1100:740)+'px;height:1200px;border:0';document.body.appendChild(fr);
+ const d=fr.contentDocument;d.open();d.write('<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0;background:#fff}.print{display:none!important}html{zoom:1!important}</style></head><body><div id="bx">'+html+'</div></body></html>');d.close();
+ try{await new Promise((ok2,er)=>{const sc=d.createElement('script');sc.src='https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';sc.onload=ok2;sc.onerror=()=>er(new Error('não carregou o gerador de PDF'));d.head.appendChild(sc)});
+  await new Promise(r=>setTimeout(r,600));
+  await fr.contentWindow.html2pdf().set({margin:8,filename:nome,image:{type:'jpeg',quality:.92},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff',windowWidth:paisagem?1100:740},jsPDF:{unit:'mm',format:'a4',orientation:paisagem?'landscape':'portrait'},pagebreak:{mode:['css','legacy'],avoid:['tr','.ped','.box']}}).from(d.getElementById('bx')).save()}
+ finally{fr.remove()}}
+async function colaPdf(rec,btn){const t=btn&&btn.textContent;if(btn){btn.disabled=true;btn.textContent='Gerando…'}
+ try{const r=await janiceMontar(rec);const seq=pmGrupoSeq(rec).replace(/#/g,'').replace(/\s*\+\s*/g,'-');await pdfBaixar(r.corpo,'Cola de compra '+seq+'.pdf');toast('PDF baixado')}catch(e){toast(errMsg(e))}
+ if(btn){btn.disabled=false;btn.textContent=t}}
+// v165: Fulfillment (Skyroad): 1 caixa por pedido, com etiqueta da Mile, comprador e itens com foto, para separar e conferir
+async function fulMontar(rec){
+ const vs=pmGrupoVendas(rec).filter(v=>!isCancel(v)).sort((a,b)=>n(a.numero)-n(b.numero));
+ const L=[];vs.forEach(v=>(v.itens||[]).filter(naCarga).forEach(it=>{const i=pmItem(it);const prod=i.sku?(S.data.produtos||[]).find(x=>x.sku===i.sku):null;L.push({v,it,i,prod,qtd:n(it.qtd)||1})}));
+ const vids=[...new Set(L.map(l=>l.prod&&l.prod.shopify_variant_id).filter(Boolean).map(String))];
+ let info={};try{if(vids.length)info=(await chamarShop({acao:'variantes_info',ids:vids})).itens||{}}catch(_){}
+ const e=x=>String(x==null?'':x).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+ const im=l=>{const x=l.prod&&info[String(l.prod.shopify_variant_id)];return x&&x.img?x.img+(x.img.includes('?')?'&':'?')+'width=140':''};
+ const opc=l=>{const x=l.prod&&info[String(l.prod.shopify_variant_id)];return x&&x.variante&&!/default/i.test(x.variante)?x.variante:''};
+ const ped=vs.filter(v=>L.some(l=>l.v===v)), un=L.reduce((s,l)=>s+l.qtd,0);
+ const css='*{box-sizing:border-box}body{font-family:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;color:#2E1A24;font-size:11px;line-height:1.35}'+
+  '.top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;border-bottom:2px solid #B83D66;padding-bottom:6px;margin-bottom:8px}h1{font-size:17px;margin:0}.pt{color:#8a7480;font-weight:400}.kpi{font-size:11px;text-align:right}.kpi b{font-size:14px}'+
+  '.box{border:1.5px solid #2E1A24;border-radius:8px;padding:7px 9px;margin:0 0 8px;page-break-inside:avoid;break-inside:avoid}'+
+  '.bh{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;border-bottom:1px dashed #C9B3BD;padding-bottom:4px;margin-bottom:4px}.bh .n{font-size:15px;font-weight:800;color:#B83D66}.bh .awb{font-family:monospace;font-size:12.5px;font-weight:700;background:#F8E3EB;padding:1px 6px;border-radius:4px}.bh .tot{margin-left:auto;background:#2E1A24;color:#fff;border-radius:999px;padding:1px 9px;font-weight:700}'+
+  'table{width:100%;border-collapse:collapse}td{padding:3px 4px;border-bottom:1px solid #F0E2E8;vertical-align:middle}tr:last-child td{border-bottom:0}.ck{width:14px;height:14px;border:1.5px solid #2E1A24;border-radius:3px;display:inline-block}'+
+  'img{width:38px;height:38px;object-fit:contain;border-radius:5px;background:#f5f5f5;display:block}.kr{font-weight:700;font-size:11.5px}.en{color:#6f5a64;font-size:9.5px}.q{font-size:15px;font-weight:800;text-align:right;white-space:nowrap;width:44px}.tag{font-size:9px;background:#F8E3EB;color:#B83D66;border-radius:999px;padding:0 6px;font-weight:700}'+
+  '.sign{margin-top:10px;font-size:10.5px;color:#6f5a64}';
+ const corpo='<style>'+css+'</style><div class="top"><div><div style="font-weight:800;color:#B83D66">OMG! Oh My Girl</div><h1>Fulfillment · 포장 목록 <span class="pt">'+e(pmGrupoSeq(rec))+'</span></h1><div class="pt">1 주문 = 1 박스 · 1 order = 1 parcel · Mile 라벨(House AWB)을 박스에 부착</div></div>'+
+  '<div class="kpi">주문/박스 <b>'+ped.length+'</b><br>상품 <b>'+un+'</b>개<br><span class="pt">'+e(new Date().toLocaleDateString('ko-KR',{timeZone:'Asia/Seoul'}))+'</span></div></div>'+
+  ped.map(v=>{const it=L.filter(l=>l.v===v),tq=it.reduce((s,l)=>s+l.qtd,0);
+   return '<div class="box"><div class="bh"><span class="n">'+e(vnum(v.numero))+'</span><span class="awb">'+e(v.etiquetaMile||'라벨 없음 · sem etiqueta')+'</span><span>'+e(v.cliente||'')+'</span><span class="pt">'+e([v.cidade,v.uf].filter(Boolean).join(' / '))+'</span><span class="tot">총 '+tq+'개 · '+it.length+'종</span></div>'+
+    '<table><tbody>'+it.map(l=>'<tr><td style="width:20px"><span class="ck"></span></td><td style="width:44px">'+(im(l)?'<img src="'+e(im(l))+'" crossorigin="anonymous" alt="">':'')+'</td><td><div class="kr">'+e(l.i.kr||l.i.en)+(opc(l)?' <span class="tag">'+e(opc(l))+'</span>':'')+'</div><div class="en"><b>'+e(l.i.marca)+'</b> · '+e(l.i.en)+' · SKU '+e(l.i.sku||'—')+'</div></td><td class="q">×'+l.qtd+'</td></tr>').join('')+'</tbody></table></div>'}).join('')+
+  '<p class="sign">확인 · Conferido por: ____________________ &nbsp; 날짜 · Data: __________</p>';
+ return {corpo,titulo:'Fulfillment '+pmGrupoSeq(rec)};
+}
+async function fulPdf(rec,btn){const t=btn&&btn.textContent;if(btn){btn.disabled=true;btn.textContent='Gerando…'}
+ try{const r=await fulMontar(rec);const seq=pmGrupoSeq(rec).replace(/#/g,'').replace(/\s*\+\s*/g,'-');await pdfBaixar(r.corpo,'Fulfillment '+seq+'.pdf');toast('PDF baixado')}catch(e){toast(errMsg(e))}
+ if(btn){btn.disabled=false;btn.textContent=t}}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-jpdf],[data-fpdf]');if(!b)return;e.preventDefault();e.stopImmediatePropagation();
+ const id=b.dataset.jpdf||b.dataset.fpdf,rec=(S.data.cortes||[]).find(c=>c.id===id);if(!rec)return;if(b.dataset.jpdf)colaPdf(rec,b);else fulPdf(rec,b)},true);
 async function janiceResumo(rec){
  const w=window.open('','_blank');if(!w){toast('Libere pop-ups para abrir o resumo');return}
  w.document.write('<p style="font:16px sans-serif;padding:24px">불러오는 중… (carregando)</p>');
@@ -5103,7 +5146,7 @@ function openCorte(id){
  const bloco=(k,t,sub)=>'<div class="sec"><span class="label">'+t+'</span><p class="muted full" style="grid-column:1/-1;margin:0;font-size:11.5px">'+sub+'</p><pre class="code" style="grid-column:1/-1;max-height:200px">'+esc(L[k].txt)+'</pre><div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" type="button" data-lcopy="'+k+'">Copiar texto</button><button class="btn sm" type="button" data-lcsv="'+k+'">Baixar planilha</button></div></div>';
  const body='<div class="sec"><span class="label">Resumo</span><p style="grid-column:1/-1;margin:0">'+vs.length+' vendas · '+A.reduce((s,a)=>s+a.qtd,0)+' unidades · fechada em '+esc(fechLabel(rec))+'</p>'+
   '<label class="chk full" style="grid-column:1/-1"><input type="checkbox" id="c-env"'+(rec.enviadoEm?' checked':'')+(ro?' disabled':'')+'> Enviada para Janice, Skyroad e Mile'+(rec.enviadoEm?' <span class="muted">· '+esc(new Date(rec.enviadoEm).toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo'}))+'</span>':'')+'</label></div>'+
-  '<div class="sec"><span class="label">Para a Janice · resumo em coreano</span><p class="muted" style="grid-column:1/-1;margin:0;font-size:11.5px">Página para imprimir ou mandar: lista de compra somada (com foto, nome em coreano e link do produto), embalagem por pedido e campo para ela escrever o custo em ₩.</p><div style="grid-column:1/-1"><button class="btn pri sm" type="button" id="c-janice-link">Gerar link para a Janice</button> <button class="btn sm" type="button" id="c-janice">Abrir aqui</button><p class="muted" id="c-janice-url" style="margin:8px 0 0;font-size:12px;word-break:break-all">Link: '+esc(janiceUrl(rec))+' (clique em Gerar para criar ou atualizar)</p></div></div>'+
+  '<div class="sec"><span class="label">Cola de compra · resumo em coreano</span><p class="muted" style="grid-column:1/-1;margin:0;font-size:11.5px">Página para imprimir ou mandar: lista de compra somada (com foto, nome em coreano e link do produto), embalagem por pedido e campo para ela escrever o custo em ₩.</p><div style="grid-column:1/-1"><button class="btn pri sm" type="button" id="c-janice-link">Copiar link da cola de compra</button> <button class="btn sm" type="button" id="c-janice">Abrir aqui</button> <button class="btn sm" type="button" data-jpdf="'+esc(rec.id)+'">Cola de compra (PDF)</button> <button class="btn sm" type="button" data-fpdf="'+esc(rec.id)+'">Fulfillment (PDF)</button><p class="muted" id="c-janice-url" style="margin:8px 0 0;font-size:12px;word-break:break-all">Link: '+esc(janiceUrl(rec))+' (clique em Gerar para criar ou atualizar)</p></div></div>'+
   bloco('janice','Para a Janice · o que comprar','Itens somados de todas as vendas da lista.')+
   pmBloco(rec)+
   '<div class="sec"><span class="label">Compra da Janice · custo em ₩</span><p class="muted" style="grid-column:1/-1;margin:0;font-size:11.5px">Custo unitário de cada item e as despesas na Coreia (embalagem, transporte local). As despesas são rateadas pelo valor dos itens e o custo final entra no campo "₩ La Belle" de cada venda.</p>'+
@@ -5589,6 +5632,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v165','23/11/2026',['Parametrização: a coluna Link Janice virou Cola de compra, com Copiar link e PDF (baixa a cola em PDF).','Nova coluna Fulfillment: PDF com 1 caixa por pedido, etiqueta da Mile (house AWB), comprador, cidade e itens com foto, nome em coreano, SKU, quantidade e caixinha para marcar. Os dois PDFs também ficam no detalhe da parametrização.']],
  ['v164','23/11/2026',['Master List Skyroad: coluna UNIT corrigida (produto com + no nome, como Pore+Dark Spot, não vira set).']],
  ['v163','23/11/2026',['Master List da Skyroad refeita para o 간이 수출: nome simples (Skyroad Master List 0001-0007.xlsx), uma linha por item de cada pedido com comprador, endereço, CEP, telefone, etiqueta da Mile (house AWB), SKU, nome em coreano, HS, NCM, quantidade, preço e peso; totais por pedido. Aba 2 com o resumo por produto. Preço = preço cheio (sem cupom) menos o % configurado.','Etiquetas da Mile do embarque 2 gravadas em cada venda (campo Nº etiqueta Mile).']],
  ['v162','22/11/2026',['Parametrização → Link Janice: o botão agora se chama "Copiar e abrir". Copia o link e já abre a página em nova aba.']],
