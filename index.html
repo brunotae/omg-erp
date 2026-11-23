@@ -1023,7 +1023,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v162 · 22/11/2026';
+const VERSAO='v163 · 23/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1568,26 +1568,49 @@ async function pmManifesto(c){
  await pmBaixar(wb,'Manifest Mile '+pmNome(g)+'.xlsx');
 }
 async function pmMaster(c){
+ // v163: Master List da Skyroad no mesmo formato da planilha da Mile (간이 수출: cada pedido é uma exportação, mas sai num processo só).
+ // Uma linha por item de cada pedido, com comprador, endereço e etiqueta (house AWB) da Mile. Aba 2: resumo por produto para separar.
  const X=await pmLib(),P=PM.cfg||PM_PAD,g=pmGrupo(c),L=pmLinhas(g),awb=pmAwb(c),f=1-n(P.desconto)/100;
- const m=new Map();L.forEach(l=>{const k=l.i.sku||l.i.en;const a=m.get(k)||{i:l.i,qtd:0,usd:0};a.qtd+=l.i.qtd;a.usd+=l.usd;m.set(k,a)});
- const A=[...m.values()].sort((a,b)=>(a.i.marca+a.i.en).localeCompare(b.i.marca+b.i.en));
+ const r2=x=>Math.round(n(x)*100)/100, r3=x=>Math.round(n(x)*1000)/1000;
+ const seqs=g.map(x=>pmSeq(x)).filter(x=>x!=='—').sort(), faixa=seqs.length?(seqs.length>1?seqs[0]+'-'+seqs[seqs.length-1]:seqs[0]):g.map(x=>x.numero).join('+');
  const wb=new X.Workbook(),ws=wb.addWorksheet('Master List');
- ws.getCell('A1').value='Master List';ws.getCell('A1').font={bold:true,size:16};
+ const fino={style:'thin',color:{argb:'FFBFBFBF'}},grosso={style:'medium',color:{argb:'FF000000'}};
  const set=(ref,v,b)=>{ws.getCell(ref).value=v;if(b)ws.getCell(ref).font={bold:true}};
+ ws.getCell('A1').value='Master List · Skyroad';ws.getCell('A1').font={bold:true,size:16};
+ const ped=[...new Set(L.map(l=>l.v.id))].length, un=L.reduce((s,l)=>s+l.i.qtd,0), kg=r3(L.reduce((s,l)=>s+l.i.kg*l.i.qtd,0));
  set('A3','Shipper',1);set('B3',P.shipNome+'\n'+P.shipEnd);ws.getCell('B3').alignment={wrapText:true,vertical:'top'};
- const d=new Date();
- [['H3','Invoice number',g.map(x=>x.numero).join(' + ')],['H4','Date',d.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric',timeZone:'America/Sao_Paulo'})],['H5','INCOTERM','DDP Sao Paulo'],['H6','Currency','US Dollar'],['H7','Port of Loading','Incheon Korea'],['H8','Port of Discharge','São Paulo Brazil'],['H9','Modal','Air'],['H10','AWB',awb||'TBD']].forEach(([r,a,b])=>{set(r,a,1);set('I'+r.slice(1),b)});
- set('A7','Consignee',1);set('B7',P.conNome);set('B8',P.conEnd);set('B9','CEP: '+P.conCep);set('B10','CNPJ: '+P.conCnpj);set('B11','Tel: '+P.conTel);
- const H=['No.','Brand','Description of Goods','Product name (KR)','Ingredient','NCM','Qty','Unit','Unit Price (USD)','Amount (USD)','Net Weight (kg)'];
- const hr=ws.getRow(15);H.forEach((h,k)=>{const x=hr.getCell(k+1);x.value=h;x.font={bold:true};x.fill=PM_HEAD_FILL});
- A.forEach((a,k)=>{const r=16+k;const up=r2(a.usd/a.qtd*f);
-  ws.getRow(r).values=[k+1,a.i.marca,a.i.en,a.i.kr,a.i.ing,a.i.ncm,a.qtd,/kit|set|\+/i.test(a.i.en)?'set':'pc',up,{formula:'IFERROR(G'+r+'*I'+r+',"")',result:r2(up*a.qtd)},r2(a.i.kg*a.qtd*1000)/1000];
-  ws.getCell('E'+r).alignment={wrapText:true,vertical:'top'}});
- const t=16+A.length;set('C'+t,'TOTAL',1);
- [['G',A.reduce((s,a)=>s+a.qtd,0)],['J',r2(A.reduce((s,a)=>s+r2(a.usd/a.qtd*f)*a.qtd,0))],['K',r2(A.reduce((s,a)=>s+a.i.kg*a.qtd,0)*1000)/1000]].forEach(([col,res])=>{ws.getCell(col+t).value={formula:'SUM('+col+'16:'+col+(t-1)+')',result:res};ws.getCell(col+t).font={bold:true}});
- [6,14,42,30,60,10,6,6,14,13,14].forEach((w,k)=>ws.getColumn(k+1).width=w);
- ['I','J'].forEach(col=>ws.getColumn(col).numFmt='0.00');
- await pmBaixar(wb,'Master List '+pmNome(g)+'.xlsx');
+ set('A5','Consignee (master)',1);set('B5',P.conNome+'\n'+P.conEnd+' · CEP '+P.conCep+'\nCNPJ '+P.conCnpj+' · Tel '+P.conTel);ws.getCell('B5').alignment={wrapText:true,vertical:'top'};
+ [['Invoice number','OMG '+faixa],['Date',new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric',timeZone:'America/Sao_Paulo'})],['Export type','간이 수출 · simplified export (1 order = 1 parcel)'],['INCOTERM','DDP Sao Paulo'],['Currency','US Dollar'],['Port of Loading / Discharge','Incheon Korea → São Paulo (GRU) Brazil'],['Master AWB',awb||'TBD'],['Orders (parcels)',ped],['Items',un],['Net weight (kg)',kg]].forEach(([a,b],k)=>{set('K'+(3+k),a,1);set('M'+(3+k),b)});
+ const H=['No.','ORDER #','HOUSE AWB (Mile label)','BUYER','ADDRESS','CITY','STATE','ZIP CODE','COUNTRY','PHONE','SKU','BRAND','DESCRIPTION OF GOODS','PRODUCT NAME (KR)','HS CODE','NCM','QTY','UNIT','UNIT PRICE (USD)','AMOUNT (USD)','ORDER TOTAL (USD)','NET WEIGHT (kg)','ORDER WEIGHT (kg)','INGREDIENTS'];
+ const C=h=>H.indexOf(h)+1,HR=15,NC=H.length;
+ const hr=ws.getRow(HR);H.forEach((h,k)=>{const x=hr.getCell(k+1);x.value=h;x.font={bold:true};x.fill=PM_HEAD_FILL;x.alignment={wrapText:true,vertical:'middle'};x.border={top:grosso,bottom:grosso,left:k?fino:grosso,right:k===NC-1?grosso:fino}});
+ const L2=[...L].sort((a,b)=>n(a.v.numero)-n(b.v.numero));
+ L2.forEach((l,k)=>{const v=l.v,e=pmEnd(v)||{},i=l.i,up=r2(l.cheio/(i.qtd||1)*f);
+  ws.getRow(HR+1+k).values=[k+1,vnum(v.numero),v.etiquetaMile||'',e.nome||v.cliente||'',[e.rua,e.compl].filter(Boolean).join(', '),e.cidade||v.cidade||'',e.uf||v.uf||'',pmCep(e.cep),'BRAZIL',pmFone(e.fone),i.sku||'',i.marca,i.en,i.kr||'',String(i.hs||''),String(i.ncm||''),i.qtd,/kit|set|\+| x ?\d/i.test(i.en)?'set':'pc',up,r2(up*i.qtd),'',r3(i.kg*i.qtd),'',i.ing||'']});
+ const ult=HR+L2.length;
+ // pedido: totais, bordas grossas e células do pedido mescladas
+ for(let r=HR+1;r<=ult;){const id=L2[r-HR-1].v.id;let fi=r;while(fi+1<=ult&&L2[fi+1-HR-1].v.id===id)fi++;
+  let tv=0,tk=0;for(let rr=r;rr<=fi;rr++){tv+=n(ws.getCell(rr,C('AMOUNT (USD)')).value);tk+=n(ws.getCell(rr,C('NET WEIGHT (kg)')).value)}
+  ws.getCell(r,C('ORDER TOTAL (USD)')).value=r2(tv);ws.getCell(r,C('ORDER WEIGHT (kg)')).value=r3(tk);
+  const M=['ORDER #','HOUSE AWB (Mile label)','BUYER','ADDRESS','CITY','STATE','ZIP CODE','COUNTRY','PHONE','ORDER TOTAL (USD)','ORDER WEIGHT (kg)'].map(C);
+  for(let rr=r;rr<=fi;rr++)for(let k=1;k<=NC;k++){const x=ws.getCell(rr,k);x.border={left:k===1?grosso:fino,right:k===NC?grosso:fino,top:rr===r?grosso:fino,bottom:rr===fi?grosso:fino};x.alignment={vertical:'top',wrapText:k===C('ADDRESS')||k===C('DESCRIPTION OF GOODS')||k===C('PRODUCT NAME (KR)')}}
+  M.forEach(k=>{if(fi>r)ws.mergeCells(r,k,fi,k);ws.getCell(r,k).alignment={vertical:'middle',wrapText:k===C('ADDRESS')}});
+  r=fi+1}
+ const t=ult+1;set('M'+t,'TOTAL',1);
+ [['QTY',un],['AMOUNT (USD)',r2(L2.reduce((s,l)=>s+r2(r2(l.cheio/(l.i.qtd||1)*f)*l.i.qtd),0))],['NET WEIGHT (kg)',kg]].forEach(([h,v])=>{const x=ws.getCell(t,C(h));x.value=v;x.font={bold:true}});
+ ws.getCell(t,C('ORDER TOTAL (USD)')).value=ws.getCell(t,C('AMOUNT (USD)')).value;ws.getCell(t,C('ORDER TOTAL (USD)')).font={bold:true};
+ ['UNIT PRICE (USD)','AMOUNT (USD)','ORDER TOTAL (USD)'].forEach(h=>ws.getColumn(C(h)).numFmt='0.00');['NET WEIGHT (kg)','ORDER WEIGHT (kg)'].forEach(h=>ws.getColumn(C(h)).numFmt='0.000');
+ ['ZIP CODE','PHONE','HS CODE','NCM','HOUSE AWB (Mile label)','ORDER #'].forEach(h=>ws.getColumn(C(h)).numFmt='@');
+ [5,11,20,24,38,16,7,10,9,14,13,14,44,30,9,10,6,6,10,10,11,10,10,50].forEach((w,k)=>ws.getColumn(k+1).width=w);
+ ws.views=[{state:'frozen',ySplit:HR,showGridLines:false}];
+ // aba 2: resumo por produto (para separar e conferir)
+ const w2=wb.addWorksheet('By product');
+ const H2=['No.','SKU','BRAND','DESCRIPTION OF GOODS','PRODUCT NAME (KR)','HS CODE','NCM','QTY','UNIT PRICE (USD)','AMOUNT (USD)','NET WEIGHT (kg)','ORDERS'];
+ w2.getRow(1).values=H2;w2.getRow(1).eachCell(x=>{x.font={bold:true};x.fill=PM_HEAD_FILL});
+ const m=new Map();L2.forEach(l=>{const k=l.i.sku||l.i.en;const a=m.get(k)||{i:l.i,qtd:0,amt:0,ped:new Set()};const up=r2(l.cheio/(l.i.qtd||1)*f);a.qtd+=l.i.qtd;a.amt+=r2(up*l.i.qtd);a.ped.add(vnum(l.v.numero));m.set(k,a)});
+ [...m.values()].sort((a,b)=>(a.i.marca+a.i.en).localeCompare(b.i.marca+b.i.en)).forEach((a,k)=>{w2.getRow(2+k).values=[k+1,a.i.sku||'',a.i.marca,a.i.en,a.i.kr||'',String(a.i.hs||''),String(a.i.ncm||''),a.qtd,r2(a.amt/a.qtd),r2(a.amt),r3(a.i.kg*a.qtd),[...a.ped].join(', ')]});
+ [5,13,16,44,30,9,10,6,12,12,12,40].forEach((w,k)=>w2.getColumn(k+1).width=w);['I','J'].forEach(cl=>w2.getColumn(cl).numFmt='0.00');w2.getColumn('K').numFmt='0.000';
+ await pmBaixar(wb,'Skyroad Master List '+faixa+'.xlsx');
 }
 function pmCfgEditar(){
  const P=PM.cfg||PM_PAD;
@@ -5566,6 +5589,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v163','23/11/2026',['Master List da Skyroad refeita para o 간이 수출: nome simples (Skyroad Master List 0001-0007.xlsx), uma linha por item de cada pedido com comprador, endereço, CEP, telefone, etiqueta da Mile (house AWB), SKU, nome em coreano, HS, NCM, quantidade, preço e peso; totais por pedido. Aba 2 com o resumo por produto. Preço = preço cheio (sem cupom) menos o % configurado.','Etiquetas da Mile do embarque 2 gravadas em cada venda (campo Nº etiqueta Mile).']],
  ['v162','22/11/2026',['Parametrização → Link Janice: o botão agora se chama "Copiar e abrir". Copia o link e já abre a página em nova aba.']],
  ['v161','21/11/2026',['Portal de compras (po.html): a compradora entra com login próprio, vê todas as listas de compra por parametrização (data, produtos com foto, quantidade, pedidos, link), em coreano ou português, e sobe comprovantes, planilhas e despesas avulsas (transporte, frete até a Skyroad). Os anexos aparecem aqui em cada parametrização.']],
  ['v160','21/11/2026',['Link para a Janice: o resumo de parametrização agora só abre com senha. O conteúdo vai criptografado na página do site (nem o código-fonte mostra os pedidos). As 5 páginas antigas também foram protegidas.']],
