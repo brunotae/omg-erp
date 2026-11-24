@@ -806,11 +806,12 @@ function contasList(){
 const MOEDAS=['BRL','USD','KRW'];
 
 const S={db:null,canWrite:true,status:'connecting',view:(/^#relatorios/.test(location.hash)?'relatorios':'painel'),q:'',
- data:{estoque_lotes:[],estoque_movs:[],credito_movs:[],informacoes:[],tarefas:[],vendas:[],cortes:[],lotes:[],lancamentos:[],devolucoes:[],insumos:[],compras:[],produtos:[],cupons:[],fornecedores:[],metricas:[],acoes_mkt:[],influenciadores:[],links_utm:[],link_cliques_dia:[],comissoes_fechamentos:[],monitoramentos:[],monitor_execucoes:[],ocorrencias_compra:[]},
+ data:{diario:[],estoque_lotes:[],estoque_movs:[],credito_movs:[],informacoes:[],tarefas:[],vendas:[],cortes:[],lotes:[],lancamentos:[],devolucoes:[],insumos:[],compras:[],produtos:[],cupons:[],fornecedores:[],metricas:[],acoes_mkt:[],influenciadores:[],links_utm:[],link_cliques_dia:[],comissoes_fechamentos:[],monitoramentos:[],monitor_execucoes:[],ocorrencias_compra:[]},
  loaded:{},missing:{},cfg:{krw:0.0039,usd:5.40,desc:12,markup:40,fielMin:2},
  f:{est:'mercadoria',lucro:'mes',lucroMes:'',info:'Todas',tar:'Todos',tarSt:'abertas',vendas:'abertas',fin:'mes',doc:'identidade'}};
 
 const ICONS={
+ diario:'<path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h11"/><path d="M9 8h6"/>',
  monitor:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><path d="M12 12l6-6"/><circle cx="12" cy="12" r=".8"/>',
  visitas:'<path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
  links:'<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
@@ -844,7 +845,7 @@ const ICONS={
  fornecedores:'<path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/>',
  config:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/>'
 };
-const NAV=[['','painel','Painel'],['','tarefas','Tarefas'],['Operação','vendas','Vendas'],['','etapas','Etapas dos pedidos'],['','cortes','Parametrização'],['','lotes','Embarques'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','estoque','Estoque Coreia'],['','compras','Compras'],['','produtos','Catálogo'],['','pricing','Pricing'],['','precos','Concorrentes'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','cadastros','Cadastros do site'],['','contatos','Contato com clientes'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['','relatorios','Relatório do site'],['','visitas','Visitas agora'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Automação','monitor','Monitoramentos'],['Cadastros','info','Informações'],['','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
+const NAV=[['','painel','Painel'],['','tarefas','Tarefas'],['','diario','Diário'],['Operação','vendas','Vendas'],['','etapas','Etapas dos pedidos'],['','cortes','Parametrização'],['','lotes','Embarques'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','estoque','Estoque Coreia'],['','compras','Compras'],['','produtos','Catálogo'],['','pricing','Pricing'],['','precos','Concorrentes'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','cadastros','Cadastros do site'],['','contatos','Contato com clientes'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['','relatorios','Relatório do site'],['','visitas','Visitas agora'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Automação','monitor','Monitoramentos'],['Cadastros','info','Informações'],['','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
 
 /* ================= utilidades ================= */
 const $=s=>document.querySelector(s);
@@ -1023,7 +1024,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v169 · 23/11/2026';
+const VERSAO='v170 · 23/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -2084,6 +2085,28 @@ document.addEventListener('click',async e=>{if(S.view!=='estoque')return;
   const Ls=estLotes().filter(l=>l.sku===sku&&l.saldo>0&&!EST_AMOSTRA(l.origem)).sort((a,b)=>(a.vence??99999)-(b.vence??99999)||String(a.data).localeCompare(String(b.data))); // primeiro o que vence antes
   try{let f=0;for(const l of Ls){if(q<=0)break;const t=Math.min(q,l.saldo);await save('estoque_movs',null,{lote:l.id,data:today(),qtd:t,tipo:'Venda',venda:num,obs:''});q-=t;f+=t}toast(f?'Baixa feita: '+f+(f>1?' peças':' peça'):'Nada para baixar ('+sku+': '+estLotes().filter(l=>l.sku===sku).length+' entradas)');await loadAll()}catch(x){bx.disabled=false;toast(errMsg(x))}}
 },true);
+
+/* ---------- Diário (v170) ---------- */
+// Tudo o que é importante, por data: decisões, visitas, combinados, endereços do dia, gravações. Próximos eventos ficam no topo.
+const diaTags=r=>String(r.tags||'').split(',').map(x=>x.trim()).filter(Boolean);
+VIEWFN.diario=()=>{
+ const A=S.data.diario||[],f=S.f.dia||'Tudo',hj=today();
+ const tags=['Tudo',...[...new Set(A.flatMap(diaTags))].sort((a,b)=>a.localeCompare(b,'pt'))];
+ const R=A.filter(match).filter(r=>f==='Tudo'||diaTags(r).includes(f));
+ const prox=R.filter(r=>r.data>=hj).sort((a,b)=>String(a.data+a.hora).localeCompare(String(b.data+b.hora)));
+ const pass=R.filter(r=>r.data<hj).sort((a,b)=>String(b.data+b.hora).localeCompare(String(a.data+a.hora)));
+ const dl=d=>{try{return new Date(d+'T12:00:00').toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit',year:'numeric'})}catch(_){return d}};
+ const item=r=>'<div class="card" style="margin:0 0 10px;padding:12px 14px"><div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><b style="font-size:13px;color:var(--pri,#B83D66)">'+esc(dl(r.data))+(r.hora?' · '+esc(r.hora):'')+'</b><b style="font-size:15px">'+esc(r.titulo)+'</b><span style="flex:1"></span>'+diaTags(r).map(t=>'<span class="pill" style="font-size:11px">'+esc(t)+'</span>').join(' ')+(can()?' <button class="btn sm" type="button" data-diaedit="'+esc(r.id)+'">Editar</button>':'')+'</div>'+(r.texto?'<div style="white-space:pre-wrap;margin-top:6px;font-size:13px;line-height:1.5">'+esc(r.texto)+'</div>':'')+'</div>';
+ return '<div class="page wide"><div class="col">'+head('Diário','Tudo o que é importante, por data: visitas, gravações, decisões, combinados e endereços. Os próximos ficam no topo.',newBtn('diario','Novo registro'))+
+  '<div class="chips">'+tags.map(k=>'<button type="button" data-diatag="'+esc(k)+'" aria-pressed="'+(f===k)+'">'+esc(k)+'</button>').join('')+'</div>'+
+  (loading('diario')?'<div class="card"><p class="muted">Carregando…</p></div>':
+   (prox.length?'<h3 style="margin:14px 0 8px;font-size:14px">Próximos</h3>'+prox.map(item).join(''):'')+
+   (pass.length?'<h3 style="margin:14px 0 8px;font-size:14px">Anteriores</h3>'+pass.map(item).join(''):'')+
+   (!R.length?'<div class="card">'+empty('Nada registrado ainda','Clique em Novo registro para guardar uma visita, decisão ou combinado.')+'</div>':''))+
+  '</div></div>'};
+document.addEventListener('click',e=>{if(S.view!=='diario')return;
+ const b=e.target.closest('[data-diatag]');if(b){S.f.dia=b.dataset.diatag;render();return}
+ const ed=e.target.closest('[data-diaedit]');if(ed){openForm('diario',ed.dataset.diaedit);return}});
 
 /* ---------- Informações (v153) ---------- */
 // Tudo o que a gente vive procurando num lugar só: dados dos sócios, empresa, endereços, caixas, acessos, Wi-Fi. Só membros do ERP enxergam.
@@ -3755,6 +3778,12 @@ const FORMS={
   {k:'fornecedor',l:'Distribuidor',t:'combo',o:()=>[...new Set(['DY',...S.data.credito_movs.map(x=>x.fornecedor).filter(Boolean)])]},{k:'tipo',l:'Tipo',t:'select',o:['Recarga','Compra','Ajuste']},
   {k:'data',l:'Data',t:'date'},{k:'valor',l:'Valor',t:'number',req:1,hint:'Ajuste: use negativo para tirar do saldo.'},{k:'moeda',l:'Moeda',t:'select',o:MOEDAS},{k:'ref',l:'Referência'},{k:'obs',l:'Observações',t:'textarea',full:1}]]],
   def:()=>({fornecedor:'DY',tipo:'Recarga',data:today(),moeda:'USD'})},
+ diario:{title:['Novo registro no diário','Registro do diário'],col:'diario',secs:[['Registro',[
+  {k:'data',l:'Data',t:'date',req:1},{k:'hora',l:'Hora (opcional)',hint:'Ex.: 14:00–15:00'},
+  {k:'titulo',l:'Título',req:1,full:1,hint:'Ex.: Visita ao depósito da DY'},
+  {k:'texto',l:'O que aconteceu / o que vai acontecer',t:'textarea',full:1,hint:'Endereços, quem vai, o que foi combinado, valores, decisões…'},
+  {k:'tags',l:'Etiquetas (separe por vírgula)',full:1,hint:'Ex.: DY, Coreia, Marketing, Decisão'}]]],
+  def:()=>({data:today(),hora:'',tags:S.f.dia&&S.f.dia!=='Tudo'?S.f.dia:''})},
  informacoes:{title:['Nova informação','Informação'],col:'informacoes',secs:[['Informação',[
   {k:'titulo',l:'Nome',req:1,hint:'Ex.: Tae, Endereço do escritório, Caixa P, Wi-Fi do escritório'},{k:'categoria',l:'Categoria',t:'combo',o:()=>infoCats()},
   {k:'conteudo',l:'Informações',t:'textarea',full:1,hint:'Uma por linha, no formato Campo: valor. Ex.: CPF: 000.000.000-00 · E-mail: … · Senha: …'},
@@ -5261,6 +5290,7 @@ const COLS={
  lancamentos:['data','tipo','descricao','categoria','conta','valor','moeda','valor_destino','status','ref','parceiro','embarque'],
  devolucoes:['numero','data','venda','status','itens','motivo','local','destino','reembolso','custo_retorno','obs'],
  informacoes:['categoria','titulo','conteudo','sensivel','ordem'],
+ diario:['data','hora','titulo','texto','tags'],
  estoque_lotes:['numero','sku','produto','marca','origem','fornecedor','data','qtd','custo_unit','moeda','com_vat','validade','local','compra','obs'],
  estoque_movs:['lote','data','qtd','tipo','venda','embarque','obs'],
  credito_movs:['fornecedor','data','tipo','valor','moeda','ref','obs'],
@@ -5656,6 +5686,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v170','23/11/2026',['Novo: Diário (no menu, logo abaixo de Tarefas). Guarda tudo o que é importante por data: visitas, gravações, decisões, combinados. Os próximos ficam no topo, com filtro por etiqueta.','Informações → Fornecedores: depósito da DY em Ilsan.']],
  ['v169','23/11/2026',['Planilha da Mile, Master List, Cola de compra (PDF) e Fulfillment (PDF): ao clicar, abre a janela "Salvar como" para você escolher a pasta e o nome. Em navegador sem essa janela, baixa na pasta Downloads e avisa.']],
  ['v168','23/11/2026',['Cola de compra (página e PDF), parte 2 Embalagem por pedido: cada caixa mostra o nome do comprador em destaque e a etiqueta da Mile (house AWB), para casar com as etiquetas. Pedidos sem item da Coreia (ex.: só Brasil) não aparecem mais.']],
  ['v167','23/11/2026',['Parametrização: na barra das marcadas (#0001 + … + #0007) entraram os botões Cola de compra (PDF) e Fulfillment (PDF), que juntam todas as marcadas num PDF só.']],
@@ -5936,7 +5967,7 @@ async function loadAll(){
   const cols=Object.keys(S.data);
   const res=await Promise.all([...cols.map(c=>selectAll(c)),sb.from('config').select('*').eq('chave','geral'),sb.from('config').select('valor').eq('chave','alerta_precos')]);
   let failed=false;
-  cols.forEach((col,i)=>{const {data,error}=res[i];if(error){if(col==='cortes'||col==='monitoramentos'||col==='monitor_execucoes'||col==='ocorrencias_compra'){S.missing[col]=true;S.loaded[col]=true;return}failed=true;return}S.missing[col]=false;
+  cols.forEach((col,i)=>{const {data,error}=res[i];if(error){if(col==='diario'||col==='cortes'||col==='monitoramentos'||col==='monitor_execucoes'||col==='ocorrencias_compra'){S.missing[col]=true;S.loaded[col]=true;return}failed=true;return}S.missing[col]=false;
    S.data[col]=(data||[]).map(r=>fromDb(col,r)).sort((a,b)=>ORD[col]?String(a[ORD[col]]||'').localeCompare(String(b[ORD[col]]||'')):col==='vendas'?n(b.numero)-n(a.numero):n(b.createdAt)-n(a.createdAt));
    S.loaded[col]=true});
   const cfg=res[cols.length];if(cfg&&cfg.data&&cfg.data[0])S.cfg={...S.cfg,...cfg.data[0].valor};
