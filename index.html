@@ -1024,7 +1024,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v173 · 24/11/2026';
+const VERSAO='v174 · 24/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -5559,7 +5559,7 @@ VIEWFN.etapas=()=>{
  const barra=ed?'<div class="card et-barra"><b>Nos '+nSel+' marcados</b><span>· etapa</span><select data-et-etapa>'+STEPS.map(([k,l],i)=>'<option value="'+k+'"'+(ET.etapa===k?' selected':'')+'>'+(i+1)+'. '+esc(l)+'</option>').join('')+'</select>'+
   '<span>· data</span><input type="date" data-et-data value="'+esc(ET.data)+'">'+
   '<label><input type="checkbox" data-et-ant'+(ET.ant?' checked':'')+'> preencher anteriores vazias (menos Etiqueta)</label>'+
-  '<button class="btn sm pri" type="button" data-et-aplicar'+(nSel?'':' disabled')+'>Aplicar</button><button class="btn sm" type="button" data-et-limpasel'+(nSel?'':' disabled')+'>Limpar seleção</button><span class="sp"></span><span class="muted">'+L.length+' pedidos</span></div>':'';
+  '<button class="btn sm pri" type="button" data-et-aplicar'+(nSel?'':' disabled')+'>Aplicar</button><button class="btn sm" type="button" data-et-mail'+(nSel?'':' disabled')+' title="Manda o e-mail desta etapa aos pedidos marcados que já têm a etapa (não muda nada nas etapas)">Mandar e-mail</button><button class="btn sm" type="button" data-et-limpasel'+(nSel?'':' disabled')+'>Limpar seleção</button><span class="sp"></span><span class="muted">'+L.length+' pedidos</span></div>':'';
  const col='<colgroup><col style="width:26px"><col style="width:48px"><col style="width:13%">'+STEPS.map(()=>'<col class="et-cs">').join('')+'<col style="width:7%"></colgroup>';
  return '<div class="page wide"><div class="col">'+head('Etapas dos pedidos',sub,acts)+barra+
   (L.length||Object.values(ET.f.st).some(Boolean)||ET.f.ped||ET.f.cli?'<div class="tblwrap"><table class="et-t">'+col+'<thead>'+th+'</thead><tbody>'+(rows||'<tr><td colspan="17" class="muted" style="padding:14px">Nenhum pedido com esses filtros.</td></tr>')+'</tbody></table></div>':'<div class="card">'+empty('Nenhum pedido','Nada em andamento.')+'</div>')+
@@ -5571,11 +5571,19 @@ function etAplicar(){const k=ET.etapa,d=ET.data||today(),i0=SK.indexOf(k);
  render()}
 // v173: ao salvar abre uma caixa com o que muda e, para cada etapa marcada, a escolha de mandar e-mail (vem marcado), pedido por pedido.
 function etSalvar(){
- const ids=Object.keys(ET.mud);if(!ids.length)return;const av=ET.av||{};const V=id=>(S.data.vendas||[]).find(x=>x.id===id);
+ const ids=Object.keys(ET.mud);if(!ids.length)return;const V=id=>(S.data.vendas||[]).find(x=>x.id===id);
  const linhas=[],grupos={};
  for(const id of ids){const v=V(id);if(!v)continue;const m=ET.mud[id];
   linhas.push((v.pedidoSite||vnum(v.numero))+' '+(String(v.cliente||'').split(' ')[0])+': '+Object.entries(m).map(([k,d])=>(d?'+':'−')+ET_CURTO[k]).join(', '));
   Object.entries(m).forEach(([k,d])=>{if(d)(grupos[k]=grupos[k]||[]).push(v)})}
+ ET.modo='salvar';etModal(grupos,linhas,'Salvar as etapas de '+linhas.length+' pedido(s)','Salvar')}
+// v174: "Mandar e-mail" na barra: manda o e-mail da etapa escolhida aos pedidos marcados que já têm essa etapa (sem mudar etapas)
+function etMail(){const k=ET.etapa;
+ if(ET_SHOP.includes(k)){toast('O e-mail de '+ET_CURTO[k]+' sai pelo Shopify só quando a etapa é salva.');return}
+ const L=(S.data.vendas||[]).filter(v=>ET.sel.has(v.id)&&!v.cancelada),com=L.filter(v=>etNova(v)[k]),sem=L.length-com.length;
+ if(!com.length){toast('Nenhum dos marcados tem a etapa '+ET_CURTO[k]+'.');return}
+ ET.modo='mail';etModal({[k]:com},sem?[sem+' pedido(s) marcados ainda sem a etapa '+ET_CURTO[k]+' ficaram de fora.']:[],'Mandar e-mail · '+(SK.indexOf(k)+1)+'. '+ET_CURTO[k],'Mandar')}
+function etModal(grupos,linhas,titulo,btn){const av=ET.av||{};
  const nome=v=>esc((v.pedidoSite||vnum(v.numero))+' · '+String(v.cliente||'').split(' ').slice(0,2).join(' '));
  const blocos=SK.filter(k=>grupos[k]).map(k=>{const L=grupos[k],t=ET_TIPO[k];
   const it=L.map(v=>{const ja=t&&(av[v.id]||{})[t]==='enviado';
@@ -5583,22 +5591,23 @@ function etSalvar(){
   const n=L.filter(v=>!(t&&(av[v.id]||{})[t]==='enviado')).length;
   return '<div style="border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-bottom:8px"><label class="chk" style="margin:0 0 4px;font-weight:700"><input type="checkbox" data-etmg="'+k+'"'+(n?' checked':' disabled')+'> '+(SK.indexOf(k)+1)+'. '+esc(ET_CURTO[k])+' · mandar e-mail “'+esc(ET_EMAIL[k])+'” ('+n+')</label>'+
    '<details><summary class="muted" style="font-size:12px;cursor:pointer">ver os '+L.length+' pedidos</summary><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:2px 10px;padding:6px 0 0 4px">'+it+'</div></details></div>'}).join('');
- $('#modal-root').innerHTML='<div class="ov" id="ov"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-t" style="max-width:640px"><div class="mh"><h2 id="m-t">Salvar as etapas de '+linhas.length+' pedido(s)</h2><button class="iconbtn" type="button" data-close aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>'+
+ $('#modal-root').innerHTML='<div class="ov" id="ov"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-t" style="max-width:640px"><div class="mh"><h2 id="m-t">'+esc(titulo)+'</h2><button class="iconbtn" type="button" data-close aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>'+
   '<div style="padding:4px 2px">'+(blocos?'<p class="muted" style="margin:0 0 8px;font-size:12.5px">E-mail à cliente: desmarque o que não quer mandar. Cada e-mail sai uma vez só por pedido; o que ficar desmarcado não sai depois sozinho.</p>'+blocos:'<p class="muted" style="font-size:12.5px">Só desmarcações: nenhum e-mail.</p>')+
-  '<details style="margin-top:6px"><summary class="muted" style="font-size:12px;cursor:pointer">o que muda em cada pedido</summary><pre style="white-space:pre-wrap;font-size:11.5px;margin:6px 0 0">'+esc(linhas.join('\n'))+'</pre></details></div>'+
-  '<div class="mf"><div class="r"><button class="btn" type="button" data-close>Cancelar</button><button class="btn pri" type="button" id="etm-ok">Salvar</button></div></div></div></div>';
+  (!linhas.length?'':ET.modo==='mail'?'<p class="muted" style="font-size:12px;margin:6px 0 0">'+esc(linhas.join(' '))+'</p>':'<details style="margin-top:6px"><summary class="muted" style="font-size:12px;cursor:pointer">o que muda em cada pedido</summary><pre style="white-space:pre-wrap;font-size:11.5px;margin:6px 0 0">'+esc(linhas.join('\n'))+'</pre></details>')+'</div>'+
+  '<div class="mf"><div class="r"><button class="btn" type="button" data-close>Cancelar</button><button class="btn pri" type="button" id="etm-ok">'+esc(btn)+'</button></div></div></div></div>';
 }
 async function etSalvarOk(){
  const esc0=[],sem={};
  document.querySelectorAll('[data-etm]').forEach(c=>{if(c.disabled)return;const [id,k]=c.dataset.etm.split('|');
   if(ET_TIPO[k])esc0.push({id,etapa:k,mandar:c.checked});else if(ET_SHOP.includes(k)&&!c.checked)(sem[id]=sem[id]||[]).push(k)});
  const nMail=document.querySelectorAll('[data-etm]:checked').length;
+ if(ET.modo==='mail'){for(let i=esc0.length-1;i>=0;i--)if(!esc0[i].mandar)esc0.splice(i,1)}
  $('#modal-root').innerHTML='';
- const ids=Object.keys(ET.mud);let ok=0,er=0;
+ const soMail=ET.modo==='mail';const ids=soMail?[]:Object.keys(ET.mud);let ok=0,er=0;
  for(const id of ids){const v=(S.data.vendas||[]).find(x=>x.id===id);if(!v)continue;
   try{await save('vendas',v,{etapas:etNova(v)},{semAuto:true,semShop:sem[id]||[]});delete ET.mud[id];ok++}catch(e){er++;toast('Não salvou '+(v.pedidoSite||vnum(v.numero))+': '+(e.message||e))}}
  ET.sel.clear();render();
- let txt=ok+' pedido(s) salvos'+(er?' · '+er+' com erro':'');
+ let txt=soMail?'E-mails':ok+' pedido(s) salvos'+(er?' · '+er+' com erro':'');
  if(esc0.length){try{let env=0,err=0;for(let i=0;i<esc0.length;i+=150){const a=await avChamar({escolha:esc0.slice(i,i+150)});(a.resultados||[]).forEach(x=>{if(x.status==='enviado')env++;else if(x.status==='erro'||x.status==='desligado')err++})}
    txt+=' · '+env+' e-mail(s) do ERP enviados'+(err?' · '+err+' não saíram (veja E-mails ERP)':'')}catch(e){txt+=' · e-mails do ERP: '+(e.message||e)}}
  toast(txt+(nMail?'':' · nenhum e-mail'));
@@ -5622,6 +5631,7 @@ document.addEventListener('click',e=>{if(S.view!=='etapas')return;const so=e.tar
  if(b.dataset.etC){const [id,k]=b.dataset.etC.split('|');const v=(S.data.vendas||[]).find(x=>x.id===id);if(!v)return;const m=ET.mud[id]||{};
   if(k in m)delete m[k],(Object.keys(m).length||delete ET.mud[id]);else if((v.etapas||{})[k])etSet(v,k,'');else etSet(v,k,today());render();return}
  if('etAplicar' in b.dataset){etAplicar();return}
+ if('etMail' in b.dataset){etMail();return}
  if('etLimpasel' in b.dataset){ET.sel.clear();render();return}
  if('etDesf' in b.dataset){ET.mud={};render();return}
  if('etSalvar' in b.dataset){b.disabled=true;etSalvar();return}
@@ -5742,6 +5752,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v174','24/11/2026',['Etapas dos pedidos: botão Mandar e-mail na barra. Marque os pedidos, escolha a etapa e clique: abre a caixa com a lista (tudo marcado) e manda o e-mail dessa etapa a quem já tem a etapa, sem mudar nada. Serve para etapas já salvas, como a 6 de hoje.']],
  ['v173','24/11/2026',['Etapas dos pedidos: o e-mail à cliente virou opção em todas as 13 etapas. Ao clicar em Salvar abre uma caixa com cada etapa marcada e a lista dos pedidos, tudo já marcado para mandar; desmarque a etapa inteira ou só alguns pedidos.','E-mails novos do ERP: Pagamento confirmado, Etiqueta emitida, No centro de envio na Coreia, Pronto para o embarque (etapa 6), Voo reservado, Liberado na Coreia e A caminho do Brasil. Separado usa Estamos separando; Embalado e Desembaraço continuam com Preparado e Chegou ao Brasil.','Embarcado, Em rota e Entregue continuam saindo pelo Shopify; desmarcados, o Shopify não manda (em Em rota e Entregue o status do Shopify não muda).','O que ficar desmarcado não sai depois sozinho. Cada e-mail sai uma vez só por pedido.']],
  ['v172','24/11/2026',['Imprimir / PDF em Links e influenciadores agora abre uma folha própria, em A4 deitado e tamanho certo, com o botão Imprimir no topo.']],
  ['v171','24/11/2026',['Links e influenciadores: botão Imprimir / PDF. Imprime a aba aberta (Influenciadores, Links, Origem das vendas ou Comissões), com todas as linhas e os filtros que estiverem aplicados, em A4 deitado. A senha do painel das criadoras não sai no papel.']],
