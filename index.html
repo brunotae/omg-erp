@@ -594,28 +594,6 @@ table.sh-t{width:100%;border-collapse:collapse;font-size:9.5pt}
 .sh-res b{font-size:12pt}
 .sh-foot{margin-top:auto;display:flex;justify-content:space-between;gap:4mm;font-size:7.5pt;color:#7A5566;border-top:1px solid #F6E2E9;padding-top:2.5mm}
 @media (max-width:780px){.sheet-ov{padding:8px}.sheet{transform-origin:top left}}
-.pr-cab{display:none}
-@page lkpr{size:A4 landscape;margin:10mm}
-@media print{
- body.pr-pg{background:#fff!important}
- body.pr-pg .side,body.pr-pg header.top,body.pr-pg .band,body.pr-pg .head .acts,body.pr-pg .px-frow,body.pr-pg #main button,body.pr-pg .nova-ver,body.pr-pg .xt-pop,body.pr-pg #xt-pop{display:none!important}
- body.pr-pg .app{display:block!important}
- body.pr-pg #main{page:lkpr;padding:0!important;margin:0!important}
- body.pr-pg .page,body.pr-pg .col{max-width:none!important;width:auto!important;padding:0!important;margin:0!important;display:block!important}
- body.pr-pg .card{box-shadow:none!important;border:1px solid #EBD9E0!important;break-inside:auto}
- body.pr-pg .tblwrap{overflow:visible!important;max-height:none!important}
- body.pr-pg table{font-size:8.5pt}
- body.pr-pg thead{display:table-header-group}
- body.pr-pg tr{break-inside:avoid}
- body.pr-pg th,body.pr-pg td{padding:4px 6px!important}
- body.pr-pg .kpis{break-inside:avoid}
- body.pr-pg *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
- body.pr-pg .pr-no{display:none!important}
- body.pr-pg .xt-t th:last-child,body.pr-pg .xt-t td:last-child{display:none!important}
- body.pr-pg .px-wrap{max-height:none!important}
- body.pr-pg .xt-t,body.pr-pg table{width:100%!important;font-size:8pt!important}
- body.pr-pg .pr-cab{display:block!important;font-size:9pt;color:#7A5566;margin:0 0 6px}
-}
 @media print{
  @page{size:A4;margin:12mm 0}
  body:has(>.sheet-ov){background:#fff}
@@ -1046,7 +1024,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v171 · 24/11/2026';
+const VERSAO='v172 · 24/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -3907,8 +3885,7 @@ VIEWFN.links=()=>{
  else if(LK.tab==='links')corpo=lkTabLinks(L);
  else if(LK.tab==='origem')corpo=lkTabOrigem();
  else corpo=lkTabCom(A,I,F);
- const abaNome={inf:'Influenciadores',links:'Links',origem:'Origem das vendas',com:'Comissões'}[LK.tab]||'';
- return '<div class="page wide"><div class="col">'+'<p class="pr-cab">OMG! Oh My Girl · Links e influenciadores · aba '+esc(abaNome)+' · impresso em '+new Date().toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})+'</p>'+head('Links e influenciadores',sub,acts)+
+ return '<div class="page wide"><div class="col">'+head('Links e influenciadores',sub,acts)+
   '<div class="kpis">'+kpi('Cliques no mês',vnum(cliMes.c),vnum(cliMes.v)+' pessoas')+kpi('Pedidos de influenciadores',vnum(atrMes.length),mesNome(ma))+kpi('Vendas desses pedidos',brl(atrMes.reduce((s,a)=>s+n(a.base),0)),'Produtos, sem frete e imposto')+kpi('Comissão a pagar',brl(aPagar),F.filter(f=>f.status==='A pagar').length+' fechamento(s)',null,aPagar>0)+'</div>'+
   (LK.erro?'<p class="err">'+esc(LK.erro)+'</p>':'')+
   '<div class="chips" style="margin:6px 0 12px">'+tabs+(LK.atrCarregando?'<span class="muted" style="font-size:12px">Atualizando vendas…</span>':'')+'</div>'+corpo+'</div></div>';
@@ -5655,11 +5632,29 @@ async function advance(id){
 }
 
 // v108: relatório completo da parceira (relatorio.html). Lá dentro tem "Copiar link para ela" (link público por token).
-// v171: imprimir a página (Links e influenciadores) · mostra todas as linhas, esconde menu e botões
-function imprimirPagina(){const ids=Object.keys(XT_DEF||{}),old={};ids.forEach(id=>{const st=xtSt(id);old[id]=st.lim;st.lim=1e9});
- document.body.classList.add('pr-pg');render();let feito=false;
- const fim=()=>{if(feito)return;feito=true;window.removeEventListener('afterprint',fim);document.body.classList.remove('pr-pg');ids.forEach(id=>{xtSt(id).lim=old[id]});render()};
- window.addEventListener('afterprint',fim);setTimeout(()=>{window.print();setTimeout(fim,1500)},80)}
+// v172: imprimir a aba aberta em uma folha própria (A4 deitado), como os outros relatórios do ERP
+function imprimirPagina(){
+ const w=window.open('','_blank');if(!w){toast('Libere as janelas (pop-up) para imprimir');return}
+ const ids=Object.keys(XT_DEF||{}),old={};ids.forEach(id=>{const st=xtSt(id);old[id]=st.lim;st.lim=1e9});render();
+ const main=document.getElementById('main');
+ const titulo=(main.querySelector('.head h1')||{}).textContent||'Relatório';
+ const aba=(main.querySelector('[data-lk-tab][aria-pressed="true"]')||{}).textContent||'';
+ const kp=[...main.querySelectorAll('.kpis > *')].map(k=>{const L=k.innerText.split('\n').map(x=>x.trim()).filter(Boolean);return '<div><span>'+esc(L[0]||'')+'</span><b>'+esc(L[1]||'')+'</b><small>'+esc(L.slice(2).join(' · '))+'</small></div>'}).join('');
+ const cards=[...main.querySelectorAll('.card')].filter(c=>c.querySelector('table'));
+ const corpo=cards.map(c=>{const x=c.cloneNode(true);
+  x.querySelectorAll('button,input,select,.px-frow,.pr-no,svg').forEach(e=>e.remove());
+  x.querySelectorAll('table.xt-t').forEach(t=>{const nc=t.querySelector('thead tr').children.length;const last=t.querySelector('thead tr th:last-child');if(last&&/relat/i.test(last.textContent))t.querySelectorAll('tr').forEach(tr=>{if(tr.children.length===nc)tr.lastElementChild.remove()})});
+  x.querySelectorAll('*').forEach(e=>{[...e.attributes].forEach(a=>{if(!['colspan','rowspan'].includes(a.name)&&!(a.name==='class'&&/(^|\s)(r|num|muted)(\s|$)/.test(a.value)))e.removeAttribute(a.name)});if(e.tagName==='TD'&&e.className&&/(^|\s)r(\s|$)/.test(e.className))e.className='r'});
+  x.querySelectorAll('th').forEach(th=>{th.textContent=th.textContent.replace(/[▲▼]/g,'').trim()});
+  return x.innerHTML.replace(/Clique no título da coluna para ordenar; no campo embaixo, para filtrar\./,'')}).join('<hr>');
+ ids.forEach(id=>{xtSt(id).lim=old[id]});render();
+ const quando=new Date().toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'});
+ const css='*{box-sizing:border-box}body{font-family:Poppins,system-ui,sans-serif;color:#3B1F2B;margin:0;background:#FFF8F3;font-size:11px;line-height:1.4;-webkit-print-color-adjust:exact;print-color-adjust:exact}.bar{position:sticky;top:0;display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:10px 16px;background:#3B1F2B;color:#fff;z-index:2}.bar button{font:inherit;font-size:12px;border:0;border-radius:999px;padding:7px 14px;cursor:pointer;background:#fff;color:#3B1F2B}.bar .pri{background:#E85D8E;color:#fff}.doc{max-width:1100px;margin:0 auto;padding:20px;background:#fff;min-height:100vh}h1{font-size:18px;margin:0 0 2px}.meta{color:#8a6f7a;margin-bottom:10px}.kp{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 0 12px}.kp div{background:#FDEEF3;border-radius:8px;padding:7px 10px}.kp span{display:block;font-size:9px;text-transform:uppercase;letter-spacing:.05em;color:#8a6f7a}.kp b{display:block;font-size:16px}.kp small{color:#8a6f7a;font-size:10px}p{margin:4px 0 8px;color:#8a6f7a;font-size:10.5px}h2{font-size:13px;margin:6px 0}table{width:100%;border-collapse:collapse;margin:4px 0 8px}th,td{padding:4px 6px;border-bottom:1px solid #F1E3E9;text-align:left;vertical-align:top}th{font-size:9px;letter-spacing:.04em;text-transform:uppercase;color:#8a6f7a;font-weight:600;background:#FBEFF3}td small{display:block;color:#8a6f7a;font-size:9.5px}.r,td.r,th.r{text-align:right;white-space:nowrap}hr{border:0;border-top:1px solid #eee;margin:12px 0}thead{display:table-header-group}tr{break-inside:avoid}@media print{.bar{display:none}body{background:#fff}.doc{padding:0;max-width:none;min-height:0}@page{size:A4 landscape;margin:10mm}}@media(max-width:700px){.kp{grid-template-columns:1fr 1fr}}';
+ w.document.write('<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(titulo+(aba?' · '+aba:''))+'</title><style>'+css+'</style></head><body>'+
+  '<div class="bar"><button type="button" id="fechar">✕ Fechar aba</button><span style="display:flex;gap:8px;align-items:center"><span style="font-size:12px">Imprimir → Salvar como PDF</span><button type="button" class="pri" id="imp">Imprimir / PDF</button></span></div>'+
+  '<div class="doc"><h1>OMG! · '+esc(titulo)+(aba?' · '+esc(aba):'')+'</h1><div class="meta">Impresso em '+esc(quando)+'</div>'+(kp?'<div class="kp">'+kp+'</div>':'')+corpo+'</div>'+
+  '<script>document.getElementById("imp").onclick=function(){window.print()};document.getElementById("fechar").onclick=function(){window.close();setTimeout(function(){if(!window.closed)alert("Feche esta aba pelo X do navegador")},300)};<\/script></body></html>');
+ w.document.close()}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-pg-print]');if(!b)return;e.preventDefault();e.stopPropagation();imprimirPagina()},true);
 document.addEventListener('click',e=>{const t=e.target.closest('[data-relinf]');if(!t)return;e.stopPropagation();window.open('relatorio.html?i='+encodeURIComponent(t.dataset.relinf),'_blank','noopener')},true);
 
@@ -5715,6 +5710,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v172','24/11/2026',['Imprimir / PDF em Links e influenciadores agora abre uma folha própria, em A4 deitado e tamanho certo, com o botão Imprimir no topo.']],
  ['v171','24/11/2026',['Links e influenciadores: botão Imprimir / PDF. Imprime a aba aberta (Influenciadores, Links, Origem das vendas ou Comissões), com todas as linhas e os filtros que estiverem aplicados, em A4 deitado. A senha do painel das criadoras não sai no papel.']],
  ['v170','23/11/2026',['Novo: Diário (no menu, logo abaixo de Tarefas). Guarda tudo o que é importante por data: visitas, gravações, decisões, combinados. Os próximos ficam no topo, com filtro por etiqueta.','Informações → Fornecedores: depósito da DY em Ilsan.']],
  ['v169','23/11/2026',['Planilha da Mile, Master List, Cola de compra (PDF) e Fulfillment (PDF): ao clicar, abre a janela "Salvar como" para você escolher a pasta e o nome. Em navegador sem essa janela, baixa na pasta Downloads e avisa.']],
