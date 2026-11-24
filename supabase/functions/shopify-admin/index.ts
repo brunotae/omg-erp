@@ -816,6 +816,21 @@ async function principal(req: Request): Promise<Response> {
       return resp(200, { ok: true, cupons: out });
     }
 
+    if (b.acao === "cupom_editar") {
+      // Ajusta limites de um cupom existente: { codigo, uma_vez?: bool (1 por cliente), limite_total?: number|null, fim?: ISO|null }
+      const codigo = String(b.codigo || "").toUpperCase();
+      const n: any = await gql(`query($c: String!) { codeDiscountNodeByCode(code: $c) { id codeDiscount { __typename ... on DiscountCodeBasic { title usageLimit appliesOncePerCustomer endsAt asyncUsageCount } } } }`, { c: codigo });
+      const node = n.codeDiscountNodeByCode; if (!node) return resp(404, { erro: "cupom " + codigo + " não existe no Shopify" });
+      if (node.codeDiscount.__typename !== "DiscountCodeBasic") return resp(400, { erro: "tipo de cupom não suportado: " + node.codeDiscount.__typename });
+      const d: any = {};
+      if (b.uma_vez !== undefined) d.appliesOncePerCustomer = !!b.uma_vez;
+      if (b.limite_total !== undefined) d.usageLimit = b.limite_total === null ? null : Number(b.limite_total);
+      if (b.fim !== undefined) d.endsAt = b.fim;
+      const r: any = await gql(`mutation($id: ID!, $d: DiscountCodeBasicInput!) { discountCodeBasicUpdate(id: $id, basicCodeDiscount: $d) { codeDiscountNode { id codeDiscount { ... on DiscountCodeBasic { usageLimit appliesOncePerCustomer endsAt } } } userErrors { field message } } }`, { id: node.id, d });
+      const e = r.discountCodeBasicUpdate.userErrors; if (e.length) return resp(422, { erro: e.map((x: any) => x.message).join("; ") });
+      return resp(200, { ok: true, antes: node.codeDiscount, depois: r.discountCodeBasicUpdate.codeDiscountNode.codeDiscount });
+    }
+
     if (b.acao === "cupom_apagar") {
       const id = String(b.id || "");
       if (!id.startsWith("gid://shopify/DiscountCodeNode/")) return resp(400, { erro: "cupom sem ligação com o Shopify" });
