@@ -20,6 +20,10 @@ jobs:
         run: supabase functions deploy shopify-admin --project-ref nzsiuniabovvptuqmkmi --yes
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      - name: Publicar avisos-cliente (e-mails do ERP à cliente)
+        run: supabase functions deploy avisos-cliente --project-ref nzsiuniabovvptuqmkmi --yes
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       - name: Publicar traduzir (tradução curta do ERP, tarefas em coreano)
         run: supabase functions deploy traduzir --project-ref nzsiuniabovvptuqmkmi --yes
         env:

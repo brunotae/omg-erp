@@ -8,7 +8,10 @@
 //   POST { pendentes: true }            → confere todas as vendas abertas (botão "Enviar pendentes")
 //   POST { manual: "separando", previa?: true, ids?: [...] } → "Estamos separando": vendas do site, não canceladas,
 //        ainda sem "embalado" e que não receberam este aviso. previa: só lista quem receberia, não manda.
-//   POST { teste: "separando"|"preparado"|"liberado" } → manda um exemplo para o e-mail de quem clicou
+//   POST { teste: "<tipo>" } → manda um exemplo para o e-mail de quem clicou
+//   POST { escolha: [{ id, etapa, mandar }] } (ERP v173, tela Etapas): o Tae escolhe por pedido e etapa se o e-mail sai.
+//        mandar=true → manda o aviso da etapa (uma vez só por pedido); mandar=false → registra "pulado" (nunca sai sozinho depois).
+//        Etapas do Shopify (embarcado, lastmile, entregue) não passam por aqui: o ERP avisa o Shopify se notifica ou não.
 // Config: config.avisos = { ativo: true|false, de: "OMG! oh my girl <pedidos@...>", responder: "...", whatsapp: "...", copia: "e-mail em cópia oculta" }
 import { createClient } from "npm:@supabase/supabase-js@2";
 
@@ -24,6 +27,9 @@ const TIPOS: Record<string, { etapa: string; depois: string[]; titulo: string }>
   preparado: { etapa: "embalado", depois: ["embarcado", "manifesto", "desembaraco", "lastmile", "entregue"], titulo: "Preparado na Coreia" },
   liberado: { etapa: "desembaraco", depois: ["lastmile", "entregue"], titulo: "Chegou ao Brasil e foi liberado" },
 };
+// v173: etapa da tela Etapas → tipo do aviso do ERP (separado, embalado e desembaraço usam os avisos que já existiam)
+const ETAPA_TIPO: Record<string, string> = { pago: "pago", docs: "etiqueta", skyroad: "skyroad", separado: "separando", embalado: "preparado",
+  consolidado: "consolidado", awb: "awb", rfkr: "rfkr", manifesto: "manifesto", desembaraco: "liberado" };
 // avisos manuais: só saem quando alguém dispara no ERP; não saem se a venda já passou destas etapas
 const MANUAIS: Record<string, { depois: string[]; titulo: string }> = {
   separando: { depois: ["embalado", "embarcado", "manifesto", "desembaraco", "lastmile", "entregue"], titulo: "Estamos separando seus produtos" },
@@ -41,6 +47,27 @@ function texto(tipo: string, nome: string, pedido: string, cfg: any) {
     preparado: { assunto: `Pedido ${pedido}: preparado na Coreia`, h: "Seu pedido foi preparado na Coreia",
       p: [`Seus produtos foram separados, conferidos e embalados na Coreia do Sul.`,
           `O próximo passo é o voo para o Brasil. Quando o pedido embarcar, você recebe outro e-mail com o código de rastreio.`] },
+    pago: { assunto: `Pedido ${pedido}: pagamento confirmado`, h: "Pagamento confirmado",
+      p: [`Obrigada pela sua compra! O pagamento do seu pedido foi confirmado.`,
+          `Agora a nossa equipe na Coreia do Sul começa a preparar tudo. Vamos te avisando a cada passo por e-mail.`] },
+    etiqueta: { assunto: `Pedido ${pedido}: etiqueta de envio emitida`, h: "Etiqueta de envio emitida",
+      p: [`A etiqueta de envio internacional do seu pedido já foi emitida.`,
+          `Ela acompanha o pacote da Coreia do Sul até a sua casa.`] },
+    skyroad: { assunto: `Pedido ${pedido}: no nosso centro de envio na Coreia`, h: "Seu pedido está no nosso centro de envio",
+      p: [`Seus produtos chegaram ao nosso centro de envio na Coreia do Sul.`,
+          `O próximo passo é separar e conferir cada produto, um por um.`] },
+    consolidado: { assunto: `Pedido ${pedido}: pronto para o embarque`, h: "Seu pedido está pronto para o embarque",
+      p: [`Seu pacote já está na caixa de embarque que vai da Coreia do Sul para o Brasil.`,
+          `Quando ele embarcar, você recebe outro e-mail com o código de rastreio.`] },
+    awb: { assunto: `Pedido ${pedido}: voo reservado`, h: "O voo do seu pedido está reservado",
+      p: [`A carga com o seu pedido já tem voo reservado da Coreia do Sul para o Brasil.`,
+          `Quando ela embarcar, você recebe outro e-mail com o código de rastreio.`] },
+    rfkr: { assunto: `Pedido ${pedido}: liberado na Coreia`, h: "Seu pedido foi liberado na Coreia",
+      p: [`A alfândega da Coreia do Sul liberou a saída do seu pedido.`,
+          `Agora ele segue para o voo até o Brasil.`] },
+    manifesto: { assunto: `Pedido ${pedido}: registrado para a chegada ao Brasil`, h: "Seu pedido está a caminho do Brasil",
+      p: [`Os dados do seu pedido já foram enviados à Receita Federal para a chegada ao Brasil.`,
+          `Os impostos foram pagos na compra, então não há nada a pagar na entrega.`] },
     liberado: { assunto: `Pedido ${pedido}: chegou ao Brasil e foi liberado`, h: "Seu pedido chegou ao Brasil",
       p: [`Seu pedido chegou ao Brasil e já foi liberado pela Receita Federal.`,
           `Os impostos foram pagos na compra, então não há nada a pagar na entrega.`,
@@ -110,7 +137,7 @@ Deno.serve(async (req) => {
     const cfg: any = c?.valor || {};
 
     if (b.teste) {
-      const tipo = TIPOS[b.teste] || MANUAIS[b.teste] ? b.teste : "preparado";
+      const tipo = TIPOS[b.teste] || MANUAIS[b.teste] || Object.values(ETAPA_TIPO).includes(b.teste) ? b.teste : "preparado";
       const id = await mandar(u.email, texto(tipo, "Teste", "#1000", cfg), cfg);
       return resp(200, { ok: true, teste: tipo, para: u.email, id });
     }
@@ -142,6 +169,36 @@ Deno.serve(async (req) => {
       const resultados: any[] = [];
       for (const it of lista) await enviarUm(it.v, tipo, cfg, resultados);
       return resp(200, { ok: true, resultados, fora });
+    }
+
+    // ---- v173: escolha por pedido e etapa (tela Etapas) ----
+    if (Array.isArray(b.escolha)) {
+      const esc0 = b.escolha.slice(0, 400).filter((x: any) => x && x.id && ETAPA_TIPO[x.etapa]);
+      const ids = [...new Set(esc0.map((x: any) => String(x.id)))];
+      if (!ids.length) return resp(200, { ok: true, resultados: [] });
+      const { data: vs, error } = await admin.from("vendas").select("id,numero,pedido_site,cliente,contato,etapas,cancelada,ext_id").in("id", ids);
+      if (error) throw error;
+      const V = new Map((vs || []).map((v: any) => [v.id, v]));
+      const resultados: any[] = [];
+      for (const x of esc0) {
+        const v: any = V.get(String(x.id)); if (!v) continue;
+        const tipo = ETAPA_TIPO[x.etapa];
+        const para = emailDe(v.contato);
+        const base = { venda: v.id, numero: v.numero, tipo, canal: "email", para };
+        if (v.cancelada) { resultados.push({ numero: v.numero, tipo, status: "fora", info: "cancelada" }); continue; }
+        if (!x.mandar) {
+          const { error: e2 } = await admin.from("avisos_cliente").insert({ ...base, status: "pulado", info: "o Tae escolheu não mandar" });
+          resultados.push({ numero: v.numero, tipo, status: e2 ? "ja_registrado" : "pulado" }); continue;
+        }
+        if (!cfg.ativo) { resultados.push({ numero: v.numero, tipo, status: "desligado" }); continue; }
+        if (!para) { resultados.push({ numero: v.numero, tipo, status: "erro", info: "venda sem e-mail" }); continue; }
+        // se antes ficou "pulado" (escolheu não mandar ou passou da etapa), agora a escolha é mandar
+        await admin.from("avisos_cliente").delete().eq("venda", v.id).eq("tipo", tipo).eq("status", "pulado");
+        const antes = resultados.length;
+        await enviarUm(v, tipo, cfg, resultados);
+        if (resultados.length === antes) resultados.push({ numero: v.numero, tipo, status: "ja_recebeu" });
+      }
+      return resp(200, { ok: true, resultados });
     }
 
     if (!cfg.ativo) return resp(200, { ok: true, desligado: true, resultados: [] });

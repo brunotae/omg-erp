@@ -735,6 +735,9 @@ async function principal(req: Request): Promise<Response> {
       // embarcado → "pedido enviado" (fulfillment com link de rastreio); desembaraço → em trânsito;
       // last mile → saiu para entrega; entregue → entregue. Idempotente: guarda o que já foi feito em dados_site.envio.
       const ids = (Array.isArray(b.ids) ? b.ids : []).map(String).slice(0, 30);
+      // ERP v173: sem_aviso = { vendaId: ["embarcado"|"lastmile"|"entregue"] } → o Tae escolheu não mandar e-mail nessa etapa.
+      //   embarcado: o envio é criado sem notificar; lastmile/entregue: o evento não é criado (o Shopify mandaria e-mail).
+      const SEM: Record<string, string[]> = (b.sem_aviso && typeof b.sem_aviso === "object") ? b.sem_aviso : {};
       const PAG = "https://ohmygirl.com.br/pages/acompanhe-seu-pedido";
       const { data: vs } = await admin.from("vendas").select("id,numero,ext_id,pedido_site,etapas,rastreio,cancelada,dados_site").in("id", ids);
       const ORD = ["embarcado", "manifesto", "desembaraco", "lastmile", "entregue"];
@@ -742,6 +745,7 @@ async function principal(req: Request): Promise<Response> {
       const resultados: any[] = [];
       for (const v of vs || []) {
         const r: any = { numero: v.numero, feito: [] as string[] };
+        const sem = new Set((SEM[v.id] || []).map(String));
         try {
           const e = v.etapas || {};
           if (v.cancelada || !String(v.ext_id || "").startsWith("shopify:")) { r.pulado = v.cancelada ? "cancelada" : "não veio do site"; resultados.push(r); continue; }
@@ -758,9 +762,9 @@ async function principal(req: Request): Promise<Response> {
               const fos = q.order.fulfillmentOrders.nodes.filter((f: any) => ["OPEN", "IN_PROGRESS", "SCHEDULED"].includes(f.status));
               if (!fos.length) throw new Error("sem itens a enviar no Shopify");
               const d: any = await gql(`mutation($f: FulfillmentInput!) { fulfillmentCreate(fulfillment: $f) { fulfillment { id } userErrors { message } } }`,
-                { f: { lineItemsByFulfillmentOrder: fos.map((f: any) => ({ fulfillmentOrderId: f.id })), notifyCustomer: true, trackingInfo: track(v.rastreio || String(v.numero)) } });
+                { f: { lineItemsByFulfillmentOrder: fos.map((f: any) => ({ fulfillmentOrderId: f.id })), notifyCustomer: !sem.has("embarcado"), trackingInfo: track(v.rastreio || String(v.numero)) } });
               const ue = d.fulfillmentCreate.userErrors; if (ue.length) throw new Error(ue[0].message);
-              env.fulfillment_id = d.fulfillmentCreate.fulfillment.id; r.feito.push("enviado (e-mail à cliente)");
+              env.fulfillment_id = d.fulfillmentCreate.fulfillment.id; r.feito.push(sem.has("embarcado") ? "enviado (sem e-mail)" : "enviado (e-mail à cliente)");
             }
             env.rastreio = v.rastreio || "";
           }
@@ -772,6 +776,7 @@ async function principal(req: Request): Promise<Response> {
           }
           for (const [k, st, msg] of EVT) {
             if (!e[k] || env.eventos.includes(k)) continue;
+            if (sem.has(k) && k !== "desembaraco") { env.eventos.push(k); env.sem_aviso = [...(env.sem_aviso || []), k]; r.feito.push(msg.toLowerCase() + " (sem e-mail, não marcado no Shopify)"); continue; }
             const d: any = await gql(`mutation($ev: FulfillmentEventInput!) { fulfillmentEventCreate(fulfillmentEvent: $ev) { userErrors { message } } }`,
               { ev: { fulfillmentId: env.fulfillment_id, status: st, message: msg, happenedAt: String(e[k]).slice(0, 10) + "T12:00:00-03:00" } });
             const ue = d.fulfillmentEventCreate.userErrors; if (ue.length) throw new Error(ue[0].message);
