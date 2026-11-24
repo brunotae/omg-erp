@@ -610,6 +610,10 @@ table.sh-t{width:100%;border-collapse:collapse;font-size:9.5pt}
  body.pr-pg th,body.pr-pg td{padding:4px 6px!important}
  body.pr-pg .kpis{break-inside:avoid}
  body.pr-pg *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ body.pr-pg .pr-no{display:none!important}
+ body.pr-pg .xt-t th:last-child,body.pr-pg .xt-t td:last-child{display:none!important}
+ body.pr-pg .px-wrap{max-height:none!important}
+ body.pr-pg .xt-t,body.pr-pg table{width:100%!important;font-size:8pt!important}
  body.pr-pg .pr-cab{display:block!important;font-size:9pt;color:#7A5566;margin:0 0 6px}
 }
 @media print{
@@ -3920,7 +3924,7 @@ function lkTabInf(A,I){
   const lp=ls.find(l=>l.slug===i.codigo)||ls[0], viaL=as.filter(a=>a.via==='link').length;
   return {i,lp,cliques:cl.c,pessoas:cl.v,pedidos:as.length,conv:cl.v?viaL/cl.v*100:null,vendas:as.reduce((s,a)=>s+n(a.base),0),aberto,pago,sit:infAtivo(i)?'Ativo':'Inativo'}});
  const cols=[
-  {k:'nome',l:'Influenciador',g:r=>r.i.nome,cell:r=>(r.lp?'<b class="inf-cp" data-copy="'+esc(lkCurto(r.lp))+'" title="Clique para copiar o link">'+esc(r.i.nome)+' ⧉</b>':'<b>'+esc(r.i.nome)+'</b>')+'<small>'+esc([r.i.arroba,r.i.senha?'senha '+r.i.senha:'sem senha do painel'].filter(Boolean).join(' · '))+'</small>'},
+  {k:'nome',l:'Influenciador',g:r=>r.i.nome,cell:r=>(r.lp?'<b class="inf-cp" data-copy="'+esc(lkCurto(r.lp))+'" title="Clique para copiar o link">'+esc(r.i.nome)+' ⧉</b>':'<b>'+esc(r.i.nome)+'</b>')+'<small>'+esc(r.i.arroba||'')+'<span class="pr-no">'+(r.i.arroba?' · ':'')+esc(r.i.senha?'senha '+r.i.senha:'sem senha do painel')+'</span></small>'},
   {k:'cupom',l:'Cupom',g:r=>r.i.cupom||'',cell:r=>'<b class="num">'+esc(r.i.cupom||'sem cupom')+'</b>'},
   {k:'link',l:'Link',g:r=>r.lp?'/a/'+r.lp.slug:'',cell:r=>r.lp?esc('/a/'+r.lp.slug)+' '+lkCopia(lkCurto(r.lp),'Copiar'):'<span class="muted">sem link</span>'},
   {k:'pct',l:'%',t:'n',cls:'r num',g:r=>n(r.i.comissao_pct),cell:r=>n(r.i.comissao_pct)+'%'},
@@ -5711,7 +5715,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
- ['v171','24/11/2026',['Links e influenciadores: botão Imprimir / PDF. Imprime a aba aberta (Influenciadores, Links, Origem das vendas ou Comissões), com todas as linhas e os filtros que estiverem aplicados, em A4 deitado.']],
+ ['v171','24/11/2026',['Links e influenciadores: botão Imprimir / PDF. Imprime a aba aberta (Influenciadores, Links, Origem das vendas ou Comissões), com todas as linhas e os filtros que estiverem aplicados, em A4 deitado. A senha do painel das criadoras não sai no papel.']],
  ['v170','23/11/2026',['Novo: Diário (no menu, logo abaixo de Tarefas). Guarda tudo o que é importante por data: visitas, gravações, decisões, combinados. Os próximos ficam no topo, com filtro por etiqueta.','Informações → Fornecedores: depósito da DY em Ilsan.']],
  ['v169','23/11/2026',['Planilha da Mile, Master List, Cola de compra (PDF) e Fulfillment (PDF): ao clicar, abre a janela "Salvar como" para você escolher a pasta e o nome. Em navegador sem essa janela, baixa na pasta Downloads e avisa.']],
  ['v168','23/11/2026',['Cola de compra (página e PDF), parte 2 Embalagem por pedido: cada caixa mostra o nome do comprador em destaque e a etiqueta da Mile (house AWB), para casar com as etiquetas. Pedidos sem item da Coreia (ex.: só Brasil) não aparecem mais.']],
