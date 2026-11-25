@@ -807,11 +807,12 @@ function contasList(){
 const MOEDAS=['BRL','USD','KRW'];
 
 const S={db:null,canWrite:true,status:'connecting',view:(/^#relatorios/.test(location.hash)?'relatorios':'painel'),q:'',
- data:{diario:[],estoque_lotes:[],estoque_movs:[],credito_movs:[],informacoes:[],tarefas:[],vendas:[],cortes:[],lotes:[],lancamentos:[],devolucoes:[],insumos:[],compras:[],produtos:[],cupons:[],fornecedores:[],metricas:[],acoes_mkt:[],influenciadores:[],links_utm:[],link_cliques_dia:[],comissoes_fechamentos:[],monitoramentos:[],monitor_execucoes:[],ocorrencias_compra:[]},
+ data:{diario:[],projetos:[],estoque_lotes:[],estoque_movs:[],credito_movs:[],informacoes:[],tarefas:[],vendas:[],cortes:[],lotes:[],lancamentos:[],devolucoes:[],insumos:[],compras:[],produtos:[],cupons:[],fornecedores:[],metricas:[],acoes_mkt:[],influenciadores:[],links_utm:[],link_cliques_dia:[],comissoes_fechamentos:[],monitoramentos:[],monitor_execucoes:[],ocorrencias_compra:[]},
  loaded:{},missing:{},cfg:{krw:0.0039,usd:5.40,desc:12,markup:40,fielMin:2},
  f:{est:'mercadoria',lucro:'mes',lucroMes:'',info:'Todas',tar:'Todos',tarSt:'abertas',vendas:'abertas',fin:'mes',doc:'identidade'}};
 
 const ICONS={
+ projetos:'<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 11v5M9.5 13.5h5"/>',
  diario:'<path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h11"/><path d="M9 8h6"/>',
  monitor:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><path d="M12 12l6-6"/><circle cx="12" cy="12" r=".8"/>',
  visitas:'<path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
@@ -846,7 +847,7 @@ const ICONS={
  fornecedores:'<path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/>',
  config:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/>'
 };
-const NAV=[['','painel','Painel'],['','tarefas','Tarefas'],['','diario','Diário'],['Operação','vendas','Vendas'],['','etapas','Etapas dos pedidos'],['','cortes','Parametrização'],['','lotes','Embarques'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['Estoque e compras','estoque','Estoque Coreia'],['','compras','Compras'],['','produtos','Catálogo'],['','pricing','Pricing'],['','precos','Concorrentes'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','cadastros','Cadastros do site'],['','contatos','Contato com clientes'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['','relatorios','Relatório do site'],['','visitas','Visitas agora'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Automação','monitor','Monitoramentos'],['Cadastros','info','Informações'],['','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
+const NAV=[['','painel','Painel'],['','tarefas','Tarefas'],['','diario','Diário'],['Operação','vendas','Vendas'],['','etapas','Etapas dos pedidos'],['','cortes','Parametrização'],['','lotes','Embarques'],['Dinheiro','financeiro','Financeiro'],['','lucro','Lucratividade'],['','projetos','Projetos'],['Estoque e compras','estoque','Estoque Coreia'],['','compras','Compras'],['','produtos','Catálogo'],['','pricing','Pricing'],['','precos','Concorrentes'],['','raiox','Raio-X do catálogo'],['Clientes','clientes','Clientes e cupons'],['','cadastros','Cadastros do site'],['','contatos','Contato com clientes'],['','atendimentos','Atendimento da Bomi'],['','avisos','Avisos da Bomi'],['','analises','Análises'],['','relatorios','Relatório do site'],['','visitas','Visitas agora'],['Marketing','acoes','Ações de marketing'],['','links','Links e influenciadores'],['Automação','monitor','Monitoramentos'],['Cadastros','info','Informações'],['','fornecedores','Parceiros'],['','documentos','Documentos'],['','config','Ajustes e integração']];
 
 /* ================= utilidades ================= */
 const $=s=>document.querySelector(s);
@@ -1025,7 +1026,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v175 · 25/11/2026';
+const VERSAO='v176 · 25/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -2108,6 +2109,39 @@ VIEWFN.diario=()=>{
 document.addEventListener('click',e=>{if(S.view!=='diario')return;
  const b=e.target.closest('[data-diatag]');if(b){S.f.dia=b.dataset.diatag;render();return}
  const ed=e.target.closest('[data-diaedit]');if(ed){openForm('diario',ed.dataset.diaedit);return}});
+
+/* ---------- Projetos (v176) ---------- */
+// Um projeto junta todos os gastos de uma ação (gravação, viagem, evento). Os gastos são lançamentos do Financeiro com o campo Projeto.
+function prjGastos(P){return S.data.lancamentos.filter(l=>l.projeto===P.id&&l.tipo!=='Entrada').sort((a,b)=>String(b.data).localeCompare(String(a.data)))}
+function prjTotal(P){return prjGastos(P).reduce((s,l)=>s+conv(l.valor,l.moeda,P.moeda||'KRW'),0)}
+const prjFmt=(v,m)=>typeof fmtM==='function'?fmtM(v,m||'KRW'):(m==='KRW'?krw(v):dm(toBRL(v,m)));
+const prjData=d=>d?new Date(d+'T12:00:00').toLocaleDateString('pt-BR'):'';
+VIEWFN.projetos=()=>{
+ const A=(S.data.projetos||[]).filter(match);
+ const P=S.f.prj&&S.data.projetos.find(x=>x.id===S.f.prj);
+ if(P){
+  const G=prjGastos(P),T=prjTotal(P),orc=n(P.orcamento),pct=orc?Math.min(100,T/orc*100):0;
+  return '<div class="page wide"><div class="col">'+head(P.nome,[P.status,(P.inicio||P.fim)?prjData(P.inicio)+(P.fim?' a '+prjData(P.fim):''):'',P.responsavel?'Responsável: '+P.responsavel:''].filter(Boolean).join(' · '),
+    '<button class="btn" type="button" data-prjvolta>← Projetos</button>'+(can()?' <button class="btn" type="button" data-edit="projetos" data-id="'+esc(P.id)+'">Editar projeto</button> <button class="btn pri" type="button" data-prjgasto>Novo gasto</button>':''))+
+   '<div class="kpis">'+kpi('Gasto total',prjFmt(T,P.moeda),G.length+(G.length===1?' lançamento':' lançamentos')+(P.moeda!=='BRL'?' · ≈ '+dm(toBRL(T,P.moeda)):''))+
+   (orc?kpi('Orçamento',prjFmt(orc,P.moeda),pct.toFixed(0)+'% usado · sobra '+prjFmt(orc-T,P.moeda),null,T>orc):'')+'</div>'+
+   (P.descricao?'<div class="card" style="white-space:pre-wrap;font-size:13px">'+esc(P.descricao)+'</div>':'')+
+   '<div class="card"><div class="card-h"><h2>Gastos</h2><span class="muted" style="font-size:12px">Toque numa linha para ver o recibo ou corrigir</span></div>'+
+   (G.length?'<div class="tblwrap"><table class="tar-t"><thead><tr><th>Data</th><th>Descrição</th><th>Categoria</th><th>Conta</th><th class="r">Valor</th><th class="r">Em '+esc(P.moeda)+'</th><th>Recibo</th></tr></thead><tbody>'+
+    G.map(l=>'<tr data-edit="lancamentos" data-id="'+esc(l.id)+'" style="cursor:pointer"><td>'+esc(prjData(l.data))+'</td><td>'+esc(l.descricao)+(l.status==='Previsto'?' <span class="pill">previsto</span>':'')+'</td><td>'+esc(l.categoria||'')+'</td><td>'+esc(l.conta||'')+'</td><td class="r num">'+esc(prjFmt(n(l.valor),l.moeda))+'</td><td class="r num">'+esc(prjFmt(conv(l.valor,l.moeda,P.moeda),P.moeda))+'</td><td>'+((l.anexos||[]).length?'📎 '+(l.anexos||[]).length:'<span class="muted">falta</span>')+'</td></tr>').join('')+
+    '</tbody></table></div>':empty('Nenhum gasto ainda','Clique em Novo gasto e anexe a foto do recibo.'))+'</div>'+
+   ((P.anexos||[]).length?'<div class="card"><div class="card-h"><h2>Fotos e arquivos do projeto</h2></div><p class="muted" style="font-size:12px;margin:0">'+(P.anexos||[]).length+' arquivo(s) · abra em Editar projeto.</p></div>':'')+
+   '</div></div>'}
+ const card=p=>{const T=prjTotal(p),k=prjGastos(p).length,orc=n(p.orcamento);
+  return '<div class="card" data-prjabre="'+esc(p.id)+'" style="cursor:pointer;margin:0 0 10px;padding:14px 16px"><div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><b style="font-size:15px">'+esc(p.nome)+'</b><span class="pill" style="font-size:11px">'+esc(p.status||'')+'</span><span style="flex:1"></span><b class="num" style="font-size:16px">'+esc(prjFmt(T,p.moeda))+'</b></div>'+
+  '<div class="muted" style="font-size:12px;margin-top:4px">'+[p.inicio?prjData(p.inicio)+(p.fim?' a '+prjData(p.fim):''):'',k+(k===1?' gasto':' gastos'),orc?'orçamento '+prjFmt(orc,p.moeda)+' ('+(T/orc*100).toFixed(0)+'%)':'',p.moeda!=='BRL'?'≈ '+dm(toBRL(T,p.moeda)):''].filter(Boolean).join(' · ')+'</div></div>'};
+ const ord=(a,b)=>(a.status==='Encerrado')-(b.status==='Encerrado')||String(b.inicio||'').localeCompare(String(a.inicio||''));
+ return '<div class="page wide"><div class="col">'+head('Projetos','Cada projeto junta os gastos de uma ação: gravação, viagem, evento. Os gastos são lançamentos do Financeiro marcados com o projeto, com a foto do recibo.',newBtn('projetos','Novo projeto'))+
+  (loading('projetos')?'<div class="card"><p class="muted">Carregando…</p></div>':A.length?A.slice().sort(ord).map(card).join(''):'<div class="card">'+empty('Nenhum projeto ainda','Clique em Novo projeto.')+'</div>')+'</div></div>'};
+document.addEventListener('click',e=>{if(S.view!=='projetos')return;
+ if(e.target.closest('[data-prjvolta]')){S.f.prj='';render();return}
+ const a=e.target.closest('[data-prjabre]');if(a){S.f.prj=a.dataset.prjabre;render();scrollTo(0,0);return}
+ if(e.target.closest('[data-prjgasto]')){openForm('lancamentos');return}});
 
 /* ---------- Informações (v153) ---------- */
 // Tudo o que a gente vive procurando num lugar só: dados dos sócios, empresa, endereços, caixas, acessos, Wi-Fi. Só membros do ERP enxergam.
@@ -3779,6 +3813,13 @@ const FORMS={
   {k:'fornecedor',l:'Distribuidor',t:'combo',o:()=>[...new Set(['DY',...S.data.credito_movs.map(x=>x.fornecedor).filter(Boolean)])]},{k:'tipo',l:'Tipo',t:'select',o:['Recarga','Compra','Ajuste']},
   {k:'data',l:'Data',t:'date'},{k:'valor',l:'Valor',t:'number',req:1,hint:'Ajuste: use negativo para tirar do saldo.'},{k:'moeda',l:'Moeda',t:'select',o:MOEDAS},{k:'ref',l:'Referência'},{k:'obs',l:'Observações',t:'textarea',full:1}]]],
   def:()=>({fornecedor:'DY',tipo:'Recarga',data:today(),moeda:'USD'})},
+ projetos:{title:['Novo projeto','Projeto'],col:'projetos',secs:[['Projeto',[
+  {k:'nome',l:'Nome do projeto',req:1,full:1,hint:'Ex.: Gravação Jennifer Kang · Seul (nov/26)'},
+  {k:'inicio',l:'Início',t:'date'},{k:'fim',l:'Fim',t:'date'},
+  {k:'responsavel',l:'Responsável'},{k:'status',l:'Situação',t:'select',o:['Em andamento','Planejado','Encerrado']},
+  {k:'orcamento',l:'Orçamento (opcional)',t:'number'},{k:'moeda',l:'Moeda do projeto',t:'select',o:MOEDAS,hint:'Os gastos em outra moeda são convertidos pelo câmbio de Ajustes.'},
+  {k:'descricao',l:'Descrição',t:'textarea',full:1}]]],
+  def:()=>({status:'Em andamento',moeda:'KRW',inicio:today()})},
  diario:{title:['Novo registro no diário','Registro do diário'],col:'diario',secs:[['Registro',[
   {k:'data',l:'Data',t:'date',req:1},{k:'hora',l:'Hora (opcional)',hint:'Ex.: 14:00–15:00'},
   {k:'titulo',l:'Título',req:1,full:1,hint:'Ex.: Visita ao depósito da DY'},
@@ -3800,10 +3841,11 @@ const FORMS={
   {k:'data',l:'Data',t:'date',req:1},{k:'tipo',l:'Tipo',t:'select',o:['Saída','Entrada','Transferência']},
   {k:'descricao',l:'Descrição',req:1,full:1},{k:'categoria',l:'Categoria',t:'select',o:LANC_CAT},{k:'conta',l:'Conta',t:'combo',o:()=>contasList(),hint:'Conta nova? Escolha Outra… e escreva o nome. Ela entra na lista.'},
   {k:'parceiro',l:'Parceiro',t:'parc',none:'— nenhum —',hint:'Para quem foi o dinheiro (ou de quem veio). Entra no extrato do parceiro.'},{k:'embarque',l:'Embarque',t:'select',o:()=>['',...S.data.lotes.map(l=>l.numero)],hint:'Despesa de um embarque (Skyroad, voo, despacho, caixas)? Escolha qual: entra na lucratividade dele.'},
+  {k:'projeto',l:'Projeto',t:'select',o:()=>['',...S.data.projetos.map(p=>p.id)],lab:id=>{if(!id)return '— nenhum —';const p=S.data.projetos.find(x=>x.id===id);return p?p.nome:id},hint:'Gasto de um projeto (gravação, viagem, evento)? Escolha qual: entra no total dele em Dinheiro › Projetos.'},
   {k:'valor',l:'Valor',t:'number',req:1},{k:'moeda',l:'Moeda',t:'select',o:MOEDAS},
   {k:'valorDestino',l:'Valor recebido na Coreia (₩)',t:'number',hint:'Só para remessa EUA → Coreia'},{k:'status',l:'Situação',t:'select',o:['Pago','Previsto']},
   {k:'ref',l:'Referência (venda, embarque, fatura)',full:1}]]],
-  def:()=>({data:today(),tipo:'Saída',categoria:'Pagamento Mile (frete e last mile)',conta:'Brasil (R$)',moeda:'BRL',status:'Pago'})},
+  def:()=>{const P=S.view==='projetos'&&S.f.prj&&S.data.projetos.find(x=>x.id===S.f.prj);return P?{data:today(),tipo:'Saída',categoria:'Marketing e influencers',conta:P.moeda==='KRW'?'Coreia (₩)':P.moeda==='USD'?'Bank of America (US$)':'Brasil (R$)',moeda:P.moeda||'KRW',status:'Pago',projeto:P.id}:{data:today(),tipo:'Saída',categoria:'Pagamento Mile (frete e last mile)',conta:'Brasil (R$)',moeda:'BRL',status:'Pago'}}},
  insumos:{title:['Nova embalagem','Embalagem'],col:'insumos',secs:[['Embalagem',[
   {k:'codigo',l:'Código',req:1},{k:'tipo',l:'Tipo',t:'select',o:['Caixa','Selo / adesivo','Etiqueta','Cartão / encarte','Fita','Papel de seda','Outro']},
   {k:'nome',l:'Nome',req:1,full:1},{k:'dimensoes',l:'Dimensões',full:1},{k:'especificacao',l:'Especificação técnica',t:'textarea',full:1},
@@ -5299,7 +5341,8 @@ const COLS={
  vendas:['numero','data_compra','canal','cliente','cpf','contato','cidade','uf','cupom','itens','desconto','frete','ii','icms','custo_mile','custo_3pl','caixa','outros_custos','etiqueta_mile','invoice','carga_coreia','carga_brasil','rastreio','obs','etapas','cancelada','lote','awb','baixa_embalagem','corte'],
  cortes:['numero','corte_em','vendas','enviado_em','compra','despesas_krw','compra_em','obs','awb','envio'],
  lotes:['numero','awb','cia','caixa','peso_kg','volumes','custo_3pl','frete_aereo','despacho','custo_mercadoria','pago_por','parceiro_pagador','obs','vendas','etapas'],
- lancamentos:['data','tipo','descricao','categoria','conta','valor','moeda','valor_destino','status','ref','parceiro','embarque'],
+ lancamentos:['data','tipo','descricao','categoria','conta','valor','moeda','valor_destino','status','ref','parceiro','embarque','projeto'],
+ projetos:['nome','inicio','fim','responsavel','orcamento','moeda','status','descricao'],
  devolucoes:['numero','data','venda','status','itens','motivo','local','destino','reembolso','custo_retorno','obs'],
  informacoes:['categoria','titulo','conteudo','sensivel','ordem'],
  diario:['data','hora','titulo','texto','tags'],
@@ -5330,7 +5373,7 @@ function toDb(col,o){
   const c=MAP[k]||k; if(!COLS[col].includes(c))continue;
   let x=v;
   if(DATES.has(c)&&!x)x=null;
-  if((c==='lote'||c==='corte'||c==='parceiro'||c==='influenciador'||c==='parceiro_pagador'||c==='enviado_em'||c==='compra_em')&&!x)x=null;
+  if((c==='lote'||c==='corte'||c==='parceiro'||c==='projeto'||c==='influenciador'||c==='parceiro_pagador'||c==='enviado_em'||c==='compra_em')&&!x)x=null;
   if(col==='vendas'&&c==='itens')x=itemsTo(v);
   if(col==='insumos'&&(c==='estoque'||c==='minimo')&&x==null)x=0;
   if(typeof x==='string'&&x===''&&['valor','qtd','venda','custo','comissao_pct'].includes(c))x=null;
@@ -5764,6 +5807,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v176','25/11/2026',['Novo: Dinheiro › Projetos. Crie um projeto (ex.: gravação da Jennifer Kang em Seul) e lance os gastos com a foto do recibo: o total, o orçamento e a lista de gastos aparecem juntos. No Financeiro, o lançamento ganhou o campo Projeto.']],
  ['v175','25/11/2026',['Novo embarque: botões Marcar todas, Só consolidadas e Desmarcar acima da lista de vendas, com a contagem de marcadas. Shift+clique marca todas entre duas vendas.','Companhia aérea virou lista suspensa (dropdown), com Outra… para escrever.']],
  ['v174','24/11/2026',['Etapas dos pedidos: botão Mandar e-mail na barra. Marque os pedidos, escolha a etapa e clique: abre a caixa com a lista (tudo marcado) e manda o e-mail dessa etapa a quem já tem a etapa, sem mudar nada. Serve para etapas já salvas, como a 6 de hoje.']],
  ['v173','24/11/2026',['Etapas dos pedidos: o e-mail à cliente virou opção em todas as 13 etapas. Ao clicar em Salvar abre uma caixa com cada etapa marcada e a lista dos pedidos, tudo já marcado para mandar; desmarque a etapa inteira ou só alguns pedidos.','E-mails novos do ERP: Pagamento confirmado, Etiqueta emitida, No centro de envio na Coreia, Pronto para o embarque (etapa 6), Voo reservado, Liberado na Coreia e A caminho do Brasil. Separado usa Estamos separando; Embalado e Desembaraço continuam com Preparado e Chegou ao Brasil.','Embarcado, Em rota e Entregue continuam saindo pelo Shopify; desmarcados, o Shopify não manda (em Em rota e Entregue o status do Shopify não muda).','O que ficar desmarcado não sai depois sozinho. Cada e-mail sai uma vez só por pedido.']],
@@ -6050,7 +6094,7 @@ async function loadAll(){
   const cols=Object.keys(S.data);
   const res=await Promise.all([...cols.map(c=>selectAll(c)),sb.from('config').select('*').eq('chave','geral'),sb.from('config').select('valor').eq('chave','alerta_precos')]);
   let failed=false;
-  cols.forEach((col,i)=>{const {data,error}=res[i];if(error){if(col==='diario'||col==='cortes'||col==='monitoramentos'||col==='monitor_execucoes'||col==='ocorrencias_compra'){S.missing[col]=true;S.loaded[col]=true;return}failed=true;return}S.missing[col]=false;
+  cols.forEach((col,i)=>{const {data,error}=res[i];if(error){if(col==='diario'||col==='projetos'||col==='cortes'||col==='monitoramentos'||col==='monitor_execucoes'||col==='ocorrencias_compra'){S.missing[col]=true;S.loaded[col]=true;return}failed=true;return}S.missing[col]=false;
    S.data[col]=(data||[]).map(r=>fromDb(col,r)).sort((a,b)=>ORD[col]?String(a[ORD[col]]||'').localeCompare(String(b[ORD[col]]||'')):col==='vendas'?n(b.numero)-n(a.numero):n(b.createdAt)-n(a.createdAt));
    S.loaded[col]=true});
   const cfg=res[cols.length];if(cfg&&cfg.data&&cfg.data[0])S.cfg={...S.cfg,...cfg.data[0].valor};
