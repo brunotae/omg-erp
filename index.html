@@ -1026,7 +1026,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v176 · 25/11/2026';
+const VERSAO='v177 · 25/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -2116,6 +2116,34 @@ function prjGastos(P){return S.data.lancamentos.filter(l=>l.projeto===P.id&&l.ti
 function prjTotal(P){return prjGastos(P).reduce((s,l)=>s+conv(l.valor,l.moeda,P.moeda||'KRW'),0)}
 const prjFmt=(v,m)=>typeof fmtM==='function'?fmtM(v,m||'KRW'):(m==='KRW'?krw(v):dm(toBRL(v,m)));
 const prjData=d=>d?new Date(d+'T12:00:00').toLocaleDateString('pt-BR'):'';
+function prjDocsHTML(P,G){
+ const L=[...(P.anexos||[]).map(a=>({a,dono:'Projeto (geral)',col:'projetos',id:P.id})),...G.flatMap(l=>(l.anexos||[]).map(a=>({a,dono:prjData(l.data)+' · '+l.descricao,col:'lancamentos',id:l.id})))];
+ const opt='<option value="p">Projeto (geral: fotos, contratos, roteiro)</option>'+G.map(l=>'<option value="'+esc(l.id)+'"'+(!(l.anexos||[]).length&&G.length?'':'')+'>Gasto · '+esc(prjData(l.data)+' · '+String(l.descricao).slice(0,60)+' · '+prjFmt(n(l.valor),l.moeda))+'</option>').join('');
+ const semRec=G.find(l=>!(l.anexos||[]).length);
+ return '<div class="card"><div class="card-h"><h2>Recibos e documentos</h2><span class="muted" style="font-size:12px">'+L.length+' arquivo(s)</span></div>'+
+  (can()?'<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px"><label class="muted" style="font-size:12px" for="prj-alvo">Ligar a:</label><select id="prj-alvo" style="flex:1;min-width:220px">'+opt.replace('value="'+(semRec?semRec.id:'p')+'"','value="'+(semRec?semRec.id:'p')+'" selected')+'</select></div>'+
+   '<label class="drop" id="prj-drop" style="display:block;border:2px dashed var(--line,#e6c9d3);border-radius:14px;padding:26px 16px;text-align:center;cursor:pointer;background:var(--surface2,#fdf3f6)"><input type="file" id="prj-file" multiple accept="image/*,.pdf,.xlsx,.xls,.csv,.doc,.docx" style="display:none"><b>Arraste aqui os recibos, fotos ou arquivos</b><br><span class="muted" style="font-size:12px">ou toque para escolher · também dá para soltar em cima da linha do gasto</span></label>':'')+
+  (L.length?'<div class="tblwrap" style="margin-top:10px"><table class="tar-t"><thead><tr><th>Arquivo</th><th>De</th><th>Enviado</th><th class="r"></th></tr></thead><tbody>'+L.map(x=>'<tr><td>'+(/^image\//.test(x.a.mime||'')||/\.(jpe?g|png|webp|heic)$/i.test(x.a.nome||'')?'🖼️ ':'📄 ')+esc(x.a.nome||'arquivo')+'</td><td>'+esc(x.dono)+'</td><td class="num">'+(x.a.em?esc(new Date(x.a.em).toLocaleDateString('pt-BR')):'')+'</td><td class="r" style="white-space:nowrap"><button class="btn sm" type="button" data-prjabrir="'+esc(x.a.path)+'">Abrir</button>'+(can()?' <button class="btn sm danger" type="button" data-prjdel="'+esc(x.a.path)+'" data-col="'+x.col+'" data-id="'+esc(x.id)+'">Remover</button>':'')+'</td></tr>').join('')+'</tbody></table></div>':'<p class="muted" style="font-size:12px;margin:10px 0 0">Nenhum arquivo ainda.</p>')+'</div>'}
+async function prjUpload(files,alvo){
+ const P=S.data.projetos.find(x=>x.id===S.f.prj);if(!P||!files||!files.length)return;
+ const col=alvo&&alvo!=='p'?'lancamentos':'projetos',id=col==='projetos'?P.id:alvo,rec=S.data[col].find(r=>r.id===id);if(!rec)return;
+ toast('Enviando '+files.length+' arquivo(s)…');const add=[];let fail=0;
+ for(const [i,f] of [...files].entries()){if(f.size>(typeof MAX_MB!=='undefined'?MAX_MB:20)*1048576){fail++;continue}
+  const path=col+'/'+id+'/'+Date.now()+'-'+i+'-'+safeName(f.name);
+  const {error}=await sb.storage.from('docs').upload(path,f,{contentType:f.type||undefined,upsert:false});
+  if(error){fail++;continue}add.push({path,nome:f.name,tipo:col==='lancamentos'?'Recibo':'Outro',mime:f.type||'',size:f.size,em:new Date().toISOString()})}
+ if(add.length){const anexos=[...(Array.isArray(rec.anexos)?rec.anexos:[]),...add];const {error}=await sb.from(col).update({anexos}).eq('id',id);if(error){toast(errMsg(error));return}rec.anexos=anexos}
+ toast(fail?add.length+' enviado(s), '+fail+' com erro':add.length+(add.length>1?' arquivos enviados':' arquivo enviado'));render()}
+document.addEventListener('dragover',e=>{if(S.view!=='projetos'||!S.f.prj)return;const z=e.target.closest('#prj-drop,[data-prjdrop]');if(!z)return;e.preventDefault();z.style.outline='2px solid var(--pri,#B83D66)'});
+document.addEventListener('dragleave',e=>{const z=e.target.closest&&e.target.closest('#prj-drop,[data-prjdrop]');if(z)z.style.outline=''});
+document.addEventListener('drop',e=>{if(S.view!=='projetos'||!S.f.prj)return;const z=e.target.closest('#prj-drop,[data-prjdrop]');if(!z)return;e.preventDefault();z.style.outline='';if(!can())return;
+ prjUpload(e.dataTransfer.files,z.dataset.prjdrop||($('#prj-alvo')||{}).value||'p')});
+document.addEventListener('change',e=>{if(e.target.id!=='prj-file')return;prjUpload(e.target.files,($('#prj-alvo')||{}).value||'p')});
+document.addEventListener('click',async e=>{if(S.view!=='projetos')return;
+ const o=e.target.closest('[data-prjabrir]');if(o){e.preventDefault();const w=window.open('','_blank');const {data:u,error}=await sb.storage.from('docs').createSignedUrl(o.dataset.prjabrir,600);if(error||!u){if(w)w.close();toast(error?error.message:'erro');return}if(w)w.location=u.signedUrl;return}
+ const d=e.target.closest('[data-prjdel]');if(d){if(!confirm('Remover este arquivo?'))return;const rec=S.data[d.dataset.col].find(r=>r.id===d.dataset.id);if(!rec)return;
+  const anexos=(rec.anexos||[]).filter(a=>a.path!==d.dataset.prjdel);const {error}=await sb.from(d.dataset.col).update({anexos}).eq('id',rec.id);if(error){toast(errMsg(error));return}
+  rec.anexos=anexos;try{await sb.storage.from('docs').remove([d.dataset.prjdel])}catch(_){}toast('Removido');render()}},true);
 VIEWFN.projetos=()=>{
  const A=(S.data.projetos||[]).filter(match);
  const P=S.f.prj&&S.data.projetos.find(x=>x.id===S.f.prj);
@@ -2128,9 +2156,9 @@ VIEWFN.projetos=()=>{
    (P.descricao?'<div class="card" style="white-space:pre-wrap;font-size:13px">'+esc(P.descricao)+'</div>':'')+
    '<div class="card"><div class="card-h"><h2>Gastos</h2><span class="muted" style="font-size:12px">Toque numa linha para ver o recibo ou corrigir</span></div>'+
    (G.length?'<div class="tblwrap"><table class="tar-t"><thead><tr><th>Data</th><th>Descrição</th><th>Categoria</th><th>Conta</th><th class="r">Valor</th><th class="r">Em '+esc(P.moeda)+'</th><th>Recibo</th></tr></thead><tbody>'+
-    G.map(l=>'<tr data-edit="lancamentos" data-id="'+esc(l.id)+'" style="cursor:pointer"><td>'+esc(prjData(l.data))+'</td><td>'+esc(l.descricao)+(l.status==='Previsto'?' <span class="pill">previsto</span>':'')+'</td><td>'+esc(l.categoria||'')+'</td><td>'+esc(l.conta||'')+'</td><td class="r num">'+esc(prjFmt(n(l.valor),l.moeda))+'</td><td class="r num">'+esc(prjFmt(conv(l.valor,l.moeda,P.moeda),P.moeda))+'</td><td>'+((l.anexos||[]).length?'📎 '+(l.anexos||[]).length:'<span class="muted">falta</span>')+'</td></tr>').join('')+
+    G.map(l=>'<tr data-edit="lancamentos" data-id="'+esc(l.id)+'" data-prjdrop="'+esc(l.id)+'" style="cursor:pointer"><td>'+esc(prjData(l.data))+'</td><td>'+esc(l.descricao)+(l.status==='Previsto'?' <span class="pill">previsto</span>':'')+'</td><td>'+esc(l.categoria||'')+'</td><td>'+esc(l.conta||'')+'</td><td class="r num">'+esc(prjFmt(n(l.valor),l.moeda))+'</td><td class="r num">'+esc(prjFmt(conv(l.valor,l.moeda,P.moeda),P.moeda))+'</td><td>'+((l.anexos||[]).length?'📎 '+(l.anexos||[]).length:'<span class="muted">falta</span>')+'</td></tr>').join('')+
     '</tbody></table></div>':empty('Nenhum gasto ainda','Clique em Novo gasto e anexe a foto do recibo.'))+'</div>'+
-   ((P.anexos||[]).length?'<div class="card"><div class="card-h"><h2>Fotos e arquivos do projeto</h2></div><p class="muted" style="font-size:12px;margin:0">'+(P.anexos||[]).length+' arquivo(s) · abra em Editar projeto.</p></div>':'')+
+   prjDocsHTML(P,G)+
    '</div></div>'}
  const card=p=>{const T=prjTotal(p),k=prjGastos(p).length,orc=n(p.orcamento);
   return '<div class="card" data-prjabre="'+esc(p.id)+'" style="cursor:pointer;margin:0 0 10px;padding:14px 16px"><div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><b style="font-size:15px">'+esc(p.nome)+'</b><span class="pill" style="font-size:11px">'+esc(p.status||'')+'</span><span style="flex:1"></span><b class="num" style="font-size:16px">'+esc(prjFmt(T,p.moeda))+'</b></div>'+
@@ -5807,6 +5835,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v177','25/11/2026',['Projetos: área de recibos e documentos dentro do projeto. Arraste os arquivos (ou toque para escolher) e diga se são do projeto ou de um gasto; também dá para soltar o arquivo direto em cima da linha do gasto. Todos os arquivos ficam listados com Abrir.']],
  ['v176','25/11/2026',['Novo: Dinheiro › Projetos. Crie um projeto (ex.: gravação da Jennifer Kang em Seul) e lance os gastos com a foto do recibo: o total, o orçamento e a lista de gastos aparecem juntos. No Financeiro, o lançamento ganhou o campo Projeto.']],
  ['v175','25/11/2026',['Novo embarque: botões Marcar todas, Só consolidadas e Desmarcar acima da lista de vendas, com a contagem de marcadas. Shift+clique marca todas entre duas vendas.','Companhia aérea virou lista suspensa (dropdown), com Outra… para escrever.']],
  ['v174','24/11/2026',['Etapas dos pedidos: botão Mandar e-mail na barra. Marque os pedidos, escolha a etapa e clique: abre a caixa com a lista (tudo marcado) e manda o e-mail dessa etapa a quem já tem a etapa, sem mudar nada. Serve para etapas já salvas, como a 6 de hoje.']],
