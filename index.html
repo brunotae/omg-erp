@@ -1026,7 +1026,7 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v177 · 25/11/2026';
+const VERSAO='v178 · 25/11/2026';
 const VIEWFN={};
 function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
@@ -1647,11 +1647,39 @@ const PASTAS=[['identidade','Identidade visual','Manual, logos, fontes, artes'],
 const DOCS={};
 const docPrefix=k=>'arquivo/'+k;
 const fsize=b=>!b?'':b<1024?b+' B':b<1048576?(b/1024).toFixed(0)+' KB':(b/1048576).toFixed(1)+' MB';
-const docNome=nm=>String(nm).replace(/^\d{13}-/,'');
+const docNome=nm=>{let t=String(nm).replace(/^\d{13}-/,'');if(t.startsWith('u!')){try{t=decodeURIComponent(t.slice(2).replace(/!/g,'%'))}catch(_){}}return t};
+const docEnc=nm=>/[^\x00-\x7F]/.test(nm)?'u!'+encodeURIComponent(nm.normalize('NFC')).replace(/[!'()*~]/g,c=>'%'+c.charCodeAt(0).toString(16).toUpperCase()).replace(/%/g,'!').slice(0,200):null;
+const docExt=nm=>((String(nm).match(/\.([a-z0-9]+)$/i)||[])[1]||'').toLowerCase();
+const docTipo=nm=>{const e=docExt(nm);return /^(jpe?g|png|gif|webp|heic|avif)$/.test(e)?'img':e==='pdf'?'pdf':'outro'};
+function docThumb(url,nome,attr){const t=docTipo(nome);const st='width:56px;height:56px;border-radius:8px;border:1px solid var(--line,#eadde2);background:#fff;object-fit:cover;display:block;cursor:pointer';
+ if(!url)return '<div style="'+st+';display:flex;align-items:center;justify-content:center">📄</div>';
+ if(t==='img')return '<img src="'+esc(url)+'" alt="" loading="lazy" style="'+st+'" '+attr+'>';
+ if(t==='pdf')return '<canvas data-pdfthumb="'+esc(url)+'" width="56" height="56" style="'+st+';object-fit:contain" '+attr+'></canvas>';
+ return '<div style="'+st+';display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600" '+attr+'>'+esc(docExt(nome).toUpperCase()||'📄')+'</div>'}
+const PDFTH=new Map();
+async function pdfThumbs(){const cs=[...document.querySelectorAll('canvas[data-pdfthumb]:not([data-ok])')];if(!cs.length)return;
+ cs.forEach(c=>c.dataset.ok=1);let lib;try{lib=await loadPdfjs()}catch(_){return}
+ for(const c of cs){const u=c.dataset.pdfthumb;
+  try{let img=PDFTH.get(u);if(!img){const doc=await lib.getDocument(u).promise;const pg=await doc.getPage(1);const v=pg.getViewport({scale:1});const vp=pg.getViewport({scale:160/Math.max(v.width,v.height)});
+    const o=document.createElement('canvas');o.width=vp.width;o.height=vp.height;await pg.render({canvasContext:o.getContext('2d'),viewport:vp}).promise;img=o;PDFTH.set(u,o)}
+   c.width=img.width;c.height=img.height;c.getContext('2d').drawImage(img,0,0)}catch(_){const x=c.getContext('2d');x.font='12px sans-serif';x.fillText('PDF',16,32)}}}
+function verArquivo(url,nome){if(!url){toast('Arquivo indisponível');return}
+ const t=docTipo(nome);const old=document.getElementById('dv-ov');if(old)old.remove();
+ const ov=document.createElement('div');ov.id='dv-ov';ov.style.cssText='position:fixed;inset:0;z-index:9999;background:rgba(30,10,20,.72);display:flex;flex-direction:column;padding:18px;gap:10px';
+ ov.innerHTML='<div style="display:flex;gap:8px;align-items:center;color:#fff"><b style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(nome)+'</b><a class="btn sm" href="'+esc(url)+'" target="_blank" rel="noopener" style="background:#fff">Abrir em nova aba</a><button class="btn sm" type="button" data-dvclose style="background:#fff">✕ Fechar</button></div>'+
+  '<div style="flex:1;min-height:0;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:12px;overflow:auto">'+
+  (t==='img'?'<img src="'+esc(url)+'" alt="" style="max-width:100%;max-height:100%;object-fit:contain">':t==='pdf'?'<iframe src="'+esc(url)+'" title="Visualização" style="width:100%;height:100%;border:0"></iframe>':'<p style="padding:30px;text-align:center">Este tipo de arquivo não tem visualização.<br><a href="'+esc(url)+'" target="_blank" rel="noopener">Abrir / baixar</a></p>')+'</div>';
+ ov.addEventListener('click',e=>{if(e.target===ov||e.target.closest('[data-dvclose]'))ov.remove()});
+ const k=e=>{if(e.key==='Escape'){ov.remove();document.removeEventListener('keydown',k)}};document.addEventListener('keydown',k);
+ document.body.appendChild(ov)}
+new MutationObserver(()=>{if(document.querySelector('canvas[data-pdfthumb]:not([data-ok])'))pdfThumbs()}).observe(document.documentElement,{childList:true,subtree:true});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-docver]');if(!b||S.view!=='documentos')return;const k=S.f.doc||PASTAS[0][0];const f=(DOCS[k]&&DOCS[k].list||[]).find(x=>x.name===b.dataset.docver);if(f)verArquivo(f.url,docNome(f.name))});
 async function loadDocs(k){
  DOCS[k]={loading:true,list:DOCS[k]&&DOCS[k].list||[]};
  try{const {data,error}=await sb.storage.from('docs').list(docPrefix(k),{limit:1000,sortBy:{column:'created_at',order:'desc'}});if(error)throw error;
-  DOCS[k]={list:(data||[]).filter(f=>f.name&&f.name!=='.emptyFolderPlaceholder'&&f.id)}}
+  const list=(data||[]).filter(f=>f.name&&f.name!=='.emptyFolderPlaceholder'&&f.id);
+  if(list.length){try{const {data:us}=await sb.storage.from('docs').createSignedUrls(list.map(f=>docPrefix(k)+'/'+f.name),3600);(us||[]).forEach((u,i)=>{if(u&&u.signedUrl)list[i].url=u.signedUrl})}catch(_){}}
+  DOCS[k]={list}}
  catch(e){DOCS[k]={list:[],err:/bucket/i.test(String(e&&e.message))?'A pasta de documentos ainda não existe no Supabase.':'Não foi possível abrir a pasta agora.'}}
  if(S.view==='documentos')render();
 }
@@ -1664,15 +1692,15 @@ VIEWFN.documentos=()=>{
  '<div class="card" id="doc-card"><div class="card-h"><div><h2>'+esc(P[1])+'</h2><small class="muted">'+esc(P[2])+'</small></div>'+(can()?'<label class="btn pri sm" style="cursor:pointer">+ Enviar arquivos<input type="file" id="doc-up" multiple hidden></label>':'')+'</div>'+
  (can()?'<label class="dropz" id="doc-drop" for="doc-up2"><b>Arraste e solte os arquivos aqui</b><span>ou clique para escolher · vários de uma vez · até 50 MB cada</span><input type="file" id="doc-up2" multiple hidden></label>':'')+
  (!D||D.loading&&!D.list.length?'<p class="muted">Carregando…</p>':D.err?'<p class="muted">'+esc(D.err)+'</p>':list.length?
-  '<div class="tblwrap"><table><thead><tr><th>Arquivo</th><th class="r">Tamanho</th><th>Enviado em</th><th class="r"></th></tr></thead><tbody>'+
-  list.map(f=>'<tr><td><b>'+esc(docNome(f.name))+'</b></td><td class="r num">'+fsize(f.metadata&&f.metadata.size)+'</td><td class="num">'+(f.created_at?new Date(f.created_at).toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo',day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'}):'')+'</td><td class="r" style="white-space:nowrap"><button class="btn sm" type="button" data-docopen="'+esc(f.name)+'">Abrir</button>'+(can()?' <button class="btn sm danger" type="button" data-docdel="'+esc(f.name)+'">Excluir</button>':'')+'</td></tr>').join('')+'</tbody></table></div>'
+  '<div class="tblwrap"><table><thead><tr><th style="width:64px"></th><th>Arquivo</th><th class="r">Tamanho</th><th>Enviado em</th><th class="r"></th></tr></thead><tbody>'+
+  list.map(f=>'<tr><td>'+docThumb(f.url,docNome(f.name),'data-docver="'+esc(f.name)+'" title="Ver"')+'</td><td><b>'+esc(docNome(f.name))+'</b></td><td class="r num">'+fsize(f.metadata&&f.metadata.size)+'</td><td class="num">'+(f.created_at?new Date(f.created_at).toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo',day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'}):'')+'</td><td class="r" style="white-space:nowrap"><button class="btn sm" type="button" data-docver="'+esc(f.name)+'">Ver</button> <button class="btn sm" type="button" data-docopen="'+esc(f.name)+'">Abrir</button>'+(can()?' <button class="btn sm danger" type="button" data-docdel="'+esc(f.name)+'">Excluir</button>':'')+'</td></tr>').join('')+'</tbody></table></div>'
   :empty('Pasta vazia','Arraste os arquivos para esta tela ou use Enviar arquivos.'))+'</div></div>'+
  '<aside class="rail"><div class="note"><span class="label">Como organizar</span><p>Um arquivo por documento, com nome claro: <b>ADE Coana 111-2026.pdf</b>, <b>Contrato Skyroad 2026.pdf</b>.</p><p class="muted">Documentos de uma venda, embarque ou compra específica ficam anexados dentro dela, não aqui.</p></div></aside></div>';
 };
 const limpaNome=s=>String(s).normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^A-Za-z0-9._ -]/g,'_').replace(/\s+/g,' ').trim().slice(0,120)||'arquivo';
 async function enviarDocs(files){
  const k=S.f.doc||PASTAS[0][0];let ok=0,fail=0;
- for(const f of files){const path=docPrefix(k)+'/'+Date.now()+'-'+limpaNome(f.name);
+ for(const f of files){const path=docPrefix(k)+'/'+Date.now()+'-'+(docEnc(f.name)||limpaNome(f.name));
   const {error}=await sb.storage.from('docs').upload(path,f,{contentType:f.type||undefined,upsert:false});if(error)fail++;else ok++}
  toast(fail?ok+' enviados, '+fail+' com erro':ok+(ok>1?' arquivos enviados':' arquivo enviado'));
  await loadDocs(k);
@@ -2123,7 +2151,7 @@ function prjDocsHTML(P,G){
  return '<div class="card"><div class="card-h"><h2>Recibos e documentos</h2><span class="muted" style="font-size:12px">'+L.length+' arquivo(s)</span></div>'+
   (can()?'<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px"><label class="muted" style="font-size:12px" for="prj-alvo">Ligar a:</label><select id="prj-alvo" style="flex:1;min-width:220px">'+opt.replace('value="'+(semRec?semRec.id:'p')+'"','value="'+(semRec?semRec.id:'p')+'" selected')+'</select></div>'+
    '<label class="drop" id="prj-drop" style="display:block;border:2px dashed var(--line,#e6c9d3);border-radius:14px;padding:26px 16px;text-align:center;cursor:pointer;background:var(--surface2,#fdf3f6)"><input type="file" id="prj-file" multiple accept="image/*,.pdf,.xlsx,.xls,.csv,.doc,.docx" style="display:none"><b>Arraste aqui os recibos, fotos ou arquivos</b><br><span class="muted" style="font-size:12px">ou toque para escolher · também dá para soltar em cima da linha do gasto</span></label>':'')+
-  (L.length?'<div class="tblwrap" style="margin-top:10px"><table class="tar-t"><thead><tr><th>Arquivo</th><th>De</th><th>Enviado</th><th class="r"></th></tr></thead><tbody>'+L.map(x=>'<tr><td>'+(/^image\//.test(x.a.mime||'')||/\.(jpe?g|png|webp|heic)$/i.test(x.a.nome||'')?'🖼️ ':'📄 ')+esc(x.a.nome||'arquivo')+'</td><td>'+esc(x.dono)+'</td><td class="num">'+(x.a.em?esc(new Date(x.a.em).toLocaleDateString('pt-BR')):'')+'</td><td class="r" style="white-space:nowrap"><button class="btn sm" type="button" data-prjabrir="'+esc(x.a.path)+'">Abrir</button>'+(can()?' <button class="btn sm danger" type="button" data-prjdel="'+esc(x.a.path)+'" data-col="'+x.col+'" data-id="'+esc(x.id)+'">Remover</button>':'')+'</td></tr>').join('')+'</tbody></table></div>':'<p class="muted" style="font-size:12px;margin:10px 0 0">Nenhum arquivo ainda.</p>')+'</div>'}
+  (L.length?'<div class="tblwrap" style="margin-top:10px"><table class="tar-t"><thead><tr><th>Arquivo</th><th>De</th><th>Enviado</th><th class="r"></th></tr></thead><tbody>'+L.map(x=>'<tr><td>'+(/^image\//.test(x.a.mime||'')||/\.(jpe?g|png|webp|heic)$/i.test(x.a.nome||'')?'🖼️ ':'📄 ')+esc(x.a.nome||'arquivo')+'</td><td>'+esc(x.dono)+'</td><td class="num">'+(x.a.em?esc(new Date(x.a.em).toLocaleDateString('pt-BR')):'')+'</td><td class="r" style="white-space:nowrap"><button class="btn sm" type="button" data-prjabrir="'+esc(x.a.path)+'" data-nome="'+esc(x.a.nome||'')+'">Ver</button>'+(can()?' <button class="btn sm danger" type="button" data-prjdel="'+esc(x.a.path)+'" data-col="'+x.col+'" data-id="'+esc(x.id)+'">Remover</button>':'')+'</td></tr>').join('')+'</tbody></table></div>':'<p class="muted" style="font-size:12px;margin:10px 0 0">Nenhum arquivo ainda.</p>')+'</div>'}
 async function prjUpload(files,alvo){
  const P=S.data.projetos.find(x=>x.id===S.f.prj);if(!P||!files||!files.length)return;
  const col=alvo&&alvo!=='p'?'lancamentos':'projetos',id=col==='projetos'?P.id:alvo,rec=S.data[col].find(r=>r.id===id);if(!rec)return;
@@ -2140,7 +2168,7 @@ document.addEventListener('drop',e=>{if(S.view!=='projetos'||!S.f.prj)return;con
  prjUpload(e.dataTransfer.files,z.dataset.prjdrop||($('#prj-alvo')||{}).value||'p')});
 document.addEventListener('change',e=>{if(e.target.id!=='prj-file')return;prjUpload(e.target.files,($('#prj-alvo')||{}).value||'p')});
 document.addEventListener('click',async e=>{if(S.view!=='projetos')return;
- const o=e.target.closest('[data-prjabrir]');if(o){e.preventDefault();const w=window.open('','_blank');const {data:u,error}=await sb.storage.from('docs').createSignedUrl(o.dataset.prjabrir,600);if(error||!u){if(w)w.close();toast(error?error.message:'erro');return}if(w)w.location=u.signedUrl;return}
+ const o=e.target.closest('[data-prjabrir]');if(o){e.preventDefault();const {data:u,error}=await sb.storage.from('docs').createSignedUrl(o.dataset.prjabrir,600);if(error||!u){toast(error?error.message:'erro');return}verArquivo(u.signedUrl,o.dataset.nome||o.dataset.prjabrir.split('/').pop());return}
  const d=e.target.closest('[data-prjdel]');if(d){if(!confirm('Remover este arquivo?'))return;const rec=S.data[d.dataset.col].find(r=>r.id===d.dataset.id);if(!rec)return;
   const anexos=(rec.anexos||[]).filter(a=>a.path!==d.dataset.prjdel);const {error}=await sb.from(d.dataset.col).update({anexos}).eq('id',rec.id);if(error){toast(errMsg(error));return}
   rec.anexos=anexos;try{await sb.storage.from('docs').remove([d.dataset.prjdel])}catch(_){}toast('Removido');render()}},true);
@@ -5835,6 +5863,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v178','25/11/2026',['Documentos: miniatura de cada arquivo (foto e 1ª página do PDF) e botão Ver, que mostra o arquivo numa janela sem sair do ERP. Também nos recibos dos Projetos.','Arquivos com nome em coreano (ou outro alfabeto) agora guardam o nome certo. Os que já subiram com ____ podem ser renomeados enviando de novo.']],
  ['v177','25/11/2026',['Projetos: área de recibos e documentos dentro do projeto. Arraste os arquivos (ou toque para escolher) e diga se são do projeto ou de um gasto; também dá para soltar o arquivo direto em cima da linha do gasto. Todos os arquivos ficam listados com Abrir.']],
  ['v176','25/11/2026',['Novo: Dinheiro › Projetos. Crie um projeto (ex.: gravação da Jennifer Kang em Seul) e lance os gastos com a foto do recibo: o total, o orçamento e a lista de gastos aparecem juntos. No Financeiro, o lançamento ganhou o campo Projeto.']],
  ['v175','25/11/2026',['Novo embarque: botões Marcar todas, Só consolidadas e Desmarcar acima da lista de vendas, com a contagem de marcadas. Shift+clique marca todas entre duas vendas.','Companhia aérea virou lista suspensa (dropdown), com Outra… para escrever.']],
