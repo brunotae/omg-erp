@@ -1026,9 +1026,14 @@ function renderNav(){
  $('#ro').hidden=S.canWrite;
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cur===CUR)));
 }
-const VERSAO='v178 · 25/11/2026';
+const VERSAO='v179 · 27/11/2026';
 const VIEWFN={};
-function render(){renderNav();$('#main').innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
+let RV_LAST='';
+function render(){renderNav();const M=$('#main'),mesma=RV_LAST===S.view;RV_LAST=S.view;
+ const sc=mesma?[...M.querySelectorAll('*')].map((el,i)=>el.scrollTop||el.scrollLeft?[i,el.scrollTop,el.scrollLeft,el.className]:null).filter(Boolean):[];
+ const wx=scrollX,wy=scrollY,mt=M.scrollTop;
+ M.innerHTML=(VIEWFN[S.view]||VIEWFN.painel)();
+ if(mesma){const all=M.querySelectorAll('*');sc.forEach(([i,t,l,c])=>{let el=all[i];if(!el||el.className!==c)el=[...M.getElementsByClassName(String(c).split(' ')[0]||'_')][0];if(el){el.scrollTop=t;el.scrollLeft=l}});M.scrollTop=mt;if(scrollY!==wy||scrollX!==wx)scrollTo(wx,wy)}$('#q').placeholder='Buscar em '+(NAV.find(x=>x[1]===S.view)||[,,'Painel'])[2].toLowerCase()}
 const can=()=>S.canWrite&&!!S.db;
 const loading=col=>!S.loaded[col]&&S.status!=='off';
 function head(title,sub,acts){return '<div class="head"><div><h1>'+title+'</h1><p>'+sub+'</p></div>'+(acts?'<div class="acts">'+acts+'</div>':'')+'</div>'}
@@ -5863,6 +5868,7 @@ document.addEventListener('click',e=>{
 
 /* ================= regras fixas do ERP (Tae · 27/10/2026) ================= */
 const NOVIDADES=[
+ ['v179','27/11/2026',['Marcar ou desmarcar um pedido (Etapas dos pedidos e outras listas) não faz mais a lista voltar para o topo: a tela fica onde estava.']],
  ['v178','25/11/2026',['Documentos: miniatura de cada arquivo (foto e 1ª página do PDF) e botão Ver, que mostra o arquivo numa janela sem sair do ERP. Também nos recibos dos Projetos.','Arquivos com nome em coreano (ou outro alfabeto) agora guardam o nome certo. Os que já subiram com ____ podem ser renomeados enviando de novo.']],
  ['v177','25/11/2026',['Projetos: área de recibos e documentos dentro do projeto. Arraste os arquivos (ou toque para escolher) e diga se são do projeto ou de um gasto; também dá para soltar o arquivo direto em cima da linha do gasto. Todos os arquivos ficam listados com Abrir.']],
  ['v176','25/11/2026',['Novo: Dinheiro › Projetos. Crie um projeto (ex.: gravação da Jennifer Kang em Seul) e lance os gastos com a foto do recibo: o total, o orçamento e a lista de gastos aparecem juntos. No Financeiro, o lançamento ganhou o campo Projeto.']],
